@@ -476,6 +476,13 @@
     object-fit:cover; background:var(--surface); box-shadow:var(--shadow);
   }
   .poster.blank{display:grid;place-items:center;font-weight:800;font-size:1.5rem;letter-spacing:.04em;border:1px solid var(--line)}
+  /* A non-film event's own picture at its own shape: no crop and no filler. */
+  .evimg{flex:0 0 184px; width:184px; height:auto; align-self:flex-start; border-radius:8px;
+    background:var(--surface); box-shadow:var(--shadow)}
+  .sheet-fig{margin:4px 0 14px}
+  .sheet-fig img{display:block; width:100%; height:auto; border-radius:10px; background:var(--surface)}
+  .sheet-fig figcaption{margin-top:6px; font-size:.72rem; line-height:1.45; color:var(--muted)}
+  .sheet-fig figcaption a{color:inherit}
   .info{flex:1; min-width:0}
   /* -.01em: Archivo at 800 tracks a touch loose at heading size; pulling it in makes
      the title read as display type against the untracked meta lines below it. */
@@ -1065,6 +1072,9 @@
       grid-template-rows:auto auto 1fr; gap:0 18px}
     .movie > .info{display:contents}
     .movie > .poster{grid-column:1; grid-row:1 / span 3}
+    .movie.ev{grid-template-columns:minmax(0,1fr); grid-template-rows:none}
+    .movie.ev > .evimg{grid-column:1; width:100%; margin-bottom:12px}
+    .movie.ev .title, .movie.ev .meta1, .movie.ev .meta2, .movie.ev .stubs{grid-column:1}
     .movie .title, .movie .meta1, .movie .meta2{grid-column:2; align-self:start}
     .movie .stubs{grid-column:1 / span 2; margin-top:12px}
     /* Every ticket on a phone card takes the card's width, one per line, in the single and
@@ -1381,6 +1391,7 @@
     fi:{ today:'Tänään', other:'Muu', days:['Su','Ma','Ti','Ke','To','Pe','La'],
          filter:'Etsi elokuvaa tai genreä', searchEg:'Etsi esim.', searchOr:'tai komedia',
          trailer:'▶ Katso traileri', min:'min',
+         photo:'Kuva', eventOnly:'käyttö vain tapahtuman yhteydessä (event only)',
          movies:'Leffat', times:'Ajat', flang:'Suom. puhe', fkids:'Lapsille',
          fannis:'Anniskelu',
          tomorrow:'Huomenna', from:'alkaen', free:'Vapaa p\u00e4\u00e4sy', sources:'Lähteet', hours:'h',
@@ -1454,6 +1465,7 @@
     sv:{ today:'I dag', other:'Annat', days:['Sö','Må','Ti','On','To','Fr','Lö'],
          filter:'Sök film eller genre', searchEg:'Sök t.ex.', searchOr:'eller komedi',
          trailer:'▶ Se trailern', min:'min',
+         photo:'Bild', eventOnly:'endast i samband med evenemanget (event only)',
          movies:'Filmer', times:'Tider', flang:'Finskt tal', fkids:'För barn',
          fannis:'Bar',
          tomorrow:'I morgon', from:'från', free:'Fritt intr\u00e4de', sources:'Källor', hours:'h',
@@ -1521,6 +1533,7 @@
     en:{ today:'Today', other:'Other', days:['Su','Mo','Tu','We','Th','Fr','Sa'],
          filter:'Search title or genre', searchEg:'Search e.g.', searchOr:'or comedy',
          trailer:'▶ Watch trailer', min:'min',
+         photo:'Photo', eventOnly:'for use with this event only (event only)',
          movies:'Movies', times:'By time', flang:'Finnish audio', fkids:'Kids',
          fannis:'Bar',
          tomorrow:'Tomorrow', from:'from', free:'Free', sources:'Sources', hours:'h',
@@ -2298,6 +2311,19 @@
     if(/^[a-z][a-z0-9+.\-]*:/i.test(u) || u.startsWith('//')) return '';
     return u.replace(/^\.?\//, '').startsWith(ASSET_DIR) ? esc(u) : '';
   };
+  // --- pictureCredit: pure, extracted verbatim by tests/picture_credit_harness.js ---
+  // A non-film event's picture -> its credit line, or '' when it may not be drawn: the
+  // photographer where one is named, the source and the picture's own licence. An "event
+  // only" picture is never called CC BY (HRI's page for the dataset, read 2026-10-16).
+  const CC_BY_URL = 'https://creativecommons.org/licenses/by/4.0/';
+  const pictureCredit = (s, T, esc) => {
+    const lic = s.imgLic === 'cc_by'
+      ? `<a href="${CC_BY_URL}" target="_blank" rel="license noopener">CC BY 4.0</a>`
+      : s.imgLic === 'event_only' ? esc(T.eventOnly) : '';
+    if(!lic) return '';
+    return `${esc(T.photo)}: ` + [esc(s.imgBy || ''), esc(s.imgSrc || ''), lic].filter(Boolean).join(' \u00b7 ');
+  };
+  // --- end pictureCredit ---
   // --- end url sinks ---
   const jsonCache = {};
   // Set by the service-worker block: replays a refresh that landed before the slot existed.
@@ -4546,7 +4572,11 @@
       const initials = tileInitials(title);
       const tile = `<div class="poster blank" style="background:linear-gradient(160deg,hsl(${hue} 45% 32%),hsl(${(hue+45)%360} 50% 16%));color:hsl(${hue} 75% 82%)">${initials}</div>`;
       const posterUrl = safeAssetUrl(m.img);
-      const poster = posterUrl
+      const evUrl = m.nonFilm && pictureCredit(m, L[state.lang], esc) ? posterUrl : '';
+      const poster = evUrl
+        ? `<img class="evimg" src="${evUrl}" alt="${esc(m.imgAlt || '')}"${+m.imgW && +m.imgH ? ` width="${+m.imgW}" height="${+m.imgH}"` : ''} loading="lazy" decoding="async">`
+        : m.nonFilm ? tile
+        : posterUrl
         ? `<img class="poster" src="${posterUrl}" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer" onerror="this.outerHTML=this.dataset.f" data-f='${tile.replace(/'/g,"&#39;")}'>`
         : tile;
       const stubClass = multiTheatre ? 'stubs grid' : 'stubs';
@@ -4615,7 +4645,7 @@
         m.len ? `<span>${esc(m.len)} min</span>` : '',
         pastToggle
       ].filter(Boolean).join('');
-      return `<article class="movie" data-id="${esc(m.eventId)}">
+      return `<article class="movie${evUrl ? ' ev' : ''}" data-id="${esc(m.eventId)}">
                 ${poster}
                 <div class="info">
                   <h2 class="title"><a class="tlink" href="#m=${encodeURIComponent(m.eventId)}">${esc(cardTitle)}</a></h2>
@@ -4861,7 +4891,11 @@
     // in it; say so instead of showing an empty head.
     const body = days || `<div class="status" data-nosnippet>${L[lang].sheetNone}</div>`;
     const sheetPoster = safeAssetUrl(sample.img);
-    const poster = sheetPoster ? `<img class="poster" src="${sheetPoster}" alt="">` : '';
+    const credit = sample.nonFilm ? pictureCredit(sample, L[lang], esc) : '';
+    const fig = credit && sheetPoster
+      ? `<figure class="sheet-fig"><img src="${sheetPoster}" alt="${esc(sample.imgAlt || '')}"${+sample.imgW && +sample.imgH ? ` width="${+sample.imgW}" height="${+sample.imgH}"` : ''}><figcaption>${credit}</figcaption></figure>`
+      : '';
+    const poster = sheetPoster && !sample.nonFilm ? `<img class="poster" src="${sheetPoster}" alt="">` : '';
     sheetEl.innerHTML = `
       <div class="grab" aria-hidden="true"></div>
       <button class="sheet-close" type="button" aria-label="${esc(L[lang].aClose)}">✕</button>
@@ -4871,7 +4905,7 @@
           ${sheetMeta2 ? `<div class="meta2">${sheetMeta2}</div>` : ''}
           ${safeUrl(f.tr || sample.tr) ? `<a class="trailer" href="${safeUrl(f.tr || sample.tr)}" target="_blank" rel="noopener">${L[lang].trailer}</a>` : ''}
         </div></div>
-      <div class="sheet-body">${legend}
+      <div class="sheet-body">${fig}${legend}
         ${synHtml}
         ${days ? hint : ''}
         <div class="sheet-days">${body}</div>

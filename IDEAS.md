@@ -109,14 +109,6 @@ for 09-15 to 10-13). Which slot a run belongs to is not recorded, so a late even
 told from a dropped one. Jobs start seconds after a run is created. External, cause unknown.
 **Unblocks when:** GitHub runs them.
 
-### Kannusali's concerts and stage shows have no image
-
-Published since 2026-10-15 with `nonFilm`, the 29 non-film events draw the app's initials
-tile. The calendar's images are not licensed to this site. A house title card per event
-would need `make_cards.py` in the cloud run, with Pillow and fontTools, which the pipeline
-does not install. Record: [docs/archive/2026-09-providers.md](docs/archive/2026-09-providers.md).
-**Unblocks when:** the maintainer picks title cards, Espoo's written permission or the tiles.
-
 ### Julia 1&2 Hyvinkää prints two prices on one screening
 
 All 21 Julia showtimes carry `14€ / 12€` (2026-09-24); the app and pages label it

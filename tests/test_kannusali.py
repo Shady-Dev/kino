@@ -48,6 +48,36 @@ HITS = [KEVLAR, FLOW_KIDS, FESTIVAL, ISANPAIVA, FLOW, SNOWMAN, SNOWMAN2]
 SWEDISH = "Elokuva on ruotsinkielinen ja siinä on tekstitys suomeksi."
 CONCERT = dict(hit("agqconcert", "Megamuskari", "2026-11-03T08:30:00Z", free=False),
                topics=["Kulttuuritapahtumat", "Musiikki"])
+LE = K.LE_HOST + K.LE_PATH
+PIC = "https://tapahtumasyotto.espoo.fi/media/images/"
+
+
+def le_event(hid, url=None, licence="event_only", by="", alt="Kuvassa yhtye."):
+    """One Linked Events event as the place query answers it, with one picture."""
+    return {"id": "espooevents:" + hid, "images": [
+        {"url": url or PIC + hid + ".jpg", "license": licence, "photographer_name": by,
+         "alt_text": alt, "name": "", "cropping": "286,0,914,628"}]}
+
+
+class PictureTest(unittest.TestCase):
+    def test_a_picture_keeps_its_licence_photographer_and_alt_text(self):
+        got = K.picture_of(le_event("agqconcert", by=" Katri Kuusela "))
+        self.assertEqual(got, {"img": PIC + "agqconcert.jpg", "imgLic": "event_only",
+                               "imgBy": "Katri Kuusela", "imgAlt": "Kuvassa yhtye.",
+                               "imgSrc": "Espoon tapahtumarajapinta"})
+        self.assertEqual(K.picture_of(le_event("x", licence="cc_by"))["imgLic"], "cc_by")
+
+    def test_a_picture_under_any_other_licence_is_not_published(self):
+        for licence in ("cc_by_sa", "", None):
+            with self.subTest(licence=licence):
+                self.assertIsNone(K.picture_of(le_event("x", licence=licence)))
+
+    def test_only_an_https_picture_is_taken_and_an_odd_alt_text_is_dropped(self):
+        ev = le_event("x", alt={"fi": "teksti"})
+        ev["images"].insert(0, {"url": "http://example.invalid/a.jpg", "license": "cc_by"})
+        self.assertEqual((K.picture_of(ev)["img"], K.picture_of(ev)["imgAlt"]),
+                         (PIC + "x.jpg", ""))
+        self.assertIsNone(K.picture_of({"id": "espooevents:y", "images": []}))
 
 
 def page(*paras):
@@ -238,11 +268,20 @@ class ServiceTest(unittest.TestCase):
         self.addCleanup(lambda: setattr(run, "OUT", self._out))
         self._get = K.get_text
         self.addCleanup(lambda: setattr(K, "get_text", self._get))
-        self.calls, self.pages = [], []
+        self.calls, self.pages, self.le_calls = [], [], []
 
-    def serve(self, hits, total=None, short=False, pages=None):
-        """`pages` maps an event id to its page, or to an exception the read raises."""
+    def serve(self, hits, total=None, short=False, pages=None, le=None):
+        """`pages` maps an event id to its page, or to an exception the read raises. `le` is
+        the Linked Events answers in order, each a dict or an exception."""
+        answers = list(le or [{"data": [], "meta": {"next": None}}])
+
         def get_text(url, **kw):
+            if url.startswith(LE):
+                self.le_calls.append(url)
+                answer = answers.pop(0)
+                if isinstance(answer, Exception):
+                    raise answer
+                return json.dumps(answer)
             if url.startswith(SITE["base"] + EVENT):
                 self.pages.append(url)
                 answer = (pages or {}).get(url.rsplit(":", 1)[1], page("No language here."))
@@ -376,6 +415,46 @@ class ServiceTest(unittest.TestCase):
         self.assertFalse(any(p.endswith("agqconcert") for p in self.pages), self.pages)
         self.assertIn("6 showtimes, 5 of them films", log)
 
+    def test_one_query_gives_each_non_film_event_its_picture_and_no_film_one(self):
+        self.serve(HITS + [CONCERT], le=[{"data": [
+            le_event("agqconcert", by="Katri Kuusela"), le_event("agqam3geym")],
+            "meta": {"next": None}}])
+        code, log = self.main()
+        self.assertEqual(code, 0, log)
+        shows = self.area()["shows"]
+        concert = next(s for s in shows if s.get("nonFilm"))
+        self.assertEqual({k: concert[k] for k in ("img", "imgLic", "imgBy", "imgSrc")},
+                         {"img": PIC + "agqconcert.jpg", "imgLic": "event_only",
+                          "imgBy": "Katri Kuusela", "imgSrc": "Espoon tapahtumarajapinta"})
+        film = next(s for s in shows if s["title"] == "Kevlarsjäl")
+        self.assertEqual((film["img"], film.get("imgLic")), ("", None))
+        self.assertEqual(len(self.le_calls), 1)
+        self.assertIn("location=tprek:21430", self.le_calls[0])
+        self.assertIn("event pictures for 1 of 1 non-film event(s)", log)
+
+    def test_the_next_page_is_asked_of_the_declared_host(self):
+        self.serve([CONCERT], le=[
+            {"data": [], "meta": {"next": "https://elsewhere.invalid/events/v1/event/?page=2"}},
+            {"data": [le_event("agqconcert")], "meta": {"next": None}}])
+        with contextlib.redirect_stdout(io.StringIO()):
+            shows = K.fetch_site(SITE)[VENUE]
+        self.assertEqual(self.le_calls[1], LE + "?page=2")
+        self.assertEqual(shows[0]["img"], PIC + "agqconcert.jpg")
+
+    def test_a_failed_or_endless_query_costs_the_pictures_and_nothing_else(self):
+        endless = {"data": [], "meta": {"next": LE + "?page=n"}}
+        for le, said in (([OSError("connection reset")], "OSError: connection reset"),
+                         ([endless] * K.LE_PAGES, "more than 5 pages")):
+            with self.subTest(said=said):
+                self.le_calls = []
+                self.serve(HITS + [CONCERT], le=le)
+                code, log = self.main()
+                self.assertEqual(code, 0, log)
+                self.assertIn(f"event pictures: ", log)
+                self.assertIn(said, log)
+                concert = next(s for s in self.area()["shows"] if s.get("nonFilm"))
+                self.assertEqual((concert["img"], concert.get("imgLic")), ("", None))
+
 class RegistryTest(unittest.TestCase):
     def test_the_registry_entry(self):
         p = registry.by_id("kannusali")
@@ -396,7 +475,8 @@ class RegistryTest(unittest.TestCase):
 class SiteTest(unittest.TestCase):
     def test_the_site_names_the_host_it_is_read_from(self):
         self.assertEqual(SITE["base"], "https://www.espoo.fi")
-        self.assertNotIn("reads", SITE)
+        self.assertEqual(SITE["reads"], ("api.espoo.fi",))
+        self.assertEqual(K.LE_HOST, "https://api.espoo.fi")
         self.assertEqual(SITE["venues"], [{"id": "kannusali-espoo", "name": "Kannusali",
                                            "short": "Kannusali", "city": "Espoo"}])
 

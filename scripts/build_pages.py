@@ -163,6 +163,7 @@ L = {
         "late_site": "Tarkista ohjelmisto: {host}", "late_status": "Katso palvelun tila",
         "next_show": "Seuraava n\u00e4yt\u00f6s: {when}",
         "mins": "min", "tmdb": "TMDB",
+        "photo": "Kuva", "event_only": "k\u00e4ytt\u00f6 vain tapahtuman yhteydess\u00e4 (event only)",
         "venues_h": "Teatterit \u2013 {city}",
         "city_link": "Kaikki teatterit \u2013 {city}",
         "subs": "tekstitys: {}", "no_subs": "ei tekstityst\u00e4", "lang_nav": "Kieli",
@@ -223,6 +224,7 @@ L = {
         "late_site": "Kontrollera programmet: {host}", "late_status": "Se tj\u00e4nstens status",
         "next_show": "N\u00e4sta visning: {when}",
         "mins": "min", "tmdb": "TMDB",
+        "photo": "Bild", "event_only": "endast i samband med evenemanget (event only)",
         "venues_h": "Biografer \u2013 {city}",
         "city_link": "Alla biografer \u2013 {city}",
         "subs": "textning: {}", "subs_lead": "Textning: {}", "no_subs": "ingen textning",
@@ -281,6 +283,7 @@ L = {
         "late_site": "Check the programme: {host}", "late_status": "See service status",
         "next_show": "Next screening: {when}",
         "mins": "min", "tmdb": "TMDB",
+        "photo": "Photo", "event_only": "for use with this event only (event only)",
         "venues_h": "Cinemas \u2013 {city}",
         "city_link": "All cinemas \u2013 {city}",
         "subs": "{} subtitles", "no_subs": "no subtitles", "lang_nav": "Language",
@@ -590,7 +593,7 @@ h1{font-size:1.5rem;font-weight:800;line-height:1.2;letter-spacing:-.01em;margin
 .legend .lg{padding-left:8px;border-left:4px solid var(--chain,var(--line))}
 h2.day{position:sticky;top:0;z-index:1;background:var(--bg);font-size:.95rem;font-weight:800;padding:16px 0 8px;margin-top:10px;border-bottom:1px solid var(--line)}
 .film{display:flex;gap:18px;padding:20px 0;border-bottom:1px solid var(--line)}
-.poster{flex:0 0 92px;width:92px;height:132px;border-radius:8px;object-fit:cover;background:var(--surface);box-shadow:var(--shadow)}
+.poster{flex:0 0 92px;width:92px;height:132px;border-radius:8px;object-fit:cover;background:var(--surface);box-shadow:var(--shadow)}.evimg{flex:0 0 184px;width:184px;margin:0}.evimg img{display:block;width:100%;height:auto;border-radius:8px;background:var(--surface);box-shadow:var(--shadow)}.evimg figcaption{margin-top:6px;font-size:.72rem;line-height:1.45;color:var(--muted)}.evimg figcaption a{color:inherit}
 .poster.blank{border:1px solid var(--line)}
 .info{flex:1;min-width:0}
 h3{font-size:1.15rem;font-weight:800;line-height:1.25;letter-spacing:-.01em}
@@ -642,7 +645,7 @@ footer a{color:inherit}
 footer .statuslink a{color:var(--accent-text);font-weight:700;text-decoration:none;display:inline-block;padding:6px 0;min-height:34px}
 footer .statuslink a:hover{text-decoration:underline}
 @media(min-width:561px){.cta{width:fit-content;padding:0 18px}}
-@media(max-width:560px){.wrap{padding:0 14px 28px}.logo{font-size:.82rem;letter-spacing:.08em}h1{font-size:1.3rem}.film{display:block}.poster{float:left;margin-right:18px;width:72px;height:104px}.times{clear:both}.times>li{flex:1 0 100%}.times.grid{grid-template-columns:1fr}.stub .price{margin-left:auto}h3{font-size:1.02rem}.syn{clear:both;display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:3;line-clamp:3;overflow:hidden}}
+@media(max-width:560px){.wrap{padding:0 14px 28px}.logo{font-size:.82rem;letter-spacing:.08em}h1{font-size:1.3rem}.film{display:block}.poster{float:left;margin-right:18px;width:72px;height:104px}.evimg{width:100%;margin:0 0 12px}.times{clear:both}.times>li{flex:1 0 100%}.times.grid{grid-template-columns:1fr}.stub .price{margin-left:auto}h3{font-size:1.02rem}.syn{clear:both;display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:3;line-clamp:3;overflow:hidden}}
 @media(max-width:360px){.bar{gap:8px}.logo{font-size:.6rem;letter-spacing:.02em}}
 @media(prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
 """.strip()
@@ -1175,6 +1178,41 @@ def native_syn(shows, lang, native):
     return ""
 
 
+# A picture's credit, on the picture it belongs to: the photographer where one is named, the
+# source and the picture's own licence. A picture under any other licence is not drawn.
+PICTURE_LICENCES = ("event_only", "cc_by")
+CC_BY_URL = "https://creativecommons.org/licenses/by/4.0/"
+
+
+def picture_credit(s, t):
+    """A non-film row's picture -> its credit line as HTML."""
+    lic = (f'<a href="{CC_BY_URL}" rel="license noopener">CC BY 4.0</a>'
+           if s.get("imgLic") == "cc_by" else esc(t["event_only"]))
+    parts = (esc(s.get("imgBy") or ""), esc(s.get("imgSrc") or ""), lic)
+    return f"{t['photo']}: " + " \u00b7 ".join(p for p in parts if p)
+
+
+def event_picture(s, t):
+    """A non-film row's own picture, uncropped, with its credit. -> HTML, or "" without one."""
+    img = s.get("img") or ""
+    if not img.startswith("data/posters/") or s.get("imgLic") not in PICTURE_LICENCES:
+        return ""
+    size = (f' width="{int(s["imgW"])}" height="{int(s["imgH"])}"'
+            if isinstance(s.get("imgW"), int) and isinstance(s.get("imgH"), int) else "")
+    return (f'<figure class="evimg"><img src="/{esc(img)}" alt="{esc(s.get("imgAlt") or "")}"'
+            f'{size} loading="lazy"><figcaption>{picture_credit(s, t)}</figcaption></figure>')
+
+
+def share_image(days):
+    """A page's og:image: its first mirrored film poster, else the icon. Never an event's own
+    picture, because a share preview carries no credit and an "event only" picture may not
+    leave its event."""
+    first = next((s["img"] for iso in sorted(days) for sh in days[iso].values() for s in sh
+                  if (s.get("img") or "").startswith("data/posters/") and not s.get("nonFilm")),
+                 None)
+    return f"/{first}" if first else "/icon-512.png"
+
+
 def film_block(title, shows, extra, gmap, lang, t, with_venue, syn_seen, current_year,
                native=None):
     rating, length = first(shows, "rating"), first(shows, "len")
@@ -1213,7 +1251,10 @@ def film_block(title, shows, extra, gmap, lang, t, with_venue, syn_seen, current
     # Only same-origin posters: a hot-linked CDN poster would leak the visitor's IP. A
     # film with none keeps its column with a blank tile, so the text does not jump left.
     img = first(shows, "img") or ""
-    if img.startswith("data/posters/"):
+    picture = event_picture(shows[0], t) if nonfilm else ""
+    if picture:
+        poster = picture
+    elif img.startswith("data/posters/") and not nonfilm:
         poster = f'<img class="poster" src="/{esc(img)}" alt="" width="92" height="132" loading="lazy">'
     else:
         poster = _unmirrored(img) or '<div class="poster blank" aria-hidden="true"></div>'
@@ -1689,10 +1730,7 @@ def main(today=None) -> int:
         days = group_by_day(shows, today)
         next_day = next_show_day(shows, today, DAYS) if not days else ""
         paths = paths_venue(v)
-        first_poster = next((s["img"] for iso in sorted(days)
-                             for sh in days[iso].values() for s in sh
-                             if (s.get("img") or "").startswith("data/posters/")), None)
-        og = f"/{first_poster}" if first_poster else "/icon-512.png"
+        og = share_image(days)
         prov = providers.get(v["provider"], {})
         is_late = late(v, today)
         for lang in LANGS:
@@ -1750,10 +1788,7 @@ def main(today=None) -> int:
         days = group_by_day(merged, today, CITY_DAYS, merge=True)
         next_day = next_show_day(merged, today, CITY_DAYS) if not days else ""
         paths = paths_city(c)
-        first_poster = next((s["img"] for iso in sorted(days)
-                             for sh in days[iso].values() for s in sh
-                             if (s.get("img") or "").startswith("data/posters/")), None)
-        og = f"/{first_poster}" if first_poster else "/icon-512.png"
+        og = share_image(days)
         # One marker colour per chain and theme on the stubs and on the venue links, and a
         # legend that names each colour. Never colour alone: every stub also names its cinema.
         chain_ids = sorted({v["provider"] for v in vs}, key=lambda k: chains.get(k, k))

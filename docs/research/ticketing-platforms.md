@@ -1873,7 +1873,13 @@ button only where none is; see the 2026-09-25 entry in `docs/archive/2026-09-pro
 - Since 2026-10-15 every event at the place is read, and the ones under no film topic are
   published with `nonFilm`. Lippu.fi sells the paid ones and quotes "alkaen" prices.
 - `price` is "Vapaa pääsy" only where `isFreeEvent` is true.
-- No image is published: the `eventImages` are not licensed to this site.
+- Each event's picture comes from Espoo's Linked Events, one query by place
+  (`api.espoo.fi/events/v1/event/?location=tprek:21430&include=images`), which gives its
+  licence, photographer and alt text. HRI's page for the dataset (read 2026-10-16): "Aineiston
+  lisenssi on lähtökohtaisesti Creative Commons BY 4.0. Joissakin rajapinnan kautta
+  saatavissa kuvissa käyttölupa on rajatumpi ”event only”, eli kuvaa ei saa irrottaa
+  asiayhteydestä." On 2026-10-16 the 29 non-film events had one picture each, 28 `event_only`
+  and 1 `cc_by`, all landscape from 1.77:1 to 2.95:1, and four named a photographer.
 - `where="cloud"` is provisional. Whether espoo.fi answers a runner is unknown until a
   committed cloud log shows it.
 - `enrich_tmdb.clean` takes "Elokuva:" and a trailing rating such as "(K12)" off the search

@@ -10,7 +10,8 @@ already taken, since the one hall cannot hold two events at once (the smallest i
 A film's age rating is read from the mark that closes its title, the only place it is
 stated, and its published title leaves out that mark and a leading "Elokuva:". A closing
 "LOPPUUNMYYTY" comes off any title and sets `soldOut`. Each film's own event page is read
-once for the sentence that names its spoken and subtitle languages.
+once for the sentence that names its spoken and subtitle languages. One query to Espoo's
+Linked Events gives each non-film event its own picture, with its licence and photographer.
 """
 import datetime
 import html
@@ -18,6 +19,7 @@ import json
 import re
 import sys
 import time
+from urllib.parse import urlsplit
 from zoneinfo import ZoneInfo
 
 from common import UA, capped, check_shows, fetch, get_text
@@ -30,6 +32,7 @@ SITES = [
      "base": "https://www.espoo.fi",
      "path": "/api/events",
      "tpr": "21430", "place": "Kannusali", "topic": "Elokuvat",
+     "reads": ("api.espoo.fi",),
      "venues": [{"id": "kannusali-espoo", "name": "Kannusali", "short": "Kannusali",
                  "city": "Espoo"}]},
 ]
@@ -57,6 +60,16 @@ LANG_RE = re.compile(r"^Elokuva on (\w+kielinen)(?: ja siinä on (?:tekstitys (\
 NEXT_DATA_RE = re.compile(r'<script id="__NEXT_DATA__" type="application/json">(.*?)</script>',
                           re.S)
 PARA_RE = re.compile(r"<p>(.*?)</p>", re.S)
+# Espoo's Linked Events, which the venue's listing is built from, holds each event's picture
+# with its licence and photographer. One query by place answers for every event.
+LE_HOST = "https://api.espoo.fi"
+LE_PATH = "/events/v1/event/"
+LE_PAGES = 5
+# HRI's page for the dataset, read 2026-10-16: CC BY 4.0 by default, and "event only" for a
+# picture that must not be taken out of its event's context. A picture under any other value
+# is not published, because its credit could not be stated.
+PICTURE_LICENCES = ("event_only", "cc_by")
+PICTURE_SOURCE = "Espoon tapahtumarajapinta"
 TAG_RE = re.compile(r"<[^>]+>")
 
 
@@ -206,6 +219,60 @@ def languages(site, shows):
     print(f"[{pid}] languages read for {read} of {len(by_film)} film(s)")
 
 
+def picture_of(event):
+    """A Linked Events event -> its first picture's published fields, or None."""
+    for im in event.get("images") or []:
+        url = im.get("url") if isinstance(im, dict) else None
+        if not isinstance(url, str) or not url.startswith("https://"):
+            continue
+        if im.get("license") not in PICTURE_LICENCES:
+            return None
+        alt = im.get("alt_text")
+        return {"img": url, "imgLic": im["license"],
+                "imgBy": (im.get("photographer_name") or "").strip(),
+                "imgAlt": alt.strip() if isinstance(alt, str) else "",
+                "imgSrc": PICTURE_SOURCE}
+    return None
+
+
+def event_pictures(site):
+    """{Linked Events id: picture fields} for every event at the place, one paged query."""
+    query = f"location=tprek:{site['tpr']}&include=images&start=today&page_size=100"
+    out = {}
+    for n in range(LE_PAGES):
+        if n:
+            time.sleep(PAUSE)
+        answer = json.loads(get_text(f"{LE_HOST}{LE_PATH}?{query}", fetcher=fetch, cache=False,
+                                     headers={"accept": "application/json", "user-agent": UA}))
+        for ev in answer.get("data") or []:
+            pic = picture_of(ev) if isinstance(ev, dict) else None
+            if pic:
+                out[ev.get("id")] = pic
+        nxt = (answer.get("meta") or {}).get("next")
+        if not nxt:
+            return out
+        # The next page's query, asked of the declared host whatever host the link names.
+        query = urlsplit(nxt).query
+    raise RuntimeError(f"Linked Events has more than {LE_PAGES} pages for place {site['tpr']}")
+
+
+def pictures(site, events):
+    """Give each non-film event its own picture. A failed query costs the pictures alone."""
+    pid = site["provider"]
+    try:
+        found = event_pictures(site)
+    except Exception as e:
+        print(f"[{pid}] event pictures: {type(e).__name__}: {e}")
+        return
+    n = 0
+    for s in events:
+        pic = found.get(s["url"].rsplit("/", 1)[1])
+        if pic:
+            s.update(pic)
+            n += 1
+    print(f"[{pid}] event pictures for {n} of {len(events)} non-film event(s)")
+
+
 def rows(site, hits):
     """-> (shows, report). One row per screening minute."""
     venue = site["venues"][0]
@@ -288,6 +355,7 @@ def fetch_site(site):
                            f"among them")
     films = [s for s in shows if not s.get("nonFilm")]
     languages(site, films)
+    pictures(site, [s for s in shows if s.get("nonFilm")])
     per_venue = {venue["id"]: shows}
     check_shows(per_venue, pid, {venue["id"]})
     days = sorted({s["start"][:10] for s in shows})

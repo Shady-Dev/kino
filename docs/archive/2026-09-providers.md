@@ -4037,3 +4037,18 @@ synopses, `run.py`'s carry-over and `synmerge`. `check_shows` refuses a non-film
 shares a film's `eventId`. The tests put a film and a concert under one title beside a
 films-extra entry for it, and the film still folds with the same film at another cinema.
 Thirty-one mutations red, the app's three in Chromium and WebKit.
+
+### Kannusali's events show their own pictures (2026-10-16)
+The maintainer asked for real event artwork before any generated card. HRI's page for Espoo's
+event data makes its licence CC BY 4.0 by default and "event only" for a picture that must
+not be taken out of its event's context, which reverses the earlier reading that the
+calendar's pictures were not licensed here. One Linked Events query by place gives each
+non-film event its picture, licence, photographer and alt text, and a picture under any other
+licence is not published. The app draws it whole at its own shape, 184 px wide on a desktop
+card, across a phone card and across the sheet, and the sheet and the generated pages put the
+credit for that picture under it. An "event only" picture is never called CC BY, never becomes
+a page's share image, and a film keeps its poster. `mirror_posters` keeps these pictures up to
+1280 px and records their size. Measured on the 29, a desktop sheet on a 2x screen kept a
+median 73% of the available detail at 720 px, 86% at 960 and 97% at 1280, which cost 2.96 MB
+for the set. Twenty unit mutations and eight browser mutations red, the browser ones in
+Chromium and WebKit.

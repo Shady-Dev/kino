@@ -92,7 +92,8 @@ class Handler(http.server.SimpleHTTPRequestHandler):
         for suffix, data in list(self.body.items()):
             if self.path.split("?")[0].endswith(suffix):
                 self.send_response(200)
-                self.send_header("Content-Type", "application/json")
+                self.send_header("Content-Type",
+                                 "image/png" if suffix.endswith(".png") else "application/json")
                 self.send_header("Content-Length", str(len(data)))
                 self.send_header("Cache-Control", "no-store")
                 super().end_headers()
@@ -2474,3 +2475,142 @@ class NonFilmBesideAFilm(Browser):
         sheet = self.open_sheet(concert)
         expect(sheet.locator("p.syn")).to_have_count(0)
         expect(sheet.locator("a.trailer")).to_have_count(0)
+
+
+class EventPictures(Browser):
+    """A non-film event's own picture: whole at its own shape on its card and across its
+    sheet, with the credit for that picture under it in the sheet.
+
+    Kannusali's concerts carry Espoo's pictures since 2026-10-16, landscape banners from
+    1.77:1 to 2.95:1 that a 2:3 poster slot would crop. Itis Helsinki serves a film, an
+    `event_only` picture with a photographer, a wide `cc_by` banner with none, and an event
+    with no picture. The film keeps its poster box and the last event keeps the tile.
+    """
+    theme = "light"
+    WIDE, BANNER = (1200, 628), (1920, 650)
+    CREDIT = ("Kuva: Mikko Mäntyniemi · Espoon tapahtumarajapinta · "
+              "käyttö vain tapahtuman yhteydessä (event only)")
+
+    @property
+    def init_script(self):
+        return f"try{{localStorage.setItem('kino-theme','{self.theme}')}}catch(e){{}}"
+
+    def setUp(self):
+        orion = next(s for s in SHOWS if s["title"] == "Autofiktio")
+        film = dict(orion, venue="1162", provider="finnkino", theme="Itis",
+                    start="2026-09-14T18:00:00+03:00")
+        base = {k: "" for k in ("original", "len", "rating", "genres", "aud", "lang", "price")}
+
+        def event(eid, title, clock, **pic):
+            return {**base, "eventId": eid, "title": title, "nonFilm": True, "method": "Musiikki",
+                    "start": f"2026-09-14T{clock}:00+03:00", "theatre": "Itis", "soldOut": False,
+                    "url": f"https://www.espoo.fi/fi/tapahtumat/espooevents:{eid}",
+                    "provider": "finnkino", "venue": "1162", "img": "", **pic}
+        shows = [film,
+                 event("tapahtuma-suistamon-sahko", "Suistamon Sähkö", "19:00",
+                       img="data/posters/ev-wide.png", imgW=self.WIDE[0], imgH=self.WIDE[1],
+                       imgAlt="Kuvassa yhtye.", imgBy="Mikko Mäntyniemi",
+                       imgSrc="Espoon tapahtumarajapinta", imgLic="event_only"),
+                 event("tapahtuma-monttu-auki", "Monttu auki", "20:30",
+                       img="data/posters/ev-banner.png", imgW=self.BANNER[0],
+                       imgH=self.BANNER[1], imgAlt="", imgBy="",
+                       imgSrc="Espoon tapahtumarajapinta", imgLic="cc_by"),
+                 event("tapahtuma-megamuskari", "Megamuskari", "21:00")]
+        itis = {"generated": "2026-09-14T08:00:00+00:00", "dates": ["2026-09-14"],
+                "horizon": "2026-09-14", "shows": shows}
+        Handler.body = {"area-1162.json": json.dumps(itis).encode("utf-8"),
+                        "ev-wide.png": _harness.png(*self.WIDE),
+                        "ev-banner.png": _harness.png(*self.BANNER, rgb=(200, 60, 60))}
+        self.addCleanup(lambda: setattr(Handler, "body", {}))
+        super().setUp()
+        self.page.goto(self.origin + "/index.html?area=1162")
+        expect(self.page.locator("#main article.movie")).to_have_count(4)
+
+    def card(self, title):
+        return self.page.locator("#main article.movie", has_text=title)
+
+    def box(self, locator):
+        """-> (width, height, natural width, natural height) of a loaded picture. The window is
+        scrolled to it first, as a reader would: WebKit loads no lazy picture below the fold,
+        and its scrollIntoView does not reach a card `content-visibility` has not laid out."""
+        for _ in range(3):
+            top = locator.evaluate("i => i.getBoundingClientRect().top")
+            if 0 <= top < self.viewport["height"] - 120:
+                break
+            self.page.evaluate("dy => window.scrollBy(0, dy)", top - 100)
+        self.page.wait_for_function("i => i.complete && i.naturalWidth > 0",
+                                    arg=locator.element_handle(), timeout=10_000)
+        return locator.evaluate("i => { const b = i.getBoundingClientRect();"
+                                " return [b.width, b.height, i.naturalWidth, i.naturalHeight]; }")
+
+    def assert_whole(self, box, label):
+        w, h, nw, nh = box
+        self.assertGreater(nw, 0, f"{label}: the picture did not load")
+        self.assertAlmostEqual(w / h, nw / nh, delta=0.02,
+                               msg=f"{label}: drawn {w:.0f}x{h:.0f}, file {nw}x{nh}, cropped or stretched")
+
+    def open_sheet(self, title):
+        self.card(title).locator("h2.title a").click()
+        expect(self.page.locator("#sheetTitle")).to_have_text(title)
+        return self.page.locator("#sheet")
+
+    def test_the_cards_draw_each_picture_whole_and_keep_the_film_poster_and_the_tile(self):
+        phone = self.viewport["width"] < 560
+        for title in ("Suistamon Sähkö", "Monttu auki"):
+            pic = self.card(title).locator("img.evimg")
+            box = self.box(pic)
+            self.assert_whole(box, title)
+            card_w = self.card(title).evaluate("a => a.getBoundingClientRect().width")
+            self.assertAlmostEqual(box[0], card_w if phone else 184, delta=1.5, msg=title)
+        poster = self.card("Autofiktio").locator(".poster").evaluate(
+            "p => { const b = p.getBoundingClientRect(); return [b.width, b.height]; }")
+        self.assertEqual(poster, [72, 104] if phone else [92, 132])
+        expect(self.card("Megamuskari").locator(".poster.blank")).to_have_count(1)
+        expect(self.card("Megamuskari").locator("img")).to_have_count(0)
+        self.assertEqual(self.page.evaluate("document.documentElement.scrollWidth"),
+                         self.viewport["width"])
+
+    def test_the_sheet_shows_the_picture_whole_with_its_own_credit(self):
+        sheet = self.open_sheet("Suistamon Sähkö")
+        self.assert_whole(self.box(sheet.locator(".sheet-fig img")), "sheet")
+        expect(sheet.locator(".sheet-fig figcaption")).to_have_text(self.CREDIT)
+        expect(sheet.locator(".sheet-fig a")).to_have_count(0)
+        self.page.keyboard.press("Escape")
+        sheet = self.open_sheet("Monttu auki")
+        self.assert_whole(self.box(sheet.locator(".sheet-fig img")), "banner sheet")
+        expect(sheet.locator(".sheet-fig figcaption")).to_have_text(
+            "Kuva: Espoon tapahtumarajapinta · CC BY 4.0")
+        expect(sheet.locator(".sheet-fig figcaption a")).to_have_attribute(
+            "href", "https://creativecommons.org/licenses/by/4.0/")
+        self.page.keyboard.press("Escape")
+        sheet = self.open_sheet("Megamuskari")
+        expect(sheet.locator(".sheet-fig")).to_have_count(0)
+
+    def test_the_credit_reads_against_the_sheet_in_this_theme(self):
+        """4.5:1, the WCAG floor for small text, in the theme the page is drawn in."""
+        sheet = self.open_sheet("Suistamon Sähkö")
+        ratio = sheet.locator(".sheet-fig figcaption").evaluate("""c => {
+            const rgb = s => s.match(/[\\d.]+/g).slice(0, 3).map(Number);
+            const lum = ([r, g, b]) => [r, g, b].map(v => { v /= 255;
+                return v <= 0.03928 ? v / 12.92 : ((v + 0.055) / 1.055) ** 2.4; })
+                .reduce((a, v, i) => a + v * [0.2126, 0.7152, 0.0722][i], 0);
+            let e = c, bg = 'rgba(0, 0, 0, 0)';
+            while (e && /rgba\\(0, 0, 0, 0\\)|transparent/.test(bg)) {
+                bg = getComputedStyle(e).backgroundColor; e = e.parentElement; }
+            const a = lum(rgb(getComputedStyle(c).color)), b = lum(rgb(bg));
+            return (Math.max(a, b) + 0.05) / (Math.min(a, b) + 0.05); }""")
+        self.assertEqual(self.page.evaluate("document.documentElement.dataset.theme"), self.theme)
+        self.assertGreaterEqual(ratio, 4.5)
+
+
+class EventPicturesOnAPhone(EventPictures):
+    viewport = {"width": 375, "height": 812}; touch = True
+
+
+class EventPicturesDark(EventPictures):
+    theme = "dark"
+
+
+class EventPicturesDarkOnAPhone(EventPictures):
+    theme = "dark"
+    viewport = {"width": 375, "height": 812}; touch = True

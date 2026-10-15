@@ -44,7 +44,10 @@ INTERNAL = {
     # a lookup into the page's own table, L[state.lang][...], and that plus " – " or nothing
     "verb", "tip",
     # safeAssetUrl() results, which is the poster check rather than the link one
-    "posterUrl", "sheetPoster",
+    "posterUrl", "sheetPoster", "evUrl",
+    # a non-film picture's stored size, a number by unary plus, and the CC BY 4.0 deed, a
+    # constant this file defines
+    "+m.imgW", "+m.imgH", "+sample.imgW", "+sample.imgH", "CC_BY_URL",
     # safeUrl() result: the stale banner's link to the late provider's own site,
     # built from the registry host in data/providers.json
     "siteHref",

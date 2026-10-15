@@ -2001,3 +2001,79 @@ class NonFilmBoundaryTest(unittest.TestCase):
             ("Event", "#venue-kannusali")])
         self.assertEqual([n.get("workPresented", {}).get("@type") for n in events],
                          ["Movie", "Movie", None])
+
+
+class EventPictureTest(unittest.TestCase):
+    """A non-film event's own picture on the generated pages.
+
+    It is drawn whole at its own shape with its credit on it, it is never a page's share
+    image, and an event with no picture or no licence to credit keeps the tile. A film's card
+    keeps its poster. Kannusali's concerts carry pictures since 2026-10-16.
+    """
+
+    TODAY = date(2026, 11, 4)
+    CREDIT = ("Kuva: Mikko Mäntyniemi · Espoon tapahtumarajapinta · "
+              "käyttö vain tapahtuman yhteydessä (event only)")
+
+    def row(self, **over):
+        s = {"title": "Suistamon Sähkö", "nonFilm": True, "eventId": "tapahtuma-suistamon-sähkö",
+             "start": "2026-11-04T19:00:00+02:00", "theatre": "Kannusali", "price": "",
+             "url": "https://www.espoo.fi/fi/tapahtumat/espooevents:a",
+             "img": "data/posters/ev0000000000000a.jpg", "imgW": 1200, "imgH": 628,
+             "imgAlt": "Kuvassa yhtye.", "imgBy": "Mikko Mäntyniemi",
+             "imgSrc": "Espoon tapahtumarajapinta", "imgLic": "event_only"}
+        s.update(over)
+        return s
+
+    def film(self, **over):
+        s = {"title": "Michael", "eventId": "michael", "start": "2026-11-04T14:00:00+02:00",
+             "theatre": "Kannusali", "price": "", "url": "https://www.espoo.fi/x",
+             "img": "data/posters/64cae55437ce098a.jpg", "tmdbId": 936075}
+        s.update(over)
+        return s
+
+    def card(self, row, lang="fi"):
+        return bp.film_block(row["title"], [row], {}, {}, lang, bp.L[lang], False, set(),
+                             current_year=YEAR_NOW)
+
+    def caption(self, html_):
+        m = re.search(r"<figcaption>(.*?)</figcaption>", html_, re.S)
+        return html.unescape(re.sub(r"<[^>]+>", "", m.group(1))) if m else None
+
+    def test_the_picture_is_drawn_whole_at_its_own_shape(self):
+        out = self.card(self.row())
+        self.assertIn('<figure class="evimg"><img src="/data/posters/ev0000000000000a.jpg" '
+                      'alt="Kuvassa yhtye." width="1200" height="628" loading="lazy">', out)
+        self.assertNotIn('class="poster', out)
+
+    def test_the_credit_on_it_names_its_own_licence(self):
+        self.assertEqual(self.caption(self.card(self.row())), self.CREDIT)
+        self.assertNotIn("CC BY", self.card(self.row()))
+        cc = self.card(self.row(imgLic="cc_by", imgBy=""))
+        self.assertIn('<a href="https://creativecommons.org/licenses/by/4.0/" '
+                      'rel="license noopener">CC BY 4.0</a>', cc)
+        self.assertEqual(self.caption(cc), "Kuva: Espoon tapahtumarajapinta · CC BY 4.0")
+        self.assertEqual(self.caption(self.card(self.row(), lang="sv")),
+                         "Bild: Mikko Mäntyniemi · Espoon tapahtumarajapinta · "
+                         "endast i samband med evenemanget (event only)")
+
+    def test_no_picture_or_no_licence_to_credit_keeps_the_tile(self):
+        for over in ({"img": ""}, {"imgLic": "cc_by_sa"}, {"imgLic": None},
+                     {"img": "https://tapahtumasyotto.espoo.fi/media/images/a.jpg"}):
+            with self.subTest(over=over):
+                out = self.card(self.row(**over))
+                self.assertIn('<div class="poster blank" aria-hidden="true"></div>', out)
+                self.assertNotIn("<figure", out)
+
+    def test_a_film_card_keeps_its_poster(self):
+        out = self.card(self.film())
+        self.assertIn('<img class="poster" src="/data/posters/64cae55437ce098a.jpg" alt="" '
+                      'width="92" height="132" loading="lazy">', out)
+        self.assertNotIn("<figure", out)
+
+    def test_the_share_image_is_never_an_event_picture(self):
+        days = bp.group_by_day([self.row(start="2026-11-04T10:00:00+02:00"), self.film()],
+                               self.TODAY, 1)
+        self.assertEqual(bp.share_image(days), "/data/posters/64cae55437ce098a.jpg")
+        self.assertEqual(bp.share_image(bp.group_by_day([self.row()], self.TODAY, 1)),
+                         "/icon-512.png")
