@@ -787,9 +787,9 @@
    "kr": "K-16",
    "krs": [
     "bioforum",
-    "cinemantsala",
     "ihmekompleksi",
-    "kinokulma"
+    "kinokulma",
+    "sheryl"
    ],
    "r": 0,
    "s": {
@@ -934,7 +934,6 @@
    "kr": "K-12",
    "krs": [
     "biogrand",
-    "biomarilyn",
     "biorex",
     "cinemantsala",
     "gilda",
@@ -955,7 +954,6 @@
     "niagara",
     "orion",
     "savonkinot",
-    "star",
     "studio123jarvenpaa",
     "studio123kouvola",
     "tapiola"
@@ -970,16 +968,12 @@
   },
   "digger poistuu ohjelmistosta": {
    "id": 1248832,
-   "img": "data/posters/4f2ccb69b574d669.jpg",
-   "r": 7.5,
+   "r": 0,
    "s": {
-    "en": "The most powerful man in the world embarks on a frantic mission to prove he is humanity's savior before the disaster he's unleashed destroys everything.",
+    "en": "",
     "fi": "Mies. Suunnitelma. Täydellinen romahdus. Oscar-palkittu elokuvantekijä Alejandro G. Iñárritu tuo valkokankaille uuden elokuvansa Digger, pääosassa Tom Cruise. Maailman vaikutusvaltaisin mies ryhtyy kuumeiseen operaatioon todistaakseen olevansa ihmiskunnan pelastaja - ennen kuin hänen valloilleen päästämänsä katastrofi tuhoaa kaiken. Cruise nähdään nimiroolissa, ja muissa keskeisissä rooleissa ovat Oscar-voittaja Riz Ahmed, John Goodman, Oscar-ehdokas Sandra Hüller, Michael Stuhlbarg sekä Oscar-ehdokas Jesse Plemons."
    },
-   "tr": "https://www.youtube.com/watch?v=job8V254NAE",
-   "ts": [
-    "en"
-   ]
+   "tr": ""
   },
   "divine intervention": {
    "id": 27744,
@@ -3279,7 +3273,6 @@
    "krs": [
     "biogrand",
     "biorex",
-    "cine",
     "cinemantsala",
     "elavienkuvien",
     "ihmekompleksi",
@@ -5334,7 +5327,6 @@
     "biogrand",
     "biorex",
     "biosade",
-    "cine",
     "cinemantsala",
     "gilda",
     "helios",
@@ -5807,8 +5799,7 @@
     "savonkinot",
     "star",
     "studio123jarvenpaa",
-    "vaakuna",
-    "vihdinkino"
+    "vaakuna"
    ],
    "r": 7.3,
    "s": {
@@ -5847,8 +5838,7 @@
     "savonkinot",
     "star",
     "studio123jarvenpaa",
-    "vaakuna",
-    "vihdinkino"
+    "vaakuna"
    ],
    "r": 7.3,
    "s": {
@@ -7261,7 +7251,6 @@
     "biorex",
     "biosavoy",
     "cinemantsala",
-    "elavienkuvien",
     "gilda",
     "kinoaurora",
     "kinokulma",

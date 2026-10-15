@@ -1,11 +1,11 @@
-[kinokilta] 69 screening(s) listed, 47 film page(s) read
+[kinokilta] 68 screening(s) listed, 47 film page(s) read
 [kinokilta] omitted 0 confirmed non-film(s) by evidence-backed exclusion over 0 screening(s), and 1 unresolved over 2
 [kinokilta] unresolved: RetkiKino 2026
 [kinokilta] 3 synopsis/synopses withheld, no language settled: Combat Shock, Kinokopla: DIG! XX, Teenage Sex and Death at Camp Miasma
 [kinokilta] 7 film(s) with a language name not read, that part left blank: Alligator (Ei teksitystä); Combat Shock (Ei teksitystä); Joysticks (Ei teksitystä); Pieni kauhukauppa (Ei teksitystä); Prom Night (Ei teksitystä); Savage Dawn (Ei teksitystä); Sleepaway Camp (Ei teksitystä)
-[kinokilta] Kino Kilta: 67 showtimes, 34 dates
+[kinokilta] Kino Kilta: 66 showtimes, 33 dates
 [kinokilta] strand prefix split off 10 showtimes
-[kinokilta] Kino Kilta: 67 showtimes, 34 dates
+[kinokilta] Kino Kilta: 66 showtimes, 33 dates
 [kinokilta] synopses merged: 0
 [kinokilta] screening-note sentences left out of synopses: 1
 [kinolaika] 51 screening(s) listed, 35 film page(s) read
@@ -15,26 +15,26 @@
 [kinolaika] Kino Laika: 30 showtimes, 13 dates
 [kinolaika] Kino Laika: 30 showtimes, 13 dates
 [kinolaika] synopses merged: 0
-[kinomyyri] 32 screening(s) listed, 22 film page(s) read
-[kinomyyri] omitted 0 confirmed non-film(s) by evidence-backed exclusion over 0 screening(s), and 4 unresolved over 6
-[kinomyyri] unresolved: Cinemaissi: Frayland, Cinemaissi: The Pearl Button, Must pori näkku, Pikku Kummitus Lapanen keppostelee
+[kinomyyri] 31 screening(s) listed, 21 film page(s) read
+[kinomyyri] omitted 0 confirmed non-film(s) by evidence-backed exclusion over 0 screening(s), and 3 unresolved over 5
+[kinomyyri] unresolved: Cinemaissi: The Pearl Button, Must pori näkku, Pikku Kummitus Lapanen keppostelee
 [kinomyyri] override kojootti-vs-acme-dub: evidence-unavailable
 [kinomyyri] 1 synopsis/synopses withheld, no language settled: Hamnet
 [kinomyyri] 4 film(s) with a language name not read, that part left blank: Lapin sota (saami); Naza (heprealainen); Two Seasons, Two Strangers (japanilainen, korealainen); Vasenkätinen tyttö (mandariini)
 [kinomyyri] Kino Myyri: 26 showtimes, 13 dates
 [kinomyyri] Kino Myyri: 26 showtimes, 13 dates
 [kinomyyri] synopses merged: 0
-[kinokonepaja] 45 screening(s) listed, 18 film page(s) read
+[kinokonepaja] 44 screening(s) listed, 18 film page(s) read
 [kinokonepaja] omitted 0 confirmed non-film(s) by evidence-backed exclusion over 0 screening(s), and 1 unresolved over 1
 [kinokonepaja] unresolved: Cinemaissi: Archipielago
 [kinokonepaja] override edward-scissorhands: active
 [kinokonepaja] override gremlins: active
 [kinokonepaja] override nightmare-on-elm-street: active
-[kinokonepaja] Kino Konepaja: 44 showtimes, 22 dates
-[kinokonepaja] Kino Konepaja: 44 showtimes, 22 dates
+[kinokonepaja] Kino Konepaja: 43 showtimes, 21 dates
+[kinokonepaja] Kino Konepaja: 43 showtimes, 21 dates
 [kinokonepaja] synopses merged: 0
-[run] http: 47 revalidated (304), 79 full, 24 not stored (origin said no-store), 1 cache entries written
+[run] http: 47 revalidated (304), 78 full, 23 not stored (origin said no-store), 1 cache entries written
 [run] hosts: 4 attempted -- kinokonepaja.fi, kinomyyri.fi, www.kinokilta.fi, www.kinolaika.fi
-[run] kinola: 4 venues, 167 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
-[run] timing: 4 site(s), 233.6s of fetching added up across workers that overlap, longest site 74.7s, longest queue wait 130.5s, 74.7s wall from this module's first fetch starting to its last ending
+[run] kinola: 4 venues, 165 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
+[run] timing: 4 site(s), 270.7s of fetching added up across workers that overlap, longest site 81.8s, longest queue wait 145.0s, 81.8s wall from this module's first fetch starting to its last ending
 exit=0
