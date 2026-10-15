@@ -45,6 +45,46 @@ SNOWMAN2 = hit("agqbi7q5w4", "Lumiukko - Elokuvakonsertti", "2026-12-16T17:30:00
                "2026-12-16T18:00:00Z", free=False)
 # The Flow row with the larger id sits on page 1 and its twin on page 2.
 HITS = [KEVLAR, FLOW_KIDS, FESTIVAL, ISANPAIVA, FLOW, SNOWMAN, SNOWMAN2]
+SWEDISH = "Elokuva on ruotsinkielinen ja siinä on tekstitys suomeksi."
+
+
+def page(*paras):
+    """An event page as espoo.fi renders it, the description inside `__NEXT_DATA__`."""
+    data = {"props": {"graphQLState": {"q": {"data": {"Event": {
+        "description": "".join(f"<p>{p}</p>" for p in paras)}}}}}}
+    return ('<html><body><main>rendered</main><script id="__NEXT_DATA__" '
+            'type="application/json">' + json.dumps(data) + "</script></body></html>")
+
+
+class LanguageTest(unittest.TestCase):
+    def test_the_three_wordings_on_the_film_pages(self):
+        for sentence, lang in (
+                (SWEDISH, "SV-A, FI-S"),
+                ("Elokuva on suomenkielinen ja siinä on ruotsinkielinen tekstitys.", "FI-A, SV-S"),
+                ("Elokuva on englanninkielinen ja siinä on tekstitys kielillä suomi ja ruotsi.",
+                 "EN-A, FI-S, SV-S"),
+                ("Elokuva on suomenkielinen.", "FI-A")):
+            with self.subTest(sentence=sentence):
+                self.assertEqual(K.lang_of(["Synopsis.", sentence, "K12."]), lang)
+
+    def test_any_other_wording_gives_nothing(self):
+        for sentence in ("Elokuvassa ei ole kielellistä dialogia eikä tekstityksiä.",
+                         "Elokuva on klingoninkielinen ja siinä on tekstitys suomeksi.",
+                         "Elokuva on ruotsinkielinen ja siinä on tekstitys klingoniksi.",
+                         SWEDISH + " Mukana myös lyhytelokuva.",
+                         "Elokuva on ruotsinkielinen, tekstitys suomeksi."):
+            with self.subTest(sentence=sentence):
+                self.assertEqual(K.lang_of([sentence]), "")
+
+    def test_the_description_is_read_from_the_page_data_as_plain_paragraphs(self):
+        got = K.description(page("Alex &amp; Robin.", "<strong>Elokuva on ruotsinkielinen</strong>"
+                                 " ja siinä on tekstitys\u00a0suomeksi."))
+        self.assertEqual(got, ["Alex & Robin.", SWEDISH])
+        self.assertEqual(K.lang_of(got), "SV-A, FI-S")
+
+    def test_a_page_without_its_data_has_no_description(self):
+        self.assertEqual(K.description("<html><p>Elokuva on suomenkielinen.</p></html>"), [])
+
 
 
 class RowsTest(unittest.TestCase):
@@ -161,17 +201,24 @@ class ServiceTest(unittest.TestCase):
         self.addCleanup(lambda: setattr(run, "OUT", self._out))
         self._get = K.get_text
         self.addCleanup(lambda: setattr(K, "get_text", self._get))
-        self.calls = []
+        self.calls, self.pages = [], []
 
-    def serve(self, hits, total=None, short=False):
+    def serve(self, hits, total=None, short=False, pages=None):
+        """`pages` maps an event id to its page, or to an exception the read raises."""
         def get_text(url, **kw):
+            if url.startswith(SITE["base"] + EVENT):
+                self.pages.append(url)
+                answer = (pages or {}).get(url.rsplit(":", 1)[1], page("No language here."))
+                if isinstance(answer, Exception):
+                    raise answer
+                return answer
             if url != URL:
                 raise AssertionError(f"unexpected request to {url}")
             body = json.loads(kw["data"].decode("utf-8"))
             self.calls.append((body, kw))
-            page = body["pagination"]
-            got = hits[page["offset"]:page["offset"] + page["perPage"]]
-            if short and page["offset"]:
+            window = body["pagination"]
+            got = hits[window["offset"]:window["offset"] + window["perPage"]]
+            if short and window["offset"]:
                 got = []
             return json.dumps({"total": len(hits) if total is None else total,
                                "hits": [{"_source": h} for h in got], "aggs": {}})
@@ -256,6 +303,30 @@ class ServiceTest(unittest.TestCase):
         self.assertNotEqual(code, 0, log)
         self.assertEqual(self.area()["shows"][0]["title"], "Earlier")
 
+
+    def test_one_page_per_film_gives_every_screening_its_languages(self):
+        twin = hit("agqam36pti", "Elokuva: Kevlarsjäl (K12)", "2026-10-21T15:00:00Z")
+        self.serve(HITS + [twin], pages={"agqam3geym": page("Synopsis.", SWEDISH),
+                                         "agqaol4qfu": page("Elokuva on suomenkielinen ja "
+                                                            "siinä on ruotsinkielinen tekstitys.")})
+        with contextlib.redirect_stdout(io.StringIO()):
+            shows = K.fetch_site(SITE)[VENUE]
+        self.assertEqual([(s["title"], s["lang"]) for s in shows], [
+            ("Kevlarsjäl", "SV-A, FI-S"), ("Kevlarsjäl", "SV-A, FI-S"),
+            ("Isänpäivä", "FI-A, SV-S"), ("Flow.", ""),
+            ("Lumiukko - Elokuvakonsertti", ""), ("Lumiukko - Elokuvakonsertti", "")])
+        self.assertEqual(len(self.pages), 4, self.pages)
+        self.assertEqual(sum(p.endswith("agqam3geym") for p in self.pages), 1)
+
+    def test_a_page_that_fails_leaves_its_film_without_languages_and_the_rest_read(self):
+        self.serve(HITS, pages={"agqam3geym": OSError("connection reset"),
+                                "agqaol4qfu": page(SWEDISH)})
+        code, log = self.main()
+        self.assertEqual(code, 0, log)
+        langs = {s["title"]: s["lang"] for s in self.area()["shows"]}
+        self.assertEqual((langs["Kevlarsjäl"], langs["Isänpäivä"]), ("", "SV-A, FI-S"))
+        self.assertIn("event page for Kevlarsjäl: OSError: connection reset", log)
+        self.assertIn("languages read for 1 of 4 film(s)", log)
 
 class RegistryTest(unittest.TestCase):
     def test_the_registry_entry(self):

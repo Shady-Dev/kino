@@ -6,16 +6,19 @@ is covered. Two kinds of hit are dropped and counted: a span over 24 hours, whic
 festival row with no screening time, and a second hit at a start minute already taken,
 since the one hall cannot hold two screenings at once (the smallest id is kept).
 The age rating is read from the mark that closes the title, the only place it is stated.
-The published title leaves out that mark and a leading "Elokuva:".
+The published title leaves out that mark and a leading "Elokuva:". Each film's own event
+page is read once for the sentence that names its spoken and subtitle languages.
 """
 import datetime
+import html
 import json
 import re
 import sys
 import time
 from zoneinfo import ZoneInfo
 
-from common import UA, check_shows, fetch, get_text
+from common import UA, capped, check_shows, fetch, get_text
+from etiketti import strict_codes
 
 FI = ZoneInfo("Europe/Helsinki")
 
@@ -37,6 +40,16 @@ SPAN_MAX = datetime.timedelta(hours=24)
 # `Elokuva: Flow. (K7)`. Only the KAVI classes, and only as the last thing in the title.
 RATING_RE = re.compile(r"\((S|K-?(7|12|16|18))\)$")
 FILM_PREFIX = "elokuva:"
+# The one sentence a film's description gives its languages in, read on all ten film pages
+# on 2026-10-15: "Elokuva on ruotsinkielinen ja siinä on tekstitys suomeksi.", "... ja siinä
+# on ruotsinkielinen tekstitys." and "... ja siinä on tekstitys kielillä suomi ja ruotsi."
+# The listing's `eventInLanguages` puts both kinds in one list. Any other wording gives "".
+LANG_RE = re.compile(r"^Elokuva on (\w+kielinen)(?: ja siinä on (?:tekstitys (\w+ksi)"
+                     r"|(\w+kielinen) tekstitys|tekstitys kielillä (\w+(?: ja \w+)*)))?\.$")
+NEXT_DATA_RE = re.compile(r'<script id="__NEXT_DATA__" type="application/json">(.*?)</script>',
+                          re.S)
+PARA_RE = re.compile(r"<p>(.*?)</p>", re.S)
+TAG_RE = re.compile(r"<[^>]+>")
 
 
 class EventRowError(RuntimeError):
@@ -128,6 +141,57 @@ def shown_title(title):
     return t or title
 
 
+def description(page):
+    """An event page -> its description as plain-text paragraphs, [] when it has none."""
+    m = NEXT_DATA_RE.search(page)
+    if not m:
+        return []
+    state = (json.loads(m.group(1)).get("props") or {}).get("graphQLState") or {}
+    for entry in state.values():
+        data = entry.get("data") if isinstance(entry, dict) else None
+        event = data.get("Event") if isinstance(data, dict) else None
+        if isinstance(event, dict):
+            return [html.unescape(TAG_RE.sub("", p)).replace("\xa0", " ").strip()
+                    for p in PARA_RE.findall(event.get("description") or "")]
+    return []
+
+
+def lang_of(paras):
+    """Description paragraphs -> "SV-A, FI-S", or "" unless one paragraph is the sentence."""
+    for p in paras:
+        m = LANG_RE.match(p)
+        if not m:
+            continue
+        audio = strict_codes(m.group(1))
+        named = m.group(2) or m.group(3) or m.group(4)
+        subs = strict_codes(named) if named else []
+        if len(audio) != 1 or (named and not subs):
+            return ""
+        return ", ".join([f"{audio[0]}-A"] + [f"{c}-S" for c in subs])
+    return ""
+
+
+def languages(site, shows):
+    """One event page per film, its language sentence put on every screening of it."""
+    pid, by_film = site["provider"], {}
+    for s in shows:
+        by_film.setdefault(s["title"], []).append(s)
+    read = 0
+    for n, (title, films) in enumerate(capped(by_film.items(), pid)):
+        if n:
+            time.sleep(PAUSE)
+        try:
+            lang = lang_of(description(get_text(films[0]["url"], fetcher=fetch, tries=2,
+                                                backoff=3, timeout=20)))
+        except Exception as e:
+            print(f"[{pid}] event page for {title}: {type(e).__name__}: {e}")
+            continue
+        read += bool(lang)
+        for s in films:
+            s["lang"] = lang
+    print(f"[{pid}] languages read for {read} of {len(by_film)} film(s)")
+
+
 def rows(site, hits):
     """-> (shows, report). One row per screening minute."""
     venue = site["venues"][0]
@@ -198,6 +262,7 @@ def fetch_site(site):
     if not shows:
         raise RuntimeError(f"{site['base']}{site['path']}: {total} hit(s) and no screening "
                            f"among them")
+    languages(site, shows)
     per_venue = {venue["id"]: shows}
     check_shows(per_venue, pid, {venue["id"]})
     days = sorted({s["start"][:10] for s in shows})

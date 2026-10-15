@@ -1855,7 +1855,9 @@ button only where none is; see the 2026-09-25 entry in `docs/archive/2026-09-pro
   and on none of the 29 concerts and stage shows. Titles do not classify: a concert named
   "Ykspihlajan Kino-Orkesteri" has no film topic.
 - Each hit's `path` is `/fi/tapahtumat/espooevents:{id}`, a public event page. Four of them
-  answered 200. The free rows carry no ticket link and no price; `isFreeEvent` is set.
+  answered 200. Read again 2026-10-15, the page is rendered on the server and carries the
+  event in `__NEXT_DATA__` (`props.graphQLState.*.data.Event`), its description included.
+  Every film's description gives its spoken and subtitle languages in one sentence. The free rows carry no ticket link and no price; `isFreeEvent` is set.
 - Two film-topic rows are not one screening each. The two Flow rows on 22.11. share start,
   end and hall, and their descriptions say the Children's Weekend row is the same
   screening. The "Espoo Ciné Film Festival Kannusalissa 2026" row spans 49 hours with no

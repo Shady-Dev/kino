@@ -4004,3 +4004,15 @@ which would present a concert to search engines as a film screening. A paid even
 free text on its own page, such as "25 € + tilausmaksu ... / 30 € ovelta mikäli jäljellä".
 The check that every hit carries the "Elokuvat" topic guards the server-side filter, and it
 would need a replacement.
+
+### Kannusali reads each film's languages from its event page (2026-10-15)
+The maintainer saw Kannusali's tickets with no language where other cinemas print one. The
+listing's `eventInLanguages` puts spoken and subtitle languages in one list, as "suomi,
+ruotsi" for a Swedish film with Finnish subtitles. Each film's event page states them apart
+in one sentence of its description, which the page carries in its `__NEXT_DATA__`. The
+adapter reads one page per film and accepts the three wordings found on all ten film pages
+that day. Any other wording gives no language. Flow's "Elokuvassa ei ole kielellistä
+dialogia eikä tekstityksiä." stays unread under the no-dialogue rule in
+docs/research/languages.md. A page that fails costs its film the language and nothing else.
+Read live, four of six films gave a language and the Kannusali read took 8.4 s. Eight
+mutations red.
