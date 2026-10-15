@@ -2005,6 +2005,36 @@ class MetadataAfterAFailedReadOnAPhone(MetadataAfterAFailedRead):
     viewport = {"width": 375, "height": 812}; touch = True
 
 
+class GenreNamesAfterTheList(Browser):
+    """Genre names that land after the list is drawn reach its cards.
+
+    The boot started `ensureGenres()` and left it, and nothing drew the list again when the
+    map landed. A film with TMDB genre ids and no genre string of its own drew no genre line
+    on any load where the schedule won the race, which the maintainer saw at Kannusali on
+    2026-10-15. Orion's Autofiktio publishes ids alone. The map is held until the list is on
+    screen.
+    """
+
+    init_script = AsyncRaces.init_script
+    hold = AsyncRaces.hold
+    land = AsyncRaces.land
+
+    def setUp(self):
+        Handler.body = {"tmdb-genres.json": (ROOT / "data/tmdb-genres.json").read_bytes()}
+        self.addCleanup(lambda: setattr(Handler, "body", {}))
+        self.arrived, self.release = self.hold("tmdb-genres.json")
+        super().setUp()
+
+    def test_a_genre_map_that_lands_after_the_list_reaches_its_cards(self):
+        self.assertTrue(self.arrived.wait(10), "tmdb-genres.json was never requested")
+        self.pick_orion()
+        film = self.page.locator("#main article.movie", has_text="Autofiktio")
+        expect(film).to_have_count(1)
+        self.assertNotIn("Draama", film.text_content(), "the map landed first and nothing raced")
+        self.land("tmdb-genres.json", self.release)
+        expect(film).to_contain_text("Draama, Komedia")
+
+
 class CombinedVenueLists(Browser):
     """The venue lists come from the two combined files, one per half.
 

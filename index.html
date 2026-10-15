@@ -5611,8 +5611,11 @@
       drawLangSeg();
       // Genre names are cosmetic: genresOf falls back to provider strings until the map
       // arrives, and ensureGenres invalidates every _hay on arrival, so this never
-      // belongs on the critical path.
-      ensureGenres();
+      // belongs on the critical path. A list drawn before the map landed is drawn again,
+      // or a film with TMDB genre ids and no provider genres kept no genre line.
+      ensureGenres().then(() => {
+        if(genreNames && state.shows.length && !listHold){ render(); refreshOpenSheet(); }
+      });
       // areas.json downloads while providers.json is applied. loadProviders must finish
       // before loadAreas: the venues loop iterates PROVIDERS and fillAreaSelect labels
       // venues from it, and the hardcoded fallback may lag the registry.
