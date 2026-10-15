@@ -4573,8 +4573,10 @@
       const tile = `<div class="poster blank" style="background:linear-gradient(160deg,hsl(${hue} 45% 32%),hsl(${(hue+45)%360} 50% 16%));color:hsl(${hue} 75% 82%)">${initials}</div>`;
       const posterUrl = safeAssetUrl(m.img);
       const evUrl = m.nonFilm && pictureCredit(m, L[state.lang], esc) ? posterUrl : '';
+      // A picture that does not load gives way to the tile, and the card drops `ev` to get
+      // a film card's phone grid back.
       const poster = evUrl
-        ? `<img class="evimg" src="${evUrl}" alt="${esc(m.imgAlt || '')}"${+m.imgW && +m.imgH ? ` width="${+m.imgW}" height="${+m.imgH}"` : ''} loading="lazy" decoding="async">`
+        ? `<img class="evimg" src="${evUrl}" alt="${esc(m.imgAlt || '')}"${+m.imgW && +m.imgH ? ` width="${+m.imgW}" height="${+m.imgH}"` : ''} loading="lazy" decoding="async" onerror="this.closest('.movie').classList.remove('ev');this.outerHTML=this.dataset.f" data-f='${tile.replace(/'/g,"&#39;")}'>`
         : m.nonFilm ? tile
         : posterUrl
         ? `<img class="poster" src="${posterUrl}" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer" onerror="this.outerHTML=this.dataset.f" data-f='${tile.replace(/'/g,"&#39;")}'>`
@@ -4892,8 +4894,9 @@
     const body = days || `<div class="status" data-nosnippet>${L[lang].sheetNone}</div>`;
     const sheetPoster = safeAssetUrl(sample.img);
     const credit = sample.nonFilm ? pictureCredit(sample, L[lang], esc) : '';
+    // A picture that does not load hides its figure, and the credit goes with it.
     const fig = credit && sheetPoster
-      ? `<figure class="sheet-fig"><img src="${sheetPoster}" alt="${esc(sample.imgAlt || '')}"${+sample.imgW && +sample.imgH ? ` width="${+sample.imgW}" height="${+sample.imgH}"` : ''}><figcaption>${credit}</figcaption></figure>`
+      ? `<figure class="sheet-fig"><img src="${sheetPoster}" alt="${esc(sample.imgAlt || '')}"${+sample.imgW && +sample.imgH ? ` width="${+sample.imgW}" height="${+sample.imgH}"` : ''} onerror="this.parentNode.hidden=true"><figcaption>${credit}</figcaption></figure>`
       : '';
     const poster = sheetPoster && !sample.nonFilm ? `<img class="poster" src="${sheetPoster}" alt="">` : '';
     sheetEl.innerHTML = `

@@ -12,8 +12,8 @@ The chain palette is the one interpolation `esc()` cannot help with. It writes i
 starts whatever follows it, so the shape of both halves is checked instead.
 
 The sweep reads `="${...}"` only. A single-quoted attribute holding a nested brace is
-beyond a regex, and the one the page has (`data-f='${tile...}'`) builds its value from a
-number and a letter class.
+beyond a regex. The page has two, both `data-f='${tile...}'`, and each builds its value
+from a number and a letter class.
 """
 import pathlib
 import re

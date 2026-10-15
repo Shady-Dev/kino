@@ -4051,4 +4051,6 @@ a page's share image, and a film keeps its poster. `mirror_posters` keeps these 
 1280 px and records their size. Measured on the 29, a desktop sheet on a 2x screen kept a
 median 73% of the available detail at 720 px, 86% at 960 and 97% at 1280, which cost 2.96 MB
 for the set. Twenty unit mutations and eight browser mutations red, the browser ones in
-Chromium and WebKit.
+Chromium and WebKit. If a picture does not load, its card shows the initials tile in a film
+card's layout and the sheet hides the figure with its credit. Five more browser mutations
+went red in both engines.

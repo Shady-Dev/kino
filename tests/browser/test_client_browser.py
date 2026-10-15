@@ -2614,3 +2614,109 @@ class EventPicturesDark(EventPictures):
 class EventPicturesDarkOnAPhone(EventPictures):
     theme = "dark"
     viewport = {"width": 375, "height": 812}; touch = True
+
+
+class EventPictureFails(Browser):
+    """A non-film event's picture that does not load. Its card shows the initials tile in a
+    film card's layout, and its sheet hides the figure together with the credit.
+
+    The URLs are published and requested. One answers 404 and the other request is aborted.
+    A third picture loads, which shows that this fixture draws pictures at all. An offline
+    reader is the likely case, because `sw.js` keeps a picture only after it has been shown.
+    """
+    PIC = (1200, 628)
+
+    def setUp(self):
+        orion = next(s for s in SHOWS if s["title"] == "Autofiktio")
+        film = dict(orion, venue="1162", provider="finnkino", theme="Itis",
+                    start="2026-09-14T18:00:00+03:00")
+        base = {k: "" for k in ("original", "len", "rating", "genres", "aud", "lang", "price")}
+
+        def event(eid, title, clock, img):
+            return {**base, "eventId": eid, "title": title, "nonFilm": True, "method": "Musiikki",
+                    "start": f"2026-09-14T{clock}:00+03:00", "theatre": "Itis", "soldOut": False,
+                    "url": f"https://www.espoo.fi/fi/tapahtumat/espooevents:{eid}",
+                    "provider": "finnkino", "venue": "1162", "img": img, "imgW": self.PIC[0],
+                    "imgH": self.PIC[1], "imgAlt": "Kuvassa yhtye.", "imgBy": "Mikko Mäntyniemi",
+                    "imgSrc": "Espoon tapahtumarajapinta", "imgLic": "event_only"}
+        shows = [film,
+                 event("tapahtuma-suistamon-sahko", "Suistamon Sähkö", "19:00",
+                       "data/posters/ev-shown.png"),
+                 event("tapahtuma-kadonnut-kuva", "Kadonnut kuva", "20:00",
+                       "data/posters/ev-missing.png"),
+                 event("tapahtuma-katkennut-yhteys", "Katkennut yhteys", "21:00",
+                       "data/posters/ev-cut.png")]
+        itis = {"generated": "2026-09-14T08:00:00+00:00", "dates": ["2026-09-14"],
+                "horizon": "2026-09-14", "shows": shows}
+        # The fixture has no ev-missing.png, and the server answers that request 404.
+        Handler.body = {"area-1162.json": json.dumps(itis).encode("utf-8"),
+                        "ev-shown.png": _harness.png(*self.PIC)}
+        self.addCleanup(lambda: setattr(Handler, "body", {}))
+        super().setUp()
+        self.failed = []
+        self.page.on("response", self.note_error_status)
+        self.page.on("requestfailed", lambda r: self.failed.append((r.url, "failed")))
+        self.page.route("**/ev-cut.png", lambda route: route.abort())
+        self.page.goto(self.origin + "/index.html?area=1162")
+        expect(self.page.locator("#main article.movie")).to_have_count(4)
+
+    def note_error_status(self, response):
+        if response.status >= 400:
+            self.failed.append((response.url, response.status))
+
+    def card(self, title):
+        return self.page.locator("#main article.movie", has_text=title)
+
+    def reach(self, card):
+        """Scroll the window to a card, as a reader would. WebKit requests no lazy picture
+        below the fold, and its scrollIntoView does not reach a card `content-visibility`
+        has not laid out."""
+        for _ in range(3):
+            top = card.evaluate("a => a.getBoundingClientRect().top")
+            if 0 <= top < self.viewport["height"] - 120:
+                return
+            self.page.evaluate("dy => window.scrollBy(0, dy)", top - 100)
+
+    def open_sheet(self, title):
+        self.reach(self.card(title))
+        self.card(title).locator("h2.title a").click()
+        expect(self.page.locator("#sheetTitle")).to_have_text(title)
+        return self.page.locator("#sheet")
+
+    def test_a_card_whose_picture_fails_draws_the_tile_beside_its_title(self):
+        phone = self.viewport["width"] < 560
+        for title, initials in (("Kadonnut kuva", "KK"), ("Katkennut yhteys", "KY")):
+            with self.subTest(title=title):
+                card = self.card(title)
+                self.reach(card)
+                tile = card.locator(".poster.blank")
+                expect(tile).to_have_text(initials)
+                expect(card.locator("img")).to_have_count(0)
+                expect(card).not_to_have_class(re.compile(r"\bev\b"))
+                t, h = tile.bounding_box(), card.locator("h2.title").bounding_box()
+                self.assertEqual([t["width"], t["height"]], [72, 104] if phone else [92, 132])
+                self.assertGreaterEqual(h["x"], t["x"] + t["width"], "the title is not beside the tile")
+                self.assertLess(h["y"], t["y"] + t["height"], "the title is below the tile")
+        self.assertIn(404, [s for u, s in self.failed if u.endswith("/ev-missing.png")], self.failed)
+        self.assertIn("failed", [s for u, s in self.failed if u.endswith("/ev-cut.png")], self.failed)
+        shown = self.card("Suistamon Sähkö")
+        self.reach(shown)
+        self.page.wait_for_function("i => i.complete && i.naturalWidth > 0",
+                                    arg=shown.locator("img.evimg").element_handle())
+        expect(shown).to_have_class(re.compile(r"\bev\b"))
+        self.assertEqual(self.page.evaluate("document.documentElement.scrollWidth"),
+                         self.viewport["width"])
+
+    def test_the_sheet_hides_a_picture_that_fails_with_its_credit(self):
+        for title in ("Kadonnut kuva", "Katkennut yhteys"):
+            sheet = self.open_sheet(title)
+            fig = sheet.locator(".sheet-fig")
+            expect(fig).to_have_count(1)
+            expect(fig).to_be_hidden()
+            self.page.keyboard.press("Escape")
+        sheet = self.open_sheet("Suistamon Sähkö")
+        expect(sheet.locator(".sheet-fig figcaption")).to_be_visible()
+
+
+class EventPictureFailsOnAPhone(EventPictureFails):
+    viewport = {"width": 375, "height": 812}; touch = True
