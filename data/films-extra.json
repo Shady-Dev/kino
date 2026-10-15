@@ -787,6 +787,7 @@
    "kr": "K-16",
    "krs": [
     "bioforum",
+    "cinemantsala",
     "ihmekompleksi",
     "kinokulma"
    ],
@@ -941,13 +942,11 @@
     "cinemantsala",
     "gilda",
     "jarvelankino",
-    "kinoelo",
     "kinohannikainen",
     "kinohirvi",
     "kinojuha",
     "kinokilta",
     "kinokulma",
-    "kinomania",
     "kinomyyri",
     "kinoolympia",
     "kinopiispanristi",
@@ -2033,6 +2032,7 @@
    "kr": "K-7",
    "krs": [
     "gilda",
+    "kkino",
     "korjaamo",
     "savonkinot"
    ],
@@ -2670,7 +2670,6 @@
    "img": "data/posters/e1a7880d02ca0644.jpg",
    "kr": "K-7",
    "krs": [
-    "bioforum",
     "biorex",
     "biorexkokkola",
     "biosavoy",
@@ -4523,16 +4522,12 @@
   },
   "original english coyote vs acme": {
    "id": 1204680,
-   "img": "data/posters/e1a7880d02ca0644.jpg",
-   "r": 7.5,
+   "r": 0,
    "s": {
-    "en": "After Acme products fail him one too many times in his dogged pursuit of the Roadrunner, Wile E. Coyote decides to hire a billboard lawyer to sue the Acme Corporation.",
+    "en": "",
     "fi": "Tässä on syksyn hämmästyttävin elokuva! Warner ei halunnut julkaista suur­yrityksille irvailevaa elokuvaa ja elokuva joutui pannaan - se hyllytettiin. Tässä se kuitenkin on ja se on huikea sekä hupaisa! Helsingin sanomat: ****"
    },
-   "tr": "https://www.youtube.com/watch?v=kMsiD1Nky5I",
-   "ts": [
-    "en"
-   ]
+   "tr": ""
   },
   "original english coyoto vs acme": {
    "id": 1204680,
@@ -5100,8 +5095,7 @@
     "lieksankino",
     "marita",
     "navettakino",
-    "vaakuna",
-    "vihdinkino"
+    "vaakuna"
    ],
    "r": 0,
    "s": {
@@ -5145,8 +5139,7 @@
     "lieksankino",
     "marita",
     "navettakino",
-    "vaakuna",
-    "vihdinkino"
+    "vaakuna"
    ],
    "r": 0,
    "s": {
@@ -5212,8 +5205,7 @@
     "lieksankino",
     "marita",
     "navettakino",
-    "vaakuna",
-    "vihdinkino"
+    "vaakuna"
    ],
    "r": 0,
    "s": {
@@ -5306,7 +5298,6 @@
    "kr": "K-12",
    "krs": [
     "biorex",
-    "kinopirtti",
     "savonkinot",
     "star"
    ],
@@ -5352,7 +5343,6 @@
     "helios",
     "ihmekompleksi",
     "isohannu",
-    "kino123",
     "kinohirvi",
     "kinokilta",
     "kinolaika",
@@ -5627,13 +5617,12 @@
   },
   "på svenska bamse och havets hemlighet": {
    "id": 1275785,
-   "img": "data/posters/aed5ff66e478c590.jpg",
    "r": 0,
    "s": {
     "en": "",
     "fi": "Bamse, Pomppi ja Kilpinen seikkailevat jälleen! Ystävykset lähtevät kohti suurta meriseikkailua ja sukeltavat keskelle merimysteeriä – pian alkaa koko perheen seikkailu, täynnä ystävyyttä, yllätyksiä ja huikeita hetkiä."
    },
-   "tr": "https://www.youtube.com/watch?v=Vh9Tp3JXbQM"
+   "tr": ""
   },
   "på svenska bortglömda ön": {
    "id": 1465063,
@@ -6068,7 +6057,6 @@
     "kinohirvi",
     "kinolumo",
     "kinometso",
-    "kinomyyri",
     "kinopiispanristi",
     "kinopirtti",
     "kotkanleffat",
@@ -6087,16 +6075,12 @@
   },
   "ryhmä hau dinoelokuva org": {
    "id": 1185806,
-   "img": "data/posters/b7775ab25a7de6bc.jpg",
-   "r": 8.2,
+   "r": 0,
    "s": {
-    "en": "The Paw Patrol lands on a mysterious dinosaur island after a storm, where they meet Rex, a stranded pup. When Humdinger's reckless mining triggers a volcano, the team faces their biggest rescue mission yet to save the island.",
+    "en": "",
     "fi": "Ryhmä Haun laiva joutuu mystisen myrskyn kouriin ja haaksirikkoutuu trooppiselle saarelle, joka kuhisee dinosauruksia. He tapaavat Rexin – pennun, joka on jo vuosia ollut saarella jumissa ja josta on kehkeytynyt melkoinen dinosaurusekspertti. Kun Ryhmä Haun arkkivihollinen, Pormestari Hanttinen, aloittaa valtavat kaivuutyöt voidakseen hyödyntää saaren luonnonvaroja, hän saa vahingossa valtavan nukuksissa olleen tulivuoren purkautumaan. Pennut tempautuvat mukaan riskialttiiseen, dinon kokoiseen, kaikkien aikojen suurimpaan pelastusoperaatioonsa tavoitteenaan pysäyttää Hanttinen ennen kuin kaikki saarella katoaa ikiajoiksi."
    },
-   "tr": "https://www.youtube.com/watch?v=xgI5iYmOf5Q",
-   "ts": [
-    "en"
-   ]
+   "tr": ""
   },
   "ryhmä hau dinoelokuva suomeksi": {
    "id": 1185806,
@@ -7282,13 +7266,11 @@
     "cinemantsala",
     "elavienkuvien",
     "gilda",
-    "kino123",
     "kinoaurora",
     "kinokulma",
     "kinomarilyn",
     "kinoolympia",
     "kinopiispanristi",
-    "leffabuumi",
     "niagara",
     "orion",
     "savonkinot",
@@ -7792,7 +7774,6 @@
     "bioforum",
     "biogrand",
     "biograni",
-    "biokaari",
     "biomarilyn",
     "biopallas",
     "biorex",
@@ -7832,7 +7813,6 @@
     "savonkinot",
     "star",
     "studio123jarvenpaa",
-    "tapiola",
     "vaakuna",
     "vihdinkino"
    ],
@@ -7928,7 +7908,6 @@
     "bioforum",
     "biogrand",
     "biograni",
-    "biokaari",
     "biomarilyn",
     "biopallas",
     "biorex",
@@ -7968,7 +7947,6 @@
     "savonkinot",
     "star",
     "studio123jarvenpaa",
-    "tapiola",
     "vaakuna",
     "vihdinkino"
    ],
