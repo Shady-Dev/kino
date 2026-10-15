@@ -588,19 +588,6 @@
     "en"
    ]
   },
-  "big jim mclain taidekaupungin elokuvajuhlat": {
-   "id": 40715,
-   "img": "data/posters/54e4540ac7882fd0.jpg",
-   "r": 5.0,
-   "s": {
-    "en": "House Un-American Activities Committee investigators Jim McLain and Mal Baxter come to post war Hawaii to track Communist Party activities even though belonging to the party was legal at the time. They are interested in everything from insurance fraud to the sabotage of a U.S. naval vessel.",
-    "fi": ""
-   },
-   "tr": "https://www.youtube.com/watch?v=A2KxV4X1MF4",
-   "ts": [
-    "en"
-   ]
-  },
   "black magic rites": {
    "id": 59912,
    "r": 0,
@@ -787,6 +774,7 @@
    "kr": "K-16",
    "krs": [
     "bioforum",
+    "cinemantsala",
     "ihmekompleksi",
     "kinokulma",
     "sheryl"
@@ -944,10 +932,8 @@
     "kinokilta",
     "kinokulma",
     "kinomyyri",
-    "kinoolympia",
     "kinopiispanristi",
     "kinopirtti",
-    "kinoset",
     "korjaamo",
     "kuvakukko",
     "leffabuumi",
@@ -1132,12 +1118,14 @@
    "tr": ""
   },
   "eraserhead 1977 night visions": {
-   "r": 0,
+   "id": 985,
+   "img": "data/posters/e93a7527b6e67729.jpg",
+   "r": 7.3,
    "s": {
     "en": "",
     "fi": "Henry Spencer yrittää selviytyä teollisesta ympäristöstään, vihaisesta tyttöystävästään ja vastasyntyneen mutanttilapsensa sietämättömästä kirkumisesta."
    },
-   "tr": ""
+   "tr": "https://www.youtube.com/watch?v=zVJICfUx8M0"
   },
   "erikoisnäytös typerät lapset": {
    "id": 1702082,
@@ -2753,19 +2741,6 @@
     "en"
    ]
   },
-  "kojootti vs acme original": {
-   "id": 1204680,
-   "img": "data/posters/e1a7880d02ca0644.jpg",
-   "r": 7.5,
-   "s": {
-    "en": "After Acme products fail him one too many times in his dogged pursuit of the Roadrunner, Wile E. Coyote decides to hire a billboard lawyer to sue the Acme Corporation.",
-    "fi": ""
-   },
-   "tr": "https://www.youtube.com/watch?v=kMsiD1Nky5I",
-   "ts": [
-    "en"
-   ]
-  },
   "kojootti vs acme puhumme suomea": {
    "id": 1204680,
    "r": 0,
@@ -3260,19 +3235,6 @@
     "fi": "Lassie, elokuvahistorian kuuluisin koira palaa takaisin. Sydäntä lämmittävä hyvänmielen tarina pojan ja hänen koiransa erottamattomasta ystävyydestä. Perheen joutuessa luopumaan Lassiesta pojan sydän särkyy. Lassie ei kuitenkaan luovuta. Jännittävä ja vaiherikas seikkailu läpi koko maan yhdistää erottamattomat ystävykset uudelleen. Elokuva perustuu Eric Knightin suosittuun romaaniin Lassie palaa kotiin. Suomen elokuvasäätiön maahantuontituki 2021."
    },
    "tr": ""
-  },
-  "last prometheus of donbas taidekaupungin elokuvajuhlat": {
-   "id": 1562438,
-   "img": "data/posters/8f6ddc7ef5c9c628.jpg",
-   "r": 0,
-   "s": {
-    "en": "These are captured moments from the life of a Ukrainian industrial giant from the East, which no longer exists due to the Russian offensive. A story of heroic energy workers at the last operating power plant in eastern Ukraine, only 10 km from the frontline. Under constant shelling, they risk their lives to keep the lights on until the plant's destruction and forced evacuation, echoing historical parallels from 1941.",
-    "fi": ""
-   },
-   "tr": "https://www.youtube.com/watch?v=NKvfQY4MaJs",
-   "ts": [
-    "en"
-   ]
   },
   "late lammas elokuva hämäräpuuhissa": {
    "id": 1477104,
@@ -3999,6 +3961,14 @@
    "s": {
     "en": "",
     "fi": "Ruotsalaiskauden klassikossa Ingrid Bergman esittää rikollisjengin naista, jonka elämä muuttuu kasvojen rekonstruktion myötä. Identiteettiin, moraaliin ja ulkonäön voimaan pureutuva psykologinen draama tuntuu terävämmältä kuin koskaan. Bergmanin muodonmuutos on sekä fyysinen että sisäinen, ja Gustaf Molanderin ohjaus korostaa Bergmanin kykyä näyttää sisäinen kamppailu pienillä eleillä ja katseilla."
+   },
+   "tr": ""
+  },
+  "naiskäsityöläinen elämä ehjäksi kutoen keskustelu": {
+   "r": 0,
+   "s": {
+    "en": "",
+    "fi": "Kulttuurissa, jossa korostuvat yliajattelu ja jatkuva tuottaminen, Naiskäsityöläinen: Elämä ehjäksi kutoen tarjoaa toisenlaisen tien. Dokumenttielokuva kutsuu astumaan hetkeksi pois melusta, palaamaan omaan kehoon ja tutkimaan esi-isiltämme periytyvän käsityön parantavaa voimaa. Suomen vuodenaikojen rytmissä etenevä elokuva tarkastelee käsityötä paitsi tekniikkana myös kokemuksena. Kutominen, luonnonmateriaalien parissa työskentely, käsillä tekeminen ja perinteisten taitojen opettelu näyttäytyvät tapoina rakentaa yhteyttä omaan kulttuuriperintöön, ympäristöön ja itseen. Elokuvaa kuvatessa McClintock loi luottamuksellisen suhteen neljään suomalaiseen naiskäsityöläiseen, jotka löytävät merkitystä perinteisen käsityön rytmistä. Mervi Pasasen, Hanna Piipposen, Heli Karmakallion ja Hanna Noren tarinat yhdistävät menneisyyden ja tulevaisuuden ja kuvaavat erilaisia polkuja kohti eheyttä. Samalla ne tuovat esiin naiseuden moninaisuutta ja osoittavat, kuinka kulttuuriperintö voi juurtua osaksi nykyajan arkea. - Kun aloitin keskustelut elokuvassa esiintyvien käsityöläisten kanssa ja sukelsin syvemmälle suomalaisen käsityön maailmaan, minuun teki suurimman vaikutuksen se, kuinka elävältä kaikki tuntui. Kyse ei ollut jostakin menneisyyden jäänteestä, McClintock kertoo. - Junissa ja luokkahuoneissa näkee kaikenikäisiä ihmisiä neulomassa. Kyse ei ole vain siitä, että Suomessa on vahva yhteys muinaisiin käsityötekniikoihin, vaan siitä, että käsillä tekemistä arvostetaan laajasti osana tasapainoista ja hyvinvoivaa elämää. Kulttuuriperintöä eläväksi ja näkyväksi Madison McClintock tuli Suomeen alun perin etsimään yhteyttä omiin pohjoismaisiin sukujuuriinsa. Yhteyden katkeaminen omiin esi-isiin, kotiseutuun ja kulttuuriperintöön oli pohdituttanut McClintockia jo pitkään. McClintock halusi tarkastella myös sitä, miksi käsityötä usein vähätellään. Erityisesti Yhdysvalloissa käsityö yhdistetään hänen mukaansa helposti harrastamiseen ja ajanviettoon, vaikka taitojen taustalla on vuosien opiskelu, harjoittelu ja syvällinen asiantuntemus. - Koska käsityö yhdistetään niin usein naisiin, yhteiskunta myös vähättelee sitä ja olettaa sen olevan helppoa, vähäpätöistä tai vailla älyllistä ja teknistä syvyyttä. Elokuvassa esiintyvät käsityöläiset tarjoavat tähän näkökulmaan toisenlaisen vastauksen. Heidän tarinoissaan käsityö näyttäytyy osaamisena, tutkimisena, työnä, luovuutena ja elämänmittaisena oppimisena. Samalla tarinat kertovat erilaisista tavoista olla nainen. McClintock on matkustanut ympäri maailmaa dokumentoimassa sitä, kuinka erilaiset yhteisöt tuovat kulttuuriperintöään osaksi nykyelämää. Suomessa häntä puhutteli erityisesti se, kuinka kulttuuriperinnön säilyminen ei ole vain museoiden tai instituutioiden tehtävä, vaan tapahtuu myös ihmisten päivittäisen tekemisen kautta. McClintock näkee Suomessa kiinnostavan yhdistelmän henkilökohtaista vastuuta ja yhteiskunnan tukea. Kulttuuriperinnön arvostus näkyy hänen mukaansa museoissa, taiteilijoiden työskentelyapurahoissa ja siinä, että perinteisiä taitoja on mahdollista oppia monin eri tavoin. - Maailmassa, jossa niin paljon arvokasta kulttuuriperintöä menetetään sotien, liiallisen teknologiakeskeisyyden, yhteiskunnallisten ajattelutapojen muutosten tai rahoituksen puutteen vuoksi, Suomessa toimivan järjestelmän näkeminen antaa minulle valtavasti toivoa siitä, mikä on mahdollista. Madison McClintock Madison McClintock on yhdysvaltalainen elokuvantekijä ja tekstiilitaiteilija, jolla on yli kymmenen vuoden kokemus yhteisölähtöisestä ja eettisestä tarinankerronnasta. Hänen työnsä käsittelee keskinäisriippuvuuden tarinoita, joissa korostuu usein ihmisen ja paikan välinen läheinen suhde. Viimeksi Madison työskenteli National Geographicin Pristine Seas -hankkeen kenttätiimissä. Tällä hetkellä hän toimii tarinankertojana Mainessa sijaitsevassa Island Institutessa. Hän on entinen Fulbright-stipendiaatti Suomessa sekä Docs-in-Progress Impact Production Fellow. Nyt hän on saanut päätökseen ensimmäisen pitkän dokumenttielokuvansa Naiskäsityöläinen: Elämä ehjäksi kutoen. Ajatus dokumenttielokuvasta syntyi vuonna 2021, kun McClintock tapasi suomalaisen mestarikutojan Hannelle Köngäksen International Folk Art Market -tapahtumassa Santa Fessä, New Mexicossa. Köngäs kertoi hänelle suomalaisesta käsityöperinteestä, kestävistä materiaaleista ja historiallisista kudontatekniikoista sekä kainuunharmas-lampaan villan käytöstä. Kohtaaminen herätti McClintockin kiinnostuksen Suomea ja sen kulttuurisia arvoja kohtaan. Kaksi vuotta myöhemmin ajatus elokuvasta, sopiva rahoitusmahdollisuus ja uusi tapaaminen Köngäksen kanssa johtivat projektin käynnistymiseen. Köngäksen tuella McClintock tutustui käsityöläisiin eri puolilla Suomea. Hän haki Fulbright Finlandin Mid-Career Professional Project Grant -apurahaa, jossa Suomen käsityön museo toimi hänen isäntäorganisaationaan. Apurahan ja yhteistyökumppaneiden tuella McClintock vietti Suomessa kuusi kuukautta elokuvan tuotannon parissa vuonna 2025."
    },
    "tr": ""
   },
@@ -5337,7 +5307,6 @@
     "biosade",
     "cinemantsala",
     "gilda",
-    "helios",
     "ihmekompleksi",
     "isohannu",
     "kinohirvi",
@@ -5565,19 +5534,6 @@
    "s": {
     "en": "Once a beloved playmate of her childhood, Markku had withdrawn into solitude, devoting his life to inner freedom and creativity rather than the expectations of society. Now his voice returns – sometimes playful, sometimes wounded, always searching – guiding Karin through his life’s work and opening space for an unusual collaboration between the living and the dead.",
     "fi": "Ohjaaja löytää erakoituneen taiteilijasetänsä kätketyn maailman ja ryhtyy tekemään siitä elokuvaa – omaksi yllätyksekseen setänsä kanssa. Syntyy erityislaatuinen vuoropuhelu, joka avaa näkymän intohimoiseen taiteen tekemiseen ja originelliin elämään. Päivien lumo kertoo luomisesta elämäntapana, monimutkaisista perhesuhteista, rakkaudesta ja kuoleman kosketuksesta. Samalla se on elokuva matkasta kohti itseä ja omien valintojensa hyväksymisestä. Nämä voi ehkä saavuttaa vasta kun onnistuu hyväksymään maailman ja itsen keskeneräisyyden. Päivien lumo on Karin Pennasen ensimmäinen pitkä dokumenttielokuva."
-   },
-   "tr": "",
-   "ts": [
-    "en"
-   ]
-  },
-  "päivien lumo taidekaupungin elokuvajuhlat": {
-   "id": 1563565,
-   "img": "data/posters/6bbde592472eb4e8.jpg",
-   "r": 0,
-   "s": {
-    "en": "Once a beloved playmate of her childhood, Markku had withdrawn into solitude, devoting his life to inner freedom and creativity rather than the expectations of society. Now his voice returns – sometimes playful, sometimes wounded, always searching – guiding Karin through his life’s work and opening space for an unusual collaboration between the living and the dead.",
-    "fi": ""
    },
    "tr": "",
    "ts": [
@@ -6183,19 +6139,6 @@
     "en"
    ]
   },
-  "se tavallinen tarina taidekaupungin elokuvajuhlat": {
-   "id": 1769550,
-   "img": "data/posters/454c5a882fbb13e1.jpg",
-   "r": 0,
-   "s": {
-    "en": "",
-    "fi": "Eeli on nuori ja arka maalaistyttö, joka on saanut lapsuudenkodissaan erittäin ankaran kasvatuksen. Käytyään rippikoulun Eeli lähtee kaupunkiin puuvillatehtaaseen töihin, joka ei ole herkälle tytölle helppoa. Lopulta hän erehtyy antautumaan kelvolle miehelle…"
-   },
-   "tr": "",
-   "ts": [
-    "fi"
-   ]
-  },
   "seatapp": {
    "id": 1729182,
    "r": 0,
@@ -6374,11 +6317,6 @@
   "sopeutumaton": {
    "id": 1444061,
    "img": "data/posters/26b3955801497bbc.jpg",
-   "kr": "K-12",
-   "krs": [
-    "elavienkuvien",
-    "niagara"
-   ],
    "r": 0,
    "s": {
     "en": "Winner of the Audience Award at the Tampere Film Festival, Sopeutumaton is a documentary about Nadja (24), a highly sensitive young woman from Helsinki’s Kallio district who has become caught in an endless cycle of underground parties and substance use. As everyday life begins to overwhelm her and her mental well-being deteriorates, she retreats to an old hermit’s cabin on a remote island in Lake Päijänne to find some peace. Cut off from the world and from the hypersocial life she is accustomed to, Nadja is forced to confront her deepest fears. At the same time, she forms a mysterious connection with the long-deceased owner of the cabin, the legendary hermit Toivo. This marks the beginning of a journey toward breaking intergenerational patterns, understanding the unusual abilities that run in her family, and finding her way into adulthood. Through Nadja’s story, the film explores the mental well-being of young adults in contemporary society and the role of nature and self-help in healing and restoring the mind. The documentary was filmed over a period of six years.",
@@ -6733,19 +6671,6 @@
    },
    "tr": ""
   },
-  "tekijätorstai kerro kaikille": {
-   "id": 1304530,
-   "img": "data/posters/133d5c0758982817.jpg",
-   "r": 0,
-   "s": {
-    "en": "",
-    "fi": "Amanda Aaltonen kieltäytyy alistumasta hänelle varattuun köyhän naisen ankeaan kohtaloon ja etsii huimapäisesti onneaan maailmalta. Rangaistukseksi sääntöjen rikkomisesta yhteiskunta anastaa häneltä kaikkein tärkeimmän, vapauden, ja sulkee hänet Seilin saarelle."
-   },
-   "tr": "https://www.youtube.com/watch?v=iUpszeSB7k4",
-   "ts": [
-    "fi"
-   ]
-  },
   "tekijätorstai tytöt tytöt tytöt": {
    "id": 683363,
    "img": "data/posters/26bcd92f91926027.jpg",
@@ -7011,10 +6936,8 @@
    "krs": [
     "bioforum",
     "biorex",
-    "biosade",
     "gilda",
     "isohannu",
-    "kinohirvi",
     "kinopiispanristi",
     "savonkinot",
     "star"
@@ -7025,19 +6948,6 @@
     "fi": "Tämä elokuva sisältää välkkyviä valoja, jotka voivat aiheuttaa oireita henkilöille, joilla on valoherkkä epilepsia tai muu valoherkkyys. Christopher Nolanin seuraava elokuva, The Odyssey, on myyttinen toimintaeepos, joka on kuvattu eri puolilla maailmaa käyttäen uutta IMAX®-filmiteknologiaa. Elokuva tuo Homeroksen legendaarisen saagan IMAX®-filmikankaille ensimmäistä kertaa ja saa ensi-iltansa elokuvateattereissa maailmanlaajuisesti 17. heinäkuuta 2026."
    },
    "tr": "https://www.youtube.com/watch?v=AyIZ9tiiN8I",
-   "ts": [
-    "en"
-   ]
-  },
-  "the painter taidekaupungin elokuvajuhlat": {
-   "id": 893149,
-   "img": "data/posters/c7d6e2637d4ae318.jpg",
-   "r": 0,
-   "s": {
-    "en": "Being one of the most significant, contemporary painters, Albert Oehlen’s approach is complete refusal of the common art circus. In its own way the Film reﬂects this very stance. Likewise, it questions the purpose of obsolete thinking patterns created by white straight male artists of a certain age that have dominated the art world for centuries.",
-    "fi": ""
-   },
-   "tr": "",
    "ts": [
     "en"
    ]
@@ -7262,7 +7172,6 @@
     "gilda",
     "kinoaurora",
     "kinokulma",
-    "kinomarilyn",
     "kinoolympia",
     "kinopiispanristi",
     "niagara",
