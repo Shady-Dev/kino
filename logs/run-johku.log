@@ -3,14 +3,15 @@
 [biomarilyn] Bio Marilyn: 18 showtimes, 10 dates
 [biomarilyn] Bio Marilyn: 18 showtimes, 10 dates
 [biomarilyn] synopses merged: 0
-[vihdinkino] 22 screening(s) in 1 schedule block(s), 12 film page(s) read
-[vihdinkino] Vihdin Kino: 22 showtimes, 7 dates
-[vihdinkino] Vihdin Kino: 22 showtimes, 7 dates
+[vihdinkino] 20 screening(s) in 1 schedule block(s), 12 film page(s) read
+[vihdinkino] left out as the page does: 2 already started, 0 not in the catalogue
+[vihdinkino] Vihdin Kino: 20 showtimes, 7 dates
+[vihdinkino] Vihdin Kino: 20 showtimes, 7 dates
 [vihdinkino] synopses merged: 0
-[bioforum] 24 screening(s) in 1 schedule block(s), 12 film page(s) read
-[bioforum] 1 synopsis/synopses withheld, no language settled: The Odyssey
-[bioforum] Bio Forum: 24 showtimes, 8 dates
-[bioforum] Bio Forum: 24 showtimes, 8 dates
+[bioforum] 31 screening(s) in 1 schedule block(s), 14 film page(s) read
+[bioforum] 3 synopsis/synopses withheld, no language settled: Clayface, Lapin sota, The Odyssey
+[bioforum] Bio Forum: 31 showtimes, 12 dates
+[bioforum] Bio Forum: 31 showtimes, 12 dates
 [bioforum] synopses merged: 0
 [kinokulma] 35 screening(s) in 1 schedule block(s), 12 film page(s) read
 [kinokulma] 1 hall-hire title(s) over 3 row(s) left out: Salivaraus
@@ -28,13 +29,14 @@
 [kinovirta] Kino Virta: 25 showtimes, 6 dates
 [kinovirta] Kino Virta: 25 showtimes, 6 dates
 [kinovirta] synopses merged: 0
-[kulttuurimylly] 17 screening(s) in 1 schedule block(s), 13 film page(s) read
-[kulttuurimylly] Kino Kulttuurimylly: 17 showtimes, 10 dates
-[kulttuurimylly] strand prefix split off 10 showtimes
-[kulttuurimylly] Kino Kulttuurimylly: 17 showtimes, 10 dates
+[kulttuurimylly] 16 screening(s) in 1 schedule block(s), 12 film page(s) read
+[kulttuurimylly] left out as the page does: 1 already started, 0 not in the catalogue
+[kulttuurimylly] Kino Kulttuurimylly: 16 showtimes, 10 dates
+[kulttuurimylly] strand prefix split off 9 showtimes
+[kulttuurimylly] Kino Kulttuurimylly: 16 showtimes, 10 dates
 [kulttuurimylly] synopses merged: 0
-[run] http: 0 revalidated (304), 79 full, 0 not stored (origin said no-store), 0 cache entries written
+[run] http: 0 revalidated (304), 80 full, 0 not stored (origin said no-store), 0 cache entries written
 [run] hosts: 8 attempted -- bioforum.fi, biomarilyn.johku.com, kinokulma.fi, kinovirta.johku.com, kulttuurimylly.johku.com, vihdinkino.fi, www.biomarilyn.com, www.kinohannikainen.net
-[run] johku: 7 venues, 152 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
-[run] timing: 7 site(s), 209.5s of fetching added up across workers that overlap, longest site 39.5s, longest queue wait 204.8s, 87.9s wall from this module's first fetch starting to its last ending
+[run] johku: 7 venues, 156 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
+[run] timing: 7 site(s), 187.2s of fetching added up across workers that overlap, longest site 34.7s, longest queue wait 182.7s, 72.7s wall from this module's first fetch starting to its last ending
 exit=0
