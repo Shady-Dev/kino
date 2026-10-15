@@ -1,13 +1,16 @@
 """Kannusali, Espoo's culture house in Espoon keskus. Stdlib only.
 
 Reads the POST to `https://www.espoo.fi/api/events` that the venue's own event listing
-sends, filtered to the place `tprId` 21430 and the topic "Elokuvat", paged until `total`
-is covered. Two kinds of hit are dropped and counted: a span over 24 hours, which is a
-festival row with no screening time, and a second hit at a start minute already taken,
-since the one hall cannot hold two screenings at once (the smallest id is kept).
-The age rating is read from the mark that closes the title, the only place it is stated.
-The published title leaves out that mark and a leading "Elokuva:". Each film's own event
-page is read once for the sentence that names its spoken and subtitle languages.
+sends, filtered to the place `tprId` 21430, paged until `total` is covered. A hit under the
+topic "Elokuvat" is a film. Every other hit is a concert, a stage show or another event and
+is published with `nonFilm` set, which keeps the TMDB pass and the film markup off it, and
+with its topics as the label. Two kinds of hit are dropped and counted: a span over 24
+hours, which is a festival row with no screening time, and a second hit at a start minute
+already taken, since the one hall cannot hold two events at once (the smallest id is kept).
+A film's age rating is read from the mark that closes its title, the only place it is
+stated, and its published title leaves out that mark and a leading "Elokuva:". A closing
+"LOPPUUNMYYTY" comes off any title and sets `soldOut`. Each film's own event page is read
+once for the sentence that names its spoken and subtitle languages.
 """
 import datetime
 import html
@@ -26,7 +29,7 @@ SITES = [
     {"provider": "kannusali", "label": "Kannusali",
      "base": "https://www.espoo.fi",
      "path": "/api/events",
-     "tpr": "21430", "topic": "Elokuvat",
+     "tpr": "21430", "place": "Kannusali", "topic": "Elokuvat",
      "venues": [{"id": "kannusali-espoo", "name": "Kannusali", "short": "Kannusali",
                  "city": "Espoo"}]},
 ]
@@ -40,6 +43,11 @@ SPAN_MAX = datetime.timedelta(hours=24)
 # `Elokuva: Flow. (K7)`. Only the KAVI classes, and only as the last thing in the title.
 RATING_RE = re.compile(r"\((S|K-?(7|12|16|18))\)$")
 FILM_PREFIX = "elokuva:"
+# Every hit at the place carries this topic, and it says nothing about the kind of event.
+GENERIC_TOPICS = ("Kulttuuritapahtumat",)
+# "Tuomari Nurmio (LOPPUUNMYYTY)" and "Ykspihlajan Kino-Orkesteri LOPPUUNMYYTY", 2026-10-15.
+# Left in, it would put a sold-out state into the generated pages.
+SOLD_OUT_RE = re.compile(r"\s*\(?LOPPUUNMYYTY\)?$")
 # The one sentence a film's description gives its languages in, read on all ten film pages
 # on 2026-10-15: "Elokuva on ruotsinkielinen ja siinä on tekstitys suomeksi.", "... ja siinä
 # on ruotsinkielinen tekstitys." and "... ja siinä on tekstitys kielillä suomi ja ruotsi."
@@ -60,7 +68,7 @@ def body(site, offset):
     """The listing page's request body, as captured from its own fetch."""
     return {"filters": {"age": "", "areas": [], "attributes": [], "categories": [],
                         "endDate": None, "languages": [], "startDate": None,
-                        "targetGroups": [], "topics": [site["topic"]], "extras": [],
+                        "targetGroups": [], "topics": [], "extras": [],
                         "fixedFilters": {"areas": [], "keyword": None, "targetGroups": [],
                                          "topics": [], "tprId": site["tpr"]}},
             "langcode": "fi",
@@ -133,6 +141,12 @@ def rating_of(title):
     return f"K-{m.group(2)}" if m.group(2) else "S"
 
 
+def sold_out(title):
+    """`Tuomari Nurmio (LOPPUUNMYYTY)` -> ("Tuomari Nurmio", True). Nothing else changes."""
+    t = SOLD_OUT_RE.sub("", title)
+    return (t, True) if t and t != title else (title, False)
+
+
 def shown_title(title):
     """`Elokuva: Flow. (K7)` -> "Flow.". A title that would be left empty stays as it is."""
     t = RATING_RE.sub("", title).rstrip()
@@ -203,9 +217,12 @@ def rows(site, hits):
         path = hit.get("path") or ""
         if not title:
             raise EventRowError(f"hit {hid!r} has no title")
-        # The topic filter runs on the server, so a hit without it means the filter changed.
-        if site["topic"] not in (hit.get("topics") or []):
-            raise EventRowError(f"hit {hid!r} ({title}) is not under the topic {site['topic']!r}")
+        # The place filter runs on the server, so a hit elsewhere means the filter changed.
+        if hit.get("location") != site["place"]:
+            raise EventRowError(f"hit {hid!r} ({title}) is at {hit.get('location')!r}")
+        topics = hit.get("topics")
+        if not isinstance(topics, list):
+            raise EventRowError(f"hit {hid!r} ({title}) has no topic list: {topics!r}")
         if not isinstance(path, str) or not path.startswith("/"):
             raise EventRowError(f"hit {hid!r} ({title}) has no path: {path!r}")
         if not hit.get("eventStartTime"):
@@ -217,7 +234,7 @@ def rows(site, hits):
                 report["long"].append(f"{hid} ({title})")
                 continue
         minute = start.replace(second=0, microsecond=0)
-        row = (hid, title, path, minute, hit.get("isFreeEvent") is True)
+        row = (hid, title, path, minute, hit.get("isFreeEvent") is True, topics)
         other = kept.get(minute)
         if other is None:
             kept[minute] = row
@@ -226,26 +243,34 @@ def rows(site, hits):
         kept[minute] = keep
         report["collapsed"].append(f"{drop[0]} ({drop[1]}), same start as {keep[0]}")
     out = []
-    for hid, title, path, minute, free in kept.values():
-        out.append({
-            "eventId": slug_of(shown_title(title)),
-            "title": shown_title(title),
+    for hid, title, path, minute, free, topics in kept.values():
+        film = site["topic"] in topics
+        name, sold = sold_out(title)
+        shown = shown_title(name) if film else name
+        label = " \u00b7 ".join(t for t in topics if t not in GENERIC_TOPICS)
+        show = {
+            # A concert called "Michael" is not the film "Michael", in this file or the app.
+            "eventId": slug_of(shown) if film else "tapahtuma-" + slug_of(shown),
+            "title": shown,
             "original": "",
             "len": "",
-            "rating": rating_of(title),
+            "rating": rating_of(name) if film else "",
             "genres": "",
-            "method": "",
+            "method": "" if film else label,
             "theatre": venue["name"],
             "aud": "",
             "start": minute.isoformat(),
             "url": site["base"] + path,
             "img": "",
             "lang": "",
-            "soldOut": False,
+            "soldOut": sold,
             "price": "Vapaa pääsy" if free else "",
             "provider": site["provider"],
             "venue": venue["id"],
-        })
+        }
+        if not film:
+            show["nonFilm"] = True
+        out.append(show)
     out.sort(key=lambda s: (s["start"], s["title"]))
     return out, report
 
@@ -256,18 +281,19 @@ def fetch_site(site):
     hits, total = read_all(site)
     # Zero hits cannot be told from a broken server-side filter, so it is never empty.
     if not hits:
-        raise RuntimeError(f"{site['base']}{site['path']}: no hit for place {site['tpr']} "
-                           f"and topic {site['topic']!r}")
+        raise RuntimeError(f"{site['base']}{site['path']}: no hit for place {site['tpr']}")
     shows, report = rows(site, hits)
     if not shows:
         raise RuntimeError(f"{site['base']}{site['path']}: {total} hit(s) and no screening "
                            f"among them")
-    languages(site, shows)
+    films = [s for s in shows if not s.get("nonFilm")]
+    languages(site, films)
     per_venue = {venue["id"]: shows}
     check_shows(per_venue, pid, {venue["id"]})
     days = sorted({s["start"][:10] for s in shows})
     print(f"[{pid}] {venue['name']}, {venue['city']}: {len(shows)} showtimes, "
-          f"{len(days)} dates, from {len(hits)} hit(s) of a total of {total}")
+          f"{len(films)} of them films, {len(days)} dates, from {len(hits)} hit(s) of a "
+          f"total of {total}")
     if report["long"]:
         print(f"[{pid}] {len(report['long'])} hit(s) spanning over 24 h left out: "
               f"{', '.join(report['long'])}")

@@ -3406,7 +3406,9 @@
       if(p.generated && (!srcAge.has(pv) || p.generated < srcAge.get(pv))) srcAge.set(pv, p.generated);
       (p.dates || []).forEach(d => dates.add(d));
       for(const s of (p.shows || [])){
-        shows.push({ ...s, eventId: ctx.mergeKey(s.title), _eid: s.eventId, _vid: ids[i],
+        // A concert under a film's title is not that film: it keys apart, as in its file.
+        const key = s.nonFilm ? 'tapahtuma:' + ctx.mergeKey(s.title) : ctx.mergeKey(s.title);
+        shows.push({ ...s, eventId: key, _eid: s.eventId, _vid: ids[i],
                      venueShort: v.short || s.theatre, venueLabel: v.label || v.short || s.theatre,
                      provider: s.provider || v.provider });
       }
@@ -3441,7 +3443,7 @@
     const union = (a, b) => { a = find(add(a)); b = find(add(b)); if(a !== b) parent.set(b, a); };
     for(const s of shows){
       add(s.eventId);
-      if(s.tmdbId) union(s.eventId, `tmdb:${s.tmdbId}`);
+      if(s.tmdbId && !s.nonFilm) union(s.eventId, `tmdb:${s.tmdbId}`);
     }
     const name = new Map();
     for(const s of shows){
@@ -4732,7 +4734,8 @@
     const fm = films || {};                  // null when films.json has not been read
     const native = all.map(s => s._eid).find(id => id && fm[id]) || sample._eid;
     let f = fm[fid] || fm[native] || {};
-    if(!f.s && sample.title){
+    // A concert or a stage show takes no film's text or trailer, whatever its title.
+    if(!f.s && sample.title && !sample.nonFilm){
       const ex = await extra.ensure();
       if(superseded()) return;
       const hit = ex[normTitle(sample.title)];

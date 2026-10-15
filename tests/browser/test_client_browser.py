@@ -2401,3 +2401,76 @@ class FooterStampInHelsinki(Browser):
         text = credit.text_content()
         self.assertIn("20.16", text, text)
         self.assertNotIn("18.16", text, text)
+
+
+class NonFilmBesideAFilm(Browser):
+    """A concert under a film's title is its own card and its own sheet.
+
+    Kannusali publishes concerts beside its films since 2026-10-15, marked `nonFilm`. The
+    combined view keyed every row by its title and joined rows by TMDB id, and the sheet read
+    films-extra.json by title, so a concert called "Autofiktio" would have been drawn as the
+    film's screening with the film's synopsis and trailer. Itis Helsinki serves a second
+    screening of Orion's film and a concert of the same name, which carries the film's TMDB
+    id as a stale leftover. films-extra.json holds the film's own text.
+    """
+    SYN = "Elokuvan oma kuvaus, joka kuuluu vain elokuvalle eikä samannimiselle konsertille."
+    TRAILER = "https://www.youtube.com/watch?v=extraTrailer"
+
+    def setUp(self):
+        orion = next(s for s in SHOWS if s["title"] == "Autofiktio")
+        film = dict(orion, venue="1162", provider="finnkino", theatre="Itis",
+                    start="2026-09-14T19:00:00+03:00", url="https://www.finnkino.fi/event/1/")
+        concert = dict(film, eventId="tapahtuma-autofiktio", nonFilm=True, method="Musiikki",
+                       start="2026-09-14T20:30:00+03:00", img="", tr="", gids=[],
+                       url="https://www.espoo.fi/fi/tapahtumat/espooevents:x")
+        itis = {"generated": "2026-09-14T08:00:00+00:00", "dates": ["2026-09-14"],
+                "horizon": "2026-09-14", "shows": [film, concert]}
+        extra = {"generated": "2026-09-14", "films": {"autofiktio": {
+            "s": {"fi": self.SYN, "en": ""}, "r": 7.0, "tr": self.TRAILER}}}
+        Handler.body = {"area-1162.json": json.dumps(itis).encode("utf-8"),
+                        "films-extra.json": json.dumps(extra).encode("utf-8")}
+        self.addCleanup(lambda: setattr(Handler, "body", {}))
+        super().setUp()
+
+    def cards(self):
+        cards = self.page.locator("#main article.movie", has_text="Autofiktio")
+        expect(cards).to_have_count(2)
+        return (cards.filter(has_not_text="Musiikki"), cards.filter(has_text="Musiikki"))
+
+    def open_sheet(self, card):
+        card.locator("h2.title a").click()
+        expect(self.page.locator("#sheetTitle")).to_have_text("Autofiktio")
+        return self.page.locator("#sheet")
+
+    def test_the_combined_view_folds_the_film_across_cinemas_and_keeps_the_concert_apart(self):
+        self.page.goto(self.origin + "/index.html?area=city:Helsinki")
+        expect(self.page.locator("#main a.stub").first).to_be_visible()
+        film, concert = self.cards()
+        expect(film.locator("a.stub")).to_have_count(2)
+        expect(concert.locator("a.stub")).to_have_count(1)
+        expect(concert.locator(".poster.blank")).to_have_count(1)
+        expect(concert.locator("img.poster")).to_have_count(0)
+
+    def test_the_concert_sheet_takes_none_of_the_films_text_and_the_film_keeps_it(self):
+        self.page.goto(self.origin + "/index.html?area=city:Helsinki")
+        expect(self.page.locator("#main a.stub").first).to_be_visible()
+        film, concert = self.cards()
+        sheet = self.open_sheet(concert)
+        expect(sheet).to_contain_text("Musiikki")
+        expect(sheet.locator(".sheet-body a.stub")).to_have_count(1)
+        expect(sheet.locator("p.syn")).to_have_count(0)
+        expect(sheet.locator("a.trailer")).to_have_count(0)
+        self.page.keyboard.press("Escape")
+        expect(self.page.locator("body")).not_to_have_class(re.compile(r"\bsheet-open\b"))
+        sheet = self.open_sheet(film)
+        expect(sheet.locator("p.syn")).to_have_text(self.SYN)
+        orion = sum(1 for s in SHOWS if s["title"] == "Autofiktio")
+        expect(sheet.locator(".sheet-body a.stub")).to_have_count(orion + 1)
+
+    def test_one_venue_draws_both_and_the_concert_sheet_stays_bare(self):
+        self.page.goto(self.origin + "/index.html?area=1162")
+        expect(self.page.locator("#main a.stub").first).to_be_visible()
+        film, concert = self.cards()
+        sheet = self.open_sheet(concert)
+        expect(sheet.locator("p.syn")).to_have_count(0)
+        expect(sheet.locator("a.trailer")).to_have_count(0)

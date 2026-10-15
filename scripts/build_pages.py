@@ -847,6 +847,13 @@ def merge_key(title):
     return norm(s)
 
 
+def group_key(s):
+    """The identity a card folds on: the title key, and for a `nonFilm` row a key of its
+    own. A concert called "Michael" never shares a card with the film "Michael"."""
+    k = merge_key(s.get("title"))
+    return "tapahtuma:" + k if s.get("nonFilm") else k
+
+
 def merge_roots(shows):
     """{merge_key: root} after unioning each title key with its films' TMDB ids.
 
@@ -869,9 +876,9 @@ def merge_roots(shows):
             parent[b] = a
 
     for s in shows:
-        k = merge_key(s.get("title"))
+        k = group_key(s)
         find(k)
-        if s.get("tmdbId"):
+        if s.get("tmdbId") and not s.get("nonFilm"):
             union(k, f"tmdb:{s['tmdbId']}")
     return {k: find(k) for k in list(parent)}
 
@@ -935,7 +942,8 @@ def merged_title(counts):
 
 
 def group_by_day(shows, today, days=DAYS, merge=False):
-    """{iso date: {film title: [show, ...]}} for the next `days` days, times ascending.
+    """{iso date: {(film title, nonFilm): [show, ...]}} for the next `days` days, times
+    ascending. The second half of the key keeps a concert and a film under one title apart.
 
     `merge` folds the cross-provider identity above, for the city pages. The heading is
     chosen over the whole window, so a film does not change its spelling between today and
@@ -947,19 +955,20 @@ def group_by_day(shows, today, days=DAYS, merge=False):
     if not merge:
         days = {}
         for s in inwin:
-            days.setdefault(s["start"][:10], {}).setdefault(s.get("title") or "?", []).append(s)
+            key = (s.get("title") or "?", bool(s.get("nonFilm")))
+            days.setdefault(s["start"][:10], {}).setdefault(key, []).append(s)
         return days
 
     roots = merge_roots(inwin)
     spellings = {}
     for s in inwin:
-        r = roots[merge_key(s.get("title"))]
+        r = roots[group_key(s)]
         t = s.get("title") or "?"
         spellings.setdefault(r, {})
         spellings[r][t] = spellings[r].get(t, 0) + 1
     keys = {}
     for s in inwin:
-        keys.setdefault(roots[merge_key(s.get("title"))], set()).add(merge_key(s.get("title")))
+        keys.setdefault(roots[group_key(s)], set()).add(group_key(s))
     # One title key in the group means the titles already agree up to case, format and the
     # markers mergeKey strips, so the spelling count decides and shared_head is not asked.
     heads = {r: (merged_title(c) if len(keys[r]) > 1
@@ -967,8 +976,9 @@ def group_by_day(shows, today, days=DAYS, merge=False):
              for r, c in spellings.items()}
     days = {}
     for s in inwin:
-        head = heads[roots[merge_key(s.get("title"))]]
-        days.setdefault(s["start"][:10], {}).setdefault(head, []).append(s)
+        head = heads[roots[group_key(s)]]
+        days.setdefault(s["start"][:10], {}).setdefault((head, bool(s.get("nonFilm"))),
+                                                        []).append(s)
     return days
 # --- end city fold ---
 
@@ -1192,11 +1202,14 @@ def film_block(title, shows, extra, gmap, lang, t, with_venue, syn_seen, current
 
     # A synopsis only on a film's first appearance: a four-day page repeats the same
     # title daily, and printing it each time both bloated the page and read like padding.
-    fx = extra.get(norm(title)) or {}
+    # A concert or a stage show takes none, not even a film's under the same title.
+    nonfilm = any(s.get("nonFilm") for s in shows)
+    fx = {} if nonfilm else extra.get(norm(title)) or {}
     syn = ""
-    if title not in syn_seen:
-        syn = clip(((fx.get("s") or {}).get(lang) or "") or native_syn(shows, lang, native))
-        syn_seen.add(title)
+    if (title, nonfilm) not in syn_seen:
+        syn = clip(((fx.get("s") or {}).get(lang) or "")
+                   or ("" if nonfilm else native_syn(shows, lang, native)))
+        syn_seen.add((title, nonfilm))
     # Only same-origin posters: a hot-linked CDN poster would leak the visitor's IP. A
     # film with none keeps its column with a blank tile, so the text does not jump left.
     img = first(shows, "img") or ""
@@ -1272,7 +1285,7 @@ def ld_json(days, today, city, extra):
     window = {(today + timedelta(days=i)).isoformat() for i in range(LD_DAYS)}
     theatres, events = {}, []
     for iso in sorted(d for d in days if d in window):
-        for title, shows in days[iso].items():
+        for (title, _), shows in days[iso].items():
             for s in shows:
                 theatre = s.get("theatre") or ""
                 tid = f"#venue-{slug(theatre)}"
@@ -1282,8 +1295,9 @@ def ld_json(days, today, city, extra):
                         "address": {"@type": "PostalAddress",
                                     "addressLocality": city, "addressCountry": "FI"},
                     }
+                # A concert or a stage show at a cinema is an Event with no film in it.
                 ev = {
-                    "@type": "ScreeningEvent",
+                    "@type": "Event" if s.get("nonFilm") else "ScreeningEvent",
                     "name": title,
                     "startDate": s.get("start"),
                     "location": {"@id": tid},
@@ -1294,7 +1308,7 @@ def ld_json(days, today, city, extra):
                 # anyway, so the event keeps its name and drops the nested work rather
                 # than shipping something that will only ever fail. One showtime in 3509
                 # has no poster from any source.
-                poster = poster_url(s, extra)
+                poster = "" if s.get("nonFilm") else poster_url(s, extra)
                 if poster:
                     work = {"@type": "Movie", "name": title, "image": poster}
                     dur = duration(s.get("len"))
@@ -1408,8 +1422,8 @@ def page(*, lang, paths, title, desc, h1, sub, intro, days, today, t,
         body.append(late)
     for iso in sorted(days):
         body.append(f'<h2 class="day">{esc(day_label(iso, t))}</h2>')
-        for title_, shows in sorted(days[iso].items(),
-                                    key=lambda kv: (kv[1][0].get("start") or "", kv[0])):
+        for (title_, _), shows in sorted(days[iso].items(),
+                                         key=lambda kv: (kv[1][0].get("start") or "", kv[0])):
             body.append(film_block(title_, shows, extra, gmap, lang, t,
                                    with_venue=with_venue, syn_seen=syn_seen,
                                    current_year=today.year, native=native))

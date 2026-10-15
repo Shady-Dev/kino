@@ -1870,6 +1870,8 @@ button only where none is; see the 2026-09-25 entry in `docs/archive/2026-09-pro
   other is logged as collapsed.
 - A row spanning over 24 hours is left out and logged.
 - The film concert "Lumiukko - Elokuvakonsertti" is published, with an empty price.
+- Since 2026-10-15 every event at the place is read, and the ones under no film topic are
+  published with `nonFilm`. Lippu.fi sells the paid ones and quotes "alkaen" prices.
 - `price` is "Vapaa pääsy" only where `isFreeEvent` is true.
 - No image is published: the `eventImages` are not licensed to this site.
 - `where="cloud"` is provisional. Whether espoo.fi answers a runner is unknown until a

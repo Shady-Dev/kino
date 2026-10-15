@@ -1299,7 +1299,7 @@ class StubShapeTest(unittest.TestCase):
             return "".join(bp.film_block(t_, sh, {}, {}, "fi", self.T, False, seen,
                                           current_year=YEAR_NOW)
                            for iso in sorted(days)
-                           for t_, sh in sorted(days[iso].items(),
+                           for (t_, _), sh in sorted(days[iso].items(),
                                                 key=lambda kv: (kv[1][0]["start"], kv[0])))
         ref = render(list(shows))
         rnd = random.Random(7)
@@ -1904,3 +1904,100 @@ class ReadmeCountsTest(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class NonFilmBoundaryTest(unittest.TestCase):
+    """A concert and a film under one title stay two cards on the generated pages, and the
+    concert takes nothing the films-extra entry under that title holds. Kannusali publishes
+    both kinds since 2026-10-15. The film still folds with the same film at another cinema.
+    """
+
+    T = bp.L["fi"]
+    TODAY = date(2026, 12, 10)
+    SYN = "Elokuva kertoo Michael Jacksonin tarinan nuoresta keulahahmosta tähdeksi asti."
+    EXTRA = {"michael": {"s": {"fi": SYN, "en": ""}, "r": 8.6,
+                         "img": "https://image.tmdb.org/t/p/w342/michael.jpg",
+                         "tr": "https://www.youtube.com/watch?v=k-YAcjaLuSI"}}
+
+    def row(self, **over):
+        s = {"title": "Michael", "eventId": "michael", "theatre": "Kannusali",
+             "venue": "kannusali-espoo", "provider": "kannusali", "price": "",
+             "url": "https://www.espoo.fi/fi/tapahtumat/espooevents:a",
+             "start": "2026-12-10T14:00:00+02:00"}
+        s.update(over)
+        return s
+
+    def shows(self):
+        film = self.row(tmdbId=936075, img="data/posters/27a95f8ceb0939ad.jpg",
+                        price="Vapaa pääsy")
+        elsewhere = self.row(theatre="Sello", venue="1157", provider="finnkino",
+                             tmdbId=936075, start="2026-12-10T16:00:00+02:00",
+                             url="https://www.finnkino.fi/event/1/")
+        # A stale id an earlier run left on the row: nothing may join on it either.
+        concert = self.row(eventId="tapahtuma-michael", nonFilm=True, tmdbId=936075,
+                           start="2026-12-10T19:00:00+02:00",
+                           url="https://www.espoo.fi/fi/tapahtumat/espooevents:b")
+        return [film, elsewhere, concert]
+
+    def cards(self, shows, merge, extra=None, native=None):
+        days = bp.group_by_day(shows, self.TODAY, 1, merge=merge)
+        seen = set()
+        extra = self.EXTRA if extra is None else extra
+        return days, {key: (rows, bp.film_block(key[0], rows, extra, {}, "fi", self.T,
+                                                 merge, seen, current_year=YEAR_NOW,
+                                                 native=native))
+                      for key, rows in sorted(days[self.TODAY.isoformat()].items(),
+                                              key=lambda kv: (kv[1][0]["start"], kv[0]))}
+
+    def test_a_theatre_page_draws_the_film_and_the_concert_as_two_cards(self):
+        film, _, concert = self.shows()
+        _, cards = self.cards([film, concert], merge=False)
+        self.assertEqual(sorted(cards), [("Michael", False), ("Michael", True)])
+        film_html, concert_html = cards[("Michael", False)][1], cards[("Michael", True)][1]
+        self.assertIn(self.SYN[:40], film_html)
+        self.assertNotIn(self.SYN[:40], concert_html)
+        self.assertIn('class="poster blank"', concert_html)
+        self.assertNotIn("data/posters/", concert_html)
+
+    def test_a_concert_drawn_first_leaves_the_film_its_synopsis(self):
+        film, _, concert = self.shows()
+        _, cards = self.cards([film, dict(concert, start="2026-12-10T10:00:00+02:00")],
+                              merge=False)
+        self.assertIn(self.SYN[:40], cards[("Michael", False)][1])
+
+    def test_finnkinos_own_text_does_not_reach_the_concert_through_a_stale_id(self):
+        _, _, concert = self.shows()
+        native = ({"3001": {"s": {"fi": "Finnkinon oma kuvaus Michaelista, joka on pitkä."}}},
+                  {936075: ["3001"]})
+        _, cards = self.cards([concert], merge=False, extra={}, native=native)
+        self.assertNotIn("Finnkinon oma kuvaus", cards[("Michael", True)][1])
+
+    def test_a_city_page_folds_the_film_across_cinemas_and_keeps_the_concert_apart(self):
+        _, cards = self.cards(self.shows(), merge=True)
+        self.assertEqual(sorted(cards), [("Michael", False), ("Michael", True)])
+        self.assertEqual(sorted(s["theatre"] for s in cards[("Michael", False)][0]),
+                         ["Kannusali", "Sello"])
+        self.assertEqual([s["theatre"] for s in cards[("Michael", True)][0]], ["Kannusali"])
+        self.assertNotIn(self.SYN[:40], cards[("Michael", True)][1])
+
+    def test_a_concert_never_gives_the_film_card_its_spelling(self):
+        """The heading is chosen over a merged group. A concert joined to the film by its
+        title key or by a stale id would rename the film's card after itself."""
+        film, elsewhere, concert = self.shows()
+        for spelling in ("MICHAEL", "Michael Jackson -tribuutti"):
+            with self.subTest(spelling=spelling):
+                concerts = [dict(concert, title=spelling, start=f"2026-12-10T{h}:00:00+02:00")
+                            for h in (17, 19, 21)]
+                _, cards = self.cards([film, elsewhere, *concerts], merge=True)
+                self.assertEqual(sorted(cards), sorted([("Michael", False), (spelling, True)]))
+
+    def test_the_json_ld_names_the_concert_an_event_with_no_film_in_it(self):
+        days, _ = self.cards(self.shows(), merge=True)
+        graph = json.loads(bp.ld_json(days, self.TODAY, "Espoo", self.EXTRA))["@graph"]
+        events = sorted((n for n in graph if n["@type"] != "MovieTheater"),
+                        key=lambda n: n["startDate"])
+        self.assertEqual([(n["@type"], n["location"]["@id"]) for n in events], [
+            ("ScreeningEvent", "#venue-kannusali"), ("ScreeningEvent", "#venue-sello"),
+            ("Event", "#venue-kannusali")])
+        self.assertEqual([n.get("workPresented", {}).get("@type") for n in events],
+                         ["Movie", "Movie", None])

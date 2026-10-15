@@ -46,6 +46,8 @@ SNOWMAN2 = hit("agqbi7q5w4", "Lumiukko - Elokuvakonsertti", "2026-12-16T17:30:00
 # The Flow row with the larger id sits on page 1 and its twin on page 2.
 HITS = [KEVLAR, FLOW_KIDS, FESTIVAL, ISANPAIVA, FLOW, SNOWMAN, SNOWMAN2]
 SWEDISH = "Elokuva on ruotsinkielinen ja siinä on tekstitys suomeksi."
+CONCERT = dict(hit("agqconcert", "Megamuskari", "2026-11-03T08:30:00Z", free=False),
+               topics=["Kulttuuritapahtumat", "Musiikki"])
 
 
 def page(*paras):
@@ -107,12 +109,46 @@ class RowsTest(unittest.TestCase):
         shows, report = self.rows(day)
         self.assertEqual((len(shows), report["long"]), (1, []))
 
-    def test_a_hit_outside_the_film_topic_fails_the_site(self):
-        concert = dict(hit("agqconcert", "Megamuskari", "2026-11-03T10:00:00Z"),
-                       topics=["Musiikki", "Kulttuuritapahtumat"])
+    def test_a_hit_outside_the_film_topic_is_an_event_labelled_by_its_topics(self):
+        dance = dict(hit("agqdance", "Elokuva: Päivätanssit (K7)", "2026-11-12T12:00:00Z"),
+                     topics=["Kulttuuritapahtumat", "Liikunta", "Musiikki", "Tanssi"])
+        shows, _ = self.rows(KEVLAR, CONCERT, dance)
+        self.assertEqual([(s["title"], s["rating"], s["method"], s["price"], s.get("nonFilm"))
+                          for s in shows], [
+            ("Kevlarsjäl", "K-12", "", "Vapaa pääsy", None),
+            ("Megamuskari", "", "Musiikki", "", True),
+            ("Elokuva: Päivätanssit (K7)", "", "Liikunta \u00b7 Musiikki \u00b7 Tanssi",
+             "Vapaa pääsy", True),
+        ])
+        common.check_shows({VENUE: shows}, "kannusali", {VENUE})
+
+    def test_a_concert_and_a_film_under_one_title_key_apart(self):
+        concert = dict(CONCERT, title="Michael", eventStartTime="2026-12-11T17:00:00Z")
+        film = hit("agqaxzismq", "Elokuva: Michael (K12)", "2026-12-10T12:00:00Z")
+        shows, _ = self.rows(film, concert)
+        self.assertEqual([(s["title"], s["eventId"], s.get("nonFilm")) for s in shows],
+                         [("Michael", "michael", None), ("Michael", "tapahtuma-michael", True)])
+        common.check_shows({VENUE: shows}, "kannusali", {VENUE})
+
+    def test_a_hit_at_another_place_fails_the_site(self):
+        elsewhere = dict(CONCERT, location="Sellosali")
         with self.assertRaises(K.EventRowError) as e:
-            self.rows(KEVLAR, concert)
-        self.assertIn("Elokuvat", str(e.exception))
+            self.rows(KEVLAR, elsewhere)
+        self.assertIn("Sellosali", str(e.exception))
+
+    def test_a_closing_sold_out_note_leaves_the_title_and_marks_the_row(self):
+        sold = [dict(CONCERT, id=f"event:espooevents:agqsold{n}", title=title,
+                     eventStartTime=f"2026-11-1{n}T17:00:00Z")
+                for n, title in enumerate(("Tuomari Nurmio (LOPPUUNMYYTY)",
+                                           "Ykspihlajan Kino-Orkesteri LOPPUUNMYYTY",
+                                           "LOPPUUNMYYTY", "Loppuunmyyty ilta"))]
+        shows, _ = self.rows(*sold)
+        self.assertEqual([(s["title"], s["soldOut"], s["eventId"]) for s in shows], [
+            ("Tuomari Nurmio", True, "tapahtuma-tuomari-nurmio"),
+            ("Ykspihlajan Kino-Orkesteri", True, "tapahtuma-ykspihlajan-kino-orkesteri"),
+            ("LOPPUUNMYYTY", False, "tapahtuma-loppuunmyyty"),
+            ("Loppuunmyyty ilta", False, "tapahtuma-loppuunmyyty-ilta"),
+        ])
 
     def test_two_hits_at_one_start_collapse_to_the_smallest_id_in_either_order(self):
         for order in ((FLOW_KIDS, FLOW), (FLOW, FLOW_KIDS)):
@@ -174,13 +210,14 @@ class RowsTest(unittest.TestCase):
                           s["method"], s["original"], s["len"], s["genres"], s["soldOut"]),
                          ("kannusali", VENUE, "Kannusali", "", "", "", "", "", "", False))
         self.assertEqual(s["eventId"], "kevlarsjäl")
+        self.assertNotIn("nonFilm", s)
         common.check_shows({VENUE: [s]}, "kannusali", {VENUE})
 
     def test_a_hit_it_cannot_read_fails_the_site(self):
         for field, value in (("title", ""), ("path", None), ("path", "fi/tapahtumat/x"),
                              ("eventStartTime", None), ("eventStartTime", "soon"),
                              ("eventStartTime", "2026-11-04T12:00:00"),
-                             ("eventEndTime", "later")):
+                             ("eventEndTime", "later"), ("topics", None)):
             with self.subTest(field=field, value=value):
                 bad = dict(KEVLAR, **{field: value})
                 with self.assertRaises(K.EventRowError):
@@ -259,7 +296,7 @@ class ServiceTest(unittest.TestCase):
             K.fetch_site(SITE)
         body, kw = self.calls[0]
         self.assertEqual(body["filters"]["fixedFilters"]["tprId"], "21430")
-        self.assertEqual(body["filters"]["topics"], ["Elokuvat"])
+        self.assertEqual(body["filters"]["topics"], [])
         self.assertEqual((body["langcode"], body["type"], body["showLongLastingEvents"]),
                          ("fi", "event", True))
         self.assertEqual(kw["headers"]["content-type"], "application/json")
@@ -327,6 +364,17 @@ class ServiceTest(unittest.TestCase):
         self.assertEqual((langs["Kevlarsjäl"], langs["Isänpäivä"]), ("", "SV-A, FI-S"))
         self.assertIn("event page for Kevlarsjäl: OSError: connection reset", log)
         self.assertIn("languages read for 1 of 4 film(s)", log)
+
+    def test_a_concert_is_published_and_its_page_is_not_read(self):
+        self.serve(HITS + [CONCERT], pages={"agqconcert": page(SWEDISH)})
+        code, log = self.main()
+        self.assertEqual(code, 0, log)
+        shows = self.area()["shows"]
+        concert = next(s for s in shows if s["title"] == "Megamuskari")
+        self.assertEqual((concert["nonFilm"], concert["method"], concert["lang"]),
+                         (True, "Musiikki", ""))
+        self.assertFalse(any(p.endswith("agqconcert") for p in self.pages), self.pages)
+        self.assertIn("6 showtimes, 5 of them films", log)
 
 class RegistryTest(unittest.TestCase):
     def test_the_registry_entry(self):

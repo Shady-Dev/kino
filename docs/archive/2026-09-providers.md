@@ -4016,3 +4016,24 @@ dialogia eikä tekstityksiä." stays unread under the no-dialogue rule in
 docs/research/languages.md. A page that fails costs its film the language and nothing else.
 Read live, four of six films gave a language and the Kannusali read took 8.4 s. Eight
 mutations red.
+
+### Kannusali publishes its other events as well (2026-10-15)
+The maintainer asked the same day for Kannusali's concerts, stage shows and other events
+after all, which reverses the record above that kept them out. The listing's POST is sent
+without a topic filter and reads every event at the place, 40 on 2026-10-15 in four pages.
+A hit under "Elokuvat" is a film as before. Every other hit is published with `nonFilm` set
+and its topics other than "Kulttuuritapahtumat" as the label, such as "Musiikki" or
+"Teatteritaide". `enrich_tmdb` never searches such a row, writes nothing onto it and lends
+nothing from it, and `build_pages` marks it as a schema.org Event with no Movie. Its price
+is "Vapaa pääsy" where the listing says the event is free and is empty otherwise, because a
+paid event states its price as free text on its own page. The link is the event's own
+page, and no event page is read for these rows. A closing "LOPPUUNMYYTY" comes off any
+title and sets `soldOut`, or a sold-out state would reach the generated pages. The check
+that every hit is under "Elokuvat" became a check that every hit is at Kannusali. The
+calendar's images are not licensed to this site, and these rows draw the initials tile.
+A `nonFilm` row keeps its own key wherever a film is joined by title or TMDB id: the
+adapter's `eventId`, the app's combined view and its sheet, the generated pages' cards and
+synopses, `run.py`'s carry-over and `synmerge`. `check_shows` refuses a non-film row that
+shares a film's `eventId`. The tests put a film and a concert under one title beside a
+films-extra entry for it, and the film still folds with the same film at another cinema.
+Thirty-one mutations red, the app's three in Chromium and WebKit.
