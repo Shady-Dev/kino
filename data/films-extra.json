@@ -2031,6 +2031,7 @@
    "img": "data/posters/90645b198527b148.jpg",
    "kr": "K-7",
    "krs": [
+    "gilda",
     "korjaamo",
     "savonkinot"
    ],
@@ -2678,7 +2679,6 @@
     "kinolumo",
     "kinopiispanristi",
     "kinopirtti",
-    "kirkkonummi",
     "kkino",
     "kulttuurimylly",
     "star",
@@ -5564,6 +5564,14 @@
    },
    "tr": ""
   },
+  "puukirkko ja muita välähdyksiä": {
+   "r": 0,
+   "s": {
+    "en": "",
+    "fi": "Puukirkko ja muita välähdyksiä Lahdesta -näytös torstaina 29.10. ja uusintanäytös sunnuntaina 1.11. Näytös alkaa klo 12 ja sen kokonaiskesto on n. 60 min. Näytöksessä esitetään Kalevi Oksasen Lahti-kaitafilmivälähdyksiä 1960-70-luvuilta ja vanhoja TV-mainoksia (uusintaesitys viime vuoden syksyltä) sekä digitoitu, harvinainen kaitafilmikokoelma puukirkon viimeisistä vaiheista vuonna 1977 (ensiesitys viime kesänä, filmissä ei ääntä)."
+   },
+   "tr": ""
+  },
   "pähkinänsärkijä hamburg ballett tshaikovski": {
    "r": 0,
    "s": {
@@ -6034,7 +6042,7 @@
   "ryhmä hau dinoelokuva": {
    "id": 1185806,
    "img": "data/posters/b7775ab25a7de6bc.jpg",
-   "r": 8.2,
+   "r": 8.3,
    "s": {
     "en": "The Paw Patrol lands on a mysterious dinosaur island after a storm, where they meet Rex, a stranded pup. When Humdinger's reckless mining triggers a volcano, the team faces their biggest rescue mission yet to save the island.",
     "fi": "Ryhmä Haun laiva joutuu mystisen myrskyn kouriin ja haaksirikkoutuu trooppiselle saarelle, joka kuhisee dinosauruksia. He tapaavat Rexin – pennun, joka on jo vuosia ollut saarella jumissa ja josta on kehkeytynyt melkoinen dinosaurusekspertti. Kun Ryhmä Haun arkkivihollinen, Pormestari Hanttinen, aloittaa valtavat kaivuutyöt voidakseen hyödyntää saaren luonnonvaroja, hän saa vahingossa valtavan nukuksissa olleen tulivuoren purkautumaan. Pennut tempautuvat mukaan riskialttiiseen, dinon kokoiseen, kaikkien aikojen suurimpaan pelastusoperaatioonsa tavoitteenaan pysäyttää Hanttinen ennen kuin kaikki saarella katoaa ikiajoiksi."
@@ -6079,7 +6087,7 @@
     "star",
     "studio123jarvenpaa"
    ],
-   "r": 8.2,
+   "r": 8.3,
    "s": {
     "en": "The Paw Patrol lands on a mysterious dinosaur island after a storm, where they meet Rex, a stranded pup. When Humdinger's reckless mining triggers a volcano, the team faces their biggest rescue mission yet to save the island.",
     "fi": ""
@@ -6105,7 +6113,7 @@
   "ryhmä hau dinoelokuva suomeksi": {
    "id": 1185806,
    "img": "data/posters/b7775ab25a7de6bc.jpg",
-   "r": 8.2,
+   "r": 8.3,
    "s": {
     "en": "The Paw Patrol lands on a mysterious dinosaur island after a storm, where they meet Rex, a stranded pup. When Humdinger's reckless mining triggers a volcano, the team faces their biggest rescue mission yet to save the island.",
     "fi": "Ryhmä Haun laiva joutuu mystisen myrskyn kouriin ja haaksirikkoutuu trooppiselle saarelle, joka kuhisee dinosauruksia. He tapaavat Rexin – pennun, joka on jo vuosia ollut saarella jumissa ja josta on kehkeytynyt melkoinen dinosaurusekspertti. Kun Ryhmä Haun arkkivihollinen, Pormestari Hanttinen, aloittaa valtavat kaivuutyöt voidakseen hyödyntää saaren luonnonvaroja, hän saa vahingossa valtavan nukuksissa olleen tulivuoren purkautumaan. Pennut tempautuvat mukaan riskialttiiseen, dinon kokoiseen, kaikkien aikojen suurimpaan pelastusoperaatioonsa tavoitteenaan pysäyttää Hanttinen ennen kuin kaikki saarella katoaa ikiajoiksi."
@@ -6507,30 +6515,6 @@
   "street fighter": {
    "id": 1153576,
    "img": "data/posters/2c34dcbef60ffbda.jpg",
-   "kr": "K-12",
-   "krs": [
-    "biorexkokkola",
-    "biosavoy",
-    "biovuoksi",
-    "cinemantsala",
-    "kino123",
-    "kinoakseli",
-    "kinoelo",
-    "kinokulma",
-    "kinolumo",
-    "kinomania",
-    "kinomarilyn",
-    "kinopiispanristi",
-    "kinopirtti",
-    "kinotar",
-    "kotkanleffat",
-    "leffabuumi",
-    "savonkinot",
-    "sheryl",
-    "star",
-    "studio123jarvenpaa",
-    "vaakuna"
-   ],
    "r": 0,
    "s": {
     "en": "In 1993, estranged Street Fighters Ryu and Ken Masters are thrown back into combat when the mysterious Chun-Li recruits them for the next World Warrior Tournament: a brutal clash of fists, fate, and fury. But behind this battle royale lies a deadly conspiracy that forces them to face off against each other and the demons of their past. And if they don't, it's GAME OVER!",
@@ -7755,7 +7739,7 @@
   "unohdettu saari": {
    "id": 1465063,
    "img": "data/posters/9bcaf7ef167a0f8f.jpg",
-   "r": 8.2,
+   "r": 8.1,
    "s": {
     "en": "While celebrating their last night together, high school graduates and best friends Jo and Raissa stumble upon a mysterious portal that transports them to the fantastical island of Nakali. When they discover that the memories of their entire friendship are the price for returning home, Jo and Raissa must race to find a way to leave the island before they forget each other forever.",
     "fi": "DreamWorks Animation on aiemmin tuonut katsojille tarinoita unohtumattomista siteistä pojan ja lohikäärmeen välillä Näin koulutat lohikäärmeesi -elokuvissa, jätin ja aasin välillä Shrek-elokuvissa sekä robotin ja hanhenpoikasen välillä elokuvassa Villi robotti. Nyt luvassa on huikean tunteikas tarina kahdesta parhaasta ystävyksestä, joiden täytyy yhdistää voimansa eron uhatessa elokuvassa Unohdettu saari."
@@ -7858,7 +7842,7 @@
     "vaakuna",
     "vihdinkino"
    ],
-   "r": 8.2,
+   "r": 8.1,
    "s": {
     "en": "While celebrating their last night together, high school graduates and best friends Jo and Raissa stumble upon a mysterious portal that transports them to the fantastical island of Nakali. When they discover that the memories of their entire friendship are the price for returning home, Jo and Raissa must race to find a way to leave the island before they forget each other forever.",
     "fi": ""
@@ -7995,7 +7979,7 @@
     "vaakuna",
     "vihdinkino"
    ],
-   "r": 8.2,
+   "r": 8.1,
    "s": {
     "en": "While celebrating their last night together, high school graduates and best friends Jo and Raissa stumble upon a mysterious portal that transports them to the fantastical island of Nakali. When they discover that the memories of their entire friendship are the price for returning home, Jo and Raissa must race to find a way to leave the island before they forget each other forever.",
     "fi": "Parhaan ystävyyden puolesta kannattaa taistella. DreamWorks Animation on aiemmin tuonut katsojille tarinoita unohtumattomista siteistä pojan ja lohikäärmeen välillä Näin koulutat lohikäärmeesi..."
