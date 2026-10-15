@@ -640,7 +640,7 @@
   "bortglömda ön": {
    "id": 1465063,
    "img": "data/posters/db8d634869fa04ac.jpg",
-   "r": 8.2,
+   "r": 8.1,
    "s": {
     "en": "While celebrating their last night together, high school graduates and best friends Jo and Raissa stumble upon a mysterious portal that transports them to the fantastical island of Nakali. When they discover that the memories of their entire friendship are the price for returning home, Jo and Raissa must race to find a way to leave the island before they forget each other forever.",
     "fi": "",
@@ -3376,7 +3376,7 @@
    "img": "data/posters/c7eca1af3b9c6236.jpg",
    "r": 0,
    "s": {
-    "en": "Julia travels to her new friend Anna's archipelago summer cottage on a late summer weekend. When Anna's husband JP unexpectedly returns to the island, Julia recognises him as her date rapist from fifteen years ago. Both Julia and JP keep it a secret from Anna that they know each other. Anna begins to feel growing insecurity about her husband's relationship with her new friend. Over the course of the weekend, tensions between the trio deepen.",
+    "en": "Julia, a music producer, travels from Berlin to spend a late-summer weekend with her new friend Anna on a remote Finnish island. They met at a yoga retreat in Estonia and quickly bonded. Anna lives there with her Swedish husband JP, surrounded by wild scenery and a beautifully restored sauna that reminds her of childhood summers with her late grandmother.",
     "fi": ""
    },
    "tr": "",
@@ -3616,7 +3616,7 @@
   "maailman rikkain nainen": {
    "id": 1309725,
    "img": "data/posters/f95f63ecb0aa44e2.jpg",
-   "r": 6.2,
+   "r": 6.1,
    "s": {
     "en": "An elderly billionaire woman gives hundreds of millions of euros to a younger gay artist she is close to. Her daughter files a complaint for abuse of a vulnerable person and a scandal erupts.",
     "fi": "Marianne Farrere on maailman rikkain nainen, kosmetiikka-imperiumin upporikas perijätär. Rahaan turtuu, eikä sillä rakkautta saa. Onneksi vaurauden pesään lehahtaa pöyhkeä pyrkyri, melkein-valokuvaaja, onnenonkija Pierre-Alain (roolissa alati juonikas Laurent Lafitte). Tutustuminen roihahtaa platoniseksi romanssiksi. Marianne syytää valokuvaajalle miljoonia, onhan hauskanpito sen arvoista. Tytär (Marina Fois) yrittää lakikotkien ja hovimestarin avustamana häätää liehittelijän perijättären pankkitilin tienoilta, turhaan. Ilottelua on jatkettava mahdollisimman pitkään. Hilpeitä hävyttömyyksiä hyökyaallon lailla syytävä tarina pohjaa lennokkaasti Liliane Bettencourtin skandaaliin. Laurent Lafitte palkittiin roolistaan parhaan miesnäyttelijän Cesar –pystillä. Magneettinen pääosa on kuin räätälöity jumalaiselle Isabelle Huppertille."
@@ -4800,19 +4800,6 @@
    },
    "tr": ""
   },
-  "piemonten tryffelinmetsästäjät": {
-   "id": 653762,
-   "img": "data/posters/f244ca6e5d8bcf17.jpg",
-   "r": 7.5,
-   "s": {
-    "en": "",
-    "fi": "Syvällä Italian Piemonten metsissä ryhmä 70-80-vuotiaita miehiä etsii kuumeisesti harvinaista ja kallista valkotryffeli Albaa, jota ei vielä ole onnistuttu viljelemään. Heitä ohjaa sukupolvet ylittävä salainen kulttuuri ja tietotaito yhdessä rakkaiden ja koulutettujen koiriensa kanssa. He elävät yksinkertaista elämää eläintensä rinnalla, melkein kuin sadussa. He eivät käytä matkapuhelimia tai internetiä ja valmistavat ruokansa ja juomansa itse, samalla kuitenkin säilyttäen vahvat siteensä yhteiskuntaan. Valkotryffeleiden kysyntä kasvaa vuosi vuodelta, samalla kun tarjonta pienenee. Ilmastonmuutos, metsien hakkuut ja alalta puuttuvat nuoret ihmiset tekevät tryffelinmetsästäjien taidoista entistä kysytympiä.  Mutta nämä miehet piilottelevat jotain paljon arvokkaampaa kuin himottu herkku: avaimen rikkaaseen ja tasapainoiseen elämään."
-   },
-   "tr": "https://www.youtube.com/watch?v=KFYhrc0AnVw",
-   "ts": [
-    "fi"
-   ]
-  },
   "pieni amélie": {
    "r": 0,
    "s": {
@@ -5652,7 +5639,7 @@
   "på svenska bortglömda ön": {
    "id": 1465063,
    "img": "data/posters/9bcaf7ef167a0f8f.jpg",
-   "r": 8.2,
+   "r": 8.1,
    "s": {
     "en": "While celebrating their last night together, high school graduates and best friends Jo and Raissa stumble upon a mysterious portal that transports them to the fantastical island of Nakali. When they discover that the memories of their entire friendship are the price for returning home, Jo and Raissa must race to find a way to leave the island before they forget each other forever.",
     "fi": "DreamWorks Animation on aiemmin tuonut katsojille tarinoita unohtumattomista siteistä pojan ja lohikäärmeen välillä Näin koulutat lohikäärmeesi -elokuvissa, jätin ja aasin välillä Shrek-elokuvissa sekä robotin ja hanhenpoikasen välillä elokuvassa Villi robotti. Nyt luvassa on huikean tunteikas tarina kahdesta parhaasta ystävyksestä, joiden täytyy yhdistää voimansa eron uhatessa elokuvassa Unohdettu saari."
@@ -5815,7 +5802,6 @@
    "kr": "K-16",
    "krs": [
     "biorex",
-    "biosavoy",
     "cinemantsala",
     "gilda",
     "ihmekompleksi",
@@ -5856,7 +5842,6 @@
    "kr": "K-16",
    "krs": [
     "biorex",
-    "biosavoy",
     "cinemantsala",
     "gilda",
     "ihmekompleksi",
@@ -8477,5 +8462,5 @@
    "tr": ""
   }
  },
- "generated": "2026-10-14"
+ "generated": "2026-10-15"
 }
