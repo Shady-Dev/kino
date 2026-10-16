@@ -1093,17 +1093,34 @@ page of the seven tenants rendered)
 - With concessions, passes, gift cards and free tickets set aside by name, 140 of 146
   screenings are left with one ordinary price equal to the drawn amount. Kinokulma's 29,
   Kino Virta's 25 and Kino Hannikainen's 17 are all priced.
-- All 131 amounts the film pages drew agreed with the published one. The 24 screenings a
-  page drew only further down were checked against its `shows.json`, and 22 agreed. Two of
-  Kinokulma's Lapin sota in November were not in that answer.
+- Of the 146, the film pages drew 136. 131 were priced and agreed with the drawn amount,
+  and 5 were blank. The other 10 were not drawn, and 9 of them priced. A `shows.json`
+  check of three films read 24 rows, 15 of them among the 131. All 9 not-drawn priced rows
+  agreed with it once its unpadded dates ("1.11.2026") were read correctly. A first
+  reading reported two as absent, and that was the key's fault.
 - Kino Kulttuurimylly's 5 "Perhekino" screenings sell only "ELOKUVALIPPU ALERYHMÄ 10 €",
-  and the page draws 10,00 €. A discount-group ticket alone establishes no ordinary
-  admission, and they stay unpriced. Vihdin Kino's club screening still has no scheme.
+  and the page draws 10,00 €. The film page says nothing more about who may buy it. A
+  discount-group ticket alone establishes no ordinary admission, and they stay unpriced.
+
+**Positive evidence of an ordinary ticket** (read about 13:50 Helsinki time)
+
+- Each scheme marks one ticket `"default": "1"`. In every multi-ticket scheme it is the
+  full ticket. A scheme of one ticket marks it default even when it is a concession or
+  free ("ELOKUVALIPPU ALERYHMÄ 10 €", "Vapaalippu"). The flag is used as a check and never
+  as evidence on its own. The `canonical` slugs are stale ("Lippu 14 €" has
+  `lippu-13-5-euro`).
+- Every full ticket is named with one word, Elokuvalippu, Lippu, Peruslippu or
+  Oopperalippu, and nothing after it but its amount. "Vauvakino: 12,50 €", sold alone for
+  Kino Kulttuurimylly's baby screening, carries no such name and is now unpriced too.
+- With that rule 139 of 146 were priced. The film pages drew 136. 130 priced ones agreed
+  and 6 were blank, the five Perhekino and the Vauvakino screening. Of the 10 not drawn,
+  9 were priced and all 9 agreed with `shows.json`, and the tenth is Vihdin Kino's club
+  screening, which has no scheme.
 
 **Status and next step**
 
-`johku.py` publishes the ordinary admission where the scheme establishes it, on the
-maintainer's policy of 2026-10-16; the record is in
+`johku.py` publishes the ordinary admission where a ticket named as one establishes it, on
+the maintainer's policy of 2026-10-16; the record is in
 [docs/archive/2026-09-providers.md](../archive/2026-09-providers.md). No next step.
 
 ---

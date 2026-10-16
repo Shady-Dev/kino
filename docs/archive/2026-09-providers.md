@@ -4078,3 +4078,16 @@ screenings were priced and all 131 amounts the film pages drew agreed. Kino Kult
 five family screenings sell only a discount-group ticket and stay unpriced. Thirteen
 mutations red. The findings are in
 [docs/research/ticketing-platforms.md](../research/ticketing-platforms.md).
+
+### Johku's ordinary ticket needs a name that says so (2026-10-16)
+The maintainer tightened the rule the same day. A ticket counts as ordinary only on positive
+evidence, which here is one of the measured full-ticket names, Elokuvalippu, Lippu,
+Peruslippu or Oopperalippu, with nothing after it but its amount, and that amount equal to
+its price. The scheme's `default` ticket must be one of them. A scheme of unknown tickets
+stays unpriced even at the drawn amount, and that now includes Kino Kulttuurimylly's
+"Vauvakino: 12,50 €". The figures above were also miscounted. The 24 `shows.json` rows
+included 15 of the 131 already compared, and the two "absent" ones were a lookup that did not
+pad "1.11.2026". Read again, 139 of 146 screenings were priced, 130 agreed with the film
+pages and 9 not drawn there agreed with `shows.json`, with no disagreement. Sixteen
+mutations red. The findings are in
+[docs/research/ticketing-platforms.md](../research/ticketing-platforms.md).

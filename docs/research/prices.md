@@ -329,8 +329,9 @@ checkout).
 The seven Johku storefronts were a recorded zero because an entry's amount sits beside
 `multipleprices` and nothing said which ticket it was for. Each film page draws one amount
 per screening, and its own `shows.json` request lists the tickets of the screening's price
-scheme. The maintainer set the policy the same day. The ordinary admission is what is left
-once concessions, passes and memberships, gift cards and free tickets are set aside, it must
-agree with the drawn amount, and nothing is chosen by price or position. Read 2026-10-16,
-140 of 146 screenings were priced and 131 of 131 drawn amounts agreed. The findings are in
+scheme. The maintainer set the policy the same day. The ordinary admission is a ticket named
+as the full ticket, with concessions, passes and memberships, gift cards and free tickets set
+aside, it must agree with the drawn amount, and nothing is chosen by price or position. A
+scheme of unknown tickets stays unpriced. Read 2026-10-16, 139 of 146 screenings were priced,
+and all 139 agreed with the film page or its `shows.json`. The findings are in
 [ticketing-platforms.md](ticketing-platforms.md).

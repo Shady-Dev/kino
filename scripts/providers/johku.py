@@ -55,11 +55,13 @@ What shapes the parser:
 - **The price is the ordinary admission, where the ticket scheme establishes it.** An
   entry carries its price scheme and the amount the film page draws for the screening. The
   scheme's tickets come from `shows.json`, the film page's own request, read once per
-  scheme. Concessions, passes and memberships, gift cards and free tickets are set aside
-  by name, and the tickets left must agree on one price, the drawn amount. Nothing is
-  chosen by price or by position. `multipleprices` is not read, because Kino Virta's
-  "Elokuva 11.50" says 0 and also sells an Elämyspassi ticket (2026-10-16). Anything else,
-  and a read that fails, leaves `price` empty (maintainer's policy, 2026-10-16).
+  scheme. An ordinary ticket needs a name that says so, concessions, passes and
+  memberships, gift cards and free tickets are set aside, and the ordinary tickets must
+  agree on one price, the drawn amount. The scheme's default ticket must be one of them.
+  Nothing is chosen by price or by position. `multipleprices` is not read, because Kino
+  Virta's "Elokuva 11.50" says 0 and also sells an Elämyspassi ticket (2026-10-16). A
+  scheme of unknown tickets, anything ambiguous and a read that fails leave `price` empty
+  (maintainer's policy, 2026-10-16).
 - **The artwork is a landscape banner**, 2048x1365 and 2048x857 on the two measured, so
   `img` stays empty and the TMDB pass supplies a portrait poster.
 - **No sold-out state is rendered on a row.** "Loppuunmyyty" appears once per page, inside
@@ -202,6 +204,13 @@ NOT_ORDINARY_RE = re.compile(
     r"passi|\bpass\b|j[äa]sen|member|medlem|sarja|kausi|seteli|voucher|smartum|edenred|"
     r"lahja|gift|present|ilmais|vapaa|\bfri\b|fribiljett|\bfree\b|kutsu|invit",
     re.I)
+
+# The positive evidence for an ordinary ticket: one of the ticket words the measured
+# storefronts gave their full ticket, with nothing after it but its amount ("Elokuvalippu
+# 13 €", "Lippu 14 €", "Peruslippu 11.50", "Oopperalippu 20€", 2026-10-16). A ticket named
+# anything else is of no known kind, and on its own it publishes no price.
+ORDINARY_NAME_RE = re.compile(
+    r"(?:elokuva|perus|ooppera)?lippu(?:\s+(\d{1,3}(?:[.,]\d{1,2})?)\s*(?:€|euroa?)?)?", re.I)
 
 # A paragraph shorter than this is a release note ("Elokuvateattereissa 4.9.") rather than
 # a synopsis. The same length kinola.py uses, for the same reason.
@@ -539,13 +548,15 @@ def rows(site, blocks, now):
 
 def scheme_tickets(shows, scheme):
     """The ticket rows a product's `shows.json` sells under price scheme `scheme`.
-    -> [(name, price)], or None when no screening uses the scheme or two of them disagree."""
+    -> [(name, price, default)], `default` "1" on the ticket the scheme marks as its
+    default, or None when no screening uses the scheme or two of them disagree."""
     found = None
     for s in shows if isinstance(shows, list) else ():
         if not isinstance(s, dict) or str(s.get("pricing_id")) != str(scheme):
             continue
         pricing = s.get("pricing") if isinstance(s.get("pricing"), dict) else {}
-        tickets = sorted((_clean(t.get("name")), str(t.get("price")))
+        tickets = sorted((_clean(t.get("name")), str(t.get("price")),
+                          "1" if str(t.get("default")).strip() == "1" else "")
                          for t in _list(pricing.get("sharedProduct")) if isinstance(t, dict))
         if found is not None and tickets != found:
             return None
@@ -557,23 +568,35 @@ def ordinary_price(amount, tickets):
     """A screening's ordinary admission -> "13.5\u20ac", or "" where its scheme does not
     establish one.
 
-    `amount` is what the film page draws for the screening. The ordinary tickets are the
-    rows left once NOT_ORDINARY_RE and the free ones are set aside, and they must agree on
-    one price, that amount. No row is picked by its price or its place in the list.
+    `amount` is what the film page draws for the screening and `tickets` the scheme's
+    (name, price, default) rows. An ordinary ticket is one ORDINARY_NAME_RE names, with any
+    amount in its name equal to its price, and the ordinary tickets must agree on the drawn
+    amount. Concessions, passes, gift cards and free tickets are set aside. A ticket of no
+    known kind at another price, or a default ticket that is not an ordinary one, settles
+    nothing. No row is picked by its price or its place in the list.
     """
     a = str(amount or "").strip()
     if not tickets or not AMOUNT_RE.fullmatch(a) or Decimal(a) <= 0:
         return ""
-    prices = set()
-    for name, price in tickets:
-        if NOT_ORDINARY_RE.search(name or ""):
-            continue
-        p = str(price or "").strip()
-        if not AMOUNT_RE.fullmatch(p):
+    ordinary = set()
+    for name, price, default in tickets:
+        name, p = (name or "").strip(), str(price or "").strip()
+        named = False
+        if NOT_ORDINARY_RE.search(name):
+            pass
+        elif not AMOUNT_RE.fullmatch(p):
             return ""
-        if Decimal(p) > 0:
-            prices.add(Decimal(p))
-    if prices != {Decimal(a)}:
+        elif Decimal(p) > 0:
+            m = ORDINARY_NAME_RE.fullmatch(name)
+            named = bool(m) and (not m.group(1)
+                                 or Decimal(m.group(1).replace(",", ".")) == Decimal(p))
+            if named:
+                ordinary.add(Decimal(p))
+            elif Decimal(p) != Decimal(a):
+                return ""
+        if default == "1" and not named:
+            return ""
+    if ordinary != {Decimal(a)}:
         return ""
     return f"{Decimal(a).normalize():f}\u20ac"
 
