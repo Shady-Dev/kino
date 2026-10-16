@@ -61,9 +61,9 @@ What shapes the parser:
   the default that is not an ordinary one settles nothing, and a scheme that flags none is
   read by its names. Where the product's own description states one price per person
   ("Liput 12,50€ / hlö"), it settles a scheme whose paid tickets all cost that amount and
-  none is named for a group of people. Where a sentence about the tickets names a group,
-  students or members for instance ("Liput opiskelijoille 8,00€ / hlö"), no screening of
-  that product is priced, whatever its tickets are named (maintainer's instruction,
+  none is named for a group of people. A sentence about the tickets that names a group,
+  students or members for instance ("Liput opiskelijoille 8,00€ / hlö"), states no price,
+  and a price the ticket names establish stands beside it (maintainer's instruction,
   2026-10-16). Nothing is chosen by price or by position. `multipleprices` is not read,
   because Kino Virta's "Elokuva 11.50" says 0 and also sells an Elämyspassi ticket
   (2026-10-16). Anything else, and a read that fails, leaves `price` empty (maintainer's
@@ -576,22 +576,20 @@ def rows(site, blocks, now):
 
 
 def stated_admission(description):
-    """The one price per person a product's own description states -> "12.5", "" where it
-    states none, or None where a sentence about its tickets names a group of people.
+    """The one price per person a product's own description states -> "12.5", or "".
 
     "Perhekinon liput 10,00€ / hlö", "Liput 12,50€ / hlö" and "Liput kaikille vain 9,00€!"
     each state one (Kino Kulttuurimylly, 2026-10-16). "Liput 12,50€ / 10,00€ / hlö" names
     two amounts and states no single admission, and two clauses that disagree state none.
-    In "Jäsenille liput 9,00€ / hlö" the tickets are for members only. Each ticket sentence
-    is read from its start, and the greeting "Tervetuloa Seniorikinoon!" is not one.
+    A ticket sentence that names a group, such as "Jäsenille liput 9,00€ / hlö", states
+    nothing. It is read from its start, and the greeting "Tervetuloa Seniorikinoon!" is not one.
     """
-    sentences = [s for s in SENTENCE_RE.findall(_txt(description))
-                 if TICKET_CLAUSE_RE.search(s)]
-    if any(ELIGIBILITY_RE.search(s) for s in sentences):
-        return None
     stated = set()
-    for sentence in sentences:
-        clause = TICKET_CLAUSE_RE.search(sentence).group(1)
+    for sentence in SENTENCE_RE.findall(_txt(description)):
+        m = TICKET_CLAUSE_RE.search(sentence)
+        if not m or ELIGIBILITY_RE.search(sentence):
+            continue
+        clause = m.group(1)
         if not PER_PERSON_RE.search(clause):
             continue
         amounts = CLAUSE_AMOUNT_RE.findall(clause)
@@ -675,11 +673,10 @@ def ordinary_price(amount, tickets, stated=""):
     and so does a ticket flagged as the default that is not an ordinary one. A scheme that
     flags no default is read by its names alone. Where the names settle nothing, a stated
     price settles a scheme whose paid tickets all cost it. A stated price that is not the
-    drawn amount settles nothing either way, and a statement to a group of people settles
-    nothing at all. No row is picked by its price or its place.
+    drawn amount settles nothing either way. No row is picked by its price or its place.
     """
     a = str(amount or "").strip()
-    if stated is None or not tickets or not AMOUNT_RE.fullmatch(a) or Decimal(a) <= 0:
+    if not tickets or not AMOUNT_RE.fullmatch(a) or Decimal(a) <= 0:
         return ""
     if stated and Decimal(stated) != Decimal(a):
         return ""

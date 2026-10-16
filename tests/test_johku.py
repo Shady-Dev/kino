@@ -720,9 +720,9 @@ class StatedAdmissionTest(unittest.TestCase):
     def test_a_point_between_digits_does_not_end_the_clause(self):
         self.assertEqual(J.stated_admission("Liput 12.50€ / hlö. Tervetuloa!"), "12.5")
 
-    def test_a_ticket_sentence_that_names_a_group_of_people_restricts_the_product(self):
+    def test_a_ticket_sentence_that_names_a_group_of_people_states_nothing(self):
         """"Per person" alone does not mean that anyone may buy. A group named before "liput"
-        counts, and so does one restricted sentence beside an unrestricted one."""
+        counts, and an unrestricted sentence beside it is still read."""
         groups = ("opiskelijan", "jäsenen", "eläkeläisille", "lapsille", "nuorille",
                   "varusmiehille", "työttömille", "kortin haltijoille", "senioreille",
                   "alle 12-vuotiaille", "veteraaneille", "kuntalaisille", "henkilökunnalle",
@@ -731,11 +731,11 @@ class StatedAdmissionTest(unittest.TestCase):
                   "for cardholders")
         for text in ("Liput opiskelijoille 8,00€ / hlö.", "Jäsenille liput 9,00€ / hlö.",
                      "<p>Kerhoilta!</p><p>Kerhon jäsenille liput 9,00€ / hlö</p>",
-                     "Liput 12,50€ / 10,00€ / hlö. Jäsenille liput 9,00€ / hlö.",
-                     "Liput 12,50€ / hlö. Opiskelijoille liput 8,00€ / hlö.",
                      *(f"Liput {group} 8,00€ / hlö." for group in groups)):
             with self.subTest(text=text):
-                self.assertIsNone(J.stated_admission(text))
+                self.assertEqual(J.stated_admission(text), "")
+        self.assertEqual(
+            J.stated_admission("Liput 12,50€ / hlö. Opiskelijoille liput 8,00€ / hlö."), "12.5")
 
 
 class StatedPriceTest(unittest.TestCase):
@@ -775,17 +775,28 @@ class StatedPriceTest(unittest.TestCase):
         self.assertEqual(J.ordinary_price("9", [("ELOKUVALIPPU 9,00 €", "9", "1")], "9"), "9€")
 
     def test_the_maintainers_student_and_member_examples_stay_blank(self):
-        """2026-10-16: the one ticket at the stated amount, of no known kind, named for
-        the students, or named as the full ticket."""
+        """2026-10-16: the one ticket at the stated amount, of no known kind or named for the
+        students."""
         for text, amount, tickets in (
                 ("Liput opiskelijoille 8,00€ / hlö.", "8", [("Erikoisnäytös", "8", "1")]),
                 ("Liput opiskelijoille 8,00€ / hlö.", "8", [("Opiskelijalippu 8 €", "8", "1")]),
-                ("Jäsenille liput 9,00€ / hlö.", "9", [("Teemailta", "9", "1")]),
-                ("Jäsenille liput 9,00€ / hlö.", "9", [("Elokuvalippu 9 €", "9", "1")])):
+                ("Jäsenille liput 9,00€ / hlö.", "9", [("Teemailta", "9", "1")])):
             with self.subTest(text=text, tickets=tickets):
                 self.assertEqual(J.ordinary_price(amount, tickets, J.stated_admission(text)),
                                  "")
-        self.assertEqual(J.ordinary_price("9", [("Elokuvalippu 9 €", "9", "1")]), "9€")
+
+    def test_a_concession_beside_the_full_ticket_leaves_its_price_standing(self):
+        """The 13€/10€ case and a members' statement, each beside a ticket named as the full
+        ticket. 377b1f6f6 left them unpriced."""
+        tickets = [("Elokuvalippu 13 €", "13", "1"), ("Opiskelijalippu 10 €", "10", "")]
+        for text in ("Liput 13,00€ / hlö, opiskelijat ja eläkeläiset 10,00€.",
+                     "Liput 13,00€ / 10,00€ / hlö (opiskelijat ja eläkeläiset).",
+                     "Liput 13,00€ / hlö. Opiskelijoille liput 10,00€ / hlö."):
+            with self.subTest(text=text):
+                self.assertEqual(J.ordinary_price("13", tickets, J.stated_admission(text)),
+                                 "13€")
+        self.assertEqual(J.ordinary_price("9", [("Elokuvalippu 9 €", "9", "1")], J.stated_admission(
+            "Jäsenille liput 9,00€ / hlö.")), "9€")
 
     def test_a_paid_ticket_named_for_a_group_of_people_settles_nothing(self):
         """The statement here is to everyone. A free ticket for a group beside the admission
@@ -948,9 +959,10 @@ class ParseTest(unittest.TestCase):
         shows, _ = J.parse(MARILYN, blocks, {}, NOW, tickets)
         self.assertEqual([s["price"] for s in shows["biomarilyn-lapua"]], ["12.5€", ""])
 
-    def test_a_product_whose_ticket_sentence_names_a_group_publishes_no_price(self):
-        """Kino Kulttuurimylly's measured screenings are priced as before, and the same schemes
-        are left unpriced under a statement to students or to members."""
+    def test_a_statement_to_a_group_prices_nothing_and_blocks_nothing(self):
+        """Kino Kulttuurimylly's measured screenings are priced as before. A statement to
+        students or members prices nothing, and a concession beside the full ticket blocks
+        nothing."""
         blocks = blocks_of(front((1, [
             entry("1", "Vauvakino: Pirjo i Sverige", "2026-10-09 12:45", product="608",
                   scheme="29", price="12.5", description="<p>Tervetuloa Kino "
@@ -968,18 +980,23 @@ class ParseTest(unittest.TestCase):
                   "Kulttuurimylly!</p>"),
             entry("5", "Opiskelijailta", "2026-10-10 18:00", product="700", scheme="29",
                   price="12.5", description="<p>Liput opiskelijoille 12,50€ / hlö.</p>"),
-            entry("6", "Kerhoilta", "2026-10-11 18:00", product="701", scheme="19",
-                  price="9", description="<p>Jäsenille liput 9,00€ / hlö.</p>")])))
+            entry("6", "Kerhoilta", "2026-10-11 18:00", product="701", scheme="41",
+                  price="9", description="<p>Jäsenille liput 9,00€ / hlö.</p>"),
+            entry("7", "Lapin Sota", "2026-10-11 20:00", product="610", scheme="40",
+                  price="13", description="<p>Liput 13,00€ / hlö, opiskelijat ja eläkeläiset "
+                  "10,00€.</p>")])))
         tickets = {"29": [("Vauvakino: 12,50 €", "12.5", "1")],
                    "15": [("ELOKUVALIPPU ALERYHMÄ 10 €", "10", "1")],
-                   "19": [("ELOKUVALIPPU 9,00 €", "9", "1")]}
+                   "19": [("ELOKUVALIPPU 9,00 €", "9", "1")],
+                   "41": [("Teemailta", "9", "1")],
+                   "40": [("Elokuvalippu 13 €", "13", "1"), ("Opiskelijalippu 10 €", "10", "")]}
         shows, _ = J.parse(MARILYN, blocks, {}, NOW, tickets)
         self.assertEqual([(s["title"], s["price"]) for s in shows["biomarilyn-lapua"]],
                          [("Vauvakino: Pirjo i Sverige", "12.5€"),
                           ("Perhekino: Unohdettu Saari", "10€"),
                           ("Perhekino: Pikkuli Ja Tähtipeura", "10€"),
                           ("Seniorikino: Pirjo i Sverige", "9€"),
-                          ("Opiskelijailta", ""), ("Kerhoilta", "")])
+                          ("Opiskelijailta", ""), ("Kerhoilta", ""), ("Lapin Sota", "13€")])
 
     def test_the_show_shape(self):
         shows, _ = J.parse(MARILYN, self.blocks(), self.pages(), NOW)

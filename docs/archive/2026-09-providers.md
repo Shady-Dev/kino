@@ -4123,3 +4123,10 @@ because Kino Kulttuurimylly's "Tervetuloa Seniorikinoon!" greets the audience. T
 Vauvakino, Perhekino and Seniorikino prices are unchanged. Fifteen mutations red, and the
 thirty of the records above still red. The findings are in
 [docs/research/ticketing-platforms.md](../research/ticketing-platforms.md).
+
+### Johku: a group's statement leaves a price set by the ticket names (2026-10-16)
+The maintainer narrowed the rule above the same day. It also blanked prices the ticket names
+establish, and "Liput 13,00€ / hlö, opiskelijat ja eläkeläiset 10,00€" beside "Elokuvalippu
+13 €" and a 10 € student ticket went unpriced. A ticket sentence that names a group now
+states no price and blocks nothing. A statement to students or members beside tickets of no
+ordinary name still leaves the screening unpriced. Fourteen mutations red.

@@ -1161,8 +1161,9 @@ on the seven front pages)
 
 `johku.py` publishes the ordinary admission where a ticket named as one, or the product's
 own per-person statement, establishes it, on the maintainer's policy of 2026-10-16. A
-product whose ticket sentence names a group of people is left unpriced, and a stated price
-settles nothing where a paid ticket is named for one. The record is in
+ticket sentence that names a group of people states no price, and a stated price settles
+nothing where a paid ticket is named for one. A price the ticket names establish stands
+beside such a sentence. The record is in
 [docs/archive/2026-09-providers.md](../archive/2026-09-providers.md). No next step.
 
 ---

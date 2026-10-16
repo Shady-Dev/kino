@@ -335,6 +335,6 @@ aside, it must agree with the drawn amount, and nothing is chosen by price or po
 description that states one price per person ("Liput 12,50€ / hlö") settles a scheme whose
 paid tickets all cost it, and a scheme of unknown tickets with no such statement stays
 unpriced. A statement whose sentence names a group of people, students or members for
-instance, settles nothing, and its product stays unpriced whatever its tickets are named.
+instance, settles nothing, and a price the ticket names establish stands beside it.
 Read 2026-10-16, 143 of 144 screenings were priced, and all 143 agreed with the film page or
 its `shows.json`. The findings are in [ticketing-platforms.md](ticketing-platforms.md).
