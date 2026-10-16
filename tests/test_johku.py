@@ -1086,8 +1086,9 @@ class RunnerTest(unittest.TestCase):
     KINOKULMA_12 = ("31", [("Elokuvalippu 10 € (eläkeläiset, varushenkilöt, opiskelijat ja "
                             "lapset 0-11v)", "10"), ("Elokuvalippu 12 €", "12")])
 
-    def test_prices_come_from_one_shows_read_per_scheme(self):
-        """Scheme 31 says `multipleprices` 1 and is read like the others."""
+    def test_each_scheme_costs_one_read_and_a_shared_one_costs_none(self):
+        """Scheme 31 says `multipleprices` 1 and is read like the others. A and B share
+        scheme 6, and product 2 is not read once product 1's answer has carried it."""
         self.serve(self.all_sites(**self.priced_marilyn(), **{
             self.shows_url("1"): shows_json(("6", [("Elokuvalippu 15 €", "15")])),
             self.shows_url("3"): shows_json(("8", [("Elokuvalippu 12,50 €", "12.5")])),
@@ -1097,9 +1098,44 @@ class RunnerTest(unittest.TestCase):
         self.assertEqual([(s["title"], s["price"]) for s in self.shows("biomarilyn-lapua")],
                          [("A", "15€"), ("B", "15€"), ("C", "12.5€"), ("D", "12€")])
         self.assertEqual([c for c in self.calls if "shows.json" in c],
-                         [self.shows_url("4"), self.shows_url("1"), self.shows_url("3")])
+                         [self.shows_url("1"), self.shows_url("3"), self.shows_url("4")])
         self.assertIn("[biomarilyn] prices for 4 of 4 screening(s); 3 of 3 price scheme(s) "
-                      "read establish an ordinary ticket", log)
+                      "read establish an ordinary ticket, from 3 shows.json read(s)", log)
+
+    def test_one_read_covers_every_scheme_its_product_uses(self):
+        """Measured 2026-10-16: Kinokulma's Lapin sota sells under three schemes, and its
+        answer settled all three, where reading one product per scheme took more reads."""
+        base = MARILYN["base"]
+        shows = {base + "/": front((1, [
+            entry("q1", "A", "2026-10-09 17:00", product="2", host=base, scheme="6", price="14"),
+            entry("q2", "A", "2026-10-10 17:00", product="2", host=base, scheme="30",
+                  price="13"),
+            entry("q3", "B", "2026-10-10 19:00", product="1", host=base, scheme="30",
+                  price="13")]))}
+        shows.update({f"{base}/fi_FI/{s}": film() for s in "ab"})
+        self.serve(self.all_sites(**shows, **{self.shows_url("2"): shows_json(
+            ("6", [("Lippu 14 €", "14", "1")]), ("30", [("Elokuvalippu 13 €", "13", "1")]))}))
+        code, log = self.main()
+        self.assertEqual(code, 0, log)
+        self.assertEqual([s["price"] for s in self.shows("biomarilyn-lapua")],
+                         ["14€", "13€", "13€"])
+        self.assertEqual([c for c in self.calls if "shows.json" in c], [self.shows_url("2")])
+
+    def test_a_scheme_one_answer_lacks_is_read_from_another_product(self):
+        base = MARILYN["base"]
+        shows = {base + "/": front((1, [
+            entry("r1", "A", "2026-10-09 17:00", product="1", host=base, scheme="6", price="15"),
+            entry("r2", "B", "2026-10-09 19:00", product="2", host=base, scheme="6",
+                  price="15")]))}
+        shows.update({f"{base}/fi_FI/{s}": film() for s in "ab"})
+        self.serve(self.all_sites(**shows, **{
+            self.shows_url("1"): shows_json(("9", [("Lippu 9 €", "9", "1")])),
+            self.shows_url("2"): shows_json(("6", [("Elokuvalippu 15 €", "15", "1")]))}))
+        code, log = self.main()
+        self.assertEqual(code, 0, log)
+        self.assertEqual([s["price"] for s in self.shows("biomarilyn-lapua")], ["15€", "15€"])
+        self.assertEqual([c for c in self.calls if "shows.json" in c],
+                         [self.shows_url("1"), self.shows_url("2")])
 
     def test_a_shows_read_that_fails_costs_its_screenings_their_price(self):
         self.serve(self.all_sites(**self.priced_marilyn(), **{
@@ -1110,9 +1146,9 @@ class RunnerTest(unittest.TestCase):
         self.assertEqual(code, 0, log)
         self.assertEqual([(s["title"], s["price"]) for s in self.shows("biomarilyn-lapua")],
                          [("A", ""), ("B", ""), ("C", "12.5€"), ("D", "12€")])
-        self.assertIn("[biomarilyn] price scheme 6 not read (RuntimeError: HTTP 502)", log)
+        self.assertIn("[biomarilyn] price scheme(s) 6 not read (RuntimeError: HTTP 502)", log)
         self.assertIn("[biomarilyn] prices for 2 of 4 screening(s); 2 of 2 price scheme(s) "
-                      "read establish an ordinary ticket", log)
+                      "read establish an ordinary ticket, from 3 shows.json read(s)", log)
 
     def test_the_reads_are_paced(self):
         waits = []

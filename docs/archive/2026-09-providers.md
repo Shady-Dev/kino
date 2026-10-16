@@ -4103,3 +4103,11 @@ the drawn amount. A statement of two prices settles nothing. All 15 of the cinem
 screenings were priced, 143 of 144 across the seven, and every priced one agreed with the
 storefront. Eleven mutations red, and the sixteen of the record above still red. The
 findings are in [docs/research/ticketing-platforms.md](../research/ticketing-platforms.md).
+
+### Johku reads the fewest products that cover every scheme (2026-10-16)
+The reads were planned one per scheme, and one product's answer carries every scheme its
+screenings use, as the front page already shows. Reading only the products that cover every
+scheme took 21 `shows.json` requests where one per scheme took 25, and no URL had been read
+twice. Before prices were read, a run made 74 to 76 Johku requests in all, and f5db5800b made
+99. A scheme an answer lacks is read from another product that uses it. Three mutations red.
+The findings are in [docs/research/ticketing-platforms.md](../research/ticketing-platforms.md).

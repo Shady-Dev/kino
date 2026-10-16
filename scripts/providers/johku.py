@@ -54,8 +54,9 @@ What shapes the parser:
   files stand.
 - **The price is the ordinary admission, where the source establishes it.** An entry
   carries its price scheme and the amount the film page draws for the screening. The
-  scheme's tickets come from `shows.json`, the film page's own request, read once per
-  scheme. An ordinary ticket needs a name that says so, concessions, passes and memberships, gift cards and free tickets are set aside,
+  scheme's tickets come from `shows.json`, the film page's own request, and the fewest
+  products whose answers cover every scheme are read. An ordinary ticket needs a name that
+  says so, concessions, passes and memberships, gift cards and free tickets are set aside,
   and the ordinary tickets must agree on one price, the drawn amount. A ticket flagged as
   the default that is not an ordinary one settles nothing, and a scheme that flags none is
   read by its names. Where the product's own description states one price per person
@@ -657,29 +658,48 @@ def ordinary_price(amount, tickets, stated=""):
 
 
 def tickets_by_scheme(site, listed, sleep):
-    """{scheme: ticket rows} for each price scheme the film screenings use, one `shows.json`
-    read per scheme. A read that fails leaves its scheme out."""
+    """{scheme: ticket rows} for each price scheme the film screenings use.
+
+    One `shows.json` answer carries every scheme its product's screenings use, and the front
+    page says which those are. The products are read in the order that covers the most
+    schemes still open, and a product whose schemes an earlier answer settled is not read.
+    A read that fails leaves its schemes out."""
     pid = site["provider"]
-    first = {}
+    uses, shop = {}, {}
     for r in listed:
         if (r["scheme"] and r["amount"] and SHOP_RE.fullmatch(r["shop"])
                 and r["product"].isdigit() and PRODUCT_PATH not in r["url"]
                 and not not_film(site, r["url"])):
-            first.setdefault(r["scheme"], r)
-    out = {}
-    for n, (scheme, r) in enumerate(capped(sorted(first.items()), pid)):
-        if n:
-            time.sleep(sleep)
-        url = site["base"].rstrip("/") + SHOWS_PATH.format(shop=r["shop"], product=r["product"])
-        try:
-            tickets = scheme_tickets(json.loads(get(url)), scheme)
-        except Exception as e:
-            print(f"[{pid}] price scheme {scheme} not read ({type(e).__name__}: {e}); its "
-                  f"screenings publish without a price")
+            uses.setdefault(r["product"], set()).add(r["scheme"])
+            shop.setdefault(r["product"], r["shop"])
+    plan, left, pool = [], set().union(*uses.values()), dict(uses)
+    while left:
+        product = max(sorted(pool), key=lambda p: len(pool[p] & left))
+        left -= pool.pop(product)
+        plan.append(product)
+    # The rest follow, read only for a scheme an earlier answer did not carry.
+    plan += sorted(pool)
+    out, open_, reads = {}, set().union(*uses.values()), 0
+    for product in capped(plan, pid):
+        if not uses[product] & open_:
             continue
-        if tickets is not None:
-            out[scheme] = tickets
-    return out
+        if reads:
+            time.sleep(sleep)
+        reads += 1
+        url = site["base"].rstrip("/") + SHOWS_PATH.format(shop=shop[product], product=product)
+        try:
+            shows = json.loads(get(url))
+        except Exception as e:
+            print(f"[{pid}] price scheme(s) {', '.join(sorted(uses[product] & open_))} not "
+                  f"read ({type(e).__name__}: {e}); their screenings publish without a price")
+            open_ -= uses[product]
+            continue
+        for scheme in sorted(open_):
+            tickets = scheme_tickets(shows, scheme)
+            if tickets is not None:
+                out[scheme] = tickets
+                open_.discard(scheme)
+    return out, reads
 
 
 def _translative(phrase):
@@ -842,7 +862,7 @@ def fetch_site(site, sleep=1.2):
         except Exception as e:
             print(f"[{pid}] film page {url.rsplit('/', 1)[-1]} failed ({e}); the screening "
                   f"publishes without its synopsis and genres")
-    tickets = tickets_by_scheme(site, listed, sleep)
+    tickets, reads = tickets_by_scheme(site, listed, sleep)
     per_venue, report = parse(site, blocks, pages, when, tickets)
     check_shows(per_venue, pid, {v["id"] for v in site["venues"]})
     print(f"[{pid}] {len(listed)} screening(s) in {len(blocks)} schedule block(s), "
@@ -852,7 +872,7 @@ def fetch_site(site, sleep=1.2):
                if ordinary_price(r["amount"], tickets.get(r["scheme"]), r["stated"])}
     print(f"[{pid}] prices for {sum(1 for s in published if s['price'])} of "
           f"{len(published)} screening(s); {len(settled)} of {len(tickets)} price scheme(s) "
-          f"read establish an ordinary ticket")
+          f"read establish an ordinary ticket, from {reads} shows.json read(s)")
     if report["skipped"]:
         print(f"[{pid}] {len(report['skipped'])} coming-soon entry/entries with no time, "
               f"left out: {', '.join(sorted(set(report['skipped']))[:8])}")

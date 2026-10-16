@@ -1130,6 +1130,17 @@ on the seven front pages)
   priced, and 143 of 144 across the seven. All 134 drawn on the film pages agreed, and the
   9 not drawn agreed with `shows.json`.
 
+**The read overhead** (the committed run logs, and the read plan replayed on the live front
+pages about 15:05 Helsinki time)
+
+- The five cloud runs before prices were read, 2026-10-15 15:13 to 2026-10-16 07:27 UTC,
+  made 74 to 76 Johku requests, with 151 to 187 s of fetching summed and 60 to 66 s of
+  module wall time. f5db5800b, reading one `shows.json` per scheme, made 99, and all 25 new
+  ones were answered no-store. Its fetching summed 234.8 s and its wall time 77.9 s.
+- No URL was read twice. Bio Marilyn's product 1071 and Kinokulma's Lapin sota carry
+  more than one scheme in their answers, and reading by products that cover every scheme
+  took 21 reads where one per scheme took 25.
+
 **Status and next step**
 
 `johku.py` publishes the ordinary admission where a ticket named as one, or the product's
