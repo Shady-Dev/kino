@@ -8,10 +8,9 @@
 [schedule] 2026-10-21: 389 showtimes
 [schedule] 2026-10-22: 391 showtimes
 [tmdb] no TMDB match (4): Fallen Angels by Noël Coward | Nälkäpeli- elokuvamaraton | Ooppera: Macbeth | Suomen Kansallisbaletti: Joutsenlampi
-[tmdb] weak match, no exact title (4): Jailer 2 -> ஜெயிலர் 2 | Matloob Aelian -> مطلوب آيليان | Rose -> Rose | Two Seasons, Two Strangers -> 旅と日々
-[tmdb] rating held back, under 25 votes (4): Bamse ja meren salaisuus (6.3 / 9 votes) | Jailer 2 (6.0 / 1 votes) | Matloob Aelian (1.0 / 1 votes) | Two Seasons, Two Strangers (7.1 / 16 votes)
-[tmdb] rating refresh: 12 scheduled, 12 re-read, 0 failed and still due, 13 deferred (budget 12)
-[tmdb] 5 new lookups, 25 re-checks, cache 108, 93 mergeable by id
+[tmdb] weak candidate kept, not searched until 2026-10-17 (4): Jailer 2 -> ஜெயிலர் 2 | Matloob Aelian -> مطلوب آيليان | Rose -> Rose | Two Seasons, Two Strangers -> 旅と日々
+[tmdb] rating refresh: 12 scheduled, 12 re-read, 0 failed and still due, 1 deferred (budget 12)
+[tmdb] 0 new lookups, 12 re-checks, cache 108, 93 mergeable by id
 [films] 2 character(s) restored from another chain's copy
 [films] 66 film entries
 [attrs] dropped, neither format nor language (9): Ennakko | Klassikko | Maxim | OCAP | Pkseutu | SEVERAL | TKU & R | Tampere | Varaus20
