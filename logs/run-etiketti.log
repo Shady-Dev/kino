@@ -36,10 +36,10 @@
 [kkino] screening-note sentences left out of synopses: 1
 [biograni] Bio Grani: 11 showtimes, 7 dates
 [biograni] synopses merged: 0
-[niagara] Cinema Niagara: 47 showtimes, 20 dates
+[niagara] Cinema Niagara: 50 showtimes, 21 dates
 [niagara] synopses merged: 0
 [run] http: 0 revalidated (304), 329 full, 329 not stored (origin said no-store), 0 cache entries written
 [run] hosts: 16 attempted -- biogrand.fi, biograni.fi, biovuoksi.fi, cinemaniagara.fi, ihmekompleksi.fi, jamsankinotar.fi, k-kino.fi, kino123.fi, kinoiiris.com, kinojuha.fi, kinopirtti.fi, kotkanleffat.fi, leffabuumi.fi, studio123.fi, studiot123.com, www.biorex.org
-[run] etiketti: 20 venues, 856 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
-[run] timing: 16 site(s), 546.1s of fetching added up across workers that overlap, longest site 63.0s, longest queue wait 65.6s, 128.6s wall from this module's first fetch starting to its last ending
+[run] etiketti: 20 venues, 859 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
+[run] timing: 16 site(s), 550.4s of fetching added up across workers that overlap, longest site 64.6s, longest queue wait 65.0s, 129.6s wall from this module's first fetch starting to its last ending
 exit=0
