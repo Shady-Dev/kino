@@ -4111,3 +4111,14 @@ scheme took 21 `shows.json` requests where one per scheme took 25, and no URL ha
 twice. Before prices were read, a run made 74 to 76 Johku requests in all, and f5db5800b made
 99. A scheme an answer lacks is read from another product that uses it. Three mutations red.
 The findings are in [docs/research/ticketing-platforms.md](../research/ticketing-platforms.md).
+
+### Johku: a statement to a group of people prices nothing (2026-10-16)
+The maintainer pointed out that a price per person does not open the admission to everyone.
+"Liput opiskelijoille 8,00€ / hlö" beside one 8 € ticket would have published 8 €, and so
+would "Jäsenille liput 9,00€ / hlö", where the group stands before "liput". A ticket sentence
+is now read from its start for a group of people, and one that names a group leaves its
+product unpriced whatever the tickets are named. The stated price also refuses a paid ticket
+named for a group. Other sentences are not read, because Kino Kulttuurimylly's "Tervetuloa
+Seniorikinoon!" greets the audience. The measured Vauvakino, Perhekino and Seniorikino prices
+hold. Fifteen mutations red, and the thirty of the records above still red. The findings are
+in [docs/research/ticketing-platforms.md](../research/ticketing-platforms.md).

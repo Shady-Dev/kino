@@ -1141,12 +1141,29 @@ pages about 15:05 Helsinki time)
   more than one scheme in their answers, and reading by products that cover every scheme
   took 21 reads where one per scheme took 25.
 
+**Who a statement sells to** (read about 16:15 Helsinki time, every product description on
+the seven front pages)
+
+- The front pages carried the same 86 product descriptions. 11 carry a sentence with
+  "liput" or "lippu", all of them Kino Kulttuurimylly's, and none of those sentences
+  names a group of people. The Perhekino and Vauvakino products name their screening type
+  ("Perhekinon liput", "Vauvakinoon"), and the Perhekino ticket "ELOKUVALIPPU ALERYHMÄ 10 €"
+  names a price group.
+- Over whole descriptions the words for groups of people match 11 other sentences. They are
+  synopsis text, such as "nuoren naisen" in Kerro Kaikille's, and the greeting "Tervetuloa
+  Seniorikinoon!" before "Liput kaikille vain 9,00€!".
+- With the ticket sentence and the ticket names read for groups of people, 141 of 142
+  screenings were priced from 21 `shows.json` reads. The programme had two screenings fewer
+  than at 15:00, and the blank one is Vihdin Kino's club screening, which has no price
+  scheme. All 141 agreed with the film page or its `shows.json`.
+
 **Status and next step**
 
 `johku.py` publishes the ordinary admission where a ticket named as one, or the product's
-own per-person statement, establishes it, on the maintainer's policy of 2026-10-16; the
-record is in [docs/archive/2026-09-providers.md](../archive/2026-09-providers.md). No next
-step.
+own per-person statement, establishes it, on the maintainer's policy of 2026-10-16. A
+ticket sentence that names a group of people leaves its product unpriced, and the
+statement never settles a paid ticket named for one. The record is in
+[docs/archive/2026-09-providers.md](../archive/2026-09-providers.md). No next step.
 
 ---
 

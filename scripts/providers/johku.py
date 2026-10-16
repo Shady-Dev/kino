@@ -60,11 +60,14 @@ What shapes the parser:
   and the ordinary tickets must agree on one price, the drawn amount. A ticket flagged as
   the default that is not an ordinary one settles nothing, and a scheme that flags none is
   read by its names. Where the product's own description states one price per person
-  ("Liput 12,50€ / hlö"), it settles a scheme whose paid tickets all cost that amount.
-  Nothing is chosen by price or by position. `multipleprices` is not read, because Kino
-  Virta's "Elokuva 11.50" says 0 and also sells an Elämyspassi ticket (2026-10-16).
-  Anything else, and a read that fails, leaves `price` empty (maintainer's policy,
-  2026-10-16).
+  ("Liput 12,50€ / hlö"), it settles a scheme whose paid tickets all cost that amount and
+  none is named for a group of people. A sentence about the tickets that names a group,
+  students or members for instance ("Liput opiskelijoille 8,00€ / hlö"), leaves every
+  screening of that product without a price, whatever its tickets are named (maintainer's
+  instruction, 2026-10-16). Nothing is chosen by price or by position. `multipleprices` is
+  not read, because Kino Virta's "Elokuva 11.50" says 0 and also sells an Elämyspassi ticket
+  (2026-10-16). Anything else, and a read that fails, leaves `price` empty (maintainer's
+  policy, 2026-10-16).
 - **The artwork is a landscape banner**, 2048x1365 and 2048x857 on the two measured, so
   `img` stays empty and the TMDB pass supplies a portrait poster.
 - **No sold-out state is rendered on a row.** "Loppuunmyyty" appears once per page, inside
@@ -215,12 +218,27 @@ NOT_ORDINARY_RE = re.compile(
 ORDINARY_NAME_RE = re.compile(
     r"(?:elokuva|perus|ooppera)?lippu(?:\s+(\d{1,3}(?:[.,]\d{1,2})?)\s*(?:€|euroa?)?)?", re.I)
 
-# A product description's ticket clause, from "liput" or "lippu" to the end of its sentence
-# (a point between digits does not end it), its amounts, and the words that make it a price
-# per person.
+# A description's sentences and a sentence's ticket clause, from "liput" or "lippu" to its
+# end (a point between digits ends neither), the clause's amounts and the per-person words.
+SENTENCE_RE = re.compile(r"(?:[^.!?]|(?<=\d)\.(?=\d))+")
 TICKET_CLAUSE_RE = re.compile(r"\b(?:liput|lippu)\b((?:[^.!?]|(?<=\d)\.(?=\d))*)", re.I)
 CLAUSE_AMOUNT_RE = re.compile(r"(\d{1,3}(?:[.,]\d{1,2})?)\s*€")
 PER_PERSON_RE = re.compile(r"/\s*(?:hlö|henkilö)\b|\bkaikille\b", re.I)
+
+# A group of people a ticket sentence or a ticket's name sells to, in Finnish, Swedish and
+# English. Screening types ("Perhekinon", "Vauvakinoon") and the price group ALERYHMÄ name none.
+ELIGIBILITY_RE = re.compile(
+    r"opiskelij|koululai|lukiolai|ylioppila|studer|student|\belev|j[\u00e4a]sen|kerholai|"
+    r"medlem|\bmember|el[\u00e4a]k[ek]|\bpension|senior|ik[\u00e4a]ihmi|"
+    r"laps|lasten|nuor|junior|barn|ungdom|\bunga\b|child|\bkid|youth|\bteen|vuotia|"
+    r"\u00e5ring|\d\s*v\b|\d\s*\u00e5r\b|"
+    r"varus(?:mie|henkil)|siviilipalvelus|asevelvol|bev[\u00e4a]ring|v[\u00e4a]rnplikt|"
+    r"conscript|military|ty[\u00f6o]tt[\u00f6o]m|ty[\u00f6o]t[\u00f6o]n|arbetsl[\u00f6o]s|"
+    r"unemploy|haltij|kanta-?asiak|etukort|passi|innehavare|stamkund|holder|"
+    r"veteraan|veteran|asuk(?:ka|as)|kuntalai|inv\u00e5nare|\bresident|henkil\u00f6kun|"
+    r"henkil\u00f6st\u00f6|ty\u00f6ntekij|staff|employee|kutsuvier|inbjud|invit|vammai|"
+    r"invalid|handikapp|funktionsneds|disab|saattaj|avustaj|ledsag|companion|\bcarer",
+    re.I)
 
 # A paragraph shorter than this is a release note ("Elokuvateattereissa 4.9.") rather than
 # a synopsis. The same length kinola.py uses, for the same reason.
@@ -558,14 +576,22 @@ def rows(site, blocks, now):
 
 
 def stated_admission(description):
-    """The one price per person a product's own description states -> "12.5", or "".
+    """The one price per person a product's own description states -> "12.5", "" where it
+    states none, or None where a sentence about its tickets names a group of people.
 
     "Perhekinon liput 10,00€ / hlö", "Liput 12,50€ / hlö" and "Liput kaikille vain 9,00€!"
     each state one (Kino Kulttuurimylly, 2026-10-16). "Liput 12,50€ / 10,00€ / hlö" names
     two amounts and states no single admission, and two clauses that disagree state none.
+    "Jäsenille liput 9,00€ / hlö" sells to members, and the sentence is read from its start.
+    The greeting "Tervetuloa Seniorikinoon!" is another sentence and is not read.
     """
+    sentences = [s for s in SENTENCE_RE.findall(_txt(description))
+                 if TICKET_CLAUSE_RE.search(s)]
+    if any(ELIGIBILITY_RE.search(s) for s in sentences):
+        return None
     stated = set()
-    for clause in TICKET_CLAUSE_RE.findall(_txt(description)):
+    for sentence in sentences:
+        clause = TICKET_CLAUSE_RE.search(sentence).group(1)
         if not PER_PERSON_RE.search(clause):
             continue
         amounts = CLAUSE_AMOUNT_RE.findall(clause)
@@ -621,14 +647,16 @@ def _named_price(a, tickets):
 
 
 def _stated_price(a, tickets):
-    """The drawn amount `a` where every paid ticket costs it, else "". Only for a screening
-    whose own description states that one price per person."""
+    """The drawn amount `a` where every paid ticket costs it and none is named for a group
+    of people, else "". Only for a screening whose description states one price per person."""
     paid = set()
-    for _, price, default in tickets:
+    for name, price, default in tickets:
         p = str(price or "").strip()
         if not AMOUNT_RE.fullmatch(p):
             return ""
         if Decimal(p) > 0:
+            if ELIGIBILITY_RE.search(name or ""):
+                return ""
             paid.add(Decimal(p))
         if default == "1" and Decimal(p) != Decimal(a):
             return ""
@@ -640,17 +668,18 @@ def ordinary_price(amount, tickets, stated=""):
     establish one.
 
     `amount` is what the film page draws for the screening, `tickets` the scheme's
-    (name, price, default) rows and `stated` the one price per person the product's own
-    description gives, if any. Tickets ORDINARY_NAME_RE names, with any amount in the name
+    (name, price, default) rows and `stated` what `stated_admission` reads in the product's
+    own description. Tickets ORDINARY_NAME_RE names, with any amount in the name
     equal to the price, must agree on the drawn amount, with concessions, passes, gift cards
     and free tickets set aside. A ticket of no known kind at another price settles nothing,
     and so does a ticket flagged as the default that is not an ordinary one. A scheme that
     flags no default is read by its names alone. Where the names settle nothing, a stated
     price settles a scheme whose paid tickets all cost it. A stated price that is not the
-    drawn amount settles nothing either way. No row is picked by its price or its place.
+    drawn amount settles nothing either way, and a statement to a group of people settles
+    nothing at all. No row is picked by its price or its place.
     """
     a = str(amount or "").strip()
-    if not tickets or not AMOUNT_RE.fullmatch(a) or Decimal(a) <= 0:
+    if stated is None or not tickets or not AMOUNT_RE.fullmatch(a) or Decimal(a) <= 0:
         return ""
     if stated and Decimal(stated) != Decimal(a):
         return ""
