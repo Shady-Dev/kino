@@ -481,19 +481,6 @@
    },
    "tr": ""
   },
-  "bad painter taidekaupungin elokuvajuhlat": {
-   "id": 925496,
-   "img": "data/posters/30e9460cadad18f6.jpg",
-   "r": 0,
-   "s": {
-    "en": "Albert Oehlen steps behind the camera to present a portrait of himself, in life and at work, albeit substituted by actor and similarly brazen iconoclast Udo Kier, with musician Kim Gordon as his inner self, interviewer and judge.",
-    "fi": ""
-   },
-   "tr": "",
-   "ts": [
-    "en"
-   ]
-  },
   "baletti pähkinänsärkijä": {
    "r": 0,
    "s": {
@@ -563,16 +550,12 @@
   },
   "belle epoque muutosten aika": {
    "id": 2470,
-   "img": "data/posters/6b6c9428761a1553.jpg",
-   "r": 6.7,
+   "r": 0,
    "s": {
-    "en": "In 1931, a young soldier deserts from the army and falls into a country farm, where he is welcomed by the owner due to his political ideas. Manolo has four daughters, Fernando likes all of them and they like him, so he has to decide which one to love.",
+    "en": "",
     "fi": "Espanjalaisen Fernando Trueban tuotannon lävistävät ideat rakkaudesta ja historiasta ovat läsnä hänen Espanjan sisällissodan alkuvuosiin sijoittuvassa elokuvassaan. Yhtä ratkiriemukkaaseen ja sensuelliin teokseen kykenevät vain harvat runoilijat ja suuret humoristit. Elokuvan voitettua parhaan ulkomaisen elokuvan Oscarin Trueba kiitti ateistina Jumalan sijaan Billy Wilderia."
    },
-   "tr": "https://www.youtube.com/watch?v=h_VuVKHPW8U",
-   "ts": [
-    "en"
-   ]
+   "tr": ""
   },
   "berliinin sankari": {
    "id": 1248217,
@@ -815,6 +798,7 @@
     "bioforum",
     "cinemantsala",
     "ihmekompleksi",
+    "isohannu",
     "kinoelo",
     "kinokulma",
     "kinomania",
@@ -968,9 +952,7 @@
     "biorex",
     "cinemantsala",
     "gilda",
-    "jarvelankino",
     "kinohannikainen",
-    "kinohirvi",
     "kinojuha",
     "kinokilta",
     "kinokulma",
@@ -1334,13 +1316,12 @@
   },
   "free at heart": {
    "id": 1427540,
-   "img": "data/posters/31f4f84b0d77ad6e.jpg",
    "r": 0,
    "s": {
     "en": "16 year old Sebastian lives a sheltered life in a small town. His world changes when his family takes in 15 year old Kolja. They will become connected and a whole new world opens for Sebastian: full of curiosity, closeness and a sense of first great emotions. Free at Heart is a sensitive but intense queer coming of age story about first love, finding your true self and the moment when the borders of the safe world begin to break. Its a depict of the conflict of adolescence – wanting to be free and fear of what happens when you finally are brave enough to follow your heart.",
     "fi": "Pikkukaupungissa elämä kulkee tuttua ja turvallista rataansa – kunnes yksi ihminen saa kaiken tuntumaan yhtäkkiä aivan toiselta. 16-vuotias Sebastian on elänyt suojattua elämää, jossa yllätyksille ei juuri ole ollut tilaa. Kaikki muuttuu, kun hänen perheensä ottaa luokseen 15-vuotiaan Koljan. Kahden nuoren välille syntyy yhteys, joka avaa Sebastianille kokonaan uuden maailman: täynnä uteliaisuutta, läheisyyttä ja ensimmäisten suurten tunteiden hämmentävää voimaa. Free at Heart on herkkä mutta intensiivinen queer-kasvutarina ensirakkaudesta, itsensä löytämisestä ja hetkestä, jolloin turvallisen maailman rajat alkavat murtua. Se tavoittaa hienosti nuoruuden ristiriidan – halun olla vapaa ja pelon siitä, mitä tapahtuu, kun uskaltaa viimein seurata sydäntään."
    },
-   "tr": "https://www.youtube.com/watch?v=0tVpYYFlbJw"
+   "tr": ""
   },
   "fåret shaun och monstret på bondgården": {
    "id": 1477104,
@@ -1782,7 +1763,6 @@
   },
   "i am going to miss you": {
    "id": 1255582,
-   "img": "data/posters/83a418a5eec17cfb.jpg",
    "r": 0,
    "s": {
     "en": "Amanda and Caio are an transgender couple who have been dating since high school. When both begin to face new challenges their relationship starts to change. One aspect that makes the film particularly significant is its entirely transgender cast. Importantly, the performers portray both transgender and cisgender characters, reflecting the film’s broader commitment to authentic representation while telling a universal story about relationships, ambition, change. The story is also about the challenges of growing together while evolving as individuals.",
@@ -3792,19 +3772,6 @@
     "en"
    ]
   },
-  "measures for a funeral taidekaupungin elokuvajuhlat": {
-   "id": 1313637,
-   "img": "data/posters/c37f6191dc3ca34b.jpg",
-   "r": 0,
-   "s": {
-    "en": "Follows a young woman named Audrey Benac on a research odyssey of ghostly possession in which she endeavours to restore the legacy of the forgotten Canadian violinist Kathleen Parlow.",
-    "fi": ""
-   },
-   "tr": "https://www.youtube.com/watch?v=4YN7Mo8olW0",
-   "ts": [
-    "en"
-   ]
-  },
   "memoria": {
    "id": 511819,
    "img": "data/posters/b72bfc9cb03f97d0.jpg",
@@ -5005,6 +4972,7 @@
     "biorex",
     "engel",
     "huvimylly",
+    "isohannu",
     "jarvelankino",
     "kinoaurora",
     "kinokilta",
@@ -5029,6 +4997,7 @@
     "biorex",
     "engel",
     "huvimylly",
+    "isohannu",
     "jarvelankino",
     "kinoaurora",
     "kinokilta",
@@ -5062,6 +5031,7 @@
     "biorex",
     "engel",
     "huvimylly",
+    "isohannu",
     "jarvelankino",
     "kinoaurora",
     "kinokilta",
@@ -5095,6 +5065,7 @@
     "biorex",
     "engel",
     "huvimylly",
+    "isohannu",
     "jarvelankino",
     "kinoaurora",
     "kinokilta",
@@ -5119,6 +5090,7 @@
     "biorex",
     "engel",
     "huvimylly",
+    "isohannu",
     "jarvelankino",
     "kinoaurora",
     "kinokilta",
@@ -5639,6 +5611,19 @@
     "en"
    ]
   },
+  "päivien lumo leffalukupiiri": {
+   "id": 1563565,
+   "img": "data/posters/6bbde592472eb4e8.jpg",
+   "r": 0,
+   "s": {
+    "en": "Once a beloved playmate of her childhood, Markku had withdrawn into solitude, devoting his life to inner freedom and creativity rather than the expectations of society. Now his voice returns – sometimes playful, sometimes wounded, always searching – guiding Karin through his life’s work and opening space for an unusual collaboration between the living and the dead.",
+    "fi": "Ohjaaja löytää erakoituneen taiteilijasetänsä kätketyn maailman ja ryhtyy tekemään siitä elokuvaa – omaksi yllätyksekseen setänsä kanssa. Syntyy erityislaatuinen vuoropuhelu, joka avaa näkymän intohimoiseen taiteen tekemiseen ja originelliin elämään. Päivien lumo kertoo luomisesta elämäntapana, monimutkaisista perhesuhteista, rakkaudesta ja kuoleman kosketuksesta. Samalla se on elokuva matkasta kohti itseä ja omien valintojensa hyväksymisestä. Nämä voi ehkä saavuttaa vasta kun onnistuu hyväksymään maailman ja itsen keskeneräisyyden. Ohjaaja Karin kertoo elokuvastaan näin: \"Minua on aina kiinnostanut marginaalissa tapahtuva. Setäni Markun pyrkimys elää omannäköistä elämää on inspiroinut minua. Hänen kohdallaan taidetta ja elämää ei voi eritellä. Markkua on ohjannut kunnianhimon sijaan intohimo. Prosessi on kiinnostanut häntä enemmän kuin lopputulos. Tämä Markun asenne saa minut pysähtymään, ajattelemaan omia tekemiseni motiiveja syvällisellä tasolla. Uskon, että meillä on paljon opittavaa Markun kaltaisilta ihmisiltä. Ja näkymättömiä markkuja on jokaisessa suvussa. Elokuvani sivuaa myös perisuomalaista kohtaamattomuutta. Kuka voi määritellä, mikä on merkityksellistä elämää?\""
+   },
+   "tr": "",
+   "ts": [
+    "en"
+   ]
+  },
   "päivien lumo tekijävierailu": {
    "id": 1563565,
    "r": 0,
@@ -6092,7 +6077,6 @@
    "krs": [
     "biorex",
     "biorexkokkola",
-    "biosade",
     "isohannu",
     "kinohirvi",
     "kinolumo",
@@ -6597,19 +6581,6 @@
    },
    "tr": ""
   },
-  "sven klangs kvintett taidekaupungin elokuvajuhlat": {
-   "id": 125499,
-   "img": "data/posters/13b134c1a258fe43.jpg",
-   "r": 0,
-   "s": {
-    "en": "Sweden 1958. In a small provincial town there is a band who plays dance music twice every week. All decisions are made by Sven Klang, the undisputed leader of the band. A new member joins them, saxophone player Lasse. He starts to criticize Sven's decisions, questions the way they divide the money and he also wants them to be more of a jazz band.",
-    "fi": ""
-   },
-   "tr": "",
-   "ts": [
-    "en"
-   ]
-  },
   "svečias the visitor": {
    "id": 1427167,
    "img": "data/posters/ab58860aa0b139c9.jpg",
@@ -6818,7 +6789,6 @@
     "biorexkokkola",
     "engel",
     "gilda",
-    "kinoaurora",
     "kinokilta",
     "kinopirtti",
     "niagara",
@@ -6843,7 +6813,6 @@
     "biorexkokkola",
     "engel",
     "gilda",
-    "kinoaurora",
     "kinokilta",
     "kinopirtti",
     "niagara",
@@ -7107,6 +7076,14 @@
     "en"
    ]
   },
+  "the rocky horror picture show dress along": {
+   "r": 0,
+   "s": {
+    "en": "",
+    "fi": "Roimasti aikaansa edellä ollut 50-vuotias musikaaliklassikko aiheuttaa edelleen säännöllisiä vavahduksia ympäri maailman elokuvateattereita, niin hardcore-faneissaan kuin uusissa Rocky Horror -uskoon vihityissä, ansaiten kautta aikojen pisimpään teattereissa pyörineen limited release -elokuvan tittelin."
+   },
+   "tr": ""
+  },
   "the royal ballet joutsenlampi": {
    "id": 1702782,
    "img": "data/posters/2ddf58982298b613.jpg",
@@ -7250,7 +7227,6 @@
     "kinokulma",
     "kinoolympia",
     "kinopiispanristi",
-    "niagara",
     "orion",
     "savonkinot"
    ],
@@ -7264,16 +7240,12 @@
   },
   "the spanish earth": {
    "id": 126783,
-   "img": "data/posters/24b7121de2617e5c.jpg",
    "r": 0,
    "s": {
-    "en": "Joris Ivens’s advocacy documentary for the Republican cause intercuts a besieged Madrid with a nearby village digging an irrigation canal, linking the war to bread, land, and survival. Produced by the writers’ collective Contemporary Historians, edited by Helen van Dongen, scored by Marc Blitzstein, and narrated in its U.S. version by Ernest Hemingway (after an initial Orson Welles track), it blends frontline reportage with persuasion against Franco’s forces and their German–Italian backers.",
+    "en": "",
     "fi": "The Spanish Earth (1937) on poikkeuksellinen aikalaistodistus Espanjan sisällissodasta ja yksi aikansa merkittävimmistä poliittisista dokumenttielokuvista. Joris Ivensin ohjaama teos yhdistää sodan karun todellisuuden ja runollisen kuvakielen tavalla, joka tuntuu voimakkaalta vielä lähes 90 vuotta myöhemmin. Elokuvan taustalla vaikuttavat myös Ernest Hemingwayn teksti sekä Orson Wellesin kerronta."
    },
-   "tr": "",
-   "ts": [
-    "en"
-   ]
+   "tr": ""
   },
   "the stellars tähtijengi": {
    "r": 0,
@@ -7564,13 +7536,12 @@
   },
   "tuulen laakson nausicaä": {
    "id": 81,
-   "img": "data/posters/b38d290351a5b852.jpg",
-   "r": 7.9,
+   "r": 0,
    "s": {
     "en": "",
     "fi": "Tuulen laaksossa elää prinsessa Nausicaän kansa, joka tekee parhaansa selviytyäkseen Seitsemän Päivän Tulen jälkeisessä maailmassa. Merituulet suojelevat laaksoa ja pitävät Saastemeren myrkyt toistaiseksi poissa. Saastemeri syö yhä uusia maita. Tolmekielaiset ja pejieteläiset ajautuvat pelon ja ahneuden ajamana sotaan surkeasti pärjäävän planeetan herruudesta. Tuho uhkaa Tuulen laaksoa. Nausicaän apuna ovat soturi Yupa ja sodan turhuuden oivaltava Pejiten prinssi Asbel. Miyazakin ällistyttävät merenalaiset visiot, monenmuotoiset lentolaitteet ja toinen toistaan vaikuttavammat hyönteispedot luovat kokonaisen ja ehjän maailman."
    },
-   "tr": "https://www.youtube.com/watch?v=zaskbIZtfxQ"
+   "tr": ""
   },
   "twilight zone the movie": {
    "id": 15301,
@@ -7763,7 +7734,6 @@
     "julia",
     "kino123",
     "kinoakseli",
-    "kinoaurora",
     "kinoelo",
     "kinohamina",
     "kinohirvi",
@@ -7824,16 +7794,12 @@
   },
   "unohdettu saari fi dub": {
    "id": 1465063,
-   "img": "data/posters/9bcaf7ef167a0f8f.jpg",
-   "r": 8.0,
+   "r": 0,
    "s": {
-    "en": "While celebrating their last night together, high school graduates and best friends Jo and Raissa stumble upon a mysterious portal that transports them to the fantastical island of Nakali. When they discover that the memories of their entire friendship are the price for returning home, Jo and Raissa must race to find a way to leave the island before they forget each other forever.",
+    "en": "",
     "fi": "DreamWorks Animation on aiemmin tuonut katsojille tarinoita unohtumattomista siteistä pojan ja lohikäärmeen välillä Näin koulutat lohikäärmeesi -elokuvissa, jätin ja aasin välillä Shrek-elokuvissa sekä robotin ja hanhenpoikasen välillä elokuvassa Villi robotti. Nyt luvassa on huikean tunteikas tarina kahdesta parhaasta ystävyksestä, joiden täytyy yhdistää voimansa eron uhatessa elokuvassa Unohdettu saari. Jo ja Raissa ovat olleet parhaita ystäviä ala-asteelta asti, mutta nyt elämä uhkaa erottaa ystävykset. Juhliessaan viimeistä yhteistä iltaansa Jo ja Raissa törmäävät salaperäiseen portaaliin, joka kuljettaa heidät Nakalin mielikuvitukselliselle saarelle. Saari on täynnä maagisia ja myyttisiä olentoja, joista ystävysten filippiiniläisperheet ovat kertoneet tarinoita. Uusista tuttavuuksista paljastuu niin ystäviä kuin vihollisiakin. Apunaan hyvää tarkoittava mutta melko avuton ihmiskoira Raww sekä pieni mutta pippurinen joukko muita kamuja Jo ja Raissa ottavat mittaa karmeasta Manananggalista, saaren pelätyimmästä olennosta. Kun parille paljastuu, että hinta kotiinpaluusta on kaikkien yhteisten muistojen menettäminen, Jon ja Raissan täytyy keksiä keino päästä pois saarelta unohtamatta toisiaan."
    },
-   "tr": "https://www.youtube.com/watch?v=PhgY8cOJiQA",
-   "ts": [
-    "en"
-   ]
+   "tr": ""
   },
   "unohdettu saari orig": {
    "id": 1465063,
@@ -7894,7 +7860,6 @@
     "julia",
     "kino123",
     "kinoakseli",
-    "kinoaurora",
     "kinoelo",
     "kinohamina",
     "kinohirvi",
@@ -8103,8 +8068,7 @@
     "leffabuumi",
     "savonkinot",
     "star",
-    "studio123jarvenpaa",
-    "tapiola"
+    "studio123jarvenpaa"
    ],
    "r": 6.4,
    "s": {
@@ -8154,8 +8118,7 @@
     "leffabuumi",
     "savonkinot",
     "star",
-    "studio123jarvenpaa",
-    "tapiola"
+    "studio123jarvenpaa"
    ],
    "r": 6.4,
    "s": {

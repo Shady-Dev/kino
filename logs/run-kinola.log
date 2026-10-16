@@ -8,21 +8,21 @@
 [kinokilta] Kino Kilta: 63 showtimes, 32 dates
 [kinokilta] synopses merged: 0
 [kinokilta] screening-note sentences left out of synopses: 1
-[kinolaika] 47 screening(s) listed, 31 film page(s) read
-[kinolaika] omitted 0 confirmed non-film(s) by evidence-backed exclusion over 0 screening(s), and 17 unresolved over 18
+[kinolaika] 46 screening(s) listed, 30 film page(s) read
+[kinolaika] omitted 0 confirmed non-film(s) by evidence-backed exclusion over 0 screening(s), and 16 unresolved over 17
 [kinolaika] unresolved: Antti Autio, Arppa, Bussikyyti – Sodankylän elokuvajuhlat kylässä, Dave Lindholm & Pepe Ahlqvist: WALKIN' BLUES -kiertue, Garden Folly, Knipi - Sivellinvetoja, Kotimaiset lyhytelokuvat (2), Late Fame, Lyhyt elokuva rakkaudesta, Mariska - Laulan, kirjoitan, Minä ja Riikka Purra, Mouse
 [kinolaika] override a-fox-under-a-pink-moon: evidence-unavailable
 [kinolaika] Kino Laika: 29 showtimes, 12 dates
 [kinolaika] Kino Laika: 29 showtimes, 12 dates
 [kinolaika] synopses merged: 0
-[kinomyyri] 26 screening(s) listed, 18 film page(s) read
+[kinomyyri] 25 screening(s) listed, 17 film page(s) read
 [kinomyyri] omitted 0 confirmed non-film(s) by evidence-backed exclusion over 0 screening(s), and 2 unresolved over 3
 [kinomyyri] unresolved: Must pori näkku, Pikku Kummitus Lapanen keppostelee
 [kinomyyri] override kojootti-vs-acme-dub: evidence-unavailable
 [kinomyyri] 1 synopsis/synopses withheld, no language settled: Hamnet
 [kinomyyri] 4 film(s) with a language name not read, that part left blank: Lapin sota (saami); Naza (heprealainen); Two Seasons, Two Strangers (japanilainen, korealainen); Vasenkätinen tyttö (mandariini)
-[kinomyyri] Kino Myyri: 23 showtimes, 12 dates
-[kinomyyri] Kino Myyri: 23 showtimes, 12 dates
+[kinomyyri] Kino Myyri: 22 showtimes, 11 dates
+[kinomyyri] Kino Myyri: 22 showtimes, 11 dates
 [kinomyyri] synopses merged: 0
 [kinokonepaja] 42 screening(s) listed, 18 film page(s) read
 [kinokonepaja] omitted 0 confirmed non-film(s) by evidence-backed exclusion over 0 screening(s), and 1 unresolved over 1
@@ -33,8 +33,8 @@
 [kinokonepaja] Kino Konepaja: 41 showtimes, 21 dates
 [kinokonepaja] Kino Konepaja: 41 showtimes, 21 dates
 [kinokonepaja] synopses merged: 0
-[run] http: 45 revalidated (304), 71 full, 20 not stored (origin said no-store), 1 cache entries written
+[run] http: 45 revalidated (304), 69 full, 19 not stored (origin said no-store), 1 cache entries written
 [run] hosts: 4 attempted -- kinokonepaja.fi, kinomyyri.fi, www.kinokilta.fi, www.kinolaika.fi
-[run] kinola: 4 venues, 156 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
-[run] timing: 4 site(s), 233.3s of fetching added up across workers that overlap, longest site 76.7s, longest queue wait 141.7s, 76.7s wall from this module's first fetch starting to its last ending
+[run] kinola: 4 venues, 155 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
+[run] timing: 4 site(s), 204.8s of fetching added up across workers that overlap, longest site 70.2s, longest queue wait 122.2s, 70.2s wall from this module's first fetch starting to its last ending
 exit=0
