@@ -1188,6 +1188,14 @@
    },
    "tr": ""
   },
+  "espoo ciné encore rays and shadows": {
+   "r": 0,
+   "s": {
+    "en": "",
+    "fi": "Liput näytökseen täältä! Rays and Shadowsin tapa kuvata saksalaismiehittäjiä ja heidän kanssaan yhteistyöhön ryhtyneitä ranskalaisia on herättänyt kotimaassaan sekä kohua että kiitosta. Euroopan nimikkäiden tähtien Jean Dujardinin ja August Diehlin väkeviä suorituksia säestää Nastya Golubevan lupauksia herättävä roolityö Jeanin tyttärenä Corinnena. Tuomitsemisen tai puolustelun sijaan elokuva valaisee sitä inhmillistä kompleksisuutta kauniine ja rumine puolineen, jonka sanat ’historian väärällä puolella’ usein peittävät.” (Konsta Heikkinen)"
+   },
+   "tr": ""
+  },
   "fallen angels": {
    "id": 11220,
    "img": "data/posters/c157e52f06aa7910.jpg",
@@ -2071,6 +2079,7 @@
    "kr": "K-7",
    "krs": [
     "gilda",
+    "joutsankino",
     "kkino",
     "korjaamo",
     "savonkinot"
@@ -2275,6 +2284,7 @@
     "kinoakseli",
     "kinoaurora",
     "kinoelo",
+    "kinohamina",
     "kinohannikainen",
     "kinohirvi",
     "kinoiiris",
@@ -3297,6 +3307,7 @@
     "cinemantsala",
     "elavienkuvien",
     "ihmekompleksi",
+    "joutsankino",
     "kinoaurora",
     "kinoelo",
     "kinojuha",
@@ -4273,10 +4284,7 @@
     "en": "",
     "fi": "Nälkäpeli: Elonkorjuun sarastus sijoittuu tapahtumiin 24 vuotta ennen kuin Katniss Everdeen ilmoittautui vapaaehtoiseksi tribuutiksi, jolloin hänen tuleva ohjaajansa Haymitch Abernathy joutuu osallistumaan Nälkäpeliin. Juhlavuoden kunniaksi peliin valitaan kaksinkertainen määrä tribuutteja ja 50. Nälkäpeli voi alkaa."
    },
-   "tr": "https://www.youtube.com/watch?v=Dr060OLTodE",
-   "ts": [
-    "fi"
-   ]
+   "tr": "https://www.youtube.com/watch?v=Dr060OLTodE"
   },
   "nälkäpeli matkijanärhi osa 1": {
    "id": 131631,
@@ -5220,41 +5228,6 @@
   },
   "pirjo i sverige vauvakino": {
    "id": 1729175,
-   "img": "data/posters/a8cdd21dca604433.jpg",
-   "kr": "S",
-   "krs": [
-    "alatalo",
-    "bioforum",
-    "biokaari",
-    "biomarilyn",
-    "biopallas",
-    "biorex",
-    "biosade",
-    "cinemantsala",
-    "helios",
-    "isohannu",
-    "jarvelankino",
-    "julia",
-    "kinoakseli",
-    "kinohamina",
-    "kinohirvi",
-    "kinokulma",
-    "kinolumo",
-    "kinomarilyn",
-    "kinometso",
-    "kinoolympia",
-    "kinopiispanristi",
-    "kinoset",
-    "kinovirta",
-    "kulttuurimylly",
-    "kuusamotalo",
-    "kuvakukko",
-    "laitilankino",
-    "lieksankino",
-    "marita",
-    "navettakino",
-    "vaakuna"
-   ],
    "r": 0,
    "s": {
     "en": "",
@@ -8090,7 +8063,6 @@
     "ihmekompleksi",
     "isohannu",
     "kino123",
-    "kinohamina",
     "kinohirvi",
     "kinojuha",
     "kinolumo",
@@ -8143,7 +8115,6 @@
     "ihmekompleksi",
     "isohannu",
     "kino123",
-    "kinohamina",
     "kinohirvi",
     "kinojuha",
     "kinolumo",

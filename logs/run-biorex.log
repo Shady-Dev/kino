@@ -7,8 +7,8 @@
 [biorex] BioRex Porvoo: 78 showtimes
 [biorex] BioRex Riihimäki: 38 showtimes
 [biorex] BioRex Rovaniemi: 92 showtimes
-[biorex] BioRex Seinäjoki: 107 showtimes
-[biorex] BioRex Tornio: 74 showtimes
+[biorex] BioRex Seinäjoki: 105 showtimes
+[biorex] BioRex Tornio: 76 showtimes
 [biorex] BioRex Vaasa: 95 showtimes
 [biorex] film pages: 43/43
 [biorex] BioRex Tripla: 154 showtimes, 23 dates
@@ -20,12 +20,12 @@
 [biorex] BioRex Porvoo: 78 showtimes, 21 dates
 [biorex] BioRex Riihimäki: 38 showtimes, 17 dates
 [biorex] BioRex Rovaniemi: 92 showtimes, 23 dates
-[biorex] BioRex Seinäjoki: 107 showtimes, 23 dates
-[biorex] BioRex Tornio: 74 showtimes, 21 dates
+[biorex] BioRex Seinäjoki: 105 showtimes, 23 dates
+[biorex] BioRex Tornio: 76 showtimes, 21 dates
 [biorex] BioRex Vaasa: 95 showtimes, 21 dates
-[biorex] synopses merged: 2
+[biorex] synopses merged: 1
 [run] http: 0 revalidated (304), 43 full, 0 not stored (origin said no-store), 0 cache entries written
 [run] hosts: 1 attempted -- biorex.fi
 [run] biorex: 12 venues, 1063 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
-[run] timing: 1 site(s), 105.6s of fetching added up across workers that overlap, longest site 105.6s, longest queue wait 0.0s, 105.6s wall from this module's first fetch starting to its last ending
+[run] timing: 1 site(s), 132.1s of fetching added up across workers that overlap, longest site 132.1s, longest queue wait 0.0s, 132.1s wall from this module's first fetch starting to its last ending
 exit=0
