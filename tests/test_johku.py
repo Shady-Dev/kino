@@ -782,21 +782,7 @@ class StatedPriceTest(unittest.TestCase):
                 ("Liput opiskelijoille 8,00€ / hlö.", "8", [("Opiskelijalippu 8 €", "8", "1")]),
                 ("Jäsenille liput 9,00€ / hlö.", "9", [("Teemailta", "9", "1")])):
             with self.subTest(text=text, tickets=tickets):
-                self.assertEqual(J.ordinary_price(amount, tickets, J.stated_admission(text)),
-                                 "")
-
-    def test_a_concession_beside_the_full_ticket_leaves_its_price_standing(self):
-        """The 13€/10€ case and a members' statement, each beside a ticket named as the full
-        ticket. 377b1f6f6 left them unpriced."""
-        tickets = [("Elokuvalippu 13 €", "13", "1"), ("Opiskelijalippu 10 €", "10", "")]
-        for text in ("Liput 13,00€ / hlö, opiskelijat ja eläkeläiset 10,00€.",
-                     "Liput 13,00€ / 10,00€ / hlö (opiskelijat ja eläkeläiset).",
-                     "Liput 13,00€ / hlö. Opiskelijoille liput 10,00€ / hlö."):
-            with self.subTest(text=text):
-                self.assertEqual(J.ordinary_price("13", tickets, J.stated_admission(text)),
-                                 "13€")
-        self.assertEqual(J.ordinary_price("9", [("Elokuvalippu 9 €", "9", "1")], J.stated_admission(
-            "Jäsenille liput 9,00€ / hlö.")), "9€")
+                self.assertEqual(priced(amount, tickets, text), "")
 
     def test_a_paid_ticket_named_for_a_group_of_people_settles_nothing(self):
         """The statement here is to everyone. A free ticket for a group beside the admission
@@ -808,6 +794,55 @@ class StatedPriceTest(unittest.TestCase):
                 self.assertEqual(J.ordinary_price("8", [(name, "8", "1")], "8"), "")
         free = [("Lapsi alle 3 v", "0", "")]
         self.assertEqual(J.ordinary_price("12.5", self.VAUVAKINO + free, "12.5"), "12.5€")
+
+
+def priced(amount, tickets, text):
+    """The price a screening gets from its tickets and its product's description `text`."""
+    return J.ordinary_price(amount, tickets, J.stated_admission(text), J.group_prices(text))
+
+
+class GroupPriceTest(unittest.TestCase):
+    """A separate concession leaves the full ticket priced, and a group's own price stays
+    blank beside a full-ticket name (maintainer, 2026-10-17)."""
+    FULL = [("Elokuvalippu 13 €", "13", "1"), ("Opiskelijalippu 10 €", "10", "")]
+    ONLY = [("Elokuvalippu 9 €", "9", "1")]
+
+    def test_a_separate_concession_leaves_the_full_ticket_priced(self):
+        for text in ("Liput 13,00€ / hlö, opiskelijat ja eläkeläiset 10,00€.",
+                     "Liput 13,00€ / 10,00€ / hlö (opiskelijat ja eläkeläiset).",
+                     "Liput 13,00€ / hlö. Opiskelijoille liput 10,00€ / hlö."):
+            with self.subTest(text=text):
+                self.assertEqual(priced("13", self.FULL, text), "13€")
+
+    def test_a_groups_own_price_beside_a_full_ticket_name_stays_blank(self):
+        self.assertEqual(priced("9", self.ONLY, "Jäsenille liput 9,00€ / hlö."), "")
+        self.assertEqual(priced("9", self.ONLY, ""), "9€")
+
+    def test_a_statement_for_everyone_at_the_same_price_opens_it(self):
+        self.assertEqual(priced("9", self.ONLY, "Liput kaikille 9,00€! Kerhon jäsenille liput "
+                                                "9,00€ / hlö."), "9€")
+
+    def test_a_free_entry_is_a_separate_price(self):
+        full = [("ELOKUVALIPPU 12,50 €", "12.5", "1")]
+        for text in ("Liput 12,50€ / hlö, alle 7-vuotiaat ilmaiseksi.",
+                     "Liput 12,50€ / hlö (lapset ilmaiseksi)."):
+            with self.subTest(text=text):
+                self.assertEqual(priced("12.5", full, text), "12.5€")
+        self.assertEqual(priced("12.5", full, "Liput 12,50€ / hlö (lapset)."), "")
+
+    def test_the_prices_a_description_gives_a_group(self):
+        for text, want in (
+                ("Jäsenille liput 9,00€ / hlö.", {"9"}),
+                ("Liput 13,00€ / hlö, opiskelijat ja eläkeläiset 10,00€.", {"10"}),
+                ("Liput 13,00€ / 10,00€ / hlö (opiskelijat ja eläkeläiset).", set()),
+                ("Liput 12,50€ / hlö, alle 7-vuotiaat ilmaiseksi.", {"0"}),
+                ("Liput 12,50€ / hlö (lapset ilmaiseksi).", set()),
+                ("Opiskelijat 8,00€. Liput 12,50€ / hlö.", set()),
+                ("Tervetuloa Seniorikinoon! Liput kaikille vain 9,00€!", set()),
+                ("Perhekinon liput 10,00€ / hlö.", set()),
+                ("Tervetuloa Kino Kulttuurimyllyn Vauvakinoon! Liput 12,50€ / hlö.", set())):
+            with self.subTest(text=text):
+                self.assertEqual(J.group_prices(text), set(map(J.Decimal, want)))
 
 
 class SchemeTicketsTest(unittest.TestCase):
@@ -960,9 +995,9 @@ class ParseTest(unittest.TestCase):
         self.assertEqual([s["price"] for s in shows["biomarilyn-lapua"]], ["12.5€", ""])
 
     def test_a_statement_to_a_group_prices_nothing_and_blocks_nothing(self):
-        """Kino Kulttuurimylly's measured screenings are priced as before. A statement to
-        students or members prices nothing, and a concession beside the full ticket blocks
-        nothing."""
+        """Kino Kulttuurimylly's measured screenings are priced as before. The members' 9 €
+        stays blank on the scheme that prices Seniorikino at 9 €, and a separate concession
+        leaves the full ticket priced."""
         blocks = blocks_of(front((1, [
             entry("1", "Vauvakino: Pirjo i Sverige", "2026-10-09 12:45", product="608",
                   scheme="29", price="12.5", description="<p>Tervetuloa Kino "
@@ -980,7 +1015,7 @@ class ParseTest(unittest.TestCase):
                   "Kulttuurimylly!</p>"),
             entry("5", "Opiskelijailta", "2026-10-10 18:00", product="700", scheme="29",
                   price="12.5", description="<p>Liput opiskelijoille 12,50€ / hlö.</p>"),
-            entry("6", "Kerhoilta", "2026-10-11 18:00", product="701", scheme="41",
+            entry("6", "Kerhoilta", "2026-10-11 18:00", product="701", scheme="19",
                   price="9", description="<p>Jäsenille liput 9,00€ / hlö.</p>"),
             entry("7", "Lapin Sota", "2026-10-11 20:00", product="610", scheme="40",
                   price="13", description="<p>Liput 13,00€ / hlö, opiskelijat ja eläkeläiset "
@@ -988,7 +1023,6 @@ class ParseTest(unittest.TestCase):
         tickets = {"29": [("Vauvakino: 12,50 €", "12.5", "1")],
                    "15": [("ELOKUVALIPPU ALERYHMÄ 10 €", "10", "1")],
                    "19": [("ELOKUVALIPPU 9,00 €", "9", "1")],
-                   "41": [("Teemailta", "9", "1")],
                    "40": [("Elokuvalippu 13 €", "13", "1"), ("Opiskelijalippu 10 €", "10", "")]}
         shows, _ = J.parse(MARILYN, blocks, {}, NOW, tickets)
         self.assertEqual([(s["title"], s["price"]) for s in shows["biomarilyn-lapua"]],
@@ -1213,6 +1247,23 @@ class RunnerTest(unittest.TestCase):
         self.assertEqual([s["price"] for s in self.shows("biomarilyn-lapua")],
                          ["14€", "13€", "13€"])
         self.assertEqual([c for c in self.calls if "shows.json" in c], [self.shows_url("2")])
+
+    def test_a_groups_own_price_settles_no_scheme_in_the_log(self):
+        base = MARILYN["base"]
+        shows = {base + "/": front((1, [
+            entry("g1", "A", "2026-10-09 17:00", product="1", host=base, scheme="6", price="9",
+                  description="<p>Jäsenille liput 9,00€ / hlö.</p>"),
+            entry("g2", "B", "2026-10-09 19:00", product="2", host=base, scheme="30",
+                  price="13")]))}
+        shows.update({f"{base}/fi_FI/{s}": film() for s in "ab"})
+        self.serve(self.all_sites(**shows, **{
+            self.shows_url("1"): shows_json(("6", [("Elokuvalippu 9 €", "9", "1")])),
+            self.shows_url("2"): shows_json(("30", [("Elokuvalippu 13 €", "13", "1")]))}))
+        code, log = self.main()
+        self.assertEqual(code, 0, log)
+        self.assertEqual([s["price"] for s in self.shows("biomarilyn-lapua")], ["", "13€"])
+        self.assertIn("[biomarilyn] prices for 1 of 2 screening(s); 1 of 2 price scheme(s) "
+                      "read establish an ordinary ticket, from 2 shows.json read(s)", log)
 
     def test_a_scheme_one_answer_lacks_is_read_from_another_product(self):
         base = MARILYN["base"]

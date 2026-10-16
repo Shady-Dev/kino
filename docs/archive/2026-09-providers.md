@@ -4130,3 +4130,11 @@ establish, and "Liput 13,00€ / hlö, opiskelijat ja eläkeläiset 10,00€" be
 13 €" and a 10 € student ticket went unpriced. A ticket sentence that names a group now
 states no price and blocks nothing. A statement to students or members beside tickets of no
 ordinary name still leaves the screening unpriced. Fourteen mutations red.
+
+### Johku: a group's own price stays blank beside a full-ticket name (2026-10-17)
+The maintainer kept the 13 € that "Elokuvalippu 13 €" establishes beside a separate 10 €
+concession, and ruled that "Jäsenille liput 9€" beside only "Elokuvalippu 9 €" stays blank
+unless independent source evidence opens the admission. A comma part of a ticket sentence
+that names a group beside one amount now gives that group its own price, a free entry counted
+as 0, and a drawn amount given to a group settles nothing unless the description's statement
+for everyone gives the same amount. No live description names a group. Eleven mutations red.

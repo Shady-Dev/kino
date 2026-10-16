@@ -1163,7 +1163,8 @@ on the seven front pages)
 own per-person statement, establishes it, on the maintainer's policy of 2026-10-16. A
 ticket sentence that names a group of people states no price, and a stated price settles
 nothing where a paid ticket is named for one. A price the ticket names establish stands
-beside such a sentence. The record is in
+beside a separate concession, and a drawn amount the description gives a group stays
+unpriced unless the statement for everyone gives it too. The record is in
 [docs/archive/2026-09-providers.md](../archive/2026-09-providers.md). No next step.
 
 ---

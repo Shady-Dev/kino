@@ -62,9 +62,11 @@ What shapes the parser:
   read by its names. Where the product's own description states one price per person
   ("Liput 12,50€ / hlö"), it settles a scheme whose paid tickets all cost that amount and
   none is named for a group of people. A sentence about the tickets that names a group,
-  students or members for instance ("Liput opiskelijoille 8,00€ / hlö"), states no price,
-  and a price the ticket names establish stands beside it (maintainer's instruction,
-  2026-10-16). Nothing is chosen by price or by position. `multipleprices` is not read,
+  students or members for instance ("Liput opiskelijoille 8,00€ / hlö"), states no price.
+  A price the ticket names establish stands beside a separate concession, and a drawn amount
+  the description gives a group stays unpriced unless the statement for everyone gives it
+  too (maintainer's instructions, 2026-10-16 and 2026-10-17). Nothing is chosen by price or
+  by position. `multipleprices` is not read,
   because Kino Virta's "Elokuva 11.50" says 0 and also sells an Elämyspassi ticket
   (2026-10-16). Anything else, and a read that fails, leaves `price` empty (maintainer's
   policy, 2026-10-16).
@@ -239,6 +241,12 @@ ELIGIBILITY_RE = re.compile(
     r"henkil\u00f6st\u00f6|ty\u00f6ntekij|staff|employee|kutsuvier|inbjud|invit|vammai|"
     r"invalid|handikapp|funktionsneds|disab|saattaj|avustaj|ledsag|companion|\bcarer",
     re.I)
+
+# The parts of a ticket sentence between commas (a comma between digits splits nothing), and
+# the words for a free entry, which is a price of its own ("alle 7-vuotiaat ilmaiseksi").
+SEGMENT_RE = re.compile(r"(?:[^,;]|(?<=\d),(?=\d))+")
+FREE_RE = re.compile(r"\bilmai(?:nen|set|seksi)\b|\bmaksut(?:ta|on)\b|\bvapaa\s+p\w\wsy\b|"
+                     r"\bgratis\b|\bfritt\b|\bfree\b", re.I)
 
 # A paragraph shorter than this is a release note ("Elokuvateattereissa 4.9.") rather than
 # a synopsis. The same length kinola.py uses, for the same reason.
@@ -571,6 +579,7 @@ def rows(site, blocks, now):
                 "amount": str(entry.get("price") or ""),
                 "shop": str(entry.get("shopId") or ""),
                 "stated": stated_admission(product.get("description")),
+                "groups": group_prices(product.get("description")),
             })
     return out, report
 
@@ -597,6 +606,28 @@ def stated_admission(description):
             return ""
         stated.add(Decimal(amounts[0].replace(",", ".")))
     return f"{stated.pop().normalize():f}" if len(stated) == 1 else ""
+
+
+def group_prices(description):
+    """The prices a product's own description gives a group of people -> {Decimal}.
+
+    "Jäsenille liput 9,00€ / hlö" gives members 9 €. "Liput 13,00€ / hlö, opiskelijat ja
+    eläkeläiset 10,00€" gives them 10 € and leaves 13 € to everyone. A part naming a group
+    beside two amounts, a free entry counted as 0, gives none (maintainer, 2026-10-17).
+    """
+    found = set()
+    for sentence in SENTENCE_RE.findall(_txt(description)):
+        if not TICKET_CLAUSE_RE.search(sentence):
+            continue
+        for part in SEGMENT_RE.findall(sentence):
+            if not ELIGIBILITY_RE.search(part):
+                continue
+            amounts = {Decimal(x.replace(",", ".")) for x in CLAUSE_AMOUNT_RE.findall(part)}
+            if FREE_RE.search(part):
+                amounts.add(Decimal(0))
+            if len(amounts) == 1:
+                found |= amounts
+    return found
 
 
 def scheme_tickets(shows, scheme):
@@ -661,24 +692,28 @@ def _stated_price(a, tickets):
     return _euro(a) if paid == {Decimal(a)} else ""
 
 
-def ordinary_price(amount, tickets, stated=""):
+def ordinary_price(amount, tickets, stated="", groups=()):
     """A screening's ordinary admission -> "13.5\u20ac", or "" where the source does not
     establish one.
 
     `amount` is what the film page draws for the screening, `tickets` the scheme's
-    (name, price, default) rows and `stated` what `stated_admission` reads in the product's
-    own description. Tickets ORDINARY_NAME_RE names, with any amount in the name
-    equal to the price, must agree on the drawn amount, with concessions, passes, gift cards
-    and free tickets set aside. A ticket of no known kind at another price settles nothing,
-    and so does a ticket flagged as the default that is not an ordinary one. A scheme that
-    flags no default is read by its names alone. Where the names settle nothing, a stated
-    price settles a scheme whose paid tickets all cost it. A stated price that is not the
-    drawn amount settles nothing either way. No row is picked by its price or its place.
+    (name, price, default) rows, and `stated` and `groups` what `stated_admission` and
+    `group_prices` read in the product's own description. Tickets ORDINARY_NAME_RE names,
+    with any amount in the name equal to the price, must agree on the drawn amount, with
+    concessions, passes, gift cards and free tickets set aside. A ticket of no known kind at
+    another price settles nothing, and so does a ticket flagged as the default that is not an
+    ordinary one. A scheme that flags no default is read by its names alone. Where the names
+    settle nothing, a stated price settles a scheme whose paid tickets all cost it. A stated
+    price that is not the drawn amount settles nothing either way. A drawn amount the
+    description gives a group of people settles nothing on any ticket, unless the statement
+    for everyone gives the same amount. No row is picked by its price or its place.
     """
     a = str(amount or "").strip()
     if not tickets or not AMOUNT_RE.fullmatch(a) or Decimal(a) <= 0:
         return ""
     if stated and Decimal(stated) != Decimal(a):
+        return ""
+    if Decimal(a) in groups and not stated:
         return ""
     return _named_price(a, tickets) or (_stated_price(a, tickets) if stated else "")
 
@@ -827,7 +862,8 @@ def parse(site, blocks, pages, now, tickets=None):
             "img": "",
             "lang": f["lang"],
             "soldOut": False,
-            "price": ordinary_price(r["amount"], (tickets or {}).get(r["scheme"]), r["stated"]),
+            "price": ordinary_price(r["amount"], (tickets or {}).get(r["scheme"]), r["stated"],
+                                    r["groups"]),
             "provider": site["provider"],
             "venue": r["venue"],
         }
@@ -895,7 +931,7 @@ def fetch_site(site, sleep=1.2):
           f"{len(pages)} film page(s) read")
     published = [s for shows in per_venue.values() for s in shows]
     settled = {r["scheme"] for r in listed
-               if ordinary_price(r["amount"], tickets.get(r["scheme"]), r["stated"])}
+               if ordinary_price(r["amount"], tickets.get(r["scheme"]), r["stated"], r["groups"])}
     print(f"[{pid}] prices for {sum(1 for s in published if s['price'])} of "
           f"{len(published)} screening(s); {len(settled)} of {len(tickets)} price scheme(s) "
           f"read establish an ordinary ticket, from {reads} shows.json read(s)")
