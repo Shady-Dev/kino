@@ -815,7 +815,11 @@
     "bioforum",
     "cinemantsala",
     "ihmekompleksi",
+    "kinoelo",
     "kinokulma",
+    "kinomania",
+    "kinosampo",
+    "kinotoijala",
     "sheryl"
    ],
    "r": 0,
@@ -1339,13 +1343,18 @@
    "tr": "https://www.youtube.com/watch?v=0tVpYYFlbJw"
   },
   "fåret shaun och monstret på bondgården": {
+   "id": 1477104,
+   "img": "data/posters/93eda5fa30b7d70c.jpg",
    "r": 0,
    "s": {
-    "en": "",
+    "en": "On Halloween Eve at Mossy Bottom Farm, excitement turns to dismay when the clumsy Farmer ruins the pumpkin patch. Shaun tries fixing it with science experiments, but things go wrong when a wild beast appears in the woods.",
     "fi": "",
     "sv": "I den tredje biofilmen om fåret Shaun ser invånarna på Mossy Bottom Farm fram emot Halloween, tills den klumpiga bonden förstör fårflockens älskade pumpaland. När Shaun förvandlas till galet vetenskapsfår för att åtgärda problemet går saker och ting snabbt överstyr, speciellt efter att bonden försvinner och ett vilddjur dyker upp i Mossinghams skogar. OBS! Ingen dialog. Shaun och flocken talar sitt eget språk."
    },
-   "tr": ""
+   "tr": "https://www.youtube.com/watch?v=daZMq0AyOMc",
+   "ts": [
+    "en"
+   ]
   },
   "ghost in the machine": {
    "id": 1596315,
@@ -2735,8 +2744,7 @@
     "kinolumo",
     "kinopiispanristi",
     "kulttuurimylly",
-    "star",
-    "tapiola"
+    "star"
    ],
    "r": 7.5,
    "s": {
@@ -2798,16 +2806,12 @@
   },
   "kojootti vs acme orig": {
    "id": 1204680,
-   "img": "data/posters/2cb6f7dbe10cca53.jpg",
-   "r": 7.5,
+   "r": 0,
    "s": {
-    "en": "After Acme products fail him one too many times in his dogged pursuit of the Roadrunner, Wile E. Coyote decides to hire a billboard lawyer to sue the Acme Corporation.",
+    "en": "",
     "fi": "Vuosikymmenten ajan pommien räjäyttämä, dynamiitin murskaama, magneettien runtelema, siirtolohkareiden litistämä, junien tallaama, tunneleiden huijaama, jousien sinkoama, höyryjyrien yliajama, viallisten laitteiden pettämä, benjiköysien kiusaama, rakettien riepottelema, lepakkoasujen selkäänpuukottama, rakettiluistinten paiskoma, yksipyöräisten kumoama, maanjäristyspillereiden tärisyttämä, villiintyneiden kuminauhojen venyttämä ja lounaisten Yhdysvaltojen jokaiselta jyrkänteeltä syösty Kelju K. Kojootti saa viimein tarpeekseen ja päättää iskeä takaisin. Mainostauluonnettomuuksiin erikoistuneen asianajajan Kevin Averyn (Will Forte) kanssa liittoutuessaan hän haastaa oikeuteen ACME Inc.:n – ahneuttaan tavoittelevan jättiyhtiön, jonka tuotteet ovat olleet jokaisen Kojoottia kohdanneen katastrofin taustalla – sekä yhtiötä edustavan lipevän yritysjuristin Buddy Cranen (John Cena)."
    },
-   "tr": "https://www.youtube.com/watch?v=kMsiD1Nky5I",
-   "ts": [
-    "en"
-   ]
+   "tr": ""
   },
   "kojootti vs acme puhumme suomea": {
    "id": 1204680,
@@ -3312,6 +3316,7 @@
     "biorex",
     "cinemantsala",
     "elavienkuvien",
+    "engel",
     "ihmekompleksi",
     "joutsankino",
     "kinoaurora",
@@ -3901,14 +3906,20 @@
   "minä ja riikka purra": {
    "id": 1789735,
    "img": "data/posters/00ba33a99fa0e923.jpg",
-   "kr": "K-7",
-   "krs": [
-    "elavienkuvien"
-   ],
    "r": 0,
    "s": {
     "en": "",
     "fi": "YLLÄTYSELOKUVA RIIKKA PURRASTA Perjantaina 30.10.2026 saapuu teattereihin Liisa Akimofin pienelokuva Riikka Purrasta ja persuista: Minä ja Riikka Purra. Tätä elokuvaa ei ole odotettu. ”Motiivini Minä ja Riikka Purra -dokkarin tekemiseen oli uteliaisuus”, muusikkona ja tuottajana tunnetuksi tullut käsikirjoittaja-ohjaaja kertoo. ”Tajusin, etten tunne yhtäkään persua enkä ymmärrä heidän järjenjuoksuaan. Halusin ottaa selvää!” Akimof hommasi kameran ja pyöri Purran ja persujen maailmassa puoli vuotta elokuusta 2025 alkaen. Lopputuloksena syntyi vauhdikas, jopa hauska DIY-dokkari, jossa idealistinen vihervassari hämmästelee politiikan tekemisen arkea ampumaradalla, eduskunnassa, Brysselissä, turuilla ja toreilla. Elokuva syöksyy kriisistä toiseen ja kuulee myös antifasisteja, vassareita ja yksinäistä sivistysporvaria. Median graindaamiselle annetaan kasvot."
+   },
+   "tr": ""
+  },
+  "minä ja riikka purra tekijävierailu": {
+   "id": 1789735,
+   "img": "data/posters/00ba33a99fa0e923.jpg",
+   "r": 0,
+   "s": {
+    "en": "",
+    "fi": "Perjantaina 30.10.2026 saapuu teattereihin Liisa Akimofin pienelokuva Riikka Purrasta ja persuista: Minä ja Riikka Purra. Tätä elokuvaa ei ole odotettu. ”Motiivini Minä ja Riikka Purra -dokkarin tekemiseen oli uteliaisuus” Muusikkona ja tuottajana tunnetuksi tullut käsikirjoittaja-ohjaaja kertoo. ”Tajusin, etten tunne yhtäkään persua enkä ymmärrä heidän järjenjuoksuaan. Halusin ottaa selvää!” Akimof hommasi kameran ja pyöri Purran ja persujen maailmassa puoli vuotta elokuusta 2025 alkaen. Lopputuloksena syntyi vauhdikas, jopa hauska DIY-dokkari, jossa idealistinen vihervassari hämmästelee politiikan tekemisen arkea ampumaradalla, eduskunnassa, Brysselissä, turuilla ja toreilla. Elokuva syöksyy kriisistä toiseen ja kuulee myös antifasisteja, vassareita ja yksinäistä sivistysporvaria. Median graindaamiselle annetaan kasvot. ”Dokkari ei ole ”viipyilevä”, Akimof nauraa. ”Halusin tehdä leffan, jonka jengi jaksaisi katsoa. Dokkarini sinisilmäisenä pyrkimyksenä on vähentää lynkkausmeininkiä. On erittäin ok väitellä asioista, mutta toinen toistensa kaasukammioihin toivottaminen ei ole ok.” Minä ja Riikka Purra -elokuvan keskeisiä henkilöitä ovat valtiovarainministeri Purran lisäksi valtiosihteeri Riikka Slunga-Poutsalo, spin doctor Matias Turkkila ja kansanedustaja Anna Kontula. Elokuvassa seikkailevat myös mm. sisäministeri Mari, pääministeri Petteri, RKP:n Anders eli Antero ja koko joukko kansanedustajia ja rivikansalaisia."
    },
    "tr": ""
   },
@@ -4092,7 +4103,6 @@
     "kuvakukko",
     "niagara",
     "orion",
-    "star",
     "studio123kouvola",
     "tapiola"
    ],
@@ -5042,6 +5052,30 @@
    },
    "tr": ""
   },
+  "pikkuli ja tähtipeura puhumme suomea": {
+   "id": 1403476,
+   "img": "data/posters/79b249e47f0870db.jpg",
+   "kr": "S",
+   "krs": [
+    "alatalo",
+    "biokaari",
+    "biorex",
+    "engel",
+    "huvimylly",
+    "jarvelankino",
+    "kinoaurora",
+    "kinokilta",
+    "kinokulma",
+    "kulttuurimylly",
+    "kuvakukko"
+   ],
+   "r": 0,
+   "s": {
+    "en": "",
+    "fi": "Pikkuli on suomalainen animaatiosarja, joka perustuu Metsämarja Aittokosken luomiin hahmoihin ja maailmaan. Vuonna 2011 julkaistun kirjan jälkeen Pikkuli tuli tutuksi Pikku Kakkosen ja Buu-klubbenin animaatiosarjasta sekä lastenkirjoista, musiikista, peleistä ja laululeikkiesityksistä. Pikkuli-hahmon seikkailut tarjoavat samaistuttavia tarinoita kaikenikäisille. Pikkulin leikkisä tunnetaitokasvatus rohkaisee lapsia näkemään, että kaikki tunteet ovat sallittuja, vahvistaen lapsen uskoa positiiviseen ajatteluun. Pikkuli-kirjojen uusi kustantamo WSOY julkaisee syksyllä 2026 kolme Pikkuli-kirjaa, joista yksi on elokuvaan pohjaava kirja Pikkuli ja Tähtipeura. Tarina julkaistaan sekä kuvakirjana että äänikirjana. Pikkuli-kirjat lukee äänikirjoiksi Pikkuli-elokuvan ääninäyttelijäkaartistakin tuttu Krista Kosonen."
+   },
+   "tr": ""
+  },
   "pikkuli ja tähtipeura på svenska": {
    "id": 1403476,
    "r": 0,
@@ -5467,13 +5501,12 @@
   },
   "prinsessa mononoke": {
    "id": 128,
-   "img": "data/posters/c69528d99660fdee.jpg",
-   "r": 8.3,
+   "r": 0,
    "s": {
     "en": "",
     "fi": "Vakavasti sairas Prinssi Ashitaka on matkalla kauas itään etsimään parannusta villisikajumalan langettamaan kiroukseen, mutta joutuu yllättäen keskelle metsän eläinten ja raudan takomiseen erikoistuneen Tataraban klaanin välistä sodankäyntiä. Esi-teollinen kaivosyhteisö on vallannut metsää, jota uhkaa kuolema hyväksikäyttäjien kynsissä. Ashitaka kohtaa sotatantereella Sanin eli Prinsessa Mononoken, susien kasvattaman ihmislapsen, joka johtaa metsäneläinten laumoja. Taistelun ohessa Ashitaka törmää salaperäiseen joukkioon, joka haluaa tappaa peurajumala, Shishi-Gamin, koska uskoo siten saavuttavansa kuolemattomuuden. Hayao Miyazakin kiinnostus Japanin esihistoriaan näkyy Prinsessa Mononoken taustalla. Tarina sijoittuu suunnilleen sinne Kurosawan Seitsemän samurain ajankohtaan, mutta Ashitakan edustama pohjoista ja itäistä Japania asuttanut Emishi-heimo eli todellisuudessa Japanissa tuhansia vuosia aiemmin, kunnes katosi läntisen valtakansa Yamato-heimon vallatessa koko saaren. Miyazaki teki elokuvaansa varten paljon tutkimustyötä. Hän vieraili pohjoisessa Aomorin läänissä ja sen kuuluisalla arkeologisella tutkimuspaikalla nimeltä Sannai-maruyama-iseki."
    },
-   "tr": "https://www.youtube.com/watch?v=I1dHzoRl0sQ"
+   "tr": ""
   },
   "prinsessa ruusunen": {
    "id": 55524,
@@ -5809,12 +5842,9 @@
     "gilda",
     "ihmekompleksi",
     "kino123",
-    "kinoelo",
     "kinohirvi",
-    "kinojuha",
     "kinolaika",
     "kinolumo",
-    "kinomania",
     "kinopiispanristi",
     "kinopirtti",
     "kinosampo",
@@ -5848,12 +5878,9 @@
     "gilda",
     "ihmekompleksi",
     "kino123",
-    "kinoelo",
     "kinohirvi",
-    "kinojuha",
     "kinolaika",
     "kinolumo",
-    "kinomania",
     "kinopiispanristi",
     "kinopirtti",
     "kinosampo",
@@ -7225,8 +7252,7 @@
     "kinopiispanristi",
     "niagara",
     "orion",
-    "savonkinot",
-    "tapiola"
+    "savonkinot"
    ],
    "r": 7.2,
    "s": {
@@ -8078,8 +8104,7 @@
     "savonkinot",
     "star",
     "studio123jarvenpaa",
-    "tapiola",
-    "vihdinkino"
+    "tapiola"
    ],
    "r": 6.4,
    "s": {
@@ -8130,8 +8155,7 @@
     "savonkinot",
     "star",
     "studio123jarvenpaa",
-    "tapiola",
-    "vihdinkino"
+    "tapiola"
    ],
    "r": 6.4,
    "s": {

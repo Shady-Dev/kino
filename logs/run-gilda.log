@@ -4,9 +4,9 @@
 [gilda] strand prefix split off 10 showtimes
 [gilda] Gilda Kamppi: 110 showtimes, 38 dates
 [gilda] Bio Rex Lasipalatsi: 13 showtimes, 10 dates
-[gilda] synopses merged: 1
+[gilda] synopses merged: 0
 [run] http: 0 revalidated (304), 12 full, 0 not stored (origin said no-store), 0 cache entries written
 [run] hosts: 1 attempted -- www.gilda.fi
 [run] gilda: 2 venues, 123 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
-[run] timing: 1 site(s), 31.3s of fetching added up across workers that overlap, longest site 31.3s, longest queue wait 79.1s, 31.3s wall from this module's first fetch starting to its last ending
+[run] timing: 1 site(s), 32.9s of fetching added up across workers that overlap, longest site 32.9s, longest queue wait 71.9s, 32.9s wall from this module's first fetch starting to its last ending
 exit=0
