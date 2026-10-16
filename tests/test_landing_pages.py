@@ -111,8 +111,8 @@ class HostilePosterPathTest(unittest.TestCase):
     unescapes a raw relative `src`, and mirror_posters and run.py pass a non-http value
     through. It went into the attribute unescaped, so a path holding a quote and a
     `</script>` put a script element into the head of the fi, sv and en venue and city
-    pages (audit G1, 2026-09-25). Built from the committed data with one city's posters
-    replaced."""
+    pages (audit G1, 2026-09-25). Built from the committed data with one city's film
+    posters replaced."""
 
     HOSTILE = 'data/posters/x"><script>alert(9)</script><meta x="'
 
@@ -137,7 +137,9 @@ class HostilePosterPathTest(unittest.TestCase):
                 p = root / "data" / f"area-{vid}.json"
                 doc = json.loads(p.read_text())
                 for sh in doc["shows"]:
-                    sh["img"] = cls.HOSTILE
+                    # og:image is only ever a film's poster, so the path goes on film rows.
+                    if not sh.get("nonFilm"):
+                        sh["img"] = cls.HOSTILE
                 p.write_text(json.dumps(doc, ensure_ascii=False))
             bp._SHOWS.clear()
             with contextlib.redirect_stdout(io.StringIO()):
