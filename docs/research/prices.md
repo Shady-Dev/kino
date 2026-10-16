@@ -331,7 +331,8 @@ The seven Johku storefronts were a recorded zero because an entry's amount sits 
 per screening, and its own `shows.json` request lists the tickets of the screening's price
 scheme. The maintainer set the policy the same day. The ordinary admission is a ticket named
 as the full ticket, with concessions, passes and memberships, gift cards and free tickets set
-aside, it must agree with the drawn amount, and nothing is chosen by price or position. A
-scheme of unknown tickets stays unpriced. Read 2026-10-16, 139 of 146 screenings were priced,
-and all 139 agreed with the film page or its `shows.json`. The findings are in
-[ticketing-platforms.md](ticketing-platforms.md).
+aside, it must agree with the drawn amount, and nothing is chosen by price or position. A product
+description that states one price per person ("Liput 12,50€ / hlö") settles a scheme whose
+paid tickets all cost it, and a scheme of unknown tickets with no such statement stays
+unpriced. Read 2026-10-16, 143 of 144 screenings were priced, and all 143 agreed with the
+film page or its `shows.json`. The findings are in [ticketing-platforms.md](ticketing-platforms.md).

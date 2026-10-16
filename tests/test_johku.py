@@ -50,7 +50,8 @@ SYN_NO_LANGUAGE = ("Odysseus. Troija, Ithaka, Kirke, Kalypso, Skylla, Kharybdis,
 
 def entry(sid, title, start, minutes=87, loc="Bio Marilyn", product="1038", slug=None,
           rating="K-12", upcoming="0", host="https://biomarilyn.johku.com", path=None,
-          catalog="fi_FI", collection="fi_FI", scheme=None, price=None, multiple="0"):
+          catalog="fi_FI", collection="fi_FI", scheme=None, price=None, multiple="0",
+          description=None):
     """One schedule entry, with the fields the page's ShowItem draws. `start` is the
     clock the page prints, "2026-10-09 17:30". `scheme` adds the price scheme's fields."""
     slug = slug or re.sub(r"[^a-z0-9]+", "-", title.lower()).strip("-")
@@ -61,6 +62,8 @@ def entry(sid, title, start, minutes=87, loc="Bio Marilyn", product="1038", slug
          "storefronturl": host + (path or f"/fi_FI/{slug}"),
          "product": {"id": product, "name": title, "canonical": slug,
                      "enable_catalog": catalog, "enable_collection": collection}}
+    if description is not None:
+        e["product"]["description"] = description
     if scheme is not None:
         e.update(pricing_id=scheme, price=price, multipleprices=multiple,
                  pricing={"id": scheme, "name": f"Elokuva {price}", "type": "0",
@@ -688,6 +691,71 @@ class OrdinaryPriceTest(unittest.TestCase):
                 self.assertEqual(J.ordinary_price(amount, [("Lippu", amount, "1")]), "")
 
 
+class StatedAdmissionTest(unittest.TestCase):
+    """Kino Kulttuurimylly's product descriptions, verbatim, read 2026-10-16."""
+
+    def test_one_price_per_person_is_stated(self):
+        for text, want in (
+                ("<p>Lähde mukaan villiin seikkailuun Jon ja Raissan mukaan! "
+                 "Perhekinon liput 10,00€ / hlö.</p>", "10"),
+                ("ENNAKKONÄYTÖS! Paikalla tekijävieraita ennen elokuvaa! Liput 10,00€ / hlö.",
+                 "10"),
+                ("<p>Tervetuloa Kino Kulttuurimyllyn Vauvakinoon! Näytöksen aikana saat olla "
+                 "rennosti pienokaisesi kanssa. Liput 12,50€ / hlö.</p>", "12.5"),
+                ("Tervetuloa Seniorikinoon! Liput kaikille vain 9,00€!", "9"),
+                ("Perhekinon liput 10,00€ / hlö", "10")):
+            with self.subTest(text=text[-40:]):
+                self.assertEqual(J.stated_admission(text), want)
+
+    def test_two_prices_or_none_state_no_single_admission(self):
+        for text in ("Satunnainen kohtaaminen. Liput 10,00€ / 12,50€ / hlö.",
+                     "KERRO KAIKILLE on tarina nuoren naisen kapinasta. Liput 12,50€ / 10,00 €.",
+                     "ENSI-ILTA! LAPIN SOTA. Liput 12,50€ / 10,00€ / hlö",
+                     "Liput 10,00€ / hlö. Lippu 12,50 € / hlö.",
+                     "Liput 12,50 €.", "Koko perheen animaatio.", "", None):
+            with self.subTest(text=text):
+                self.assertEqual(J.stated_admission(text), "")
+
+    def test_a_point_between_digits_does_not_end_the_clause(self):
+        self.assertEqual(J.stated_admission("Liput 12.50€ / hlö. Tervetuloa!"), "12.5")
+
+
+class StatedPriceTest(unittest.TestCase):
+    """A screening whose own description states one price per person, where the ticket
+    names settle nothing."""
+    VAUVAKINO = [("Vauvakino: 12,50 €", "12.5", "1")]
+    PERHEKINO = [("ELOKUVALIPPU ALERYHMÄ 10 €", "10", "1")]
+
+    def test_vauvakino_is_priced_only_with_its_own_statement(self):
+        self.assertEqual(J.ordinary_price("12.5", self.VAUVAKINO, "12.5"), "12.5€")
+        self.assertEqual(J.ordinary_price("12.5", self.VAUVAKINO), "")
+
+    def test_a_ticket_sold_alone_at_the_stated_price_is_the_admission(self):
+        self.assertEqual(J.ordinary_price("10", self.PERHEKINO, "10"), "10€")
+        self.assertEqual(J.ordinary_price("10", self.PERHEKINO), "")
+
+    def test_a_stated_price_that_is_not_the_drawn_amount_settles_nothing(self):
+        self.assertEqual(J.ordinary_price("12.5", self.VAUVAKINO, "10"), "")
+        full = [("ELOKUVALIPPU 12,50 €", "12.5", "1"), ("ELOKUVALIPPU ALERYHMÄ 10 €", "10", "")]
+        self.assertEqual(J.ordinary_price("12.5", full), "12.5€")
+        self.assertEqual(J.ordinary_price("12.5", full, "10"), "")
+
+    def test_a_paid_ticket_at_another_price_settles_nothing(self):
+        self.assertEqual(J.ordinary_price("12.5", self.VAUVAKINO + [("Lapsi 8 €", "8", "")],
+                                          "12.5"), "")
+
+    def test_a_free_ticket_beside_it_changes_nothing(self):
+        self.assertEqual(J.ordinary_price("12.5", self.VAUVAKINO + [("Vapaalippu", "0", "")],
+                                          "12.5"), "12.5€")
+
+    def test_a_flagged_default_at_another_price_settles_nothing(self):
+        self.assertEqual(J.ordinary_price("12.5", [("Vauvakino: 12,50 €", "12.5", ""),
+                                                   ("Kutsuvieras", "0", "1")], "12.5"), "")
+
+    def test_names_that_settle_it_and_a_matching_statement_agree(self):
+        self.assertEqual(J.ordinary_price("9", [("ELOKUVALIPPU 9,00 €", "9", "1")], "9"), "9€")
+
+
 class SchemeTicketsTest(unittest.TestCase):
     def test_each_schemes_rows_come_from_its_own_screenings(self):
         shows = json.loads(shows_json(("6", [("Elokuvalippu 15 €", "15", "1")]),
@@ -823,6 +891,19 @@ class ParseTest(unittest.TestCase):
     def test_a_scheme_that_was_not_read_publishes_no_price(self):
         shows, _ = J.parse(MARILYN, self.priced(), self.pages(), NOW, {})
         self.assertEqual({s["price"] for s in shows["biomarilyn-lapua"]}, {""})
+
+    def test_each_screening_reads_its_own_products_statement(self):
+        """Kino Kulttuurimylly's Vauvakino sells one "Vauvakino: 12,50 €" ticket, and only
+        the product whose description says "Liput 12,50€ / hlö" is priced by it."""
+        blocks = blocks_of(front((1, [
+            entry("1", "Vauvakino: Pirjo i Sverige", "2026-10-09 12:45", product="608",
+                  scheme="29", price="12.5", description="<p>Tervetuloa Kino Kulttuurimyllyn "
+                  "Vauvakinoon! Liput 12,50€ / hlö.</p>"),
+            entry("2", "Vauvakino: Toinen", "2026-10-10 12:45", product="609", scheme="29",
+                  price="12.5", description="<p>Tervetuloa Vauvakinoon!</p>")])))
+        tickets = {"29": [("Vauvakino: 12,50 €", "12.5", "1")]}
+        shows, _ = J.parse(MARILYN, blocks, {}, NOW, tickets)
+        self.assertEqual([s["price"] for s in shows["biomarilyn-lapua"]], ["12.5€", ""])
 
     def test_the_show_shape(self):
         shows, _ = J.parse(MARILYN, self.blocks(), self.pages(), NOW)

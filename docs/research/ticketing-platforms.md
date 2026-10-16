@@ -1106,9 +1106,10 @@ page of the seven tenants rendered)
 
 - Each scheme marks one ticket `"default": "1"`. In every multi-ticket scheme it is the
   full ticket. A scheme of one ticket marks it default even when it is a concession or
-  free ("ELOKUVALIPPU ALERYHMÄ 10 €", "Vapaalippu"). The flag is used as a check and never
-  as evidence on its own. The `canonical` slugs are stale ("Lippu 14 €" has
-  `lippu-13-5-euro`).
+  free ("ELOKUVALIPPU ALERYHMÄ 10 €", "Vapaalippu"). The flag is never evidence on its
+  own. A ticket flagged as the default that is not an ordinary one blocks the price, and a
+  scheme that flags no default is read by its names alone. The `canonical` slugs are
+  stale ("Lippu 14 €" has `lippu-13-5-euro`).
 - Every full ticket is named with one word, Elokuvalippu, Lippu, Peruslippu or
   Oopperalippu, and nothing after it but its amount. "Vauvakino: 12,50 €", sold alone for
   Kino Kulttuurimylly's baby screening, carries no such name and is now unpriced too.
@@ -1117,11 +1118,24 @@ page of the seven tenants rendered)
   9 were priced and all 9 agreed with `shows.json`, and the tenth is Vihdin Kino's club
   screening, which has no scheme.
 
+**The product's own statement** (read about 15:00 Helsinki time, every product description
+on the seven front pages)
+
+- Of 86 product descriptions, only Kino Kulttuurimylly's 11 state a price. Its four
+  Perhekino products say "Perhekinon liput 10,00€ / hlö" or "Liput 10,00€ / hlö", the
+  Vauvakino product "Liput 12,50€ / hlö", and both Seniorikino products "Liput kaikille vain
+  9,00€". Its four other films name two prices ("Liput 12,50€ / 10,00€ / hlö").
+- Each screening states its admission per person, and the only ticket each sells costs
+  it. With that statement read per product, all 15 Kino Kulttuurimylly screenings were
+  priced, and 143 of 144 across the seven. All 134 drawn on the film pages agreed, and the
+  9 not drawn agreed with `shows.json`.
+
 **Status and next step**
 
-`johku.py` publishes the ordinary admission where a ticket named as one establishes it, on
-the maintainer's policy of 2026-10-16; the record is in
-[docs/archive/2026-09-providers.md](../archive/2026-09-providers.md). No next step.
+`johku.py` publishes the ordinary admission where a ticket named as one, or the product's
+own per-person statement, establishes it, on the maintainer's policy of 2026-10-16; the
+record is in [docs/archive/2026-09-providers.md](../archive/2026-09-providers.md). No next
+step.
 
 ---
 

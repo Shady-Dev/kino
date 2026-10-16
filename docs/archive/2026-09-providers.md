@@ -4083,11 +4083,23 @@ mutations red. The findings are in
 The maintainer tightened the rule the same day. A ticket counts as ordinary only on positive
 evidence, which here is one of the measured full-ticket names, Elokuvalippu, Lippu,
 Peruslippu or Oopperalippu, with nothing after it but its amount, and that amount equal to
-its price. The scheme's `default` ticket must be one of them. A scheme of unknown tickets
-stays unpriced even at the drawn amount, and that now includes Kino Kulttuurimylly's
+its price. A ticket flagged as the scheme's `default` that is not an ordinary one blocks the
+price, and a scheme that flags no default is read by its names alone. A scheme of unknown
+tickets stays unpriced even at the drawn amount, and that now includes Kino Kulttuurimylly's
 "Vauvakino: 12,50 €". The figures above were also miscounted. The 24 `shows.json` rows
 included 15 of the 131 already compared, and the two "absent" ones were a lookup that did not
 pad "1.11.2026". Read again, 139 of 146 screenings were priced, 130 agreed with the film
 pages and 9 not drawn there agreed with `shows.json`, with no disagreement. Sixteen
 mutations red. The findings are in
 [docs/research/ticketing-platforms.md](../research/ticketing-platforms.md).
+
+### Johku: the product's own statement (2026-10-16)
+The maintainer asked whether Kino Kulttuurimylly's Vauvakino ticket is established as the
+ordinary admission, from the source and not from the cinema's usual price. Its product
+description says "Liput 12,50€ / hlö", and the four Perhekino products say "Perhekinon liput
+10,00€ / hlö", each beside the one ticket the screening sells. A product's own statement of
+one price per person now settles a scheme whose paid tickets all cost that amount, when it is
+the drawn amount. A statement of two prices settles nothing. All 15 of the cinema's
+screenings were priced, 143 of 144 across the seven, and every priced one agreed with the
+storefront. Eleven mutations red, and the sixteen of the record above still red. The
+findings are in [docs/research/ticketing-platforms.md](../research/ticketing-platforms.md).

@@ -52,16 +52,18 @@ What shapes the parser:
   `reads` because the film pages are read from the same links. A link that is not a full
   https URL with a film path, on a host the site reads, fails the site and the previous
   files stand.
-- **The price is the ordinary admission, where the ticket scheme establishes it.** An
-  entry carries its price scheme and the amount the film page draws for the screening. The
+- **The price is the ordinary admission, where the source establishes it.** An entry
+  carries its price scheme and the amount the film page draws for the screening. The
   scheme's tickets come from `shows.json`, the film page's own request, read once per
-  scheme. An ordinary ticket needs a name that says so, concessions, passes and
-  memberships, gift cards and free tickets are set aside, and the ordinary tickets must
-  agree on one price, the drawn amount. The scheme's default ticket must be one of them.
+  scheme. An ordinary ticket needs a name that says so, concessions, passes and memberships, gift cards and free tickets are set aside,
+  and the ordinary tickets must agree on one price, the drawn amount. A ticket flagged as
+  the default that is not an ordinary one settles nothing, and a scheme that flags none is
+  read by its names. Where the product's own description states one price per person
+  ("Liput 12,50€ / hlö"), it settles a scheme whose paid tickets all cost that amount.
   Nothing is chosen by price or by position. `multipleprices` is not read, because Kino
-  Virta's "Elokuva 11.50" says 0 and also sells an Elämyspassi ticket (2026-10-16). A
-  scheme of unknown tickets, anything ambiguous and a read that fails leave `price` empty
-  (maintainer's policy, 2026-10-16).
+  Virta's "Elokuva 11.50" says 0 and also sells an Elämyspassi ticket (2026-10-16).
+  Anything else, and a read that fails, leaves `price` empty (maintainer's policy,
+  2026-10-16).
 - **The artwork is a landscape banner**, 2048x1365 and 2048x857 on the two measured, so
   `img` stays empty and the TMDB pass supplies a portrait poster.
 - **No sold-out state is rendered on a row.** "Loppuunmyyty" appears once per page, inside
@@ -211,6 +213,13 @@ NOT_ORDINARY_RE = re.compile(
 # anything else is of no known kind, and on its own it publishes no price.
 ORDINARY_NAME_RE = re.compile(
     r"(?:elokuva|perus|ooppera)?lippu(?:\s+(\d{1,3}(?:[.,]\d{1,2})?)\s*(?:€|euroa?)?)?", re.I)
+
+# A product description's ticket clause, from "liput" or "lippu" to the end of its sentence
+# (a point between digits does not end it), its amounts, and the words that make it a price
+# per person.
+TICKET_CLAUSE_RE = re.compile(r"\b(?:liput|lippu)\b((?:[^.!?]|(?<=\d)\.(?=\d))*)", re.I)
+CLAUSE_AMOUNT_RE = re.compile(r"(\d{1,3}(?:[.,]\d{1,2})?)\s*€")
+PER_PERSON_RE = re.compile(r"/\s*(?:hlö|henkilö)\b|\bkaikille\b", re.I)
 
 # A paragraph shorter than this is a release note ("Elokuvateattereissa 4.9.") rather than
 # a synopsis. The same length kinola.py uses, for the same reason.
@@ -542,8 +551,27 @@ def rows(site, blocks, now):
                 "scheme": str(entry.get("pricing_id") or ""),
                 "amount": str(entry.get("price") or ""),
                 "shop": str(entry.get("shopId") or ""),
+                "stated": stated_admission(product.get("description")),
             })
     return out, report
+
+
+def stated_admission(description):
+    """The one price per person a product's own description states -> "12.5", or "".
+
+    "Perhekinon liput 10,00€ / hlö", "Liput 12,50€ / hlö" and "Liput kaikille vain 9,00€!"
+    each state one (Kino Kulttuurimylly, 2026-10-16). "Liput 12,50€ / 10,00€ / hlö" names
+    two amounts and states no single admission, and two clauses that disagree state none.
+    """
+    stated = set()
+    for clause in TICKET_CLAUSE_RE.findall(_txt(description)):
+        if not PER_PERSON_RE.search(clause):
+            continue
+        amounts = CLAUSE_AMOUNT_RE.findall(clause)
+        if len(amounts) != 1:
+            return ""
+        stated.add(Decimal(amounts[0].replace(",", ".")))
+    return f"{stated.pop().normalize():f}" if len(stated) == 1 else ""
 
 
 def scheme_tickets(shows, scheme):
@@ -564,20 +592,12 @@ def scheme_tickets(shows, scheme):
     return found
 
 
-def ordinary_price(amount, tickets):
-    """A screening's ordinary admission -> "13.5\u20ac", or "" where its scheme does not
-    establish one.
+def _euro(amount):
+    return f"{Decimal(amount).normalize():f}\u20ac"
 
-    `amount` is what the film page draws for the screening and `tickets` the scheme's
-    (name, price, default) rows. An ordinary ticket is one ORDINARY_NAME_RE names, with any
-    amount in its name equal to its price, and the ordinary tickets must agree on the drawn
-    amount. Concessions, passes, gift cards and free tickets are set aside. A ticket of no
-    known kind at another price, or a default ticket that is not an ordinary one, settles
-    nothing. No row is picked by its price or its place in the list.
-    """
-    a = str(amount or "").strip()
-    if not tickets or not AMOUNT_RE.fullmatch(a) or Decimal(a) <= 0:
-        return ""
+
+def _named_price(a, tickets):
+    """The drawn amount `a` where tickets ORDINARY_NAME_RE names agree on it, else ""."""
     ordinary = set()
     for name, price, default in tickets:
         name, p = (name or "").strip(), str(price or "").strip()
@@ -596,9 +616,44 @@ def ordinary_price(amount, tickets):
                 return ""
         if default == "1" and not named:
             return ""
-    if ordinary != {Decimal(a)}:
+    return _euro(a) if ordinary == {Decimal(a)} else ""
+
+
+def _stated_price(a, tickets):
+    """The drawn amount `a` where every paid ticket costs it, else "". Only for a screening
+    whose own description states that one price per person."""
+    paid = set()
+    for _, price, default in tickets:
+        p = str(price or "").strip()
+        if not AMOUNT_RE.fullmatch(p):
+            return ""
+        if Decimal(p) > 0:
+            paid.add(Decimal(p))
+        if default == "1" and Decimal(p) != Decimal(a):
+            return ""
+    return _euro(a) if paid == {Decimal(a)} else ""
+
+
+def ordinary_price(amount, tickets, stated=""):
+    """A screening's ordinary admission -> "13.5\u20ac", or "" where the source does not
+    establish one.
+
+    `amount` is what the film page draws for the screening, `tickets` the scheme's
+    (name, price, default) rows and `stated` the one price per person the product's own
+    description gives, if any. Tickets ORDINARY_NAME_RE names, with any amount in the name
+    equal to the price, must agree on the drawn amount, with concessions, passes, gift cards
+    and free tickets set aside. A ticket of no known kind at another price settles nothing,
+    and so does a ticket flagged as the default that is not an ordinary one. A scheme that
+    flags no default is read by its names alone. Where the names settle nothing, a stated
+    price settles a scheme whose paid tickets all cost it. A stated price that is not the
+    drawn amount settles nothing either way. No row is picked by its price or its place.
+    """
+    a = str(amount or "").strip()
+    if not tickets or not AMOUNT_RE.fullmatch(a) or Decimal(a) <= 0:
         return ""
-    return f"{Decimal(a).normalize():f}\u20ac"
+    if stated and Decimal(stated) != Decimal(a):
+        return ""
+    return _named_price(a, tickets) or (_stated_price(a, tickets) if stated else "")
 
 
 def tickets_by_scheme(site, listed, sleep):
@@ -726,7 +781,7 @@ def parse(site, blocks, pages, now, tickets=None):
             "img": "",
             "lang": f["lang"],
             "soldOut": False,
-            "price": ordinary_price(r["amount"], (tickets or {}).get(r["scheme"])),
+            "price": ordinary_price(r["amount"], (tickets or {}).get(r["scheme"]), r["stated"]),
             "provider": site["provider"],
             "venue": r["venue"],
         }
@@ -794,7 +849,7 @@ def fetch_site(site, sleep=1.2):
           f"{len(pages)} film page(s) read")
     published = [s for shows in per_venue.values() for s in shows]
     settled = {r["scheme"] for r in listed
-               if ordinary_price(r["amount"], tickets.get(r["scheme"]))}
+               if ordinary_price(r["amount"], tickets.get(r["scheme"]), r["stated"])}
     print(f"[{pid}] prices for {sum(1 for s in published if s['price'])} of "
           f"{len(published)} screening(s); {len(settled)} of {len(tickets)} price scheme(s) "
           f"read establish an ordinary ticket")
