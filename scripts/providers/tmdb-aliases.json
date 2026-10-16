@@ -174,5 +174,7 @@
  "_comment54": "Kino Konepaja, 2026-10-16. \"Dolly Parton -muistonäytös: 9 to 5\" is a memorial screening of Nine to Five, and no search string reached it. TMDB 19494 is Nine to Five (1980), directed by Colin Higgins with Jane Fonda, Lily Tomlin and Dolly Parton, 110 minutes, the runtime Konepaja lists. It is the only 110-minute record under either title, and films-extra already gives 19494 to another cinema's Dolly Parton in Memoriam screening of the same film.",
  "dolly parton muistonäytös 9 to 5": "19494",
  "_comment55": "Kino Konepaja, 2026-10-16. \"Muutoskollektiivi: Perfect Days\" is one organiser's screening of Wim Wenders' film. TMDB 976893 is Perfect Days (2023), directed by Wim Wenders with Koji Yakusho, 124 minutes, the runtime Konepaja lists and the only 124-minute record of that title. No other published title carries the prefix, and no strand is added for it.",
- "muutoskollektiivi perfect days": "976893"
+ "muutoskollektiivi perfect days": "976893",
+ "_comment56": "BioRex, 2026-10-16. \"Nälkäpeli: Balladi Laululinnuista Ja Käärmeistä\" at twelve cinemas found only the 2012 Nälkäpeli, a colon-head match the pass refused. TMDB 695721 is The Hunger Games: The Ballad of Songbirds & Snakes (2023), directed by Francis Lawrence, 157 minutes, the runtime BioRex lists. TMDB's own Finnish title for it is the published title with a lower-case \"ja\". The search missed it because TMDB matches original and alternative titles and not translations.",
+ "nälkäpeli balladi laululinnuista ja käärmeistä": "695721"
 }
