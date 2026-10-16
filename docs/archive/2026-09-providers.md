@@ -4054,3 +4054,15 @@ for the set. Twenty unit mutations and eight browser mutations red, the browser 
 Chromium and WebKit. If a picture does not load, its card shows the initials tile in a film
 card's layout and the sheet hides the figure with its credit. Five more browser mutations
 went red in both engines.
+
+### Johku prices where the storefront sells one ticket (2026-10-16)
+The maintainer asked for Johku prices where the amount is established for the screening and
+blanks elsewhere. A schedule entry names its price scheme and amount, and the film page's
+own `shows.json` request lists the scheme's tickets. `johku.py` reads that answer once per
+scheme the single-price screenings use and publishes the amount only when the scheme sells
+exactly one ticket at it. A concession, an Elämyspassi or a gift card beside the full ticket
+leaves the price empty. `multipleprices` alone is not trusted, because Kino Virta's
+"Elokuva 11.50" says 0 and sells two tickets. A failed read costs those screenings their
+price and nothing else. Read 2026-10-16, 78 of 147 screenings were priced, and the 13
+compared on the film pages agreed. Eleven mutations red. The findings are in
+[docs/research/ticketing-platforms.md](../research/ticketing-platforms.md).

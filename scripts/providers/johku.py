@@ -52,9 +52,13 @@ What shapes the parser:
   `reads` because the film pages are read from the same links. A link that is not a full
   https URL with a film path, on a host the site reads, fails the site and the previous
   files stand.
-- **No price is published.** The entry carries a pricing name and an amount beside
-  `multipleprices`, so which ticket the amount is for is not settled, and the tariff
-  pages state bands ("Normaali elokuva 13-15 €"). `price` stays empty.
+- **A price is published where the storefront sells one ticket for the screening.** An
+  entry carries its price scheme, the scheme's amount and `multipleprices`. The scheme's
+  ticket rows come from `shows.json`, the request the storefront's own film page makes,
+  read once per scheme. One row at the entry's amount settles the price. A concession or
+  a pass beside the full ticket settles nothing, and `price` stays empty. The flag alone
+  is not enough. Kino Virta's "Elokuva 11.50" says 0 and also sells a 9,50 € Elämyspassi
+  ticket (2026-10-16). A read that fails costs those screenings their price.
 - **The artwork is a landscape banner**, 2048x1365 and 2048x857 on the two measured, so
   `img` stays empty and the TMDB pass supplies a portrait poster.
 - **No sold-out state is rendered on a row.** "Loppuunmyyty" appears once per page, inside
@@ -92,6 +96,7 @@ import re
 import sys
 import time
 import urllib.request
+from decimal import Decimal
 from urllib.parse import urlsplit
 from zoneinfo import ZoneInfo
 
@@ -178,6 +183,12 @@ TAGS_RE = re.compile(r"<[^>]+>")
 # The platform's path for a product with no canonical name. A programme entry never has it
 # and the hall hire always does, which separates the two without reading a title.
 PRODUCT_PATH = "/fi_FI/products/"
+
+# The film page's own request for a product's screenings and their ticket rows, read in
+# the storefront on 2026-10-16. Without the two flags the rows are not in the answer.
+SHOWS_PATH = "/api/{shop}/" + LOCALE + "/products/{product}/shows.json?details=true&storefront=true"
+SHOP_RE = re.compile(r"[a-z0-9_-]{1,40}")
+AMOUNT_RE = re.compile(r"\d{1,3}(?:\.\d{1,2})?")
 
 # A paragraph shorter than this is a release note ("Elokuvateattereissa 4.9.") rather than
 # a synopsis. The same length kinola.py uses, for the same reason.
@@ -449,8 +460,9 @@ def _film_url(site, n, title, link):
 def rows(site, blocks, now):
     """The screenings the page draws from its blocks. -> ([row], report).
 
-    A row is (product, title, venue, start, url, rating, len); everything else comes from
-    the film page. `report` holds what is left out: `skipped`, the coming-soon titles, and
+    A row is (product, title, venue, start, url, rating, len) and its price scheme
+    (scheme, amount, single, shop); everything else comes from the film page. `report`
+    holds what is left out: `skipped`, the coming-soon titles, and
     the counts `past` and `unlisted` of entries the page does not draw, and `repeated` of
     screenings it draws in a second block.
     """
@@ -505,8 +517,67 @@ def rows(site, blocks, now):
                 "rating": RATINGS.get(entry.get("agelimit"), "")
                 if isinstance(entry.get("agelimit"), str) else "",
                 "len": str(minutes) if minutes > 0 else "",
+                "scheme": str(entry.get("pricing_id") or ""),
+                "amount": str(entry.get("price") or ""),
+                "single": str(entry.get("multipleprices")).strip() == "0",
+                "shop": str(entry.get("shopId") or ""),
             })
     return out, report
+
+
+def scheme_tickets(shows, scheme):
+    """The ticket rows a product's `shows.json` sells under price scheme `scheme`.
+    -> [(name, price)], or None when no screening uses the scheme or two of them disagree."""
+    found = None
+    for s in shows if isinstance(shows, list) else ():
+        if not isinstance(s, dict) or str(s.get("pricing_id")) != str(scheme):
+            continue
+        pricing = s.get("pricing") if isinstance(s.get("pricing"), dict) else {}
+        tickets = sorted((_clean(t.get("name")), str(t.get("price")))
+                         for t in _list(pricing.get("sharedProduct")) if isinstance(t, dict))
+        if found is not None and tickets != found:
+            return None
+        found = tickets
+    return found
+
+
+def scheme_price(amount, tickets):
+    """A screening's price -> "12.5€", or "" unless its scheme sells exactly one ticket and
+    that ticket costs the entry's own amount."""
+    if not tickets or len(tickets) != 1:
+        return ""
+    a, t = str(amount or "").strip(), str(tickets[0][1] or "").strip()
+    if not (AMOUNT_RE.fullmatch(a) and AMOUNT_RE.fullmatch(t)) or Decimal(a) != Decimal(t):
+        return ""
+    if Decimal(a) <= 0:
+        return ""
+    return f"{Decimal(a).normalize():f}\u20ac"
+
+
+def tickets_by_scheme(site, listed, sleep):
+    """{scheme: ticket rows} for each single-price scheme the film screenings use, one
+    `shows.json` read per scheme. A read that fails leaves its scheme out."""
+    pid = site["provider"]
+    first = {}
+    for r in listed:
+        if (r["single"] and r["scheme"] and r["amount"] and SHOP_RE.fullmatch(r["shop"])
+                and r["product"].isdigit() and PRODUCT_PATH not in r["url"]
+                and not not_film(site, r["url"])):
+            first.setdefault(r["scheme"], r)
+    out = {}
+    for n, (scheme, r) in enumerate(capped(sorted(first.items()), pid)):
+        if n:
+            time.sleep(sleep)
+        url = site["base"].rstrip("/") + SHOWS_PATH.format(shop=r["shop"], product=r["product"])
+        try:
+            tickets = scheme_tickets(json.loads(get(url)), scheme)
+        except Exception as e:
+            print(f"[{pid}] price scheme {scheme} not read ({type(e).__name__}: {e}); its "
+                  f"screenings publish without a price")
+            continue
+        if tickets is not None:
+            out[scheme] = tickets
+    return out
 
 
 def _translative(phrase):
@@ -569,8 +640,9 @@ def not_film(site, url):
     return urlsplit(url or "").path.rstrip("/") in site.get("not_films", {})
 
 
-def parse(site, blocks, pages, now):
-    """-> ({venue_id: [show]}, report). `pages` is {product: film page html}.
+def parse(site, blocks, pages, now, tickets=None):
+    """-> ({venue_id: [show]}, report). `pages` is {product: film page html}, `tickets`
+    {price scheme: ticket rows} from `tickets_by_scheme`.
 
     `report` is what `rows` left out, plus `hire`, the hall-hire titles over `hire_shows`
     rows, and `unplaced`, the synopses no language could be settled for. A row with no film
@@ -607,7 +679,8 @@ def parse(site, blocks, pages, now):
             "img": "",
             "lang": f["lang"],
             "soldOut": False,
-            "price": "",
+            "price": (scheme_price(r["amount"], (tickets or {}).get(r["scheme"]))
+                      if r["single"] else ""),
             "provider": site["provider"],
             "venue": r["venue"],
         }
@@ -668,10 +741,15 @@ def fetch_site(site, sleep=1.2):
         except Exception as e:
             print(f"[{pid}] film page {url.rsplit('/', 1)[-1]} failed ({e}); the screening "
                   f"publishes without its synopsis and genres")
-    per_venue, report = parse(site, blocks, pages, when)
+    tickets = tickets_by_scheme(site, listed, sleep)
+    per_venue, report = parse(site, blocks, pages, when, tickets)
     check_shows(per_venue, pid, {v["id"] for v in site["venues"]})
     print(f"[{pid}] {len(listed)} screening(s) in {len(blocks)} schedule block(s), "
           f"{len(pages)} film page(s) read")
+    published = [s for shows in per_venue.values() for s in shows]
+    print(f"[{pid}] prices for {sum(1 for s in published if s['price'])} of "
+          f"{len(published)} screening(s); {sum(1 for t in tickets.values() if len(t) == 1)} "
+          f"of {len(tickets)} price scheme(s) read sell one ticket")
     if report["skipped"]:
         print(f"[{pid}] {len(report['skipped'])} coming-soon entry/entries with no time, "
               f"left out: {', '.join(sorted(set(report['skipped']))[:8])}")

@@ -1015,7 +1015,8 @@ agent, kinokulma.fi in the built-in browser, and the storefront's JavaScript bun
   other five tenants' entries name their own site's host. Bio Marilyn's film pages on
   both hosts parse to the same film facts.
 - An entry also carries `price` and `pricing_name` ("Elokuva 13 €") with `multipleprices`,
-  plus director, original title and MACCS language fields. None of these is read.
+  plus director, original title and MACCS language fields. None of these is read. The
+  price is read from 2026-10-16, in the section on tickets below.
 - Bio Marilyn lists four Kerro Kaikille screenings in both of its blocks, and the
   committed file held each of them twice.
 - kuvatahti.fi's front page carries the payload with no `showtimes` item, so no schedule.
@@ -1059,6 +1060,38 @@ the six tenants and Kino Kulttuurimylly)
 read has not failed for completeness, so a switch would fix nothing. If the logs show
 `loading` or `error` states again, a fallback that requests only the incomplete block's own
 key is the design to try.
+
+---
+
+## Johku storefront: one ticket or several per screening (2026-10-16)
+
+**Findings** (read 2026-10-16 between 09:40 and 10:40 Helsinki time, one front page per
+tenant, one `shows.json` per price scheme, and two film pages per tenant rendered)
+
+- A schedule entry names its price scheme (`pricing_id`, `pricing_name`), the scheme's
+  amount (`price`) and `multipleprices`. The front page draws no price.
+- The film page draws each screening with one amount ("Pe 16.10.2026 klo 17.30 Bio
+  Marilyn 15,00 €"), and the same film can cost 14,00 € on another day. The amount comes
+  from `/api/{shop}/fi_FI/products/{id}/shows.json?details=true&storefront=true`, the page's
+  own request. Without the two flags the answer carries no price and no ticket rows.
+- Each screening there lists its scheme's tickets under `pricing.sharedProduct`. Of 147
+  screenings, 78 sell one ticket at the entry's amount. They are Bio Marilyn's 16 of 16,
+  Bio Forum's 28 of 28, Vihdin Kino's 16 of 17, Kino Hannikainen's 10 of 17 and Kino
+  Kulttuurimylly's 8 of 15. Vihdin Kino's 17th has no scheme at all.
+- The other 68 sell more than one ticket. Kinokulma's 29 add a ticket 2 € cheaper for
+  pensioners, students and children under 12. Kino Hannikainen's 7 add a 12 € senior
+  ticket, and Kino Kulttuurimylly's 7 a 10 € discount-group ticket. Kino Virta's 25 add an
+  Elämyspassi ticket, and 18 of them also a 20 € gift card and a city-paid free ticket.
+- `multipleprices` is 1 on 61 of the 68. Kino Virta's "Elokuva 11.50" scheme says 0 and
+  sells Peruslippu 11,50 € and Elämyspassi 9,50 €.
+- On the film pages the full ticket is drawn alone, with no "alkaen". 13 priced screenings
+  compared across the five tenants agreed with the published amount, 13 of 13.
+
+**Status and next step**
+
+`johku.py` publishes the amount where the scheme sells exactly one ticket at it, from
+2026-10-16; the record is in [docs/archive/2026-09-providers.md](../archive/2026-09-providers.md).
+Whether the full ticket is published beside a concession is open in [IDEAS.md](../../IDEAS.md).
 
 ---
 

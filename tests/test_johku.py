@@ -49,17 +49,33 @@ SYN_NO_LANGUAGE = ("Odysseus. Troija, Ithaka, Kirke, Kalypso, Skylla, Kharybdis,
 
 def entry(sid, title, start, minutes=87, loc="Bio Marilyn", product="1038", slug=None,
           rating="K-12", upcoming="0", host="https://biomarilyn.johku.com", path=None,
-          catalog="fi_FI", collection="fi_FI"):
+          catalog="fi_FI", collection="fi_FI", scheme=None, price=None, multiple="0"):
     """One schedule entry, with the fields the page's ShowItem draws. `start` is the
-    clock the page prints, "2026-10-09 17:30"."""
+    clock the page prints, "2026-10-09 17:30". `scheme` adds the price scheme's fields."""
     slug = slug or re.sub(r"[^a-z0-9]+", "-", title.lower()).strip("-")
     begin = datetime.datetime.fromisoformat(start)
-    return {"id": sid, "shopId": "x", "text": title, "start_date": start,
-            "end_date": f"{begin + datetime.timedelta(minutes=minutes):%Y-%m-%d %H:%M}",
-            "resource_name": loc, "agelimit": rating, "upcoming": upcoming,
-            "storefronturl": host + (path or f"/fi_FI/{slug}"),
-            "product": {"id": product, "name": title, "canonical": slug,
-                        "enable_catalog": catalog, "enable_collection": collection}}
+    e = {"id": sid, "shopId": "x", "text": title, "start_date": start,
+         "end_date": f"{begin + datetime.timedelta(minutes=minutes):%Y-%m-%d %H:%M}",
+         "resource_name": loc, "agelimit": rating, "upcoming": upcoming,
+         "storefronturl": host + (path or f"/fi_FI/{slug}"),
+         "product": {"id": product, "name": title, "canonical": slug,
+                     "enable_catalog": catalog, "enable_collection": collection}}
+    if scheme is not None:
+        e.update(pricing_id=scheme, price=price, multipleprices=multiple,
+                 pricing={"id": scheme, "name": f"Elokuva {price}", "type": "0",
+                          "deleted": "0"}, pricing_name=f"Elokuva {price}")
+    return e
+
+
+def shows_json(*screenings):
+    """A product's shows.json as the storefront's film page reads it: one screening per
+    (price scheme, [(ticket name, price)])."""
+    return json.dumps([{"id": str(n), "pricing_id": scheme,
+                        "price": tickets[0][1] if tickets else None,
+                        "pricing": {"id": scheme, "name": "Elokuva", "type": "0", "deleted": "0",
+                                    "sharedProduct": [{"name": name, "price": price}
+                                                      for name, price in tickets]}}
+                       for n, (scheme, tickets) in enumerate(screenings)])
 
 
 def devalue(value):
@@ -537,6 +553,59 @@ class FilmLanguageTest(unittest.TestCase):
         self.assertEqual([s["lang"] for s in shows["biomarilyn-lapua"]], ["FI-A, SV-S", ""])
 
 
+class SchemePriceTest(unittest.TestCase):
+    """A screening is priced only where its scheme sells one ticket at the entry's amount
+    (measured on the seven storefronts 2026-10-16)."""
+
+    def test_one_ticket_at_the_entrys_amount_is_the_price(self):
+        for amount, ticket, want in (("15", "15", "15€"), ("12.5", "12.50", "12.5€"),
+                                     ("10", "10", "10€"), ("13.50", "13.5", "13.5€")):
+            with self.subTest(amount=amount):
+                self.assertEqual(J.scheme_price(amount, [("Elokuvalippu", ticket)]), want)
+
+    def test_a_concession_or_a_pass_beside_the_full_ticket_settles_nothing(self):
+        self.assertEqual(J.scheme_price("12", [("Elokuvalippu 10 € (eläkeläiset)", "10"),
+                                               ("Elokuvalippu 12 €", "12")]), "")
+        self.assertEqual(J.scheme_price("11.5", [("Elämyspassi", "9.5"),
+                                                 ("Peruslippu 11.50", "11.5")]), "")
+        # The full ticket first, as Kino Hannikainen's rows sort.
+        self.assertEqual(J.scheme_price("13", [("Elokuvalippu 13€", "13"),
+                                               ("Seniori 12€", "12")]), "")
+
+    def test_one_ticket_at_another_amount_settles_nothing(self):
+        self.assertEqual(J.scheme_price("15", [("Elokuvalippu", "14")]), "")
+
+    def test_no_ticket_no_amount_or_a_free_ticket_settles_nothing(self):
+        for amount, tickets in (("15", []), ("15", None), ("", [("x", "15")]),
+                                (None, [("x", "15")]), ("0", [("Vapaalippu", "0")])):
+            with self.subTest(amount=amount, tickets=tickets):
+                self.assertEqual(J.scheme_price(amount, tickets), "")
+
+    def test_an_amount_that_is_not_a_plain_euro_figure_settles_nothing(self):
+        for amount in ("1e3", "15.555", "-5", "15 €", "inf"):
+            with self.subTest(amount=amount):
+                self.assertEqual(J.scheme_price(amount, [("x", amount)]), "")
+
+
+class SchemeTicketsTest(unittest.TestCase):
+    def test_each_schemes_rows_come_from_its_own_screenings(self):
+        shows = json.loads(shows_json(("6", [("Elokuvalippu 15 €", "15")]),
+                                      ("31", [("Elokuvalippu 12 €", "12"), ("Lapsi", "10")])))
+        self.assertEqual(J.scheme_tickets(shows, "6"), [("Elokuvalippu 15 €", "15")])
+        self.assertEqual(J.scheme_tickets(shows, "31"),
+                         [("Elokuvalippu 12 €", "12"), ("Lapsi", "10")])
+
+    def test_two_screenings_of_one_scheme_that_disagree_settle_nothing(self):
+        shows = json.loads(shows_json(("6", [("Elokuvalippu", "15")]),
+                                      ("6", [("Elokuvalippu", "15"), ("Elämyspassi", "13")])))
+        self.assertIsNone(J.scheme_tickets(shows, "6"))
+
+    def test_a_scheme_no_screening_uses_or_an_answer_that_is_no_list_is_none(self):
+        shows = json.loads(shows_json(("6", [("Elokuvalippu", "15")])))
+        self.assertIsNone(J.scheme_tickets(shows, "8"))
+        self.assertIsNone(J.scheme_tickets({"error": "nope"}, "6"))
+
+
 class ParseTest(unittest.TestCase):
     def pages(self, **over):
         pages = {"1038": film(), "1039": film(syn=SYN_SV)}
@@ -607,6 +676,33 @@ class ParseTest(unittest.TestCase):
         self.assertEqual([s["title"] for s in shows["biomarilyn-lapua"]],
                          ["Hetki ennen valoa", "Olemme vapaalla", "Olemme vapaalla"])
         self.assertEqual(report["not_films"], set())
+
+    def priced(self):
+        return blocks_of(front((1, [
+            entry("1", "Hetki ennen valoa", "2026-10-09 17:30", scheme="6", price="15"),
+            entry("2", "Filmen", "2026-10-09 19:15", product="1039", scheme="31",
+                  price="12", multiple="1"),
+            entry("3", "Kolmas", "2026-10-10 17:00", product="1040", scheme="13",
+                  price="11.5")])))
+
+    TICKETS = {"6": [("Elokuvalippu 15 €", "15")],
+               "31": [("Elokuvalippu 10 € (eläkeläiset)", "10"), ("Elokuvalippu 12 €", "12")],
+               "13": [("Elämyspassi", "9.5"), ("Peruslippu 11.50", "11.5")]}
+
+    def test_only_a_scheme_selling_one_ticket_prices_its_screenings(self):
+        """Kino Virta's scheme 13 says `multipleprices` 0 and sells two tickets."""
+        shows, _ = J.parse(MARILYN, self.priced(), self.pages(), NOW, self.TICKETS)
+        self.assertEqual([(s["title"], s["price"]) for s in shows["biomarilyn-lapua"]],
+                         [("Hetki ennen valoa", "15€"), ("Filmen", ""), ("Kolmas", "")])
+
+    def test_multipleprices_alone_withholds_a_price(self):
+        shows, _ = J.parse(MARILYN, self.priced(), self.pages(), NOW,
+                           {**self.TICKETS, "31": [("Elokuvalippu 12 €", "12")]})
+        self.assertEqual(shows["biomarilyn-lapua"][1]["price"], "")
+
+    def test_a_scheme_that_was_not_read_publishes_no_price(self):
+        shows, _ = J.parse(MARILYN, self.priced(), self.pages(), NOW, {})
+        self.assertEqual({s["price"] for s in shows["biomarilyn-lapua"]}, {""})
 
     def test_the_show_shape(self):
         shows, _ = J.parse(MARILYN, self.blocks(), self.pages(), NOW)
@@ -767,6 +863,47 @@ class RunnerTest(unittest.TestCase):
         self.assertIn("2 schedule entries and none a timed screening still to come", log)
         self.assertEqual(json.loads((run.OUT / "area-vihdinkino-vihti.json").read_text()),
                          prev)
+
+    def priced_marilyn(self):
+        """Two screenings under scheme 6, one under scheme 8 and one under a scheme that
+        sells a concession beside the full ticket."""
+        base = MARILYN["base"]
+        shows = {base + "/": front((1, [
+            entry("p1", "A", "2026-10-09 17:00", product="1", host=base, scheme="6", price="15"),
+            entry("p2", "B", "2026-10-09 18:00", product="2", host=base, scheme="6", price="15"),
+            entry("p3", "C", "2026-10-10 17:00", product="3", host=base, scheme="8",
+                  price="12.5"),
+            entry("p4", "D", "2026-10-10 19:00", product="4", host=base, scheme="31",
+                  price="12", multiple="1")]))}
+        shows.update({f"{base}/fi_FI/{s}": film() for s in "abcd"})
+        return shows
+
+    def shows_url(self, product):
+        return (MARILYN["base"] + f"/api/x/fi_FI/products/{product}/shows.json"
+                "?details=true&storefront=true")
+
+    def test_prices_come_from_one_shows_read_per_scheme(self):
+        self.serve(self.all_sites(**self.priced_marilyn(), **{
+            self.shows_url("1"): shows_json(("6", [("Elokuvalippu 15 €", "15")])),
+            self.shows_url("3"): shows_json(("8", [("Elokuvalippu 12,50 €", "12.5")]))}))
+        code, log = self.main()
+        self.assertEqual(code, 0, log)
+        self.assertEqual([(s["title"], s["price"]) for s in self.shows("biomarilyn-lapua")],
+                         [("A", "15€"), ("B", "15€"), ("C", "12.5€"), ("D", "")])
+        self.assertEqual([c for c in self.calls if "shows.json" in c],
+                         [self.shows_url("1"), self.shows_url("3")])
+        self.assertIn("[biomarilyn] prices for 3 of 4 screening(s); 2 of 2 price scheme(s) "
+                      "read sell one ticket", log)
+
+    def test_a_shows_read_that_fails_costs_its_screenings_their_price(self):
+        self.serve(self.all_sites(**self.priced_marilyn(), **{
+            self.shows_url("1"): RuntimeError("HTTP 502"),
+            self.shows_url("3"): shows_json(("8", [("Elokuvalippu 12,50 €", "12.5")]))}))
+        code, log = self.main()
+        self.assertEqual(code, 0, log)
+        self.assertEqual([(s["title"], s["price"]) for s in self.shows("biomarilyn-lapua")],
+                         [("A", ""), ("B", ""), ("C", "12.5€"), ("D", "")])
+        self.assertIn("[biomarilyn] price scheme 6 not read (RuntimeError: HTTP 502)", log)
 
     def test_the_reads_are_paced(self):
         waits = []
