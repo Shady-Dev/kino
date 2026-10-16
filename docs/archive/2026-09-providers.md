@@ -4112,13 +4112,14 @@ twice. Before prices were read, a run made 74 to 76 Johku requests in all, and f
 99. A scheme an answer lacks is read from another product that uses it. Three mutations red.
 The findings are in [docs/research/ticketing-platforms.md](../research/ticketing-platforms.md).
 
-### Johku: a statement to a group of people prices nothing (2026-10-16)
-The maintainer pointed out that a price per person does not open the admission to everyone.
+### Johku: no price where a ticket sentence names a group of people (2026-10-16)
+The maintainer pointed out that a price per person does not mean that anyone may buy.
 "Liput opiskelijoille 8,00€ / hlö" beside one 8 € ticket would have published 8 €, and so
-would "Jäsenille liput 9,00€ / hlö", where the group stands before "liput". A ticket sentence
-is now read from its start for a group of people, and one that names a group leaves its
-product unpriced whatever the tickets are named. The stated price also refuses a paid ticket
-named for a group. Other sentences are not read, because Kino Kulttuurimylly's "Tervetuloa
-Seniorikinoon!" greets the audience. The measured Vauvakino, Perhekino and Seniorikino prices
-hold. Fifteen mutations red, and the thirty of the records above still red. The findings are
-in [docs/research/ticketing-platforms.md](../research/ticketing-platforms.md).
+would "Jäsenille liput 9,00€ / hlö", where the group stands before "liput". Each ticket
+sentence is now read from its start for a group of people, and a product whose ticket
+sentence names one is left unpriced whatever its tickets are named. A stated price also
+settles nothing where a paid ticket is named for a group. Other sentences are not read,
+because Kino Kulttuurimylly's "Tervetuloa Seniorikinoon!" greets the audience. The measured
+Vauvakino, Perhekino and Seniorikino prices are unchanged. Fifteen mutations red, and the
+thirty of the records above still red. The findings are in
+[docs/research/ticketing-platforms.md](../research/ticketing-platforms.md).

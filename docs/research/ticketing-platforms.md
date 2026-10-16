@@ -1141,8 +1141,8 @@ pages about 15:05 Helsinki time)
   more than one scheme in their answers, and reading by products that cover every scheme
   took 21 reads where one per scheme took 25.
 
-**Who a statement sells to** (read about 16:15 Helsinki time, every product description on
-the seven front pages)
+**Groups of people in a statement** (read about 16:15 Helsinki time, every product description
+on the seven front pages)
 
 - The front pages carried the same 86 product descriptions. 11 carry a sentence with
   "liput" or "lippu", all of them Kino Kulttuurimylly's, and none of those sentences
@@ -1161,8 +1161,8 @@ the seven front pages)
 
 `johku.py` publishes the ordinary admission where a ticket named as one, or the product's
 own per-person statement, establishes it, on the maintainer's policy of 2026-10-16. A
-ticket sentence that names a group of people leaves its product unpriced, and the
-statement never settles a paid ticket named for one. The record is in
+product whose ticket sentence names a group of people is left unpriced, and a stated price
+settles nothing where a paid ticket is named for one. The record is in
 [docs/archive/2026-09-providers.md](../archive/2026-09-providers.md). No next step.
 
 ---

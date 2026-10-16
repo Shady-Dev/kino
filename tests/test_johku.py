@@ -721,8 +721,8 @@ class StatedAdmissionTest(unittest.TestCase):
         self.assertEqual(J.stated_admission("Liput 12.50€ / hlö. Tervetuloa!"), "12.5")
 
     def test_a_ticket_sentence_that_names_a_group_of_people_restricts_the_product(self):
-        """"Per person" alone does not open the admission to everyone. The group can stand
-        before "liput", and one such sentence restricts the product whatever another states."""
+        """"Per person" alone does not mean that anyone may buy. A group named before "liput"
+        counts, and so does one restricted sentence beside an unrestricted one."""
         groups = ("opiskelijan", "jäsenen", "eläkeläisille", "lapsille", "nuorille",
                   "varusmiehille", "työttömille", "kortin haltijoille", "senioreille",
                   "alle 12-vuotiaille", "veteraaneille", "kuntalaisille", "henkilökunnalle",
@@ -788,8 +788,8 @@ class StatedPriceTest(unittest.TestCase):
         self.assertEqual(J.ordinary_price("9", [("Elokuvalippu 9 €", "9", "1")]), "9€")
 
     def test_a_paid_ticket_named_for_a_group_of_people_settles_nothing(self):
-        """Even under a statement to everyone. A free one beside the admission changes
-        nothing."""
+        """The statement here is to everyone. A free ticket for a group beside the admission
+        changes nothing."""
         for name in ("Opiskelijalippu 8 €", "Jäsenlippu 8 €", "Seniori 8€", "Eläkeläinen 8 €",
                      "Lapsi 8 €", "Varusmies 8 €", "Kortinhaltija 8 €", "Studerande 8 €",
                      "Medlem 8 €", "Student 8 €", "Member 8 €", "Pensioner 8 €"):
@@ -949,8 +949,8 @@ class ParseTest(unittest.TestCase):
         self.assertEqual([s["price"] for s in shows["biomarilyn-lapua"]], ["12.5€", ""])
 
     def test_a_product_whose_ticket_sentence_names_a_group_publishes_no_price(self):
-        """Kino Kulttuurimylly's measured statements keep their prices. The same schemes
-        under a statement to students or to members publish none."""
+        """Kino Kulttuurimylly's measured screenings are priced as before, and the same schemes
+        are left unpriced under a statement to students or to members."""
         blocks = blocks_of(front((1, [
             entry("1", "Vauvakino: Pirjo i Sverige", "2026-10-09 12:45", product="608",
                   scheme="29", price="12.5", description="<p>Tervetuloa Kino "
@@ -964,7 +964,8 @@ class ParseTest(unittest.TestCase):
                   "tekijävieraita ennen elokuvaa!</p><p>Liput 10,00€ / hlö.</p>"),
             entry("4", "Seniorikino: Pirjo i Sverige", "2026-10-10 12:00", product="604",
                   scheme="19", price="9", description="<p>Tervetuloa Seniorikinoon! Liput "
-                  "kaikille vain 9,00€. Ennen elokuvaa teitä palvelee Café Kulttuurimylly!</p>"),
+                  "kaikille vain 9,00€. Ennen elokuvaa teitä palvelee Café "
+                  "Kulttuurimylly!</p>"),
             entry("5", "Opiskelijailta", "2026-10-10 18:00", product="700", scheme="29",
                   price="12.5", description="<p>Liput opiskelijoille 12,50€ / hlö.</p>"),
             entry("6", "Kerhoilta", "2026-10-11 18:00", product="701", scheme="19",

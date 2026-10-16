@@ -61,11 +61,11 @@ What shapes the parser:
   the default that is not an ordinary one settles nothing, and a scheme that flags none is
   read by its names. Where the product's own description states one price per person
   ("Liput 12,50€ / hlö"), it settles a scheme whose paid tickets all cost that amount and
-  none is named for a group of people. A sentence about the tickets that names a group,
-  students or members for instance ("Liput opiskelijoille 8,00€ / hlö"), leaves every
-  screening of that product without a price, whatever its tickets are named (maintainer's
-  instruction, 2026-10-16). Nothing is chosen by price or by position. `multipleprices` is
-  not read, because Kino Virta's "Elokuva 11.50" says 0 and also sells an Elämyspassi ticket
+  none is named for a group of people. Where a sentence about the tickets names a group,
+  students or members for instance ("Liput opiskelijoille 8,00€ / hlö"), no screening of
+  that product is priced, whatever its tickets are named (maintainer's instruction,
+  2026-10-16). Nothing is chosen by price or by position. `multipleprices` is not read,
+  because Kino Virta's "Elokuva 11.50" says 0 and also sells an Elämyspassi ticket
   (2026-10-16). Anything else, and a read that fails, leaves `price` empty (maintainer's
   policy, 2026-10-16).
 - **The artwork is a landscape banner**, 2048x1365 and 2048x857 on the two measured, so
@@ -225,8 +225,8 @@ TICKET_CLAUSE_RE = re.compile(r"\b(?:liput|lippu)\b((?:[^.!?]|(?<=\d)\.(?=\d))*)
 CLAUSE_AMOUNT_RE = re.compile(r"(\d{1,3}(?:[.,]\d{1,2})?)\s*€")
 PER_PERSON_RE = re.compile(r"/\s*(?:hlö|henkilö)\b|\bkaikille\b", re.I)
 
-# A group of people a ticket sentence or a ticket's name sells to, in Finnish, Swedish and
-# English. Screening types ("Perhekinon", "Vauvakinoon") and the price group ALERYHMÄ name none.
+# Words for a group of people a ticket is sold to, in Finnish, Swedish and English.
+# Screening types ("Perhekinon", "Vauvakinoon") and the price group ALERYHMÄ name no group.
 ELIGIBILITY_RE = re.compile(
     r"opiskelij|koululai|lukiolai|ylioppila|studer|student|\belev|j[\u00e4a]sen|kerholai|"
     r"medlem|\bmember|el[\u00e4a]k[ek]|\bpension|senior|ik[\u00e4a]ihmi|"
@@ -582,8 +582,8 @@ def stated_admission(description):
     "Perhekinon liput 10,00€ / hlö", "Liput 12,50€ / hlö" and "Liput kaikille vain 9,00€!"
     each state one (Kino Kulttuurimylly, 2026-10-16). "Liput 12,50€ / 10,00€ / hlö" names
     two amounts and states no single admission, and two clauses that disagree state none.
-    "Jäsenille liput 9,00€ / hlö" sells to members, and the sentence is read from its start.
-    The greeting "Tervetuloa Seniorikinoon!" is another sentence and is not read.
+    In "Jäsenille liput 9,00€ / hlö" the tickets are for members only. Each ticket sentence
+    is read from its start, and the greeting "Tervetuloa Seniorikinoon!" is not one.
     """
     sentences = [s for s in SENTENCE_RE.findall(_txt(description))
                  if TICKET_CLAUSE_RE.search(s)]
