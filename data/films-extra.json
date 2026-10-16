@@ -2719,14 +2719,12 @@
    "kr": "K-7",
    "krs": [
     "biorex",
-    "biorexkokkola",
     "biosavoy",
     "cinemantsala",
     "isohannu",
     "kinohirvi",
     "kinolumo",
     "kinopiispanristi",
-    "kkino",
     "kulttuurimylly",
     "star",
     "tapiola"
@@ -3280,13 +3278,12 @@
   },
   "laputa linna taivaalla": {
    "id": 10515,
-   "img": "data/posters/d9590bac7adca4cc.jpg",
-   "r": 8.0,
+   "r": 0,
    "s": {
     "en": "",
     "fi": "Hayao Miyazakin Laputa - Linna taivaalla valmistui 1986, Tuulen laakson Nausicaän jälkeen, juuri ennen Naapurini Totoroa. Rämäpäinen Pazu pelastaa taivaalta alas leijuvan Sheeta tytön. Kaivoskaupungissa apupoikana huseeraava Pazu unelmoi lentämisestä. Sheeta kantaa kaulassaan kiviriipusta, joka näyttäisi kumoavan painovoiman, joten nuorten unelmilla näyttäisi olevan sama suunta ja päämäärä. Sheeta vain on tietämättään salaperäisen taivaalla leijuvan Laputa –linnan kruununperillinen. Niinpä nuorten kantapäillä on tuota pikaa sankka kaarti junarosvoja, ilmarosvoja, agentteja ynnä muita Miyazakin ällistyttävän mielikuvituksen loihtimia ryökäleitä ja viiksekkäitä karpaaseja. Räjähteitä antaumuksella paiskova sydämellinen rosvopäällikkö – isoäiti on vain yksi tarinan siekailemattomista ja mieleenpainuvan erikoisista hahmoista. Miyazaki ilottelee piirtämällä toinen toistaan jylhempiä masiinoita. Panssarijunat puhkuvat. Antiikkia ja tulevaisuutta avokätisesti yhdistelevät lentovempeleet jahtaavat toisiaan. Laputan mennyttä loistoa murheellisesti kuvastavat soturirobotit poraavat laserkatseellaan läpi valtapelin juonien. Tuho kohtaa monet, mutta elämä on kevyttä niille, joilla on puhdas sydän."
    },
-   "tr": "https://www.youtube.com/watch?v=6s_wR3uuWec"
+   "tr": ""
   },
   "lassie palaa kotiin": {
    "id": 657811,
@@ -3315,7 +3312,6 @@
     "kinolumo",
     "kinomania",
     "kinometso",
-    "kinomyyri",
     "kkino",
     "savonkinot",
     "star",
@@ -4844,6 +4840,14 @@
    },
    "tr": ""
   },
+  "phil collins face value dolby atmos mix": {
+   "r": 0,
+   "s": {
+    "en": "",
+    "fi": "Uppoudu Steven Wilsonin uuteen Dolby Atmos miksaukseen Phil Collinsin Face Valuesta Pitchblack Playbackin pilkkopimeässä kuuntelusessiossa. Kuuntelun jälkeen näet tuoreen tallenteen Philin ja Stevenin Q&A keskustelusta. Kuule tämä pysäyttävä teos järisyttävällä äänentoistojärjestelmällämme, pakkaamattomana ja kovalla äänenvoimakkuudella. Ei häiriötekijöitä – vain sinä ja musiikki."
+   },
+   "tr": ""
+  },
   "pia långbacka meedion työ": {
    "r": 0,
    "s": {
@@ -5632,16 +5636,12 @@
   },
   "på svenska bortglömda ön": {
    "id": 1465063,
-   "img": "data/posters/9bcaf7ef167a0f8f.jpg",
-   "r": 8.1,
+   "r": 0,
    "s": {
-    "en": "While celebrating their last night together, high school graduates and best friends Jo and Raissa stumble upon a mysterious portal that transports them to the fantastical island of Nakali. When they discover that the memories of their entire friendship are the price for returning home, Jo and Raissa must race to find a way to leave the island before they forget each other forever.",
+    "en": "",
     "fi": "DreamWorks Animation on aiemmin tuonut katsojille tarinoita unohtumattomista siteistä pojan ja lohikäärmeen välillä Näin koulutat lohikäärmeesi -elokuvissa, jätin ja aasin välillä Shrek-elokuvissa sekä robotin ja hanhenpoikasen välillä elokuvassa Villi robotti. Nyt luvassa on huikean tunteikas tarina kahdesta parhaasta ystävyksestä, joiden täytyy yhdistää voimansa eron uhatessa elokuvassa Unohdettu saari."
    },
-   "tr": "https://www.youtube.com/watch?v=PhgY8cOJiQA",
-   "ts": [
-    "en"
-   ]
+   "tr": ""
   },
   "på svenska lilla spöket laban busar vidare": {
    "r": 0,
@@ -7406,7 +7406,6 @@
     "kinoiiris",
     "kinokonepaja",
     "kinomarilyn",
-    "kinomyyri",
     "kinoolympia",
     "kinopiispanristi",
     "kirkkonummi",
@@ -7714,11 +7713,9 @@
    "img": "data/posters/9bcaf7ef167a0f8f.jpg",
    "kr": "K-7",
    "krs": [
-    "bioforum",
     "biogrand",
     "biograni",
     "biomarilyn",
-    "biopallas",
     "biorex",
     "biorexkokkola",
     "biosade",
@@ -7749,7 +7746,6 @@
     "kinovirta",
     "kkino",
     "kotkanleffat",
-    "kulttuurimylly",
     "laitilankino",
     "leffabuumi",
     "matintupa",
@@ -7848,11 +7844,9 @@
    "img": "data/posters/db8d634869fa04ac.jpg",
    "kr": "K-7",
    "krs": [
-    "bioforum",
     "biogrand",
     "biograni",
     "biomarilyn",
-    "biopallas",
     "biorex",
     "biorexkokkola",
     "biosade",
@@ -7883,7 +7877,6 @@
     "kinovirta",
     "kkino",
     "kotkanleffat",
-    "kulttuurimylly",
     "laitilankino",
     "leffabuumi",
     "matintupa",
