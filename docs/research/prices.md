@@ -324,13 +324,13 @@ four Johku storefronts and Kino Engel (widget, bands only), Cine Mäntsälä and
 (tariff conditions the row does not settle), and the three Kinola tenants (behind the
 checkout).
 
-## Johku is priced where the storefront sells one ticket (2026-10-16)
+## Johku is priced at the ordinary admission (2026-10-16)
 
 The seven Johku storefronts were a recorded zero because an entry's amount sits beside
 `multipleprices` and nothing said which ticket it was for. Each film page draws one amount
 per screening, and its own `shows.json` request lists the tickets of the screening's price
-scheme. Read 2026-10-16, 78 of 147 screenings sell one ticket at the entry's amount and are
-published. The other 68 add a concession, an Elämyspassi or a gift card beside the full
-ticket and stay unpriced. The findings are in
-[ticketing-platforms.md](ticketing-platforms.md), and whether the full ticket is published
-beside a concession is open in [IDEAS.md](../../IDEAS.md).
+scheme. The maintainer set the policy the same day. The ordinary admission is what is left
+once concessions, passes and memberships, gift cards and free tickets are set aside, it must
+agree with the drawn amount, and nothing is chosen by price or position. Read 2026-10-16,
+140 of 146 screenings were priced and 131 of 131 drawn amounts agreed. The findings are in
+[ticketing-platforms.md](ticketing-platforms.md).

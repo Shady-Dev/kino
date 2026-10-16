@@ -52,13 +52,14 @@ What shapes the parser:
   `reads` because the film pages are read from the same links. A link that is not a full
   https URL with a film path, on a host the site reads, fails the site and the previous
   files stand.
-- **A price is published where the storefront sells one ticket for the screening.** An
-  entry carries its price scheme, the scheme's amount and `multipleprices`. The scheme's
-  ticket rows come from `shows.json`, the request the storefront's own film page makes,
-  read once per scheme. One row at the entry's amount settles the price. A concession or
-  a pass beside the full ticket settles nothing, and `price` stays empty. The flag alone
-  is not enough. Kino Virta's "Elokuva 11.50" says 0 and also sells a 9,50 € Elämyspassi
-  ticket (2026-10-16). A read that fails costs those screenings their price.
+- **The price is the ordinary admission, where the ticket scheme establishes it.** An
+  entry carries its price scheme and the amount the film page draws for the screening. The
+  scheme's tickets come from `shows.json`, the film page's own request, read once per
+  scheme. Concessions, passes and memberships, gift cards and free tickets are set aside
+  by name, and the tickets left must agree on one price, the drawn amount. Nothing is
+  chosen by price or by position. `multipleprices` is not read, because Kino Virta's
+  "Elokuva 11.50" says 0 and also sells an Elämyspassi ticket (2026-10-16). Anything else,
+  and a read that fails, leaves `price` empty (maintainer's policy, 2026-10-16).
 - **The artwork is a landscape banner**, 2048x1365 and 2048x857 on the two measured, so
   `img` stays empty and the TMDB pass supplies a portrait poster.
 - **No sold-out state is rendered on a row.** "Loppuunmyyty" appears once per page, inside
@@ -189,6 +190,18 @@ PRODUCT_PATH = "/fi_FI/products/"
 SHOWS_PATH = "/api/{shop}/" + LOCALE + "/products/{product}/shows.json?details=true&storefront=true"
 SHOP_RE = re.compile(r"[a-z0-9_-]{1,40}")
 AMOUNT_RE = re.compile(r"\d{1,3}(?:\.\d{1,2})?")
+
+# A ticket that is not the ordinary admission: a concession (age, pension, study, service,
+# a discount group), a pass or membership, a gift card or a free ticket. The words are the
+# ones the seven storefronts used on 2026-10-16, with their Swedish and English forms. A
+# word missed here leaves two prices standing, and the screening stays unpriced.
+NOT_ORDINARY_RE = re.compile(
+    r"el[äa]ke|opiskelij|varus|laps|lasten|nuor|senior|aleryhm|alennus|\bale\b|ty[öo]t[öo]n|"
+    r"pension|studer|barn|ungdom|rabatt|child|kid|student|youth|reduced|concession|"
+    r"\d\s*v\b|\d\s*år\b|"
+    r"passi|\bpass\b|j[äa]sen|member|medlem|sarja|kausi|seteli|voucher|smartum|edenred|"
+    r"lahja|gift|present|ilmais|vapaa|\bfri\b|fribiljett|\bfree\b|kutsu|invit",
+    re.I)
 
 # A paragraph shorter than this is a release note ("Elokuvateattereissa 4.9.") rather than
 # a synopsis. The same length kinola.py uses, for the same reason.
@@ -461,7 +474,7 @@ def rows(site, blocks, now):
     """The screenings the page draws from its blocks. -> ([row], report).
 
     A row is (product, title, venue, start, url, rating, len) and its price scheme
-    (scheme, amount, single, shop); everything else comes from the film page. `report`
+    (scheme, amount, shop); everything else comes from the film page. `report`
     holds what is left out: `skipped`, the coming-soon titles, and
     the counts `past` and `unlisted` of entries the page does not draw, and `repeated` of
     screenings it draws in a second block.
@@ -519,7 +532,6 @@ def rows(site, blocks, now):
                 "len": str(minutes) if minutes > 0 else "",
                 "scheme": str(entry.get("pricing_id") or ""),
                 "amount": str(entry.get("price") or ""),
-                "single": str(entry.get("multipleprices")).strip() == "0",
                 "shop": str(entry.get("shopId") or ""),
             })
     return out, report
@@ -541,26 +553,38 @@ def scheme_tickets(shows, scheme):
     return found
 
 
-def scheme_price(amount, tickets):
-    """A screening's price -> "12.5€", or "" unless its scheme sells exactly one ticket and
-    that ticket costs the entry's own amount."""
-    if not tickets or len(tickets) != 1:
+def ordinary_price(amount, tickets):
+    """A screening's ordinary admission -> "13.5\u20ac", or "" where its scheme does not
+    establish one.
+
+    `amount` is what the film page draws for the screening. The ordinary tickets are the
+    rows left once NOT_ORDINARY_RE and the free ones are set aside, and they must agree on
+    one price, that amount. No row is picked by its price or its place in the list.
+    """
+    a = str(amount or "").strip()
+    if not tickets or not AMOUNT_RE.fullmatch(a) or Decimal(a) <= 0:
         return ""
-    a, t = str(amount or "").strip(), str(tickets[0][1] or "").strip()
-    if not (AMOUNT_RE.fullmatch(a) and AMOUNT_RE.fullmatch(t)) or Decimal(a) != Decimal(t):
-        return ""
-    if Decimal(a) <= 0:
+    prices = set()
+    for name, price in tickets:
+        if NOT_ORDINARY_RE.search(name or ""):
+            continue
+        p = str(price or "").strip()
+        if not AMOUNT_RE.fullmatch(p):
+            return ""
+        if Decimal(p) > 0:
+            prices.add(Decimal(p))
+    if prices != {Decimal(a)}:
         return ""
     return f"{Decimal(a).normalize():f}\u20ac"
 
 
 def tickets_by_scheme(site, listed, sleep):
-    """{scheme: ticket rows} for each single-price scheme the film screenings use, one
-    `shows.json` read per scheme. A read that fails leaves its scheme out."""
+    """{scheme: ticket rows} for each price scheme the film screenings use, one `shows.json`
+    read per scheme. A read that fails leaves its scheme out."""
     pid = site["provider"]
     first = {}
     for r in listed:
-        if (r["single"] and r["scheme"] and r["amount"] and SHOP_RE.fullmatch(r["shop"])
+        if (r["scheme"] and r["amount"] and SHOP_RE.fullmatch(r["shop"])
                 and r["product"].isdigit() and PRODUCT_PATH not in r["url"]
                 and not not_film(site, r["url"])):
             first.setdefault(r["scheme"], r)
@@ -679,8 +703,7 @@ def parse(site, blocks, pages, now, tickets=None):
             "img": "",
             "lang": f["lang"],
             "soldOut": False,
-            "price": (scheme_price(r["amount"], (tickets or {}).get(r["scheme"]))
-                      if r["single"] else ""),
+            "price": ordinary_price(r["amount"], (tickets or {}).get(r["scheme"])),
             "provider": site["provider"],
             "venue": r["venue"],
         }
@@ -747,9 +770,11 @@ def fetch_site(site, sleep=1.2):
     print(f"[{pid}] {len(listed)} screening(s) in {len(blocks)} schedule block(s), "
           f"{len(pages)} film page(s) read")
     published = [s for shows in per_venue.values() for s in shows]
+    settled = {r["scheme"] for r in listed
+               if ordinary_price(r["amount"], tickets.get(r["scheme"]))}
     print(f"[{pid}] prices for {sum(1 for s in published if s['price'])} of "
-          f"{len(published)} screening(s); {sum(1 for t in tickets.values() if len(t) == 1)} "
-          f"of {len(tickets)} price scheme(s) read sell one ticket")
+          f"{len(published)} screening(s); {len(settled)} of {len(tickets)} price scheme(s) "
+          f"read establish an ordinary ticket")
     if report["skipped"]:
         print(f"[{pid}] {len(report['skipped'])} coming-soon entry/entries with no time, "
               f"left out: {', '.join(sorted(set(report['skipped']))[:8])}")

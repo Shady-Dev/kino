@@ -115,16 +115,6 @@ All 21 Julia showtimes carry `14€ / 12€` (2026-09-24); the app and pages lab
 "alkaen 14 €" and JSON-LD says 14. The maintainer holds taking the minimum: 12 € may be a
 conditional discount. **Unblocks when:** Julia's own page says what each amount is for.
 
-### Johku screenings that sell a concession beside the full ticket
-
-68 of the 147 Johku screenings read on 2026-10-16 stay unpriced. They are Kinokulma's 29,
-Kino Virta's 25, Kino Hannikainen's 7 and Kino Kulttuurimylly's 7. Each film page draws the
-full ticket alone, 12 to 13,50 €, and the storefront also sells a pensioner, student or child
-ticket, an Elämyspassi or a gift card. TMB and Riviera publish the ordinary ticket in that
-case. The 78 that sell one ticket are published. Evidence:
-[docs/research/ticketing-platforms.md](docs/research/ticketing-platforms.md).
-**Unblocks when:** the maintainer decides whether the full ticket is published.
-
 ### Staleness monitor: the ping
 
 The repo half is done, `scripts/check_staleness.py`: a pure function of a file and a

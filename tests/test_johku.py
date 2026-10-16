@@ -21,6 +21,7 @@ What they exist to prove:
 import contextlib
 import datetime
 import io
+import itertools
 import json
 import pathlib
 import re
@@ -553,38 +554,101 @@ class FilmLanguageTest(unittest.TestCase):
         self.assertEqual([s["lang"] for s in shows["biomarilyn-lapua"]], ["FI-A, SV-S", ""])
 
 
-class SchemePriceTest(unittest.TestCase):
-    """A screening is priced only where its scheme sells one ticket at the entry's amount
-    (measured on the seven storefronts 2026-10-16)."""
+# Every price scheme the seven storefronts sold on 2026-10-16, ticket names verbatim, with
+# the amount the film page drew and the ordinary admission the maintainer's policy gives.
+MEASURED = [
+    ("Bio Marilyn", "15", [("Elokuvalippu 15 €", "15")], "15€"),
+    ("Vihdin Kino", "14", [("Elokuvalippu 14", "14")], "14€"),
+    ("Bio Forum", "13", [("Elokuvalippu 13 euroa", "13")], "13€"),
+    ("Kinokulma 12", "12", [
+        ("Elokuvalippu 12 €", "12"),
+        ("Elokuvalippu 10 € (eläkeläiset, varushenkilöt, opiskelijat ja lapset 0-11v)", "10")],
+     "12€"),
+    ("Kinokulma 13", "13", [
+        ("Elokuvalippu 13 €", "13"),
+        ("Elokuvalippu 11 € (eläkeläiset, varushenkilöt, opiskelijat ja lapset 0-11v)", "11")],
+     "13€"),
+    ("Kinokulma 10", "10", [
+        ("Lippu 10 €", "10"),
+        ("Elokuvalippu 8 € (eläkeläiset, opiskelijat ja varushenkilöt, lapset -11v)", "8")],
+     "10€"),
+    ("Kinokulma 14", "14", [("Lippu 14 €", "14"),
+                            ("Lippu 12 € (eläkeläiset, opiskelijat, -11v)", "12")], "14€"),
+    ("Kino Hannikainen", "13", [("Elokuvalippu 13€", "13"), ("Seniori 12€", "12")], "13€"),
+    ("Kino Hannikainen opera", "20", [("Oopperalippu 20€", "20")], "20€"),
+    ("Kino Virta", "13.5", [("Elokuvalippu 13.50", "13.5"), ("Elämyspassi", "11.5"),
+                            ("Lahjakortti", "20"),
+                            ("Kaupungin maksama ilmaislippu Heart Of The Beast", "0")], "13.5€"),
+    ("Kino Virta, multipleprices 0", "11.5", [("Peruslippu 11.50", "11.5"),
+                                              ("Elämyspassi", "9.5")], "11.5€"),
+    ("Kino Kulttuurimylly", "12.5", [("ELOKUVALIPPU 12,50 €", "12.5"),
+                                     ("ELOKUVALIPPU ALERYHMÄ 10 €", "10")], "12.5€"),
+    ("Kino Kulttuurimylly baby cinema", "12.5", [("Vauvakino: 12,50 €", "12.5")], "12.5€"),
+    ("Kino Kulttuurimylly, a discount ticket alone", "10",
+     [("ELOKUVALIPPU ALERYHMÄ 10 €", "10")], ""),
+    ("Kinokulma, a free ticket alone", "0", [("Vapaalippu", "0")], ""),
+]
 
-    def test_one_ticket_at_the_entrys_amount_is_the_price(self):
-        for amount, ticket, want in (("15", "15", "15€"), ("12.5", "12.50", "12.5€"),
-                                     ("10", "10", "10€"), ("13.50", "13.5", "13.5€")):
-            with self.subTest(amount=amount):
-                self.assertEqual(J.scheme_price(amount, [("Elokuvalippu", ticket)]), want)
 
-    def test_a_concession_or_a_pass_beside_the_full_ticket_settles_nothing(self):
-        self.assertEqual(J.scheme_price("12", [("Elokuvalippu 10 € (eläkeläiset)", "10"),
-                                               ("Elokuvalippu 12 €", "12")]), "")
-        self.assertEqual(J.scheme_price("11.5", [("Elämyspassi", "9.5"),
-                                                 ("Peruslippu 11.50", "11.5")]), "")
-        # The full ticket first, as Kino Hannikainen's rows sort.
-        self.assertEqual(J.scheme_price("13", [("Elokuvalippu 13€", "13"),
-                                               ("Seniori 12€", "12")]), "")
+class OrdinaryPriceTest(unittest.TestCase):
+    """The ordinary admission: the tickets left once concessions, passes, gift cards and
+    free tickets are set aside, agreeing on the amount the film page draws."""
 
-    def test_one_ticket_at_another_amount_settles_nothing(self):
-        self.assertEqual(J.scheme_price("15", [("Elokuvalippu", "14")]), "")
+    def test_each_measured_scheme_gives_its_ordinary_admission(self):
+        for name, amount, tickets, want in MEASURED:
+            with self.subTest(scheme=name):
+                self.assertEqual(J.ordinary_price(amount, tickets), want)
 
-    def test_no_ticket_no_amount_or_a_free_ticket_settles_nothing(self):
-        for amount, tickets in (("15", []), ("15", None), ("", [("x", "15")]),
-                                (None, [("x", "15")]), ("0", [("Vapaalippu", "0")])):
+    def test_the_order_of_the_tickets_changes_nothing(self):
+        for name, amount, tickets, want in MEASURED:
+            for order in itertools.permutations(tickets):
+                with self.subTest(scheme=name, order=order):
+                    self.assertEqual(J.ordinary_price(amount, list(order)), want)
+
+    def test_neither_the_cheapest_nor_the_dearest_ticket_is_taken(self):
+        """Kino Virta's 13,50 € sits between its 11,50 € pass and its 20 € gift card."""
+        tickets = next(t for n, _, t, _ in MEASURED if n == "Kino Virta")
+        self.assertEqual(J.ordinary_price("13.5", tickets), "13.5€")
+        self.assertEqual(J.ordinary_price("11.5", tickets), "")
+        self.assertEqual(J.ordinary_price("20", tickets), "")
+
+    def test_conflicting_ordinary_prices_settle_nothing(self):
+        tickets = [("Elokuvalippu 13 €", "13"), ("Lippu 14 €", "14")]
+        self.assertEqual(J.ordinary_price("13", tickets), "")
+        self.assertEqual(J.ordinary_price("14", tickets), "")
+
+    def test_an_ordinary_ticket_at_another_amount_settles_nothing(self):
+        self.assertEqual(J.ordinary_price("13", [("Elokuvalippu 14 €", "14"),
+                                                 ("Seniori 12€", "12")]), "")
+
+    def test_a_ticket_of_no_known_kind_at_another_price_settles_nothing(self):
+        self.assertEqual(J.ordinary_price("13", [("Elokuvalippu 13 €", "13"),
+                                                 ("Perhelippu 30 €", "30")]), "")
+
+    def test_two_ordinary_tickets_at_the_drawn_amount_agree(self):
+        self.assertEqual(J.ordinary_price("13", [("Elokuvalippu 13 €", "13"),
+                                                 ("Lippu 13 €", "13")]), "13€")
+
+    def test_a_free_ticket_of_no_named_kind_is_set_aside(self):
+        self.assertEqual(J.ordinary_price("13", [("Elokuvalippu 13 €", "13"),
+                                                 ("Kampanja", "0")]), "13€")
+
+    def test_an_unreadable_price_settles_nothing_unless_its_ticket_is_set_aside(self):
+        self.assertEqual(J.ordinary_price("13", [("Elokuvalippu 13 €", "13"),
+                                                 ("Lippu", "kolmetoista")]), "")
+        self.assertEqual(J.ordinary_price("13", [("Elokuvalippu 13 €", "13"),
+                                                 ("Lahjakortti", None)]), "13€")
+
+    def test_no_ticket_or_no_amount_settles_nothing(self):
+        for amount, tickets in (("15", []), ("15", None), ("", [("Lippu", "15")]),
+                                (None, [("Lippu", "15")])):
             with self.subTest(amount=amount, tickets=tickets):
-                self.assertEqual(J.scheme_price(amount, tickets), "")
+                self.assertEqual(J.ordinary_price(amount, tickets), "")
 
     def test_an_amount_that_is_not_a_plain_euro_figure_settles_nothing(self):
         for amount in ("1e3", "15.555", "-5", "15 €", "inf"):
             with self.subTest(amount=amount):
-                self.assertEqual(J.scheme_price(amount, [("x", amount)]), "")
+                self.assertEqual(J.ordinary_price(amount, [("Lippu", amount)]), "")
 
 
 class SchemeTicketsTest(unittest.TestCase):
@@ -677,28 +741,40 @@ class ParseTest(unittest.TestCase):
                          ["Hetki ennen valoa", "Olemme vapaalla", "Olemme vapaalla"])
         self.assertEqual(report["not_films"], set())
 
-    def priced(self):
+    def priced(self, flags=("0", "1", "0", "0")):
         return blocks_of(front((1, [
-            entry("1", "Hetki ennen valoa", "2026-10-09 17:30", scheme="6", price="15"),
+            entry("1", "Hetki ennen valoa", "2026-10-09 17:30", scheme="6", price="15",
+                  multiple=flags[0]),
             entry("2", "Filmen", "2026-10-09 19:15", product="1039", scheme="31",
-                  price="12", multiple="1"),
+                  price="12", multiple=flags[1]),
             entry("3", "Kolmas", "2026-10-10 17:00", product="1040", scheme="13",
-                  price="11.5")])))
+                  price="11.5", multiple=flags[2]),
+            entry("4", "Neljäs", "2026-10-10 19:00", product="1041", scheme="15",
+                  price="10", multiple=flags[3])])))
 
+    # Measured 2026-10-16: Bio Marilyn's one ticket, Kinokulma's full ticket beside its
+    # concession, Kino Virta's Peruslippu beside its pass under a flag that says one price,
+    # and Kino Kulttuurimylly's discount-group ticket sold alone.
     TICKETS = {"6": [("Elokuvalippu 15 €", "15")],
-               "31": [("Elokuvalippu 10 € (eläkeläiset)", "10"), ("Elokuvalippu 12 €", "12")],
-               "13": [("Elämyspassi", "9.5"), ("Peruslippu 11.50", "11.5")]}
+               "31": [("Elokuvalippu 10 € (eläkeläiset, varushenkilöt, opiskelijat ja "
+                       "lapset 0-11v)", "10"), ("Elokuvalippu 12 €", "12")],
+               "13": [("Elämyspassi", "9.5"), ("Peruslippu 11.50", "11.5")],
+               "15": [("ELOKUVALIPPU ALERYHMÄ 10 €", "10")]}
+    PRICED = [("Hetki ennen valoa", "15€"), ("Filmen", "12€"), ("Kolmas", "11.5€"),
+              ("Neljäs", "")]
 
-    def test_only_a_scheme_selling_one_ticket_prices_its_screenings(self):
-        """Kino Virta's scheme 13 says `multipleprices` 0 and sells two tickets."""
+    def test_each_screening_publishes_the_ordinary_admission_its_scheme_establishes(self):
         shows, _ = J.parse(MARILYN, self.priced(), self.pages(), NOW, self.TICKETS)
         self.assertEqual([(s["title"], s["price"]) for s in shows["biomarilyn-lapua"]],
-                         [("Hetki ennen valoa", "15€"), ("Filmen", ""), ("Kolmas", "")])
+                         self.PRICED)
 
-    def test_multipleprices_alone_withholds_a_price(self):
-        shows, _ = J.parse(MARILYN, self.priced(), self.pages(), NOW,
-                           {**self.TICKETS, "31": [("Elokuvalippu 12 €", "12")]})
-        self.assertEqual(shows["biomarilyn-lapua"][1]["price"], "")
+    def test_multipleprices_is_not_read(self):
+        """Kino Virta's scheme 13 says 0 and sells two tickets. Flipping every flag
+        changes no price."""
+        shows, _ = J.parse(MARILYN, self.priced(flags=("1", "0", "1", "1")), self.pages(),
+                           NOW, self.TICKETS)
+        self.assertEqual([(s["title"], s["price"]) for s in shows["biomarilyn-lapua"]],
+                         self.PRICED)
 
     def test_a_scheme_that_was_not_read_publishes_no_price(self):
         shows, _ = J.parse(MARILYN, self.priced(), self.pages(), NOW, {})
@@ -882,28 +958,36 @@ class RunnerTest(unittest.TestCase):
         return (MARILYN["base"] + f"/api/x/fi_FI/products/{product}/shows.json"
                 "?details=true&storefront=true")
 
+    KINOKULMA_12 = ("31", [("Elokuvalippu 10 € (eläkeläiset, varushenkilöt, opiskelijat ja "
+                            "lapset 0-11v)", "10"), ("Elokuvalippu 12 €", "12")])
+
     def test_prices_come_from_one_shows_read_per_scheme(self):
+        """Scheme 31 says `multipleprices` 1 and is read like the others."""
         self.serve(self.all_sites(**self.priced_marilyn(), **{
             self.shows_url("1"): shows_json(("6", [("Elokuvalippu 15 €", "15")])),
-            self.shows_url("3"): shows_json(("8", [("Elokuvalippu 12,50 €", "12.5")]))}))
+            self.shows_url("3"): shows_json(("8", [("Elokuvalippu 12,50 €", "12.5")])),
+            self.shows_url("4"): shows_json(self.KINOKULMA_12)}))
         code, log = self.main()
         self.assertEqual(code, 0, log)
         self.assertEqual([(s["title"], s["price"]) for s in self.shows("biomarilyn-lapua")],
-                         [("A", "15€"), ("B", "15€"), ("C", "12.5€"), ("D", "")])
+                         [("A", "15€"), ("B", "15€"), ("C", "12.5€"), ("D", "12€")])
         self.assertEqual([c for c in self.calls if "shows.json" in c],
-                         [self.shows_url("1"), self.shows_url("3")])
-        self.assertIn("[biomarilyn] prices for 3 of 4 screening(s); 2 of 2 price scheme(s) "
-                      "read sell one ticket", log)
+                         [self.shows_url("4"), self.shows_url("1"), self.shows_url("3")])
+        self.assertIn("[biomarilyn] prices for 4 of 4 screening(s); 3 of 3 price scheme(s) "
+                      "read establish an ordinary ticket", log)
 
     def test_a_shows_read_that_fails_costs_its_screenings_their_price(self):
         self.serve(self.all_sites(**self.priced_marilyn(), **{
             self.shows_url("1"): RuntimeError("HTTP 502"),
-            self.shows_url("3"): shows_json(("8", [("Elokuvalippu 12,50 €", "12.5")]))}))
+            self.shows_url("3"): shows_json(("8", [("Elokuvalippu 12,50 €", "12.5")])),
+            self.shows_url("4"): shows_json(self.KINOKULMA_12)}))
         code, log = self.main()
         self.assertEqual(code, 0, log)
         self.assertEqual([(s["title"], s["price"]) for s in self.shows("biomarilyn-lapua")],
-                         [("A", ""), ("B", ""), ("C", "12.5€"), ("D", "")])
+                         [("A", ""), ("B", ""), ("C", "12.5€"), ("D", "12€")])
         self.assertIn("[biomarilyn] price scheme 6 not read (RuntimeError: HTTP 502)", log)
+        self.assertIn("[biomarilyn] prices for 2 of 4 screening(s); 2 of 2 price scheme(s) "
+                      "read establish an ordinary ticket", log)
 
     def test_the_reads_are_paced(self):
         waits = []

@@ -4066,3 +4066,15 @@ leaves the price empty. `multipleprices` alone is not trusted, because Kino Virt
 price and nothing else. Read 2026-10-16, 78 of 147 screenings were priced, and the 13
 compared on the film pages agreed. Eleven mutations red. The findings are in
 [docs/research/ticketing-platforms.md](../research/ticketing-platforms.md).
+
+### Johku's ordinary admission (2026-10-16)
+The same day the maintainer set the policy for the screenings that sell more than one
+ticket. The ordinary admission is what is left once concessions, passes and memberships,
+gift cards and free tickets are set aside by name, and it must agree on one price, the amount
+the film page draws. Nothing is chosen by the lowest or highest price or by list position,
+every scheme is read whatever `multipleprices` says, and an ambiguous scheme or a failed read
+stays unpriced. The one-ticket rule above never reached a cloud run. Read live, 140 of 146
+screenings were priced and all 131 amounts the film pages drew agreed. Kino Kulttuurimylly's
+five family screenings sell only a discount-group ticket and stay unpriced. Thirteen
+mutations red. The findings are in
+[docs/research/ticketing-platforms.md](../research/ticketing-platforms.md).

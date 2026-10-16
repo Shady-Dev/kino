@@ -1087,11 +1087,24 @@ tenant, one `shows.json` per price scheme, and two film pages per tenant rendere
 - On the film pages the full ticket is drawn alone, with no "alkaen". 13 priced screenings
   compared across the five tenants agreed with the published amount, 13 of 13.
 
+**The ordinary admission, read again the same day** (about 12:40 Helsinki time, every film
+page of the seven tenants rendered)
+
+- With concessions, passes, gift cards and free tickets set aside by name, 140 of 146
+  screenings are left with one ordinary price equal to the drawn amount. Kinokulma's 29,
+  Kino Virta's 25 and Kino Hannikainen's 17 are all priced.
+- All 131 amounts the film pages drew agreed with the published one. The 24 screenings a
+  page drew only further down were checked against its `shows.json`, and 22 agreed. Two of
+  Kinokulma's Lapin sota in November were not in that answer.
+- Kino Kulttuurimylly's 5 "Perhekino" screenings sell only "ELOKUVALIPPU ALERYHMÄ 10 €",
+  and the page draws 10,00 €. A discount-group ticket alone establishes no ordinary
+  admission, and they stay unpriced. Vihdin Kino's club screening still has no scheme.
+
 **Status and next step**
 
-`johku.py` publishes the amount where the scheme sells exactly one ticket at it, from
-2026-10-16; the record is in [docs/archive/2026-09-providers.md](../archive/2026-09-providers.md).
-Whether the full ticket is published beside a concession is open in [IDEAS.md](../../IDEAS.md).
+`johku.py` publishes the ordinary admission where the scheme establishes it, on the
+maintainer's policy of 2026-10-16; the record is in
+[docs/archive/2026-09-providers.md](../archive/2026-09-providers.md). No next step.
 
 ---
 
