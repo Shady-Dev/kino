@@ -81,12 +81,17 @@
    "tr": ""
   },
   "a nightmare on elm street": {
-   "r": 0,
+   "id": 377,
+   "img": "data/posters/ab74378717d7c9c0.jpg",
+   "r": 7.4,
    "s": {
     "en": "Nancy and her friends are plagued by nightmares of Freddy Krueger, a disfigured killer who stalks his victims in their sleep. When they realise that the injuries they sustain in their dreams have deadly consequences in the real world, Nancy must find a way to stop Freddy before he kills them all. Wes Craven’s A Nightmare on Elm Street (1984) reimagines the slasher film through its surreal dream sequences and inventive approach to horror, blurring the line between dreams and reality. Introducing one of the genre’s most enduring villains, it remains a defining entry in ’80s horror.",
-    "fi": ""
+    "fi": "Nancy näkee hirvittäviä painajaisia. Samaan aikaan hänen koulutoverinsa, jotka myös näkevät samoja unia, teurastetaan heidän nukkuessaan. Raakojen murhien takana on nuorten opiskelijoiden yhteisten painajaisten paholaismainen hahmo. Mutta kun poliisi ei ota Nancyn tarinaa kuuleviin korviinsa, tytön on kohdattava tappaja itse tämän varjomaisessa valtakunnassa."
    },
-   "tr": ""
+   "tr": "https://www.youtube.com/watch?v=CBcVZcornjI",
+   "ts": [
+    "fi"
+   ]
   },
   "aamiainen tiffanylla": {
    "id": 164,
@@ -935,7 +940,6 @@
     "kinohannikainen",
     "kinojuha",
     "kinokilta",
-    "kinokulma",
     "kinomyyri",
     "kinopiispanristi",
     "kinopirtti",
@@ -1164,16 +1168,12 @@
   },
   "fallen angels": {
    "id": 11220,
-   "img": "data/posters/c157e52f06aa7910.jpg",
-   "r": 7.7,
+   "r": 0,
    "s": {
     "en": "A disillusioned killer embarks on his last hit but first he has to overcome his affections for his cool, detached partner. Thinking it’s dangerous and improper to become involved with a colleague he sets out to find a surrogate for his affections. Against the sordid and surreal urban nightscape of contemporary Hong Kong, he crosses path with a strange drifter looking for her mysterious ex-boyfriend and an amusing mute trying to get the world’s attention in his own unconventional ways.",
-    "fi": "Urbaanisti sykkivä kuvaus alamaailman yksinäisistä antisankareista, joiden tarinat kuljettavat katsojaa Hongkongin öisillä kaduilla ja kuppiloissa. Chris Doylen kieppuva kamera seuraa agentistaan eroon haluavaa ammattitappajaa tai kauppaleikkejä harrastavaa mykkää murtomiestä, ja tanakka soundtrack myötäilee rakkauden etsintää."
+    "fi": ""
    },
-   "tr": "https://www.youtube.com/watch?v=uxaT19BlH0M",
-   "ts": [
-    "fi"
-   ]
+   "tr": ""
   },
   "falstaff salzburg verdi": {
    "r": 0,
@@ -3526,13 +3526,12 @@
   },
   "lupin iii cagliostron linna": {
    "id": 15371,
-   "img": "data/posters/eaf7f0e4af7bec52.jpg",
-   "r": 7.5,
+   "r": 0,
    "s": {
     "en": "",
     "fi": "Uransa ehtoopuolella olevan mestarivaras Lupin III:n uusin nerokas huijaus menee mönkään. Kasinolta vohkitut rahasäkit osoittautuivat taidokkaiksi väärennöksiksi! Lupin suuntaa toverinsa Jigenin kanssa Eurooppaan, kaukaiseen Cagliostron valtioon, koston kiilto silmissään. Suunnitelmat suistuvat raiteiltaan, kun parivaljakko kohtaa Clarissen, pulassa olevan kuninkaallisen neidon, joka on vastoin tahtoaan joutumassa naimisiin pahaenteisen kreivi Cagliostron kanssa. Prinsessan pelastaminen ei käy helposti, sillä Lupin ja Jigen – apunaan Lupinin arvaamaton ex-tyttöystävä Fujiko ja miekkamies Goemon – joutuvat raivaamaan tiensä halki ansojen täyttämän linnan, hengenvaarallisen vankityrmän ja ammattisalamurhaajien armeijan! Onnistuuko Lupinin pelastaa tyttö, pysyä poissa arkkivihollisensa tarkastaja Zenigatan kynsistä ja paljastaa Cagliostron linnan salaiset aarteet?"
    },
-   "tr": "https://www.youtube.com/watch?v=xmKP3zp3Mug"
+   "tr": ""
   },
   "luvattu maa": {
    "id": 511,
@@ -5133,7 +5132,6 @@
     "kinoakseli",
     "kinohamina",
     "kinohirvi",
-    "kinokulma",
     "kinolumo",
     "kinomarilyn",
     "kinometso",
@@ -5146,7 +5144,6 @@
     "kuvakukko",
     "laitilankino",
     "lieksankino",
-    "marita",
     "navettakino",
     "vaakuna"
    ],
@@ -5177,7 +5174,6 @@
     "kinoakseli",
     "kinohamina",
     "kinohirvi",
-    "kinokulma",
     "kinolumo",
     "kinomarilyn",
     "kinometso",
@@ -5190,7 +5186,6 @@
     "kuvakukko",
     "laitilankino",
     "lieksankino",
-    "marita",
     "navettakino",
     "vaakuna"
    ],
@@ -6566,13 +6561,12 @@
   },
   "sydämen kuiskaus": {
    "id": 37797,
-   "img": "data/posters/421c464214449cb9.jpg",
-   "r": 7.9,
+   "r": 0,
    "s": {
     "en": "",
     "fi": "Shizuku on lukuintoinen nuori tyttö viettämässä kesälomaa ennen viimeistä kouluvuotta. Kun hän huomaa yhden nimen, Seiji Amasawa, toistuvan kaikkien lainaamiensa kirjastokirjojen takakannessa hän tajuaa, että joku on lukenut kaiken saman kuin hän. Ensiksi. Viedessään isänsä lounasta Shizuku huomaa kissan matkustavan junassa. Hän päättää seurata kissaa. Kissa johdattaa hänet Seiji Amaswan luo. Shizukun haaveena on tulla kirjailijaksi, Seiji haluaa matkustaa Italiaan ja ryhtyä kuuluisaksi viulunveistäjäksi. Sydämen kuiskaus on heidän rakkaustarinansa. Rakkauden, joka voittaa kaikki esteet. Sydämen kuiskaus perustuu Kissojen valtakunnasta tutun Aoi Hiragin sarjakuvaan. Hayao Miyazaki teki itse kuvakäsikirjoituksen, mutta ohjauksesta vastasi Yoshifumi Kondo . Sydämen kuiskaus jäi pitkän linjan animaattorin ainoaksi ohjaustyöksi. Yoshifumi Kondo teki Studio Ghiblin keulahahmojen Hayao Miyazakin ja Isao Takahatan kanssa läheistä yhteistyötä jo ennen Ghiblin perustamista. Kondo toimi vastaavana animaattorina useissa Ghiblin avainteoksissa – kuten studion ensimmäinen suurhitti Kikin lähettipalvelu, sekä Pom Poko, Porco Rosso ja Prinsessa Mononoke – ja monet arvelivat Kondon nousevan aikaa myöten Ghiblin ykkösohjaajan rooliin. Mutta Kondo kuoli 1998 alle viisikymppisenä sairaskohtaukseen. Sydämen kuiskaus on itsenäinen tarina, mutta siinä on yhtymäkohtia Kissojen valtakuntaan. Se voisi kertoa samasta tytöstä, muutamaa vuotta myöhemmin. Tarinan rakennuspalikoina ovat koulun loppumisen mukanaan tuomat sydämen valinnat, kiihkeä kirjoittamisen himo, viulupajan soitinrakentajien hilpeä pelimannimeininki, ja salaperäinen paksunpuoleinen (mutta ei missään tapauksessa lihava) Muta -kissa, jolla tuntuu olevan jotain tekemistä elävän tuntuisen Kissaparoni -veistoksen kanssa…"
    },
-   "tr": "https://www.youtube.com/watch?v=J4lXUZTPAXg"
+   "tr": ""
   },
   "sylvi anna liisa": {
    "r": 0,
@@ -6767,7 +6761,6 @@
     "niagara",
     "regina",
     "sheryl",
-    "star",
     "vaakuna"
    ],
    "r": 7.5,
@@ -6791,7 +6784,6 @@
     "niagara",
     "regina",
     "sheryl",
-    "star",
     "vaakuna"
    ],
    "r": 7.5,
@@ -6837,16 +6829,12 @@
   },
   "the end of oak street": {
    "id": 1101383,
-   "img": "data/posters/cd5f772211d2ef21.jpg",
-   "r": 7.0,
+   "r": 0,
    "s": {
-    "en": "After a mysterious cosmic event rips Oak Street from suburbia and transports their neighborhood to someplace unknown, the Platt family soon discovers that their very survival depends on them sticking together as they navigate their now unrecognizable surroundings.",
+    "en": "",
     "fi": "Kun mystinen kosminen tapahtuma repäisee Oak Streetin irti lähiöstä ja siirtää koko naapuruston tuntemattomaan paikkaan, Plattin perhe huomaa pian, että heidän eloonjääntiinsä riippuu yhdessä pysymisestä tuntemattomaksi muuttuneessa ympäristössä. THE END OF OAK STREETIN pääosissa ovat Anne Hathaway ja Ewan McGregor, mukana myös Maisy Stella ja Christian Convery. Elokuvan on ohjannut David Robert Mitchell ja tuottanut J.J. Abrams, Hannah Minghella, Jon Cohen, David Robert Mitchell, Matt Jackson ja Tommy Harper. Vastaavina tuottajina toimivat Chris Bender, Jake Weiner, Joanne Lee and Leeann Stonebreaker. Mitchellin kuvausryhmässä toimivat pääkuvaaja Michael Gioulakis, tuotantosuunnitttelija Maya Shimoguchi, leikkaaja John Axelrad, säveltäjä Michael Giacchino ja pukusuunnittelija Erin Benach. Warner Bros. Pictures esittää A Bad Robot -tuotannon, A Jackson Pictures -tuotannon, David Robert Mitchellin elokuvan: THE END OF OAK STREET. Elokuvan levittää maailmanlaajuisesti Warner Bros. Pictures."
    },
-   "tr": "https://www.youtube.com/watch?v=u4tgctWuHc0",
-   "ts": [
-    "en"
-   ]
+   "tr": ""
   },
   "the end taidekaupungin elokuvajuhlat": {
    "id": 1751439,
@@ -6957,7 +6945,6 @@
     "gilda",
     "isohannu",
     "kinopiispanristi",
-    "savonkinot",
     "star"
    ],
    "r": 8.0,
@@ -7740,7 +7727,6 @@
     "kinovirta",
     "kkino",
     "kotkanleffat",
-    "laitilankino",
     "leffabuumi",
     "matintupa",
     "savonkinot",
@@ -7861,7 +7847,6 @@
     "kinovirta",
     "kkino",
     "kotkanleffat",
-    "laitilankino",
     "leffabuumi",
     "matintupa",
     "savonkinot",
@@ -8075,44 +8060,12 @@
   },
   "verityn varjo verity": {
    "id": 1283515,
-   "img": "data/posters/052a413644e02ce6.jpg",
-   "kr": "K-12",
-   "krs": [
-    "biogrand",
-    "biokaari",
-    "biorex",
-    "biorexkokkola",
-    "biosade",
-    "biosavoy",
-    "biovuoksi",
-    "cinemantsala",
-    "gilda",
-    "ihmekompleksi",
-    "isohannu",
-    "kino123",
-    "kinohirvi",
-    "kinojuha",
-    "kinolumo",
-    "kinoolympia",
-    "kinopiispanristi",
-    "kinopirtti",
-    "kinoset",
-    "kinovirta",
-    "kotkanleffat",
-    "leffabuumi",
-    "savonkinot",
-    "star",
-    "studio123jarvenpaa"
-   ],
-   "r": 6.4,
+   "r": 0,
    "s": {
-    "en": "Lowen Ashleigh, hired to ghostwrite for best-selling author Verity Crawford, uncovers Verity's autobiographical notes, and becomes involved in what may prove to be a lethal conspiracy.",
+    "en": "",
     "fi": "Colleen Hooverin menestysromaaniin perustuva viettelevä psykologinen trilleri seuraa menestyskirjailija Verity Crawfordia (Anne Hathaway) ja Lowen Ashleighia (Dakota Johnson), vaikeuksissa olevaa kirjailijaa, joka muuttaa syrjäiselle Crawfordin kartanolle kirjoittaakseen Verityn puolesta. Kun Lowen löytää jotakin, mikä vaikuttaa Verityn karmivilta omaelämäkerrallisilta muistiinpanoilta, hän joutuu kamppailemaan näiden häiritsevien ja kieroutuneiden tunnustusten kanssa, jotka koskevat Verityn aviomiestä Jeremyä (Josh Hartnett) – yrittäen erottaa fiktion todellisuudesta, manipuloinnin vetovoimasta ja tilaisuuden pakkomielteestä."
    },
-   "tr": "https://www.youtube.com/watch?v=xdPMKhjMSFs",
-   "ts": [
-    "en"
-   ]
+   "tr": ""
   },
   "vi är bäst me ollaan parhaita": {
    "r": 0,
