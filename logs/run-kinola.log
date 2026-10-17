@@ -1,39 +1,39 @@
-[kinokilta] 64 screening(s) listed, 45 film page(s) read
+[kinokilta] 63 screening(s) listed, 44 film page(s) read
 [kinokilta] omitted 0 confirmed non-film(s) by evidence-backed exclusion over 0 screening(s), and 1 unresolved over 2
 [kinokilta] unresolved: RetkiKino 2026
 [kinokilta] 3 synopsis/synopses withheld, no language settled: Combat Shock, Kinokopla: DIG! XX, Teenage Sex and Death at Camp Miasma
 [kinokilta] 8 film(s) with a language name not read, that part left blank: Alligator (Ei teksitystä); Combat Shock (Ei teksitystä); Joysticks (Ei teksitystä); Pieni kauhukauppa (Ei teksitystä); Prom Night (Ei teksitystä); Savage Dawn (Ei teksitystä); Sleepaway Camp (Ei teksitystä); The Devils (Ei teksitystä)
-[kinokilta] Kino Kilta: 62 showtimes, 32 dates
+[kinokilta] Kino Kilta: 61 showtimes, 32 dates
 [kinokilta] strand prefix split off 10 showtimes
-[kinokilta] Kino Kilta: 62 showtimes, 32 dates
+[kinokilta] Kino Kilta: 61 showtimes, 32 dates
 [kinokilta] synopses merged: 0
 [kinokilta] screening-note sentences left out of synopses: 1
-[kinolaika] 43 screening(s) listed, 27 film page(s) read
+[kinolaika] 42 screening(s) listed, 27 film page(s) read
 [kinolaika] omitted 0 confirmed non-film(s) by evidence-backed exclusion over 0 screening(s), and 13 unresolved over 14
 [kinolaika] unresolved: Antti Autio, Arppa, Dave Lindholm & Pepe Ahlqvist: WALKIN' BLUES -kiertue, Garden Folly, Knipi - Sivellinvetoja, Late Fame, Lyhyt elokuva rakkaudesta, Mariska - Laulan, kirjoitan, Minä ja Riikka Purra, Naza, Pikku Kummitus Lapanen keppostelee, Red Nose Company -Pop Up
 [kinolaika] override a-fox-under-a-pink-moon: evidence-unavailable
-[kinolaika] Kino Laika: 29 showtimes, 12 dates
-[kinolaika] Kino Laika: 29 showtimes, 12 dates
+[kinolaika] Kino Laika: 28 showtimes, 12 dates
+[kinolaika] Kino Laika: 28 showtimes, 12 dates
 [kinolaika] synopses merged: 0
-[kinomyyri] 25 screening(s) listed, 17 film page(s) read
-[kinomyyri] omitted 0 confirmed non-film(s) by evidence-backed exclusion over 0 screening(s), and 2 unresolved over 3
-[kinomyyri] unresolved: Must pori näkku, Pikku Kummitus Lapanen keppostelee
+[kinomyyri] 23 screening(s) listed, 16 film page(s) read
+[kinomyyri] omitted 0 confirmed non-film(s) by evidence-backed exclusion over 0 screening(s), and 1 unresolved over 2
+[kinomyyri] unresolved: Must pori näkku
 [kinomyyri] override kojootti-vs-acme-dub: evidence-unavailable
 [kinomyyri] 1 synopsis/synopses withheld, no language settled: Hamnet
 [kinomyyri] 4 film(s) with a language name not read, that part left blank: Lapin sota (saami); Naza (heprealainen); Two Seasons, Two Strangers (japanilainen, korealainen); Vasenkätinen tyttö (mandariini)
-[kinomyyri] Kino Myyri: 22 showtimes, 11 dates
-[kinomyyri] Kino Myyri: 22 showtimes, 11 dates
+[kinomyyri] Kino Myyri: 21 showtimes, 11 dates
+[kinomyyri] Kino Myyri: 21 showtimes, 11 dates
 [kinomyyri] synopses merged: 0
-[kinokonepaja] 42 screening(s) listed, 18 film page(s) read
+[kinokonepaja] 41 screening(s) listed, 18 film page(s) read
 [kinokonepaja] omitted 0 confirmed non-film(s) by evidence-backed exclusion over 0 screening(s), and 0 unresolved over 0
 [kinokonepaja] override edward-scissorhands: active
 [kinokonepaja] override gremlins: active
 [kinokonepaja] override nightmare-on-elm-street: active
-[kinokonepaja] Kino Konepaja: 42 showtimes, 21 dates
-[kinokonepaja] Kino Konepaja: 42 showtimes, 21 dates
+[kinokonepaja] Kino Konepaja: 41 showtimes, 21 dates
+[kinokonepaja] Kino Konepaja: 41 showtimes, 21 dates
 [kinokonepaja] synopses merged: 0
-[run] http: 0 revalidated (304), 111 full, 19 not stored (origin said no-store), 46 cache entries written
+[run] http: 44 revalidated (304), 65 full, 18 not stored (origin said no-store), 1 cache entries written
 [run] hosts: 4 attempted -- kinokonepaja.fi, kinomyyri.fi, www.kinokilta.fi, www.kinolaika.fi
-[run] kinola: 4 venues, 155 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
-[run] timing: 4 site(s), 234.8s of fetching added up across workers that overlap, longest site 94.3s, longest queue wait 129.8s, 94.3s wall from this module's first fetch starting to its last ending
+[run] kinola: 4 venues, 151 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
+[run] timing: 4 site(s), 189.1s of fetching added up across workers that overlap, longest site 68.6s, longest queue wait 119.0s, 68.6s wall from this module's first fetch starting to its last ending
 exit=0

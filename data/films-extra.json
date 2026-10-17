@@ -3961,13 +3961,12 @@
   },
   "naapurini totoro": {
    "id": 8392,
-   "img": "data/posters/2290ebd3d6a0a635.jpg",
-   "r": 8.1,
+   "r": 0,
    "s": {
     "en": "",
     "fi": "Hayao Miyazakin kolmas pitkä elokuva Naapurini Totoro on Studio Ghiblin tuotannon hurmaava peruskivi ja ehkä kaikkein kallisarvoisin elokuva-aarre. Totoro-hahmo on myös koko Ghiblin logo. Totoron nostalginen, 30-luvun Showaan sijoittuva luonnonläheinen maailma ja tarina uuteen taloon muuttavista siskoksista sekä viereisessä metsässä elävistä maagisista karvaturreista sisältää useita Miyazakin tuotannon kantavia teemoja. Totoro on kunnianosoitus luonnonvoimille. Miyazaki kertoo tarinan uuteen kotiin – jossa ainakin melkein kummittelee – ja läheiseen metsään tutustuvien 10- ja 4-vuotiaiden tyttöjen näkökulmasta. Totoro ei ole kiinnostunut aikuisesta pyrkimyksestä järjestykseen tai logiikkaan. Totoro jakaa hyvää mieltä edesvastuuttoman omapäisesti ja mielivaltaisesti. Totoro on kuin säätila, mahdoton ennustaa. Sen mukaan on vain elettävä. Sen viehätysvoimaa ei voi mitenkään kiertää eikä väistää. Totoro on maailmanlaajuinen ilmiö. Kerrankin elokuva joka sopii taatusti kaiken ikäisille."
    },
-   "tr": "https://www.youtube.com/watch?v=_nv94fL_IA8"
+   "tr": ""
   },
   "naisen kasvot": {
    "id": 76848,
@@ -6050,10 +6049,8 @@
     "kinohirvi",
     "kinolumo",
     "kinometso",
-    "kinopiispanristi",
     "kotkanleffat",
-    "star",
-    "studio123jarvenpaa"
+    "star"
    ],
    "r": 8.3,
    "s": {
@@ -7562,6 +7559,7 @@
     "kinokilta",
     "kinokonepaja",
     "kinomarilyn",
+    "korjaamo",
     "kuvakukko"
    ],
    "r": 0,
@@ -7586,6 +7584,7 @@
     "kinokilta",
     "kinokonepaja",
     "kinomarilyn",
+    "korjaamo",
     "kuvakukko"
    ],
    "r": 0,
@@ -7704,7 +7703,6 @@
    "krs": [
     "biogrand",
     "biograni",
-    "biomarilyn",
     "biorex",
     "biorexkokkola",
     "biosade",
@@ -7826,7 +7824,6 @@
    "krs": [
     "biogrand",
     "biograni",
-    "biomarilyn",
     "biorex",
     "biorexkokkola",
     "biosade",
