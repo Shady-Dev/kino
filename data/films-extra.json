@@ -26,19 +26,6 @@
     "fi"
    ]
   },
-  "3 kaveria jäätelönäytös 10 things i hate about you": {
-   "id": 4951,
-   "img": "data/posters/7d1c06f6e70772f1.jpg",
-   "r": 7.6,
-   "s": {
-    "en": "",
-    "fi": "Heti ensimmäisenä koulupäivänä rakastuu Cameron päätä pahkaa Biancaan. Ainoa ongelma on, ettei Biancan isä salli tämän tapailevan poikia - ainakaan ennen kuin Biancan huonotuulinen, totaalisen toivoton isosisko Kat on löytänyt itselleen seuralaisen. Cameron yrittää ratkaista ongelman etsimällä kuumapäiselle Katille sopivan pojan, mikä onkin helpommin sanottu kuin tehty. Hommaan värvätään maineeltaan epämääräinen, hämärä tyyppi Patrick Verona, joka lahjotaan iskemään Kat. Mutta mitä mahtaakaan tapahtua, kun Kat huomaa olleensa vain välikappale toisten romanttisessa leikissä?"
-   },
-   "tr": "https://www.youtube.com/watch?v=GbWQ_VXek6A",
-   "ts": [
-    "fi"
-   ]
-  },
   "3 kaveria jäätelönäytös call me by your name": {
    "id": 398818,
    "img": "data/posters/b619f95fe0ca8a44.jpg",
@@ -48,19 +35,6 @@
     "fi": "Elio on nuori opiskelija, joka tapaa karismaattisen Oliverin. Heidän suhteensa kehittyy hitaasti mutta varmasti unohtumattomassa ruoan, musiikin ja rakkauden täyttävässä kesässä."
    },
    "tr": "https://www.youtube.com/watch?v=Z9AYPxH5NTM",
-   "ts": [
-    "fi"
-   ]
-  },
-  "3 kaveria jäätelönäytös la la land": {
-   "id": 313369,
-   "img": "data/posters/b54b226a2460b60f.jpg",
-   "r": 7.9,
-   "s": {
-    "en": "",
-    "fi": "Mia työskentelee elokuvastudion kahvilassa tarjoilijanaja unelmoi tähteydestä. Sebastian on jazz-pianisti, joka kapinoi tylsää musiikkia vastaan ja haaveilee oman jazz-ravintolan perustamisesta. Mian ja Sebastianin tiet kohtaavat kerta toisensa jälkeen ja he rakastuvat. Rakkauteen ilmestyy ryppyjä, kun Sebastianin bändi menestyykin odotettua paremmin ja pariskunta joutuu tekemään kompromisseja ja harkitsemaan omia unelmiaan. Nykyhetken Los Angelesin päivittäisestä elämästä kertova alkuperäismusikaali tutustuttaa unelmien tavoittelun iloihin ja suruihin."
-   },
-   "tr": "https://www.youtube.com/watch?v=_oBwwSXdO_E",
    "ts": [
     "fi"
    ]
@@ -951,7 +925,6 @@
     "biogrand",
     "biorex",
     "cinemantsala",
-    "gilda",
     "kinohannikainen",
     "kinojuha",
     "kinokilta",
@@ -2718,7 +2691,6 @@
    "krs": [
     "biorex",
     "biosavoy",
-    "cinemantsala",
     "isohannu",
     "kinohirvi",
     "kinolumo",
@@ -3294,7 +3266,6 @@
    "krs": [
     "biogrand",
     "biorex",
-    "cinemantsala",
     "elavienkuvien",
     "engel",
     "ihmekompleksi",
@@ -5831,7 +5802,6 @@
    "kr": "K-16",
    "krs": [
     "biorex",
-    "cinemantsala",
     "gilda",
     "ihmekompleksi",
     "kino123",
@@ -5867,7 +5837,6 @@
    "kr": "K-16",
    "krs": [
     "biorex",
-    "cinemantsala",
     "gilda",
     "ihmekompleksi",
     "kino123",
@@ -7587,6 +7556,7 @@
     "gilda",
     "kinoaurora",
     "kinokilta",
+    "kinokonepaja",
     "kinomarilyn",
     "kuvakukko"
    ],
@@ -7610,6 +7580,7 @@
     "gilda",
     "kinoaurora",
     "kinokilta",
+    "kinokonepaja",
     "kinomarilyn",
     "kuvakukko"
    ],
@@ -8355,5 +8326,5 @@
    "tr": ""
   }
  },
- "generated": "2026-10-16"
+ "generated": "2026-10-17"
 }
