@@ -752,6 +752,7 @@
     "kinosampo",
     "kinotoijala",
     "leffabuumi",
+    "lieksankino",
     "sheryl"
    ],
    "r": 0,
@@ -3017,16 +3018,12 @@
   },
   "kätyrit ja monsterit suomeksi": {
    "id": 1315772,
-   "img": "data/posters/67059865db3405c0.jpg",
-   "r": 7.6,
+   "r": 0,
    "s": {
-    "en": "This is the rambunctious, ridiculous and totally true story of how the Minions conquered Hollywood, became movie stars, lost everything, unleashed monsters onto the world and then banded together to try and save the planet from the mayhem they had just created.",
+    "en": "",
     "fi": "Suosithan paikkavarausta! Illumination johdattaa meidät jälleen hulvattomaan animaatiomaailmaansa uudella elokuvallaan Kätyrit & Monsterit, joka tuo maailman suosituimpaan animaatio-franchiseen kokonaan uusia hahmoja. Hillitön, riehakas ja täysin tositapahtumiin perustuva elokuva kertoo, miten Kätyrit valloittavat Hollywoodin ja nousevat elokuvatähdiksi, menettävät kaiken, tulevat päästäneeksi hirviöitä maailmaan ja lopulta yhdistävät … voimansa pelastaakseen planeetan itse aiheuttamaltaan kaaokselta. Alkuperäisissä äänirooleissa kuullaan muun muassa Oscar®-voittaja Allison Janney, kaksinkertainen Oscar®-voittaja Christoph Waltz, Oscar®-voittaja Jeff Bridges, kaksinkertainen Oscar®-ehdokas Jesse Eisenberg, Zoey Deutch (Nouvelle Vague) sekä Oscar®-ehdokas Trey Parker, joka tunnetaan myös yhtenä South Parkin luojista. Näyttelijäkaartia täydentävät myös entinen Saturday Night Live -tähti Bobby Moynihan ja Phil LaMarr (Futurama, Kukkulan kuningas). Kätyrit & Monsterit -elokuvan on ohjannut Oscar-ehdokkuuden saanut Pierre Coffin, jonka ohjaustöihin lukeutuvat myös kolme ensimmäistä Itse ilkimys -elokuvaa ja ensimmäinen Kätyrit-elokuva. Coffin on myös ääninäytellyt itse Kätyreitä niiden elokuvadebyytistä 2010 alkaen. Elokuvan käsikirjoittajat ovat Brian Lynch (Kätyrit, Lemmikkien salainen elämä -elokuvat) ja Pierre Coffin. Elokuvan ovat tuottaneet myös Oscar-ehdokkuuden saanut Illuminationin perustaja ja pääjohtaja Chris Meledandri sekä Bill Ryan (The Super Mario Bros. Movie -elokuvan vastaava tuottaja ). Kätyrit & Monsterit -elokuvan vastaava tuottaja on Brian Lynch. Yli 15 vuotta on kulunut Kätyreiden luomisesta, ja niistä on tullut sukupolvensa ikonisimpia animaatiohahmoja. Kaikenikäisten fanien rakastamat Kätyrit ovat siivittäneet Illuminationin Itse ilkimys- ja Kätyrit-elokuvatuotannot yli 5,6 miljardia dollaria tuottaneiksi maailmanlaajuisiksi jymymenestyksiksi."
    },
-   "tr": "https://www.youtube.com/watch?v=V-O-uBaHk3c",
-   "ts": [
-    "en"
-   ]
+   "tr": ""
   },
   "kätyrit monsterit": {
    "id": 1315772,
@@ -3192,7 +3189,6 @@
    "img": "data/posters/93eda5fa30b7d70c.jpg",
    "kr": "K-7",
    "krs": [
-    "biorex",
     "elavienkuvien",
     "engel",
     "ihmekompleksi",
@@ -4129,13 +4125,12 @@
   },
   "nälkäpeli": {
    "id": 70160,
-   "img": "data/posters/650671b50ab67ec2.jpg",
-   "r": 7.2,
+   "r": 0,
    "s": {
     "en": "",
     "fi": "Elokuva perustuu kirjailija Suzanne Collinsin menestystrilogiaan Nälkäpeli (The Hunger Games). Luonnonkatastrofit, kuivuus, myrskyt, tulipalot ja tulvat nielivät suuren osan Pohjois-Amerikasta. Loput hävitti jäljelle jääneestä ruoasta käyty sota. Raunioista syntyi Panem. Sen kansalaiset nousivat kapinaan hallitsijoitaan vastaan, mutta hävisivät taistelun. Rangaistukseksi kehitettiin Nälkäpeli."
    },
-   "tr": "https://www.youtube.com/watch?v=qoUT7q2iTbQ"
+   "tr": ""
   },
   "nälkäpeli balladi laululinnuista ja käärmeistä": {
    "id": 695721,
@@ -4862,7 +4857,6 @@
    "krs": [
     "alatalo",
     "biokaari",
-    "biorex",
     "engel",
     "huvimylly",
     "isohannu",
@@ -4870,7 +4864,8 @@
     "kinokilta",
     "kinokulma",
     "kulttuurimylly",
-    "kuvakukko"
+    "kuvakukko",
+    "lieksankino"
    ],
    "r": 0,
    "s": {
@@ -4886,7 +4881,6 @@
    "krs": [
     "alatalo",
     "biokaari",
-    "biorex",
     "engel",
     "huvimylly",
     "isohannu",
@@ -4894,7 +4888,8 @@
     "kinokilta",
     "kinokulma",
     "kulttuurimylly",
-    "kuvakukko"
+    "kuvakukko",
+    "lieksankino"
    ],
    "r": 0,
    "s": {
@@ -4919,7 +4914,6 @@
    "krs": [
     "alatalo",
     "biokaari",
-    "biorex",
     "engel",
     "huvimylly",
     "isohannu",
@@ -4927,7 +4921,8 @@
     "kinokilta",
     "kinokulma",
     "kulttuurimylly",
-    "kuvakukko"
+    "kuvakukko",
+    "lieksankino"
    ],
    "r": 0,
    "s": {
@@ -4952,7 +4947,6 @@
    "krs": [
     "alatalo",
     "biokaari",
-    "biorex",
     "engel",
     "huvimylly",
     "isohannu",
@@ -4960,7 +4954,8 @@
     "kinokilta",
     "kinokulma",
     "kulttuurimylly",
-    "kuvakukko"
+    "kuvakukko",
+    "lieksankino"
    ],
    "r": 0,
    "s": {
@@ -4976,7 +4971,6 @@
    "krs": [
     "alatalo",
     "biokaari",
-    "biorex",
     "engel",
     "huvimylly",
     "isohannu",
@@ -4984,7 +4978,8 @@
     "kinokilta",
     "kinokulma",
     "kulttuurimylly",
-    "kuvakukko"
+    "kuvakukko",
+    "lieksankino"
    ],
    "r": 0,
    "s": {
@@ -5285,7 +5280,6 @@
     "kinopirtti",
     "kinovirta",
     "leffabuumi",
-    "marita",
     "savonkinot",
     "star",
     "studio123jarvenpaa"
@@ -5745,40 +5739,6 @@
     "en"
    ]
   },
-  "resident evil 2026": {
-   "id": 1423191,
-   "img": "data/posters/647807f97cc3fb5a.jpg",
-   "kr": "K-16",
-   "krs": [
-    "biorex",
-    "gilda",
-    "ihmekompleksi",
-    "kino123",
-    "kinohirvi",
-    "kinolaika",
-    "kinolumo",
-    "kinopiispanristi",
-    "kinopirtti",
-    "kinosampo",
-    "kinotoijala",
-    "korjaamo",
-    "kotkanleffat",
-    "leffabuumi",
-    "savonkinot",
-    "star",
-    "studio123jarvenpaa",
-    "vaakuna"
-   ],
-   "r": 7.3,
-   "s": {
-    "en": "Medical courier Bryan unwittingly finds himself fighting for survival as one fateful, horrifying night collapses around him in chaos.",
-    "fi": ""
-   },
-   "tr": "https://www.youtube.com/watch?v=mNd1gb19A-c",
-   "ts": [
-    "en"
-   ]
-  },
   "resident evil k18 anniskelunäytös": {
    "r": 0,
    "s": {
@@ -5967,7 +5927,6 @@
    "kr": "K-7",
    "krs": [
     "biorex",
-    "biorexkokkola",
     "isohannu",
     "kinometso",
     "kotkanleffat",
@@ -7599,12 +7558,9 @@
     "kinolumo",
     "kinomania",
     "kinomarilyn",
-    "kinomyyri",
     "kinopiispanristi",
-    "kinopirtti",
     "kinosampo",
     "kinoset",
-    "kinotar",
     "kinotoijala",
     "kinovirta",
     "kotkanleffat",
@@ -7716,12 +7672,9 @@
     "kinolumo",
     "kinomania",
     "kinomarilyn",
-    "kinomyyri",
     "kinopiispanristi",
-    "kinopirtti",
     "kinosampo",
     "kinoset",
-    "kinotar",
     "kinotoijala",
     "kinovirta",
     "kotkanleffat",
