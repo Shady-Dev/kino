@@ -68,7 +68,9 @@ class ClientCopyTest(unittest.TestCase):
         self.assertEqual((self.fi["noshowsTomorrow"], self.fi["noshowsDay"]),
                          ("huomenna", "{wd} {date}"))
         self.assertEqual(self.fi["partialOf"], "Näytöstiedot eivät päivittyneet {n}/{m} teatterilta")
-        self.assertEqual(self.fi["notpublished"], "Tämän päivän ohjelmistoa ei ole vielä julkaistu.")
+        # Changed 2026-10-18: "Tämän päivän" reads as today's, and the line is shown for a day
+        # past the horizon, usually not today.
+        self.assertEqual(self.fi["notpublished"], "Valitun päivän ohjelmistoa ei ole vielä julkaistu.")
         self.assertEqual(self.fi["sheetNone"], "Ei näytöksiä valitussa teatterissa.")
         self.assertEqual(self.fi["nomatch"], "Valitulle päivälle ei löytynyt näytöksiä näillä hakuehdoilla.")
         self.assertIn("sheetNone:'", HTML[HTML.index("\n    sv:{"):])          # sv and en have it too

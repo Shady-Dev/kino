@@ -685,7 +685,7 @@ class StaleDayPastTheHorizon(Browser):
     def test_a_fresh_run_past_its_horizon_is_not_yet_published(self):
         self.serve("2026-09-14T08:00:00+00:00")         # one hour before
         self.assertNotIn("ei voitu tarkistaa",
-                         self.message("Tämän päivän ohjelmistoa ei ole vielä julkaistu."))
+                         self.message("Valitun päivän ohjelmistoa ei ole vielä julkaistu."))
 
     def test_a_city_with_one_fresh_source_keeps_not_yet_published(self):
         """The fresh cinema's "not yet published" is true, so one late cinema beside it
@@ -701,7 +701,7 @@ class StaleDayPastTheHorizon(Browser):
         # Retried: the city draws as its parts arrive, and with only the late one in, every
         # known source is late for a moment.
         expect(self.page.locator("#main .status")).to_contain_text(
-            "Tämän päivän ohjelmistoa ei ole vielä julkaistu.")
+            "Valitun päivän ohjelmistoa ei ole vielä julkaistu.")
 
 
 class FinnkinoUnpublishedGap(Browser):
@@ -728,7 +728,7 @@ class FinnkinoUnpublishedGap(Browser):
     def test_a_finnkino_day_before_an_advance_screening_is_not_yet_published(self):
         self.serve("area-1004.json")
         expect(self.wednesday("1004")).to_contain_text(
-            "Tämän päivän ohjelmistoa ei ole vielä julkaistu.")
+            "Valitun päivän ohjelmistoa ei ole vielä julkaistu.")
 
     def test_a_finnkino_day_before_the_published_run_has_no_shows(self):
         """A day before the listing's first date is an ordinary empty day, not an
@@ -1710,8 +1710,9 @@ class EmptyDayNamesItsDay(Browser):
         vq = self.open_picker(); vq.fill("promenadi")
         expect(self.page.locator("#vlist .vrow")).to_have_count(1)
         vq.press("Enter")
-        expect(self.status()).to_contain_text("ohjelmistoa ei ole vielä julkaistu")
+        expect(self.status()).to_contain_text("Valitun päivän ohjelmistoa ei ole vielä julkaistu.")
         self.assertNotIn("ei ole näytöksiä", self.status().text_content())
+        self.assertNotIn("Tämän päivän", self.status().text_content())
 
 
 class EmptyDayNamesItsDayOnAPhone(EmptyDayNamesItsDay):
