@@ -131,6 +131,21 @@ class NeulekinoMarkerTest(unittest.TestCase):
                 self.assertEqual(enrich_tmdb.clean(title), title)
 
 
+class DressAlongMarkerTest(unittest.TestCase):
+    """Kino Aurora published "The Rocky Horror Picture Show (Dress-Along)" on 2026-10-18,
+    99 min, while the TMDB pass matched Kino Kilta's and Riviera's plain title to 36685."""
+
+    def test_the_marker_comes_off_the_search_string(self):
+        for published in ("The Rocky Horror Picture Show (Dress-Along)",
+                          "The Rocky Horror Picture Show (dress along)"):
+            with self.subTest(published=published):
+                self.assertEqual(enrich_tmdb.clean(published), "The Rocky Horror Picture Show")
+
+    def test_the_published_title_keeps_it(self):
+        self.assertEqual(enrich_tmdb.norm("The Rocky Horror Picture Show (Dress-Along)"),
+                         "the rocky horror picture show dress along")
+
+
 class SubtitledMarkerTest(unittest.TestCase):
     """Kino Ritz published "Kerro kaikille (suomeksi tekstitetty)" on 2026-10-13 beside the
     plain title, which matched, and the row drew no poster."""

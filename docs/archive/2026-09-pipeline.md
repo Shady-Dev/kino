@@ -2858,3 +2858,10 @@ original title Der Maler, Hirschbiegel, Ben Becker, 94 minutes, dated 2023 for i
 release. The "-" marker was replaced with that id. TMDB did have a record; a title search
 did not find it because the search returns a 2024 thriller of the same name first. The "-"
 value stays for titles whose absence has been checked. 2 mutations red.
+
+### "(Dress-Along)" is stripped from the search string (2026-10-18)
+Kino Aurora published "The Rocky Horror Picture Show (Dress-Along)", and the TMDB pass found
+no match for it while it matched the plain title to 36685 at two other cinemas.
+`PublishedCoverageTest` failed on main's data because of it. The marker is now one of the
+bracketed screening names in `PAREN_NOISE`, and the published title stays as Kino Aurora
+wrote it. Two mutations went red.

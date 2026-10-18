@@ -95,7 +95,9 @@ PAREN_NOISE = re.compile(
     # "(Poistuu ohjelmistosta !)", names the film's last week (2026-09-27). Bio Grani's
     # "Hetki ennen valoa (viimeinen esitys)" names its last screening (2026-10-04); its page
     # gives Klaus Härö and 87 min, the plain title's 1015881.
-    r"|neulekino|poistuu\s+ohjelmistosta\s*!?|viimeinen\s+esitys)\s*\)", re.I)
+    # Kino Aurora's "The Rocky Horror Picture Show (Dress-Along)" is a costumed screening of the
+    # 1975 film (2026-10-18).
+    r"|neulekino|poistuu\s+ohjelmistosta\s*!?|viimeinen\s+esitys|dress-?\s?along)\s*\)", re.I)
 TRAIL_NOISE = re.compile(
     r",?\s*\b(?:suomeksi|englanniksi|dubattu|or[i]?ginaali\s+äänillä)\b\s*$",
     re.I)
