@@ -1,39 +1,44 @@
-[kinokilta] 57 screening(s) listed, 42 film page(s) read
-[kinokilta] omitted 0 confirmed non-film(s) by evidence-backed exclusion over 0 screening(s), and 1 unresolved over 2
-[kinokilta] unresolved: RetkiKino 2026
-[kinokilta] 3 synopsis/synopses withheld, no language settled: Combat Shock, Kinokopla: DIG! XX, Teenage Sex and Death at Camp Miasma
+[kinokilta] 56 screening(s) listed, 41 film page(s) read
+[kinokilta] omitted 0 confirmed non-film(s) by evidence-backed exclusion over 0 screening(s), and 0 unresolved over 0
+[kinokilta] override retkikino-2026: active
+[kinokilta] 4 synopsis/synopses withheld, no language settled: Combat Shock, Kinokopla: DIG! XX, RetkiKino 2026, Teenage Sex and Death at Camp Miasma
 [kinokilta] 8 film(s) with a language name not read, that part left blank: Alligator (Ei teksitystä); Combat Shock (Ei teksitystä); Joysticks (Ei teksitystä); Pieni kauhukauppa (Ei teksitystä); Prom Night (Ei teksitystä); Savage Dawn (Ei teksitystä); Sleepaway Camp (Ei teksitystä); The Devils (Ei teksitystä)
-[kinokilta] Kino Kilta: 55 showtimes, 31 dates
-[kinokilta] strand prefix split off 9 showtimes
-[kinokilta] Kino Kilta: 55 showtimes, 31 dates
+[kinokilta] Kino Kilta: 56 showtimes, 32 dates
+[kinokilta] strand prefix split off 8 showtimes
+[kinokilta] Kino Kilta: 56 showtimes, 32 dates
 [kinokilta] synopses merged: 0
 [kinokilta] screening-note sentences left out of synopses: 1
-[kinolaika] 36 screening(s) listed, 21 film page(s) read
-[kinolaika] omitted 0 confirmed non-film(s) by evidence-backed exclusion over 0 screening(s), and 10 unresolved over 11
-[kinolaika] unresolved: Antti Autio, Arppa, Dave Lindholm & Pepe Ahlqvist: WALKIN' BLUES -kiertue, Garden Folly, Knipi - Sivellinvetoja, Mariska - Laulan, kirjoitan, Minä ja Riikka Purra, Naza, Pikku Kummitus Lapanen keppostelee, Two Seasons, Two Strangers
+[kinolaika] 35 screening(s) listed, 20 film page(s) read
+[kinolaika] omitted 0 confirmed non-film(s) by evidence-backed exclusion over 0 screening(s), and 6 unresolved over 6
+[kinolaika] unresolved: Antti Autio, Arppa, Dave Lindholm & Pepe Ahlqvist: WALKIN' BLUES -kiertue, Garden Folly, Knipi - Sivellinvetoja, Mariska - Laulan, kirjoitan
 [kinolaika] override a-fox-under-a-pink-moon: evidence-unavailable
-[kinolaika] Kino Laika: 25 showtimes, 11 dates
-[kinolaika] Kino Laika: 25 showtimes, 11 dates
+[kinolaika] override mina-ja-riikka-purra-2: active
+[kinolaika] override naza: active
+[kinolaika] override pikku-kummitus-lapanen-keppostelee: active
+[kinolaika] override two-seasons-two-strangers: active
+[kinolaika] Kino Laika: 29 showtimes, 10 dates
+[kinolaika] Kino Laika: 29 showtimes, 10 dates
 [kinolaika] synopses merged: 0
-[kinomyyri] 21 screening(s) listed, 15 film page(s) read
-[kinomyyri] omitted 0 confirmed non-film(s) by evidence-backed exclusion over 0 screening(s), and 1 unresolved over 1
-[kinomyyri] unresolved: Musta pori näkku
+[kinolaika] synopses skipped as screening notes: 1
+[kinomyyri] 19 screening(s) listed, 15 film page(s) read
+[kinomyyri] omitted 0 confirmed non-film(s) by evidence-backed exclusion over 0 screening(s), and 0 unresolved over 0
 [kinomyyri] override kojootti-vs-acme-dub: evidence-unavailable
+[kinomyyri] override must-pori-nakku: active
 [kinomyyri] 1 synopsis/synopses withheld, no language settled: Hamnet
 [kinomyyri] 5 film(s) with a language name not read, that part left blank: Lapin sota (saami); Naza (heprealainen); Premada Oorali (kannada); Two Seasons, Two Strangers (japanilainen, korealainen); Vasenkätinen tyttö (mandariini)
-[kinomyyri] Kino Myyri: 20 showtimes, 12 dates
-[kinomyyri] Kino Myyri: 20 showtimes, 12 dates
-[kinomyyri] synopses merged: 0
-[kinokonepaja] 38 screening(s) listed, 16 film page(s) read
+[kinomyyri] Kino Myyri: 19 showtimes, 11 dates
+[kinomyyri] Kino Myyri: 19 showtimes, 11 dates
+[kinomyyri] synopses merged: 1
+[kinokonepaja] 37 screening(s) listed, 16 film page(s) read
 [kinokonepaja] omitted 0 confirmed non-film(s) by evidence-backed exclusion over 0 screening(s), and 0 unresolved over 0
 [kinokonepaja] override edward-scissorhands: active
 [kinokonepaja] override gremlins: active
 [kinokonepaja] override nightmare-on-elm-street: active
-[kinokonepaja] Kino Konepaja: 38 showtimes, 20 dates
-[kinokonepaja] Kino Konepaja: 38 showtimes, 20 dates
+[kinokonepaja] Kino Konepaja: 37 showtimes, 19 dates
+[kinokonepaja] Kino Konepaja: 37 showtimes, 19 dates
 [kinokonepaja] synopses merged: 0
-[run] http: 42 revalidated (304), 56 full, 17 not stored (origin said no-store), 1 cache entries written
+[run] http: 41 revalidated (304), 55 full, 17 not stored (origin said no-store), 1 cache entries written
 [run] hosts: 4 attempted -- kinokonepaja.fi, kinomyyri.fi, www.kinokilta.fi, www.kinolaika.fi
-[run] kinola: 4 venues, 138 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
-[run] timing: 4 site(s), 203.1s of fetching added up across workers that overlap, longest site 72.8s, longest queue wait 131.8s, 72.8s wall from this module's first fetch starting to its last ending
+[run] kinola: 4 venues, 141 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
+[run] timing: 4 site(s), 180.6s of fetching added up across workers that overlap, longest site 65.8s, longest queue wait 117.2s, 65.8s wall from this module's first fetch starting to its last ending
 exit=0

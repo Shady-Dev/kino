@@ -1,16 +1,13 @@
-[kinotour] 14 screening(s) in 3 declared town(s), 14 priced
-[kinotour] 11 screening(s) in 1 town(s) this repo does not list, left out: Kyrö/Pöytyä (11). Add the town to SITES to publish them
-[kinotour] Kurkisali, Kyrö: 0 showtimes, 0 dates
+[kinotour] 25 screening(s) in 3 declared town(s), 25 priced
+[kinotour] Kurkisali, Kyrö: 11 showtimes, 4 dates
 [kinotour] Kristoffersali, Naantali: 9 showtimes, 3 dates
 [kinotour] Valtuustosali, Lieto: 5 showtimes, 2 dates
-[kinotour] a row sits in an undeclared town, so no declared town is confirmed empty on this read: Kurkisali keep their files
-[kinotour] Kurkisali: no showtimes and none previously; publishing an empty file
+[kinotour] Kurkisali: 11 showtimes, 4 dates
 [kinotour] Kristoffersali: 9 showtimes, 3 dates
 [kinotour] Valtuustosali: 5 showtimes, 2 dates
 [kinotour] synopses merged: 0
 [run] http: 0 revalidated (304), 1 full, 0 not stored (origin said no-store), 0 cache entries written
 [run] hosts: 1 attempted -- www.kinotour.fi
-[run] partial: kinotour has 1 venue(s) that have never produced a showtime: kinotour-kyro
-[run] kinotour: 2 venues, 14 showtimes, 0 stale, 1 unverified, 0 pending, 0 with no programme, 0 failures
-[run] timing: 1 site(s), 1.4s of fetching added up across workers that overlap, longest site 1.4s, longest queue wait 176.0s, 1.4s wall from this module's first fetch starting to its last ending
+[run] kinotour: 3 venues, 25 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
+[run] timing: 1 site(s), 1.1s of fetching added up across workers that overlap, longest site 1.1s, longest queue wait 159.5s, 1.1s wall from this module's first fetch starting to its last ending
 exit=0

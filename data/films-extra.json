@@ -272,8 +272,7 @@
    "krs": [
     "engel",
     "kinoaurora",
-    "kinometso",
-    "vihdinkino"
+    "kinometso"
    ],
    "r": 6.2,
    "s": {
@@ -743,6 +742,7 @@
    "kr": "K-16",
    "krs": [
     "bioforum",
+    "biopallas",
     "cinemantsala",
     "ihmekompleksi",
     "isohannu",
@@ -890,13 +890,11 @@
   },
   "digger": {
    "id": 1248832,
-   "img": "data/posters/4f2ccb69b574d669.jpg",
+   "img": "data/posters/faa2e1edf2dd940e.jpg",
    "kr": "K-12",
    "krs": [
-    "biogrand",
     "biorex",
     "cinemantsala",
-    "kinohannikainen",
     "kinojuha",
     "kinokilta",
     "kinomyyri",
@@ -2212,6 +2210,7 @@
     "kinoset",
     "kinotar",
     "kinotoijala",
+    "kinotour",
     "kinovirta",
     "kirkkonummi",
     "kkino",
@@ -2222,7 +2221,6 @@
     "laitilankino",
     "leffabuumi",
     "lieksankino",
-    "marita",
     "matintupa",
     "niagara",
     "orion",
@@ -3320,7 +3318,6 @@
    "krs": [
     "bioforum",
     "biomarilyn",
-    "biopallas",
     "biorex",
     "cinemantsala",
     "engel",
@@ -3328,6 +3325,7 @@
     "kinoakseli",
     "kinohamina",
     "kinokulma",
+    "kinolaika",
     "kinolumo",
     "kinomarilyn",
     "kinoolympia",
@@ -3787,6 +3785,19 @@
    },
    "tr": ""
   },
+  "musta pori näkku": {
+   "id": 1512967,
+   "img": "data/posters/b88d2bb0a37718ad.jpg",
+   "r": 0,
+   "s": {
+    "en": "In the summer of 1987, Estonia languishes under Soviet rule, stifling free expression. 17-year-old Mihkel, a rebellious musician, and his rival Hendrik learn of a Finnish talent scout visiting Estonia. To impress him, they must journey to a distant rock festival on the other side of the country. They assemble a group, including Mihkel's secret love Liisa. Amid rivalry and chaos, they navigate challenges, discovering their true selves along the way.",
+    "fi": "Mihkel Raua samanimelisest menuromaanist inspireeritud seikluskomöödia, viib meid 1980ndate lõpu noorte muusikute pöörasesse maailma. Sinimustvalge on veel keelatud, riigipiir on okastraadist ning vabadusest ei ole lubatud isegi unistada. Bravuurikas 17-aastane Mihkel asub oma hevibändiga suvisele teekonnale, et astuda üles oma elu esimesel muusikafestivalil. Tema sõber ja rivaal Hendrik, kelle ansambel on just laiali läinud, pakub ennast bändiga kaasa, et festivalile kutsutud välismaa muusikaprodutsentidele muljet avaldada. Klopsitakse kokku rokkiv dream team ja sõit võib alata. Mihkli jahmatuseks on Hendrik reisile kaasa võtnud oma uue pruudi Liisa, kes on juhtumisi Mihkli unistuste tüdruk. Uljusest ja alkoholist laetud tuur saab hoo sisse, noored kangelased kihutavad läbi Nõukogude Eesti absurdse olustiku ja põrkavad pea ees vastu ajastukoomikat. Raju road trip paneb proovile sõpruse, armastuse ja unistused. Muusikat ja seiklusi täis teekond kulmineerub muusikafestivaliga, kus noored rokkarid peavad saama vastuse küsimusele “olla või mitte olla?”. Peaosades Timotheus Sammul (Mihkel), Erik Hermaküla (Hendrik), Erling Eding (Kojamees) ja Carolyn Veensalu (Liisa). Teistes rollides Carmen Mikiver, Nikolai Bentsler, Ago Anderson, Jaune Kimmel, Simo Andre Kadastu, Priit Pius, Rudolfs Apse, Karin Rask, Rain Tolk, Ott Aardam jt. Filmi režissöör on Jaak Kilmi (“Sangarid”, “Tagurpidi torn”, “Vari”) ja produtsentideks Kristian Taska, Taska Film (“Suvitajad”, “Klassikokkutulek”, “Nimed Marmortahvlil“), Tanel Tatter ja Veiko Esken, Apollo Film Productions (“Apteeker Melchior“, “Talve“, “Vigased pruudid\") ja Janis Kalejs Film Angels Studio (“O2”, “Sangarid”, “Apteeker Melchior\"), Rain Rannu ja Tõnu Hiielaid Tallifornia (“Pikad paberid”, “Lapsmasin”, “Ameerika suvi”). Filmi stsenarist on Martin Algus (“Kalev”, “Elu ja armastus”, “Sangarid\"), operaator Elen Lotman, kunstnik Katrin Sipelgas, kostüümikunstnik Anu Lensment. „Musta pori näkku“ valmimist toetavad Eesti Filmi Instituut, Kultuurkapital, Viru Filmifond ja Tartu Filmifond, Läti Filmikeskuse ja Läti riikliku tagasimakse fondid. Filmi sponsorid on Alexela, A.Le Coq, Apotheka, Postimees, Kanal 2, Coca-Cola, Tradehouse ning Babe."
+   },
+   "tr": "https://www.youtube.com/watch?v=bEZfKIjyOjo",
+   "ts": [
+    "en"
+   ]
+  },
   "mutiny": {
    "id": 1288445,
    "r": 0,
@@ -3955,6 +3966,7 @@
     "kinoiiris",
     "kinokilta",
     "kinokonepaja",
+    "kinolaika",
     "kinomyyri",
     "kuvakukko",
     "niagara",
@@ -4182,13 +4194,12 @@
   },
   "nälkäpeli vihan liekit": {
    "id": 101299,
-   "img": "data/posters/ed20cb50ae5fd7a9.jpg",
-   "r": 7.4,
+   "r": 0,
    "s": {
     "en": "",
     "fi": "Katniss Everdeen ja Peeta Mellark jotuvat Nälkäpelin voittajina vuotuiselle voittajakiertueelle. Ennen kiertuetta presidentti Snow vierailee Katnissin luona. Vyöhykkeillä on alkanut kyteä kapina Capitolin valtaa vastaan ja Snow syyttää Katnissia kapinan lietsomisesta. Snow tietää, että Katnissin ja Peetan suhde ei ole aivan niin aito, kuin he antavat ymmärtää. Pian kiertueen jälkeen Presidentti Snow antaa ilmoituksen, että vanhojen Nälkäpelin voittajien täytyy kilpailla toisiaan vastaan 75. Nälkäpelin kunniaksi. Katniss ja Peeta joutuvat areenalle uudestaan. Kisaa edeltävänä iltana pidettävässä haastattelussa Katnissin stailaaja Cinna pukee Katnissin hääpukuun presidentin käskystä. Kesken haastattelun Katnissin puku alkaa palaa, ja se muuttuu matkijanärhen puvuksi. Cinna saa kärsiä liian rohkeasta asuvalinnastaan, sillä matkijanärhi on symboli meneillään olevalle kapinalle."
    },
-   "tr": "https://www.youtube.com/watch?v=zoKj7TdJk98"
+   "tr": ""
   },
   "nämä pienet asiat": {
    "id": 1102493,
@@ -4441,7 +4452,6 @@
   },
   "orava": {
    "id": 683367,
-   "img": "data/posters/de15f95def280b5e.jpg",
    "r": 0,
    "s": {
     "en": "",
@@ -4584,16 +4594,12 @@
   },
   "paper tiger": {
    "id": 1381273,
-   "img": "data/posters/bae2625b256de906.jpg",
    "r": 0,
    "s": {
-    "en": "Two brothers become entangled in a scheme that turns out to be too good to be true. As they try to navigate their way through the dangerous world of the Russian mafia, family bonds begin to fray with life-altering consequences.",
+    "en": "",
     "fi": "1980-luvulle sijoittuva rikosdraama kertoo veljeksistä, joiden tuottoisat liiketoimet kietoutuvat järjestäytyneen rikollisuuden maailmaan. Koetukselle joutuvat niin veljesten perheidylli kuin näiden keskinäiset suhteensakin."
    },
-   "tr": "https://www.youtube.com/watch?v=MLwTyQOhBkw",
-   "ts": [
-    "en"
-   ]
+   "tr": ""
   },
   "passion": {
    "id": 348869,
@@ -4783,7 +4789,6 @@
    "krs": [
     "bioforum",
     "biomarilyn",
-    "biopallas",
     "biorex",
     "cinemantsala",
     "engel",
@@ -4791,6 +4796,7 @@
     "kinoakseli",
     "kinohamina",
     "kinokulma",
+    "kinolaika",
     "kinolumo",
     "kinomarilyn",
     "kinoolympia",
@@ -4827,7 +4833,6 @@
    "krs": [
     "bioforum",
     "biomarilyn",
-    "biopallas",
     "biorex",
     "cinemantsala",
     "engel",
@@ -4835,6 +4840,7 @@
     "kinoakseli",
     "kinohamina",
     "kinokulma",
+    "kinolaika",
     "kinolumo",
     "kinomarilyn",
     "kinoolympia",
@@ -4863,6 +4869,7 @@
     "jarvelankino",
     "kinokilta",
     "kinokulma",
+    "kinotour",
     "kulttuurimylly",
     "kuvakukko",
     "lieksankino"
@@ -4887,6 +4894,7 @@
     "jarvelankino",
     "kinokilta",
     "kinokulma",
+    "kinotour",
     "kulttuurimylly",
     "kuvakukko",
     "lieksankino"
@@ -4920,6 +4928,7 @@
     "jarvelankino",
     "kinokilta",
     "kinokulma",
+    "kinotour",
     "kulttuurimylly",
     "kuvakukko",
     "lieksankino"
@@ -4953,6 +4962,7 @@
     "jarvelankino",
     "kinokilta",
     "kinokulma",
+    "kinotour",
     "kulttuurimylly",
     "kuvakukko",
     "lieksankino"
@@ -4977,6 +4987,7 @@
     "jarvelankino",
     "kinokilta",
     "kinokulma",
+    "kinotour",
     "kulttuurimylly",
     "kuvakukko",
     "lieksankino"
@@ -5027,7 +5038,6 @@
     "bioforum",
     "biokaari",
     "biomarilyn",
-    "biopallas",
     "biorex",
     "biosade",
     "cinemantsala",
@@ -5044,12 +5054,12 @@
     "kinoolympia",
     "kinopiispanristi",
     "kinoset",
+    "kinotour",
     "kinovirta",
     "kulttuurimylly",
     "kuusamotalo",
     "kuvakukko",
     "laitilankino",
-    "lieksankino",
     "navettakino",
     "vaakuna"
    ],
@@ -5069,7 +5079,6 @@
     "bioforum",
     "biokaari",
     "biomarilyn",
-    "biopallas",
     "biorex",
     "biosade",
     "cinemantsala",
@@ -5086,12 +5095,12 @@
     "kinoolympia",
     "kinopiispanristi",
     "kinoset",
+    "kinotour",
     "kinovirta",
     "kulttuurimylly",
     "kuusamotalo",
     "kuvakukko",
     "laitilankino",
-    "lieksankino",
     "navettakino",
     "vaakuna"
    ],
@@ -5217,8 +5226,7 @@
    "kr": "K-12",
    "krs": [
     "biorex",
-    "savonkinot",
-    "star"
+    "savonkinot"
    ],
    "r": 6.3,
    "s": {
@@ -5347,16 +5355,12 @@
   },
   "primavera": {
    "id": 1365683,
-   "img": "data/posters/8fe80e3891276876.jpg",
-   "r": 7.1,
+   "r": 0,
    "s": {
-    "en": "A talented violinist, Cecilia, confined in an orphanage, meets Vivaldi who becomes her teacher. Under his mentorship and through his music, she gains courage to break free from the life she was destined for and pursue her passion.",
+    "en": "",
     "fi": "Matineanäytös. Oopperaohjaajana tunnetun Damiano Michieletton esikoiselokuva Vivaldista ja hänen lahjakkaasta oppilaastaan Ceciliasta elää ja hengittää Venetsian kevään, kanavien ja musiikin ehdoilla."
    },
-   "tr": "https://www.youtube.com/watch?v=J-fEjuVy5cQ",
-   "ts": [
-    "en"
-   ]
+   "tr": ""
   },
   "prinsessa mononoke": {
    "id": 128,
@@ -5974,6 +5978,19 @@
    },
    "tr": ""
   },
+  "saapasajalkakissa tekiöiltä unohdettu saari": {
+   "id": 1465063,
+   "img": "data/posters/db8d634869fa04ac.jpg",
+   "r": 7.9,
+   "s": {
+    "en": "While celebrating their last night together, high school graduates and best friends Jo and Raissa stumble upon a mysterious portal that transports them to the fantastical island of Nakali. When they discover that the memories of their entire friendship are the price for returning home, Jo and Raissa must race to find a way to leave the island before they forget each other forever.",
+    "fi": ""
+   },
+   "tr": "https://www.youtube.com/watch?v=PhgY8cOJiQA",
+   "ts": [
+    "en"
+   ]
+  },
   "saapasjalkakissa": {
    "id": 58704,
    "r": 0,
@@ -5982,6 +5999,19 @@
     "fi": "Saapasjalkakissa Pero osoittaa armollisuutta hiiriä kohtaan, minkä seurauksena hänestä tulee kissayhteisön lainsuojaton. Paetessaan salamurhaajakolmikkoa hän ystävystyy hyväsydämisen myllärinpoika Pierren kanssa ja lupaa auttaa tätä voittamaan kauniin prinsessan sydämen, mutta paha velho ehtiikin kaappaamaan neidon ensin itselleen. Pero-kissasta tuli aikoinaan niin suosittu, että tuotantoyhtiö Toei Animation otti sen viralliseksi maskotikseen ja logohahmokseen. Elokuva on puhuttu ruotsiksi ja tekstitetty suomeksi."
    },
    "tr": ""
+  },
+  "saapasjalkakissa tekiöiltä unohdettu saari": {
+   "id": 1465063,
+   "img": "data/posters/db8d634869fa04ac.jpg",
+   "r": 7.9,
+   "s": {
+    "en": "While celebrating their last night together, high school graduates and best friends Jo and Raissa stumble upon a mysterious portal that transports them to the fantastical island of Nakali. When they discover that the memories of their entire friendship are the price for returning home, Jo and Raissa must race to find a way to leave the island before they forget each other forever.",
+    "fi": ""
+   },
+   "tr": "https://www.youtube.com/watch?v=PhgY8cOJiQA",
+   "ts": [
+    "en"
+   ]
   },
   "saapasrasvaa": {
    "id": 33544,
@@ -6355,7 +6385,7 @@
   "street fighter": {
    "id": 1153576,
    "img": "data/posters/2c34dcbef60ffbda.jpg",
-   "r": 0,
+   "r": 6.3,
    "s": {
     "en": "In 1993, estranged Street Fighters Ryu and Ken Masters are thrown back into combat when the mysterious Chun-Li recruits them for the next World Warrior Tournament: a brutal clash of fists, fate, and fury. But behind this battle royale lies a deadly conspiracy that forces them to face off against each other and the demons of their past. And if they don't, it's GAME OVER!",
     "fi": "Eletään vuotta 1993, ja toisistaan vieraantuneet tappelijat Ryu (Andrew Koji) ja Ken Masters (Noah Centineo) vedetään takaisin tappelukuvioihin, kun salaperäinen Chun-Li (Callina Liang) värvää heidät seuraavaan World Warrior -turnaukseen – armottomaan nyrkkien, kohtalon ja raivon yhteentörmäykseen. Turnauksen kulisseissa kytee vaarallinen salaliitto, joka pakottaa Ryun ja Kenin kohtaamaan sekä toisensa että menneisyytensä demonit. Muuten peli on ohi.",
@@ -6643,7 +6673,6 @@
     "engel",
     "gilda",
     "kinokilta",
-    "kinopirtti",
     "niagara",
     "regina",
     "sheryl",
@@ -6666,7 +6695,6 @@
     "engel",
     "gilda",
     "kinokilta",
-    "kinopirtti",
     "niagara",
     "regina",
     "sheryl",
@@ -6896,6 +6924,7 @@
    "img": "data/posters/881ea0a1c032f51c.jpg",
    "kr": "K-12",
    "krs": [
+    "kinoaurora",
     "kinokilta"
    ],
    "r": 7.4,
@@ -6909,12 +6938,17 @@
    ]
   },
   "the rocky horror picture show dress along": {
-   "r": 0,
+   "id": 36685,
+   "img": "data/posters/881ea0a1c032f51c.jpg",
+   "r": 7.4,
    "s": {
-    "en": "",
+    "en": "After getting a flat tire in the middle of nowhere, newly engaged couple Brad and Janet encounter the eerie mansion of the flamboyant, seductive Dr Frank-N-Furter and a variety of eccentric characters. Through elaborate dance and rock music, the mad scientist unveils his latest creation: a perfect, muscular man.",
     "fi": "Roimasti aikaansa edellä ollut 50-vuotias musikaaliklassikko aiheuttaa edelleen säännöllisiä vavahduksia ympäri maailman elokuvateattereita, niin hardcore-faneissaan kuin uusissa Rocky Horror -uskoon vihityissä, ansaiten kautta aikojen pisimpään teattereissa pyörineen limited release -elokuvan tittelin."
    },
-   "tr": ""
+   "tr": "https://www.youtube.com/watch?v=4plqh6obZW4",
+   "ts": [
+    "en"
+   ]
   },
   "the royal ballet joutsenlampi": {
    "id": 1702782,
@@ -7056,7 +7090,6 @@
     "cinemantsala",
     "gilda",
     "kinoaurora",
-    "kinokulma",
     "kinoolympia",
     "kinopiispanristi",
     "orion",
@@ -7232,6 +7265,7 @@
    "kr": "K-16",
    "krs": [
     "biomarilyn",
+    "biopallas",
     "biorex",
     "biorexkokkola",
     "cinemantsala",
@@ -7403,6 +7437,7 @@
     "kinoaurora",
     "kinokilta",
     "kinokonepaja",
+    "kinolaika",
     "kinomarilyn",
     "korjaamo",
     "kuvakukko"
@@ -7428,6 +7463,7 @@
     "kinoaurora",
     "kinokilta",
     "kinokonepaja",
+    "kinolaika",
     "kinomarilyn",
     "korjaamo",
     "kuvakukko"
@@ -7538,9 +7574,9 @@
    "img": "data/posters/9bcaf7ef167a0f8f.jpg",
    "kr": "K-7",
    "krs": [
+    "alatalo",
     "biogrand",
     "biorex",
-    "biorexkokkola",
     "biosade",
     "biosavoy",
     "biovuoksi",
@@ -7550,7 +7586,6 @@
     "isohannu",
     "julia",
     "kino123",
-    "kinoakseli",
     "kinoelo",
     "kinohamina",
     "kinohirvi",
@@ -7637,7 +7672,7 @@
   "unohdettu saari suomeksi": {
    "id": 1465063,
    "img": "data/posters/9bcaf7ef167a0f8f.jpg",
-   "r": 8.0,
+   "r": 7.9,
    "s": {
     "en": "While celebrating their last night together, high school graduates and best friends Jo and Raissa stumble upon a mysterious portal that transports them to the fantastical island of Nakali. When they discover that the memories of their entire friendship are the price for returning home, Jo and Raissa must race to find a way to leave the island before they forget each other forever.",
     "fi": "Parhaan ystävyyden puolesta kannattaa taistella. DreamWorks Animation on aiemmin tuonut katsojille tarinoita unohtumattomista siteistä pojan ja lohikäärmeen välillä Näin koulutat lohikäärmeesi -elokuvissa, jätin ja aasin välillä Shrek-elokuvissa sekä robotin ja hanhenpoikasen välillä elokuvassa Villi robotti. Nyt luvassa on huikean tunteikas tarina kahdesta parhaasta ystävyksestä, joiden täytyy yhdistää voimansa eron uhatessa elokuvassa Unohdettu saari. Uuden alkuperäistarinan on käsikirjoittanut ja ohjannut Oscar-ehdokas Joel Crawford ja Januel Mercado. Tuottajana toimii Oscar-ehdokas Mark Swift. Sama tiimi on myös ollut tekemässä elokuvaa Saapasjalkakissa: Viimeinen toivomus. Grammy- ja Oscar-palkittu supertähti H.E.R. ja Liza Soberano (Lisa Frankenstein, Alone/Together) ovat Jo ja Raissa, high schoolista valmistunut parivaljakko. He ovat olleet parhaita ystäviä ala-asteelta asti, mutta nyt elämä uhkaa erottaa ystävykset. Juhliessaan viimeistä yhteistä iltaansa Jo ja Raissa törmäävät salaperäiseen portaaliin, joka kuljettaa heidät Nakalin mielikuvitukselliselle saarelle. Saari on täynnä maagisia ja myyttisiä olentoja, joista ystävysten filippiiniläisperheet ovat kertoneet tarinoita. Uusista tuttavuuksista paljastuu niin ystäviä kuin vihollisiakin. Apunaan hyvää tarkoittava mutta melko avuton ihmiskoira Raww (Dave Franco) sekä pieni mutta pippurinen joukko muita kamuja Jo ja Raissa ottavat mittaa karmeasta Manananggalista (Tony-palkittu ikoni Lea Salonga), saaren pelätyimmästä olennosta. Kun parille paljastuu, että hinta kotiinpaluusta on kaikkien yhteisten muistojen menettäminen, Jon ja Raissan täytyy keksiä keino päästä pois saarelta unohtamatta toisiaan. Elokuvan ääninäyttelijöiden tähtisikermää täydentävät Emmy-ehdokas Jenny Slate (Marcell the Shell with Shoes On, Dying for Sex), Manny Jacinto (The Good Place, Top Gun: Maverick), BAFTA-ehdokas Dolly de Leon (Triangle of Sadness, Ghostlight), komedian supertähti Jo Koy (Haunted Mansion, Jo Koy: Live from B"
@@ -7652,9 +7687,9 @@
    "img": "data/posters/db8d634869fa04ac.jpg",
    "kr": "K-7",
    "krs": [
+    "alatalo",
     "biogrand",
     "biorex",
-    "biorexkokkola",
     "biosade",
     "biosavoy",
     "biovuoksi",
@@ -7664,7 +7699,6 @@
     "isohannu",
     "julia",
     "kino123",
-    "kinoakseli",
     "kinoelo",
     "kinohamina",
     "kinohirvi",

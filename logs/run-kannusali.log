@@ -7,5 +7,5 @@
 [run] http: 0 revalidated (304), 6 full, 6 not stored (origin said no-store), 0 cache entries written
 [run] hosts: 2 attempted -- api.espoo.fi, www.espoo.fi
 [run] kannusali: 1 venues, 37 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
-[run] timing: 1 site(s), 23.5s of fetching added up across workers that overlap, longest site 23.5s, longest queue wait 180.9s, 23.5s wall from this module's first fetch starting to its last ending
+[run] timing: 1 site(s), 20.4s of fetching added up across workers that overlap, longest site 20.4s, longest queue wait 163.7s, 20.4s wall from this module's first fetch starting to its last ending
 exit=0
