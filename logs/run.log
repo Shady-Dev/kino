@@ -1,15 +1,17 @@
 [token] using FINNKINO_TOKEN from the environment
 [sites] 17 cinemas
-[schedule] 2026-10-18: 58 showtimes
 [schedule] 2026-10-19: 385 showtimes
 [schedule] 2026-10-20: 366 showtimes
 [schedule] 2026-10-21: 389 showtimes
 [schedule] 2026-10-22: 391 showtimes
 [schedule] 2026-10-23: 60 showtimes
 [schedule] 2026-10-24: 63 showtimes
+[schedule] 2026-10-25: 75 showtimes
 [tmdb] no TMDB match (2): Fallen Angels by Noël Coward | Ooppera: Macbeth
-[tmdb] weak candidate kept, not searched until 2026-10-19 (8): ENHYPEN WORLD TOUR 'BLOOD SAGA' -> 엔하이픈 월드 투어 ‘블러드 사가’ | HYBE CHEERING PARTY -> 하이브 치어링 파티 | Jailer 2 -> ஜெயிலர் 2 | Matloob Aelian -> مطلوب آيليان | Rose -> Rose | SEVENTEEN WORLD TOUR 'NEW_' -> SEVENTEEN WORLD TOUR [NEW_] ENCORE | TOMORROW X TOGETHER WORLD TOUR 'ACT : TOMORROW' -> TOMORROW X TOGETHER WORLD TOUR 'ACT : TOMORROW' IN SEOUL | Two Seasons, Two Strangers -> 旅と日々
-[tmdb] 0 new lookups, 0 re-checks, cache 113, 94 mergeable by id
+[tmdb] weak match, no exact title (8): ENHYPEN WORLD TOUR 'BLOOD SAGA' -> 엔하이픈 월드 투어 ‘블러드 사가’ | HYBE CHEERING PARTY -> 하이브 치어링 파티 | Jailer 2 -> ஜெயிலர் 2 | Matloob Aelian -> مكرر | Rose -> Rose | SEVENTEEN WORLD TOUR 'NEW_' -> SEVENTEEN WORLD TOUR [NEW_] ENCORE | TOMORROW X TOGETHER WORLD TOUR 'ACT : TOMORROW' -> TOMORROW X TOGETHER WORLD TOUR 'ACT : TOMORROW' IN SEOUL | Two Seasons, Two Strangers -> 旅と日々
+[tmdb] rating held back, under 25 votes (3): Jailer 2 (7.7 / 7 votes) | Matloob Aelian (1.0 / 1 votes) | Two Seasons, Two Strangers (7.1 / 16 votes)
+[tmdb] rating refresh: 6 scheduled, 6 re-read, 0 failed and still due, 0 deferred (budget 12)
+[tmdb] 9 new lookups, 18 re-checks, cache 114, 95 mergeable by id
 [films] 2 character(s) restored from another chain's copy
 [films] 61 film entries
 [attrs] dropped, neither format nor language (9): Ennakko | Klassikko | Maxim | OCAP | Pkseutu | SEVERAL | TKU & R | Tampere | Varaus20
