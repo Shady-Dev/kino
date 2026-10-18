@@ -25,6 +25,9 @@ What shapes the parser:
 - **The start is the `<time>` element's own instant**, and the printed "4.10.2026 · klo
   13.30" beside it has to agree; a card where they differ fails the site rather than
   publishing a screening at a guessed time.
+- **Only a rating-shaped tail comes off the title**, as in the table parser. Kinotour printed
+  "Kerro kaikille, K12" on its cards on 2026-10-18, and `Ryhmä Hau, Dinoelokuva, K7` keeps
+  the comma inside its title.
 - **The rating and the price come off the card.** `K7` from "87 min · K7", and one
   amount per card, the screening's own. A card with no amount, or more than one,
   publishes none; the pensioners' and students' euro off at the till is a condition, not
@@ -83,6 +86,7 @@ ACTION_RE = re.compile(r'class="[^"]*\bkt-event-action\b[^"]*"[^>]*>\s*<strong[^
                        re.S | re.I)
 AMOUNT_RE = re.compile(r"\u20ac\s*(\d{1,3})(?:[.,](\d{1,2}))?|(\d{1,3})(?:[.,](\d{1,2}))?\s*\u20ac")
 RATING_RE = re.compile(r"^(K-?\d{1,2}|S)$", re.I)
+RATING_TAIL_RE = re.compile(r",\s*(K-?\d{1,2}|S)\s*$", re.I)
 TAGS_RE = re.compile(r"<[^>]+>")
 # The page's own empty state, read 2026-10-10. The results line is for the default
 # selection, every town, so its zero is the whole programme.
@@ -131,6 +135,14 @@ def rating_of(token):
     return "S" if tail == "S" else f"K-{int(tail[1:])}"
 
 
+def split_title(text):
+    """`Ryhm\u00e4 Hau, Dinoelokuva, K7` -> ("Ryhm\u00e4 Hau, Dinoelokuva", "K-7")."""
+    m = RATING_TAIL_RE.search(text or "")
+    if not m:
+        return (text or "").strip(), ""
+    return text[:m.start()].strip(), rating_of(m.group(1))
+
+
 def price_of(blob):
     """The card's amount. -> "11\u20ac", or "" unless exactly one amount is stated.
 
@@ -155,7 +167,7 @@ def rows(site, page):
     listing = site["base"].rstrip("/") + site["listing"]
     for n, (attrs, card) in enumerate(CARD_RE.findall(page)):
         heading = TITLE_RE.search(card)
-        title = _txt(heading.group(1)) if heading else ""
+        title, tail_rating = split_title(_txt(heading.group(1)) if heading else "")
         if not title:
             raise RowError(f"{site['provider']}: card {n + 1} carries no title")
         when = WHEN_RE.search(card)
@@ -184,7 +196,7 @@ def rows(site, page):
             continue
         meta = META_RE.search(card)
         facts = [f.strip() for f in _txt(meta.group(1) if meta else "").split("\u00b7")]
-        rating = next((rating_of(f) for f in facts if rating_of(f)), "")
+        rating = next((rating_of(f) for f in facts if rating_of(f)), "") or tail_rating
         action = ACTION_RE.search(card)
         per_venue[venue["id"]].append({
             "eventId": norm(title),

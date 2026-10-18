@@ -4158,3 +4158,13 @@ evening of two to four hiking films, and a "-" alias keeps the TMDB pass from se
 title. The six billed live acts on Laika's listing have no entry, and the adapter still
 withholds them. When the live listings were replayed through the adapter, it published 31 of
 Laika's 37 rows, all 58 of Kilta's and all 21 of Myyri's. Four mutations went red.
+
+### Kinotour: the parser takes the rating tail off the card title again (2026-10-18)
+The website audit of 2026-10-18 found that the app showed all 14 Kinotour rows as initials
+tiles. Kinotour now prints the rating after the title on its cards, "Kerro kaikille, K12",
+and the card parser of 2026-09-29 had dropped the table parser's rule that takes a
+rating-shaped tail off. The parser takes the tail off again. It still reads the rating from
+the card's rating line and uses the tail's rating only when that line has none. Other
+cinemas publish the bare titles, and the TMDB pass had already matched them. The cards also
+show the operator's own poster images. The adapter does not read them, because mirroring
+them is a licensing question for the maintainer. Four mutations went red.

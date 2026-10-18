@@ -106,6 +106,21 @@ class RowsTest(unittest.TestCase):
         self.assertEqual(per_venue["kinotour-kyro"][0]["theatre"], "Kurkisali")
         self.assertEqual(report["undeclared"], {"Pöytyä": 1})
 
+    def test_a_rating_tail_comes_off_the_title_and_a_comma_inside_it_stays(self):
+        """On 2026-10-18 Kinotour printed "Kerro kaikille, K12" beside a "K12" meta line. The
+        parser uses the tail's rating only when the meta line has none."""
+        per_venue, _ = K.rows(SITE, page(
+            card(title="Kerro kaikille, k12", meta="K12"),
+            card(title="Ryhm\u00e4 Hau, Dinoelokuva, K7", meta="87 min",
+                 iso="2026-10-04T15:30:00+03:00", shown="4.10.2026 \u00b7 klo 15.30"),
+            card(title="Kissa, koira ja hiiri", meta="K7",
+                 iso="2026-10-04T17:30:00+03:00", shown="4.10.2026 \u00b7 klo 17.30")))
+        self.assertEqual([(s["title"], s["eventId"], s["rating"])
+                          for s in per_venue["kinotour-naantali"]],
+                         [("Kerro kaikille", "kerro kaikille", "K-12"),
+                          ("Ryhm\u00e4 Hau, Dinoelokuva", "ryhm\u00e4 hau dinoelokuva", "K-7"),
+                          ("Kissa, koira ja hiiri", "kissa koira ja hiiri", "K-7")])
+
     def test_the_town_is_the_place_line_when_the_card_names_no_city(self):
         per_venue, _ = K.rows(SITE, page(card(city=None)))
         self.assertEqual(len(per_venue["kinotour-naantali"]), 1)
