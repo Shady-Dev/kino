@@ -219,11 +219,35 @@ class WhatTheScreeningKeeps(unittest.TestCase):
                               start="2026-09-22T20:00:00+03:00")])
         self.assertNotIn("class=f", h)
 
-    def test_a_theatre_page_carries_no_format_part(self):
-        h = self.render([show("F", method="Anniskelu", aud="Sali 1"),
-                         show("F", aud="Sali 2", start="2026-09-22T20:00:00+03:00")],
+    def test_a_theatre_page_draws_each_screenings_own_tags(self):
+        """Kino Kulttuurimylly's Vauvakino is in `method` and the app shows it (2026-10-18).
+        A theatre page folds nothing onto the card. Each stub shows a tag that all of them
+        share, and 2D and the room's own name are still left off."""
+        one = self.render([show("F", method="Vauvakino")], with_venue=False)
+        self.assertEqual(one.count("<span class=f>Vauvakino</span>"), 1)
+        h = self.render([show("F", method="Seniorikino"),
+                         show("F", method="2D \u00b7 Seniorikino", aud="Sali 2",
+                              start="2026-09-22T20:00:00+03:00"),
+                         show("F", method="Seniorikino \u00b7 LUXE", aud="LUXE 3",
+                              start="2026-09-22T21:00:00+03:00")],
                         with_venue=False)
-        self.assertNotIn("Anniskelu", h)
+        self.assertEqual(h.count("<span class=f>Seniorikino</span>"), 3)
+        self.assertNotIn("2D", h)
+        self.assertNotIn("class=f>LUXE", h)
+
+    def test_a_tag_that_states_how_the_booking_stands_is_not_drawn(self):
+        """A page carries no sold-out state. Cinema Niagara and Kino Pirtti publish one in
+        `method` (2026-10-18)."""
+        for with_venue in (True, False):
+            with self.subTest(with_venue=with_venue):
+                h = self.render([show("F", method="Loppuunmyyty \u00b7 Tampere Film Festival",
+                                      aud="Sali 1"),
+                                 show("F", method="Kiirehdi", aud="Sali 2",
+                                      start="2026-09-22T20:00:00+03:00")],
+                                with_venue=with_venue)
+                self.assertIn("<span class=f>Tampere Film Festival</span>", h)
+                self.assertNotIn("Loppuunmyyty", h)
+                self.assertNotIn("Kiirehdi", h)
 
     def test_the_languages_split_when_the_merged_screenings_disagree(self):
         h = self.render([show("F", lang="FI-A", aud="Sali 1"),

@@ -1025,8 +1025,8 @@ def clip(text, n=200):
 # "... 2D" are one card now, and LUXE, iSense, Prime and the dubbed/original marker are
 # what separates its rows.
 #
-# City pages only. A theatre page merges nothing, so every row already carries its
-# provider's own title and nothing is lost by leaving the tags off it.
+# On a theatre page each screening shows its own tags. A strand such as Vauvakino is in
+# `method` and not in the title, and the app shows it (2026-10-18).
 #
 # No glyph exception: the app keeps a tag it draws as a glyph (Anniskelu) on every stub
 # even when all of them share it, because the glyph is where a reader looks. These pages
@@ -1043,6 +1043,10 @@ def common_tags(shows):
         if f not in out and all(f in st for st in sets):
             out.append(f)
     return out
+
+
+# A booking state changes as tickets sell, and the pages show no sold-out state.
+BOOKING_STATE = {"loppuunmyyty", "kiirehdi"}
 
 
 def stub_tags(tags, aud):
@@ -1223,9 +1227,8 @@ def film_block(title, shows, extra, gmap, lang, t, with_venue, syn_seen, current
     # Finnkino's 17:30 and 20:15 published none (2026-09-02). A price is the ticket's --
     # provider, time, format and ticket type differ -- so each stub prints its own or
     # nothing, even when every stub happens to agree.
-    # Format, only where a card can merge providers: see stub_tags. A format every
-    # screening shares says nothing that separates them and is not drawn at all, so a card
-    # looks exactly as it did unless the fold put differing screenings on it.
+    # Format, see stub_tags. On a city page a format that every merged screening shares is left
+    # out, because it separates nothing. On a theatre page each screening shows its own.
     shared_tags = common_tags(shows) if with_venue else []
 
     meta1 = [score_ring(tmdb, first(shows, "votes"), t)]
@@ -1262,8 +1265,8 @@ def film_block(title, shows, extra, gmap, lang, t, with_venue, syn_seen, current
     times = []
     for s in shows:
         clock = (s.get("start") or "")[11:16]
-        own_tags = (stub_tags([f for f in tags_of(s) if f not in shared_tags], s.get("aud"))
-                    if with_venue else [])
+        own_tags = [f for f in stub_tags([f for f in tags_of(s) if f not in shared_tags],
+                                         s.get("aud")) if f.casefold() not in BOOKING_STATE]
         parts = stub_parts(s, with_venue, lang, own_tags=own_tags)
         inline = ('<span class="loc"><span class="fx">'
                   + "".join(_part(c, x, i < len(parts) - 1) for i, (c, x) in enumerate(parts))

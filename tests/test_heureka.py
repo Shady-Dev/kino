@@ -602,7 +602,10 @@ class AdmissionModeTest(unittest.TestCase):
                           else "included in the admission ticket", page)
             self.assertIn('href="https://www.heureka.fi/collections/liput"', page)
             self.assertNotIn("€", page.split("<h2", 1)[1])          # no price on any stub
-            self.assertNotIn("Suositus", page)                            # method tags are not ported
+            # The recommendation shows as a ticket tag, like the app's pill, and never as a rating.
+            body = page.split("<h2", 1)[1]
+            self.assertEqual(body.count("Suositus"), body.count("<span class=f>Suositus"))
+            self.assertNotIn('class="rating">Suositus', body)
         # The same template as any other theatre page: header, selector, CTA, day headings.
         for marker in ('class="langseg"', 'class="cta"', '<h2 class="day">', '<p class="intro">',
                        'class="stub"', '<ul class="times">'):
