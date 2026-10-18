@@ -642,13 +642,12 @@
   },
   "casablanca": {
    "id": 289,
-   "img": "data/posters/6912a768274c5267.jpg",
-   "r": 8.1,
+   "r": 0,
    "s": {
     "en": "",
     "fi": "Täydellinen esimerkki studiokauden tarinankerronnasta ja Ingrid Bergmanin tähteyden kirkkaimmista hetkistä yhdistää sodan varjon, intohimon ja kohtalon huippuunsa hiottuun draamaan. Bergmanin Ilsa on yhtä aikaa arvoituksellinen ja syvästi inhimillinen rakkauden ja velvollisuuden ristipaineessa. Hänen ja Humphrey Bogartin välinen jännite luo ikonisia hetkiä, jotka tekevät tästä elokuvahistorian merkkipaalusta ikimuistoisen."
    },
-   "tr": "https://www.youtube.com/watch?v=MF7JH_54d8c"
+   "tr": ""
   },
   "casino royale": {
    "id": 36557,
@@ -1641,12 +1640,17 @@
    "tr": ""
   },
   "huora": {
-   "r": 0,
+   "id": 20712,
+   "img": "data/posters/ed73f1b456dc2d54.jpg",
+   "r": 5.3,
    "s": {
-    "en": "",
+    "en": "Trapped in a dangerous loop of bad luck and cheap motels, and under constant threat from her volatile pimp, prostitute Liz guides the audience through a high-stakes night on the streets. Through fourth-wall-breaking confessionals and gritty flashbacks, she reveals how she—a desperate mother—ended up selling her body to survive.",
     "fi": "Ken Russellin viimeisen teatterielokuvan päähenkilö on kaduilla päivystävä prostituoitu Liz (Theresa Russell), joka kertoo ammattinsa haasteista ja yrittää selviytyä sutenöörin kynsistä. Elämäntarina rakentuu pala palalta. Dokumenttityyliä ja karheaa huumoria viljelevä teos perustuu näytelmään Bondage, jossa kirjailija David Hines käytti taksikuskina kuulemiaan juttuja."
    },
-   "tr": ""
+   "tr": "https://www.youtube.com/watch?v=9QYVIver2yE",
+   "ts": [
+    "en"
+   ]
   },
   "huviretki hirttopaikalle": {
    "id": 11020,
@@ -2641,7 +2645,6 @@
    "krs": [
     "biosavoy",
     "isohannu",
-    "kinohirvi",
     "kulttuurimylly",
     "star"
    ],
@@ -2911,19 +2914,6 @@
     "en"
    ]
   },
-  "kuopattu rauha taidekaupungin elokuvajuhlat": {
-   "id": 1788612,
-   "img": "data/posters/7533e7dc5c157174.jpg",
-   "r": 0,
-   "s": {
-    "en": "Documentary on Finnish peace organisations and pacifism.",
-    "fi": ""
-   },
-   "tr": "",
-   "ts": [
-    "en"
-   ]
-  },
   "kuopus": {
    "id": 961077,
    "img": "data/posters/1af75b8939b2028d.jpg",
@@ -3110,12 +3100,17 @@
    ]
   },
   "l atalante": {
-   "r": 0,
+   "id": 43904,
+   "img": "data/posters/529a2d4feaee8f96.jpg",
+   "r": 7.5,
    "s": {
-    "en": "",
+    "en": "Newly married couple Juliette and ship captain Jean struggle through marriage as they travel on the L'Atalante along with the captain's first mate and a cabin boy.",
     "fi": "Tarina nuoresta avioparista, joka asuu proomulla kunnes kaupungin houkutukset heidät erottaa ja kohtalo uudelleen yhdistää, lipuu vaivattomasti realismin ja visuaalisen runouden välillä. Vaikka Vigon työt painuivat välillä lähes unohduksiin, toisen maailmansodan jälkeen L’Atalante on kuulunut niin elokuvantekijöiden, kriitikoiden kuin elokuvan rakastajien kestosuosikkeihin. Poikkeuksellisen kaunis elokuva on elokuvaa puhtaimmillaan."
    },
-   "tr": ""
+   "tr": "https://www.youtube.com/watch?v=hq024oIC25I",
+   "ts": [
+    "en"
+   ]
   },
   "la grazia": {
    "id": 1397364,
@@ -3352,7 +3347,6 @@
     "kinolaika",
     "kinolumo",
     "kinomarilyn",
-    "kinoolympia",
     "kinoset",
     "kinovirta",
     "kulttuurimylly",
@@ -3676,13 +3670,12 @@
   },
   "memoria": {
    "id": 511819,
-   "img": "data/posters/b72bfc9cb03f97d0.jpg",
-   "r": 6.0,
+   "r": 0,
    "s": {
     "en": "",
     "fi": "Cannesin elokuvajuhlien Kultaisella palmulla palkittu visionääriohjaaja Apichatpong Weerasethakul on ohjannut ensimmäisen englanninkielisen elokuvansa. Tilda Swinton näyttelee skotlantilaista naista, joka kuultuaan aamuisin kovan pamauksen lähtee sekä aistilliselle että todelliselle matkalle Kolumbian viidakkoon. Memoria on upea mystinen elokuvaelämys miltei kaikille aisteille. ” Memoria on elokuva, joka kiertyy äänen ympärille. Äänisuunnittelija Akritchalerm Kalayanamitr luo Weerasethakulin elokuviin unenomaisen hidastempoisia äänimaisemia, joissa luonto, hiljaisuus ja teollisen yhteiskunnan todellisuus limittyvät. ” – Laura Naukkarinen"
    },
-   "tr": "https://www.youtube.com/watch?v=IluUJF4_WCk"
+   "tr": ""
   },
   "metsän sydän": {
    "id": 1732662,
@@ -4738,6 +4731,8 @@
    "tr": ""
   },
   "pessi ja illusia": {
+   "id": 925363,
+   "img": "data/posters/984b5dbf81266441.jpg",
    "r": 0,
    "s": {
     "en": "",
@@ -4831,7 +4826,6 @@
     "kinolaika",
     "kinolumo",
     "kinomarilyn",
-    "kinoolympia",
     "kinoset",
     "kinovirta",
     "kulttuurimylly",
@@ -4875,7 +4869,6 @@
     "kinolaika",
     "kinolumo",
     "kinomarilyn",
-    "kinoolympia",
     "kinoset",
     "kinovirta",
     "kulttuurimylly",
@@ -5075,7 +5068,6 @@
     "cinemantsala",
     "helios",
     "isohannu",
-    "jarvelankino",
     "julia",
     "kinoakseli",
     "kinohamina",
@@ -5116,7 +5108,6 @@
     "cinemantsala",
     "helios",
     "isohannu",
-    "jarvelankino",
     "julia",
     "kinoakseli",
     "kinohamina",
@@ -5305,7 +5296,6 @@
    "krs": [
     "biogrand",
     "biorex",
-    "biosade",
     "cinemantsala",
     "gilda",
     "ihmekompleksi",
@@ -5621,12 +5611,17 @@
    "tr": "https://www.youtube.com/watch?v=zmAjjW9A0o4"
   },
   "rakasta minua manhattan": {
-   "r": 0,
+   "id": 94066,
+   "img": "data/posters/a153f4b18a2a27db.jpg",
+   "r": 6.4,
    "s": {
-    "en": "",
+    "en": "A narcissistic runaway engages in a number of parasitic relationships amongst members of New York's waning punk scene.",
     "fi": "Susan Seidelmanin debyyttiohjauksen pääosassa on Wren, moderni ajelehtija, joka haluaa päästä osaksi New Yorkin punkskeneä vain huomatakseen, että skenen painopiste on siirtynyt Los Angelesiin. Sinne pyrkii myös Richard Hellin charmikkaasti näyttelemä muusikko Eric. Pienellä budjetilla 16-milliselle filmille kuvatusta elokuvasta tuli indiehitti, yksi punkliikehdinnän virstanpylväistä ja ensimmäinen Cannesin elokuvajuhlille kutsuttu amerikkalainen indie-elokuva."
    },
-   "tr": ""
+   "tr": "https://www.youtube.com/watch?v=foPtweycZE4",
+   "ts": [
+    "en"
+   ]
   },
   "rakasta tai tuhoudu": {
    "id": 37038,
@@ -5638,12 +5633,14 @@
    "tr": ""
   },
   "rakkaani merikapteeni": {
+   "id": 511424,
+   "img": "data/posters/23b38951c7b9e981.jpg",
    "r": 0,
    "s": {
     "en": "",
     "fi": "Irlannin rannikon jylhiin maisemiin sijoittuva tarina kertoo eläköityneestä, omissa oloissaan viihtyvästä merikapteenista, jolle tytär palkkaa vastusteluista huolimatta avuksi kodinhoitajan. Kaksikon välille yllättäen syttyvä rakkaus pakottaa kohtaamaan menneisyyden haavat ja katkeruudet myös isän ja tyttären välisessä suhteessa."
    },
-   "tr": ""
+   "tr": "https://www.youtube.com/watch?v=iGkrfxYGpS4"
   },
   "rakkautta italialaisittain": {
    "id": 41110,
@@ -6871,12 +6868,17 @@
    "tr": "https://www.youtube.com/watch?v=jZ0fdmesr-w"
   },
   "the mornings of a sensible youth": {
+   "id": 452880,
+   "img": "data/posters/e2de64509381484c.jpg",
    "r": 0,
    "s": {
-    "en": "",
+    "en": "After graduating from high school and failing the university entrance exam, young Vive leaves his parents’ home in order to find his own way in life and assert his independence.",
     "fi": "Romanialaisen uuden aallon merkkiteoksiin kuuluva nuorisokuvaus kertoo Vivestä, lukiosta valmistuneesta nuoresta miehestä, joka epäonnistuu yliopiston pääsykokeissa ja päättää jättää kotinsa löytääkseen oman paikkansa maailmassa. Blaier tarjoaa harvinaisen aidon kuvan 1960-luvun Bukarestista: elokuvateattereista, kahviloista ja nuorista, jotka etsivät suuntaa tulevaisuudelleen. Blaier tarkastelee sukupolvea, jonka unelmat eivät toteudu itsestään, mutta joka yrittää silti löytää tarkoituksen työn, ystävyyden ja itsenäisyyden kautta. Vapauden etsintä johtaa Viven rakennustyömaalle, missä hän joutuu kohtaamaan sekä pettymyksensä että kysymyksen elämän merkityksestä. Aikalaiskritiikki ylisti elokuvan realismia ja vilpitöntä otetta. Toisin kuin monet aikansa nuorisoelokuvat, se välttää stereotyypit ja kuvaa henkilönsä elävinä, ristiriitaisina ihmisinä. Pääosassa loistava Dan Nuțu tekee Viven sisäisestä kriisistä koskettavan ja samaistuttavan. – Otto Kylmälä 2026"
    },
-   "tr": ""
+   "tr": "",
+   "ts": [
+    "en"
+   ]
   },
   "the music lovers": {
    "id": 72899,
@@ -7146,7 +7148,6 @@
     "cinemantsala",
     "gilda",
     "kinoaurora",
-    "kinoolympia",
     "kinopiispanristi",
     "orion",
     "savonkinot"
@@ -7187,16 +7188,12 @@
   },
   "the time that remains": {
    "id": 44898,
-   "img": "data/posters/b558312343c1a3c2.jpg",
-   "r": 7.3,
+   "r": 0,
    "s": {
-    "en": "An examination of the creation of the state of Israel in 1948 through to the present day. A semi-biographic film, in four chapters, about a family spanning from 1948 until recent times. Combined with intimate memories of each member, the film attempts to portray the daily life of those Palestinians who remained in their land and were labelled \"Israeli-Arabs,\" living as a minority in their own homeland.",
+    "en": "",
     "fi": "Suleimanin henkilökohtaisin elokuva pohjautuu osittain hänen isänsä päiväkirjoihin. Se seuraa yhden palestiinalaisen perheen elämää useiden vuosikymmenten ajan ja näyttää, miten historian suuret tapahtumat heijastuvat tavallisten ihmisten arkeen. Aikatasolta toiselle hyppivä tarina kuvaa muutosta, sopeutumista ja jatkuvuutta konfliktin keskellä."
    },
-   "tr": "https://www.youtube.com/watch?v=ZmUPHXAC3Lk",
-   "ts": [
-    "en"
-   ]
+   "tr": ""
   },
   "the turin horse": {
    "r": 0,
@@ -7342,7 +7339,6 @@
     "orion",
     "savonkinot",
     "studio123kouvola",
-    "tapiola",
     "vihdinkino"
    ],
    "r": 7.5,
@@ -7633,7 +7629,6 @@
     "alatalo",
     "biogrand",
     "biorex",
-    "biosade",
     "biosavoy",
     "biovuoksi",
     "cinemantsala",
@@ -7644,7 +7639,6 @@
     "kino123",
     "kinoelo",
     "kinohamina",
-    "kinohirvi",
     "kinokulma",
     "kinolumo",
     "kinomania",
@@ -7659,8 +7653,7 @@
     "matintupa",
     "savonkinot",
     "star",
-    "studio123jarvenpaa",
-    "vaakuna"
+    "studio123jarvenpaa"
    ],
    "r": 8.1,
    "s": {
@@ -7746,7 +7739,6 @@
     "alatalo",
     "biogrand",
     "biorex",
-    "biosade",
     "biosavoy",
     "biovuoksi",
     "cinemantsala",
@@ -7757,7 +7749,6 @@
     "kino123",
     "kinoelo",
     "kinohamina",
-    "kinohirvi",
     "kinokulma",
     "kinolumo",
     "kinomania",
@@ -7772,8 +7763,7 @@
     "matintupa",
     "savonkinot",
     "star",
-    "studio123jarvenpaa",
-    "vaakuna"
+    "studio123jarvenpaa"
    ],
    "r": 8.1,
    "s": {
@@ -7943,7 +7933,6 @@
     "ihmekompleksi",
     "isohannu",
     "kino123",
-    "kinohirvi",
     "kinojuha",
     "kinolumo",
     "kinoolympia",
