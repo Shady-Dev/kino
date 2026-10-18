@@ -1379,8 +1379,10 @@ class SnippetTest(GeneratedPagesTest):
             self.assertIn(h1, quotable, k)
             for day in re.findall(r'<h2 class="day">(.*?)</h2>', text, re.S):
                 self.assertIn(text_of(day), quotable, k)
+            # A reader sees whitespace collapsed, as `quotable` is. Bio Säde published
+            # "Kevät 1943 +  Sotaerakko" with two spaces on 2026-10-18.
             for film in re.findall(r"<h3>(.*?)</h3>", text, re.S)[:3]:
-                self.assertIn(html.unescape(text_of(film)), quotable, k)
+                self.assertIn(re.sub(r"\s+", " ", html.unescape(text_of(film))), quotable, k)
             for stub in STUB_RE.findall(text)[:3]:
                 self.assertIn(re.search(r"\d\d[:.]\d\d", text_of(stub)).group(0), quotable, k)
 
