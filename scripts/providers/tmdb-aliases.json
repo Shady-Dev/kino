@@ -178,5 +178,8 @@
  "_comment56": "BioRex, 2026-10-16. \"Nälkäpeli: Balladi Laululinnuista Ja Käärmeistä\" at twelve cinemas found only the 2012 Nälkäpeli, a colon-head match the pass refused. TMDB 695721 is The Hunger Games: The Ballad of Songbirds & Snakes (2023), directed by Francis Lawrence, 157 minutes, the runtime BioRex lists. TMDB's own Finnish title for it is the published title with a lower-case \"ja\". The search missed it because TMDB matches original and alternative titles and not translations.",
  "nälkäpeli balladi laululinnuista ja käärmeistä": "695721",
  "_comment57": "Kino Kilta, 2026-10-18. \"RetkiKino 2026\" is a monthly evening of two to four short hiking films, which the cinema's own page lists one by one. No TMDB record covers the programme, and a search for \"RetkiKino\" found nothing that day.",
- "retkikino 2026": "-"
+ "retkikino 2026": "-",
+ "_comment58": "Movie Company Alatalo, 2026-10-18. Its page now reads \"Saapasjalkakissa tekiöiltä Unohdettu saari -k7/4-\" at Kiurusali on 18.10. and \"Saapasajalkakissa tekiöiltä\" at Haapajärvi on 17.10., the same film as the entries under _comment_alatalo with \"from the makers of Puss in Boots\" written in. TMDB gave 1465063 that day as Unohdettu saari / Forgotten Island, 2026-09-10, 109 minutes, and its K-7 matches.",
+ "saapasjalkakissa tekiöiltä unohdettu saari": "1465063",
+ "saapasajalkakissa tekiöiltä unohdettu saari": "1465063"
 }

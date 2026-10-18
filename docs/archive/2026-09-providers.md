@@ -4168,3 +4168,12 @@ the card's rating line and uses the tail's rating only when that line has none. 
 cinemas publish the bare titles, and the TMDB pass had already matched them. The cards also
 show the operator's own poster images. The adapter does not read them, because mirroring
 them is a licensing question for the maintainer. Four mutations went red.
+
+### Alatalo: "tekiöiltä" in the Unohdettu saari title (2026-10-18)
+The website audit of 2026-10-18 found that Kiurusali's screening on 18.10. was shown with no
+poster under the title "Saapasjalkakissa tekiöiltä Unohdettu saari", and Haapajärvi's on
+17.10. under a second spelling. The aliases of 2026-09-19 cover both spellings without
+"tekiöiltä". Two new aliases point both spellings with it at 1465063, which TMDB gave that
+day as Unohdettu saari, 109 minutes. Both screenings had already passed, and the aliases
+apply to the operator's next listing with this wording. No runtime is published, because
+Alatalo states none.
