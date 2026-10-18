@@ -28,7 +28,7 @@
 [kinomyyri] 5 film(s) with a language name not read, that part left blank: Lapin sota (saami); Naza (heprealainen); Premada Oorali (kannada); Two Seasons, Two Strangers (japanilainen, korealainen); Vasenkätinen tyttö (mandariini)
 [kinomyyri] Kino Myyri: 19 showtimes, 11 dates
 [kinomyyri] Kino Myyri: 19 showtimes, 11 dates
-[kinomyyri] synopses merged: 1
+[kinomyyri] synopses merged: 0
 [kinokonepaja] 37 screening(s) listed, 16 film page(s) read
 [kinokonepaja] omitted 0 confirmed non-film(s) by evidence-backed exclusion over 0 screening(s), and 0 unresolved over 0
 [kinokonepaja] override edward-scissorhands: active
@@ -40,5 +40,5 @@
 [run] http: 41 revalidated (304), 55 full, 17 not stored (origin said no-store), 1 cache entries written
 [run] hosts: 4 attempted -- kinokonepaja.fi, kinomyyri.fi, www.kinokilta.fi, www.kinolaika.fi
 [run] kinola: 4 venues, 141 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
-[run] timing: 4 site(s), 180.6s of fetching added up across workers that overlap, longest site 65.8s, longest queue wait 117.2s, 65.8s wall from this module's first fetch starting to its last ending
+[run] timing: 4 site(s), 190.6s of fetching added up across workers that overlap, longest site 69.2s, longest queue wait 128.7s, 69.2s wall from this module's first fetch starting to its last ending
 exit=0
