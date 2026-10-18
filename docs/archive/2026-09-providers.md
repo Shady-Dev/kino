@@ -4147,3 +4147,14 @@ label as well as "Kyrö", and the adapter still counts a card under "Pöytyä" a
 undeclared. Parsing the live page that day gave Kyrö 11, Naantali 9 and Lieto 5, with
 nothing undeclared. Two mutations went red. The finding is in
 [docs/research/ticketing-platforms.md](../research/ticketing-platforms.md).
+
+### Kinola: six withheld films included on their pages' evidence (2026-10-18)
+The website audit of 2026-10-18 found films that the classifier leaves unresolved because
+their pages have no labelled director or genre. Each page was read that day, and six include
+entries were added to `kinola-overrides.json` with their evidence. They cover Naza, Two
+Seasons, Two Strangers, Pikku Kummitus Lapanen keppostelee and Minä ja Riikka Purra at Kino
+Laika, RetkiKino 2026 at Kino Kilta and Musta pori näkku at Kino Myyri. RetkiKino is an
+evening of two to four hiking films, and a "-" alias keeps the TMDB pass from searching its
+title. The six billed live acts on Laika's listing have no entry, and the adapter still
+withholds them. When the live listings were replayed through the adapter, it published 31 of
+Laika's 37 rows, all 58 of Kilta's and all 21 of Myyri's. Four mutations went red.

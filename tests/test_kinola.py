@@ -1191,6 +1191,37 @@ class ShippedOverridesTest(unittest.TestCase):
                          ("kinomyyri", "include"))
         self.assertIn("kojootti-vs-acme", entry["evidence"])
 
+    AUDIT_FILMS = {("kinolaika", "naza"), ("kinolaika", "two-seasons-two-strangers"),
+                   ("kinolaika", "pikku-kummitus-lapanen-keppostelee"),
+                   ("kinolaika", "mina-ja-riikka-purra-2"), ("kinokilta", "retkikino-2026"),
+                   ("kinomyyri", "must-pori-nakku")}
+    LAIKA_CONCERTS = ("antti-autio", "arppa", "dave-lindholm-pepe-ahlqvist-walkin-blues-kiertue",
+                      "garden-folly", "knipi-sivellinvetoja", "mariska-laulan-kirjoitan")
+
+    def test_the_films_withheld_on_2026_10_18_are_included_and_the_concerts_are_not(self):
+        """Each film was read on its own page that day. The billed live acts listed beside
+        them have no entry and stay unresolved."""
+        shipped = {(r["provider"], r["slug"]): r["action"] for r in self.doc["overrides"]}
+        for key in self.AUDIT_FILMS:
+            self.assertEqual(shipped.get(key), "include", key)
+        for slug in self.LAIKA_CONCERTS:
+            self.assertNotIn(("kinolaika", slug), shipped)
+
+    def test_the_shipped_file_publishes_naza_and_withholds_the_concert_beside_it(self):
+        sparse = laika_film(director="", lang="", head="80 min <br><br> K-12")
+        page = listing(laika_row("naza", "Naza", date="25/10/2026 14:00"),
+                       laika_row("garden-folly", "Garden Folly", date="07/11/2026 19:00"),
+                       laika_row("two-seasons-two-strangers", "Two Seasons, Two Strangers",
+                                 date="29/10/2026 16:00"),
+                       laika_row("two-seasons-two-strangers", "Two Seasons, Two Strangers",
+                                 date="01/11/2026 19:00"))
+        per, om = K.parse(LAIKA, page, {"naza": sparse, "garden-folly": LIVE_ACT,
+                                        "two-seasons-two-strangers": sparse},
+                          K.load_overrides())
+        self.assertEqual(sorted(s["title"] for s in per["laika-karkkila"]),
+                         ["Naza", "Two Seasons, Two Strangers", "Two Seasons, Two Strangers"])
+        self.assertEqual((om["unresolved_films"], om["unresolved_shows"]), ({"Garden Folly"}, 1))
+
     def test_whether_an_entry_is_still_needed_is_not_asserted_here(self):
         """Deliberately absent. Whether a shipped override still changes the decision
         depends on the source page as it stands, which only a run can see, so

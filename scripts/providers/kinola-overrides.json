@@ -83,6 +83,54 @@
       "reason": "A feature film whose page fills no labelled director or genre, so the classifier leaves it unresolved.",
       "evidence": "kinokonepaja.fi/film/nightmare-on-elm-street/ labels Julkaisuvuosi 1984, Julkaisija Warner Bros. Finland Oy, Kesto 1 t 31 min, Kieli englanti, Tekstitys suomi and Ikäraja K-16.",
       "verified": "2026-10-13"
+    },
+    {
+      "provider": "kinolaika",
+      "slug": "naza",
+      "action": "include",
+      "reason": "A film whose page has no labelled director or genre. The classifier leaves it unresolved.",
+      "evidence": "kinolaika.fi/film/naza/ gives 80 min, K-12, Kieli englanti, heprea and Tekstitys englanti, and its text says \"Elokuvan ovat ohjanneet ... Rachel Szor ja Yuval Abraham\". Kino Myyri labels the director or genre on its page for the same film.",
+      "verified": "2026-10-18"
+    },
+    {
+      "provider": "kinolaika",
+      "slug": "two-seasons-two-strangers",
+      "action": "include",
+      "reason": "A film whose page has no labelled director or genre. The classifier leaves it unresolved.",
+      "evidence": "kinolaika.fi/film/two-seasons-two-strangers/ gives the original title Tabi to Hibi, 89 min, S, Kieli japani, Tekstitys suomi, englanti and a synopsis of the film in Finnish and English.",
+      "verified": "2026-10-18"
+    },
+    {
+      "provider": "kinolaika",
+      "slug": "pikku-kummitus-lapanen-keppostelee",
+      "action": "include",
+      "reason": "A film whose page has no labelled director or genre. The classifier leaves it unresolved.",
+      "evidence": "kinolaika.fi/film/pikku-kummitus-lapanen-keppostelee/ gives 63 min, S and Kieli suomi, and its text calls it \"elokuvaelämys perheen pienimmille\" and says \"Elokuva on saanut Euroopan unionin Luova Eurooppa -ohjelman tuen\".",
+      "verified": "2026-10-18"
+    },
+    {
+      "provider": "kinolaika",
+      "slug": "mina-ja-riikka-purra-2",
+      "action": "include",
+      "reason": "A film whose page has no labelled director or genre. The classifier leaves it unresolved.",
+      "evidence": "kinolaika.fi/film/mina-ja-riikka-purra-2/ gives 93 min, S and Kieli suomi, and its text says \"Dokumentin on ohjannut, käsikirjoittanut ja kuvannut Liisa Akimof\", with the director as a guest at the screening.",
+      "verified": "2026-10-18"
+    },
+    {
+      "provider": "kinokilta",
+      "slug": "retkikino-2026",
+      "action": "include",
+      "reason": "A programme of hiking films whose page has no labelled director or genre. The classifier leaves it unresolved. It is several films, and no TMDB record is attached to it.",
+      "evidence": "kinokilta.fi/film/retkikino-2026/ labels Valmistumisvuosi 2025, Maat Suomi, Kieli suomi and Kesto 90 min, says \"illan aikana nähdään 2-4 retkeilyleffaa\" and \"Näytökset ovat K18\", and lists the films with their runtimes.",
+      "verified": "2026-10-18"
+    },
+    {
+      "provider": "kinomyyri",
+      "slug": "must-pori-nakku",
+      "action": "include",
+      "reason": "A film whose page has no labelled director or genre. The classifier leaves it unresolved.",
+      "evidence": "kinomyyri.fi/film/must-pori-nakku/ gives Viro 2026-10-16, 80 min, Kieli viro, Tekstitys englanti and Ikäraja K-12, with a synopsis of an adventure comedy inspired by Mihkel Raud's novel. TMDB 1512967 is Musta pori näkku, released 2026-10-16.",
+      "verified": "2026-10-18"
     }
   ]
 }
