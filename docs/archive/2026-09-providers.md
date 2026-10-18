@@ -4138,3 +4138,12 @@ unless independent source evidence opens the admission. A comma part of a ticket
 that names a group beside one amount now gives that group its own price, a free entry counted
 as 0, and a drawn amount given to a group settles nothing unless the description's statement
 for everyone gives the same amount. No live description names a group. Eleven mutations red.
+
+### Kinotour: Kurkisali under the label "Kyrö/Pöytyä" (2026-10-18)
+The website audit of 2026-10-18 found that Kurkisali was published with no screenings while
+the listing held 11 of them. Kinotour now files them under "Kyrö/Pöytyä", and the adapter
+counted them as screenings in an undeclared town. The Kurkisali venue now matches that exact
+label as well as "Kyrö", and the adapter still counts a card under "Pöytyä" alone as
+undeclared. Parsing the live page that day gave Kyrö 11, Naantali 9 and Lieto 5, with
+nothing undeclared. Two mutations went red. The finding is in
+[docs/research/ticketing-platforms.md](../research/ticketing-platforms.md).

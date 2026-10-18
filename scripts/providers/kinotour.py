@@ -61,8 +61,9 @@ SITES = [
      "base": "https://www.kinotour.fi",
      "listing": "/varaa-liput-elokuvatapahtumiin/",
      "venues": [
+         # "Kyrö/Pöytyä" is the operator's label for Kurkisali, Kyröntie 16, read 2026-10-18.
          {"id": "kinotour-kyro", "name": "Kurkisali", "short": "Kurkisali",
-          "city": "Kyrö", "town": "Kyrö"},
+          "city": "Kyrö", "town": "Kyrö", "also": ["Kyrö/Pöytyä"]},
          {"id": "kinotour-naantali", "name": "Kristoffersali", "short": "Kristoffersali",
           "city": "Naantali", "town": "Naantali"},
          {"id": "kinotour-lieto", "name": "Valtuustosali", "short": "Valtuustosali",
@@ -148,7 +149,7 @@ def price_of(blob):
 def rows(site, page):
     """-> ({venue_id: [show]}, report). `report["undeclared"]` counts the towns this
     repository does not list, by town."""
-    by_town = {v["town"]: v for v in site["venues"]}
+    by_town = {t: v for v in site["venues"] for t in [v["town"], *v.get("also", [])]}
     per_venue = {v["id"]: [] for v in site["venues"]}
     report = {"undeclared": {}}
     listing = site["base"].rstrip("/") + site["listing"]

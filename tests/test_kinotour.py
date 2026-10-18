@@ -95,6 +95,17 @@ class RowsTest(unittest.TestCase):
         self.assertEqual({k: len(v) for k, v in per_venue.items()},
                          {"kinotour-kyro": 1, "kinotour-naantali": 1, "kinotour-lieto": 1})
 
+    def test_the_operators_kyro_poytya_label_files_under_kurkisali_and_poytya_does_not(self):
+        """Kinotour filed its 11 Kurkisali cards under "Kyrö/Pöytyä" on 2026-10-18. Only that
+        exact label is added, and a card under "Pöytyä" alone is still an undeclared town."""
+        per_venue, report = K.rows(SITE, page(
+            card(city="Kyrö/Pöytyä", place="Kyrö/Pöytyä · Kurkisali"),
+            card(city="Pöytyä", place="Pöytyä · Kurkisali"), DECLARED))
+        self.assertEqual({k: len(v) for k, v in per_venue.items()},
+                         {"kinotour-kyro": 1, "kinotour-naantali": 1, "kinotour-lieto": 0})
+        self.assertEqual(per_venue["kinotour-kyro"][0]["theatre"], "Kurkisali")
+        self.assertEqual(report["undeclared"], {"Pöytyä": 1})
+
     def test_the_town_is_the_place_line_when_the_card_names_no_city(self):
         per_venue, _ = K.rows(SITE, page(card(city=None)))
         self.assertEqual(len(per_venue["kinotour-naantali"]), 1)

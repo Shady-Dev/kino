@@ -1685,6 +1685,12 @@ this is where the measurement behind it lives.
 Not built. Declare a venue when `run-kinotour.log` names its town in the undeclared count,
 not from the directory. No probe of the remaining pages of `/locations/` was made.
 
+**Kurkisali's own label.** The listing read on 2026-10-18 from an ordinary connection had 25
+cards, and 11 of them had `data-city="Kyrö/Pöytyä"`, the place line "Kyrö/Pöytyä · Kurkisali"
+and the address Kyröntie 16 in the card details. The town filter had three options,
+Kyrö/Pöytyä, Lieto and Naantali. The Kurkisali venue in `kinotour.py` now matches that exact
+label.
+
 ---
 
 ## Which platforms exist: the directory and domain sweeps
