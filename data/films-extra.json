@@ -26,32 +26,6 @@
     "fi"
    ]
   },
-  "3 kaveria jäätelönäytös call me by your name": {
-   "id": 398818,
-   "img": "data/posters/b619f95fe0ca8a44.jpg",
-   "r": 8.1,
-   "s": {
-    "en": "",
-    "fi": "Elio on nuori opiskelija, joka tapaa karismaattisen Oliverin. Heidän suhteensa kehittyy hitaasti mutta varmasti unohtumattomassa ruoan, musiikin ja rakkauden täyttävässä kesässä."
-   },
-   "tr": "https://www.youtube.com/watch?v=Z9AYPxH5NTM",
-   "ts": [
-    "fi"
-   ]
-  },
-  "3 kaveria jäätelönäytös the grand budapest hotel": {
-   "id": 120467,
-   "img": "data/posters/5e58edc72fc8fbec.jpg",
-   "r": 8.0,
-   "s": {
-    "en": "",
-    "fi": "Wes Andersonin ohjaama The Grand Budapest Hotel on hauska, kaunis, villi ja vinoutunut seikkailudraama, joka perustuu löyhästi itävaltalaisen Stefan Zweigin kertomuksiin. The Grand Budapest Hotel sijaitsee kuvitteellisessa, puolalaisesta vodkasta nimensä saaneessa Zubrowkan alppivaltiossa. Tarina alkaa vuodesta 1968, jolloin nuori kirjailija tapaa vierailullaan kuuluisassa Grand Budapest -hotellissa sen mystisen omistajan, Zero Moustafan. Moustafa kertoo koko huikean elämäntarinansa sekä tarinan hotellin kultavuosista suurten sotien välillä. Kertomus nivoutuu tiiviisti hotellin legendaarisen portieerin ja apupoikana aloittaneen, Moustafan siipiensä alle ottaneen, Gustave H:n ympärille. Gustave ja nuori Zero kokevat maailmansotien välissä seikkailuja, joista ei puutu draamaa, romantiikkaa tai jännitystä. Keskiöön nousee Gustaven rakastajiin kuuluneen Madame D:n lempiportieerilleen testamenttaama arvomaalaus, jonka tavoittelu vie kaksikon hurjalle karkumatkalle läpi Alppien."
-   },
-   "tr": "https://www.youtube.com/watch?v=G1jG8HUY4zI",
-   "ts": [
-    "fi"
-   ]
-  },
   "70mm the odyssey": {
    "id": 1368337,
    "r": 0,
@@ -943,7 +917,6 @@
     "kinomyyri",
     "kinopiispanristi",
     "kinopirtti",
-    "korjaamo",
     "kuvakukko",
     "leffabuumi",
     "niagara",
@@ -3999,6 +3972,19 @@
    },
    "tr": ""
   },
+  "nayyi navelli": {
+   "id": 1654581,
+   "img": "data/posters/caccf2fbb6275b95.jpg",
+   "r": 0,
+   "s": {
+    "en": "A new bride's arrival turns a turbulent household in Meerut into a picture of domestic harmony, until her brother-in-law grows convinced that his seemingly perfect sister-in-law is secretly a witch.",
+    "fi": ""
+   },
+   "tr": "",
+   "ts": [
+    "en"
+   ]
+  },
   "naza": {
    "id": 1755291,
    "img": "data/posters/60552918c00e4422.jpg",
@@ -4587,7 +4573,7 @@
     "en": "In Taliban-controlled Afghanistan, where women are denied the right to study, work, and speak freely, a group of young women risk their lives to form a secret reading circle.",
     "fi": "Näemme silloin Elina Hirvosen ja Shakiba Adilin paljon huomiota saaneen dokumenttielokuvan The Secret Reading Club of Kabul. Elokuva seuraa kolmea afganistanilaista naista, jotka pitävät salaista lukupiiriä Talibanin hallitsemassa maassa, jossa naisten oikeudet ovat käytännössä kadonneet lähes olemattomiin. Dokumentin kesto 94 minuuttia, K-16."
    },
-   "tr": "",
+   "tr": "https://www.youtube.com/watch?v=ekSwSVi-HSk",
    "ts": [
     "en"
    ]
@@ -5304,6 +5290,16 @@
     "fi": "Sandra Bullockin ja Nicole Kidmanin tähdittämä PRACTICAL MAGIC: LUMOTUT SISARET vie kuutamon valaisemien kepposten ja esiäitien taikuuden sävyttämään maailmaan, jossa Owensin sisarten on kohdattava synkkä kirous, joka uhkaa repiä heidän perheensä lopullisesti hajalle. Luvassa on lumottu elokuva täynnä komediaa ja taikaa."
    },
    "tr": ""
+  },
+  "premada oorali": {
+   "id": 1735270,
+   "img": "data/posters/48c1bf112f5c3690.jpg",
+   "r": 0,
+   "s": {
+    "en": "A Quirky and self-absorbed father-son duo's lives from a remote village, take an unexpected turn when an unconventional Daughter in Law enters their family, challenging societal judgment.",
+    "fi": ""
+   },
+   "tr": "https://www.youtube.com/watch?v=271GZatiFG0"
   },
   "presidentin kyyditys": {
    "id": 1412214,
@@ -6428,6 +6424,19 @@
    },
    "tr": ""
   },
+  "stray kids world tour run it live viewing": {
+   "id": 1795555,
+   "img": "data/posters/0b6f307f1ac0be55.jpg",
+   "r": 0,
+   "s": {
+    "en": "Stray Kids bring their World Tour (RUN IT) concert to cinemas in a live broadcast, with all eight members performing their high-energy choreography.",
+    "fi": ""
+   },
+   "tr": "",
+   "ts": [
+    "en"
+   ]
+  },
   "street fighter": {
    "id": 1153576,
    "img": "data/posters/2c34dcbef60ffbda.jpg",
@@ -6816,7 +6825,6 @@
    "img": "data/posters/2755bb2be0a0c120.jpg",
    "kr": "K-12",
    "krs": [
-    "engel",
     "tapiola"
    ],
    "r": 7.2,
@@ -7085,7 +7093,7 @@
     "en": "In Taliban-controlled Afghanistan, where women are denied the right to study, work, and speak freely, a group of young women risk their lives to form a secret reading circle.",
     "fi": "Afganistanissa, jossa väkivaltainen ääriliike kieltää naisten oikeudet ja mahdollisuudet, joukko nuoria naisia kokoontuu salaa lukemaan Anne Frankin päiväkirjaa. Anne Frankin innoittamana elokuvan päähenkilöt haluavat kertoa tarinansa, jotta maailma ei unohda heitä. Yhden naisista elämä muuttuu nopeasti Talibanien alkaessa etsiä häntä. Hän pelkää henkensä ja perheensä kunnian puolesta, ja päättää paeta maasta. Helsingissä asuva afganistanilainen elokuvantekijä Shakiba Adil auttaa ja tukee häntä pakenemisessa. Shakiba on itse paennut kahdesti Afganistanista henkensä uhalla. Elokuva kertoo näiden naisten silmin elämästä ääriliikkeen hallitsemassa maassa, heidän toiveistaan ja pyrkimyksistään kohti vapautta. Shakiba Adilin ja Elina Hirvosen ohjaama THE SECRET READING CLUB OF KABUL voitti arvostetun NORDIC:DOX -pääpalkinnon Tanskan CPH:DOX-dokumenttifestivaalilla. --- Suomen elokuvasäätiön markkinointi- ja levitystuki 2026"
    },
-   "tr": "",
+   "tr": "https://www.youtube.com/watch?v=ekSwSVi-HSk",
    "ts": [
     "en"
    ]
@@ -7098,7 +7106,7 @@
     "en": "In Taliban-controlled Afghanistan, where women are denied the right to study, work, and speak freely, a group of young women risk their lives to form a secret reading circle.",
     "fi": "Afganistanissa, jossa väkivaltainen ääriliike kieltää naisten oikeudet ja mahdollisuudet, joukko nuoria naisia kokoontuu salaa lukemaan Anne Frankin päiväkirjaa. Anne Frankin innoittamana elokuvan päähenkilöt haluavat kertoa tarinansa, jotta maailma ei unohda heitä. Yhden naisista elämä muuttuu nopeasti Talibanien alkaessa etsiä häntä. Hän pelkää henkensä ja perheensä kunnian puolesta, ja päättää paeta maasta. Helsingissä asuva afganistanilainen elokuvantekijä Shakiba Adil auttaa ja tukee häntä pakenemisessa. Shakiba on itse paennut kahdesti Afganistanista henkensä uhalla. Elokuva kertoo näiden naisten silmin elämästä ääriliikkeen hallitsemassa maassa, heidän toiveistaan ja pyrkimyksistään kohti vapautta."
    },
-   "tr": "",
+   "tr": "https://www.youtube.com/watch?v=ekSwSVi-HSk",
    "ts": [
     "en"
    ]
@@ -8213,5 +8221,5 @@
    "tr": ""
   }
  },
- "generated": "2026-10-17"
+ "generated": "2026-10-18"
 }
