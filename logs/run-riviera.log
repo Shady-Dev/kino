@@ -5,5 +5,5 @@
 [riviera] synopses merged: 0
 [run] hosts: 2 attempted -- tickets.rivieracinemas.fi, www.rivieracinemas.fi
 [run] riviera: 2 venues, 82 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
-[run] timing: 1 site(s), 20.9s of fetching added up across workers that overlap, longest site 20.9s, longest queue wait 65.6s, 20.9s wall from this module's first fetch starting to its last ending
+[run] timing: 1 site(s), 24.4s of fetching added up across workers that overlap, longest site 24.4s, longest queue wait 67.9s, 24.4s wall from this module's first fetch starting to its last ending
 exit=0

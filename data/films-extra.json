@@ -462,19 +462,6 @@
     "en"
    ]
   },
-  "bamse ja meren salaisuus": {
-   "id": 1275785,
-   "img": "data/posters/aed5ff66e478c590.jpg",
-   "r": 0,
-   "s": {
-    "en": "",
-    "fi": "Bamse, Pomppi ja Kilpinen ovat jälleen uuden seikkailun keskellä! Bamse, Pomppi ja Kilpinen lähtevät kohti suurta meriseikkailua ja sukeltavat keskelle merimysteeriä – pian alkaa koko perheen seikkailu, täynnä ystävyyttä, yllätyksiä ja huikeita hetkiä."
-   },
-   "tr": "https://www.youtube.com/watch?v=Vh9Tp3JXbQM",
-   "ts": [
-    "fi"
-   ]
-  },
   "beau travail": {
    "id": 14626,
    "img": "data/posters/326524066da4f856.jpg",
@@ -764,6 +751,7 @@
     "kinomania",
     "kinosampo",
     "kinotoijala",
+    "leffabuumi",
     "sheryl"
    ],
    "r": 0,
@@ -814,16 +802,12 @@
   },
   "coyote vs acme": {
    "id": 1204680,
-   "img": "data/posters/2cb6f7dbe10cca53.jpg",
-   "r": 7.5,
+   "r": 0,
    "s": {
-    "en": "After Acme products fail him one too many times in his dogged pursuit of the Roadrunner, Wile E. Coyote decides to hire a billboard lawyer to sue the Acme Corporation.",
+    "en": "",
     "fi": "Vuosikymmenten ajan pommien räjäyttämä, dynamiitin murskaama, magneettien runtelema, siirtolohkareiden litistämä, junien tallaama, tunneleiden huijaama, jousien sinkoama, höyryjyrien yliajama, viallisten laitteiden pettämä, benjiköysien kiusaama, rakettien riepottelema, lepakkoasujen selkäänpuukottama, rakettiluistinten paiskoma, yksipyöräisten kumoama, maanjäristyspillereiden tärisyttämä, villiintyneiden kuminauhojen venyttämä ja lounaisten Yhdysvaltojen jokaiselta jyrkänteeltä syöstyään Kelju K. Kojootti saa viimein tarpeekseen ja päättää iskeä takaisin. Mainostauluonnettomuuksiin erikoistuneen asianajajan Kevin Averyn (Will Forte) kanssa liittoutuessaan hän haastaa oikeuteen ACME Inc.:n – ahneuttaan tavoittelevan jättiyhtiön, jonka tuotteet ovat olleet jokaisen Kojoottia kohdanneen katastrofin taustalla – sekä yhtiötä edustavan lipevän yritysjuristin Buddy Cranen (John Cena)."
    },
-   "tr": "https://www.youtube.com/watch?v=kMsiD1Nky5I",
-   "ts": [
-    "en"
-   ]
+   "tr": ""
   },
   "coyote vs acme dub": {
    "id": 1204680,
@@ -967,16 +951,12 @@
   },
   "dom dobry home sweet home hyvä koti": {
    "id": 1035047,
-   "img": "data/posters/bdbab05dd04763e3.jpg",
-   "r": 6.7,
+   "r": 0,
    "s": {
-    "en": "When Gośka meets Grzesiek online, she's sure he's her Mr. Right. Grzesiek is crazy about her, showers her with flowers, and proposes in Venice, but soon enough, the picture perfect romance starts to crumble, revealing a darker side.",
+    "en": "",
     "fi": "Wojciech Smarzowski on elokuva- ja teatteriohjaaja, käsikirjoittaja sekä kuvaaja. Hän on valmistunut elokuvatutkimuksen alalta Jagellon yliopistosta sekä Łódźin elokuvakoulun elokuvauksen osastolta. Hän on arvostettu elokuvantekijä, joka on voittanut lukuisia elokuvapalkintoja sekä Puolassa että kansainvälisesti."
    },
-   "tr": "",
-   "ts": [
-    "en"
-   ]
+   "tr": ""
   },
   "don giovanni vicenza festivaali mozart": {
    "r": 0,
@@ -2005,6 +1985,7 @@
    "krs": [
     "gilda",
     "joutsankino",
+    "kinokulma",
     "kkino",
     "korjaamo",
     "savonkinot"
@@ -2643,12 +2624,9 @@
    "img": "data/posters/e1a7880d02ca0644.jpg",
    "kr": "K-7",
    "krs": [
-    "biorex",
     "biosavoy",
     "isohannu",
     "kinohirvi",
-    "kinolumo",
-    "kinopiispanristi",
     "kulttuurimylly",
     "star"
    ],
@@ -2747,16 +2725,12 @@
   },
   "kojootti vs acme suomeksi": {
    "id": 1204680,
-   "img": "data/posters/9bcb7891e3c4c53a.jpg",
-   "r": 7.5,
+   "r": 0,
    "s": {
-    "en": "After Acme products fail him one too many times in his dogged pursuit of the Roadrunner, Wile E. Coyote decides to hire a billboard lawyer to sue the Acme Corporation.",
+    "en": "",
     "fi": "Vuosikymmenten ajan pommien räjäyttämä, dynamiitin murskaama, magneettien runtelema, siirtolohkareiden litistämä, junien tallaama, tunneleiden huijaama, jousien sinkoama, höyryjyrien yliajama, viallisten laitteiden pettämä, benjiköysien kiusaama, rakettien riepottelema, lepakkoasujen selkäänpuukottama, rakettiluistinten paiskoma, yksipyöräisten kumoama, maanjäristyspillereiden tärisyttämä, villiintyneiden kuminauhojen venyttämä ja lounaisten Yhdysvaltojen jokaiselta jyrkänteeltä syösty Kelju K. Kojootti saa viimein tarpeekseen ja päättää iskeä takaisin. Mainostauluonnettomuuksiin erikoistuneen asianajajan Kevin Averyn (Will Forte) kanssa liittoutuessaan hän haastaa oikeuteen ACME Inc.:n – ahneuttaan tavoittelevan jättiyhtiön, jonka tuotteet ovat olleet jokaisen Kojoottia kohdanneen katastrofin taustalla – sekä yhtiötä edustavan lipevän yritysjuristin Buddy Cranen (John Cena)."
    },
-   "tr": "https://www.youtube.com/watch?v=kMsiD1Nky5I",
-   "ts": [
-    "en"
-   ]
+   "tr": ""
   },
   "kojootti vs acme suomeksi puhuttu": {
    "id": 1204680,
@@ -3225,7 +3199,6 @@
     "joutsankino",
     "kinoelo",
     "kinolaika",
-    "kinolumo",
     "kinomania",
     "kinometso",
     "kkino",
@@ -3234,7 +3207,7 @@
    ],
    "r": 0,
    "s": {
-    "en": "On Halloween Eve at Mossy Bottom Farm, excitement turns to dismay when the clumsy Farmer ruins the pumpkin patch. Shaun tries fixing it with science experiments, but things go wrong when a wild beast appears in the woods.",
+    "en": "On Halloween Eve at Mossy Bottom Farm, excitement turns to dismay when the clumsy Farmer ruins the pumpkin patch. Shaun tries fixing it with science experiments, but things go awry when a wild beast appears in the woods.",
     "fi": "Rakastettu Late Lammas palaa valkokankaille uudessa, riemastuttavassa ja kutkuttavan hauskassa seikkailussa. Farmin asukkaat odottavat innolla Halloweenia, kunnes heidän rakkaudella kasvattamansa kurpitsaviljelmä tuhoutuu juhlan kynnyksellä. Late ei jää toimettomaksi, vaan päättää ryhtyä “hulluksi tiedemieheksi” korjatakseen tilanteen – ja pian tapahtumat karkaavatkin täysin käsistä. Kun tilan maajussi katoaa ja outo villi peto herättää kauhua kyläläisissä, ovat kaikki ainekset kasassa hirviömäisen hauskalle seikkailulle kaiken ikäisille."
    },
    "tr": "https://www.youtube.com/watch?v=daZMq0AyOMc",
@@ -3362,7 +3335,6 @@
     "kinolumo",
     "kinomarilyn",
     "kinoolympia",
-    "kinopiispanristi",
     "kinoset",
     "kinovirta",
     "kulttuurimylly",
@@ -3584,17 +3556,13 @@
   },
   "marsupilami": {
    "id": 1145899,
-   "img": "data/posters/d24763d2c244cd16.jpg",
-   "r": 6.4,
+   "r": 0,
    "s": {
-    "en": "David is tasked to deliver a mysterious package from South America, only to find out he is carrying a baby Marsupilami!",
+    "en": "",
     "fi": "Perhelomaan tulee uusia käänteitä, kun perheenisä saa Etelä-Amerikasta yllättävän paketin. Seikkailu lähtee liikkeelle kun salaperäisestä laatikosta paljastuu keltainen, täplikäs ja hulvaton veijari – vauva Marsupilami, joka tuo vauhtia niin perheen kuin koko lomaristeilynkin menoon. Marsupilami sulattaa kovimmankin sydämen. Ihmeolento Marsupilami perustuu samannimiseen, André Franquinin luomaan suosittuun belgialaiseen sarjakuvasarjaan. Marsupilami selviää niin villissä viidakossa kuin kaupungissakin nopean älynsä, rajattoman mielikuvituksensa sekä voimakkaan häntänsä avulla.",
     "sv": "För att rädda sitt jobb går David med på en galen plan: han måste ta med sig ett mystiskt paket från Sydamerika. Han hamnar på en kryssningsfartyg med sitt ex Tess, sin son Leo och sin klumpiga, och inte så smarta kollega Stéphane, som David använder för att i hemlighet transportera paketet åt honom. Men allt går fel när Stéphane av misstag öppnar paketet och släpper lös en söt liten Marsupilami. Den sällsynta och busiga lilla varelsen förvandlar snabbt resan till ett fullständigt kaos. Den extraordinära varelsen Marsupilami bygger på den populära belgiska serien med samma namn, skapad av André Franquin. Vare sig det är i den vilda djungeln eller i storstaden klarar sig Marsupilamin utmärkt tack vare sin kvickhet, gränslösa fantasi och kraftfulla svans."
    },
-   "tr": "https://www.youtube.com/watch?v=pXGuY9qcSe0",
-   "ts": [
-    "en"
-   ]
+   "tr": ""
   },
   "marsupilami dub": {
    "id": 1145899,
@@ -4719,13 +4687,12 @@
   },
   "pension patta": {
    "id": 1711182,
-   "img": "data/posters/cd87724b30163f64.jpg",
    "r": 0,
    "s": {
     "en": "Pension Patta is a heartfelt story of identity, family, redemption, and the transformative power of humanity, where a simple pension document becomes the beginning of an extraordinary journey of self-discovery. Writer and Director: Maotse Gurung",
     "fi": ""
    },
-   "tr": "https://www.youtube.com/watch?v=k_yjATHbTPY"
+   "tr": ""
   },
   "perfect blue": {
    "id": 10494,
@@ -4832,7 +4799,6 @@
     "kinolumo",
     "kinomarilyn",
     "kinoolympia",
-    "kinopiispanristi",
     "kinoset",
     "kinovirta",
     "kulttuurimylly",
@@ -4877,7 +4843,6 @@
     "kinolumo",
     "kinomarilyn",
     "kinoolympia",
-    "kinopiispanristi",
     "kinoset",
     "kinovirta",
     "kulttuurimylly",
@@ -5323,8 +5288,7 @@
     "marita",
     "savonkinot",
     "star",
-    "studio123jarvenpaa",
-    "vihdinkino"
+    "studio123jarvenpaa"
    ],
    "r": 0,
    "s": {
@@ -6005,7 +5969,6 @@
     "biorex",
     "biorexkokkola",
     "isohannu",
-    "kinolumo",
     "kinometso",
     "kotkanleffat",
     "star"
@@ -6354,17 +6317,13 @@
   },
   "spa weekend": {
    "id": 1341138,
-   "img": "data/posters/ec9b1a80640c3124.jpg",
-   "r": 6.8,
+   "r": 0,
    "s": {
-    "en": "Four lifelong friends realize that somewhere between careers, relationships, families, and everyday responsibilities, they’ve forgotten how to take care of themselves and each other. Burned out and overdue for a break, the women escape to a luxury spa retreat for an unforgettable weekend dedicated to fun, laughter, and a lot of really bad decisions.",
+    "en": "",
     "fi": "Kauhea kankkunen ja Bad Moms ‑elokuvien käsikirjoittajien uudessa komediassa Spa Weekend kolme ystävystä lähtevät rentouttavalle kylpyläviikonlopulle, mutta kaikki karkaa käsistä, kun heidän katastrofikaverinsa liittyy seuraan – luvassa on hulvaton kaaos. Pääosissa Leslie Mann, Isla Fisher, Michelle Buteau ja Anna Faris.",
     "sv": "Tre barndomsvänner, Jane, Coco och Sophie, ser fram emot en lyxig helg fylld av spabehandlingar, lugn och egentid. Men när deras kaotiska vän Mel oväntat dyker upp, förvandlas avslappning snabbt till fullkomligt kaos. \"Spa Weekend\" är en sprudlande komedi om vänskap, missöden och de skratt som bara uppstår när allt går helt fel."
    },
-   "tr": "https://www.youtube.com/watch?v=AhsA9ZqRAXQ",
-   "ts": [
-    "en"
-   ]
+   "tr": ""
   },
   "spider man brand new day": {
    "id": 969681,
@@ -7333,7 +7292,6 @@
     "kuvakukko",
     "orion",
     "savonkinot",
-    "star",
     "studio123kouvola",
     "tapiola",
     "vihdinkino"
@@ -7355,16 +7313,12 @@
   },
   "toy story 5": {
    "id": 1084244,
-   "img": "data/posters/61da1236c24613ee.jpg",
-   "r": 8.4,
+   "r": 0,
    "s": {
-    "en": "When Bonnie receives a Lilypad tablet as a gift and becomes obsessed, Buzz, Woody, Jessie and the rest of the gang's jobs become exponentially harder when they have to go head to head with the all-new threat to playtime.",
+    "en": "",
     "fi": "Lelut tekevät paluun Disneyn ja Pixarin elokuvassa Toy Story 5, ja tällä kertaa ne joutuvat törmäyskurssille tekniikan kanssa. Uuden uhan edessä Buzz, Woody, Jessie ja muu jengi joutuvat paiskimaan hommia monin verroin lelujen ja laitteiden käydessä kamppailua lasten leikkiajasta."
    },
-   "tr": "https://www.youtube.com/watch?v=QftAW9TTmuQ",
-   "ts": [
-    "en"
-   ]
+   "tr": ""
   },
   "toy story 5 dub": {
    "id": 1084244,
@@ -7381,16 +7335,12 @@
   },
   "toy story 5 suomeksi": {
    "id": 1084244,
-   "img": "data/posters/61da1236c24613ee.jpg",
-   "r": 8.3,
+   "r": 0,
    "s": {
-    "en": "When Bonnie receives a Lilypad tablet as a gift and becomes obsessed, Buzz, Woody, Jessie and the rest of the gang's jobs become exponentially harder when they have to go head to head with the all-new threat to playtime.",
+    "en": "",
     "fi": "Lelut tekevät paluun Disneyn ja Pixarin elokuvassa Toy Story 5, ja tällä kertaa ne joutuvat törmäyskurssille tekniikan kanssa. Uuden uhan edessä Buzz, Woody, Jessie ja muu jengi joutuvat paiskimaan hommia monin verroin lelujen ja laitteiden käydessä kamppailua lasten leikkiajasta. Elokuvan on ohjannut Andrew Stanton apulaisohjaajanaan Kenna Harris ja tuottanut Lindsey Collins, ja se saa ensi-iltansa elokuvateattereissa kesällä 2026."
    },
-   "tr": "https://www.youtube.com/watch?v=QftAW9TTmuQ",
-   "ts": [
-    "en"
-   ]
+   "tr": ""
   },
   "tremors väristyksiä": {
    "id": 9362,
@@ -7617,16 +7567,12 @@
   },
   "unohdettu saari dup": {
    "id": 1465063,
-   "img": "data/posters/db8d634869fa04ac.jpg",
-   "r": 8.1,
+   "r": 0,
    "s": {
-    "en": "While celebrating their last night together, high school graduates and best friends Jo and Raissa stumble upon a mysterious portal that transports them to the fantastical island of Nakali. When they discover that the memories of their entire friendship are the price for returning home, Jo and Raissa must race to find a way to leave the island before they forget each other forever.",
+    "en": "",
     "fi": "Parhaan ystävyyden puolesta kannattaa taistella. DreamWorks Animation on aiemmin tuonut katsojille tarinoita unohtumattomista siteistä pojan ja lohikäärmeen välillä Näin koulutat lohikäärmeesi -elokuvissa, jätin ja aasin välillä Shrek-elokuvissa sekä robotin ja hanhenpoikasen välillä elokuvassa Villi robotti. Nyt luvassa on huikean tunteikas tarina kahdesta parhaasta ystävyksestä, joiden täytyy yhdistää voimansa eron uhatessa elokuvassa Unohdettu saari. Uuden alkuperäistarinan on käsikirjoittanut ja ohjannut Oscar-ehdokas Joel Crawford ja Januel Mercado. Tuottajana toimii Oscar-ehdokas Mark Swift. Sama tiimi on myös ollut tekemässä elokuvaa Saapasjalkakissa: Viimeinen toivomus. Grammy- ja Oscar-palkittu supertähti H.E.R. ja Liza Soberano (Lisa Frankenstein, Alone/Together) ovat Jo ja Raissa, high schoolista valmistunut parivaljakko. He ovat olleet parhaita ystäviä ala-asteelta asti, mutta nyt elämä uhkaa erottaa ystävykset. Juhliessaan viimeistä yhteistä iltaansa Jo ja Raissa törmäävät salaperäiseen portaaliin, joka kuljettaa heidät Nakalin mielikuvitukselliselle saarelle. Saari on täynnä maagisia ja myyttisiä olentoja, joista ystävysten filippiiniläisperheet ovat kertoneet tarinoita. Uusista tuttavuuksista paljastuu niin ystäviä kuin vihollisiakin. Apunaan hyvää tarkoittava mutta melko avuton ihmiskoira Raww (Dave Franco) sekä pieni mutta pippurinen joukko muita kamuja Jo ja Raissa ottavat mittaa karmeasta Manananggalista (Tony-palkittu ikoni Lea Salonga), saaren pelätyimmästä olennosta. Kun parille paljastuu, että hinta kotiinpaluusta on kaikkien yhteisten muistojen menettäminen, Jon ja Raissan täytyy keksiä keino päästä pois saarelta unohtamatta toisiaan. Elokuvan ääninäyttelijöiden tähtisikermää täydentävät Emmy-ehdokas Jenny Slate (Marcell the Shell with Shoes On, Dying for Sex), Manny Jacinto (The Good Place, Top Gun: Maverick), BAFTA-ehdokas Dolly de Leon (Triangle of Sadness, Ghostlight), komedian supertähti Jo Koy (Haunted Mansion, Jo Koy: Live from B"
    },
-   "tr": "https://www.youtube.com/watch?v=PhgY8cOJiQA",
-   "ts": [
-    "en"
-   ]
+   "tr": ""
   },
   "unohdettu saari elokuvanäytös": {
    "id": 1465063,
@@ -7634,7 +7580,6 @@
    "kr": "K-7",
    "krs": [
     "biogrand",
-    "biograni",
     "biorex",
     "biorexkokkola",
     "biosade",
@@ -7662,15 +7607,13 @@
     "kinotar",
     "kinotoijala",
     "kinovirta",
-    "kkino",
     "kotkanleffat",
     "leffabuumi",
     "matintupa",
     "savonkinot",
     "star",
     "studio123jarvenpaa",
-    "vaakuna",
-    "vihdinkino"
+    "vaakuna"
    ],
    "r": 8.1,
    "s": {
@@ -7754,7 +7697,6 @@
    "kr": "K-7",
    "krs": [
     "biogrand",
-    "biograni",
     "biorex",
     "biorexkokkola",
     "biosade",
@@ -7782,15 +7724,13 @@
     "kinotar",
     "kinotoijala",
     "kinovirta",
-    "kkino",
     "kotkanleffat",
     "leffabuumi",
     "matintupa",
     "savonkinot",
     "star",
     "studio123jarvenpaa",
-    "vaakuna",
-    "vihdinkino"
+    "vaakuna"
    ],
    "r": 8.1,
    "s": {
