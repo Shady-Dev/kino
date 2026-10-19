@@ -146,6 +146,19 @@ class DressAlongMarkerTest(unittest.TestCase):
                          "the rocky horror picture show dress along")
 
 
+class MatineeMarkerTest(unittest.TestCase):
+    """Bio Grand published "Hamnet (matinea)" on 2026-10-19 while the TMDB pass matched the
+    plain title to 858024 at two other cinemas."""
+
+    def test_the_marker_comes_off_the_search_string(self):
+        for published in ("Hamnet (matinea)", "Hamnet (MATINEA)"):
+            with self.subTest(published=published):
+                self.assertEqual(enrich_tmdb.clean(published), "Hamnet")
+
+    def test_the_published_title_keeps_it(self):
+        self.assertEqual(enrich_tmdb.norm("Hamnet (matinea)"), "hamnet matinea")
+
+
 class SubtitledMarkerTest(unittest.TestCase):
     """Kino Ritz published "Kerro kaikille (suomeksi tekstitetty)" on 2026-10-13 beside the
     plain title, which matched, and the row drew no poster."""
@@ -351,6 +364,20 @@ class AudioMarkerTest(unittest.TestCase):
                                  "Pikku Kummitus Lapanen keppostelee")
         for title in ("Puhumme suomea - dokumentti", "X - puhumme suomea ja ruotsia",
                       "Me puhumme suomea"):
+            with self.subTest(title=title):
+                self.assertEqual(enrich_tmdb.clean(title), title)
+
+    def test_a_trailing_swedish_marker_comes_off(self):
+        """Kino Piispanristi put the Swedish marker after its Pikkuli title on 2026-10-19, with
+        no brackets. The TMDB pass found no match for it and matched the SUOMEKSI row. Only
+        the last words come off."""
+        for published in ("Pikkuli ja T\u00e4htipeura P\u00c5 SVENSKA",
+                          "Pikkuli ja T\u00e4htipeura p\u00e5 svenska",
+                          "Pikkuli ja T\u00e4htipeura, pa svenska"):
+            with self.subTest(published=published):
+                self.assertEqual(enrich_tmdb.clean(published), "Pikkuli ja T\u00e4htipeura")
+        for title in ("P\u00e5 svenska: Lilla Sp\u00f6ket Laban Busar Vidare",
+                      "Raka Bananer - Svenska veckan"):
             with self.subTest(title=title):
                 self.assertEqual(enrich_tmdb.clean(title), title)
 

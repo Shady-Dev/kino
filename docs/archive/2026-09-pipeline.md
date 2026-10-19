@@ -2875,3 +2875,11 @@ title and the `Server` header. Eight adapters call it, and the three that were s
 print what they were served. The run still fails and the previous files stand. Seventeen
 mutations went red. Evidence:
 [docs/research/runner-challenges.md](../research/runner-challenges.md).
+
+### "(matinea)" and a trailing "PÅ SVENSKA" come off the search string (2026-10-19)
+Bio Grand published "Hamnet (matinea)" and Kino Piispanristi "Pikkuli ja Tähtipeura PÅ
+SVENSKA". The TMDB pass found no match for either while it matched the plain titles to
+858024 and 1403476, and `PublishedCoverageTest` failed on main's data because of them.
+`PAREN_NOISE` now takes the bracketed matinee marker and `TRAIL_NOISE` the Swedish one at
+the end of a title. The published titles stay as the cinemas wrote them. Two mutations went
+red.

@@ -96,10 +96,13 @@ PAREN_NOISE = re.compile(
     # "Hetki ennen valoa (viimeinen esitys)" names its last screening (2026-10-04); its page
     # gives Klaus Härö and 87 min, the plain title's 1015881.
     # Kino Aurora's "The Rocky Horror Picture Show (Dress-Along)" is a costumed screening of the
-    # 1975 film (2026-10-18).
-    r"|neulekino|poistuu\s+ohjelmistosta\s*!?|viimeinen\s+esitys|dress-?\s?along)\s*\)", re.I)
+    # 1975 film (2026-10-18). Bio Grand's "Hamnet (matinea)" is a matinee screening (2026-10-19).
+    r"|neulekino|poistuu\s+ohjelmistosta\s*!?|viimeinen\s+esitys|dress-?\s?along|matinea)"
+    r"\s*\)", re.I)
+# 2026-10-19: Kino Piispanristi put the Swedish marker after a Pikkuli title with no brackets.
+# The TMDB pass found no match for it and matched the same cinema's SUOMEKSI row to 1403476.
 TRAIL_NOISE = re.compile(
-    r",?\s*\b(?:suomeksi|englanniksi|dubattu|or[i]?ginaali\s+äänillä)\b\s*$",
+    r",?\s*\b(?:suomeksi|englanniksi|dubattu|or[i]?ginaali\s+äänillä|p[\u00e5a]\s+svenska)\b\s*$",
     re.I)
 # Kinopirtti's "Unohdettu saari DUP." (2026-10-09), its abbreviation of "dubattu", drew no
 # match while the plain title matched 1465063. The dot is required and the word is last.
