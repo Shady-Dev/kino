@@ -51,6 +51,9 @@ What shapes the parser:
   `1h 40min -K12-` line, and dropping rows on a missing optional field loses real films the
   day the cinema forgets one. Its ticket link is not read and not published: `book="door"`
   puts every row on the programme page, and this repo does not call a booking endpoint.
+- **A row the site's own words name as a private event is left out** (`NOT_FILMS`), the
+  rule Iso-Hannu has carried since the maintainer's decision of 2026-10-13. Only the exact
+  titles listed are dropped, and they are counted in the log.
 - **The poster lives in an attribute, not in a `src`.** The `<img>` carries no `src` at
   all; `<wow-image data-image-info="...">` holds escaped JSON whose `imageData.uri` names
   the file on `static.wixstatic.com`, with its own width and height beside it. Those
@@ -101,6 +104,10 @@ SITES = [
 # was read, and its own standing note says schedules go up every Monday, so a week is the
 # horizon and 120 days is headroom rather than a fit.
 WINDOW = (30, 120)
+
+# Exact row titles, compared without case, with the evidence for each. Read 2026-10-19:
+# "Yksityistilaisuus" on Sunday 25.10 at 13.00, with a price block holding only the euro sign.
+NOT_FILMS = {"yksityistilaisuus": "a private event, not a screening"}
 
 SCRIPT_RE = re.compile(r"<script.*?</script>", re.S | re.I)
 RICH_RE = re.compile(r'data-testid="richTextElement"[^>]*>(.*?)</div>', re.S | re.I)
@@ -239,7 +246,7 @@ def rows(site, page, today=None):
     venue = site["venues"][0]
     url = site["base"].rstrip("/") + site["listing"]
     stream = events(page)
-    out, report = [], {"closed": [], "no_price": [], "no_poster": []}
+    out, report = [], {"closed": [], "no_price": [], "no_poster": [], "left_out": []}
     headings, dated = [], set()
     last_img = None
     for i, (kind, value) in enumerate(stream):
@@ -261,6 +268,11 @@ def rows(site, page, today=None):
                                f"{value[1]} has no title block before it")
         price_block = stream[i + 1][1] if i + 1 < len(stream) and stream[i + 1][0] == "text" else []
         title = title_block[0]
+        if title.casefold() in NOT_FILMS:
+            report["left_out"].append(title)
+            dated.add(f"{int(dm.group(2))}.{int(dm.group(3))}")
+            last_img = None
+            continue
         wd, day, month = dm.group(1), int(dm.group(2)), int(dm.group(3))
         year = resolve_year(day, month, today, weekday_index(wd), WINDOW)
         if year is None:
@@ -334,6 +346,9 @@ def fetch_site(site, today=None):
     if report["closed"]:
         print(f"[{pid}] {len(report['closed'])} day(s) the page heads but does not fill, "
               f"read as closed: {', '.join(report['closed'][:6])}")
+    if report["left_out"]:
+        print(f"[{pid}] {len(report['left_out'])} row(s) the site names as no screening, "
+              f"left out: {', '.join(sorted(set(report['left_out'])))}")
     if report["no_price"]:
         print(f"[{pid}] {len(report['no_price'])} row(s) whose price block settles no one "
               f"amount: {', '.join(sorted(set(report['no_price']))[:6])}")

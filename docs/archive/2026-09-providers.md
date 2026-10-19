@@ -4177,3 +4177,12 @@ poster under the title "Saapasjalkakissa tekiöiltä Unohdettu saari", and Haapa
 day as Unohdettu saari, 109 minutes. Both screenings had already passed, and the aliases
 apply to the operator's next listing with this wording. No runtime is published, because
 Alatalo states none.
+
+### Bio Pallas: the private event "Yksityistilaisuus" is left out (2026-10-19)
+Bio Pallas lists "Yksityistilaisuus", a private event, on Sunday 25.10 at 13.00, laid out
+like a screening with a price block holding only the euro sign. The adapter published it as
+a film from the cloud commit `e6d0fb74b` of 2026-10-18. Its picture is 22,014,245 bytes,
+past the poster step's 20 MB cap, and `test_build_counts` failed on main's data because the
+row kept its remote reference. `NOT_FILMS` now leaves out the exact title, the rule
+Iso-Hannu has carried since the maintainer's decision of 2026-10-13, and the committed row
+was removed. Six mutations went red.

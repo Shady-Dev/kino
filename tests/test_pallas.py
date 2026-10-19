@@ -282,6 +282,33 @@ class RowsTest(unittest.TestCase):
         self.assertEqual(s["eventId"], "myrskyn ikkuna")
         self.assertNotIn("_syn", s)
 
+    def test_a_private_event_is_left_out_by_its_exact_title(self):
+        """Bio Pallas listed "Yksityistilaisuus" on 2026-10-19 for 25.10 at 13.00, with a price
+        block holding only the euro sign. The parser gives its picture to no other row."""
+        big = image("61d9eb_af6205bec6e348158be7dd1bb857df27~mv2.jpg", 4317, 6476)
+        shows, report = self.rows(page(
+            heading(SAT),
+            row(SAT, "13.00", "Yksityistilaisuus", meta="", price="\u20ac", poster=big),
+            row(SAT, "18.00", "Myrskyn ikkuna", poster=""),
+            row(SAT, "20.00", "YKSITYISTILAISUUS", meta="", price="\u20ac", poster=big)))
+        self.assertEqual([s["title"] for s in shows], ["Myrskyn ikkuna"])
+        self.assertEqual(shows[0]["img"], "")
+        self.assertEqual(report["left_out"], ["Yksityistilaisuus", "YKSITYISTILAISUUS"])
+
+    def test_only_the_exact_title_is_left_out(self):
+        shows, report = self.rows(page(heading(SAT),
+                                       row(SAT, "18.00", "Yksityistilaisuus 1985"),
+                                       row(SAT, "20.00", "Myrskyn ikkuna")))
+        self.assertEqual(len(shows), 2)
+        self.assertEqual(report["left_out"], [])
+
+    def test_a_day_holding_only_a_private_event_is_not_read_as_closed(self):
+        shows, report = self.rows(page(
+            heading(SAT), row(SAT, "13.00", "Yksityistilaisuus", meta="", price="\u20ac"),
+            heading(SUN), row(SUN, "15.00", "Myrskyn ikkuna")))
+        self.assertEqual([s["title"] for s in shows], ["Myrskyn ikkuna"])
+        self.assertEqual(report["closed"], [])
+
 
 class RunnerTest(unittest.TestCase):
     PREV = {"generated": "2026-09-01T00:00:00+00:00", "dates": ["2026-09-01"],
@@ -343,6 +370,18 @@ class RunnerTest(unittest.TestCase):
         self.assertNotIn("no programme at the moment", log)
         self.assertEqual(json.loads(
             (run.OUT / "area-pallas-karjaa.json").read_text()), self.PREV)
+
+    def test_a_private_event_is_left_out_and_named_in_the_log(self):
+        a = self.soon(1)
+        self.serve(page(heading(a),
+                        row(a, "13.00", "Yksityistilaisuus", meta="", price="\u20ac"),
+                        row(a, "18.00", "A")))
+        code, log = self.main()
+        self.assertEqual(code, 0, log)
+        shows = json.loads((run.OUT / "area-pallas-karjaa.json").read_text())["shows"]
+        self.assertEqual([s["title"] for s in shows], ["A"])
+        self.assertIn("1 row(s) the site names as no screening, left out: Yksityistilaisuus",
+                      log)
 
     def test_a_refused_page_keeps_the_previous_file(self):
         (run.OUT / "area-pallas-karjaa.json").write_text(json.dumps(self.PREV))
