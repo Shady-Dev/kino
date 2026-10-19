@@ -54,7 +54,7 @@ import re
 import sys
 from zoneinfo import ZoneInfo
 
-from common import check_shows, get_text, resolve_year, weekday_index
+from common import bot_check, check_shows, get_text, resolve_year, served, weekday_index
 
 FI = ZoneInfo("Europe/Helsinki")
 
@@ -201,12 +201,14 @@ def fetch_site(site, today=None):
     pid = site["provider"]
     venue = site["venues"][0]
     url = site["base"].rstrip("/") + site["listing"]
-    shows, report = rows(site, get_text(url), today)
+    page = get_text(url)
+    shows, report = rows(site, page, today)
     if not shows:
+        bot_check(page, url)
         raise RuntimeError(
-            f"{url}: no film block with a screening line. This site publishes no sentence "
-            f"saying there are none, so there is no evidence of an empty programme to read "
-            f"this as and the previous files stand")
+            f"{url}: no film block with a screening line ({served(page)}). This site "
+            f"publishes no sentence saying there are none, so there is no evidence of an "
+            f"empty programme to read this as and the previous files stand")
     per_venue = {venue["id"]: shows}
     check_shows(per_venue, pid, {venue["id"]})
     days = sorted({s["start"][:10] for s in shows})

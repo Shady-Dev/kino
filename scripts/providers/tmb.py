@@ -112,7 +112,7 @@ import sys
 import time
 from zoneinfo import ZoneInfo
 
-from common import capped, fetch, get_text, served
+from common import bot_check, capped, fetch, get_text, served
 
 FI = ZoneInfo("Europe/Helsinki")
 
@@ -178,6 +178,7 @@ def _txt(s):
 def parse(page, site, venue):
     """`{base}/?lista=1` -> [show] for the one venue the site serves."""
     if not CONTAINER_RE.search(page):
+        bot_check(page, f"{site['base']}/?lista=1")
         raise RuntimeError(
             f"{site['base']}: no 'Valkokankaalla' programme container in the response "
             f"({served(page)}), so this is not the list view this parser reads. Treating "

@@ -597,6 +597,64 @@ class ServedHeadersTest(unittest.TestCase):
         self.assertLess(len(note), 120)
 
 
+class BotCheckTest(unittest.TestCase):
+    """`bot_check()` names a host's bot-check page with its size, title and `Server`.
+
+    Shared hosts served the runner this page from 2026-09-18 to 2026-10-19, under a `Server`
+    header they did not send an ordinary connection on 2026-10-19
+    (docs/research/runner-challenges.md). The test uses a real local server because the
+    header reaches the note through urllib.
+    """
+
+    PAGE = (b"<!DOCTYPE html><html><head><title>One moment, please...</title></head><body>"
+            b"<p>Please wait while your request is being verified...</p></body></html>")
+
+    @classmethod
+    def setUpClass(cls):
+        cls.srv = http.server.ThreadingHTTPServer(("127.0.0.1", 0), Handler)
+        cls.srv.script, cls.srv.hits = {}, {}
+        cls.url = f"http://127.0.0.1:{cls.srv.server_address[1]}"
+        cls.thread = threading.Thread(target=cls.srv.serve_forever, daemon=True)
+        cls.thread.start()
+
+    @classmethod
+    def tearDownClass(cls):
+        cls.srv.shutdown()
+        cls.srv.server_close()
+
+    def setUp(self):
+        self.srv.script.clear()
+        self.srv.banner = "TestHTTP"
+        common._seen.headers = {}
+        self.addCleanup(lambda: setattr(common._seen, "headers", {}))
+
+    def test_the_page_is_named_with_its_size_title_and_server(self):
+        self.srv.banner = "openresty/1.31.1.1"
+        self.srv.script["/p"] = [(200, {}, self.PAGE)]
+        page = common.fetch(self.url + "/p", tries=1, backoff=0).decode()
+        with self.assertRaises(common.BotCheck) as cm:
+            common.bot_check(page, "https://kino.example/")
+        self.assertEqual(
+            str(cm.exception),
+            f"https://kino.example/: the host served a bot-check page in place of the "
+            f'programme ({len(self.PAGE)} B served, titled "One moment, please...", '
+            f"Server: openresty/1.31.1.1)")
+        self.assertIsInstance(cm.exception, RuntimeError)
+        self.assertNotIsInstance(cm.exception, common.EmptyProgramme)
+
+    def test_the_title_is_read_through_whitespace_and_markup(self):
+        with self.assertRaises(common.BotCheck):
+            common.bot_check('<TITLE id="t">\n  One moment,\n please...  </TITLE>', "u")
+
+    def test_any_other_page_is_left_to_the_adapter(self):
+        for page in ("<html><head><title>Kino Lumo</title></head></html>",
+                     "<html><head><title>Just a moment...</title></head></html>",
+                     "<html><body>One moment, please...</body></html>",
+                     "<html><head><title>One moment</title></head></html>", "", None):
+            with self.subTest(page=page):
+                self.assertIsNone(common.bot_check(page, "u"))
+
+
 class GetTextTest(unittest.TestCase):
     """`common.get_text`: the body seven adapters had written out identically.
 

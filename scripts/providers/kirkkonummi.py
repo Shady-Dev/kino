@@ -49,7 +49,7 @@ import sys
 from zoneinfo import ZoneInfo
 
 import synmerge
-from common import fetch, get_text, resolve_year, served, weekday_index
+from common import bot_check, fetch, get_text, resolve_year, served, weekday_index
 from etiketti import strict_codes
 from huvimylly import KAVI_CODES
 
@@ -203,6 +203,7 @@ def parse(page, today=None):
     are there with no screening row in them. No empty state is recorded for this site, so
     zero rows is never read as nothing on."""
     if not CONTAINER_RE.search(page):
+        bot_check(page, LISTING)
         raise RuntimeError(
             f"{LISTING}: no icon list on the page ({served(page)}), so this is not the "
             f"programme this parser reads. Treating it as a fetch or template failure "

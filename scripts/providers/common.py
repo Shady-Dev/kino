@@ -154,6 +154,27 @@ def served(page, limit=70):
             else f"{len(page)} B served{note}")
 
 
+# The title of the page shared hosts served the runner from 2026-09-18 to 2026-10-19 in place
+# of the page it asked for. Evidence in docs/research/runner-challenges.md.
+BOT_CHECK_TITLE = "One moment, please..."
+
+
+class BotCheck(RuntimeError):
+    """The host served its bot-check page. It fails the site like any other error."""
+
+
+def bot_check(page, url):
+    """Raise BotCheck when `page` is a host's bot-check page, else return None.
+
+    Adapters call it only where their guard has already found its marker missing. It changes
+    what the log says and never whether the site fails.
+    """
+    m = _TITLE_RE.search(page or "")
+    if m and " ".join(html_mod.unescape(m.group(1)).split()) == BOT_CHECK_TITLE:
+        raise BotCheck(f"{url}: the host served a bot-check page in place of the programme "
+                       f"({served(page)})")
+
+
 def _scope():
     return getattr(_scopes, "name", None)
 

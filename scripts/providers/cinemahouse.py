@@ -54,7 +54,8 @@ from urllib.parse import urljoin, urlsplit
 from zoneinfo import ZoneInfo
 
 import synmerge
-from common import EmptyProgramme, capped, fetch, get_text, resolve_year, served
+from common import (EmptyProgramme, bot_check, capped, fetch, get_text, resolve_year,
+                    served)
 from strands import split as split_strand
 
 FI = ZoneInfo("Europe/Helsinki")
@@ -391,6 +392,7 @@ def parse(page, site, today=None):
     failing, because it is what a markup change upstream looks like.
     """
     if not FILTER_RE.search(page):
+        bot_check(page, site["base"].rstrip("/") + "/")
         raise RuntimeError(
             f"no cr-movies-filter-select on the page ({served(page)}), so this is not the "
             f"programme this parser reads. Treating it as a fetch or template failure "

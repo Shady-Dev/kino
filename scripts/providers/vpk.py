@@ -59,7 +59,7 @@ import re
 import sys
 from zoneinfo import ZoneInfo
 
-from common import check_shows, fetch, get_text, served
+from common import bot_check, check_shows, fetch, get_text, served
 from synmerge import norm
 
 FI = ZoneInfo("Europe/Helsinki")
@@ -206,6 +206,7 @@ def window(site, start, end, fetch_json=None):
     try:
         return json.loads(body)
     except ValueError as e:
+        bot_check(body, url)
         raise FeedError(f"{site['provider']}: {url} did not answer JSON "
                         f"({served(body)})") from e
 

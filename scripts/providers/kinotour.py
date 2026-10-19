@@ -51,7 +51,7 @@ import re
 import sys
 from zoneinfo import ZoneInfo
 
-from common import EmptyProgramme, check_shows, fetch, get_text
+from common import EmptyProgramme, bot_check, check_shows, fetch, get_text, served
 from synmerge import norm
 
 FI = ZoneInfo("Europe/Helsinki")
@@ -258,10 +258,11 @@ def fetch_site(site):
         if says_empty(page):
             raise EmptyProgramme(f"{url}: the page counts 0 screenings for every town and "
                                  f"shows its own notice that nothing is coming up")
+        bot_check(page, url)
         raise RuntimeError(
-            f"{url}: no screening card on the page, and the page does not show its own "
-            f"empty state (a zero count, an empty list and the notice), so the previous "
-            f"files stand")
+            f"{url}: no screening card on the page ({served(page)}), and the page does not "
+            f"show its own empty state (a zero count, an empty list and the notice), so the "
+            f"previous files stand")
     check_shows(per_venue, pid, {v["id"] for v in site["venues"]})
     priced = sum(1 for v in per_venue.values() for s in v if s["price"])
     print(f"[{pid}] {published} screening(s) in {len(site['venues'])} declared town(s), "

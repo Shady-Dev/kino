@@ -2865,3 +2865,13 @@ no match for it while it matched the plain title to 36685 at two other cinemas.
 `PublishedCoverageTest` failed on main's data because of it. The marker is now one of the
 bracketed screening names in `PAREN_NOISE`, and the published title stays as Kino Aurora
 wrote it. Two mutations went red.
+
+### Failure lines name a host's bot-check page (2026-10-19)
+Eight cloud runs from 2026-09-18 to 2026-10-19 were served a page titled "One moment,
+please..." by small cinemas' hosts. The logs of Matin-Tupa, Navettakino and Kinotour said
+only that a marker was missing. `common.bot_check` now recognises that title where an
+adapter's guard has already failed, and it raises `BotCheck` with the URL, the size, the
+title and the `Server` header. Eight adapters call it, and the three that were silent also
+print what they were served. The run still fails and the previous files stand. Seventeen
+mutations went red. Evidence:
+[docs/research/runner-challenges.md](../research/runner-challenges.md).

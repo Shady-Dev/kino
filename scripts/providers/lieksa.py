@@ -69,7 +69,7 @@ import re
 import sys
 from zoneinfo import ZoneInfo
 
-from common import check_shows, fetch, get_text, resolve_year, served, weekday_index
+from common import bot_check, check_shows, fetch, get_text, resolve_year, served, weekday_index
 from synmerge import norm
 
 FI = ZoneInfo("Europe/Helsinki")
@@ -238,6 +238,7 @@ def fetch_site(site, today=None):
     page = get(url)
     shows, report = rows(site, page, today)
     if not shows:
+        bot_check(page, url)
         raise RuntimeError(
             f"{url}: no screening line in the programme section ({served(page)}). No "
             f"emptied programme has been seen on this template, so there is no evidence "

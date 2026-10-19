@@ -63,7 +63,8 @@ import re
 import sys
 from zoneinfo import ZoneInfo
 
-from common import check_shows, fetch, get_text, resolve_year, served, weekday_index
+from common import (bot_check, check_shows, fetch, get_text, resolve_year, served,
+                    weekday_index)
 from synmerge import norm
 
 FI = ZoneInfo("Europe/Helsinki")
@@ -261,8 +262,9 @@ def rows(site, page, today=None):
     url = site["base"].rstrip("/") + site["listing"]
     listed = listing(page)
     if listed is None:
+        bot_check(page, url)
         raise ListingError(f"{site['provider']}: the page renders no "
-                           f"'Tulevan viikonlopun näytökset' heading")
+                           f"'Tulevan viikonlopun näytökset' heading ({served(page)})")
     shelf = films(page)
     out, report = [], {"no_facts": set(), "no_price": set()}
     for para in listed:
