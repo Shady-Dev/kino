@@ -1,4 +1,4 @@
 [mirror] 138 remote poster urls: 137 already mirrored, 0 downloaded (+0 kB), 1 failed
 [mirror] failed static.wixstatic.com (1): BodyTooLarge: https://static.wixstatic.com/media/61d9eb_af6205bec6e348158be7dd1bb857df27~mv2.jpg: Content-Length 22014245 is past the 20000000-byte cap
-[mirror] 370 references rewritten in 16 files; data/posters now 2569 files, 100110 kB
+[mirror] 363 references rewritten in 16 files; data/posters now 2577 files, 100454 kB
 exit=0
