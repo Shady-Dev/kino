@@ -1,12 +1,12 @@
-[kinokilta] 70 screening(s) listed, 44 film page(s) read
+[kinokilta] 71 screening(s) listed, 44 film page(s) read
 [kinokilta] omitted 0 confirmed non-film(s) by evidence-backed exclusion over 0 screening(s), and 0 unresolved over 0
 [kinokilta] override retkikino-2026: active
 [kinokilta] 4 synopsis/synopses withheld, no language settled: Combat Shock, Kinokopla: DIG! XX, RetkiKino 2026, Teenage Sex and Death at Camp Miasma
 [kinokilta] 8 film(s) with a language name not read, that part left blank: Alligator (Ei teksitystä); Combat Shock (Ei teksitystä); Joysticks (Ei teksitystä); Pieni kauhukauppa (Ei teksitystä); Prom Night (Ei teksitystä); Savage Dawn (Ei teksitystä); Sleepaway Camp (Ei teksitystä); The Devils (Ei teksitystä)
-[kinokilta] Kino Kilta: 70 showtimes, 33 dates
+[kinokilta] Kino Kilta: 71 showtimes, 34 dates
 [kinokilta] strand prefix split off 8 showtimes
-[kinokilta] Kino Kilta: 70 showtimes, 33 dates
-[kinokilta] synopses merged: 1
+[kinokilta] Kino Kilta: 71 showtimes, 34 dates
+[kinokilta] synopses merged: 0
 [kinokilta] screening-note sentences left out of synopses: 1
 [kinolaika] 37 screening(s) listed, 21 film page(s) read
 [kinolaika] omitted 0 confirmed non-film(s) by evidence-backed exclusion over 0 screening(s), and 6 unresolved over 6
@@ -29,16 +29,16 @@
 [kinomyyri] Kino Myyri: 19 showtimes, 11 dates
 [kinomyyri] Kino Myyri: 19 showtimes, 11 dates
 [kinomyyri] synopses merged: 0
-[kinokonepaja] 37 screening(s) listed, 16 film page(s) read
+[kinokonepaja] 35 screening(s) listed, 15 film page(s) read
 [kinokonepaja] omitted 0 confirmed non-film(s) by evidence-backed exclusion over 0 screening(s), and 0 unresolved over 0
 [kinokonepaja] override edward-scissorhands: active
 [kinokonepaja] override gremlins: active
 [kinokonepaja] override nightmare-on-elm-street: active
-[kinokonepaja] Kino Konepaja: 37 showtimes, 19 dates
-[kinokonepaja] Kino Konepaja: 37 showtimes, 19 dates
+[kinokonepaja] Kino Konepaja: 35 showtimes, 18 dates
+[kinokonepaja] Kino Konepaja: 35 showtimes, 18 dates
 [kinokonepaja] synopses merged: 0
-[run] http: 42 revalidated (304), 58 full, 17 not stored (origin said no-store), 3 cache entries written
+[run] http: 43 revalidated (304), 56 full, 17 not stored (origin said no-store), 2 cache entries written
 [run] hosts: 4 attempted -- kinokonepaja.fi, kinomyyri.fi, www.kinokilta.fi, www.kinolaika.fi
-[run] kinola: 4 venues, 157 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
-[run] timing: 4 site(s), 199.7s of fetching added up across workers that overlap, longest site 74.0s, longest queue wait 142.7s, 74.0s wall from this module's first fetch starting to its last ending
+[run] kinola: 4 venues, 156 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
+[run] timing: 4 site(s), 183.0s of fetching added up across workers that overlap, longest site 73.0s, longest queue wait 137.3s, 73.0s wall from this module's first fetch starting to its last ending
 exit=0

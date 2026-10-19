@@ -1,17 +1,9 @@
-[tmb] kinotoijala: 27 showtimes, 12 films, 13 dates, 27 priced, 26 timed, 27 with a genre, 27 with a synopsis
-[kinotoijala] Kino-Toijala: 27 showtimes, 13 dates
-[kinotoijala] synopses merged: 0
-[tmb] kinosampo: 26 showtimes, 11 films, 13 dates, 26 priced, 26 timed, 26 with a genre, 26 with a synopsis
-[kinosampo] Kino-Sampo: 26 showtimes, 13 dates
-[kinosampo] synopses merged: 0
-[tmb] kinomania: 47 showtimes, 13 films, 13 dates, 47 priced, 47 timed, 47 with a genre, 47 with a synopsis
-[kinomania] KinoMania: 47 showtimes, 13 dates
-[kinomania] synopses merged: 0
-[tmb] kinoelo: 46 showtimes, 13 films, 13 dates, 46 priced, 46 timed, 46 with a genre, 46 with a synopsis
-[kinoelo] Elokuvateatteri Elo: 46 showtimes, 13 dates
-[kinoelo] synopses merged: 0
-[run] http: 0 revalidated (304), 53 full, 53 not stored (origin said no-store), 0 cache entries written
+[kinotoijala] FAILED: https://toijalan-kino.info: no 'Valkokankaalla' programme container in the response (11999 B served, titled "One moment, please...", Server: Apache), so this is not the list view this parser reads. Treating it as a fetch or template failure rather than a cinema with nothing on
+[kinosampo] FAILED: https://kinosampo.info: no 'Valkokankaalla' programme container in the response (11969 B served, titled "One moment, please...", Server: Apache), so this is not the list view this parser reads. Treating it as a fetch or template failure rather than a cinema with nothing on
+[kinomania] FAILED: https://kino-mania.info: no 'Valkokankaalla' programme container in the response (12007 B served, titled "One moment, please...", Server: Apache), so this is not the list view this parser reads. Treating it as a fetch or template failure rather than a cinema with nothing on
+[kinoelo] FAILED: https://elokuvat-elo.info: no 'Valkokankaalla' programme container in the response (12009 B served, titled "One moment, please...", Server: Apache), so this is not the list view this parser reads. Treating it as a fetch or template failure rather than a cinema with nothing on
+[run] http: 0 revalidated (304), 4 full, 4 not stored (origin said no-store), 0 cache entries written
 [run] hosts: 4 attempted -- elokuvat-elo.info, kino-mania.info, kinosampo.info, toijalan-kino.info
-[run] tmb: 4 venues, 146 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
-[run] timing: 4 site(s), 94.2s of fetching added up across workers that overlap, longest site 25.1s, longest queue wait 112.3s, 35.4s wall from this module's first fetch starting to its last ending
-exit=0
+[run] tmb: 0 venues, 0 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 4 failures
+[run] timing: 4 site(s), 2.3s of fetching added up across workers that overlap, longest site 0.6s, longest queue wait 115.7s, 2.3s wall from this module's first fetch starting to its last ending
+exit=1
