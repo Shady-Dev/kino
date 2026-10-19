@@ -1,8 +1,8 @@
-[helios] languages: 12 of 12 screenings, 8 records read, 0 failed, 0 deferred
+[helios] languages: 12 of 12 screenings, 0 records read, 0 failed, 0 deferred
 [helios] Kino Helios, Helsinki: 12 showtimes, 7 dates, 12 of 463 event(s) are this cinema
 [helios] Kino Helios: 12 showtimes, 7 dates
 [helios] synopses merged: 0
 [run] hosts: 1 attempted -- www.malmitalo.fi
 [run] helios: 1 venues, 12 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
-[run] timing: 1 site(s), 19.4s of fetching added up across workers that overlap, longest site 19.4s, longest queue wait 189.7s, 19.4s wall from this module's first fetch starting to its last ending
+[run] timing: 1 site(s), 2.0s of fetching added up across workers that overlap, longest site 2.0s, longest queue wait 193.5s, 2.0s wall from this module's first fetch starting to its last ending
 exit=0

@@ -742,15 +742,19 @@
    "krs": [
     "bioforum",
     "biopallas",
+    "biorexkokkola",
     "cinemantsala",
+    "gilda",
     "ihmekompleksi",
     "isohannu",
     "kino123",
     "kinoelo",
     "kinokulma",
     "kinomania",
+    "kinopiispanristi",
     "kinosampo",
     "kinotoijala",
+    "kinovirta",
     "kotkanleffat",
     "leffabuumi",
     "lieksankino",
@@ -896,12 +900,12 @@
    "krs": [
     "biorex",
     "cinemantsala",
+    "gilda",
     "kinojuha",
     "kinokilta",
     "kinomyyri",
     "kinopiispanristi",
     "kinopirtti",
-    "kuvakukko",
     "leffabuumi",
     "niagara",
     "orion",
@@ -1007,6 +1011,16 @@
     "fi": "Denis Villeneuven ohjaama ja Villeneuven sekä Brian K. Vaughanin yhdessä käsikirjoittama Dyyni: Osa kolme perustuu Frank Herbertin romaaniin Dyynin messias ja tarjoaa eeppisen päätöksen Villeneuven trilogialle. Elokuvan pääosissa ovat Timothée Chalamet, Zendaya, Jason Momoa, Florence Pugh, Rebecca Ferguson, Isaach De Bankolé, Charlotte Rampling, Anya Taylor-Joy, Robert Pattinson ja Javier Bardem, ja uusina tulokkaina nähdään Nakoa-Wolf Momoa ja Ida Brooke."
    },
    "tr": "https://www.youtube.com/watch?v=hjRG8kvMFw0"
+  },
+  "ekakertaleffassa näytös pikku kummitus lapanen": {
+   "id": 69381,
+   "img": "data/posters/1f412d27cae05b51.jpg",
+   "r": 0,
+   "s": {
+    "en": "",
+    "fi": "Pikku kummitus Lapanen on palannut uusien seikkailujen pariin Hyvänhuomenen linnassa. Lapanen ei ole kuin muut kummitukset, sillä hän pelkää pimeää. Lapanen haluaisi olla pelottava, mutta kuinka paljon hän yrittääkään, hän onnistuu vain pelästyttämään itsensä. Linnan kellarissa asuvat Lapasen lisäksi Äiti ja Isä Kummitus sekä hänen uhkarohkea pikkusiskonsa Lapaniina, joka osaa matkia kaikkia maailman ääniä. Linnassa asuu myös ihmisiä: Kuningas ja Kuningatar, Prinsessa ja Pikkuprinssi, jotka ovat Lapasen parhaat ystävät."
+   },
+   "tr": ""
   },
   "ekakertaleffassa ryhmä hau dinoelokuva 5": {
    "id": 1185806,
@@ -2280,6 +2294,14 @@
    },
    "tr": "https://www.youtube.com/watch?v=iUpszeSB7k4"
   },
+  "keskustelussa naza elokuvan tuottaja harry davies": {
+   "r": 0,
+   "s": {
+    "en": "Harry Davies, producer of the acclaimed documentary NAZA and investigative correspondent at The Guardian, discusses the making of the film, his award-winning reporting, and the vital role of investigative journalism in uncovering stories that might otherwise remain untold. The discussion is open to everyone, whether you’ve already seen NAZA or are discovering the film for the first time. The conversation will be moderated by academic researcher and filmmaker Dr. Nitin Sawhney and held in English. Free admission. Seats available on a first-come, first-served basis. The event is organised by Refugee Film Festival and B-Plan Distribution, and supported by Helsingin Sanomain Säätiö. Directed by Oscar-winning filmmakers Rachel Szor and Yuval Abraham (No Other Land) and shot at night on the rooftops of Tel Aviv, the film reveals details of the systems behind Israel’s planned mass killing of Palestinian civilians in Gaza. You can find Cinema Orion’s NAZA screenings here. The event will take place on Sunday, October 25, from 15:00 to 16:00.",
+    "fi": "Arvostetun NAZA -dokumenttielokuvan tuottaja ja The Guardian -lehden tutkiva toimittaja Harry Davies kertoo elokuvan tekemisestä, palkitusta journalistisesta työstään sekä tutkivan journalismin keskeisestä roolista yhteiskunnallisten epäkohtien paljastamisessa. Keskustelutilaisuus on avoin kaikille riippumatta siitä, onko NAZA -elokuvan jo nähnyt vai tutustuuko siihen vasta ensimmäistä kertaa. Keskustelun vetää tutkija ja elokuvantekijä, tohtori Nitin Sawhney. Keskustelu käydään englanniksi. Paikat täytetään saapumisjärjestyksessä. Tilaisuuden järjestävät Refugee Film Festival ja B-Plan Distribution ja sitä tukee Helsingin Sanomain Säätiö. Oscar-palkittujen Rachel Szorin ja Yuval Abrahamin (No Other Land) ohjaama, öisin Tel Avivin katoilla kuvattu NAZA paljastaa yksityiskohtia järjestelmistä, jotka ovat Israelin suunnitelmallisen palestiinalaissiviilien joukkotuhon taustalla Gazassa. Cinema Orionin NAZA -näytökset näet täältä. Keskustelutilaisuus järjestetään SU 25.10. KLO 15:00-16:00."
+   },
+   "tr": ""
+  },
   "kevlarsjäl": {
    "id": 1414081,
    "img": "data/posters/6ea29f409289d6d4.jpg",
@@ -2633,6 +2655,7 @@
    "krs": [
     "biosavoy",
     "isohannu",
+    "kinopiispanristi",
     "kulttuurimylly",
     "star"
    ],
@@ -2731,12 +2754,16 @@
   },
   "kojootti vs acme suomeksi": {
    "id": 1204680,
-   "r": 0,
+   "img": "data/posters/9bcb7891e3c4c53a.jpg",
+   "r": 7.5,
    "s": {
-    "en": "",
+    "en": "After Acme products fail him one too many times in his dogged pursuit of the Roadrunner, Wile E. Coyote decides to hire a billboard lawyer to sue the Acme Corporation.",
     "fi": "Vuosikymmenten ajan pommien räjäyttämä, dynamiitin murskaama, magneettien runtelema, siirtolohkareiden litistämä, junien tallaama, tunneleiden huijaama, jousien sinkoama, höyryjyrien yliajama, viallisten laitteiden pettämä, benjiköysien kiusaama, rakettien riepottelema, lepakkoasujen selkäänpuukottama, rakettiluistinten paiskoma, yksipyöräisten kumoama, maanjäristyspillereiden tärisyttämä, villiintyneiden kuminauhojen venyttämä ja lounaisten Yhdysvaltojen jokaiselta jyrkänteeltä syösty Kelju K. Kojootti saa viimein tarpeekseen ja päättää iskeä takaisin. Mainostauluonnettomuuksiin erikoistuneen asianajajan Kevin Averyn (Will Forte) kanssa liittoutuessaan hän haastaa oikeuteen ACME Inc.:n – ahneuttaan tavoittelevan jättiyhtiön, jonka tuotteet ovat olleet jokaisen Kojoottia kohdanneen katastrofin taustalla – sekä yhtiötä edustavan lipevän yritysjuristin Buddy Cranen (John Cena)."
    },
-   "tr": ""
+   "tr": "https://www.youtube.com/watch?v=kMsiD1Nky5I",
+   "ts": [
+    "en"
+   ]
   },
   "kojootti vs acme suomeksi puhuttu": {
    "id": 1204680,
@@ -2757,6 +2784,174 @@
    "s": {
     "en": "",
     "fi": "Nagasaki, 1964. Nuori Kikuo näkee isänsä kuoleman yakuza-klaanien välienselvittelyssä. Aikansa suurin kabuki-tähti Hanjiro II ottaa Kikuon suojatikseen ja pelastaa näin pojan hengen. Kikuo omistaa elämänsä kabuki-teatterille yhdessä Hanjiron pojan Shunsuken kanssa. Vuosikymmenien omistautuminen tuottaa tulosta. Myrskyisä ura on täynnä veljeyttä ja petoksia, kunnianosoituksia ja skandaaleja. Kikuosta tulee tähti, vaikka yakuza-tausta nousee rasitteeksi vahvasti suljetuissa kabuki-piireissä. Kikuo pääsee kabukin mestariluokkaan, kansallisaarteeksi. Japanissa ällistyttävät 13 miljoonaa katsojaa elokuvateattereihin kerännyt Kokuho - kabukin mestari on visuaalista runoutta. Sofia El Fanin (Adelen elämä) kuvaus saa Kumiko Ogawan puvut ja vahvasti meikatut tähdet säkenöimään. Nuorukaiset esiintyvät kabuki-teatterissa onnagata-tradition mukaan: he pukeutuvat näissä traagisissa tarinoissa kuvankauniiksi neitokaisiksi. Kokuho – kabukin mestari oli Japanin virallinen Oscar-kandidaatti, ja sai ehdokkuuden parhaasta maskeerauksesta."
+   },
+   "tr": ""
+  },
+  "kolahtaako calle málaga muistojeni katu": {
+   "r": 0,
+   "s": {
+    "en": "",
+    "fi": "Liput tulevat myyntiin 19.10. klo 12 Kolahtaako - näytöksiin ei voi hyödyntää sarja/vapaalippuja, etuja tai muita alennuksia. María Ángeles on aina asunut Tangerin kaupungissa Pohjois-Marokossa. Eläkkeellä olevan naisen aviomies on kuollut jo vuosia sitten ja tytär asuu Madridissa lastensa kanssa. Hän nauttii päivittäisistä rutiineistaan rakkaan kotikaupunkinsa monikulttuurisessa ympäristössä. Kun hänen tyttärensä yllättäen ilmoittaa aikovansa myydä hänen Málaga-kadulla sijaitsevan asuntonsa, María Ángelesin koko elämä uhkaa muuttua. Edessä on muutto joko Madridiin tai vanhainkotiin. Yrittäessään pitää kiinni kodistaan ja muistoistaan hän joutuu kohtaamaan vaikeuksia, mutta tilanne tuo mukanaan myös iloa ja uuden rakkauden. Elokuva vie katsojan elämänmyönteiselle matkalle pitkin Marokon katuja. Calle Málaga - muistojeni katu on palkitun marokkolaisohjaaja Maryam Touzanin ensimmäinen espanjankielinen elokuva. Touzanin edellinen elokuva Kaftaanin sini oli Marokon Oscar-ehdokkaana 2022. Calle Málagan pääosassa nähdään espanjalaisen elokuvan legenda ja Pedro Almodóvarin luottonäyttelijänä tunnettu Carmen Maura. Luova Eurooppa -ohjelman - MEDIA -tuella."
+   },
+   "tr": ""
+  },
+  "kolahtaako don quijote barcelonassa": {
+   "r": 0,
+   "s": {
+    "en": "",
+    "fi": "Liput tulevat myyntiin 19.10. klo 12 Kolahtaako - näytöksiin ei voi hyödyntää sarja/vapaalippuja, etuja tai muita alennuksia. Don Quijote Barcelonassa on lämmin ja inhimillinen fiktiodraama kahdesta kodittomasta miehestä Barcelonan kaduilla. Entinen akateemikko Lluc ja Suomesta lähtöisin oleva Olli ajautuvat yhteiselle selviytymistaipaleelle, joka kasvaa vuosien mittaiseksi ystävyydeksi. Tarina kuvaa mielenterveyden haasteita, ihmisarvoa ja taiteen voimakasta merkitystä selviytymisen lähteenä – Dalín, suomalaisen iskelmän ja Cervantesin Don Quijoten heijastamana."
+   },
+   "tr": ""
+  },
+  "kolahtaako franz": {
+   "r": 0,
+   "s": {
+    "en": "",
+    "fi": "Liput tulevat myyntiin 19.10. klo 12 Kolahtaako - näytöksiin ei voi hyödyntää sarja/vapaalippuja, etuja tai muita alennuksia. Mestariohjaaja Agnieszka Hollandin elämäkertaelokuva Franz Kafkasta on kaleidoskooppinen mosaiikki, joka kertoo tšekkiläisen merkkikirjailijan koko elämäntarinan. Kafkan tyylille uskollinen kerronta avaa uusia näkökulmia kirjailijan teoksiin ja elämään, joka päättyi traagisen varhain vain 40-vuotiaana, ja juhlistaa Kafkan mittaamatonta vaikutusta moderniin kaunokirjallisuuteen. Luova Eurooppa -ohjelman - MEDIA -tuella. Suomen elokuvasäätiön maahantuontituki 2026."
+   },
+   "tr": ""
+  },
+  "kolahtaako hamnet": {
+   "r": 0,
+   "s": {
+    "en": "",
+    "fi": "Liput tulevat myyntiin 19.10. klo 12 Kolahtaako - näytöksiin ei voi hyödyntää sarja/vapaalippuja, etuja tai muita alennuksia. Oscar®-palkitun käsikirjoittaja/ohjaaja Chloé Zhaon elokuva HAMNET kertoo vavisuttavan rakkaustarinan, joka innoitti Shakespearen ajattoman mestariteoksen, Hamletin, syntyä."
+   },
+   "tr": ""
+  },
+  "kolahtaako hetki ennen valoa": {
+   "r": 0,
+   "s": {
+    "en": "",
+    "fi": "Liput tulevat myyntiin 19.10. klo 12 Kolahtaako - näytöksiin ei voi hyödyntää sarja/vapaalippuja, etuja tai muita alennuksia. Klaus Härön uutuuselokuva kertoo kahden naisen kohtaamisesta keskellä hoitoalan kriisiä. Erikoissairaanhoitaja Inka (Laura Birn) tekee työtään suurella sydämellä vaativien työolosuhteiden ja oman perhe-elämänsä ristipaineessa. Lenin (Oona Airola) ja Karin (Jussi Vatanen) onni rakoilee, kun heidän vastasyntynyt vauvansa kiidätetään äkillisesti tehohoitoon. Sairaanhoitajat suunnittelevat lakkoa parempien työolosuhteiden puolesta, ja epävarmuuden hetkellä hämmentynyt Leni löytää tukea ja toivoa Inkasta. Inka on kuitenkin vaikeiden päätösten äärellä. Molemmat naiset toimivat rakkaudesta ja velvollisuudesta – mutta miten tehdä oikea valinta, kun vaakalaudalla ovat oma ja toisten elämä?"
+   },
+   "tr": ""
+  },
+  "kolahtaako hind rajabin ääni": {
+   "r": 0,
+   "s": {
+    "en": "",
+    "fi": "Liput tulevat myyntiin 19.10. klo 12 Kolahtaako - näytöksiin ei voi hyödyntää sarja/vapaalippuja, etuja tai muita alennuksia. 29. tammikuuta 2024. Palestiinan Punainen Puolikuu saa sydäntäsärkevän hätäpuhelun kuusivuotiaalta Hind Rajabilta, joka on loukussa tulituksen kohteeksi joutuneessa autossa Gazassa. Alkaa epätoivoinen pelastusoperaatio, jonka aikana yhdistyksen työntekijät tekevät kaikkensa saadakseen tytön turvaan. Kaouther Ben Hania, jonka edellinen elokuva Neljä tytärtä oli ehdolla parhaan dokumenttielokuvan sarjassa vuoden 2024 Oscareissa, sekoittaa jälleen faktaa ja fiktiota hätkähdyttävällä tavalla. Hind Rajabin äänessä kuultavat hätäpuhelut ovat aitoja äänitteitä, mikä tuo Gazan alueen humanitaarisen kriisin järkyttävällä tavalla katsojan iholle."
+   },
+   "tr": ""
+  },
+  "kolahtaako jonain päivänä": {
+   "r": 0,
+   "s": {
+    "en": "",
+    "fi": "Liput tulevat myyntiin 19.10. klo 12 Sarja- ja vapaaliput eivät käy Kolahtaako-näytöksiin. Ranskalaisen Amélie Bonninin raikas ja moderni, musiikin siivittämä elokuva Jonain päivänä (Partir un jour) avasi viime vuoden Cannesin elokuvajuhlat. Elokuva kertoo huippukokista, joka palaa lapsuutensa maisemiin ja kohtaa siellä jälleen ensirakkautensa. Mukaansatempaavaa elokuvaa tähdittää upea musiikki, jossa ikivihreät sävelmät ja tämän vuosikymmenen modernit klassikot yhdistyvät hienosti. Cécile on Top Chef -voittaja ja hän on juuri perustamassa omaa arvostettua ravintolaansa, kun elämä vie hänet takaisin lapsuutensa maisemiin, jossa hän ottaa hoitoonsa vanhempiensa vaatimattoman ravintolan. Kaukana Pariisin sykkeestä hän tapaa nuoruudenrakkautensa ja tunteet kuplivat pintaan. Kokkauksen ja keittiön tuoksujen keskellä Cécilen elämään hiipii uusia sävyjä, kun vanha liekki alkaa syttyä uudelleen. Jonain päivänä on tarina rakkauden ja ruuan voimasta, kätketyistä tunteista ja toiveista sekä ihmisistä, jotka jättävät sydämemme pysyvän jäljen. Elokuvan pääosassa nähdään poptähti Juliette Armanet, joka hurmaa valkokankaalla ensimmäisessä elokuvaroolissaan."
+   },
+   "tr": ""
+  },
+  "kolahtaako kerro kaikille": {
+   "r": 0,
+   "s": {
+    "en": "",
+    "fi": "Liput tulevat myyntiin 19.10. klo 12 Kolahtaako - näytöksiin ei voi hyödyntää sarja/vapaalippuja, etuja tai muita alennuksia. Kerro kaikille on voimaelokuva Amanda Aaltosesta, joka kieltäytyy alistumasta hänelle varattuun köyhän naisen ankeaan kohtaloon ja etsii huimapäisesti onneaan maailmalta. Rangaistukseksi sääntöjen rikkomisesta yhteiskunta anastaa häneltä kaikkein tärkeimmän, vapauden, ja sulkee hänet Seilin saarelle."
+   },
+   "tr": ""
+  },
+  "kolahtaako kuopus": {
+   "r": 0,
+   "s": {
+    "en": "",
+    "fi": "Liput tulevat myyntiin 19.10. klo 12 Kolahtaako - näytöksiin ei voi hyödyntää sarja/vapaalippuja, etuja tai muita alennuksia. Kuopus (eng. The Little Sister) kertoo nuoren naisen herkän kasvutarinan – tasapainoilusta omien tunteiden ja ympäristön asettamien paineiden kanssa sekä rohkeudesta löytää oma äänensä muiden odotusten keskellä. Elokuvan maailmanensi-ilta oli Cannesin 2025 elokuvajuhlien pääkilpasarjassa, jossa elokuva palkittiin Queer Palm -palkinnolla ja Nadia Melliti parhaasta naispääosasta. Fatima on kolmesta tyttärestä nuorin ja hapuilee omaa polkuaan aikuisuuden kynnyksellä. 17-vuotias tyttö tasapainoilee heräävien halujensa, viehtymyksensä naisiin ja rakastavan, uskonnollisen perheen toiveiden välillä. Yliopiston alkaessa Pariisissa Fatimalle avautuu täysin uusi maailma, jossa hän saa ystäviä, ihastuu ja kokee nuoren naisen rakkauden ensimmäistä kertaa omilla ehdoillaan. Kaiken keskellä hän joutuu kohtaamaan ajattoman ja riipaisevan kysymyksen: miten pysyä uskollisena itselleen, kun identiteetin eri puolien sovittaminen yhteen tuntuu mahdottomalta? SUOMEN ELOKUVASÄÄTIÖN MAAHANTUONTITUKI 2025."
+   },
+   "tr": ""
+  },
+  "kolahtaako lapin sota": {
+   "r": 0,
+   "s": {
+    "en": "",
+    "fi": "Liput tulevat myyntiin 19.10. klo 12 Kolahtaako - näytöksiin ei voi hyödyntää sarja/vapaalippuja, etuja tai muita alennuksia. Elokuvan tapahtumat sijoittuvat Lappiin syksyllä 1944, Suomen ja Saksan väliseen konfliktiin toisen maailmansodan loppuvaiheessa. Nuori sotamies Heikki taistelee Karjalan kannaksella ystävänsä Paulin kanssa. Komppaniaan liittyy vankilasta vapautunut Arvo, jonka maailmankuva haastaa muiden käsitykset sodasta ja velvollisuudesta. Aselepo herättää toivon kotiinpaluusta, mutta pian selviää, että Suomen on käännyttävä entisiä saksalaisia liittolaisiaan vastaan Lapissa. Samaan aikaan Rovaniemellä saksalaisten tulkkina työskentelevä Saara joutuu valitsemaan tulevaisuutensa: jäädä Suomeen vai paeta Saksaan rakastettunsa, majuri Duisbergin, kanssa. Lapin sota on vahvasti hahmojensa inhimillisiin kokemuksiin nojaava kertomus ihmisistä, jotka ajautuvat historiallisten mullistusten keskelle. Sodan kauheuksien keskeltä he etsivät merkitystä, inhimillisyyttä ja anteeksiantoa – ja kysyvät, miten armottomassa ympäristössä voidaan löytää armollisuutta. Elokuvateattereissa 23.10."
+   },
+   "tr": ""
+  },
+  "kolahtaako laula minulle arja": {
+   "r": 0,
+   "s": {
+    "en": "",
+    "fi": "Liput tulevat myyntiin 19.10. klo 12 Kolahtaako - näytöksiin ei voi hyödyntää sarja/vapaalippuja, etuja tai muita alennuksia. Laula minulle Arja on dokumenttielokuva legendaarisesta suomalaisesta laulajasta ja ihmisoikeusaktivisti Arja Saijonmaasta, vahvatahtoisesta naisesta, joka on elänyt taiteensa rajojen, sukupolvien ja ideologioiden yli. Elokuva seuraa hänen poikkeuksellista matkaansa ja elinikäistä ystävyyttään kreikkalaisen säveltäjän ja vapaustaistelijan Mikis Theodorakiksen kanssa. Musiikkielämysten, harvinaisen arkistomateriaalin ja nykyhetken pohdintojen kautta dokumenttielokuva paljastaa pelottoman esiintyjän ja rauhan sillanrakentajan, jonka aseena on laulu. Nyt elokuvateattereissa!"
+   },
+   "tr": ""
+  },
+  "kolahtaako nouvelle vague": {
+   "r": 0,
+   "s": {
+    "en": "",
+    "fi": "Liput tulevat myyntiin 19.10. klo 12 Kolahtaako - näytöksiin ei voi hyödyntää sarja/vapaalippuja, etuja tai muita alennuksia. Richard Linklaterin oodi elokuvan ilolle sukeltaa Jean-Luc Godardin legendaarisen Viimeiseen hengenvetoon -elokuvan tuotannon hilpeisiin käänteisiin. Cahiers du Cinema -lehden toimituksessa oli vauhtia. Toimittajista Claude Chabrol oli jo ohjannut kaksi leffaa. Francois Truffaut oli lähdössä Cannesin elokuvajuhlille esittelemään esikoistaan 400 kepposta. Godard kähvelsi lehden kassasta matkarahat ja painui mukaan. Kaikki tiesivät, että nyt tapahtuu jotain uutta. Godardin oli päästävä ohjaamaan. Se on helppoa: huijataan tuottaja mukaan, puhutaan Jean Seberg (Zoey Deutch) hehkumaan naispääosaan, ja Jean-Paul Belmondo (aubry Dullin) on kuin luotu konnan rooliin. Aamuisin keksitään pätkä käsikirjoitusta kahvilassa, kuvataan tunti tai koko päivä. Kyllä tästä leffa tulee. Sivuosissa vilahtelee Robert Bressonin, Jean-Pierre Melvillen ja Roberto Rossellinin kaltaisia hahmoja. Kaikki tämä on historiallisesti akkuraattia ja samanaikaisesti keksittyä. Uransa huipulla oleva Richard Linklater (Rakkautta ennen -trilogia, Boyhood) tavoittaa sen välittömyyden, joka kuvauksissa vallitsi yhtä lailla kameran edessä ja takana. Sekä etenkin kuvaustauoilla, joita oli paljon."
+   },
+   "tr": ""
+  },
+  "kolahtaako onnen asiamies": {
+   "r": 0,
+   "s": {
+    "en": "",
+    "fi": "Liput tulevat myyntiin 19.10. klo 12 Kolahtaako - näytöksiin ei voi hyödyntää sarja/vapaalippuja, etuja tai muita alennuksia. Miten onnellisuutta voi mitata? Buddhistimunkki Amberin tehtävänä on kiertää Himalajan vuoristokyliä Bhutanissa ja raportoida kansalaisten onnellisuudesta. Tapauskohtaisiin laskelmiin vaikuttavat niin kylän vuohien lukumäärä, kuin tuntemukset puolison poismenosta. Amberin omia sydämen asioita ei voi niitäkään unohtaa. ONNEN ASIAMIES on syvälle luotaava kuvaus inhimillisyydestä huikaisevissa vuoristomaisemissa. Elokuva vie katsojan universaalin äärelle erikoislaatuisessa maassa, jonka kuningas on historiallisesti pitänyt kansansa erillään muusta maailmasta. Tarinasta muodostuu sarja lämpimiä kohtaamisia toinen toistaan syrjäisemmissä kylissä."
+   },
+   "tr": ""
+  },
+  "kolahtaako pikkuli ja tähtipeura suomeksi": {
+   "r": 0,
+   "s": {
+    "en": "",
+    "fi": "Liput tulevat myyntiin 19.10. klo 12 Kolahtaako - näytöksiin ei voi hyödyntää sarja/vapaalippuja, etuja tai muita alennuksia. Pikkuli on suomalainen animaatiosarja, joka perustuu Metsämarja Aittokosken luomiin hahmoihin ja maailmaan. Vuonna 2011 julkaistun kirjan jälkeen Pikkuli tuli tutuksi Pikku Kakkosen ja Buu-klubbenin animaatiosarjasta sekä lastenkirjoista, musiikista, peleistä ja laululeikkiesityksistä. Pikkuli-hahmon seikkailut tarjoavat samaistuttavia tarinoita kaikenikäisille. Pikkulin leikkisä tunnetaitokasvatus rohkaisee lapsia näkemään, että kaikki tunteet ovat sallittuja, vahvistaen lapsen uskoa positiiviseen ajatteluun. Pikkuli-kirjojen uusi kustantamo WSOY julkaisee syksyllä 2026 kolme Pikkuli-kirjaa, joista yksi on elokuvaan pohjaava kirja Pikkuli ja Tähtipeura. Tarina julkaistaan sekä kuvakirjana että äänikirjana. Pikkuli-kirjat lukee äänikirjoiksi Pikkuli-elokuvan ääninäyttelijäkaartistakin tuttu Krista Kosonen."
+   },
+   "tr": ""
+  },
+  "kolahtaako pirjo i sverige": {
+   "r": 0,
+   "s": {
+    "en": "",
+    "fi": "Liput tulevat myyntiin 19.10. klo 12 Kolahtaako - näytöksiin ei voi hyödyntää sarja/vapaalippuja, etuja tai muita alennuksia. Kun Pirjo Heikkilä nolaa itsensä julkisesti hyväntekeväisyystapahtumassa, hän alkaa uskoa, että elämässä tarvitaan maisemanvaihdos. Pirjo saa kuulla suvustaan hämmentävän salaisuuden, joka johdattaa hänet Ruotsiin. Pirjo suuntaa matkalle vakuuttuneena, että hänen oikea elämänsä odottaa Tukholmassa — kuninkaallisten, uusien ystävien ja paremman ihmisarvon keskellä. Mutta matkasta tulee kaikkea muuta kuin arvokas. Vastaan tulevat toinen toistaan kiusallisemmat tilanteet ja loputon tarve vaikuttaa ruotsalaisemmalta kuin oikeasti onkaan. Pirjo i Sverige on lämminhenkinen komedia suomalaisesta häpeästä, hyväksynnän kaipuusta ja siitä, voiko ihminen todella paeta itseään — edes Ruotsiin."
+   },
+   "tr": ""
+  },
+  "kolahtaako presidentin kyyditys": {
+   "r": 0,
+   "s": {
+    "en": "",
+    "fi": "Liput tulevat myyntiin 19.10. klo 12 Kolahtaako - näytöksiin ei voi hyödyntää sarja/vapaalippuja, etuja tai muita alennuksia. Tositapahtumien inspiroima Presidentin kyyditys vie katsojan keskelle vuoden 1930 absurdeja tapahtumia. Raskaan ryyppyillan aikana joukko kunnianhimoisia upseereita päättää kaapata Suomen ensimmäisen presidentin – jo eläkkeellä olevan K. J. Ståhlbergin. Uppiniskainen presidentin vaimo Ester Ståhlberg ei tiukassakaan tilanteessa suostu jättämään miestään, vaan änkeää muiluttajien pään menoksi samaan kyytiin auton takapenkille. Alkaa uskomaton matka halki levottoman Suomen, jossa huhupuheet ja historia kietoutuvat yhteen – eikä vieläkään tiedetä, mikä presidentin kyydityksessä oli totta ja mikä tarua. Elokuvateattereissa 4.9."
+   },
+   "tr": ""
+  },
+  "kolahtaako primavera": {
+   "r": 0,
+   "s": {
+    "en": "",
+    "fi": "Liput tulevat myyntiin 19.10. klo 12 Kolahtaako - näytöksiin ei voi hyödyntää sarja/vapaalippuja, etuja tai muita alennuksia. Venetsia 1700-luvun alussa. Pietan orpokodissa kasvatetaan hylätyistä tytöistä muusikoita. Pietan orkesteri on kuulu kautta Euroopan, onhan orpokoti kouluttanut muusikoita jo satoja vuosia. Orpotytöt soittavat kirkon parvella ristikon takana, jotta äveriäs seurapiiriyleisö voi paremmin keskittyä musiikkiin. Pietan johtokunta pestaa säveltäjän uransa kanssa kamppailevan Antonio Vivaldin (Michele Rondino) orkesterin opettajaksi. Poikkeuksellisen lahjakas Cecilia (Primaveran pääosassa hehkuva Tecla Insolia) nousee ykkösviulistiksi. Euroopan aateliset ja kruunupäät matkustavat Venetsiaan kuullakseen Vivaldin sävellyksiä ja Pietan orkesteria - mutta musiikki ei avaa orpokodin lukittuja portteja. Cecilia haluaa maailmalle, eikä anna vastoinkäymisten lannistaa vapaudenkaipuutaan. Oopperaohjaajana tunnetun Damiano Michieletton esikoiselokuva PRIMAVERA elää ja hengittää Venetsian kevään, kanavien ja musiikin ehdoilla. Michieletton oopperaohjauksia on juhlittu Milanon La Scalassa sekä Lontoon, Pariisin ja Berliinin oopperataloissa. Ludovica Rampoldin käsikirjoitus pohjaa vapaasti Tiziano Scarpan romaaniin Stabat mater. Venetsialainen Antonio Vivaldi (1678 – 1741) sävelsi kymmeniä oopperoita, kuoro- ja kamariteoksia sekä lukuisia sonaatteja. Konserttoja syntyi vähintään satoja. Vivaldi opetti Pietan orpokodissa 40 vuoden ajan. Hänen tunnetuin teoksensa Neljä vuodenaikaa syntyi noina vuosina."
+   },
+   "tr": ""
+  },
+  "kolahtaako punaista lunta": {
+   "r": 0,
+   "s": {
+    "en": "",
+    "fi": "Liput tulevat myyntiin 19.10. klo 12 Kolahtaako - näytöksiin ei voi hyödyntää sarja/vapaalippuja, etuja tai muita alennuksia. ENNAKKONÄYTÖS! Elokuva on K16. Ikärajoista voi joustaa kolme vuotta silloin, kun lapsi on täysi-ikäisen huoltajan seurassa. Ikuista keski-iän kriisiä poteva Martti (Hannu-Pekka Björkman) on yksinäinen vampyyri, joka on keksinyt keinon tyydyttää loputonta verenhimoaan. Joka joulu hän kutsuu itsensä joulupukiksi pukeutuneena viattomien perheiden kotiin, jättäen jälkeensä täydellisen tuhon iloisten joululaulujen soidessa taustalla. Kunnes koittaa joulu, jolloin Martti tulee kutsutuksi goottiromantiikasta unelmoivan Johannan (Anni Iikkanen) ja tämän perheen luo isoäidin kartanoon. Johannan ja Martin elämäntavoitteet kohtaavat mitä oudoimmalla tavalla, mutta yhteisen päämäärän edessä on esteitä: isävitsejä laukova Tapparan mies (Kari Hietalahti), kyseenalaisesti pätevä kotihoitaja (Krista Kosonen) sekä kostonhimoinen majuri (Tommi Korpela). Seuraa aattoyön armoton ajojahti, jonka jokainen saa vuorollaan tuntea nahoissaan."
+   },
+   "tr": ""
+  },
+  "kolahtaako rakkautta ja virtahepoja": {
+   "r": 0,
+   "s": {
+    "en": "",
+    "fi": "Liput tulevat myyntiin 19.10. klo 12 Kolahtaako - näytöksiin ei voi hyödyntää sarja/vapaalippuja, etuja tai muita alennuksia. Kaksi toisilleen tuntematonta, hieman eksyksissä olevaa ihmistä kohtaavat ystäviensä häissä. Touko tuntee välitöntä vetoa Eevikseen. Paikalla on myös Toukon puoliso, menestynyt laulajatähti Leena, joka aistii kasvavan vetovoiman näiden kahden välillä. Yhden kesäillan aikana Kreikan rantakallioilla jutellaan rehellisesti rakkaudesta, eroista, nähdyksi tulemisen kaipuusta ja haluista – samalla kun juhlitaan ikimuistoisia häitä. Dome Karukosken romanttinen draamaelokuva RAKKAUTTA JA VIRTAHEPOJA perustuu kirjailija Emmi-Liia Sjöholmin menestysromaaniin Virtahevot. Karukoski ja Sjöholm ovat käsikirjoittaneet elokuvan yhdessä. Pääosissa Pihla Viitala (Eevi), Aku Sipola (Touko) ja Jenni Vartiainen (Leena). Elokuvateattereissa 25.9."
+   },
+   "tr": ""
+  },
+  "kolahtaako se oli pelkkä sattuma": {
+   "r": 0,
+   "s": {
+    "en": "",
+    "fi": "Liput tulevat myyntiin 19.10. klo 12 Kolahtaako - näytöksiin ei voi hyödyntää sarja/vapaalippuja, etuja tai muita alennuksia. Cannesissa Kultaisen palmun voittanut iranilaisohjaaja Jafar Panahin Se oli pelkkä satuma (englanninkielinen nimi It Was Just an Accident) on intensiivinen ja ajatuksia herättävä kostotarina joukosta ihmisistä, jotka saavat sattumalta tilaisuuden kostaa kiduttajalleen. Sattuma käynnistää odottamattoman, paikoin jopa humoristisen tapahtumaketjun. Ryhmä ei kuitenkaan ole varma, onko heidän käsissään sittenkään oikea henkilö. Elokuvan ydin pureutuu eettiseen kysymykseen: voiko koston tavoittelu oikeuttaa turvautumisen samoihin menetelmiin – sieppaukseen ja kidutukseen – joita sortaja itse on käyttänyt? Elokuva kisaa maaliskuun Oscar-gaalassa 2026 parhaan alkuperäiskäsikirjoituksen ja parhaan kansainvälisen elokuvan kategorioissa. Suomen elokuvasäätiön Maahantuontituki 2026."
+   },
+   "tr": ""
+  },
+  "kolahtaako vasenkätinen tyttö": {
+   "r": 0,
+   "s": {
+    "en": "",
+    "fi": "Liput tulevat myyntiin 19.10. klo 12 Kolahtaako - näytöksiin ei voi hyödyntää sarja/vapaalippuja, etuja tai muita alennuksia. Äiti ja kaksi tytärtä muuttavat väkeä kuhisevaan Taipeihin. Sisukas kolmikko ryhtyy pitämään nuudelikojua vilkkaalla yötorilla. Koju ei ehkä ole suurmenestys, mutta kolmikko pitää yhtä. Suurkaupungin vauhti ja vilinä lumoaa kolmikon nuorimmaisen. Isoisä moittii tyttöä vasemman käden käyttämisestä, se kun on vanhojen uskomusten mukaan ´paholaisen käsi´. Tyttö uskoo isoisää kirjaimellisesti. Perheen pitkään vaietut salaisuudet alkavat paljastua. Vasenkätisen tytön tuottaja, leikkaaja ja toinen käsikirjoittaja Sean Baker muistetaan Oscar –magneetti Anoran ohjauksesta. Tuottajana (mm. Florida Project) mainetta niittäneen Shih-Ching Tsoun esikoisohjaus tavoittaa Taipein neonvalojen kaleidoskoopin, elämän sirkuksen ja seikkailun. Vuonna 2016 syntynyt nuori tähti Nina Ye on vuoden hurmaavin läpimurto valkokankailla."
    },
    "tr": ""
   },
@@ -2955,7 +3150,7 @@
     "en"
    ]
   },
-  "kuvi kanal kirottujen tie": {
+  "kuvi kanal kirottujen tie näytös peruttu": {
    "id": 1405469,
    "r": 0,
    "s": {
@@ -3010,12 +3205,16 @@
   },
   "kätyrit ja monsterit suomeksi": {
    "id": 1315772,
-   "r": 0,
+   "img": "data/posters/67059865db3405c0.jpg",
+   "r": 7.6,
    "s": {
-    "en": "",
+    "en": "This is the rambunctious, ridiculous and totally true story of how the Minions conquered Hollywood, became movie stars, lost everything, unleashed monsters onto the world and then banded together to try and save the planet from the mayhem they had just created.",
     "fi": "Suosithan paikkavarausta! Illumination johdattaa meidät jälleen hulvattomaan animaatiomaailmaansa uudella elokuvallaan Kätyrit & Monsterit, joka tuo maailman suosituimpaan animaatio-franchiseen kokonaan uusia hahmoja. Hillitön, riehakas ja täysin tositapahtumiin perustuva elokuva kertoo, miten Kätyrit valloittavat Hollywoodin ja nousevat elokuvatähdiksi, menettävät kaiken, tulevat päästäneeksi hirviöitä maailmaan ja lopulta yhdistävät … voimansa pelastaakseen planeetan itse aiheuttamaltaan kaaokselta. Alkuperäisissä äänirooleissa kuullaan muun muassa Oscar®-voittaja Allison Janney, kaksinkertainen Oscar®-voittaja Christoph Waltz, Oscar®-voittaja Jeff Bridges, kaksinkertainen Oscar®-ehdokas Jesse Eisenberg, Zoey Deutch (Nouvelle Vague) sekä Oscar®-ehdokas Trey Parker, joka tunnetaan myös yhtenä South Parkin luojista. Näyttelijäkaartia täydentävät myös entinen Saturday Night Live -tähti Bobby Moynihan ja Phil LaMarr (Futurama, Kukkulan kuningas). Kätyrit & Monsterit -elokuvan on ohjannut Oscar-ehdokkuuden saanut Pierre Coffin, jonka ohjaustöihin lukeutuvat myös kolme ensimmäistä Itse ilkimys -elokuvaa ja ensimmäinen Kätyrit-elokuva. Coffin on myös ääninäytellyt itse Kätyreitä niiden elokuvadebyytistä 2010 alkaen. Elokuvan käsikirjoittajat ovat Brian Lynch (Kätyrit, Lemmikkien salainen elämä -elokuvat) ja Pierre Coffin. Elokuvan ovat tuottaneet myös Oscar-ehdokkuuden saanut Illuminationin perustaja ja pääjohtaja Chris Meledandri sekä Bill Ryan (The Super Mario Bros. Movie -elokuvan vastaava tuottaja ). Kätyrit & Monsterit -elokuvan vastaava tuottaja on Brian Lynch. Yli 15 vuotta on kulunut Kätyreiden luomisesta, ja niistä on tullut sukupolvensa ikonisimpia animaatiohahmoja. Kaikenikäisten fanien rakastamat Kätyrit ovat siivittäneet Illuminationin Itse ilkimys- ja Kätyrit-elokuvatuotannot yli 5,6 miljardia dollaria tuottaneiksi maailmanlaajuisiksi jymymenestyksiksi."
    },
-   "tr": ""
+   "tr": "https://www.youtube.com/watch?v=V-O-uBaHk3c",
+   "ts": [
+    "en"
+   ]
   },
   "kätyrit monsterit": {
    "id": 1315772,
@@ -3199,6 +3398,7 @@
     "ihmekompleksi",
     "joutsankino",
     "kinoelo",
+    "kinojuha",
     "kinolaika",
     "kinomania",
     "kinometso",
@@ -3327,6 +3527,7 @@
     "bioforum",
     "biomarilyn",
     "biorex",
+    "cinemantsala",
     "engel",
     "isohannu",
     "kinoakseli",
@@ -3335,9 +3536,11 @@
     "kinolaika",
     "kinolumo",
     "kinomarilyn",
+    "kinopiispanristi",
     "kinoset",
     "kinovirta",
     "kulttuurimylly",
+    "laitilankino",
     "vaakuna"
    ],
    "r": 0,
@@ -4805,6 +5008,7 @@
     "bioforum",
     "biomarilyn",
     "biorex",
+    "cinemantsala",
     "engel",
     "isohannu",
     "kinoakseli",
@@ -4813,9 +5017,11 @@
     "kinolaika",
     "kinolumo",
     "kinomarilyn",
+    "kinopiispanristi",
     "kinoset",
     "kinovirta",
     "kulttuurimylly",
+    "laitilankino",
     "vaakuna"
    ],
    "r": 0,
@@ -4847,6 +5053,7 @@
     "bioforum",
     "biomarilyn",
     "biorex",
+    "cinemantsala",
     "engel",
     "isohannu",
     "kinoakseli",
@@ -4855,9 +5062,11 @@
     "kinolaika",
     "kinolumo",
     "kinomarilyn",
+    "kinopiispanristi",
     "kinoset",
     "kinovirta",
     "kulttuurimylly",
+    "laitilankino",
     "vaakuna"
    ],
    "r": 0,
@@ -4874,6 +5083,8 @@
    "krs": [
     "alatalo",
     "biokaari",
+    "biomarilyn",
+    "cinemantsala",
     "engel",
     "huvimylly",
     "isohannu",
@@ -4881,10 +5092,15 @@
     "kinohannikainen",
     "kinokilta",
     "kinokulma",
+    "kinolumo",
+    "kinopiispanristi",
     "kinotour",
+    "kinovirta",
     "kulttuurimylly",
     "kuvakukko",
-    "lieksankino"
+    "laitilankino",
+    "lieksankino",
+    "vihdinkino"
    ],
    "r": 0,
    "s": {
@@ -4900,6 +5116,8 @@
    "krs": [
     "alatalo",
     "biokaari",
+    "biomarilyn",
+    "cinemantsala",
     "engel",
     "huvimylly",
     "isohannu",
@@ -4907,10 +5125,15 @@
     "kinohannikainen",
     "kinokilta",
     "kinokulma",
+    "kinolumo",
+    "kinopiispanristi",
     "kinotour",
+    "kinovirta",
     "kulttuurimylly",
     "kuvakukko",
-    "lieksankino"
+    "laitilankino",
+    "lieksankino",
+    "vihdinkino"
    ],
    "r": 0,
    "s": {
@@ -4935,6 +5158,8 @@
    "krs": [
     "alatalo",
     "biokaari",
+    "biomarilyn",
+    "cinemantsala",
     "engel",
     "huvimylly",
     "isohannu",
@@ -4942,10 +5167,15 @@
     "kinohannikainen",
     "kinokilta",
     "kinokulma",
+    "kinolumo",
+    "kinopiispanristi",
     "kinotour",
+    "kinovirta",
     "kulttuurimylly",
     "kuvakukko",
-    "lieksankino"
+    "laitilankino",
+    "lieksankino",
+    "vihdinkino"
    ],
    "r": 0,
    "s": {
@@ -4955,7 +5185,6 @@
    "tr": ""
   },
   "pikkuli ja tähtipeura på svenska": {
-   "id": 1403476,
    "r": 0,
    "s": {
     "en": "",
@@ -4970,6 +5199,8 @@
    "krs": [
     "alatalo",
     "biokaari",
+    "biomarilyn",
+    "cinemantsala",
     "engel",
     "huvimylly",
     "isohannu",
@@ -4977,10 +5208,15 @@
     "kinohannikainen",
     "kinokilta",
     "kinokulma",
+    "kinolumo",
+    "kinopiispanristi",
     "kinotour",
+    "kinovirta",
     "kulttuurimylly",
     "kuvakukko",
-    "lieksankino"
+    "laitilankino",
+    "lieksankino",
+    "vihdinkino"
    ],
    "r": 0,
    "s": {
@@ -4996,6 +5232,8 @@
    "krs": [
     "alatalo",
     "biokaari",
+    "biomarilyn",
+    "cinemantsala",
     "engel",
     "huvimylly",
     "isohannu",
@@ -5003,10 +5241,15 @@
     "kinohannikainen",
     "kinokilta",
     "kinokulma",
+    "kinolumo",
+    "kinopiispanristi",
     "kinotour",
+    "kinovirta",
     "kulttuurimylly",
     "kuvakukko",
-    "lieksankino"
+    "laitilankino",
+    "lieksankino",
+    "vihdinkino"
    ],
    "r": 0,
    "s": {
@@ -5076,7 +5319,8 @@
     "kuvakukko",
     "laitilankino",
     "navettakino",
-    "vaakuna"
+    "vaakuna",
+    "vihdinkino"
    ],
    "r": 0,
    "s": {
@@ -5116,7 +5360,8 @@
     "kuvakukko",
     "laitilankino",
     "navettakino",
-    "vaakuna"
+    "vaakuna",
+    "vihdinkino"
    ],
    "r": 0,
    "s": {
@@ -5294,7 +5539,6 @@
     "kinohirvi",
     "kinokilta",
     "kinolaika",
-    "kinolumo",
     "kinometso",
     "kinomyyri",
     "kinopiispanristi",
@@ -5546,6 +5790,19 @@
     "fi": "Paikalla keskustelemassa elokuvan jälkeen ohjaaja Karin Pennanen ja tuottaja Sonja Lindén! Ohjaaja löytää erakoituneen taiteilijasetänsä kätketyn maailman ja ryhtyy tekemään siitä elokuvaa – omaksi yllätyksekseen setänsä kanssa. Syntyy erityislaatuinen vuoropuhelu, joka avaa näkymän intohimoiseen taiteen tekemiseen ja originelliin elämään. Päivien lumo kertoo luomisesta elämäntapana, monimutkaisista perhesuhteista, rakkaudesta ja kuoleman kosketuksesta. Samalla se on elokuva matkasta kohti itseä ja omien valintojensa hyväksymisestä. Nämä voi ehkä saavuttaa vasta kun onnistuu hyväksymään maailman ja itsen keskeneräisyyden. Ohjaaja Karin kertoo elokuvastaan näin:"
    },
    "tr": ""
+  },
+  "päiväkaffileffa näytös kerro kaikille": {
+   "id": 1304530,
+   "img": "data/posters/133d5c0758982817.jpg",
+   "r": 0,
+   "s": {
+    "en": "",
+    "fi": "Amanda Aaltonen kieltäytyy alistumasta hänelle varattuun köyhän naisen ankeaan kohtaloon ja etsii huimapäisesti onneaan maailmalta. Rangaistukseksi sääntöjen rikkomisesta yhteiskunta anastaa häneltä kaikkein tärkeimmän, vapauden, ja sulkee hänet Seilin saarelle."
+   },
+   "tr": "https://www.youtube.com/watch?v=iUpszeSB7k4",
+   "ts": [
+    "fi"
+   ]
   },
   "päämies": {
    "id": 10731,
@@ -5979,6 +6236,7 @@
     "biorex",
     "isohannu",
     "kinometso",
+    "kinopiispanristi",
     "kotkanleffat",
     "star"
    ],
@@ -6706,6 +6964,7 @@
     "engel",
     "gilda",
     "kinokilta",
+    "kinolaika",
     "niagara",
     "regina",
     "sheryl",
@@ -6728,6 +6987,7 @@
     "engel",
     "gilda",
     "kinokilta",
+    "kinolaika",
     "niagara",
     "regina",
     "sheryl",
@@ -7322,6 +7582,7 @@
     "kinomarilyn",
     "kinoolympia",
     "kinopiispanristi",
+    "kinovirta",
     "kirkkonummi",
     "kuvakukko",
     "orion",
@@ -7632,8 +7893,8 @@
     "biorex",
     "biosavoy",
     "biovuoksi",
+    "cinemantsala",
     "helios",
-    "ihmekompleksi",
     "isohannu",
     "kino123",
     "kinoelo",
@@ -7676,7 +7937,7 @@
   "unohdettu saari englanniksi": {
    "id": 1465063,
    "img": "data/posters/9bcaf7ef167a0f8f.jpg",
-   "r": 8.0,
+   "r": 7.9,
    "s": {
     "en": "While celebrating their last night together, high school graduates and best friends Jo and Raissa stumble upon a mysterious portal that transports them to the fantastical island of Nakali. When they discover that the memories of their entire friendship are the price for returning home, Jo and Raissa must race to find a way to leave the island before they forget each other forever.",
     "fi": "Englanninkielinen versio, tekstitetty suomeksi ja ruotsiksi. Parhaan ystävyyden puolesta kannattaa taistella. DreamWorks Animation on aiemmin tuonut katsojille tarinoita unohtumattomista siteistä pojan ja lohikäärmeen välillä Näin koulutat lohikäärmeesi -elokuvissa, jätin ja aasin välillä Shrek-elokuvissa sekä robotin ja hanhenpoikasen välillä elokuvassa Villi robotti. Nyt luvassa on huikean tunteikas tarina kahdesta parhaasta ystävyksestä, joiden täytyy yhdistää voimansa eron uhatessa elokuvassa Unohdettu saari. Uuden alkuperäistarinan on käsikirjoittanut ja ohjannut Oscar-ehdokas Joel Crawford ja Januel Mercado. Tuottajana toimii Oscar-ehdokas Mark Swift. Sama tiimi on myös ollut tekemässä elokuvaa Saapasjalkakissa: Viimeinen toivomus. Grammy- ja Oscar-palkittu supertähti H.E.R. ja Liza Soberano (Lisa Frankenstein, Alone/Together) ovat Jo ja Raissa, high schoolista valmistunut parivaljakko. He ovat olleet parhaita ystäviä ala-asteelta asti, mutta nyt elämä uhkaa erottaa ystävykset. Juhliessaan viimeistä yhteistä iltaansa Jo ja Raissa törmäävät salaperäiseen portaaliin, joka kuljettaa heidät Nakalin mielikuvitukselliselle saarelle. Saari on täynnä maagisia ja myyttisiä olentoja, joista ystävysten filippiiniläisperheet ovat kertoneet tarinoita. Uusista tuttavuuksista paljastuu niin ystäviä kuin vihollisiakin. Apunaan hyvää tarkoittava mutta melko avuton ihmiskoira Raww (Dave Franco) sekä pieni mutta pippurinen joukko muita kamuja Jo ja Raissa ottavat mittaa karmeasta Manananggalista (Tony-palkittu ikoni Lea Salonga), saaren pelätyimmästä olennosta. Kun parille paljastuu, että hinta kotiinpaluusta on kaikkien yhteisten muistojen menettäminen, Jon ja Raissan täytyy keksiä keino päästä pois saarelta unohtamatta toisiaan."
@@ -7698,7 +7959,7 @@
   "unohdettu saari orig": {
    "id": 1465063,
    "img": "data/posters/9bcaf7ef167a0f8f.jpg",
-   "r": 8.1,
+   "r": 7.9,
    "s": {
     "en": "While celebrating their last night together, high school graduates and best friends Jo and Raissa stumble upon a mysterious portal that transports them to the fantastical island of Nakali. When they discover that the memories of their entire friendship are the price for returning home, Jo and Raissa must race to find a way to leave the island before they forget each other forever.",
     "fi": "Tämä elokuva sisältää välkkyviä valoja, jotka voivat aiheuttaa oireita henkilöille, joilla on valoherkkä epilepsia tai muu valoherkkyys. Parhaan ystävyyden puolesta kannattaa taistella. DreamWorks Animation on aiemmin tuonut katsojille tarinoita unohtumattomista siteistä pojan ja lohikäärmeen välillä Näin koulutat lohikäärmeesi -elokuvissa, jätin ja aasin välillä Shrek-elokuvissa sekä robotin ja hanhenpoikasen välillä elokuvassa Villi robotti. Nyt luvassa on huikean tunteikas tarina kahdesta parhaasta ystävyksestä, joiden täytyy yhdistää voimansa eron uhatessa elokuvassa Unohdettu saari. Uuden alkuperäistarinan on käsikirjoittanut ja ohjannut Oscar-ehdokas Joel Crawford ja Januel Mercado. Tuottajana toimii Oscar-ehdokas Mark Swift. Sama tiimi on myös ollut tekemässä elokuvaa Saapasjalkakissa: Viimeinen toivomus. Grammy- ja Oscar-palkittu supertähti H.E.R. ja Liza Soberano (Lisa Frankenstein, Alone/Together) ovat Jo ja Raissa, high schoolista valmistunut parivaljakko. He ovat olleet parhaita ystäviä ala-asteelta asti, mutta nyt elämä uhkaa erottaa ystävykset. Juhliessaan viimeistä yhteistä iltaansa Jo ja Raissa törmäävät salaperäiseen portaaliin, joka kuljettaa heidät Nakalin mielikuvitukselliselle saarelle. Saari on täynnä maagisia ja myyttisiä olentoja, joista ystävysten filippiiniläisperheet ovat kertoneet tarinoita. Uusista tuttavuuksista paljastuu niin ystäviä kuin vihollisiakin. Apunaan hyvää tarkoittava mutta melko avuton ihmiskoira Raww (Dave Franco) sekä pieni mutta pippurinen joukko muita kamuja Jo ja Raissa ottavat mittaa karmeasta Manananggalista (Tony-palkittu ikoni Lea Salonga), saaren pelätyimmästä olennosta. Kun parille paljastuu, että hinta kotiinpaluusta on kaikkien yhteisten muistojen menettäminen, Jon ja Raissan täytyy keksiä keino päästä pois saarelta unohtamatta toisiaan."
@@ -7740,8 +8001,8 @@
     "biorex",
     "biosavoy",
     "biovuoksi",
+    "cinemantsala",
     "helios",
-    "ihmekompleksi",
     "isohannu",
     "kino123",
     "kinoelo",
@@ -7925,6 +8186,7 @@
     "biorexkokkola",
     "biosavoy",
     "biovuoksi",
+    "cinemantsala",
     "gilda",
     "ihmekompleksi",
     "isohannu",
@@ -8112,6 +8374,19 @@
     "fi": "Ensimmäisenä hip hop -leffana pidetty puolidokumentaarinen Wild Style on riippumattoman elokuvan muotokieltä raa'alla DIY-estetiikallaan ja tekotavallaan muokannut värikäs musaleffojen kultakimpale! Alkukasarin ruohonjuuritason New York on taltioitu elokuvaan aikana, jolloin hip hop ei ollut vielä räjähtänyt koko maailman tietoisuuteen, vaan sykki vielä pitkälti piilossa Bronxin korttelibileissä. Hip hopin alkuvuosien originaattorit, kuten Busy Bee Starski , Fab Five Freddy , The Cold Crush Brothers ja Grandmaster Flash olivat mukana toteuttamassa tätä räpin keskeisissä levyissä sämplättyä dokkarin ja fiktion yhdistelmäklassikkoa, joka on pakollista valkokangasnähtävää kaikille hip hopin neljän elementin (graffiti, breakdance, DJ ja MC) alkuräjähdyksen ajoista kiinnostuneille leffa- ja musafaneille."
    },
    "tr": ""
+  },
+  "wildwood sysimetsä": {
+   "id": 791523,
+   "img": "data/posters/3243e3129f13e25d.jpg",
+   "r": 0,
+   "s": {
+    "en": "Prue and her classmate Curtis are drawn into a magical forest filled with enchanted creatures, loyal allies, and formidable adversaries as they embark on a desperate quest to rescue Prue's abducted baby brother from a murder of crows led by a mysterious woman named Alexandra.",
+    "fi": "Kun omapäisen teinitytön Prue McKeelin pikkuveli joutuu varisparven sieppaamaksi, Prue lähtee epätoivoiselle pelastusretkelle Tiettömään korpeen – lumottuun metsään, joka kätkeytyy aivan Oregonin Portlandin kupeeseen. Seurakseen Prue saa kömpelön mutta uskollisen luokkatoverinsa Curtis Mehlbergin. Tiettömässä korvessa kaksikko kohtaa puhuvia eläimiä, rosvoja ja mahtihahmoja, joiden tekoja ohjaavat suru ja kunnianhimo. Kun Prue ja Curtis tempautuvat keskelle konfliktia, joka uhkaa koko metsän tasapainoa, Pruen on löydettävä itsestään voimaa ja uskoa, joita hän ei tiennyt omaavansa. Pelastaakseen veljensä ja suojellakseen Sysimetsän haurasta tulevaisuutta Pruen on oltava valmis panemaan kaikki peliin. Oscar®-ehdokkuuden saaneen ja BAFTA®-palkitun LAIKA -studion Sysimetsä ( Wildwood ) on suuri seikkailutarina rakkaudesta, uhrauksista ja taikuudesta, joka paljastuu, kun uskallamme katsoa tutun maailman tuolle puolen."
+   },
+   "tr": "https://www.youtube.com/watch?v=bJQGtSeLPII",
+   "ts": [
+    "en"
+   ]
   },
   "william shakespearen romeo ja julia": {
    "r": 0,

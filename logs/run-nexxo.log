@@ -24,7 +24,7 @@
 [jarvelankino] Järvelän Kino: 9 showtimes, 7 dates
 [jarvelankino] synopses merged: 0
 [kinometso] Muurame (Muurame): 6 showtimes
-[kinometso] Petäjävesi (Petäjävesi): 6 showtimes
+[kinometso] Petäjävesi (Petäjävesi): 7 showtimes
 [kinometso] Tikkakoski (Jyväskylä): 2 showtimes
 [kinometso] Vaajakoski (Jyväskylä): 0 showtimes
 [kinometso] Laukaa (Laukaa): 5 showtimes
@@ -32,7 +32,7 @@
 [kinometso] Toivakka (Toivakka): 5 showtimes
 [kinometso] Hankasalmi (Hankasalmi): 5 showtimes
 [kinometso] Muurame: 6 showtimes, 4 dates
-[kinometso] Petäjävesi: 6 showtimes, 4 dates
+[kinometso] Petäjävesi: 7 showtimes, 5 dates
 [kinometso] Tikkakoski: 2 showtimes, 1 dates
 [kinometso] Vaajakoski: no programme at the moment (adapter confirmed the venue empty); publishing an empty file
 [kinometso] Laukaa: 5 showtimes, 1 dates
@@ -44,6 +44,6 @@
 [run] http: 0 revalidated (304), 10 full, 10 not stored (origin said no-store), 0 cache entries written
 [run] hosts: 6 attempted -- jarvelankino.fi, kino-olympia.fi, kinoaurora.fi, kinohirvi.fi, kinomarilyn.fi, kinoset.fi
 [run] pending: kinometso has 1 venue(s) with no programme yet: km-vaajakoski
-[run] nexxo: 16 venues, 147 showtimes, 0 stale, 0 unverified, 1 pending, 0 with no programme, 0 failures
-[run] timing: 8 site(s), 37.2s of fetching added up across workers that overlap, longest site 10.9s, longest queue wait 0.0s, 10.9s wall from this module's first fetch starting to its last ending
+[run] nexxo: 16 venues, 148 showtimes, 0 stale, 0 unverified, 1 pending, 0 with no programme, 0 failures
+[run] timing: 8 site(s), 37.9s of fetching added up across workers that overlap, longest site 10.6s, longest queue wait 0.0s, 10.6s wall from this module's first fetch starting to its last ending
 exit=0
