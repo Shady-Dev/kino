@@ -165,7 +165,8 @@ fetched, no challenge. The only header line that run committed is the **pre-exis
 hint path, `[http] 404 from api.themoviedb.org, gave up after 3 attempt(s) -- Server: openresty`
 in `run.log`, which predates the change. So the recorder is deployed and unexercised, and the
 table above still rests on a byte count and a title. Compare from `3cd8e008a` when a run next
-goes red.
+goes red. The headers were first logged on a challenge at `f0f1ba63f`, in the section of
+2026-10-19 below.
 
 ## Status and next step
 
@@ -231,3 +232,75 @@ for this zone; nothing from here can see its rules.
 **Status.** Routed local on 2026-10-03 on the maintainer's word, after four routine cloud
 runs in a row. No adapter or pacing change. The first routine local run after the push
 verifies it.
+
+## The bot-check page, measured to 2026-10-19
+
+**Findings.**
+- **Eight of 211 cloud data commits** from 2026-09-18 00:00Z to 2026-10-19 carry the page
+  titled `One moment, please...`, read from the committed logs on 2026-10-19. They are
+  `15ada2243`, `1ac89b049`, `048ff5c5a`, `f0f1ba63f`, `bec6cc6e9`, `939529e59`, `8bccabc79`
+  and `3f85ab3f9`, and each of those runs also logged Nexxo 403s. kirkkonummi, lieksa, tmb
+  and vpk logged the page in all eight runs and cinemahouse in the first six. Navettakino
+  failed in all eight, Matin-Tupa in the five since it was added and Kinotour in the first
+  six, and none of the three logged what it was served. The next cloud run read every site
+  that had logged the page, except after `1ac89b049`, when the next run, 68 minutes later,
+  was served the page again.
+- **The `Server` header on the page** was the same in all five runs since the logs carry it.
+  It was `openresty/1.31.1.1` from kinokirkkonummi.fi, www.lieksanelokuvat.net,
+  www.pyhasalmenvpk.fi and both Cinemahouse hosts, and `Apache` from the four TMB hosts. The
+  Nexxo 403s came with `openresty/1.31.1.1` from kinoset.fi and kinohirvi.fi and `Apache`
+  from kino-olympia.fi.
+- **An ordinary connection got the real pages.** One GET per host on 2026-10-19 at 19:00Z,
+  with the pipeline's own headers, returned 200 and the site's own page from all fifteen
+  hosts, 23 to 265 kB and titled after the site. The `Server` header was `LiteSpeed` at
+  kinokirkkonummi.fi and kinoset.fi, `nginx` at the three Planeetta hosts and `Apache` at the
+  other ten. The Nexxo endpoint returned 200 and JSON at kinoset.fi and kinohirvi.fi.
+- **Public DNS and RDAP, read the same day, place the hosts with five operators.** Louhi
+  Networks (77.240.18.0/23) hosts the four TMB sites, Pyhäsalmen VPK, Navettakino and Kino
+  Hirvi, and Louhi's nameservers serve kinoset.fi on an UpCloud address. Zoner
+  (5.44.244.0/24) hosts Lieksa and Matin-Tupa, and Planeetta Internet hosts both Cinemahouse
+  sites and Kinotour. Kino Kirkkonummi is on a GlobalConnect address under intendit.se and
+  Kino Olympia on a Hetzner address under suncomet.fi.
+- **The Wayback Machine, read 2026-10-19, holds the same page from the three hosts whose
+  logs said nothing.** Its captures are from www.navettakino.fi on 2026-03-14 and
+  2026-06-11, www.matin-tupa.fi on 2026-03-10 and 2026-04-19, and www.kinotour.fi on
+  2026-02-17 and 2026-04-12. Each is about 11.8 kB, titled `One moment, please...`, says
+  "Please wait while your request is being verified...", names `wsidchk` in its script and
+  was archived with `Server: openresty/1.27.1.1` or `openresty/1.29.2.3`.
+- **Imunify360's documentation** at docs.imunify360.com/features/, read 2026-10-19, says
+  that its WebShield serves an HTML anti-bot challenge to an address on its greylist, lets
+  other visitors through unchallenged and keeps suspicious addresses on a global greylist.
+  It answers 415 to a greylisted request whose Accept header is not text. The v6.5 release
+  notes say WebShield no longer runs on OpenResty. One hosting company's help page,
+  help.superhosting.bg (updated 2025-03-26), attributes the "being verified" message to
+  Imunify360.
+- **What a challenged run cost.** Measured from each affected venue's `generated` stamp at
+  the failed commit, the data was 6.7, 6.0 (the two runs of 2026-09-19 together), 8.5, 6.5,
+  12.1, 9.4 and 6.1 h old when the next cloud commit replaced it. With `STALE_H` at 8, the
+  app showed its stale notice for 0.5, 4.1 and 1.4 h after the runs of 2026-09-21,
+  2026-09-29 and 2026-10-12.
+- **Cadence over the same window.** There were 211 cloud data commits in 31.4 days, 6.7 a
+  day, with a median gap of 3.4 h and one gap over 8 h. There were 129 local data commits,
+  4.1 a day, with a median gap of 6.0 h and two gaps over 8 h, of 8.2 and 12.0 h.
+- **The rate the section of 2026-09-19 asked to re-measure.** One read of the run list on
+  2026-10-19 found 9 failures in the 50 most recent cloud runs, from 2026-10-11 23:17Z, the
+  same count as on 2026-09-19. Two of the nine were this page.
+
+**Inferences, not verified.**
+- These hosts sit behind a shared-hosting firewall that challenges addresses on a
+  reputation list, and the runner's address was on that list during those eight runs. The
+  page's text and the documented greylist fit Imunify360. The product is still not
+  identified, because the vendor does not publish the page and its own notes say WebShield
+  left OpenResty, which the `Server` header contradicts.
+- Matin-Tupa, Navettakino and Kinotour were served the same page in those runs. Each of
+  their hosts is archived serving it, and each shares an operator with a host that logged
+  it.
+- Nexxo's 403s came from the same front layer, judging by the `Server` header and the
+  timing. The documented answer to a greylisted request for JSON is 415, and what refused
+  Nexxo is not established.
+
+**Status and next step.** The decision of 2026-09-19 stands. From 2026-10-19 the eight
+adapters call `common.bot_check` where their guard has already failed, and their failure
+lines name the bot-check page with its size, title and `Server` header. The run still
+fails. Routing waits on the maintainer, in [IDEAS.md](../../IDEAS.md) under "Shared hosts
+serve the runner a bot-check page".

@@ -109,6 +109,19 @@ for 09-15 to 10-13). Which slot a run belongs to is not recorded, so a late even
 told from a dropped one. Jobs start seconds after a run is created. External, cause unknown.
 **Unblocks when:** GitHub runs them.
 
+### Shared hosts serve the runner a bot-check page
+
+Eight of 211 cloud runs from 2026-09-18 to 2026-10-19 failed because up to sixteen sites (20
+venues, five hosting operators) served the runner a bot-check page or a 403. A later run
+read them each time. Their venues kept the previous run's data for one more interval, and
+three times that took it past `STALE_H` for 0.5 to 4.1 h. From 2026-10-19 the adapters'
+failure lines name the page. Evidence:
+[docs/research/runner-challenges.md](docs/research/runner-challenges.md).
+**Unblocks when:** the maintainer picks. The default is to leave the routing as it is.
+Routing the sixteen sites local cuts them from 6.7 refreshes a day to 4.1 and needs nine
+module blocks in the wrapper outside this repo. Treating a recognised bot-check page as no
+failure would change when a run is red.
+
 ### Julia 1&2 Hyvinkää prints two prices on one screening
 
 All 21 Julia showtimes carry `14€ / 12€` (2026-09-24); the app and pages label it
