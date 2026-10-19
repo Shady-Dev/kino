@@ -745,11 +745,13 @@
     "cinemantsala",
     "ihmekompleksi",
     "isohannu",
+    "kino123",
     "kinoelo",
     "kinokulma",
     "kinomania",
     "kinosampo",
     "kinotoijala",
+    "kotkanleffat",
     "leffabuumi",
     "lieksankino",
     "sheryl"
@@ -1339,6 +1341,14 @@
    "ts": [
     "en"
    ]
+  },
+  "halloween taikashow": {
+   "r": 0,
+   "s": {
+    "en": "",
+    "fi": "Tässä näytöksessä ei ole paikkanumerointia käytössä. Tähän tapahtumaan ei voi hyödyntää sarja-, joulu-/vapaalippuja, tai muita etuja sekä alennuksia. Valmistaudu mystisimpään TaikaTorstaihin koskaan! Taikuri Bobo on järjestänyt yhteensä 16 TaikaTorstaita, ja nyt päästään kokemaan jotain täysin erilaista... \"Halloween Taikashow\" on 60 minuuttia hauskaa, uskomatonta ja mystistä Taikuri Bobon esittämää taikuutta, tietenkin halloween teemalla! Vuoden aikana on nähty usea erilainen taikashow, mutta seuraava nähdään vain kerran! Katsotaan liikkuuko pelikortit itsestään vai onko niillä oma tahto keskiviikkona 28.10. Lipunmyynti aukeaa 19.10. klo 14.00! Lue vuoden 2025 kävijöiden palautteet: https://taikuribobo.fi/tapahtumat/"
+   },
+   "tr": ""
   },
   "hamnet": {
    "id": 858024,
@@ -2270,19 +2280,6 @@
    },
    "tr": "https://www.youtube.com/watch?v=iUpszeSB7k4"
   },
-  "kerro se kaikille": {
-   "id": 1304530,
-   "img": "data/posters/133d5c0758982817.jpg",
-   "r": 0,
-   "s": {
-    "en": "",
-    "fi": "Amanda Aaltonen kieltäytyy alistumasta hänelle varattuun köyhän naisen ankeaan kohtaloon ja etsii huimapäisesti onneaan maailmalta. Rangaistukseksi sääntöjen rikkomisesta yhteiskunta anastaa häneltä kaikkein tärkeimmän, vapauden, ja sulkee hänet Seilin saarelle."
-   },
-   "tr": "https://www.youtube.com/watch?v=iUpszeSB7k4",
-   "ts": [
-    "fi"
-   ]
-  },
   "kevlarsjäl": {
    "id": 1414081,
    "img": "data/posters/6ea29f409289d6d4.jpg",
@@ -3205,6 +3202,7 @@
     "kinolaika",
     "kinomania",
     "kinometso",
+    "kinoolympia",
     "kkino",
     "savonkinot",
     "star"
@@ -4880,6 +4878,7 @@
     "huvimylly",
     "isohannu",
     "jarvelankino",
+    "kinohannikainen",
     "kinokilta",
     "kinokulma",
     "kinotour",
@@ -4905,6 +4904,7 @@
     "huvimylly",
     "isohannu",
     "jarvelankino",
+    "kinohannikainen",
     "kinokilta",
     "kinokulma",
     "kinotour",
@@ -4939,6 +4939,7 @@
     "huvimylly",
     "isohannu",
     "jarvelankino",
+    "kinohannikainen",
     "kinokilta",
     "kinokulma",
     "kinotour",
@@ -4973,6 +4974,7 @@
     "huvimylly",
     "isohannu",
     "jarvelankino",
+    "kinohannikainen",
     "kinokilta",
     "kinokulma",
     "kinotour",
@@ -4998,6 +5000,7 @@
     "huvimylly",
     "isohannu",
     "jarvelankino",
+    "kinohannikainen",
     "kinokilta",
     "kinokulma",
     "kinotour",
@@ -5456,6 +5459,16 @@
    "s": {
     "en": "",
     "fi": "Huhut eduskuntavaaleista ja uudesta työväenliikkeestä luovat toivoa 1900-luvun Kainuun köyhälistölle, mutta lopulta punainen viiva kirjoitetaan myös verellä. Matti Kassilan historiallinen draama kuvattiin pääosin Viikin luonnonsuojelualueella, joka muuntautui valkokankaalla legendaariseksi Korpiloukoksi."
+   },
+   "tr": ""
+  },
+  "punaista lunta": {
+   "id": 1015887,
+   "img": "data/posters/b5fe432085346d64.jpg",
+   "r": 0,
+   "s": {
+    "en": "",
+    "fi": "Ikuista keski-iän kriisiä poteva Martti ( Hannu-Pekka Björkman ) on yksinäinen vampyyri, joka on keksinyt keinon tyydyttää loputonta verenhimoaan. Joka joulu hän kutsuu itsensä joulupukiksi pukeutuneena viattomien perheiden kotiin, jättäen jälkeensä täydellisen tuhon iloisten joululaulujen soidessa taustalla. Kunnes koittaa joulu, jolloin Martti tulee kutsutuksi goottiromantiikasta unelmoivan Johannan ( Anni Iikkanen ) ja tämän perheen luo isoäidin kartanoon. Johannan ja Martin elämäntavoitteet kohtaavat mitä oudoimmalla tavalla, mutta yhteisen päämäärän edessä on esteitä: isävitsejä laukova Tapparan mies ( Kari Hietalahti ), kyseenalaisesti pätevä kotihoitaja ( Krista Kosonen ) sekä kostonhimoinen majuri ( Tommi Korpela ). Seuraa aattoyön armoton ajojahti, jonka jokainen saa vuorollaan tuntea nahoissaan."
    },
    "tr": ""
   },
@@ -6010,19 +6023,6 @@
     "fi": "Satuelokuva on Allu Tuppuraisen 1980-luvulla luoman rakastetun hahmon toinen esiintyminen valkokankaalla. Uusia asuinsijoja etsivä hirmuisten röllien heimo päätyy ajamaan rauhaa rakastavat menninkäiset pois kotikylästään. Avain sopuun löytyy pohjimmiltaan hyväntahtoisen Rölli-peikon ja menninkäisneito Millin orastavasta ystävyydestä."
    },
    "tr": ""
-  },
-  "saapasajalkakissa tekiöiltä unohdettu saari": {
-   "id": 1465063,
-   "img": "data/posters/db8d634869fa04ac.jpg",
-   "r": 7.9,
-   "s": {
-    "en": "While celebrating their last night together, high school graduates and best friends Jo and Raissa stumble upon a mysterious portal that transports them to the fantastical island of Nakali. When they discover that the memories of their entire friendship are the price for returning home, Jo and Raissa must race to find a way to leave the island before they forget each other forever.",
-    "fi": ""
-   },
-   "tr": "https://www.youtube.com/watch?v=PhgY8cOJiQA",
-   "ts": [
-    "en"
-   ]
   },
   "saapasjalkakissa": {
    "id": 58704,
@@ -6847,7 +6847,7 @@
   "the love that remains ástin sem eftir er": {
    "id": 1258509,
    "img": "data/posters/a638c73cf3f1fb0b.jpg",
-   "r": 6.3,
+   "r": 6.2,
    "s": {
     "en": "",
     "fi": "The Love That Remains on herkkävireinen kuvaus vuoden pituisesta ajanjaksosta perheessä, jossa vanhemmat yrittävät selviytyä erostaan. The Love That Remains kuvaa vastikään eronneiden Annan ja Magnúsin elämää vuoden ajan parin yrittäessä selviytyä työstä, seksistä ja monimutkaisista perhesuhteista, joihin kuuluvat teini-ikäinen tytär ja kaksospojat. Perhe-elämää kuvaavat kohtaukset vetävät puoleensa vanhoja totuuksia ja tunnesiteitä, jotka ovat muuttuneet mutta eivät täysin hävinneet.",
@@ -7140,7 +7140,7 @@
     "orion",
     "savonkinot"
    ],
-   "r": 7.2,
+   "r": 7.0,
    "s": {
     "en": "Inspired by true events and the whistleblower who sparked the social media accountability debate we follow today, Aaron Sorkin’s original screenplay is a companion piece to the hit film The Social Network and a true David-and-Goliath story. Young Facebook engineer Frances Haugen (Mikey Madison) turns to The Wall Street Journal reporter Jeff Horwitz (Jeremy Allen White) for help. Together, they embark on a dangerous journey that ultimately leads to the exposure of the social network’s most closely guarded secrets.",
     "fi": "Tositapahtumista ja nykyään seuraamamme sosiaalisen median vastuukeskustelun käynnistäneestä ilmiantajasta inspiraationsa saanut Aaron Sorkinin alkuperäiskäsikirjoitus on menestyselokuva The Social Networkin rinnakkaisteos sekä todellinen Daavid ja Goljat -tarina.",
@@ -7335,6 +7335,19 @@
     "fi": "19-vuotias Anthony Bourdain matkustaa Provincetowniin ja ajautuu sattumalta ravintolakeittiön kaoottiseen maailmaan. Edessä on kesä, joka mullistaa hänen elämänsä suunnan."
    },
    "tr": "https://www.youtube.com/watch?v=k1MVnzd2aVc"
+  },
+  "tony poistuu ohjelmistosta": {
+   "id": 1329016,
+   "img": "data/posters/ef343d1fb55e5d1c.jpg",
+   "r": 7.5,
+   "s": {
+    "en": "A 19-year-old Anthony Bourdain travels to Provincetown and stumbles into the chaotic world of a restaurant kitchen, setting off a summer that will shape the course of his life.",
+    "fi": "19-vuotias Anthony Bourdain matkustaa Provincetowniin ja ajautuu sattumalta ravintolakeittiön kaoottiseen maailmaan. Edessä on kesä, joka mullistaa hänen elämänsä suunnan."
+   },
+   "tr": "https://www.youtube.com/watch?v=k1MVnzd2aVc",
+   "ts": [
+    "en"
+   ]
   },
   "touching the skin of eeriness heaven is still far away": {
    "r": 0,
@@ -8036,6 +8049,19 @@
     "en": "Following the death of his father, Jay Gardiner goes diving off the central Coast of California in search of his remains, but is swallowed by a massive sperm whale. While trapped inside its belly with only one hour of oxygen left, Jay comes to realize that the hard-earned lessons his father imparted may be the key to his escape.",
     "fi": "20th Century Studios ja Imagine Entertainment tuovat valkokankaalle elokuvan “Whalefall”. Kyseessä on suurten tunteiden selviytymistrilleri, joka kertoo nuoren miehen ja massiivisen kaskelotin kohtaamisesta. Brian Duffieldin ohjaaman elokuvan ovat käsikirjoittaneet Duffield & Daniel Kraus perustuen Krausin samannimiseen kirjaan ja sen pääosissa nähdään Austin Abrams, Josh Brolin, Elisabeth Shue, John Ortiz, Jane Levy ja Emily Rudd. Tuottajina toimivat Brian Grazer, Brian Duffield, Jeb Brody, Allan Mandelbaum sekä vastaavina tuottajina Doug Merrifield, Richard Abate ja Will Rowbotham. Menetettyään traagisesti isänsä (Josh Brolin) Jay Gardiner (Austin Abrams) lähtee keskisen Kalifornian rannikolle sukeltamaan ja etsimään tämän ruumista, mutta tulee valtavan kaskelotin nielaisemaksi. Valaan vatsassa Jay joutuu toteamaan, että hänellä riittää happea enää tunniksi, ja siinä taistelussa hänen isänsä ankarat opetukset saattavat sittenkin olla avain selviytymiseen.",
     "sv": "På jakt efter sin avlidne fars kvarlevor blir den unge dykaren Jay uppslukad av en kaskelot och instängd i valens inre med bara en timmes syre kvar. Medan tiden rinner ut tvingas han konfrontera minnena av sin far och finna styrkan att kämpa vidare mot alla odds. Whalefall är en gripande och nervkittlande överlevnadsthriller om familj, förlust och hopp, baserad på Daniel Kraus hyllade roman."
+   },
+   "tr": "https://www.youtube.com/watch?v=Dw-5ZGapGTQ",
+   "ts": [
+    "en"
+   ]
+  },
+  "whalefall poistuu ohjelmistosta": {
+   "id": 1255833,
+   "img": "data/posters/b06de03c5de0cf45.jpg",
+   "r": 6.7,
+   "s": {
+    "en": "Following the death of his father, Jay Gardiner goes diving off the central Coast of California in search of his remains, but is swallowed by a massive sperm whale. While trapped inside its belly with only one hour of oxygen left, Jay comes to realize that the hard-earned lessons his father imparted may be the key to his escape.",
+    "fi": "20th Century Studios ja Imagine Entertainment tuovat valkokankaalle elokuvan “Whalefall”. Kyseessä on suurten tunteiden selviytymistrilleri, joka kertoo nuoren miehen ja massiivisen kaskelotin kohtaamisesta. Brian Duffieldin ohjaaman elokuvan ovat käsikirjoittaneet Duffield & Daniel Kraus perustuen Krausin samannimiseen kirjaan ja sen pääosissa nähdään Austin Abrams, Josh Brolin, Elisabeth Shue, John Ortiz, Jane Levy ja Emily Rudd. Tuottajina toimivat Brian Grazer, Brian Duffield, Jeb Brody, Allan Mandelbaum sekä vastaavina tuottajina Doug Merrifield, Richard Abate ja Will Rowbotham. Menetettyään traagisesti isänsä (Josh Brolin) Jay Gardiner (Austin Abrams) lähtee keskisen Kalifornian rannikolle sukeltamaan ja etsimään tämän ruumista, mutta tulee valtavan kaskelotin nielaisemaksi. Valaan vatsassa Jay joutuu toteamaan, että hänellä riittää happea enää tunniksi, ja siinä taistelussa hänen isänsä ankarat opetukset saattavat sittenkin olla avain selviytymiseen."
    },
    "tr": "https://www.youtube.com/watch?v=Dw-5ZGapGTQ",
    "ts": [
