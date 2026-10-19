@@ -607,16 +607,12 @@
   },
   "calle malaga muistojeni katu": {
    "id": 1399462,
-   "img": "data/posters/9019d907c9f510df.jpg",
-   "r": 7.4,
+   "r": 0,
    "s": {
-    "en": "An aging Spanish woman in Tangier resists her daughter's plan to sell her home. She fights to keep her home, reclaims belongings and rediscovers love and desire.",
+    "en": "",
     "fi": "María Ángeles on aina asunut Tangerin kaupungissa Pohjois-Marokossa. Eläkkeellä olevan naisen aviomies on kuollut jo vuosia sitten ja tytär asuu Madridissa lastensa kanssa. Hän nauttii päivittäisistä rutiineistaan rakkaan kotikaupunkinsa monikulttuurisessa ympäristössä. Kun hänen tyttärensä yllättäen ilmoittaa aikovansa myydä hänen Málaga-kadulla sijaitsevan asuntonsa, María Ángelesin koko elämä uhkaa muuttua. Edessä on muutto joko Madridiin tai vanhainkotiin. Yrittäessään pitää kiinni kodistaan ja muistoistaan hän joutuu kohtaamaan vaikeuksia, mutta tilanne tuo mukanaan myös iloa ja uuden rakkauden. Elokuva vie katsojan elämänmyönteiselle matkalle pitkin Marokon katuja. Calle Málaga - muistojeni katu on palkitun marokkolaisohjaaja Maryam Touzanin ensimmäinen espanjankielinen elokuva. Touzanin edellinen elokuva Kaftaanin sini oli Marokon Oscar-ehdokkaana 2022. Calle Málagan pääosassa nähdään espanjalaisen elokuvan legenda ja Pedro Almodóvarin luottonäyttelijänä tunnettu Carmen Maura."
    },
-   "tr": "https://www.youtube.com/watch?v=FwtLBQpAnk0",
-   "ts": [
-    "en"
-   ]
+   "tr": ""
   },
   "calle málaga muistojeni katu": {
    "id": 1399462,
@@ -760,6 +756,7 @@
     "leffabuumi",
     "lieksankino",
     "sheryl",
+    "star",
     "vaakuna"
    ],
    "r": 0,
@@ -1288,10 +1285,7 @@
     "en": "War reduced Japan to zero, and Godzilla plunged it into minus. Two years have passed since then, and the country has faced agonizing struggles to achieve recovery and finally reclaim its daily life. Just as humanity managed to cling to a hard-won peace, a new threat strikes, crushing hope in an instant.",
     "fi": ""
    },
-   "tr": "https://www.youtube.com/watch?v=pWJjYoqVSjQ",
-   "ts": [
-    "en"
-   ]
+   "tr": "https://www.youtube.com/watch?v=pWJjYoqVSjQ"
   },
   "good home free screening polish film weeks puolan elokuvaviikot": {
    "id": 1035047,
@@ -1895,13 +1889,18 @@
    ]
   },
   "jakten på jultomtens verkstad": {
+   "id": 1578318,
+   "img": "data/posters/ce3885e6401a6f73.jpg",
    "r": 0,
    "s": {
-    "en": "",
+    "en": "Nine-year-old Mari is really looking forward to Christmas. Her journalist dad, Svein, on the other hand, loves his job so much, he barely notices the festive season. One night, Mari’s Christmas list vanishes – and in its place lies a mysterious mitten. The mitten sends Mari, Svein and her adventurous grandma on an exciting quest to find Santa Claus. Meanwhile, Stubby the Wishlist Elf is in a panic — he’s lost his mitten, which might just lead this curious family straight to the secret location of Santa’s workshop! He must stop them before it’s too late!",
     "fi": "",
     "sv": "Mari, hennes pappa och hennes farmor som har gett sig ut för att hitta jultomtens verkstad, så han skickar ut två nissar för att hindra dem så att de inte ska avslöja alla magiska hemligheter."
    },
-   "tr": ""
+   "tr": "https://www.youtube.com/watch?v=Th2oNpWPSxI",
+   "ts": [
+    "en"
+   ]
   },
   "jazz suomi 100 vuotta lyhytelokuvanäytös": {
    "r": 0,
@@ -2227,6 +2226,7 @@
     "elavienkuvien",
     "engel",
     "gilda",
+    "haapamaki",
     "helios",
     "ihmekompleksi",
     "isohannu",
@@ -3164,7 +3164,7 @@
     "en"
    ]
   },
-  "kuvi kanal kirottujen tie näytös peruttu": {
+  "kuvi kanal kirottujen tie": {
    "id": 1405469,
    "r": 0,
    "s": {
@@ -3409,6 +3409,7 @@
    "krs": [
     "elavienkuvien",
     "engel",
+    "haapamaki",
     "ihmekompleksi",
     "joutsankino",
     "kinoelo",
@@ -6036,8 +6037,6 @@
     "kinolumo",
     "kinopiispanristi",
     "kinopirtti",
-    "kinosampo",
-    "kinotoijala",
     "korjaamo",
     "kotkanleffat",
     "leffabuumi",
@@ -7615,7 +7614,6 @@
     "kirkkonummi",
     "kuvakukko",
     "orion",
-    "savonkinot",
     "studio123kouvola",
     "tapiola",
     "vihdinkino"
@@ -7938,13 +7936,10 @@
     "kinomarilyn",
     "kinopiispanristi",
     "kinopirtti",
-    "kinosampo",
     "kinoset",
-    "kinotoijala",
     "kinovirta",
     "kotkanleffat",
     "leffabuumi",
-    "matintupa",
     "savonkinot",
     "star",
     "studio123jarvenpaa",
@@ -8046,13 +8041,10 @@
     "kinomarilyn",
     "kinopiispanristi",
     "kinopirtti",
-    "kinosampo",
     "kinoset",
-    "kinotoijala",
     "kinovirta",
     "kotkanleffat",
     "leffabuumi",
-    "matintupa",
     "savonkinot",
     "star",
     "studio123jarvenpaa",

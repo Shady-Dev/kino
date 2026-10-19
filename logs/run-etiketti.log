@@ -13,7 +13,6 @@
 [studio123jarvenpaa] synopses merged: 0
 [studio123kouvola] Studio 123 Kouvola: 72 showtimes, 22 dates
 [studio123kouvola] synopses merged: 0
-[ihmekompleksi] movie 3330: no screening row (0 block(s) without a readable time); no venue of this site can be called empty
 [ihmekompleksi] Ihme Kompleksi: 32 showtimes, 14 dates
 [ihmekompleksi] synopses merged: 0
 [ihmekompleksi] screening-note sentences left out of synopses: 1
@@ -39,8 +38,8 @@
 [biograni] synopses merged: 0
 [niagara] Cinema Niagara: 35 showtimes, 17 dates
 [niagara] synopses merged: 0
-[run] http: 0 revalidated (304), 340 full, 340 not stored (origin said no-store), 0 cache entries written
+[run] http: 0 revalidated (304), 339 full, 339 not stored (origin said no-store), 0 cache entries written
 [run] hosts: 16 attempted -- biogrand.fi, biograni.fi, biovuoksi.fi, cinemaniagara.fi, ihmekompleksi.fi, jamsankinotar.fi, k-kino.fi, kino123.fi, kinoiiris.com, kinojuha.fi, kinopirtti.fi, kotkanleffat.fi, leffabuumi.fi, studio123.fi, studiot123.com, www.biorex.org
 [run] etiketti: 20 venues, 891 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
-[run] timing: 16 site(s), 570.8s of fetching added up across workers that overlap, longest site 84.7s, longest queue wait 84.0s, 138.5s wall from this module's first fetch starting to its last ending
+[run] timing: 16 site(s), 617.1s of fetching added up across workers that overlap, longest site 94.2s, longest queue wait 72.2s, 130.2s wall from this module's first fetch starting to its last ending
 exit=0
