@@ -30,7 +30,9 @@ What shapes the parser:
   block is where the cinema states its whole weekend. Read 2026-10-10, the page put the
   first screening in the heading's own paragraph and left no blank before the film blocks,
   so lines after the heading count as the first screening. Read 2026-10-13, a title and its
-  date shared one line, `Pirjo i Sverige la 17.10 klo 15:00`.
+  date shared one line, `Pirjo i Sverige la 17.10 klo 15:00`. Read 2026-10-20, each line put
+  the date before the title, `pe 23.10 klo 18:30 Lapin sota`, and a paragraph whose every
+  line has that shape is read as one screening per line.
 - **The date prints no year** and no dot after the month, `su 20.9 klo 15:00`, so the
   weekday selects the year through `common.resolve_year`.
 - **The metadata line is read by pattern, not by position.** The three films read gave
@@ -97,6 +99,8 @@ SHOW_RE = re.compile(r"^(ma|ti|ke|to|pe|la|su)\s+(\d{1,2})\.(\d{1,2})\.?\s*klo\s
                      r"(\d{1,2})[:.](\d{2})$", re.I)
 TITLED_RE = re.compile(r"^(.+?)\s+((?:ma|ti|ke|to|pe|la|su)\s+\d{1,2}\.\d{1,2}\.?\s*klo\s*"
                        r"\d{1,2}[:.]\d{2})$", re.I)
+DATED_RE = re.compile(r"^((?:ma|ti|ke|to|pe|la|su)\s+\d{1,2}\.\d{1,2}\.?\s*klo\s*"
+                      r"\d{1,2}[:.]\d{2})\s+(\S.*)$", re.I)
 IMG_RE = re.compile(r'<img[^>]*?width="(\d+)"[^>]*?height="(\d+)"[^>]*?src="([^"]+)"', re.I)
 RATING_RE = re.compile(r"\bK[-\s]?(\d{1,2})\b")
 S_RATING_RE = re.compile(r"(?:^|[\s,(])S(?=[\s,)]|$)")
@@ -255,6 +259,20 @@ def listing(page):
     return None
 
 
+def title_first(listed):
+    """Each paragraph whose every line is a date, a time and a title, as one title-first
+    paragraph per line. Any other paragraph is returned as it was."""
+    out = []
+    for para in listed:
+        lines = [line.strip() for line in para.split("\n") if line.strip()]
+        found = [DATED_RE.match(line) for line in lines]
+        if lines and all(found):
+            out += [f"{m.group(2)}\n{m.group(1)}" for m in found]
+        else:
+            out.append(para)
+    return out
+
+
 def rows(site, page, today=None):
     """-> ([show], report). One row per screening line the weekend block prints."""
     today = today or datetime.datetime.now(FI).date()
@@ -267,7 +285,7 @@ def rows(site, page, today=None):
                            f"'Tulevan viikonlopun näytökset' heading ({served(page)})")
     shelf = films(page)
     out, report = [], {"no_facts": set(), "no_price": set()}
-    for para in listed:
+    for para in title_first(listed):
         lines = [l for l in para.split("\n") if l.strip()]
         joined = TITLED_RE.match(lines[0].strip()) if lines else None
         if joined:

@@ -167,6 +167,33 @@ class RowsTest(unittest.TestCase):
         self.assertNotIn("_syn", shows[0])
         self.assertEqual(shows[1]["_syn"], "Klaus Härön uutuuselokuva kertoo.")
 
+    def test_a_date_before_the_title_on_each_line(self):
+        """The shape read 2026-10-20: one paragraph, each line a date, a time and a title, over
+        a block that prints no metadata line."""
+        shows, report = self.rows(page(
+            listed=[p("pe 23.10 klo 18:30 Lapin sota<br>la 24.10 klo 15:00 Lapin sota")],
+            shelf=[block("Lapin sota", meta="", syn="Elokuvan tapahtumat sijoittuvat Lappiin.")]),
+            today=datetime.date(2026, 10, 20))
+        self.assertEqual([(s["title"], s["start"][:16]) for s in shows], [
+            ("Lapin sota", "2026-10-23T18:30"), ("Lapin sota", "2026-10-24T15:00")])
+        self.assertTrue(all(s["img"].endswith("juliste-719x1024.jpg") for s in shows))
+        self.assertEqual(shows[0]["_syn"], "Elokuvan tapahtumat sijoittuvat Lappiin.")
+        self.assertEqual(report["no_facts"], set())
+
+    def test_each_date_first_line_keeps_its_own_title(self):
+        shows, _ = self.rows(page(
+            listed=[p("pe 23.10 klo 18:30 Lapin sota<br>la 24.10 klo 15:00 Hetki ennen valoa")],
+            shelf=[block("Lapin sota"), block("Hetki ennen valoa")]),
+            today=datetime.date(2026, 10, 20))
+        self.assertEqual([(s["title"], s["start"][:16]) for s in shows], [
+            ("Lapin sota", "2026-10-23T18:30"), ("Hetki ennen valoa", "2026-10-24T15:00")])
+
+    def test_a_date_first_line_beside_another_shape_still_fails(self):
+        with self.assertRaises(N.ListingError):
+            self.rows(page(listed=[p("pe 23.10 klo 18:30 Lapin sota<br>lauantaina illalla")],
+                           shelf=[block("Lapin sota")]),
+                      today=datetime.date(2026, 10, 20))
+
     def test_an_unreadable_line_still_fails_when_a_film_block_ends_the_list(self):
         with self.assertRaises(N.ListingError):
             self.rows(self.oct_page(screening("Pirjo i Sverige", "lauantaina illalla")),

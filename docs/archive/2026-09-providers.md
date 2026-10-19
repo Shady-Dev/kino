@@ -4186,3 +4186,11 @@ past the poster step's 20 MB cap, and `test_build_counts` failed on main's data 
 row kept its remote reference. `NOT_FILMS` now leaves out the exact title, the rule
 Iso-Hannu has carried since the maintainer's decision of 2026-10-13, and the committed row
 was removed. Six mutations went red.
+
+### Navettakino: a date before the title on each line (2026-10-20)
+The cloud run of 2026-10-19 at 23:15 UTC failed on Navettakino. The page listed its weekend
+as "pe 23.10 klo 18:30 Lapin sota" and "la 24.10 klo 15:00 Lapin sota", the date before the
+title on each line, and the parser read the first line as a title. A paragraph whose every
+line has that shape is now read as one screening per line, and any other line in such a
+paragraph still fails the site. The live page parsed to its two screenings of Lapin sota,
+with the block's poster and synopsis. Four mutations went red.
