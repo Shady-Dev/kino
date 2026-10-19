@@ -1,10 +1,10 @@
-[biokaari] film pages: 5 parsed, 0 with nothing usable, 19/19 showtimes rated
-[biokaari] prices: 19 screenings, 19 priced, 0 pages read, 19 reused, 0 without an ordinary ticket, 0 failed, 0 deferred, 19 with page fields
-[biokaari] 19 showtimes, 5 films, 11 dates
-[biokaari] Bio-Kaari: 19 showtimes, 11 dates
+[biokaari] film pages: 5 parsed, 0 with nothing usable, 18/18 showtimes rated
+[biokaari] prices: 18 screenings, 18 priced, 6 pages read, 12 reused, 0 without an ordinary ticket, 0 failed, 0 deferred, 18 with page fields
+[biokaari] 18 showtimes, 5 films, 10 dates
+[biokaari] Bio-Kaari: 18 showtimes, 10 dates
 [biokaari] synopses merged: 0
 [run] http: 0 revalidated (304), 6 full, 0 not stored (origin said no-store), 0 cache entries written
-[run] hosts: 1 attempted -- www.bio-kaari.fi
-[run] biokaari: 1 venues, 19 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
-[run] timing: 1 site(s), 11.7s of fetching added up across workers that overlap, longest site 11.7s, longest queue wait 119.4s, 11.7s wall from this module's first fetch starting to its last ending
+[run] hosts: 2 attempted -- bio-kaari.azurewebsites.net, www.bio-kaari.fi
+[run] biokaari: 1 venues, 18 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
+[run] timing: 1 site(s), 22.6s of fetching added up across workers that overlap, longest site 22.6s, longest queue wait 128.5s, 22.6s wall from this module's first fetch starting to its last ending
 exit=0

@@ -461,6 +461,19 @@
     "en"
    ]
   },
+  "bamse ja meren salaisuus": {
+   "id": 1275785,
+   "img": "data/posters/aed5ff66e478c590.jpg",
+   "r": 0,
+   "s": {
+    "en": "",
+    "fi": "Bamse, Pomppi ja Kilpinen ovat jälleen uuden seikkailun keskellä! Bamse, Pomppi ja Kilpinen lähtevät kohti suurta meriseikkailua ja sukeltavat keskelle merimysteeriä – pian alkaa koko perheen seikkailu, täynnä ystävyyttä, yllätyksiä ja huikeita hetkiä."
+   },
+   "tr": "https://www.youtube.com/watch?v=Vh9Tp3JXbQM",
+   "ts": [
+    "fi"
+   ]
+  },
   "beau travail": {
    "id": 14626,
    "img": "data/posters/326524066da4f856.jpg",
@@ -1138,16 +1151,12 @@
   },
   "father mother sister brother": {
    "id": 1159206,
-   "img": "data/posters/9748f77855a4de36.jpg",
-   "r": 6.4,
+   "r": 0,
    "s": {
-    "en": "Estranged siblings reunite after years apart, forced to confront unresolved tensions and reevaluate their strained relationships with their emotionally distant parents.",
+    "en": "",
     "fi": "Father Mother Sister Brother kuvaa aikuisten lasten ja heidän vanhempiensa välisiä monimutkaisia suhteita. Tarinat sijoittuvat nykyaikaan ja kolmeen eri paikkaan; Yhdysvaltain koillisosiin, Dubliniin ja Pariisiin. Father: Sisarukset Jeff (Adam Driver) ja Emily (Mayim Bialik) vierailevat eristäytyneen ja mahdollisesti varattoman isänsä (Tom Waits) luona. Vierailun aikana he alkavat epäillä isänsä teeskentelevän kurjuuttaan ja huomaavat tämän ranteessa arvokkaan Rolex-kellon. Mother: Sisarukset Timothea (Cate Blanchett) ja Lilith (Vicky Krieps) vierailevat kirjailijaäitinsä (Charlotte Rampling) luona iltapäiväteellä. Tarina keskittyy pinnan alla kyteviin jännitteisiin ja siihen, mitä jätetään sanomatta perinteisten rituaalien äärellä. Sister Brother: Kaksoset Skye (Indya Moore) ja Billy (Luka Sabbat) siivoavat edesmenneiden vanhempiensa asuntoa. He käyvät läpi muistoja ja tavaroita, löytäen uusia puolia vanhemmistaan ja perheensä historiasta. Elokuva piirtää inhimillisen kuvan perheestä, läheisyydestä ja etäisyydestä lempeällä huumorilla, johon sekoittuu melankolian sävyjä."
    },
-   "tr": "https://www.youtube.com/watch?v=PA07EmbZ0b0",
-   "ts": [
-    "en"
-   ]
+   "tr": ""
   },
   "faust": {
    "id": 10728,
@@ -2023,16 +2032,17 @@
    "tr": ""
   },
   "järki ja tunteet": {
-   "id": 4584,
-   "img": "data/posters/90645b198527b148.jpg",
+   "id": 1503762,
+   "img": "data/posters/31b4bfa4354c3f1d.jpg",
    "kr": "K-7",
    "krs": [
+    "cine",
     "gilda",
     "joutsankino",
     "kinojuha",
     "kinokulma",
+    "kinometso",
     "kkino",
-    "korjaamo",
     "savonkinot"
    ],
    "r": 7.4,
@@ -2040,7 +2050,7 @@
     "en": "",
     "fi": "Uusi, vastustamaton tulkinta Jane Austenin ikonisesta Järki ja tunteet -teoksesta: hurmaava, nokkela ja syvästi samaistuttava tarina rakkaudesta ja sisaruudesta. Pääosissa loistavat Daisy Edgar-Jones ja Esmé Creed-Miles"
    },
-   "tr": "https://www.youtube.com/watch?v=5unqnd-CGz4"
+   "tr": "https://www.youtube.com/watch?v=OFLyW0lxFU0"
   },
   "järven ääni": {
    "r": 0,
@@ -3770,13 +3780,17 @@
   },
   "marsupilami": {
    "id": 1145899,
-   "r": 0,
+   "img": "data/posters/d24763d2c244cd16.jpg",
+   "r": 6.4,
    "s": {
-    "en": "",
+    "en": "David is tasked to deliver a mysterious package from South America, only to find out he is carrying a baby Marsupilami!",
     "fi": "Perhelomaan tulee uusia käänteitä, kun perheenisä saa Etelä-Amerikasta yllättävän paketin. Seikkailu lähtee liikkeelle kun salaperäisestä laatikosta paljastuu keltainen, täplikäs ja hulvaton veijari – vauva Marsupilami, joka tuo vauhtia niin perheen kuin koko lomaristeilynkin menoon. Marsupilami sulattaa kovimmankin sydämen. Ihmeolento Marsupilami perustuu samannimiseen, André Franquinin luomaan suosittuun belgialaiseen sarjakuvasarjaan. Marsupilami selviää niin villissä viidakossa kuin kaupungissakin nopean älynsä, rajattoman mielikuvituksensa sekä voimakkaan häntänsä avulla.",
     "sv": "För att rädda sitt jobb går David med på en galen plan: han måste ta med sig ett mystiskt paket från Sydamerika. Han hamnar på en kryssningsfartyg med sitt ex Tess, sin son Leo och sin klumpiga, och inte så smarta kollega Stéphane, som David använder för att i hemlighet transportera paketet åt honom. Men allt går fel när Stéphane av misstag öppnar paketet och släpper lös en söt liten Marsupilami. Den sällsynta och busiga lilla varelsen förvandlar snabbt resan till ett fullständigt kaos. Den extraordinära varelsen Marsupilami bygger på den populära belgiska serien med samma namn, skapad av André Franquin. Vare sig det är i den vilda djungeln eller i storstaden klarar sig Marsupilamin utmärkt tack vare sin kvickhet, gränslösa fantasi och kraftfulla svans."
    },
-   "tr": ""
+   "tr": "https://www.youtube.com/watch?v=pXGuY9qcSe0",
+   "ts": [
+    "en"
+   ]
   },
   "marsupilami dub": {
    "id": 1145899,
@@ -5092,15 +5106,18 @@
     "alatalo",
     "biokaari",
     "biomarilyn",
+    "biosade",
     "cinemantsala",
     "engel",
     "huvimylly",
     "isohannu",
     "jarvelankino",
     "kinohannikainen",
+    "kinohirvi",
     "kinokilta",
     "kinokulma",
     "kinolumo",
+    "kinometso",
     "kinopiispanristi",
     "kinotour",
     "kinovirta",
@@ -5126,15 +5143,18 @@
     "alatalo",
     "biokaari",
     "biomarilyn",
+    "biosade",
     "cinemantsala",
     "engel",
     "huvimylly",
     "isohannu",
     "jarvelankino",
     "kinohannikainen",
+    "kinohirvi",
     "kinokilta",
     "kinokulma",
     "kinolumo",
+    "kinometso",
     "kinopiispanristi",
     "kinotour",
     "kinovirta",
@@ -5169,15 +5189,18 @@
     "alatalo",
     "biokaari",
     "biomarilyn",
+    "biosade",
     "cinemantsala",
     "engel",
     "huvimylly",
     "isohannu",
     "jarvelankino",
     "kinohannikainen",
+    "kinohirvi",
     "kinokilta",
     "kinokulma",
     "kinolumo",
+    "kinometso",
     "kinopiispanristi",
     "kinotour",
     "kinovirta",
@@ -5211,15 +5234,18 @@
     "alatalo",
     "biokaari",
     "biomarilyn",
+    "biosade",
     "cinemantsala",
     "engel",
     "huvimylly",
     "isohannu",
     "jarvelankino",
     "kinohannikainen",
+    "kinohirvi",
     "kinokilta",
     "kinokulma",
     "kinolumo",
+    "kinometso",
     "kinopiispanristi",
     "kinotour",
     "kinovirta",
@@ -5245,15 +5271,18 @@
     "alatalo",
     "biokaari",
     "biomarilyn",
+    "biosade",
     "cinemantsala",
     "engel",
     "huvimylly",
     "isohannu",
     "jarvelankino",
     "kinohannikainen",
+    "kinohirvi",
     "kinokilta",
     "kinokulma",
     "kinolumo",
+    "kinometso",
     "kinopiispanristi",
     "kinotour",
     "kinovirta",
@@ -5498,7 +5527,8 @@
    "kr": "K-12",
    "krs": [
     "biorex",
-    "savonkinot"
+    "savonkinot",
+    "star"
    ],
    "r": 6.3,
    "s": {
@@ -6608,13 +6638,17 @@
   },
   "spa weekend": {
    "id": 1341138,
-   "r": 0,
+   "img": "data/posters/ec9b1a80640c3124.jpg",
+   "r": 6.8,
    "s": {
-    "en": "",
+    "en": "Four lifelong friends realize that somewhere between careers, relationships, families, and everyday responsibilities, they’ve forgotten how to take care of themselves and each other. Burned out and overdue for a break, the women escape to a luxury spa retreat for an unforgettable weekend dedicated to fun, laughter, and a lot of really bad decisions.",
     "fi": "Kauhea kankkunen ja Bad Moms ‑elokuvien käsikirjoittajien uudessa komediassa Spa Weekend kolme ystävystä lähtevät rentouttavalle kylpyläviikonlopulle, mutta kaikki karkaa käsistä, kun heidän katastrofikaverinsa liittyy seuraan – luvassa on hulvaton kaaos. Pääosissa Leslie Mann, Isla Fisher, Michelle Buteau ja Anna Faris.",
     "sv": "Tre barndomsvänner, Jane, Coco och Sophie, ser fram emot en lyxig helg fylld av spabehandlingar, lugn och egentid. Men när deras kaotiska vän Mel oväntat dyker upp, förvandlas avslappning snabbt till fullkomligt kaos. \"Spa Weekend\" är en sprudlande komedi om vänskap, missöden och de skratt som bara uppstår när allt går helt fel."
    },
-   "tr": ""
+   "tr": "https://www.youtube.com/watch?v=AhsA9ZqRAXQ",
+   "ts": [
+    "en"
+   ]
   },
   "spider man brand new day": {
    "id": 969681,
@@ -7424,7 +7458,6 @@
     "gilda",
     "kinoaurora",
     "kinopiispanristi",
-    "orion",
     "savonkinot",
     "tapiola"
    ],
@@ -7607,7 +7640,6 @@
     "kinoaurora",
     "kinoiiris",
     "kinokonepaja",
-    "kinomarilyn",
     "kinoolympia",
     "kinopiispanristi",
     "kinovirta",
