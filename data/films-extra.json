@@ -829,16 +829,12 @@
   },
   "couture muodin ehdoilla": {
    "id": 1390382,
-   "img": "data/posters/43db8f830e854ac2.jpg",
-   "r": 6.2,
+   "r": 0,
    "s": {
-    "en": "An American filmmaker faces challenges and self-discovery as she arrives in Paris for Fashion Week on a life-and-death journey.",
+    "en": "",
     "fi": "Angelina Jolie tähdittää Pariisin muotiviikkojen kiihkeään sykkeeseen sijoittuvaa eleganttia draamaelokuvaa Couture – Muodin ehdoilla. Elokuva punoo yhteen kolmen naisen kohtalot. Maxine on amerikkalainen elokuvantekijä, joka saa vakavan sairausdiagnoosin ja ajautuu odottamattomaan suhteeseen tutun yhteistyökumppaninsa kanssa. Ada on nouseva malli, joka pakenee ennalta määrättyä tulevaisuuttaan Etelä-Sudanissa. Angèle työskentelee meikkaajana muotinäytösten kulissien takana. Naisten kohtaloiden risteytyessä elokuva paljastaa muotimaailman näyttävän pinnan alla piilevän hiljaisen sitkeyden. Se kunnioittaa sanatonta yhteenkuuluvuuden tunnetta, joka yhdistää näitä kolmea naista ammatin, kulttuurin ja maanosien yli."
    },
-   "tr": "https://www.youtube.com/watch?v=lSw01dbUFXg",
-   "ts": [
-    "en"
-   ]
+   "tr": ""
   },
   "coyote vs acme": {
    "id": 1204680,
@@ -936,8 +932,6 @@
     "cinemantsala",
     "gilda",
     "kinojuha",
-    "kinokilta",
-    "kinomyyri",
     "kinopiispanristi",
     "kuvakukko",
     "leffabuumi",
@@ -2769,15 +2763,6 @@
   "kojootti vs acme": {
    "id": 1204680,
    "img": "data/posters/e1a7880d02ca0644.jpg",
-   "kr": "K-7",
-   "krs": [
-    "biosavoy",
-    "isohannu",
-    "kinolumo",
-    "kinopiispanristi",
-    "kulttuurimylly",
-    "star"
-   ],
    "r": 7.5,
    "s": {
     "en": "After Acme products fail him one too many times in his dogged pursuit of the Roadrunner, Wile E. Coyote decides to hire a billboard lawyer to sue the Acme Corporation.",
@@ -6464,7 +6449,6 @@
     "kinohirvi",
     "kinolaika",
     "kinolumo",
-    "kinopiispanristi",
     "kinopirtti",
     "korjaamo",
     "kotkanleffat",
@@ -7881,7 +7865,6 @@
     "cinemantsala",
     "gilda",
     "kinoaurora",
-    "kinopiispanristi",
     "niagara",
     "savonkinot",
     "tapiola"
@@ -8051,7 +8034,6 @@
    "img": "data/posters/ef343d1fb55e5d1c.jpg",
    "kr": "K-16",
    "krs": [
-    "biomarilyn",
     "biopallas",
     "biorex",
     "biorexkokkola",
@@ -8084,16 +8066,12 @@
   },
   "tony poistuu ohjelmistosta": {
    "id": 1329016,
-   "img": "data/posters/ef343d1fb55e5d1c.jpg",
-   "r": 7.5,
+   "r": 0,
    "s": {
-    "en": "A 19-year-old Anthony Bourdain travels to Provincetown and stumbles into the chaotic world of a restaurant kitchen, setting off a summer that will shape the course of his life.",
+    "en": "",
     "fi": "19-vuotias Anthony Bourdain matkustaa Provincetowniin ja ajautuu sattumalta ravintolakeittiön kaoottiseen maailmaan. Edessä on kesä, joka mullistaa hänen elämänsä suunnan."
    },
-   "tr": "https://www.youtube.com/watch?v=k1MVnzd2aVc",
-   "ts": [
-    "en"
-   ]
+   "tr": ""
   },
   "touching the skin of eeriness heaven is still far away": {
    "r": 0,

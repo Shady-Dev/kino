@@ -18,5 +18,5 @@
 [run] pending: alatalo has 1 venue(s) with no programme yet: alatalo-toholampi
 [run] partial: alatalo kept previous data for 1 venue(s): alatalo-kiuruvesi
 [run] alatalo: 3 venues, 7 showtimes, 1 stale, 0 unverified, 1 pending, 0 with no programme, 0 failures
-[run] timing: 1 site(s), 0.9s of fetching added up across workers that overlap, longest site 0.9s, longest queue wait 189.2s, 0.9s wall from this module's first fetch starting to its last ending
+[run] timing: 1 site(s), 0.9s of fetching added up across workers that overlap, longest site 0.9s, longest queue wait 197.9s, 0.9s wall from this module's first fetch starting to its last ending
 exit=0
