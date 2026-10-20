@@ -752,7 +752,6 @@
     "bioforum",
     "biopallas",
     "biorexkokkola",
-    "cinemantsala",
     "gilda",
     "ihmekompleksi",
     "isohannu",
@@ -1370,6 +1369,19 @@
    "tr": ""
   },
   "hamnet": {
+   "id": 858024,
+   "img": "data/posters/84aa45b5d78814bd.jpg",
+   "r": 7.7,
+   "s": {
+    "en": "",
+    "fi": "Hamnet kertoo Shakespearen ajatonta klassikkoa Hamletia innoittaneen vahvan tarinan rakkaudesta ja menetyksestä."
+   },
+   "tr": "https://www.youtube.com/watch?v=xYcgQMxQwmk",
+   "ts": [
+    "fi"
+   ]
+  },
+  "hamnet matinea": {
    "id": 858024,
    "img": "data/posters/84aa45b5d78814bd.jpg",
    "r": 7.7,
@@ -3548,7 +3560,6 @@
     "bioforum",
     "biomarilyn",
     "biorex",
-    "cinemantsala",
     "engel",
     "isohannu",
     "kinoakseli",
@@ -3856,6 +3867,19 @@
    "s": {
     "en": "The film follows four newly retired people who travel to Italy to help Eva sell an olive farm she inherited. But during their sunny stay, new thoughts arise about life, freedom and the dreams they have yet to realize. The trip becomes a chance to reevaluate what really matters when you reach the second half of life.",
     "fi": ""
+   },
+   "tr": "https://www.youtube.com/watch?v=9U5Kwlm4KcQ",
+   "ts": [
+    "en"
+   ]
+  },
+  "matkalla piemonteen": {
+   "id": 1545391,
+   "img": "data/posters/e753668f77270e2f.jpg",
+   "r": 0,
+   "s": {
+    "en": "The film follows four newly retired people who travel to Italy to help Eva sell an olive farm she inherited. But during their sunny stay, new thoughts arise about life, freedom and the dreams they have yet to realize. The trip becomes a chance to reevaluate what really matters when you reach the second half of life.",
+    "fi": "Neljä ystävää matkustaa yhdessä Italiaan, missä Eva on perinyt oliivitilan. Tarkoituksena on myydä tila, mutta perillä herää kysymys: mitä heillä oikeastaan on Ruotsissa, minkä vuoksi palata takaisin?\n\nItaliassa sen sijaan on aurinkoa, hyvää ruokaa ja hurmaavia kyläläisiä. Eikö juuri nyt olisi aika tarttua hetkeen ja toteuttaa kaikki unelmansa?"
    },
    "tr": "https://www.youtube.com/watch?v=9U5Kwlm4KcQ",
    "ts": [
@@ -5030,7 +5054,6 @@
     "bioforum",
     "biomarilyn",
     "biorex",
-    "cinemantsala",
     "engel",
     "isohannu",
     "kinoakseli",
@@ -5075,7 +5098,6 @@
     "bioforum",
     "biomarilyn",
     "biorex",
-    "cinemantsala",
     "engel",
     "isohannu",
     "kinoakseli",
@@ -5107,7 +5129,6 @@
     "biokaari",
     "biomarilyn",
     "biosade",
-    "cinemantsala",
     "engel",
     "huvimylly",
     "isohannu",
@@ -5144,7 +5165,6 @@
     "biokaari",
     "biomarilyn",
     "biosade",
-    "cinemantsala",
     "engel",
     "huvimylly",
     "isohannu",
@@ -5190,7 +5210,6 @@
     "biokaari",
     "biomarilyn",
     "biosade",
-    "cinemantsala",
     "engel",
     "huvimylly",
     "isohannu",
@@ -5219,6 +5238,8 @@
    "tr": ""
   },
   "pikkuli ja tähtipeura på svenska": {
+   "id": 1403476,
+   "img": "data/posters/79b249e47f0870db.jpg",
    "r": 0,
    "s": {
     "en": "",
@@ -5235,7 +5256,6 @@
     "biokaari",
     "biomarilyn",
     "biosade",
-    "cinemantsala",
     "engel",
     "huvimylly",
     "isohannu",
@@ -5272,7 +5292,6 @@
     "biokaari",
     "biomarilyn",
     "biosade",
-    "cinemantsala",
     "engel",
     "huvimylly",
     "isohannu",
@@ -5341,7 +5360,6 @@
     "biomarilyn",
     "biorex",
     "biosade",
-    "cinemantsala",
     "helios",
     "isohannu",
     "julia",
@@ -5360,7 +5378,6 @@
     "kuusamotalo",
     "kuvakukko",
     "laitilankino",
-    "navettakino",
     "vaakuna",
     "vihdinkino"
    ],
@@ -5382,7 +5399,6 @@
     "biomarilyn",
     "biorex",
     "biosade",
-    "cinemantsala",
     "helios",
     "isohannu",
     "julia",
@@ -5401,7 +5417,6 @@
     "kuusamotalo",
     "kuvakukko",
     "laitilankino",
-    "navettakino",
     "vaakuna",
     "vihdinkino"
    ],
@@ -5575,7 +5590,6 @@
    "krs": [
     "biogrand",
     "biorex",
-    "cinemantsala",
     "gilda",
     "ihmekompleksi",
     "isohannu",
@@ -7018,6 +7032,7 @@
     "gilda",
     "kinokilta",
     "kinolaika",
+    "korjaamo",
     "niagara",
     "regina",
     "sheryl",
@@ -7041,6 +7056,7 @@
     "gilda",
     "kinokilta",
     "kinolaika",
+    "korjaamo",
     "niagara",
     "regina",
     "sheryl",
@@ -7454,7 +7470,6 @@
     "biopallas",
     "biorex",
     "biosavoy",
-    "cinemantsala",
     "gilda",
     "kinoaurora",
     "kinopiispanristi",
@@ -7630,7 +7645,6 @@
     "biopallas",
     "biorex",
     "biorexkokkola",
-    "cinemantsala",
     "elavienkuvien",
     "gilda",
     "haapamaki",
@@ -7957,7 +7971,6 @@
     "biorex",
     "biosavoy",
     "biovuoksi",
-    "cinemantsala",
     "helios",
     "isohannu",
     "kino123",
@@ -8062,7 +8075,6 @@
     "biorex",
     "biosavoy",
     "biovuoksi",
-    "cinemantsala",
     "helios",
     "isohannu",
     "kino123",
@@ -8245,7 +8257,6 @@
     "biorexkokkola",
     "biosavoy",
     "biovuoksi",
-    "cinemantsala",
     "gilda",
     "ihmekompleksi",
     "isohannu",
@@ -8533,5 +8544,5 @@
    "tr": ""
   }
  },
- "generated": "2026-10-19"
+ "generated": "2026-10-20"
 }
