@@ -181,5 +181,7 @@
  "retkikino 2026": "-",
  "_comment58": "Movie Company Alatalo, 2026-10-18. Its page now reads \"Saapasjalkakissa tekiöiltä Unohdettu saari -k7/4-\" at Kiurusali on 18.10. and \"Saapasajalkakissa tekiöiltä\" at Haapajärvi on 17.10., the same film as the entries under _comment_alatalo with \"from the makers of Puss in Boots\" written in. TMDB gave 1465063 that day as Unohdettu saari / Forgotten Island, 2026-09-10, 109 minutes, and its K-7 matches.",
  "saapasjalkakissa tekiöiltä unohdettu saari": "1465063",
- "saapasajalkakissa tekiöiltä unohdettu saari": "1465063"
+ "saapasajalkakissa tekiöiltä unohdettu saari": "1465063",
+ "_comment59": "Kino K13, 2026-10-20. Its page lists \"Kotiinpaluu\" on 22.11. with \"Ohjaaja: Davy Chou, 2022\". TMDB gave 952701 that day as Retour à Séoul / Return to Seoul, Davy Chou, 2022-11-18, 119 minutes, with FI \"Kotiinpaluu\" in its alternative titles. The search finds it only as a weak match, and without a year it picks 722711, a 2018 short of the same name.",
+ "kotiinpaluu": "952701"
 }

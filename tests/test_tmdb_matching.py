@@ -936,6 +936,12 @@ class AliasFileTest(unittest.TestCase):
             with self.subTest(published=published):
                 self.assertEqual(doc[enrich_tmdb.norm(published)], "511")
 
+    def test_k13s_kotiinpaluu_is_davy_chous_film(self):
+        """K13 gives Davy Chou and 2022, and 952701 is his Retour à Séoul, which registers
+        FI "Kotiinpaluu". Without a year the search picks 722711, a 2018 short."""
+        doc = json.loads(self.FILE.read_text(encoding="utf-8"))
+        self.assertEqual(doc[enrich_tmdb.norm("Kotiinpaluu")], "952701")
+
     def test_the_largest_2026_09_19_alias_is_pinned(self):
         """39 showtimes over 17 venues, the largest single row in that batch, and the one
         the maintainer reported. Two independent sources say 1299382: TMDB's own record
@@ -974,6 +980,8 @@ class AliasFileTest(unittest.TestCase):
             "1211957": "Kimani Ray Smith's 2024 thriller, not Hirschbiegel's Der Maler (893149)",
             "69381": "the 2006 Lilla Sp\u00f6ket Laban, not the 2026 Laban film (1781923)",
             "244049": "the 2013 Malayalam Drishyam, not Drishyam: The Conclusion (1269325)",
+            "722711": "a 2018 short, not Davy Chou's Kotiinpaluu (952701)",
+            "564445": "a 1929 short, not Saim Sadiq's 2022 Joyland (962571)",
         }
         for tmdb_id, why in wrong.items():
             with self.subTest(tmdb_id=tmdb_id):
