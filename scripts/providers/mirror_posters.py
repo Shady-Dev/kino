@@ -12,8 +12,10 @@ a tile about 130 px wide. Pillow is installed in the workflow for this only.
 
 A poster that fails to download is logged and left hot-linked, never fatal: kinoakseli.fi
 challenges datacenter IPs and fails every run by design, and a third party's uptime must
-not fail the build. `tries=2` keeps that cheap. Not being able to run at all is a
-different state and exits CANNOT_RUN; see the exit codes below.
+not fail the build. `tries=2` keeps that cheap. A picture past the body cap is logged and
+its references are dropped, because the host gives the same answer on every run. Not
+being able to run at all is a different state and exits CANNOT_RUN; see the exit codes
+below.
 
 Filenames are sha1(url)[:16].jpg. The sources share no id namespace, so the URL is the
 only identifier common to every host.
@@ -188,6 +190,8 @@ def main() -> int:
     mapping = {}       # url -> repo-relative path
     had = fetched = 0
     failed = {}        # host -> [reason, ...]
+    too_large = {}     # host -> [reason, ...]
+    refused = set()    # urls past the body cap
     bytes_added = 0
 
     for url in sorted(urls):
@@ -200,6 +204,10 @@ def main() -> int:
         host = url.split("/")[2] if "//" in url else url
         try:
             download(url, dest, EVENT_W if url in wide else POSTER_W)
+        except common.BodyTooLarge as e:
+            refused.add(url)
+            too_large.setdefault(host, []).append(str(e))
+            continue
         except Exception as e:
             failed.setdefault(host, []).append(f"{type(e).__name__}: {e}")
             continue
@@ -213,7 +221,8 @@ def main() -> int:
     # page (the data/posters/ check in build_pages) renders a remote poster, so those
     # films show a placeholder tile until a later run mirrors them. Only JSON-LD keeps
     # the remote URL, since a crawler is not a visitor's browser.
-    rewritten = files = 0
+    # References to a picture refused for its size are removed instead. The same tile is drawn.
+    rewritten = dropped = files = 0
     for p, doc in docs:
         changed = False
         for s in doc.get("shows") or []:
@@ -222,6 +231,10 @@ def main() -> int:
                 s["img"] = mapping[u]
                 changed = True
                 rewritten += 1
+            elif u in refused:
+                s["img"] = ""
+                changed = True
+                dropped += 1
             if s.get("nonFilm") and s.get("img", "").startswith("data/posters/"):
                 changed |= measure(s)
         if changed:
@@ -237,6 +250,10 @@ def main() -> int:
                     f["img"] = mapping[u]
                     changed = True
                     rewritten += 1
+                elif u in refused:
+                    del f["img"]
+                    changed = True
+                    dropped += 1
         if changed:
             common.write_films_extra(extra_path, extra)
             files += 1
@@ -244,10 +261,12 @@ def main() -> int:
     total = sum(p.stat().st_size for p in POSTER_DIR.glob("*.jpg"))
     print(f"[mirror] {len(urls)} remote poster urls: {had} already mirrored, "
           f"{fetched} downloaded (+{bytes_added // 1024} kB), "
-          f"{sum(len(v) for v in failed.values())} failed")
+          f"{sum(len(v) for v in failed.values())} failed, {len(refused)} too large")
     for host, errs in sorted(failed.items()):
         print(f"[mirror] failed {host} ({len(errs)}): {errs[0]}")
-    print(f"[mirror] {rewritten} references rewritten in {files} files; "
+    for host, errs in sorted(too_large.items()):
+        print(f"[mirror] too large {host} ({len(errs)}): {errs[0]}")
+    print(f"[mirror] {rewritten} references rewritten and {dropped} dropped in {files} files; "
           f"data/posters now {len(list(POSTER_DIR.glob('*')))} files, "
           f"{total // 1024} kB")
     return OK

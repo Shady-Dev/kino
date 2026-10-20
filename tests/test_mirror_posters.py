@@ -20,10 +20,13 @@ import io
 import json
 import os
 import pathlib
+import socket
 import sys
 import tempfile
 import threading
 import unittest
+from unittest import mock
+from urllib.parse import urlsplit
 
 import _ctx
 import mirror_posters
@@ -91,10 +94,75 @@ def pillow_hidden():
         sys.modules.update(cached)
 
 
+def too_large(sized):
+    """A body one byte past common.MAX_BODY, with or without a Content-Length, written in
+    chunks until the client stops reading."""
+    def answer(h):
+        h.close_connection = True
+        left = mirror_posters.common.MAX_BODY + 1
+        h.send_response(200)
+        h.send_header("Content-Type", "image/jpeg")
+        if sized:
+            h.send_header("Content-Length", str(left))
+        else:
+            h.send_header("Connection", "close")
+        h.end_headers()
+        chunk = b"\xff" * 65536
+        try:
+            while left > 0:
+                h.wfile.write(chunk[:left])
+                left -= len(chunk)
+        except OSError:
+            pass
+    return answer
+
+
+def status(code):
+    def answer(h):
+        h.close_connection = True
+        h.send_response(code)
+        h.send_header("Content-Length", "0")
+        h.end_headers()
+    return answer
+
+
+def stall(h):
+    """No answer before the client's timeout."""
+    h.close_connection = True
+    h.server.release.wait(5)
+
+
+def drop(h):
+    """The connection closes with no status line."""
+    h.close_connection = True
+
+
+def closed_port():
+    with socket.socket() as s:
+        s.bind(("127.0.0.1", 0))
+        return s.getsockname()[1]
+
+
+@contextlib.contextmanager
+def no_backoff(timeout=0.5):
+    """download()'s own two tries, with no sleep between them and a short socket timeout.
+    The failures still come from urllib against a real socket."""
+    real = mirror_posters.common.fetch
+
+    def fetch(url, **kw):
+        return real(url, **dict(kw, backoff=0, timeout=timeout))
+
+    with mock.patch.object(mirror_posters.common, "fetch", fetch):
+        yield
+
+
 class Handler(http.server.BaseHTTPRequestHandler):
     protocol_version = "HTTP/1.1"
 
     def do_GET(self):
+        answer = self.server.answers.get(self.path)
+        if answer:
+            return answer(self)
         body = self.server.files.get(self.path)
         if body is None:
             self.send_response(404)
@@ -116,6 +184,7 @@ class MirrorTest(unittest.TestCase):
     def setUpClass(cls):
         cls.srv = http.server.ThreadingHTTPServer(("127.0.0.1", 0), Handler)
         cls.srv.files = {}
+        cls.srv.answers = {}
         cls.url = f"http://127.0.0.1:{cls.srv.server_address[1]}"
         cls.thread = threading.Thread(target=cls.srv.serve_forever, daemon=True)
         cls.thread.start()
@@ -129,6 +198,9 @@ class MirrorTest(unittest.TestCase):
 
     def setUp(self):
         self.srv.files.clear()
+        self.srv.answers.clear()
+        self.srv.release = threading.Event()
+        self.addCleanup(self.srv.release.set)
         self.tmp = tempfile.TemporaryDirectory()
         self.root = pathlib.Path(self.tmp.name)
         (self.root / "data").mkdir()
@@ -376,6 +448,73 @@ class MirrorTest(unittest.TestCase):
                          "Pillow is no longer pinned by version and hash in the workflow")
         self.assertRegex(wf, r"pip install[^\n]*--require-hashes",
                          "Pillow is no longer installed with --require-hashes")
+
+    # -- 6. A picture past the body cap is dropped, a passing failure is not -------
+
+    @unittest.skipUnless(not mirror_posters.pillow_problem(), "Pillow unusable")
+    def test_a_picture_past_the_body_cap_is_dropped_from_every_row(self):
+        """On 2026-10-18 Bio Pallas published a 22,014,245-byte picture, and its remote
+        address stayed in the data and broke the off-origin invariant on main. Every
+        reference to such a picture is removed, because the host gives the same answer on
+        every run. One picture is refused on its Content-Length, and one sent with no
+        length is refused once the client has read past the cap."""
+        self.srv.files["/one.jpg"] = jpeg_bytes()
+        self.srv.answers["/big.jpg"] = too_large(sized=True)
+        self.srv.answers["/unsized.jpg"] = too_large(sized=False)
+        big, unsized, one = (f"{self.url}/{n}.jpg" for n in ("big", "unsized", "one"))
+        data = self.root / "data"
+        areas = {data / "area-fc-a.json": [("A", big), ("C", one)],
+                 data / "area-fc-b.json": [("B", unsized), ("A", big)]}
+        for path, rows in areas.items():
+            path.write_text(json.dumps(
+                {"generated": "2026-10-18T00:00:00+00:00", "dates": [], "horizon": "",
+                 "shows": [{"title": t, "start": "2026-10-25T13:00:00+03:00", "img": u}
+                           for t, u in rows]}), encoding="utf-8")
+        (data / "films-extra.json").write_text(json.dumps(
+            {"films": {"A": {"img": big, "tr": "abc"}, "B": {"img": unsized}}}),
+            encoding="utf-8")
+
+        rc, lines = self.run_main()
+
+        self.assertEqual(rc, mirror_posters.OK)
+        mirrored = f"data/posters/{mirror_posters.key_for(one)}.jpg"
+        self.assertEqual(
+            {p.name: [s["img"] for s in json.loads(p.read_text(encoding="utf-8"))["shows"]]
+             for p in areas},
+            {"area-fc-a.json": ["", mirrored], "area-fc-b.json": ["", ""]})
+        self.assertEqual(json.loads((data / "films-extra.json").read_text(encoding="utf-8")),
+                         {"films": {"A": {"tr": "abc"}, "B": {}}})
+        self.assertEqual([p.name for p in (data / "posters").iterdir()],
+                         [mirrored.rsplit("/", 1)[1]])
+        joined = " ".join(lines)
+        self.assertIn("0 failed, 2 too large", joined)
+        self.assertIn(f"too large {urlsplit(self.url).netloc} (2)", joined)
+        self.assertIn("1 references rewritten and 5 dropped in 3 files", joined)
+
+    @unittest.skipUnless(not mirror_posters.pillow_problem(), "Pillow unusable")
+    def test_a_timeout_a_5xx_or_a_connection_error_keeps_the_remote_reference(self):
+        """The reference stays remote, because each of these can pass before the next run."""
+        self.srv.files["/one.jpg"] = jpeg_bytes()
+        good = f"{self.url}/one.jpg"
+        answers = {"timeout": ("/slow.jpg", stall), "500": ("/error.jpg", status(500)),
+                   "503": ("/busy.jpg", status(503)), "dropped": ("/drop.jpg", drop)}
+        urls = {name: f"{self.url}{path}" for name, (path, _) in answers.items()}
+        urls["refused"] = f"http://127.0.0.1:{closed_port()}/one.jpg"
+        for path, answer in answers.values():
+            self.srv.answers[path] = answer
+        for name, bad in urls.items():
+            with self.subTest(name):
+                self.write_data(bad, good)
+                with no_backoff():
+                    rc, lines = self.run_main()
+                self.assertEqual(rc, mirror_posters.OK)
+                self.assertEqual(self.img_of(self.area_a), bad)
+                extra = json.loads(self.extra.read_text(encoding="utf-8"))
+                self.assertEqual(extra["films"]["A"]["img"], bad)
+                self.assertTrue(self.img_of(self.area_b).startswith("data/posters/"))
+                joined = " ".join(lines)
+                self.assertIn("1 failed, 0 too large", joined)
+                self.assertIn("0 dropped", joined)
 
 
 if __name__ == "__main__":

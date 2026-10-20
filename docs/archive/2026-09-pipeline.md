@@ -2883,3 +2883,16 @@ SVENSKA". The TMDB pass found no match for either while it matched the plain tit
 `PAREN_NOISE` now takes the bracketed matinee marker and `TRAIL_NOISE` the Swedish one at
 the end of a title. The published titles stay as the cinemas wrote them. Two mutations went
 red.
+
+### A picture past the size cap is dropped from its rows (2026-10-20)
+Bio Pallas published a 22,014,245-byte picture on 2026-10-18, past the 20 MB cap in
+`common.fetch`. `mirror_posters.py` kept its remote address as it does for any failed
+download, and `test_build_counts` failed on main's data until the event was left out on
+2026-10-19. The step now removes every reference to a picture refused for its size and logs
+it on a `too large` line in `run-posters.log`. A show's `img` becomes "" and the `img` of a
+`films-extra.json` entry is deleted. The app and the pages draw those rows like any row
+without a poster, and JSON-LD no longer carries the address. After a timeout, a 5xx answer
+or a connection error the remote reference stays for a later run, as before. No list of
+refused URLs is kept. Each run asks again, and a host that sends no Content-Length costs up
+to 20 MB a run for each such picture. This replaces the last point of "Response bodies have
+a ceiling too" (2026-08-31). Fourteen mutations went red.
