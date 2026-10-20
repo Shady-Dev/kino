@@ -35,7 +35,8 @@ Check for an existing platform first. Every candidate assessed, with its evidenc
   **Eventio:** closed 2026-09-19. Its one known tenant is Kino Regina, already built.
 - **Complete:** eTiketti (twenty-one), Nexxo (eight), Kinola (five), Johku (seven),
   Cinemahouse (three), TMB (four), MyCloudCinema's two, Vista's one, the parser-shaped.
-- **Next action:** none from these.
+- **Next action:** decide what to publish for Kino K13's Serbian film days, 6.-8.11.2026.
+  The festival's page gives five slots one clock each, and three slots list two films.
 
 ### Heureka's own posters still wait for written permission
 
@@ -217,7 +218,6 @@ Each of these was looked at and set down, with the reason. None is scheduled.
   move something a reader sees; the maintainer asked in the same session for no change to
   the page's design, so they stay proposals. The cinema list is already on the page, at the
   bottom; the report route is already there and stays separate from any feedback link.
-
 - The screening's language on the Ajat ticket. **Declined 2026-09-23 by the maintainer:**
   it would widen the 120 px ticket to about 250 and leave a 320 px phone about 20 px of
   title. Record: [docs/archive/2026-09-app.md](docs/archive/2026-09-app.md).
