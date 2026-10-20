@@ -1,12 +1,12 @@
 [token] using FINNKINO_TOKEN from the environment
 [sites] 17 cinemas
-[schedule] 2026-10-20: 314 showtimes
+[schedule] 2026-10-20: 297 showtimes
 [schedule] 2026-10-21: 386 showtimes
 [schedule] 2026-10-22: 388 showtimes
-[schedule] 2026-10-23: 333 showtimes
-[schedule] 2026-10-24: 367 showtimes
-[schedule] 2026-10-25: 338 showtimes
-[schedule] 2026-10-26: 304 showtimes
+[schedule] 2026-10-23: 410 showtimes
+[schedule] 2026-10-24: 456 showtimes
+[schedule] 2026-10-25: 416 showtimes
+[schedule] 2026-10-26: 374 showtimes
 [tmdb] no TMDB match (3): Fallen Angels by Noël Coward | NT LIVE: The Playboy of the Western World | Ooppera: Macbeth
 [tmdb] weak candidate kept, not searched until 2026-10-21 (8): ENHYPEN WORLD TOUR 'BLOOD SAGA' -> 엔하이픈 월드 투어 ‘블러드 사가’ | HYBE CHEERING PARTY -> 하이브 치어링 파티 | Jailer 2 -> ஜெயிலர் 2 | Matloob Aelian -> مكرر | Rose -> Rose | SEVENTEEN WORLD TOUR 'NEW_' -> SEVENTEEN WORLD TOUR [NEW_] ENCORE | TOMORROW X TOGETHER WORLD TOUR 'ACT : TOMORROW' -> TOMORROW X TOGETHER WORLD TOUR 'ACT : TOMORROW' IN SEOUL | Two Seasons, Two Strangers -> 旅と日々
 [tmdb] 0 new lookups, 0 re-checks, cache 116, 96 mergeable by id
