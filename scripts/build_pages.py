@@ -171,9 +171,11 @@ L = {
         "from": "alkaen", "free": "Vapaa p\u00e4\u00e4sy", "votes": "\u00e4\u00e4nt\u00e4", "rtg": "TMDB-arvio {v}/10",
         "rtgN": "TMDB-arvio {v}/10, {n} \u00e4\u00e4nt\u00e4", "rtg1": "TMDB-arvio {v}/10, 1 \u00e4\u00e4ni",
         "dec": ",",
-        "sources": "N\u00e4yt\u00f6stiedot: kyseisen teatterin oma ohjelmisto. Arvosanat ja "
-                   "kuvaukset: TMDB. Henkil\u00f6kohtainen harrastusprojekti, ei "
-                   "sidoksissa teattereihin.",
+        "sources": "N\u00e4yt\u00f6stiedot: kyseisen teatterin oma ohjelmisto. {credit} "
+                   "Henkil\u00f6kohtainen harrastusprojekti, ei sidoksissa teattereihin.",
+        "credit_tmdb": "Arvosanat ja kuvaukset: TMDB.",
+        "credit_cinema": "Arvosanat: TMDB. Kuvaukset: elokuvateatterit.",
+        "credit_both": "Arvosanat: TMDB. Kuvaukset: elokuvateatterit ja TMDB.",
         "contact": "Elokuvateattereille: yhteydenotot ja poistopyynn\u00f6t",
         "source": "L\u00e4hdekoodi",
         "status_link": "Palvelun tila ja tiedot \u2197",
@@ -233,9 +235,11 @@ L = {
         "from": "fr\u00e5n", "free": "Fritt intr\u00e4de", "votes": "r\u00f6ster", "rtg": "TMDB-betyg {v}/10",
         "rtgN": "TMDB-betyg {v}/10, {n} r\u00f6ster", "rtg1": "TMDB-betyg {v}/10, 1 r\u00f6st",
         "dec": ",",
-        "sources": "Visningstider: varje biografs eget program. Betyg och "
-                   "beskrivningar: TMDB. Ett personligt hobbyprojekt, utan koppling "
-                   "till biograferna.",
+        "sources": "Visningstider: varje biografs eget program. {credit} Ett personligt "
+                   "hobbyprojekt, utan koppling till biograferna.",
+        "credit_tmdb": "Betyg och beskrivningar: TMDB.",
+        "credit_cinema": "Betyg: TMDB. Beskrivningar: biograferna.",
+        "credit_both": "Betyg: TMDB. Beskrivningar: biograferna och TMDB.",
         "contact": "F\u00f6r biografer: kontakt och beg\u00e4ran om borttagning",
         "source": "K\u00e4llkod",
         "status_link": "Tj\u00e4nstens status och information \u2197",
@@ -291,8 +295,11 @@ L = {
         "from": "from", "free": "Free", "votes": "votes", "rtg": "TMDB rating {v}/10",
         "rtgN": "TMDB rating {v}/10 from {n} votes", "rtg1": "TMDB rating {v}/10 from 1 vote",
         "dec": ".",
-        "sources": "Showtimes: each cinema's own schedule. Ratings and descriptions: "
-                   "TMDB. A personal hobby project, unaffiliated with the cinemas.",
+        "sources": "Showtimes: each cinema's own schedule. {credit} A personal hobby "
+                   "project, unaffiliated with the cinemas.",
+        "credit_tmdb": "Ratings and descriptions: TMDB.",
+        "credit_cinema": "Ratings: TMDB. Descriptions: the cinemas.",
+        "credit_both": "Ratings: TMDB. Descriptions: the cinemas and TMDB.",
         "contact": "For cinemas: enquiries and removal requests",
         "source": "Source",
         "status_link": "Service status and information \u2197",
@@ -1217,8 +1224,16 @@ def share_image(days):
     return f"/{first}" if first else "/icon-512.png"
 
 
+def sources_line(t, syn_src):
+    """The footer's credit line for the synopses a page printed, `syn_src` holding "tmdb",
+    "cinema" or both. A page that printed none keeps the TMDB line its ratings need."""
+    key = ("credit_both" if syn_src >= {"tmdb", "cinema"}
+           else "credit_cinema" if "cinema" in syn_src else "credit_tmdb")
+    return t["sources"].format(credit=t[key])
+
+
 def film_block(title, shows, extra, gmap, lang, t, with_venue, syn_seen, current_year,
-               native=None):
+               native=None, syn_src=None):
     rating, length = first(shows, "rating"), first(shows, "len")
     genres = genre_names(first(shows, "gids"), first(shows, "genres"), gmap, lang)
     tmdb = first(shows, "tmdb")
@@ -1248,8 +1263,11 @@ def film_block(title, shows, extra, gmap, lang, t, with_venue, syn_seen, current
     fx = {} if nonfilm else extra.get(norm(title)) or {}
     syn = ""
     if (title, nonfilm) not in syn_seen:
-        syn = clip(((fx.get("s") or {}).get(lang) or "")
-                   or ("" if nonfilm else native_syn(shows, lang, native)))
+        own = (fx.get("s") or {}).get(lang) or ""
+        syn = clip(own or ("" if nonfilm else native_syn(shows, lang, native)))
+        # films-extra lists in `ts` the slots TMDB filled; any other text is a cinema's.
+        if syn and syn_src is not None:
+            syn_src.add("tmdb" if own and lang in (fx.get("ts") or ()) else "cinema")
         syn_seen.add((title, nonfilm))
     # Only same-origin posters: a hot-linked CDN poster would leak the visitor's IP. A
     # film with none keeps its column with a blank tile, so the text does not jump left.
@@ -1451,7 +1469,7 @@ def page(*, lang, paths, title, desc, h1, sub, intro, days, today, t,
     hreflangs = "\n".join(
         [f'<link rel="alternate" hreflang="{c}" href="{SITE}{paths[c]}">' for c in LANGS]
         + [f'<link rel="alternate" hreflang="x-default" href="{SITE}{paths["fi"]}">'])
-    body, syn_seen = [], set()
+    body, syn_seen, syn_src = [], set(), set()
     if not days:
         # The same sentence as before, plus the date the cinema does have something on,
         # when it has one. Same element, same place: a reader is told where to go next
@@ -1470,7 +1488,8 @@ def page(*, lang, paths, title, desc, h1, sub, intro, days, today, t,
                                          key=lambda kv: (kv[1][0].get("start") or "", kv[0])):
             body.append(film_block(title_, shows, extra, gmap, lang, t,
                                    with_venue=with_venue, syn_seen=syn_seen,
-                                   current_year=today.year, native=native))
+                                   current_year=today.year, native=native,
+                                   syn_src=syn_src))
     self_path = paths[lang]
     # The wordmark is the other way into the app, and it carries this page's language for
     # the same reason the CTA does. It was a bare "/", so an English page sent its reader
@@ -1521,7 +1540,7 @@ def page(*, lang, paths, title, desc, h1, sub, intro, days, today, t,
 {''.join(body)}
 {also}
 </main>
-<footer><div data-nosnippet>{esc(t['sources'])}</div><div class="statuslink" data-nosnippet><a href="/status/?area={urllib.parse.quote(area)}&amp;lang={lang}">{esc(t['status_link'])}</a></div></footer>
+<footer><div data-nosnippet>{esc(sources_line(t, syn_src))}</div><div class="statuslink" data-nosnippet><a href="/status/?area={urllib.parse.quote(area)}&amp;lang={lang}">{esc(t['status_link'])}</a></div></footer>
 </div>
 <script>{THEME_BODY_JS}</script>
 {pageview_tag(kind)}
