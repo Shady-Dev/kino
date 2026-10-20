@@ -1,8 +1,8 @@
-[navettakino] Navettakino, Konnevesi: 2 showtimes, 2 dates, 1 film(s)
-[navettakino] Navettakino: 2 showtimes, 2 dates
+[navettakino] Navettakino, Konnevesi: 3 showtimes, 3 dates, 1 film(s)
+[navettakino] Navettakino: 3 showtimes, 3 dates
 [navettakino] synopses merged: 0
 [run] http: 0 revalidated (304), 1 full, 0 not stored (origin said no-store), 0 cache entries written
 [run] hosts: 1 attempted -- www.navettakino.fi
-[run] navetta: 1 venues, 2 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
-[run] timing: 1 site(s), 1.3s of fetching added up across workers that overlap, longest site 1.3s, longest queue wait 175.7s, 1.3s wall from this module's first fetch starting to its last ending
+[run] navetta: 1 venues, 3 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
+[run] timing: 1 site(s), 1.5s of fetching added up across workers that overlap, longest site 1.5s, longest queue wait 187.5s, 1.5s wall from this module's first fetch starting to its last ending
 exit=0

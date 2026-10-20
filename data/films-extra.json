@@ -770,6 +770,7 @@
     "biopallas",
     "biorex",
     "biorexkokkola",
+    "biosavoy",
     "cinemantsala",
     "gilda",
     "ihmekompleksi",
@@ -795,7 +796,8 @@
    "r": 0,
    "s": {
     "en": "DC Studios’ first-ever foray into the genre, “Clayface” is a horror thriller from director James Watkins, starring Tom Rhys Harries in the title role of the Gotham City villain. Written by Mike Flanagan (The Haunting of Hill house)",
-    "fi": "Katso kauhua päin naamaa. DC Studiosin Clayface on ohjaaja James Watkinsin kauhutrilleri, jonka nimiosassa Gotham Cityn vihollisgallerian suosikkiroistona nähdään Tom Rhys Harries. Matt Hagenin huima nousu Gothamin kaduilta Hollywoodin johtavaksi tähdeksi päättyy traagisesti, kun paikallisen rikollispomon kosto jättää hänet pahoin epämuodostuneeksi. Tiiminsä hylkäämänä ja kaiken menettäneenä Matt hakeutuu uraauurtavaan hoitoon, joka ihmeenomaisesti palauttaa hänet entiselleen. Hoidolla on kuitenkin odottamattomia vaikutuksia hänen todellisuudentajuunsa, ja hän ajautuu tuhoisalle polulle, jota hallitsee kaiken nielevä kostonhimo. Elokuvassa nähdään myös Naomi Ackie, David Dencik, Max Minghella ja Eddie Marsan sekä Nancy Carroll ja Joshua James. Elokuvan ohjaa James Watkins käsikirjoituksesta, jonka ovat kirjoittaneet Mike Flanagan ja Hossein Amini. Tarinan on luonut Flanagan, ja se perustuu DC:n hahmoihin. Tuottajina toimivat Matt Reeves, Lynn Harris, James Gunn ja Peter Safran. Vastaavina tuottajina ovat Michael E. Uslan, Chantal Nong Vo, Lars P. Winther, Paul Ritchie, Rafi Crohn ja Trevor Macy. Watkinsin luovaan työryhmään kuuluvat kuvaaja Rob Hardy, lavastussuunnittelija James Price, leikkaaja Jon Harris ja pukusuunnittelija Keith Madden. Musiikista vastaa Volker Bertelmann. DC Studios esittää: 6th & Idaho Productionin tuotanto, James Watkinsin elokuva \"Clayface\". Elokuvan levittää Warner Bros. Pictures, ja se saa ensi-iltansa elokuvateattereissa 23. lokakuuta 2026."
+    "fi": "Katso kauhua päin naamaa. DC Studiosin Clayface on ohjaaja James Watkinsin kauhutrilleri, jonka nimiosassa Gotham Cityn vihollisgallerian suosikkiroistona nähdään Tom Rhys Harries. Matt Hagenin huima nousu Gothamin kaduilta Hollywoodin johtavaksi tähdeksi päättyy traagisesti, kun paikallisen rikollispomon kosto jättää hänet pahoin epämuodostuneeksi. Tiiminsä hylkäämänä ja kaiken menettäneenä Matt hakeutuu uraauurtavaan hoitoon, joka ihmeenomaisesti palauttaa hänet entiselleen. Hoidolla on kuitenkin odottamattomia vaikutuksia hänen todellisuudentajuunsa, ja hän ajautuu tuhoisalle polulle, jota hallitsee kaiken nielevä kostonhimo. Elokuvassa nähdään myös Naomi Ackie, David Dencik, Max Minghella ja Eddie Marsan sekä Nancy Carroll ja Joshua James. Elokuvan ohjaa James Watkins käsikirjoituksesta, jonka ovat kirjoittaneet Mike Flanagan ja Hossein Amini. Tarinan on luonut Flanagan, ja se perustuu DC:n hahmoihin. Tuottajina toimivat Matt Reeves, Lynn Harris, James Gunn ja Peter Safran. Vastaavina tuottajina ovat Michael E. Uslan, Chantal Nong Vo, Lars P. Winther, Paul Ritchie, Rafi Crohn ja Trevor Macy. Watkinsin luovaan työryhmään kuuluvat kuvaaja Rob Hardy, lavastussuunnittelija James Price, leikkaaja Jon Harris ja pukusuunnittelija Keith Madden. Musiikista vastaa Volker Bertelmann. DC Studios esittää: 6th & Idaho Productionin tuotanto, James Watkinsin elokuva \"Clayface\". Elokuvan levittää Warner Bros. Pictures, ja se saa ensi-iltansa elokuvateattereissa 23. lokakuuta 2026.",
+    "sv": "DCU släpper sin första skräckfilm med ett manus skrivet av Mike Flanagan. Clayface handlar om den uppåtgående stjärnan Matt Hagen som reser sig från att ha varit ett gatubarn i Gotham till att bli en ledande Hollywood-skådespelare. Hans karriär stoppas brutalt när en lokal brottschef skär och vanställer hans ansikte svårt. Övergiven och desperat tackar Hagen ja till en experimentell behandling som leds av forskaren Dr. Caitlyn Corr (eller Caitlin Bates) för att få tillbaka sitt utseende. Ingreppet orsakar okontrollerbara mutationer som förvandlar hans kropp till levande lera. Samtidigt börjar han förlora sitt förstånd, sin mänskliga identitet och sin verklighetsuppfattning och förvandlas till ett skrämmande hämndlystet monster."
    },
    "tr": "https://www.youtube.com/watch?v=KCR-rz0YfD4"
   },
@@ -937,7 +939,6 @@
     "kinokilta",
     "kinomyyri",
     "kinopiispanristi",
-    "kinopirtti",
     "kuvakukko",
     "leffabuumi",
     "niagara",
@@ -1229,6 +1230,20 @@
     "fi": "Lähde Liisan matkaan, kun hän putoaa hassuun Ihmemaailmaan ja tapaa erikoisia hahmoja, joihin kuuluvat Tittelityy ja Tittelitom, Hullu Hatuntekijä, Herttakuningatar ja epätoivoisen myöhässä oleva Valkoinen Kani."
    },
    "tr": ""
+  },
+  "flaggan": {
+   "id": 1719725,
+   "img": "data/posters/34716b5c9dbdbc09.jpg",
+   "r": 0,
+   "s": {
+    "en": "On election night 2010, two young Sweden Democrats — the charming but unserious Ville and his cousin Tobias — are given the task of hanging a huge Swedish flag in Rinkeby square, but end up drawn into a chaotic night full of crazy encounters with drug dealers, activists, and Finnish bikers.",
+    "fi": "",
+    "sv": "Under valnatten 2010 får två unga Sverigedemokrater, den charmige men oseriöse Ville och hans kusin Tobias, i uppdrag att hänga en enorm svensk flagga på Rinkeby torg, men blir indragna i en stökig natt fylld av galna möten med langare, aktivister och finska bikers."
+   },
+   "tr": "https://www.youtube.com/watch?v=Syq9tr4hiGA",
+   "ts": [
+    "en"
+   ]
   },
   "flow": {
    "id": 823219,
@@ -1570,13 +1585,12 @@
   },
   "hetki ennen valoa blue baby": {
    "id": 1015881,
-   "img": "data/posters/ec99ecd6b2aa4dcc.jpg",
    "r": 0,
    "s": {
     "en": "",
     "fi": "Klaus Härön uutuuselokuva kertoo kahden naisen kohtaamisesta keskellä hoitoalan kriisiä. Erikoissairaanhoitaja Inka (Laura Birn) tekee työtään suurella sydämellä vaativien työolosuhteiden ja oman perhe-elämänsä ristipaineessa. Lenin (Oona Airola) ja Karin (Jussi Vatanen) onni rakoilee, kun heidän vastasyntynyt vauvansa kiidätetään äkillisesti tehohoitoon. Sairaanhoitajat suunnittelevat lakkoa parempien työolosuhteiden puolesta, ja epävarmuuden hetkellä hämmentynyt Leni löytää tukea ja toivoa Inkasta. Inka on kuitenkin vaikeiden päätösten äärellä. Molemmat naiset toimivat rakkaudesta ja velvollisuudesta – mutta miten tehdä oikea valinta, kun vaakalaudalla ovat oma ja toisten elämä?"
    },
-   "tr": "https://www.youtube.com/watch?v=bOD_fRxNT4Q"
+   "tr": ""
   },
   "hetki ennen valoa kahvi ja kino": {
    "id": 1015881,
@@ -1666,6 +1680,14 @@
    "s": {
     "en": "When Gośka meets Grzesiek on the Internet, she is sure that she’s finally found her Mr. Right.Grzesiek is crazy about her, showers her with flowers and proposes in Venice. This must be love, right? The perfect picture starts showing some cracks, though. For Gośka their home soon becomes the most dangerous of places. A film about the limits of love that you will not be able to forget.",
     "fi": ""
+   },
+   "tr": ""
+  },
+  "hopeatähti kerro kaikille": {
+   "r": 0,
+   "s": {
+    "en": "",
+    "fi": "Kerro kaikille on voimaelokuva Amanda Aaltosesta, joka kieltäytyy alistumasta hänelle varattuun köyhän naisen ankeaan kohtaloon ja etsii huimapäisesti onneaan maailmalta. Rangaistukseksi sääntöjen rikkomisesta yhteiskunta anastaa häneltä kaikkein tärkeimmän, vapauden, ja sulkee hänet Seilin saarelle."
    },
    "tr": ""
   },
@@ -2099,10 +2121,12 @@
    "krs": [
     "cine",
     "gilda",
+    "ihmekompleksi",
     "joutsankino",
     "kinojuha",
     "kinokulma",
     "kinometso",
+    "kinomyyri",
     "kkino",
     "korjaamo",
     "savonkinot",
@@ -2319,7 +2343,6 @@
     "kinoaurora",
     "kinoelo",
     "kinohamina",
-    "kinohannikainen",
     "kinohirvi",
     "kinoiiris",
     "kinojuha",
@@ -3669,6 +3692,15 @@
    },
    "tr": ""
   },
+  "lapin sota lapplandskriget": {
+   "r": 0,
+   "s": {
+    "en": "",
+    "fi": "",
+    "sv": "LAPIN SOTA utspelar sig i Lappland under hösten 1944. Berättelsen följer finländska soldater som, efter att ha slutit fred med Sovjetunionen, tvingas vända sina vapen mot sina tidigare vapenbröder, de tyska trupperna, för att driva ut dem ur landet."
+   },
+   "tr": ""
+  },
   "lapin sota loviisan lions clubin erikoisnäytös": {
    "id": 1450460,
    "img": "data/posters/c15d678a31ae397e.jpg",
@@ -3712,6 +3744,7 @@
     "kinolaika",
     "kinomania",
     "kinometso",
+    "kinomyyri",
     "kinoolympia",
     "kkino",
     "savonkinot",
@@ -3832,7 +3865,6 @@
    "kr": "S",
    "krs": [
     "bioforum",
-    "biomarilyn",
     "biorex",
     "cinemantsala",
     "engel",
@@ -4691,13 +4723,12 @@
   },
   "nälkäpeli balladi laululinnuista ja käärmeistä": {
    "id": 695721,
-   "img": "data/posters/abe4cd548c2a97a6.jpg",
-   "r": 7.0,
+   "r": 0,
    "s": {
     "en": "",
     "fi": "Koe NÄLKÄPELIN maailma 64 vuotta ennen kuin Katniss Everdeen ilmoittautui vapaaehtoiseksi tribuutiksi, ja vuosikymmeniä ennen kuin Coriolanus Snow’sta tuli Panemin tyrannimainen presidentti. NÄLKÄPELI: BALLADI LAULULINNUISTA JA KÄÄRMEISTÄ kertoo tarinan nuoresta Coriolanuksesta (Tom Blyth), joka on ennen niin mahtavan Snow-suvun viimeinen toivo. Koko suku on menettänyt suosionsa sodan jälkeisessä Capitolissa ja Snow’n toimeentulo on vaarassa. Vastoin hänen tahtoaan hänet määrätään köyhtyneen Vyöhyke 12:sta tribuutin, Lucy Gray Bairdin (Rachel Zegler), ohjaajaksi. Kun Lucy Grayn viehätysvoima lumoaa Panemin, näkee Snow mahdollisuuden muuttaa heidän kummankin kohtaloa. Kunnianhimonsa ajamana Snow liittoutuu Lucy Grayn kanssa kääntääkseen onnen heidän puolelleen. Snow joutuu taistelemaan myös itseään vastaan, niin hyvän kuin pahan puolesta. Snow aloittaa kilpajuoksun aikaa vastaan selviytyäkseen ja selvittääkseen, onko hän pohjimmiltaan laululintu vai käärme."
    },
-   "tr": "https://www.youtube.com/watch?v=NxW_X4kzeus"
+   "tr": ""
   },
   "nälkäpeli elonkorjuun sarastus": {
    "id": 1300968,
@@ -5229,12 +5260,13 @@
   },
   "pension patta": {
    "id": 1711182,
+   "img": "data/posters/cd87724b30163f64.jpg",
    "r": 0,
    "s": {
     "en": "Pension Patta is a heartfelt story of identity, family, redemption, and the transformative power of humanity, where a simple pension document becomes the beginning of an extraordinary journey of self-discovery. Writer and Director: Maotse Gurung",
     "fi": ""
    },
-   "tr": ""
+   "tr": "https://www.youtube.com/watch?v=k_yjATHbTPY"
   },
   "perfect blue": {
    "id": 10494,
@@ -5339,7 +5371,6 @@
    "kr": "S",
    "krs": [
     "bioforum",
-    "biomarilyn",
     "biorex",
     "cinemantsala",
     "engel",
@@ -5384,7 +5415,6 @@
    "kr": "S",
    "krs": [
     "bioforum",
-    "biomarilyn",
     "biorex",
     "cinemantsala",
     "engel",
@@ -5629,6 +5659,35 @@
   "pikkuli och himmelshinden": {
    "id": 1403476,
    "img": "data/posters/e4e4be88f3bfae06.jpg",
+   "kr": "S",
+   "krs": [
+    "alatalo",
+    "biokaari",
+    "biomarilyn",
+    "biorex",
+    "biosade",
+    "cinemantsala",
+    "engel",
+    "huvimylly",
+    "isohannu",
+    "jarvelankino",
+    "kinohannikainen",
+    "kinohirvi",
+    "kinokilta",
+    "kinokulma",
+    "kinolumo",
+    "kinometso",
+    "kinopiispanristi",
+    "kinoset",
+    "kinotour",
+    "kinovirta",
+    "kulttuurimylly",
+    "kuvakukko",
+    "laitilankino",
+    "lieksankino",
+    "tapiola",
+    "vihdinkino"
+   ],
    "r": 0,
    "s": {
     "en": "",
@@ -8243,6 +8302,16 @@
     "en"
    ]
   },
+  "udta teer": {
+   "id": 1375156,
+   "img": "data/posters/7c1daadad09e7841.jpg",
+   "r": 0,
+   "s": {
+    "en": "In a world where everyone has a secret and nobody can be trusted, one spy accidentally turns the entire game upside down. Blending high-stakes espionage with big laughs, comic chaos, and crowd-pleasing entertainment, this fresh spin on the spy genre delivers a complete family entertainer. It's a fast-paced spy comedy where nobody knows what's going on, least of all the hero. Age limit will be published 23.10.",
+    "fi": ""
+   },
+   "tr": ""
+  },
   "ulvova mylläri": {
    "id": 320293,
    "img": "data/posters/53e7fcee3f5342a2.jpg",
@@ -8325,6 +8394,7 @@
    "krs": [
     "alatalo",
     "biorex",
+    "biosade",
     "biosavoy",
     "biovuoksi",
     "cinemantsala",
@@ -8333,6 +8403,7 @@
     "kino123",
     "kinoelo",
     "kinohamina",
+    "kinohirvi",
     "kinolumo",
     "kinomania",
     "kinomarilyn",
@@ -8425,47 +8496,17 @@
   },
   "unohdettu saari suomeksi puhuttu": {
    "id": 1465063,
-   "img": "data/posters/db8d634869fa04ac.jpg",
-   "kr": "K-7",
-   "krs": [
-    "alatalo",
-    "biorex",
-    "biosavoy",
-    "biovuoksi",
-    "cinemantsala",
-    "helios",
-    "isohannu",
-    "kino123",
-    "kinoelo",
-    "kinohamina",
-    "kinolumo",
-    "kinomania",
-    "kinomarilyn",
-    "kinopiispanristi",
-    "kinopirtti",
-    "kinoset",
-    "kinovirta",
-    "kotkanleffat",
-    "leffabuumi",
-    "savonkinot",
-    "star",
-    "studio123jarvenpaa",
-    "vaakuna"
-   ],
-   "r": 8.1,
+   "r": 0,
    "s": {
-    "en": "While celebrating their last night together, high school graduates and best friends Jo and Raissa stumble upon a mysterious portal that transports them to the fantastical island of Nakali. When they discover that the memories of their entire friendship are the price for returning home, Jo and Raissa must race to find a way to leave the island before they forget each other forever.",
+    "en": "",
     "fi": "Parhaan ystävyyden puolesta kannattaa taistella. DreamWorks Animation on aiemmin tuonut katsojille tarinoita unohtumattomista siteistä pojan ja lohikäärmeen välillä Näin koulutat lohikäärmeesi..."
    },
-   "tr": "https://www.youtube.com/watch?v=PhgY8cOJiQA",
-   "ts": [
-    "en"
-   ]
+   "tr": ""
   },
   "urchin vapaus on mielentila": {
    "id": 1283320,
    "img": "data/posters/4322c23f5548f8f2.jpg",
-   "r": 6.8,
+   "r": 6.7,
    "s": {
     "en": "",
     "fi": "Elokuvan maailmanensi-ilta oli Cannesin elokuvajuhlien Un Certain Regard -sarjassa 2025. Ohjaaja Harris Dickinson voitti FIPRESCI-palkinnon ja Frank Dillane sarjan parhaan miespääosan palkinnon. The Triangle of Sadness ja Babygirl -elokuvista tunnetun Harris Dickinsonin esikoisohjaus Urchin on vahva, koskettava ja myötätuntoinen tarina kodittomuudesta. Elokuva kertoo nuoresta Mikestä, Lontoon kaduilla elävästä nuoresta, joka kamppailee irtautuakseen itseään tuhoavasta kierteestä ja saadakseen elämänsä takaisin raiteilleen. Matka on täynnä säröjä, sattumaa ja toivon hauraita pilkahduksia. Suomen elokuvasäätiön Maahantuontituki 2026."
@@ -8614,13 +8655,14 @@
     "biokaari",
     "biorex",
     "biorexkokkola",
+    "biosade",
     "biosavoy",
     "biovuoksi",
     "cinemantsala",
     "gilda",
-    "ihmekompleksi",
     "isohannu",
     "kino123",
+    "kinohirvi",
     "kinojuha",
     "kinolumo",
     "kinoolympia",
@@ -8788,7 +8830,8 @@
    "img": "data/posters/ce1a7e45f2509c41.jpg",
    "kr": "K-16",
    "krs": [
-    "biorex"
+    "biorex",
+    "kinokonepaja"
    ],
    "r": 0,
    "s": {
