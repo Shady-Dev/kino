@@ -165,13 +165,13 @@ it lists a film. Evidence:
 [docs/research/ticketing-platforms.md](docs/research/ticketing-platforms.md).
 **Next action:** re-read on a later Monday.
 
-### Search Console re-read
+### Search visibility collapse since 2026-10-03
 
-The five-day baseline is too thin to change anything on, and the queued "ohjelmisto"
-experiment waits on it. Blocked twice over: the 2026-09-18 to 2026-10-02 window has not
-closed, and no Search Console access exists from here.
-**Next action:** read the same tables after 2026-10-02, once access exists. Evidence:
+Impressions fell from 3352 a day to 29. Cause unconfirmed, and Google's September 2026 spam
+update is the hypothesis. No manual action or removal, Security issues not yet read, and no
+index removal is proposed. Evidence and open checks are in
 [docs/research/seo-and-search.md](docs/research/seo-and-search.md).
+**Next action:** the maintainer's Security issues and URL Inspection reads, then weekly.
 
 ### Finnkino prices
 
@@ -318,7 +318,7 @@ Each of these was looked at and set down, with the reason. None is scheduled.
 - A venue or city count in the meta description. It would be a third copy of a number that
   goes stale.
 - The SEO experiment: "ohjelmisto" in Finnish theatre-page titles and descriptions on a
-  subset against an unchanged control. Waits on the Search Console re-read.
+  subset against an unchanged control. Waits on the 2026-10-03 collapse being explained.
 - A Tuesday ~15:00 Helsinki local slot for Finnkino's weekly drop. Not built on a sample
   of one. Evidence:
   [docs/research/publication-rhythm.md](docs/research/publication-rhythm.md).
