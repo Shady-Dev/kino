@@ -5,8 +5,7 @@
 [savonkinot] Maxim Varkaus: 24 showtimes, 14 dates
 [savonkinot] Kino-Hovi Kitee: 11 showtimes, 10 dates
 [savonkinot] synopses merged: 0
-[joutsankino] Joutsan Kino: 12 showtimes, 9 dates
-[joutsankino] synopses merged: 0
+[joutsankino] FAILED: <urlopen error [Errno 8] nodename nor servname provided, or not known>
 [cine] Cine Keuda-Talo: 13 showtimes, 4 dates
 [cine] Cine Nikkilä: 3 showtimes, 1 dates
 [cine] synopses merged: 0
@@ -16,7 +15,7 @@
 [haapamaki] Haapamäen Elokuvat: 17 showtimes, 14 dates
 [haapamaki] synopses merged: 0
 [run] venuelists-local.json rewritten
-[run] http: 0 revalidated (304), 116 full, 116 not stored (origin said no-store), 0 cache entries written
+[run] http: 0 revalidated (304), 108 full, 108 not stored (origin said no-store), 0 cache entries written
 [run] hosts: 5 attempted -- haapamaenelokuvat.fi, kiertue.cine.fi, kino.joutsa.fi, lippu.elokuvateatteristar.fi, www.savonkinot.fi
-[run] etiketti: 11 venues, 352 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
-exit=0
+[run] etiketti: 10 venues, 340 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 1 failures
+exit=1
