@@ -16,6 +16,7 @@ What they exist to prove:
 - **The rating is only ever the KAVI icon's filename.** The page prints no rating text.
 """
 import contextlib
+import datetime
 import io
 import json
 import pathlib
@@ -198,11 +199,18 @@ class RunnerTest(unittest.TestCase):
             code = run.main(["matintupa", "--half", "all"])
         return code, out.getvalue() + err.getvalue()
 
+    def line(self, days, clock):
+        """A screening line `days` from today. run.main reads the real clock, and the
+        fixed September dates fell out of the 30-day window on 2026-10-21."""
+        d = datetime.datetime.now(M.FI).date() + datetime.timedelta(days=days)
+        wd = ("ma", "ti", "ke", "to", "pe", "la", "su")[d.weekday()]
+        return f"{wd} {d.day}.{d.month}. klo {clock}"
+
     def test_the_site_publishes_from_one_request(self):
         self.serve({LISTING: page(
-            block(),
+            block(times=(self.line(1, "17.15"), self.line(2, "13.00"))),
             block(slug="myrskyn-ikkuna", title="Myrskyn ikkuna", liput="13 €",
-                  times=("su 20.9. klo 18.15", "ma 21.9. klo 19.00")))})
+                  times=(self.line(2, "18.15"), self.line(3, "19.00"))))})
         code, log = self.main()
         self.assertEqual(code, 0, log)
         self.assertEqual(self.calls, [LISTING])
