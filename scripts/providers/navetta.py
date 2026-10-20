@@ -37,7 +37,9 @@ What shapes the parser:
   weekday selects the year through `common.resolve_year`.
 - **The metadata line is read by pattern, not by position.** The three films read gave
   `K7, 87 min, liput 10 €`, `Kesto 1 h 27 min, K12, liput 10 €` and `Kesto 1 h 29 min,
-  K7, liput 10 €`. A `liput` figure that is not one amount settles nothing.
+  K7, liput 10 €`. A `liput` figure that is not one amount settles nothing. Read 2026-10-20,
+  the line sat in the poster's caption, `K16, kesto 2 h 38 min, liput 11 €`, and the caption
+  is read for it before the prose.
 - **No ticket host exists and none is invented.** The contact page's own words:
   "Lippukassa avataan 30 minuuttia ennen ensimmäistä näytöstä." So `book="door"` and a
   showtime opens this page.
@@ -108,6 +110,7 @@ MIN_RE = re.compile(r"(?:(\d{1,2})\s*h\s*)?(\d{1,3})\s*min", re.I)
 PRICE_RE = re.compile(r"liput\s+([^,;]+?)\s*(?:$|,|;)", re.I)
 AMOUNT_RE = re.compile(r"^(\d{1,3}(?:[.,]\d{1,2})?)\s*€$")
 TAGS_RE = re.compile(r"<[^>]+>")
+CAPTION_RE = re.compile(r"<figcaption[^>]*>(.*?)</figcaption>", re.S | re.I)
 
 POSTER_MIN_RATIO = 1.2
 POSTER_MIN_WIDTH = 300
@@ -181,6 +184,13 @@ def _poster(figure):
     return url
 
 
+def _read_meta(facts, text):
+    """Fill in what a metadata line states and the block has not stated already."""
+    facts["len"] = facts["len"] or _minutes(text)
+    facts["rating"] = facts["rating"] or _rating(text)
+    facts["price"] = facts["price"] or _price(text)
+
+
 def _is_meta(text):
     """A short line stating a rating, a runtime or a ticket price rather than prose."""
     if len(text) > 120:
@@ -211,7 +221,7 @@ def films(page):
     A film block is a title paragraph and its figure. What comes after the figure and
     before the next block's title is that film's own prose: the longest of those paragraphs
     is the synopsis and the metadata line is whichever one states a rating, a runtime or a
-    price.
+    price. The figure's caption can carry the metadata line too, and it is read first.
     """
     bl = blocks(page)
     out = {}
@@ -221,6 +231,10 @@ def films(page):
             continue
         facts = {"img": _poster(bl[f][1]), "syn": "", "len": "", "rating": "",
                  "price": ""}
+        cap = CAPTION_RE.search(bl[f][1])
+        for line in (_txt(cap.group(1)).split("\n") if cap else []):
+            if _is_meta(line):
+                _read_meta(facts, line)
         for k in range(f + 1, len(bl)):
             kind2, text = bl[k]
             if kind2 == "figure" or film_figure(bl, k) is not None:
@@ -228,9 +242,7 @@ def films(page):
             if not text or _dates_only(text):
                 continue
             if _is_meta(text):
-                facts["len"] = facts["len"] or _minutes(text)
-                facts["rating"] = facts["rating"] or _rating(text)
-                facts["price"] = facts["price"] or _price(text)
+                _read_meta(facts, text)
             elif len(text) > len(facts["syn"]):
                 facts["syn"] = text
         out.setdefault(norm(value), facts)

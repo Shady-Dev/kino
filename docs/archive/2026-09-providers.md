@@ -4194,3 +4194,10 @@ title on each line, and the parser read the first line as a title. A paragraph w
 line has that shape is now read as one screening per line, and any other line in such a
 paragraph still fails the site. The live page parsed to its two screenings of Lapin sota,
 with the block's poster and synopsis. Four mutations went red.
+
+### Navettakino reads the poster's caption for its metadata line (2026-10-20)
+The cloud run of 2026-10-20 at 05:21 UTC published both Lapin sota screenings with no
+rating, runtime or price. The page states them in the poster's caption, "K16, kesto 2 h 38
+min, liput 11 €", above a credit line, and the parser read only the paragraphs after the
+figure. The caption is now read for the metadata line before the prose. Parsing the live
+page that day gave K-16, 158 minutes and 11 € on both rows. Three mutations went red.

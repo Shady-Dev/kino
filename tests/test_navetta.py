@@ -43,19 +43,21 @@ def p(text):
     return f'<p class="wp-block-paragraph">{text}</p>'
 
 
-def figure(img=POSTER):
-    return f'<figure class="wp-block-image size-large is-resized"><a href="#">{img}</a></figure>'
+def figure(img=POSTER, caption=""):
+    cap = f'<figcaption class="wp-element-caption">{caption}</figcaption>' if caption else ""
+    return (f'<figure class="wp-block-image size-large is-resized"><a href="#">{img}</a>'
+            f'{cap}</figure>')
 
 
 def block(title, meta="K7, 87 min, liput 10 €", syn="Klaus Härön uutuuselokuva kertoo.",
-          img=POSTER, bold=True):
+          img=POSTER, bold=True, caption=""):
     """`bold="early"` closes the `<strong>` before the title's last letter, which is what
     the live page does to Presidentin kyyditys."""
     if bold == "early":
         head = f"<strong>{title[:-1]}</strong>{title[-1]}"
     else:
         head = f"<strong>{title}</strong>" if bold else title
-    out = p(head) + (figure(img) if img else "")
+    out = p(head) + (figure(img, caption) if img else "")
     if syn:
         out += p(syn)
     if meta:
@@ -193,6 +195,28 @@ class RowsTest(unittest.TestCase):
             self.rows(page(listed=[p("pe 23.10 klo 18:30 Lapin sota<br>lauantaina illalla")],
                            shelf=[block("Lapin sota")]),
                       today=datetime.date(2026, 10, 20))
+
+    def test_the_metadata_line_in_the_posters_caption(self):
+        """The shape read 2026-10-20: the rating, runtime and price in the poster's caption
+        above a credit line, and only prose after the figure."""
+        caption = ("K16, kesto 2 h 38 min, liput 11 \u20ac<br>Lapin sota elokuvateattereissa "
+                   "23.10.2026, ohjaus Aku Louhimies.")
+        shows, report = self.rows(page(
+            listed=[p("pe 23.10 klo 18:30 Lapin sota<br>la 24.10 klo 15:00 Lapin sota")],
+            shelf=[block("Lapin sota", meta="", caption=caption,
+                         syn="Elokuvan tapahtumat sijoittuvat Lappiin.")]),
+            today=datetime.date(2026, 10, 20))
+        self.assertEqual({(s["rating"], s["len"], s["price"]) for s in shows},
+                         {("K-16", "158", "11\u20ac")})
+        self.assertEqual(shows[0]["_syn"], "Elokuvan tapahtumat sijoittuvat Lappiin.")
+        self.assertEqual(report["no_price"], set())
+
+    def test_a_caption_without_a_metadata_line_leaves_it_to_the_prose(self):
+        shows, _ = self.rows(page(
+            listed=[screening("Hetki ennen valoa", "su 20.9 klo 15:00")],
+            shelf=[block("Hetki ennen valoa", caption="Elokuvateattereissa 19.9.2026.")]))
+        self.assertEqual((shows[0]["rating"], shows[0]["len"], shows[0]["price"]),
+                         ("K-7", "87", "10\u20ac"))
 
     def test_an_unreadable_line_still_fails_when_a_film_block_ends_the_list(self):
         with self.assertRaises(N.ListingError):
