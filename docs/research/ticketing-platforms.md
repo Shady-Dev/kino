@@ -1897,10 +1897,10 @@ link to `kaupunginosat.fi/skatta/ohjelmisto/`. The Serbian film days are a block
 6.-8.11. with a sign-up link to `srpsko-finsko.org`. No line on the page has a clock. The
 organiser page lists the same three dates and titles under `Tuleva ohjelmisto`, four 2027
 dates with no film, and the lines `Esitykset alkavat 16:00.` and `Elokuvalipun hinta on
-8 €.`, with a Kinokka membership card at 2 € required for every ticket. The 2026-09-21
-reading searched that page for `klo`, which the start-time line does not contain. The page
-was published on 2026-09-14 and the Wayback Machine holds no capture of it. Whether the
-line was there in September cannot be checked. The festival's invitation page gives a
+8 €.`, with a Kinokka membership card at 2 € required for every ticket. A search for `klo`,
+which is how the page was read on 2026-09-21, misses this statement. Whether the statement
+was on the page then has not been established. The page was published on 2026-09-14 and
+the Wayback Machine holds no capture of it. The festival's invitation page gives a
 programme by day with one clock per slot, and three of its five slots list two films under
 one clock. The slots are Friday 18.00, Saturday 16.00 and 18.00, and Sunday 15.00 and
 16.30, and the first three are the shared ones. Neither page states when the second film of

@@ -4214,3 +4214,11 @@ picks short films of the same names for Joyland and Kotiinpaluu. A dry run again
 pages that day gave Joyland on 25.10., Kotiinpaluu on 22.11. and Vasenkätinen tyttö on
 13.12., each at 16:00 and K-12. Twenty-three mutations went red. The pages as read are in
 [docs/research/ticketing-platforms.md](../research/ticketing-platforms.md).
+
+The 2026-09-21 record found no clock on the organiser page by searching it for `klo`, which
+misses the current statement. Whether the statement was there in September has not been
+established. The maintainer kept the Kinokka price empty on 2026-10-20, because the
+organiser's 8 € ticket also needs a membership card. The first cloud run after the
+release, committed as 513a1fc05 at 10:15 UTC, ended exit=0 for K13 and published the three
+rows with TMDB ids 962571, 952701 through its alias, and 999075. The live app showed each
+one at 16:00 with its poster in Chromium and WebKit.

@@ -20,7 +20,8 @@ What shapes the parser, measured on the live page 2026-09-21:
   The organiser page it links, `kaupunginosat.fi/skatta/ohjelmisto/`, lists its upcoming
   dates and states `Esitykset alkavat 16:00.` (read 2026-10-20). The evening is published
   at that clock only when that page lists its date, names no other film for it and states
-  one start time. Otherwise it is counted in the log and left out.
+  one start time. Otherwise it is counted in the log and left out. The page's 8 € ticket
+  also needs a membership card, and `price` stays empty (maintainer, 2026-10-20).
 - **A festival heading is not a screening.** `5.-9.10.2026 Puolan elokuvaviikot` and
   `6.-8.11.2026 Serbian elokuvapaivat` are date ranges introducing a block. They are read
   as block boundaries, never as rows.
