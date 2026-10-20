@@ -445,10 +445,13 @@ def sample_matintupa():
 
 
 def sample_k13():
-    """A festival block with two timed rows beside a dated entry with no clock, so the
-    row that must not exist is exercised beside the two that must."""
-    out, _ = K13.K.rows(K13.SITE, K13.page(K13.KINOKKA, K13.KINOKKA_BODY, K13.FESTIVAL,
-                                           K13.FREE, K13.ROW1, K13.ROW2), K13.TODAY)
+    """A festival block with two timed rows, a Kinokka evening its linked page times and
+    one with no linked page, so the row that must not exist is exercised beside the three
+    that must."""
+    page = K13.page(K13.KINOKKA, K13.KINOKKA_BODY, K13.kinokka("25.10.2026", "Joyland"),
+                    K13.FESTIVAL, K13.FREE, K13.ROW1, K13.ROW2)
+    linked = {K13.ORGANISER: K13.organiser(K13.Y2026, K13.JOYLAND)}
+    out, _ = K13.K.rows(K13.SITE, page, K13.TODAY, linked)
     return (out, K13.SITE["provider"], [v["id"] for v in K13.SITE["venues"]])
 
 

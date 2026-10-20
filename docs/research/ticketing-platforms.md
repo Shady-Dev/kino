@@ -1890,6 +1890,20 @@ nothing publicly fetchable settles those four and inventing a time is not an opt
 festival headings, `5.-9.10.2026 Puolan elokuvaviikot` and `6.-8.11.2026 Serbian
 elokuvapäivät`, are date ranges and not screenings.
 
+**Kino K13, read again 2026-10-20.** The page lists three Kinokka evenings,
+`25.10.2026 Kinokka: Joyland`, `22.11.2026 Kinokka: Kotiinpaluu` and
+`13.12.2026 Kinokka: Vasenkätinen tyttö`, each with a director line, a rating sentence and a
+link to `kaupunginosat.fi/skatta/ohjelmisto/`. The Serbian film days are a block of
+6.-8.11. with a sign-up link to `srpsko-finsko.org`. No line on the page has a clock. The
+organiser page lists the same three dates and titles under `Tuleva ohjelmisto`, four 2027
+dates with no film, and the lines `Esitykset alkavat 16:00.` and `Elokuvalipun hinta on
+8 €.`, with a Kinokka membership card at 2 € required for every ticket. The 2026-09-21
+reading searched that page for `klo`, which the start-time line does not contain. The page
+was published on 2026-09-14 and the Wayback Machine holds no capture of it. Whether the
+line was there in September cannot be checked. The festival's invitation page gives a
+programme by day with one clock per slot, and three of its five slots list two films under
+one clock.
+
 **Kino Helios**, the Malmitalo hall, answers a JSON `EventData` string at
 `malmitalo.fi/services/Resurssivaraus/EventCalendarService.svc/GetEvents`. Filtering it on
 `eventLocation == "42"`, `mainEventType == "29"` and `subtitle == "Kino Helios"` gave

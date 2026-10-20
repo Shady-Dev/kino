@@ -1,16 +1,17 @@
-"""The Kino K13 reader: one page, one section, prose rather than a list.
+"""The Kino K13 reader: one section of prose, and the organiser page a Kinokka evening links.
 
 The fixtures are the section as read on 2026-09-21, cut to the smallest shape that still
-exercises a rule. Two blocks and two rows everywhere there is a loop.
+exercises a rule. The Kinokka fixtures follow the markup of both pages as read on
+2026-10-20. Two blocks and two rows everywhere there is a loop.
 
 What they exist to prove:
 
-- **Only a line with a weekday, a date and a clock is a screening.** The four Kinokka
-  evenings on the live page carry a date and no time, and the organiser page they link
-  publishes no clock either, so they publish nothing and are counted.
+- **A line with a weekday, a date and a clock is a screening.**
+- **A Kinokka evening is published only at the start time the page it links states**, for
+  a date that page lists. Without such a page it publishes nothing and is counted.
 - **A festival heading is a date range, not a row.**
 - **Free admission belongs to the block it is stated under**, not to the page.
-- **No date carries a year**, so the weekday places it.
+- **A timed row prints no year**, and the weekday places it.
 - **The rating is the trailing sentence**, and a row without one leaves it empty.
 """
 import contextlib
@@ -22,6 +23,7 @@ import tempfile
 import unittest
 
 import _ctx                                                # noqa: F401
+import _no_sleep as no_sleep
 import k13 as K
 import registry
 import run
@@ -43,14 +45,39 @@ ROW2 = ("ti 6.10. klo 18: KUORIPOJAT (Ministranci) 2025, 105 min. "
 SHORTS = "ke 7.10. klo 18: STUDIO MUNKA, 3 lyhytelokuvaa."
 KINOKKA = "27.9.2026 Kinokka: Ei karhuja"
 KINOKKA_BODY = "Ohjaaja: Jafar Panahi, 2022, Iran. Sallittu yli 7-vuotiaille."
+ORGANISER = "https://kaupunginosat.fi/skatta/ohjelmisto/"
+Y2026, Y2027 = "<p><strong>2026</strong></p>", "<p><strong>2027</strong></p>"
+JOYLAND = "25.10 Joyland, ohjaaja: Saim Sadiq, 2022 Pakistan"
+KOTIINPALUU = "22.11 Kotiinpaluu, ohjaaja: Davy Chou, 2022 Belgia, Saksa, Ranska"
+STARTS = "Esitykset alkavat 16:00."
+DIRECTED = "Ohjaaja: Saim Sadiq, 2022, Pakistan. Sallittu yli 12-vuotiaille."
 
 
 def page(*lines):
-    body = "".join(f"<p>{x}</p>" for x in (lines or (FESTIVAL, FREE, ROW1)))
+    """The section. A line starting with `<` is markup and goes in as it is."""
+    body = "".join(x if x.startswith("<") else f"<p>{x}</p>"
+                   for x in (lines or (FESTIVAL, FREE, ROW1)))
     return ('<html><body><section id=ohjelmisto class="l-visual-editor">'
             '<h2>Avoimet yleisönäytökset</h2>'
             f'<div class="l-visual-editor__item wysiwyg">{body}</div>'
             "</section></body></html>")
+
+
+def kinokka(date, title, body=DIRECTED, link=ORGANISER):
+    """A Kinokka evening: the title in its own `<i>`, then the body and the organiser link
+    split by a `<br />`."""
+    return (f'<p class="p3"><strong>{date} Kinokka: <i>{title}</i></strong></p>'
+            f'<p class="p3">{body}<br />\n<a href="{link}">{link}</a></p>')
+
+
+def organiser(*listed, starts=STARTS, after=""):
+    """The organiser page: its upcoming block, then the past list's `<h3>` and `after`."""
+    lines = "".join(x if x.startswith("<") else f"<p>{x}</p>" for x in listed)
+    return ('<html><body><div class="td-post-content">'
+            '<h3 style="text-align: left">Tuleva ohjelmisto</h3>'
+            f"<div>{lines}</div>"
+            f"<ul><li>Elokuvalipun hinta on 8 €.</li><li>{starts}</li></ul>"
+            f"<h3>Esitetyt elokuvat</h3>{after}</div></body></html>")
 
 
 class SectionTest(unittest.TestCase):
@@ -66,7 +93,7 @@ class SectionTest(unittest.TestCase):
         self.assertEqual(report["headings"], 1)
 
     def test_a_dated_entry_with_no_clock_publishes_nothing_and_is_counted(self):
-        """The Kinokka evenings. Nothing publicly fetchable settles their hour."""
+        """A Kinokka evening with no linked page to time it."""
         shows, report = self.rows(KINOKKA, KINOKKA_BODY, FESTIVAL, FREE, ROW1)
         self.assertEqual([s["title"] for s in shows], ["LUVATTU MAA"])
         self.assertEqual(report["no_time"], 1)
@@ -148,6 +175,106 @@ class SectionTest(unittest.TestCase):
                          ("Kino K13", "luvattu-maa", URL))
 
 
+class KinokkaTest(unittest.TestCase):
+    """A Kinokka evening's date and title on this page, its start time on the organiser's."""
+
+    def rows(self, evenings, *listed, starts=STARTS, after=""):
+        linked = {ORGANISER: organiser(*listed, starts=starts, after=after)}
+        return K.rows(SITE, page(*evenings), TODAY, linked)
+
+    def test_an_evening_is_timed_from_the_page_it_links(self):
+        shows, report = self.rows(
+            [kinokka("25.10.2026", "Joyland"), kinokka("22.11.2026", "Kotiinpaluu")],
+            Y2026, JOYLAND, KOTIINPALUU)
+        self.assertEqual([(s["title"], s["start"], s["url"], s["price"]) for s in shows], [
+            ("Joyland", "2026-10-25T16:00:00+02:00", URL, ""),
+            ("Kotiinpaluu", "2026-11-22T16:00:00+02:00", URL, ""),
+        ])
+        self.assertEqual(report["linked"], 2)
+
+    def test_the_clock_is_the_one_the_linked_page_states(self):
+        shows, _ = self.rows([kinokka("25.10.2026", "Joyland")], Y2026, JOYLAND,
+                             starts="Esitykset alkavat 18.30.")
+        self.assertEqual(shows[0]["start"], "2026-10-25T18:30:00+02:00")
+
+    def test_a_page_stating_no_single_start_time_times_nothing(self):
+        """No clock, or two, settles no hour."""
+        for starts in ("Saliin mahtuu 150 henkilöä.",
+                       "Esitykset alkavat 16:00. Lauantaisin esitykset alkavat 14:00."):
+            with self.subTest(starts=starts):
+                shows, report = self.rows(
+                    [kinokka("25.10.2026", "Joyland"), kinokka("22.11.2026", "Kotiinpaluu")],
+                    Y2026, JOYLAND, KOTIINPALUU, starts=starts)
+                self.assertEqual((shows, report["no_time"]), ([], 2))
+
+    def test_an_evening_the_linked_page_does_not_list_publishes_nothing(self):
+        shows, report = self.rows(
+            [kinokka("25.10.2026", "Joyland"), kinokka("22.11.2026", "Kotiinpaluu")],
+            Y2026, KOTIINPALUU)
+        self.assertEqual([s["title"] for s in shows], ["Kotiinpaluu"])
+        self.assertEqual(report["unlisted"], 1)
+
+    def test_a_date_listed_for_another_film_publishes_nothing(self):
+        shows, report = self.rows(
+            [kinokka("25.10.2026", "Joyland"), kinokka("22.11.2026", "Kotiinpaluu")],
+            Y2026, "25.10 Ei karhuja, ohjaaja: Jafar Panahi", KOTIINPALUU)
+        self.assertEqual([s["title"] for s in shows], ["Kotiinpaluu"])
+        self.assertEqual(report["unlisted"], 1)
+
+    def test_a_date_listed_with_no_film_yet_is_timed(self):
+        """`24.1.` under 2027 names no film, which contradicts nothing."""
+        shows, _ = self.rows([kinokka("24.1.2027", "Joyland")], Y2027, "24.1.")
+        self.assertEqual(shows[0]["start"], "2027-01-24T16:00:00+02:00")
+
+    def test_the_year_line_above_a_date_places_it(self):
+        shows, report = self.rows(
+            [kinokka("24.1.2027", "Joyland"), kinokka("24.1.2026", "Kotiinpaluu")],
+            Y2026, KOTIINPALUU, Y2027, "24.1.")
+        self.assertEqual([(s["title"], s["start"][:10]) for s in shows],
+                         [("Joyland", "2027-01-24")])
+        self.assertEqual(report["unlisted"], 1)
+
+    def test_the_upcoming_block_ends_at_the_next_heading_of_its_level(self):
+        """The live page lists 13.12 in an `<h5>` inside the block, and the past list
+        that follows under an `<h3>` is not upcoming."""
+        shows, report = self.rows(
+            [kinokka("13.12.2026", "Vasenkätinen tyttö"), kinokka("27.9.2026", "Ei karhuja")],
+            Y2026, "<h5>13.12 Vasenkätinen tyttö, ohjaaja: Shih-Ching Tsou, 2025 Taiwan. "
+                   "<br />Aluksi lyhytelokuva: Ampumarata</h5>",
+            after=Y2026 + "<p>27.9 Ei karhuja</p>")
+        self.assertEqual([s["title"] for s in shows], ["Vasenkätinen tyttö"])
+        self.assertEqual(report["unlisted"], 1)
+
+    def test_the_rating_is_read_from_the_evenings_own_lines(self):
+        shows, _ = self.rows(
+            [kinokka("25.10.2026", "Joyland"),
+             kinokka("22.11.2026", "Kotiinpaluu", body="Ohjaaja: Davy Chou, 2022.")],
+            Y2026, JOYLAND, KOTIINPALUU)
+        self.assertEqual([(s["title"], s["rating"]) for s in shows],
+                         [("Joyland", "K-12"), ("Kotiinpaluu", "")])
+
+    def test_the_films_year_is_the_one_its_director_line_states(self):
+        """The TMDB search's hint. An evening with no director line publishes none."""
+        shows, _ = self.rows(
+            [kinokka("25.10.2026", "Joyland"),
+             kinokka("22.11.2026", "Kotiinpaluu", body="Sallittu yli 12-vuotiaille.")],
+            Y2026, JOYLAND, KOTIINPALUU)
+        self.assertEqual([(s["title"], s.get("year")) for s in shows],
+                         [("Joyland", "2022"), ("Kotiinpaluu", None)])
+
+    def test_only_an_evenings_own_link_to_a_declared_host_is_followed(self):
+        """A festival's link, a link to an undeclared host and the Lyhyesti button are not
+        followed, and two evenings linking one page name it once."""
+        p = page(kinokka("25.10.2026", "Joyland"),
+                 "6.–8.11.2026 Serbian elokuvapäivät",
+                 '<p>Ilmoittautuminen: <a href="https://kaupunginosat.fi/skatta/x/">x</a></p>',
+                 kinokka("22.11.2026", "Kotiinpaluu"),
+                 kinokka("13.12.2026", "Vasenkätinen tyttö",
+                         link="https://example.invalid/k/"),
+                 '<h4>Lyhyesti</h4><p><a href="https://www.ses.fi/lyhyesti/">Lyhyesti</a></p>')
+        self.assertEqual(K.follow(SITE, p), [ORGANISER])
+
+
 class RunnerTest(unittest.TestCase):
     def setUp(self):
         self.tmp = tempfile.TemporaryDirectory()
@@ -208,6 +335,48 @@ class RunnerTest(unittest.TestCase):
         after = json.loads((run.OUT / f"area-{VENUE}.json").read_text(encoding="utf-8"))
         self.assertEqual(after["shows"][0]["title"], "Yesterday")
 
+    def test_a_page_of_kinokka_evenings_publishes_from_the_page_they_link(self):
+        """The page as it stood on 2026-10-20, with no timed row. Two evenings linking one
+        page cost one request to it."""
+        self.serve({LISTING: page(kinokka("25.10.2026", "Joyland"),
+                                  "6.–8.11.2026 Serbian elokuvapäivät",
+                                  kinokka("22.11.2026", "Kotiinpaluu")),
+                    ORGANISER: organiser(Y2026, JOYLAND, KOTIINPALUU)})
+        code, log = self.main()
+        self.assertEqual(code, 0, log)
+        self.assertEqual(self.calls, [LISTING, ORGANISER])
+        shows = json.loads(
+            (run.OUT / f"area-{VENUE}.json").read_text(encoding="utf-8"))["shows"]
+        self.assertEqual([(s["title"], s["start"]) for s in shows],
+                         [("Joyland", "2026-10-25T16:00:00+02:00"),
+                          ("Kotiinpaluu", "2026-11-22T16:00:00+02:00")])
+        self.assertIn(f"{ORGANISER}: start time 16:00", log)
+
+    def test_two_linked_pages_are_read_one_after_the_other(self):
+        second = "https://kaupunginosat.fi/skatta/kevat/"
+        clock = no_sleep.patch(self, K)
+        self.serve({LISTING: page(kinokka("25.10.2026", "Joyland"),
+                                  kinokka("24.1.2027", "Kotiinpaluu", link=second)),
+                    ORGANISER: organiser(Y2026, JOYLAND),
+                    second: organiser(Y2027, "24.1.")})
+        code, log = self.main()
+        self.assertEqual(code, 0, log)
+        self.assertEqual(self.calls, [LISTING, ORGANISER, second])
+        self.assertEqual(clock.slept, [1.2])
+
+    def test_a_linked_page_that_cannot_be_read_fails_and_keeps_the_previous_file(self):
+        """The timed row alone would publish, and the Kinokka evening with it would be lost."""
+        kept = {"generated": "2026-09-20T00:00:00+00:00", "dates": [], "horizon": "",
+                "shows": [{"title": "Yesterday", "start": "2026-09-20T17:00:00+03:00"}]}
+        (run.OUT / f"area-{VENUE}.json").write_text(json.dumps(kept), encoding="utf-8")
+        self.serve({LISTING: page(kinokka("25.10.2026", "Joyland"), FESTIVAL, FREE, ROW1),
+                    ORGANISER: RuntimeError("503 refused")})
+        code, log = self.main()
+        self.assertNotEqual(code, 0)
+        self.assertIn(ORGANISER, log)
+        after = json.loads((run.OUT / f"area-{VENUE}.json").read_text(encoding="utf-8"))
+        self.assertEqual(after["shows"][0]["title"], "Yesterday")
+
 
 class RegistryTest(unittest.TestCase):
     def test_the_registry_entry(self):
@@ -217,9 +386,10 @@ class RegistryTest(unittest.TestCase):
         self.assertEqual(sum(1 for q in registry.PROVIDERS
                              if q["accent"] == p["accent"]), 1)
 
-    def test_the_site_names_the_host_it_is_read_from(self):
+    def test_the_site_names_the_hosts_it_is_read_from(self):
+        """The organiser page is on a host of its own, which the grouping has to see."""
         self.assertEqual(SITE["base"], "https://www.ses.fi")
-        self.assertNotIn("reads", SITE)
+        self.assertEqual(run.hosts_of(SITE), ("www.ses.fi", "kaupunginosat.fi"))
 
 
 if __name__ == "__main__":

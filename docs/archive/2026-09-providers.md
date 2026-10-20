@@ -4201,3 +4201,16 @@ rating, runtime or price. The page states them in the poster's caption, "K16, ke
 min, liput 11 €", above a credit line, and the parser read only the paragraphs after the
 figure. The caption is now read for the metadata line before the prose. Parsing the live
 page that day gave K-16, 158 minutes and 11 € on both rows. Three mutations went red.
+
+### Kino K13 reads a Kinokka evening's start time from the organiser page (2026-10-20)
+The cloud run of 2026-10-20 at 07:48 UTC failed on Kino K13, because the page now lists
+three Kinokka evenings and the Serbian film days and no line with a clock. The organiser
+page each evening links states `Esitykset alkavat 16:00.` and lists the same dates and
+titles. The adapter now reads that page from its declared host and publishes an evening at
+that clock only when the page lists its date, names no other film for it and states one
+start time. Lines are read per paragraph, which keeps a title set in `<i>` on its date's
+line. The director line's year is published as `year`, because without it the TMDB search
+picks short films of the same names for Joyland and Kotiinpaluu. A dry run against the live
+pages that day gave Joyland on 25.10., Kotiinpaluu on 22.11. and Vasenkätinen tyttö on
+13.12., each at 16:00 and K-12. Twenty-three mutations went red. The pages as read are in
+[docs/research/ticketing-platforms.md](../research/ticketing-platforms.md).
