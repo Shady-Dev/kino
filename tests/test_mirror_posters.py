@@ -160,6 +160,7 @@ class Handler(http.server.BaseHTTPRequestHandler):
     protocol_version = "HTTP/1.1"
 
     def do_GET(self):
+        self.server.requests.append(self.path)
         answer = self.server.answers.get(self.path)
         if answer:
             return answer(self)
@@ -185,6 +186,7 @@ class MirrorTest(unittest.TestCase):
         cls.srv = http.server.ThreadingHTTPServer(("127.0.0.1", 0), Handler)
         cls.srv.files = {}
         cls.srv.answers = {}
+        cls.srv.requests = []
         cls.url = f"http://127.0.0.1:{cls.srv.server_address[1]}"
         cls.thread = threading.Thread(target=cls.srv.serve_forever, daemon=True)
         cls.thread.start()
@@ -199,6 +201,7 @@ class MirrorTest(unittest.TestCase):
     def setUp(self):
         self.srv.files.clear()
         self.srv.answers.clear()
+        self.srv.requests.clear()
         self.srv.release = threading.Event()
         self.addCleanup(self.srv.release.set)
         self.tmp = tempfile.TemporaryDirectory()
@@ -489,7 +492,8 @@ class MirrorTest(unittest.TestCase):
         joined = " ".join(lines)
         self.assertIn("0 failed, 2 too large", joined)
         self.assertIn(f"too large {urlsplit(self.url).netloc} (2)", joined)
-        self.assertIn("1 references rewritten and 5 dropped in 3 files", joined)
+        self.assertIn("1 references rewritten, 0 replaced by a TMDB poster and 5 dropped in 3 files",
+                      joined)
 
     @unittest.skipUnless(not mirror_posters.pillow_problem(), "Pillow unusable")
     def test_a_timeout_a_5xx_or_a_connection_error_keeps_the_remote_reference(self):
@@ -515,6 +519,77 @@ class MirrorTest(unittest.TestCase):
                 joined = " ".join(lines)
                 self.assertIn("1 failed, 0 too large", joined)
                 self.assertIn("0 dropped", joined)
+
+    # -- 7. A refused film row shows its film's mirrored TMDB poster ----------------
+
+    def write_fallback_data(self):
+        """Six rows whose cinema pictures are all past the cap, over two venue files, and the
+        films-extra entries the TMDB pass leaves for them. -> (mirrored paths, TMDB URL of E)."""
+        mirrored = {n: f"data/posters/{n * 16}.jpg" for n in "acd"}
+        (self.root / "data" / "posters").mkdir()
+        for path in mirrored.values():
+            (self.root / path).write_bytes(jpeg_bytes(342, 513))
+        cinema = {n: f"{self.url}/cinema-{n}.jpg" for n in "abcde"}
+        for n in cinema:
+            self.srv.answers[f"/cinema-{n}.jpg"] = too_large(sized=True)
+        self.srv.files["/tmdb-e.jpg"] = jpeg_bytes()
+        tmdb_e = f"{self.url}/tmdb-e.jpg"
+        areas = {
+            "area-fc-a.json": [{"title": "A", "tmdbId": 101, "img": cinema["a"]},
+                               {"title": "A", "tmdbId": 101, "nonFilm": True,
+                                "img": cinema["a"]},
+                               {"title": "E", "tmdbId": 505, "img": cinema["e"]}],
+            "area-fc-b.json": [{"title": "B", "tmdbId": 202, "img": cinema["b"]},
+                               {"title": "C", "tmdbId": 303, "img": cinema["c"]},
+                               {"title": "D", "img": cinema["d"]}]}
+        for name, shows in areas.items():
+            (self.root / "data" / name).write_text(json.dumps(
+                {"generated": "2026-10-20T00:00:00+00:00", "dates": [], "horizon": "",
+                 "shows": shows}), encoding="utf-8")
+        (self.root / "data" / "films-extra.json").write_text(json.dumps({"films": {
+            "a": {"id": 101, "img": mirrored["a"]},
+            "b": {"id": 202, "img": f"data/posters/{'b' * 16}.jpg"},
+            "c": {"id": 999, "img": mirrored["c"]},
+            "d": {"img": mirrored["d"]},
+            "e": {"id": 505, "img": tmdb_e}}}), encoding="utf-8")
+        return mirrored, tmdb_e
+
+    def shows_of(self, name):
+        return json.loads((self.root / "data" / name).read_text(encoding="utf-8"))["shows"]
+
+    @unittest.skipUnless(not mirror_posters.pillow_problem(), "Pillow unusable")
+    def test_a_film_row_past_the_cap_shows_its_films_mirrored_tmdb_poster(self):
+        """The poster comes from the trusted match's films-extra entry, mirrored on an
+        earlier run or by this one, and no request is made for it."""
+        mirrored, tmdb_e = self.write_fallback_data()
+
+        rc, lines = self.run_main()
+
+        self.assertEqual(rc, mirror_posters.OK)
+        a, _, e = self.shows_of("area-fc-a.json")
+        self.assertEqual((a["img"], a.get("isrc")), (mirrored["a"], "tmdb"))
+        self.assertEqual((e["img"], e.get("isrc")),
+                         (f"data/posters/{mirror_posters.key_for(tmdb_e)}.jpg", "tmdb"))
+        self.assertEqual(sorted(self.srv.requests),
+                         sorted([f"/cinema-{n}.jpg" for n in "abcde"] + ["/tmdb-e.jpg"]))
+        self.assertIn("1 references rewritten, 2 replaced by a TMDB poster and 4 dropped in 3 "
+                      "files", " ".join(lines))
+
+    @unittest.skipUnless(not mirror_posters.pillow_problem(), "Pillow unusable")
+    def test_an_event_another_film_or_no_mirrored_poster_keeps_the_placeholder(self):
+        """An event, a film whose poster file is missing, an entry naming another film and an
+        entry with no trusted id leave the row with no picture."""
+        self.write_fallback_data()
+
+        self.run_main()
+
+        _, event, _ = self.shows_of("area-fc-a.json")
+        missing, other, untrusted = self.shows_of("area-fc-b.json")
+        for name, s in (("event", event), ("file missing", missing), ("other film", other),
+                        ("no trusted id", untrusted)):
+            with self.subTest(name):
+                self.assertEqual(s["img"], "")
+                self.assertNotIn("isrc", s)
 
 
 if __name__ == "__main__":

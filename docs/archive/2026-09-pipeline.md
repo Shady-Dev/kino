@@ -2896,3 +2896,13 @@ or a connection error the remote reference stays for a later run, as before. No 
 refused URLs is kept. Each run asks again, and a host that sends no Content-Length costs up
 to 20 MB a run for each such picture. This replaces the last point of "Response bodies have
 a ceiling too" (2026-08-31). Fourteen mutations went red.
+
+### A refused film picture is replaced by its mirrored TMDB poster (2026-10-20)
+The maintainer decided on 2026-10-20 that a film row whose cinema picture is refused for its
+size shows the film's TMDB poster when one is already mirrored, and that no list of refused
+URLs is kept. `tmdb_fallback` in `mirror_posters.py` takes the poster from the films-extra
+entry under the row's title when the entry's `id` equals the row's `tmdbId`, both written
+only for a trusted match, and the file is in `data/posters/`. The row is then marked
+`isrc: "tmdb"`, like a poster the TMDB pass publishes, and `run-posters.log` counts it as
+replaced. For an event row, a row with no trusted match or a missing poster file the
+placeholder stays. The fallback makes no request. Sixteen mutations went red.

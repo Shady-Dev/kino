@@ -13,7 +13,8 @@ a tile about 130 px wide. Pillow is installed in the workflow for this only.
 A poster that fails to download is logged and left hot-linked, never fatal: kinoakseli.fi
 challenges datacenter IPs and fails every run by design, and a third party's uptime must
 not fail the build. `tries=2` keeps that cheap. A picture past the body cap is logged and
-its references are dropped, because the host gives the same answer on every run. Not
+its references are dropped, because the host gives the same answer on every run. A film
+row is then given its film's TMDB poster when a trusted match has one mirrored here. Not
 being able to run at all is a different state and exits CANNOT_RUN; see the exit codes
 below.
 
@@ -32,6 +33,7 @@ from urllib.parse import quote, urlsplit, urlunsplit
 
 sys.path.insert(0, str(pathlib.Path(__file__).resolve().parent))
 import common  # noqa: E402
+import synmerge  # noqa: E402
 
 # Exit codes. A missing Pillow reported as OK once left every reference remote and every
 # tile a placeholder while the step reported success. 3 because 1 already means a crash
@@ -126,6 +128,21 @@ def measure(show) -> bool:
     return True
 
 
+def tmdb_fallback(show, films, mapping) -> str:
+    """A refused film row's poster from its trusted TMDB match, if mirrored. -> path or "".
+
+    `tmdbId` on a show and `id` in a films-extra entry are written only for a trusted match,
+    and the two must name the same film. Nothing is downloaded here."""
+    if show.get("nonFilm") or not show.get("tmdbId"):
+        return ""
+    e = films.get(synmerge.norm(show.get("title")))
+    if not isinstance(e, dict) or e.get("id") != show["tmdbId"]:
+        return ""
+    img = (e.get("img") or "").strip()
+    img = mapping.get(img, img)
+    return img if img.startswith("data/posters/") and pathlib.Path(img).is_file() else ""
+
+
 def pillow_problem() -> str:
     """Can Pillow downscale and encode a JPEG? -> '' if yes, else why not.
 
@@ -175,6 +192,7 @@ def main() -> int:
     extra = None
     if extra_path.exists():
         extra = json.loads(extra_path.read_text(encoding="utf-8"))
+    films = (extra.get("films") or {}) if extra else {}
 
     urls = collect((p, doc.get("shows") or []) for p, doc in docs)
     if extra:
@@ -221,8 +239,8 @@ def main() -> int:
     # page (the data/posters/ check in build_pages) renders a remote poster, so those
     # films show a placeholder tile until a later run mirrors them. Only JSON-LD keeps
     # the remote URL, since a crawler is not a visitor's browser.
-    # References to a picture refused for its size are removed instead. The same tile is drawn.
-    rewritten = dropped = files = 0
+    # A refused picture's references are replaced by tmdb_fallback() or removed.
+    rewritten = replaced = dropped = files = 0
     for p, doc in docs:
         changed = False
         for s in doc.get("shows") or []:
@@ -232,9 +250,13 @@ def main() -> int:
                 changed = True
                 rewritten += 1
             elif u in refused:
-                s["img"] = ""
+                s["img"] = tmdb_fallback(s, films, mapping)
+                if s["img"]:
+                    s["isrc"] = "tmdb"
+                    replaced += 1
+                else:
+                    dropped += 1
                 changed = True
-                dropped += 1
             if s.get("nonFilm") and s.get("img", "").startswith("data/posters/"):
                 changed |= measure(s)
         if changed:
@@ -266,7 +288,8 @@ def main() -> int:
         print(f"[mirror] failed {host} ({len(errs)}): {errs[0]}")
     for host, errs in sorted(too_large.items()):
         print(f"[mirror] too large {host} ({len(errs)}): {errs[0]}")
-    print(f"[mirror] {rewritten} references rewritten and {dropped} dropped in {files} files; "
+    print(f"[mirror] {rewritten} references rewritten, {replaced} replaced by a TMDB poster "
+          f"and {dropped} dropped in {files} files; "
           f"data/posters now {len(list(POSTER_DIR.glob('*')))} files, "
           f"{total // 1024} kB")
     return OK
