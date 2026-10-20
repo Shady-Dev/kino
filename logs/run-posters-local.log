@@ -1,3 +1,3 @@
-[mirror] 142 remote poster urls: 142 already mirrored, 0 downloaded (+0 kB), 0 failed
-[mirror] 432 references rewritten in 15 files; data/posters now 2642 files, 102853 kB
+[mirror] 158 remote poster urls: 155 already mirrored, 3 downloaded (+123 kB), 0 failed, 0 too large
+[mirror] 637 references rewritten, 0 replaced by a TMDB poster and 0 dropped in 16 files; data/posters now 2652 files, 103233 kB
 exit=0
