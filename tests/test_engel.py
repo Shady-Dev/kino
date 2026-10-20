@@ -30,6 +30,14 @@ def row(slug, when, clock, title):
             f"<h3>{title}</h3>Osta liput</a>")
 
 
+def soon(days):
+    """A row date `days` from today. fetch_page reads the real clock, and the fixed 21.09.
+    and 22.09. leave the 30-day window on 2026-10-22."""
+    d = datetime.datetime.now(E.FI).date() + datetime.timedelta(days=days)
+    wd = ("Ma", "Ti", "Ke", "To", "Pe", "La", "Su")[d.weekday()]
+    return f"{wd} {d.day:02d}.{d.month:02d}."
+
+
 def parse(page, today=None):
     out = io.StringIO()
     with contextlib.redirect_stdout(out):
@@ -130,9 +138,11 @@ class FiveHundredTest(unittest.TestCase):
     three ways it can fail to.
     """
 
-    PAGE = ("<html><body>" + "x" * E.MIN_BYTES
-            + row("a", "Ma 21.09.", "18:00", "Alpha")
-            + row("b", "Ti 22.09.", "20:15", "Beta") + "</body></html>")
+    @property
+    def PAGE(self):
+        return ("<html><body>" + "x" * E.MIN_BYTES
+                + row("a", soon(1), "18:00", "Alpha")
+                + row("b", soon(2), "20:15", "Beta") + "</body></html>")
 
     def setUp(self):
         no_sleep.patch(self, E)                 # the 0.5 s pause before the error body

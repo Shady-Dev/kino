@@ -209,10 +209,18 @@ class RunnerTest(unittest.TestCase):
     def after(self):
         return json.loads((run.OUT / f"area-{VENUE}.json").read_text(encoding="utf-8"))
 
+    def line(self, days, clock):
+        """A screening line `days` from today. run.main reads the real clock, and the
+        fixture's September dates leave the 30-day window from 2026-10-22."""
+        d = datetime.datetime.now(K.FI).date() + datetime.timedelta(days=days)
+        wd = ("Ma", "Ti", "Ke", "To", "Pe", "La", "Su")[d.weekday()]
+        return f"{wd} {d.day}.{d.month}. klo {clock}"
+
     def test_the_site_publishes_from_one_request(self):
         self.serve({LISTING: json.dumps(
-            [post(), post(pid=15950, title="Rakkautta ja virtahepoja",
-                          times=("Pe 25.9. klo 19", "La 26.9. klo 19")), notice()])})
+            [post(times=(self.line(1, "15"), self.line(2, "19"))),
+             post(pid=15950, title="Rakkautta ja virtahepoja",
+                  times=(self.line(3, "19"), self.line(4, "19"))), notice()])})
         code, log = self.main()
         self.assertEqual(code, 0, log)
         self.assertEqual(self.calls, [LISTING])

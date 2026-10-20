@@ -216,8 +216,21 @@ class RunnerTest(unittest.TestCase):
             code = run.main(["kinohuovi", "--half", "all"])
         return code, out.getvalue() + err.getvalue()
 
+    def dated(self, title, alias, days, img):
+        """A one-date card `days` from today. run.main reads the real clock, and the
+        fixture's 21.9. leaves the 30-day window on 2026-10-22."""
+        d = datetime.datetime.now(K.FI).date() + datetime.timedelta(days=days)
+        wd = ("MA", "TI", "KE", "TO", "PE", "LA", "SU")[d.weekday()]
+        return card(alias=alias, title=title, img=img,
+                    desc=f"{title} {d.day}.{d.month}. {wd} klo 18.00 Kestoaika n.1t30min. "
+                         f"Liput 12&euro;.")
+
     def test_the_site_publishes_from_one_request(self):
-        self.serve({LISTING: page(card(), RANGE)})
+        self.serve({LISTING: page(
+            self.dated("PRESIDENTIN KYYDITYS", "uusi-elokuva", 1,
+                       f"{CDN}/PRESIDENTIN+KYYDITYS-1920w.jpg"),
+            self.dated("RAKKAUTTA JA VIRTAHEPOJA", "hetki ennen valoa", 2,
+                       f"{CDN}/RAKKAUTTA+JA+VIRTAHEPOJA-1920w.jpg"))})
         code, log = self.main()
         self.assertEqual(code, 0, log)
         self.assertEqual(self.calls, [LISTING])
