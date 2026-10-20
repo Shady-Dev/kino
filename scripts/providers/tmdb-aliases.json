@@ -183,5 +183,7 @@
  "saapasjalkakissa tekiöiltä unohdettu saari": "1465063",
  "saapasajalkakissa tekiöiltä unohdettu saari": "1465063",
  "_comment59": "Kino K13, 2026-10-20. Its page lists \"Kotiinpaluu\" on 22.11. with \"Ohjaaja: Davy Chou, 2022\". TMDB gave 952701 that day as Retour à Séoul / Return to Seoul, Davy Chou, 2022-11-18, 119 minutes, with FI \"Kotiinpaluu\" in its alternative titles. The search finds it only as a weak match, and without a year it picks 722711, a 2018 short of the same name.",
- "kotiinpaluu": "952701"
+ "kotiinpaluu": "952701",
+ "_comment60": "Bio Savoy, Mariehamn, 2026-10-21. Its page lists \"LAPIN SOTA (LAPPLANDSKRIGET)\" from 23.10. at 155 minutes, the Finnish title with the Swedish one in brackets. TMDB gave 1450460 that day as Lapin sota / Lapland War, Aku Louhimies, 2026-10-23, 155 minutes, the id every other chain's \"Lapin sota\" already carries.",
+ "lapin sota lapplandskriget": "1450460"
 }
