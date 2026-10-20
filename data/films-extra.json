@@ -556,6 +556,19 @@
    },
    "tr": ""
   },
+  "bokkalaset i ekenäs så länge hjärtat slår bianca kronlöf": {
+   "id": 1292041,
+   "img": "data/posters/c0160c5958b1fc2f.jpg",
+   "r": 0,
+   "s": {
+    "en": "In the spring of 2020, when the Coronavirus pandemic paralyzed all of Sweden, employees at a nursing home are forced to experience how the infection finds its way in, and the situation becomes increasingly desperate. Care assistant Hanne finds herself in a difficult dilemma.",
+    "fi": ""
+   },
+   "tr": "",
+   "ts": [
+    "en"
+   ]
+  },
   "boléro": {
    "id": 1004348,
    "r": 0,
@@ -620,12 +633,16 @@
   },
   "calle malaga muistojeni katu": {
    "id": 1399462,
-   "r": 0,
+   "img": "data/posters/9019d907c9f510df.jpg",
+   "r": 7.5,
    "s": {
-    "en": "",
+    "en": "An aging Spanish woman in Tangier resists her daughter's plan to sell her home. She fights to keep her home, reclaims belongings and rediscovers love and desire.",
     "fi": "María Ángeles on aina asunut Tangerin kaupungissa Pohjois-Marokossa. Eläkkeellä olevan naisen aviomies on kuollut jo vuosia sitten ja tytär asuu Madridissa lastensa kanssa. Hän nauttii päivittäisistä rutiineistaan rakkaan kotikaupunkinsa monikulttuurisessa ympäristössä. Kun hänen tyttärensä yllättäen ilmoittaa aikovansa myydä hänen Málaga-kadulla sijaitsevan asuntonsa, María Ángelesin koko elämä uhkaa muuttua. Edessä on muutto joko Madridiin tai vanhainkotiin. Yrittäessään pitää kiinni kodistaan ja muistoistaan hän joutuu kohtaamaan vaikeuksia, mutta tilanne tuo mukanaan myös iloa ja uuden rakkauden. Elokuva vie katsojan elämänmyönteiselle matkalle pitkin Marokon katuja. Calle Málaga - muistojeni katu on palkitun marokkolaisohjaaja Maryam Touzanin ensimmäinen espanjankielinen elokuva. Touzanin edellinen elokuva Kaftaanin sini oli Marokon Oscar-ehdokkaana 2022. Calle Málagan pääosassa nähdään espanjalaisen elokuvan legenda ja Pedro Almodóvarin luottonäyttelijänä tunnettu Carmen Maura."
    },
-   "tr": ""
+   "tr": "https://www.youtube.com/watch?v=FwtLBQpAnk0",
+   "ts": [
+    "en"
+   ]
   },
   "calle málaga muistojeni katu": {
    "id": 1399462,
@@ -764,11 +781,13 @@
     "kinomania",
     "kinopiispanristi",
     "kinosampo",
+    "kinotar",
     "kinotoijala",
     "kinovirta",
     "kotkanleffat",
     "leffabuumi",
     "lieksankino",
+    "savonkinot",
     "sheryl",
     "star",
     "vaakuna"
@@ -1152,12 +1171,16 @@
   },
   "father mother sister brother": {
    "id": 1159206,
-   "r": 0,
+   "img": "data/posters/9748f77855a4de36.jpg",
+   "r": 6.4,
    "s": {
-    "en": "",
+    "en": "Estranged siblings reunite after years apart, forced to confront unresolved tensions and reevaluate their strained relationships with their emotionally distant parents.",
     "fi": "Father Mother Sister Brother kuvaa aikuisten lasten ja heidän vanhempiensa välisiä monimutkaisia suhteita. Tarinat sijoittuvat nykyaikaan ja kolmeen eri paikkaan; Yhdysvaltain koillisosiin, Dubliniin ja Pariisiin. Father: Sisarukset Jeff (Adam Driver) ja Emily (Mayim Bialik) vierailevat eristäytyneen ja mahdollisesti varattoman isänsä (Tom Waits) luona. Vierailun aikana he alkavat epäillä isänsä teeskentelevän kurjuuttaan ja huomaavat tämän ranteessa arvokkaan Rolex-kellon. Mother: Sisarukset Timothea (Cate Blanchett) ja Lilith (Vicky Krieps) vierailevat kirjailijaäitinsä (Charlotte Rampling) luona iltapäiväteellä. Tarina keskittyy pinnan alla kyteviin jännitteisiin ja siihen, mitä jätetään sanomatta perinteisten rituaalien äärellä. Sister Brother: Kaksoset Skye (Indya Moore) ja Billy (Luka Sabbat) siivoavat edesmenneiden vanhempiensa asuntoa. He käyvät läpi muistoja ja tavaroita, löytäen uusia puolia vanhemmistaan ja perheensä historiasta. Elokuva piirtää inhimillisen kuvan perheestä, läheisyydestä ja etäisyydestä lempeällä huumorilla, johon sekoittuu melankolian sävyjä."
    },
-   "tr": ""
+   "tr": "https://www.youtube.com/watch?v=PA07EmbZ0b0",
+   "ts": [
+    "en"
+   ]
   },
   "faust": {
    "id": 10728,
@@ -1975,6 +1998,19 @@
     "fi": "Taianomaisen joulutunnelman onnistuneesti tavoittava Joulutarina on lämminhenkinen ja koskettava satu siitä, kuinka orvosta Nikolas-pojasta tuli joulupukki. Kaksinkertaisella keskivertosuomalaiselokuvan budjetilla tuotettu elokuva oli suuri yleisömenestys, ja siitä on sittemmin tullut rakastettu jouluklassikko. Elokuvassa nähdään myös Antti Tuiskun valkokangasdebyytti."
    },
    "tr": "https://www.youtube.com/watch?v=CIyEFKzqz0s"
+  },
+  "joyland": {
+   "id": 962571,
+   "img": "data/posters/4519dc62410fcf02.jpg",
+   "r": 7.4,
+   "s": {
+    "en": "",
+    "fi": "Patriarkaalisen pakistanilaisperheen nuorin poika Haider liittyy salaa Bollywood-henkisen burleskiryhmän taustatanssijaksi ja huomaa pian ihastuvansa ryhmän johtohahmoon, voimakastahtoiseen transnaiseen Bibaan. Heidän tuhoon tuomitun suhteensa myötä myös muiden perheenjäsenten kipuilu perinteisten perhearvojen ja sukupuoliroolien parissa alkaa hiljalleen käydä ilmi."
+   },
+   "tr": "https://www.youtube.com/watch?v=Ksx0U0vNym0",
+   "ts": [
+    "fi"
+   ]
   },
   "joysticks": {
    "id": 27323,
@@ -3058,6 +3094,19 @@
    },
    "tr": "https://www.youtube.com/watch?v=b9umCIsc-zc"
   },
+  "kotiinpaluu": {
+   "id": 952701,
+   "img": "data/posters/0bfa6ae3f491e466.jpg",
+   "r": 6.2,
+   "s": {
+    "en": "",
+    "fi": "Freddie palaa ensimmäisen kerran Etelä-Koreaan, jossa hän syntyi ennen adoptiota ja varttumistaan Ranskassa. Itsepäinen nuori nainen alkaa etsiä biologisia vanhempiaan maasta, josta hän tietää todella vähän. Matka vie hänet ja hänen elämänsä odottamattomaan suuntaan."
+   },
+   "tr": "https://www.youtube.com/watch?v=wBZWqbITplI",
+   "ts": [
+    "fi"
+   ]
+  },
   "kpe everything must go": {
    "r": 0,
    "s": {
@@ -3158,16 +3207,12 @@
   },
   "kuoripojat": {
    "id": 1383172,
-   "img": "data/posters/c2c545949f40f7cf.jpg",
    "r": 0,
    "s": {
-    "en": "A group of teenage altar boys, frustrated by the indifferent attitude of adults and the Church towards social injustices, decides to implement their own unconventional plan for moral renewal of their neighbourhood. Armed with youthful rebellion and their personal interpretation of the Bible, they set up a wiretap… in the confessional.",
+    "en": "",
     "fi": "Gdynian elokuvafestivaalin 2025 pääpalkinnon voittanut tragikoominen elokuva kuoripojista. Elokuvan päähenkilöt ovat nuoria kuoripoikia, jotka turhautuvat aikuisten ja kirkon välinpitämättömyyteen epäoikeudenmukaisuutta kohtaan. He alkavat salakuunnella ihmisten ripittäytymisiä ja ryhtyvät omalla tavallaan jakamaan oikeutta naapurustossaan. Leikillinen supersankarimainen tehtävä muuttuu vähitellen vaaralliseksi, kun pojat alkavat horjua hyvän ja pahan rajalla."
    },
-   "tr": "https://www.youtube.com/watch?v=QRa-4A3D9Fg",
-   "ts": [
-    "en"
-   ]
+   "tr": ""
   },
   "kuukauden pohjoismainen the last paradise on earth": {
    "r": 0,
@@ -4236,7 +4281,6 @@
    "krs": [
     "engel",
     "gilda",
-    "kinoiiris",
     "kinokilta",
     "kinokonepaja",
     "kinolaika",
@@ -5704,12 +5748,16 @@
   },
   "primavera": {
    "id": 1365683,
-   "r": 0,
+   "img": "data/posters/8fe80e3891276876.jpg",
+   "r": 7.1,
    "s": {
-    "en": "",
+    "en": "A talented violinist, Cecilia, confined in an orphanage, meets Vivaldi who becomes her teacher. Under his mentorship and through his music, she gains courage to break free from the life she was destined for and pursue her passion.",
     "fi": "Matineanäytös. Oopperaohjaajana tunnetun Damiano Michieletton esikoiselokuva Vivaldista ja hänen lahjakkaasta oppilaastaan Ceciliasta elää ja hengittää Venetsian kevään, kanavien ja musiikin ehdoilla."
    },
-   "tr": ""
+   "tr": "https://www.youtube.com/watch?v=J-fEjuVy5cQ",
+   "ts": [
+    "en"
+   ]
   },
   "prinsessa mononoke": {
    "id": 128,
@@ -6274,6 +6322,19 @@
    },
    "tr": ""
   },
+  "royal ballet opera 2026 27 carmen": {
+   "id": 1702759,
+   "img": "data/posters/5c635632011ed12d.jpg",
+   "r": 0,
+   "s": {
+    "en": "Under the oppressive heat of the Spanish sun, the fiercely independent Carmen attracts the\r attention of Don José. She warns him not to fall in love with her, but his obsession knows no bounds.\r Damiano Michieletto’s searing production returns, casting scorching light on the lust, violence and\r destructive desire of Bizet’s ever-popular opera.\r An all-star cast brings this white-hot drama to life, with Ginger Costa-Jackson in the fiery title role,\r alongside Russell Thomas as the jealous and despairing Don José. Following his 2023 Royal Opera\r debut, Sesto Quatrini returns to conduct Bizet’s electrifying and sensual score.",
+    "fi": ""
+   },
+   "tr": "",
+   "ts": [
+    "en"
+   ]
+  },
   "royal ballet opera 2026 27 così fan tutte": {
    "r": 0,
    "s": {
@@ -6469,6 +6530,14 @@
    "ts": [
     "fi"
    ]
+  },
+  "se": {
+   "r": 0,
+   "s": {
+    "en": "",
+    "fi": "Andrés Muschiettin ohjaama kauhutrilleri Se perustuu Stephen Kingin suosittuun, samannimiseen kirjaan, joka on kauhistuttanut lukijoita vuosikymmenten ajan. Kun lapsia alkaa kadota Derryn kaupungissa Mainessa, ryhmä lapsia kohtaa suurimman pelkonsa joutuessaan vastakkain Pennywisen kanssa – häijyn klovnin, jonka murhien ja väkivallan täyteinen tausta johtaa satojen vuosien taakse."
+   },
+   "tr": ""
   },
   "se oli pelkkä sattuma": {
    "id": 1456349,
@@ -7180,6 +7249,7 @@
    "img": "data/posters/2755bb2be0a0c120.jpg",
    "kr": "K-12",
    "krs": [
+    "engel",
     "tapiola"
    ],
    "r": 7.2,
@@ -7278,6 +7348,7 @@
     "gilda",
     "isohannu",
     "kinopiispanristi",
+    "savonkinot",
     "star"
    ],
    "r": 8.0,
@@ -7712,6 +7783,7 @@
     "kirkkonummi",
     "kuvakukko",
     "orion",
+    "savonkinot",
     "studio123kouvola",
     "tapiola",
     "vihdinkino"
@@ -7746,12 +7818,16 @@
   },
   "toy story 5": {
    "id": 1084244,
-   "r": 0,
+   "img": "data/posters/61da1236c24613ee.jpg",
+   "r": 8.4,
    "s": {
-    "en": "",
+    "en": "When Bonnie receives a Lilypad tablet as a gift and becomes obsessed, Buzz, Woody, Jessie and the rest of the gang's jobs become exponentially harder when they have to go head to head with the all-new threat to playtime.",
     "fi": "Lelut tekevät paluun Disneyn ja Pixarin elokuvassa Toy Story 5, ja tällä kertaa ne joutuvat törmäyskurssille tekniikan kanssa. Uuden uhan edessä Buzz, Woody, Jessie ja muu jengi joutuvat paiskimaan hommia monin verroin lelujen ja laitteiden käydessä kamppailua lasten leikkiajasta."
    },
-   "tr": ""
+   "tr": "https://www.youtube.com/watch?v=QftAW9TTmuQ",
+   "ts": [
+    "en"
+   ]
   },
   "toy story 5 dub": {
    "id": 1084244,
@@ -8268,6 +8344,7 @@
    "img": "data/posters/99a2c3bb145ea6bf.jpg",
    "kr": "K-12",
    "krs": [
+    "k13",
     "kinokilta",
     "kinopirtti"
    ],
@@ -8481,10 +8558,14 @@
   "wild horse nine": {
    "id": 891621,
    "img": "data/posters/ce1a7e45f2509c41.jpg",
+   "kr": "K-16",
+   "krs": [
+    "biorex"
+   ],
    "r": 0,
    "s": {
     "en": "Shortly before the 1973 Chilean coup, CIA agents Chris and Lee are dispatched from Santiago to Easter Island by their bureau chief, MJ. Amongst the Island's iconic statues, and as the longtime partners wrestle with their dark pasts and present conspiracies, Chris's newfound bond with a pair of rebellious students threatens to send everyone’s trip to this remote paradise sideways.",
-    "fi": ""
+    "fi": "Pian Chilen vuoden 1973 vallankaappauksen jälkeen CIA:n agentit Chris (John Malkovich) ja Lee (Sam Rockwell) lähetetään Santiagosta Pääsiäissaarelle hoitamaan viraston johtajan MJ:n (Steve Buscemi) määräämää tehtävää. Pitkäaikaiset työtoverit joutuvat kamppailemaan saaren ikonisten patsaiden varjoissa niin menneisyyden haamujen kuin paraikaa valloillaan olevien salaliittojen kanssa. Kun Chris sitten sattuu tapaamaan kaksi vallankumouksellista opiskelijaa (Mariana di Girolamo ja Ailín Salas), seuraukset uhkaavat suistaa raiteiltaan heidän kaikkien reissunsa tähän syrjäiseen paratiisiin."
    },
    "tr": "https://www.youtube.com/watch?v=kqxuamKxRTo",
    "ts": [
