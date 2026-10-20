@@ -1,7 +1,7 @@
 {
  "casper": {
   "price": "",
-  "at": "2026-10-18T07:21:15+00:00",
+  "at": "2026-10-20T07:49:36+00:00",
   "fields": {
    "lang": "EN-A, FI-S",
    "len": "100",
@@ -13,7 +13,7 @@
  },
  "digger": {
   "price": "",
-  "at": "2026-10-18T07:21:15+00:00",
+  "at": "2026-10-20T07:49:36+00:00",
   "fields": {
    "lang": "EN-A, FI-S, SV-S",
    "len": "128",
@@ -37,7 +37,7 @@
  },
  "ghost-nakymaton-rakkaus": {
   "price": "",
-  "at": "2026-10-18T07:21:15+00:00",
+  "at": "2026-10-20T07:49:36+00:00",
   "fields": {
    "lang": "EN-A, EN-S",
    "len": "126",
@@ -115,7 +115,7 @@
  },
  "mina-ja-riikka-purra": {
   "price": "",
-  "at": "2026-10-18T07:21:15+00:00",
+  "at": "2026-10-20T07:49:36+00:00",
   "fields": {
    "lang": "FI-A",
    "len": "93",
@@ -137,9 +137,21 @@
  },
  "pia-langbacka-meedion-tyo": {
   "price": "",
-  "at": "2026-10-18T07:21:15+00:00",
+  "at": "2026-10-20T07:49:36+00:00",
   "fields": {
    "syn_fi": "Sukella salaperäisten istuntojen ja tuonpuoleisten viestien maailmaan näkyvän ja näkymättömän maailman rajamaille! Helsinkiläinen meedio ja tarot-tulkitsija Pia Långbacka saapuu vieraaksemme. Pia kertoo työstään, siitä miten viestit henkimaailmasta välittyvät ja miten todellinen meedion työ eroaa elokuvien luomista mielikuvista. Luvassa on lämmin, valoisa ja maanläheinen kohtaaminen. Pian puheenvuoro on osa Näkymätön yhteys – Meedioelokuvapäivää ja sitä voi tulla kuuntelemaan ilmaiseksi LA 24.10. KLO 17:00-17:45."
+  }
+ },
+ "rakkauden-risti": {
+  "price": "",
+  "at": "2026-10-20T07:49:36+00:00",
+  "fields": {
+   "lang": "FI-A, EN-S",
+   "len": "99",
+   "rating": "K-12",
+   "year": "1946",
+   "syn_fi": "Yliampuvan melodraaman mestarin Teuvo Tulion elokuvassa nuori saaristolaistyttö houkutellaan suurkaupunkiin, jonka varjoissa hän ajautuu ennen pitkää prostituoiduksi. Vahva kuvakieli mukailee henkilöhahmojen voimakkaita tunteita. Jälleen kerran ollaan ohjaajalle tyypillisesti intohimon perimmäisten kysymysten äärellä. Rakkauden risti perustuu väljästi Aleksandr Pushkinin novelliin Postimies ja hänen tyttärensä, jota Tulio käytti myös viimeisen elokuvansa Sensuelan pohjana.",
+   "syn_en": "In this film by Teuvo Tulio, the master of flamboyant melodrama, a young woman from the Finnish archipelago is lured to the big city and soon drifts into prostitution in its shadows. The powerful visual language echoes the characters’ intense emotions. Once again, in typically Tulio fashion, we confront the deepest questions of passion. Cross of Love is loosely based on Alexander Pushkin’s short story The Stationmaster, which Tulio also used as the basis for his final film, Sensuela."
   }
  },
  "spider-man-brand-new-day": {
@@ -203,7 +215,7 @@
  },
  "unesta-tehty-mies": {
   "price": "",
-  "at": "2026-10-18T07:21:15+00:00",
+  "at": "2026-10-20T07:49:36+00:00",
   "fields": {
    "lang": "FI-A",
    "len": "94",

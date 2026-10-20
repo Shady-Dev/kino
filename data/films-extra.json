@@ -751,7 +751,9 @@
    "krs": [
     "bioforum",
     "biopallas",
+    "biorex",
     "biorexkokkola",
+    "cinemantsala",
     "gilda",
     "ihmekompleksi",
     "isohannu",
@@ -1762,7 +1764,7 @@
   "i was a stranger": {
    "id": 1193128,
    "img": "data/posters/a23637c1451f93b1.jpg",
-   "r": 6.7,
+   "r": 6.8,
    "s": {
     "en": "A Syrian doctor and her daughter flee Aleppo, setting off a chain of events that binds five strangers together. A smuggler, a soldier, a poet, and a coast guard captain collide in a crisis that tests their courage, their choices, and their humanity.",
     "fi": "Kun syyrialainen lääkäri joutuu pakenemaan Alepposta nuoren tyttärensä kanssa, yksi epätoivoinen valinta käynnistää tapahtumaketjun, joka ulottuu yli rajojen ja vetää neljä toisilleen tuntematonta ihmistä samaan myrskyyn. Salakuljettajan, joka yrittää pelastaa poikansa. Sotilaan, joka kamppailee omantuntonsa kanssa. Runoilijan, joka etsii kotia. Kreikkalaisen rannikkovartioston kapteenin, joka joutuu valitsemaan velvollisuuden ja armeliaisuuden välillä. Heidän polkunsa risteävät eräänä yönä Välimerellä, jossa selviytyminen on epävarmaa ja inhimillisyys paljastuu sen raaimmassa muodossa."
@@ -2021,7 +2023,7 @@
     "en": "Four Harlem friends -- Bishop, Q, Steel and Raheem -- dabble in petty crime, but they decide to go big by knocking off a convenience store. Bishop, the magnetic leader of the group, has the gun. But Q has different aspirations. He wants to be a DJ and happens to have a gig the night of the robbery. Unfortunately for him, Bishop isn't willing to take no for answer in a game where everything's for keeps.",
     "fi": ""
    },
-   "tr": "https://www.youtube.com/watch?v=ECi021J_j18",
+   "tr": "https://www.youtube.com/watch?v=QsWto8p7t1E",
    "ts": [
     "en"
    ]
@@ -2055,12 +2057,24 @@
     "kinokulma",
     "kinometso",
     "kkino",
-    "savonkinot"
+    "korjaamo",
+    "savonkinot",
+    "tapiola"
    ],
    "r": 7.4,
    "s": {
     "en": "",
     "fi": "Uusi, vastustamaton tulkinta Jane Austenin ikonisesta Järki ja tunteet -teoksesta: hurmaava, nokkela ja syvästi samaistuttava tarina rakkaudesta ja sisaruudesta. Pääosissa loistavat Daisy Edgar-Jones ja Esmé Creed-Miles"
+   },
+   "tr": "https://www.youtube.com/watch?v=OFLyW0lxFU0"
+  },
+  "järki ja tunteet 2026": {
+   "id": 1503762,
+   "img": "data/posters/31b4bfa4354c3f1d.jpg",
+   "r": 7.4,
+   "s": {
+    "en": "",
+    "fi": "Uusi, vastustamaton tulkinta Jane Austenin ikonisesta Järki ja tunteet -teoksesta: hurmaava, nokkela ja syvästi samaistuttava tarina rakkaudesta ja sisaruudesta. Pääosissa loistavat Daisy Edgar-Jones ja Esmé Creed-Miles."
    },
    "tr": "https://www.youtube.com/watch?v=OFLyW0lxFU0"
   },
@@ -2193,13 +2207,12 @@
   },
   "keltaiset kirjeet matinea": {
    "id": 1315657,
-   "img": "data/posters/39786b34eaf050e5.jpg",
-   "r": 7.2,
+   "r": 0,
    "s": {
     "en": "",
     "fi": "Derya on Ankaran suurimman teatterin tähti: hän näyttelee pääosaa puolisonsa Azizin ohjaamassa näytelmässä. Uutuus on menestys. Vapauden tuulet puhaltavat, levottomuudet vyöryvät myös yliopistolle. Elämä alkaa hajota käsiin. Irtisanomisia merkitseviä keltaisia kirjeitä satelee kaikille. Aziz heitetään ulos yliopistosta epämääräisillä perusteilla. Näytelmän esitykset perutaan."
    },
-   "tr": "https://www.youtube.com/watch?v=N_pQLLsSOWk"
+   "tr": ""
   },
   "ken russell s the devils": {
    "id": 31767,
@@ -3442,7 +3455,8 @@
     "kinoolympia",
     "kkino",
     "savonkinot",
-    "star"
+    "star",
+    "tapiola"
    ],
    "r": 0,
    "s": {
@@ -3560,6 +3574,7 @@
     "bioforum",
     "biomarilyn",
     "biorex",
+    "cinemantsala",
     "engel",
     "isohannu",
     "kinoakseli",
@@ -5054,6 +5069,7 @@
     "bioforum",
     "biomarilyn",
     "biorex",
+    "cinemantsala",
     "engel",
     "isohannu",
     "kinoakseli",
@@ -5098,6 +5114,7 @@
     "bioforum",
     "biomarilyn",
     "biorex",
+    "cinemantsala",
     "engel",
     "isohannu",
     "kinoakseli",
@@ -5128,7 +5145,9 @@
     "alatalo",
     "biokaari",
     "biomarilyn",
+    "biorex",
     "biosade",
+    "cinemantsala",
     "engel",
     "huvimylly",
     "isohannu",
@@ -5140,6 +5159,7 @@
     "kinolumo",
     "kinometso",
     "kinopiispanristi",
+    "kinoset",
     "kinotour",
     "kinovirta",
     "kulttuurimylly",
@@ -5164,7 +5184,9 @@
     "alatalo",
     "biokaari",
     "biomarilyn",
+    "biorex",
     "biosade",
+    "cinemantsala",
     "engel",
     "huvimylly",
     "isohannu",
@@ -5176,6 +5198,7 @@
     "kinolumo",
     "kinometso",
     "kinopiispanristi",
+    "kinoset",
     "kinotour",
     "kinovirta",
     "kulttuurimylly",
@@ -5209,7 +5232,9 @@
     "alatalo",
     "biokaari",
     "biomarilyn",
+    "biorex",
     "biosade",
+    "cinemantsala",
     "engel",
     "huvimylly",
     "isohannu",
@@ -5221,6 +5246,7 @@
     "kinolumo",
     "kinometso",
     "kinopiispanristi",
+    "kinoset",
     "kinotour",
     "kinovirta",
     "kulttuurimylly",
@@ -5255,7 +5281,9 @@
     "alatalo",
     "biokaari",
     "biomarilyn",
+    "biorex",
     "biosade",
+    "cinemantsala",
     "engel",
     "huvimylly",
     "isohannu",
@@ -5267,6 +5295,7 @@
     "kinolumo",
     "kinometso",
     "kinopiispanristi",
+    "kinoset",
     "kinotour",
     "kinovirta",
     "kulttuurimylly",
@@ -5291,7 +5320,9 @@
     "alatalo",
     "biokaari",
     "biomarilyn",
+    "biorex",
     "biosade",
+    "cinemantsala",
     "engel",
     "huvimylly",
     "isohannu",
@@ -5303,6 +5334,7 @@
     "kinolumo",
     "kinometso",
     "kinopiispanristi",
+    "kinoset",
     "kinotour",
     "kinovirta",
     "kulttuurimylly",
@@ -5360,6 +5392,7 @@
     "biomarilyn",
     "biorex",
     "biosade",
+    "cinemantsala",
     "helios",
     "isohannu",
     "julia",
@@ -5399,6 +5432,7 @@
     "biomarilyn",
     "biorex",
     "biosade",
+    "cinemantsala",
     "helios",
     "isohannu",
     "julia",
@@ -5590,6 +5624,7 @@
    "krs": [
     "biogrand",
     "biorex",
+    "cinemantsala",
     "gilda",
     "ihmekompleksi",
     "isohannu",
@@ -5816,6 +5851,11 @@
   "päivien lumo": {
    "id": 1563565,
    "img": "data/posters/6bbde592472eb4e8.jpg",
+   "kr": "S",
+   "krs": [
+    "kinoaurora",
+    "regina"
+   ],
    "r": 0,
    "s": {
     "en": "Once a beloved playmate of her childhood, Markku had withdrawn into solitude, devoting his life to inner freedom and creativity rather than the expectations of society. Now his voice returns – sometimes playful, sometimes wounded, always searching – guiding Karin through his life’s work and opening space for an unusual collaboration between the living and the dead.",
@@ -5956,6 +5996,16 @@
     "fi": "Irlannin rannikon jylhiin maisemiin sijoittuva tarina kertoo eläköityneestä, omissa oloissaan viihtyvästä merikapteenista, jolle tytär palkkaa vastusteluista huolimatta avuksi kodinhoitajan. Kaksikon välille yllättäen syttyvä rakkaus pakottaa kohtaamaan menneisyyden haavat ja katkeruudet myös isän ja tyttären välisessä suhteessa."
    },
    "tr": "https://www.youtube.com/watch?v=iGkrfxYGpS4"
+  },
+  "rakkauden risti": {
+   "id": 291905,
+   "img": "data/posters/a6ae7aad419f8fb2.jpg",
+   "r": 0,
+   "s": {
+    "en": "In this film by Teuvo Tulio, the master of flamboyant melodrama, a young woman from the Finnish archipelago is lured to the big city and soon drifts into prostitution in its shadows. The powerful visual language echoes the characters’ intense emotions. Once again, in typically Tulio fashion, we confront the deepest questions of passion. Cross of Love is loosely based on Alexander Pushkin’s short story The Stationmaster, which Tulio also used as the basis for his final film, Sensuela.",
+    "fi": "Yliampuvan melodraaman mestarin Teuvo Tulion elokuvassa nuori saaristolaistyttö houkutellaan suurkaupunkiin, jonka varjoissa hän ajautuu ennen pitkää prostituoiduksi. Vahva kuvakieli mukailee henkilöhahmojen voimakkaita tunteita. Jälleen kerran ollaan ohjaajalle tyypillisesti intohimon perimmäisten kysymysten äärellä. Rakkauden risti perustuu väljästi Aleksandr Pushkinin novelliin Postimies ja hänen tyttärensä, jota Tulio käytti myös viimeisen elokuvansa Sensuelan pohjana."
+   },
+   "tr": ""
   },
   "rakkautta italialaisittain": {
    "id": 41110,
@@ -7470,9 +7520,11 @@
     "biopallas",
     "biorex",
     "biosavoy",
+    "cinemantsala",
     "gilda",
     "kinoaurora",
     "kinopiispanristi",
+    "niagara",
     "savonkinot",
     "tapiola"
    ],
@@ -7971,6 +8023,7 @@
     "biorex",
     "biosavoy",
     "biovuoksi",
+    "cinemantsala",
     "helios",
     "isohannu",
     "kino123",
@@ -8075,6 +8128,7 @@
     "biorex",
     "biosavoy",
     "biovuoksi",
+    "cinemantsala",
     "helios",
     "isohannu",
     "kino123",
@@ -8257,6 +8311,7 @@
     "biorexkokkola",
     "biosavoy",
     "biovuoksi",
+    "cinemantsala",
     "gilda",
     "ihmekompleksi",
     "isohannu",

@@ -37,8 +37,8 @@
 [kinokonepaja] Kino Konepaja: 35 showtimes, 18 dates
 [kinokonepaja] Kino Konepaja: 35 showtimes, 18 dates
 [kinokonepaja] synopses merged: 0
-[run] http: 30 revalidated (304), 69 full, 17 not stored (origin said no-store), 16 cache entries written
+[run] http: 44 revalidated (304), 55 full, 17 not stored (origin said no-store), 1 cache entries written
 [run] hosts: 4 attempted -- kinokonepaja.fi, kinomyyri.fi, www.kinokilta.fi, www.kinolaika.fi
 [run] kinola: 4 venues, 156 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
-[run] timing: 4 site(s), 193.9s of fetching added up across workers that overlap, longest site 80.6s, longest queue wait 134.4s, 80.6s wall from this module's first fetch starting to its last ending
+[run] timing: 4 site(s), 174.9s of fetching added up across workers that overlap, longest site 70.0s, longest queue wait 136.7s, 70.0s wall from this module's first fetch starting to its last ending
 exit=0
