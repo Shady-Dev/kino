@@ -4337,3 +4337,11 @@ and K-Kino had no all-ages film. Those films published no rating unless enrichme
 one from another chain, and at c745c37d3 117 of 1,239 eTiketti rows had none. Minä ja Riikka
 Purra at Niagara and Pirjo i Sverige at Kotka now parse as S. `fi-s.svg` still reads. Three
 mutations red.
+
+### Kuvakukko's 404 was Kuopio's city web outage (2026-10-21)
+From the cloud run committed at 15:31 UTC, Kuvakukko failed on a 404 from its listing. At
+13:52 UTC the City of Kuopio had put a temporary site on kuvakukko.fi and kuopio.fi, with
+no programme on it and a notice giving the outage until the next morning. The path had not
+moved. The adapter was left unchanged and both cinemas kept their 11:15 UTC files until the
+run committed at 23:21 UTC read the listing again. Findings in
+[docs/research/kuvakukko.md](../research/kuvakukko.md).
