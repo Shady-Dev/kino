@@ -156,15 +156,6 @@ parser. **Juvan Kino** publishes through `juvantapahtumat.fi`, whose cinema cate
 events. Evidence: [docs/research/ticketing-platforms.md](docs/research/ticketing-platforms.md).
 **Next action:** re-read both listings later.
 
-### Kino Kaustinen has no screening to verify against
-
-A real eTiketti tenant publishing none, so no ticket destination can be checked, which is
-the rule six dead Nexxo links bought. Re-read 2026-09-20: "Ei ohjelmistoa saatavilla."
-Blocked on the cinema's own programme, not on work here; it is one `SITES` entry the day
-it lists a film. Evidence:
-[docs/research/ticketing-platforms.md](docs/research/ticketing-platforms.md).
-**Next action:** re-read on a later Monday.
-
 ### Search visibility collapse since 2026-10-03
 
 Impressions fell from 3352 a day to 29. Cause unconfirmed, and Google's September 2026 spam

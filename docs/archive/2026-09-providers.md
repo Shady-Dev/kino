@@ -4259,3 +4259,19 @@ place left the class (`item tampere ...`) for `data-locations="[&quot;tampere&qu
 takes the one place that attribute lists, then the class. Read live 2026-10-21 16:46 UTC: 47
 of 47 ticket ids on its front page and special screenings, dates and times equal. Four
 mutations red.
+
+### Kino Kaustinen has no screening to verify against
+
+A real eTiketti tenant publishing none, so no ticket destination can be checked, which is
+the rule six dead Nexxo links bought. Re-read 2026-09-20: "Ei ohjelmistoa saatavilla."
+Blocked on the cinema's own programme, not on work here; it is one `SITES` entry the day
+it lists a film. Evidence:
+[docs/research/ticketing-platforms.md](../research/ticketing-platforms.md).
+**Next action:** re-read on a later Monday.
+
+Closed 2026-10-21. Issue #17 reported films on 2026-10-15, and the site listed three that
+day with five screenings, each with a price and a `/salikartta` link. It is an
+`etiketti.py` `SITES` entry with the place line "KINO KAUSTINEN", read on the cloud half,
+with `posters` False so a poster comes only from a trusted TMDB match, on the
+maintainer's word. The snapshot matched the cinema's front page on all five times.
+Accent #A0522D / #CD7F50, alone in Kaustinen and in no region.

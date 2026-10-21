@@ -3,7 +3,7 @@
 Leffavuoro collects Finnish cinema showtimes into one web app that you can install on a
 phone or a computer: **https://leffavuoro.fi**
 
-It has showtimes for 143 venues in 101 cities across 88 providers. The full list is in
+It has showtimes for 144 venues in 102 cities across 89 providers. The full list is in
 [Cinemas](#cinemas).
 
 ## What it does
@@ -15,7 +15,7 @@ It has showtimes for 143 venues in 101 cities across 88 providers. The full list
   shop because the screening is included in a general admission ticket.
 - Cities with more than one venue get a combined view that shows the same film from
   different chains as one card. The same goes for 15 regions, and the picker switches between
-  its 101 cities and those regions. Pääkaupunkiseutu, for example, is one row in the picker
+  its 102 cities and those regions. Pääkaupunkiseutu, for example, is one row in the picker
   instead of four cities. A region groups towns that are close enough for a cinema in one
   to replace a cinema in another.
 - The picker search ignores diacritics. "jarvela" finds Järvelä and "capital region"
@@ -102,8 +102,8 @@ schedule and its pages always land in the same commit.
     /teatteri/{slug}/   one venue      /sv/teatteri/{slug}/   /en/theatre/{slug}/
     /kaupunki/{slug}/   a whole city   /sv/kaupunki/{slug}/   /en/city/{slug}/
 
-Each language has 161 pages, one for each of the 143 venues and the 18 cities with more than one venue.
-Together with the front page the sitemap has 484 URLs. Regions do not get pages because
+Each language has 162 pages, one for each of the 144 venues and the 18 cities with more than one venue.
+Together with the front page the sitemap has 487 URLs. Regions do not get pages because
 they would compete with the city and venue pages they are made of. A city with only one
 venue does not get a page either. Its venue page has the city in its title and address.
 
@@ -281,7 +281,7 @@ totals.
 | Finnkino | Vista OCAPI, short-lived token | 17 | local |
 | BioRex | own site | 12 | cloud |
 | Kinoset, Kino Aurora, Kino Hirvi, Bio Säde, Kino Marilyn, Kino Olympia, Järvelän Kino, Kino Metso, Bio-Salo, Bio Stara | Nexxo | 19 | cloud |
-| Kotkan Leffat, Savon Kinot, Bio Rex Kokkola, Kinopirtti, Leffabuumi, Studio 123 Järvenpää, Studio 123 Kouvola, Kino 123, Ihme Kompleksi, Kinotar 123, Kino Juha, Bio Grand, Bio Vuoksi, Kino Iiris, Joutsan Kino, K-Kino, Bio Grani, Cine, Elokuvateatteri Star, Cinema Niagara, Haapamäen Elokuvat | eTiketti | 31 | cloud; local: Savon Kinot, Joutsan Kino, Cine, Elokuvateatteri Star, Haapamäen Elokuvat |
+| Kotkan Leffat, Savon Kinot, Bio Rex Kokkola, Kinopirtti, Leffabuumi, Studio 123 Järvenpää, Studio 123 Kouvola, Kino 123, Ihme Kompleksi, Kinotar 123, Kino Juha, Bio Grand, Bio Vuoksi, Kino Iiris, Joutsan Kino, K-Kino, Bio Grani, Cine, Elokuvateatteri Star, Cinema Niagara, Haapamäen Elokuvat, Kino Kaustinen | eTiketti | 32 | cloud; local: Savon Kinot, Joutsan Kino, Cine, Elokuvateatteri Star, Haapamäen Elokuvat |
 | Riviera | own site | 2 | cloud |
 | Gilda | MyCloudCinema | 2 | cloud |
 | Cinema Orion | own site | 1 | cloud |
@@ -324,7 +324,7 @@ totals.
 
 ## Data sources and access
 
-Schedule data belongs to the cinemas, the 88 providers listed under [Cinemas](#cinemas).
+Schedule data belongs to the cinemas, the 89 providers listed under [Cinemas](#cinemas).
 Ratings, trailers and fallback synopses and posters come from TMDB. Every showtime links to
 the cinema's own page, and the footer credits the source of the schedule on screen.
 

@@ -422,6 +422,10 @@ a later Monday and add it when it lists a film. **Ask for that path without a tr
 slash** -- `/elokuvat/ohjelmistossa/` answers 302 to `/404`, which reads like a dead site
 and is not one.
 
+Re-read 2026-10-21 (issue #17): the listing linked three films, Lapin sota, Pikkuli ja
+Tähtipeura and Pirjo i Sverige, with five screenings on 24. and 25.10., the place line
+"KINO KAUSTINEN" and prices of 12 and 13 €. Built that day.
+
 ---
 
 ## TMB Cinema: four cinemas on one template (2026-09-15)
