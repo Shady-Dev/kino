@@ -57,6 +57,7 @@ import test_matintupa as MT
 import test_kurikankino as KUR
 import test_pajakka as PJ
 import test_kisakino as KIS
+import test_biomarlon as BM
 import test_kuusamotalo as KU
 import test_kinohuovi as KH
 import test_localhub as LH
@@ -480,6 +481,13 @@ def sample_kisakino():
     return (out, KIS.SITE["provider"], [v["id"] for v in KIS.SITE["venues"]])
 
 
+def sample_biomarlon():
+    """Three film widgets beside the coming-soon and address widgets: a premiere with two
+    clocks, a private screening that must not exist, and a free screening."""
+    out, _ = BM.B.rows(BM.SITE, BM.LIVE, BM.TODAY)
+    return (out, BM.SITE["provider"], [v["id"] for v in BM.SITE["venues"]])
+
+
 def sample_k13():
     """A festival block with two timed rows, a Kinokka evening its linked page times and
     one with no linked page, so the row that must not exist is exercised beside the three
@@ -558,7 +566,7 @@ SAMPLES = {
     "alatalo": sample_alatalo, "elavienkuvien": sample_elavienkuvien,
     "matintupa": sample_matintupa, "kuusamotalo": sample_kuusamotalo,
     "kurikankino": sample_kurikankino, "pajakka": sample_pajakka,
-    "kisakino": sample_kisakino,
+    "kisakino": sample_kisakino, "biomarlon": sample_biomarlon,
     "kinohuovi": sample_kinohuovi, "localhub": sample_localhub,
     "k13": sample_k13, "helios": sample_helios, "kannusali": sample_kannusali,
 }

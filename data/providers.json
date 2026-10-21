@@ -675,6 +675,14 @@
    "book": "door"
   },
   {
+   "id": "biomarlon",
+   "label": "Bio Marlon",
+   "host": "biomarlon.fi",
+   "accent": "#663B29",
+   "accentDark": "#F28D61",
+   "book": "door"
+  },
+  {
    "id": "kuusamotalo",
    "label": "Kino Kuusamotalo",
    "host": "kinokuusamotalo.fi",

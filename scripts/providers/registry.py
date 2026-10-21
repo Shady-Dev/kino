@@ -669,6 +669,11 @@ PROVIDERS = [
     # counted, 5.1 dE00 on the weakest model from the nearest accent in each theme.
     dict(id="kisakino", label="KisaKino", host="kisakino.fi", accent="#664A0A",
          accentDark="#E0A416", book="door", module="kisakino", where="cloud"),
+    # Bio Marlon, Kauhajoki, 2026-10-21 (issue #11). Alone in Kauhajoki and in no region.
+    # Kurikka is about 40 km away, so the shade is chosen to clear Kurikan Kino's should
+    # the two ever share an area: 28.1 dE00 light and 36.3 dark on the weakest model.
+    dict(id="biomarlon", label="Bio Marlon", host="biomarlon.fi", accent="#663B29",
+         accentDark="#F28D61", book="door", module="biomarlon", where="cloud"),
     # Kino Kuusamotalo, Kuusamo, 2026-09-20. 520 seats in the Oulankasali hall of the
     # town's culture house, run by its own operator on its own site. kuusamotalo.fi is
     # the culture house and only links here; its programme block is a Flockler embed and
