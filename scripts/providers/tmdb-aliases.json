@@ -188,5 +188,10 @@
  "lapin sota lapplandskriget": "1450460",
  "_comment61": "Bio-Salo, 2026-10-21. \"Autot (20v julkaisu)\" is the 20th-anniversary reissue of Cars: TMDB gave 920 that day as Cars, John Lasseter, 2006-06-08, 117 minutes, against Bio-Salo's 118. \"LaatuSarja: The Testament of Ann Lee\" is the film under the cinema's series name: TMDB gave 1401281 as The Testament of Ann Lee, Mona Fastvold, 2025-12-25, 137 minutes, Bio-Salo's runtime. LaatuSarja is aliased rather than made a strand: one title carries it, at one cinema.",
  "autot 20v julkaisu": "920",
- "laatusarja the testament of ann lee": "1401281"
+ "laatusarja the testament of ann lee": "1401281",
+ "_comment62": "Pajakkakino, Kuhmo, 2026-10-21. Its autumn event weeks prefix each title with \"RÖMPPÄVIIKOT:\", and a festival that runs once a year is aliased title by title rather than made a strand, the call recorded in strands.py for Vilimit-festivaali. Each id is the one the other chains carry, opened that day: 1450460 Lapin sota, Aku Louhimies, 155 minutes; 1403476 Pikkuli ja Tähtipeura, Metsämarja Aittokoski, 80; 1450473 Rakkautta ja virtahepoja, Dome Karukoski, 102 against the post's 101; 653 Nosferatu, F. W. Murnau, 1922, 94 against 95. The directors match the posts' own credits.",
+ "römppäviikot lapin sota": "1450460",
+ "römppäviikot pikkuli ja tähtipeura": "1403476",
+ "römppäviikot rakkautta ja virtahepoja elokuva lukupiiri": "1450473",
+ "römppäviikot nosferatu 1922": "653"
 }
