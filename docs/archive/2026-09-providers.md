@@ -4275,3 +4275,14 @@ day with five screenings, each with a price and a `/salikartta` link. It is an
 with `posters` False so a poster comes only from a trusted TMDB match, on the
 maintainer's word. The snapshot matched the cinema's front page on all five times.
 Accent #A0522D / #CD7F50, alone in Kaustinen and in no region.
+
+### Kurikan Kino, Kurikka, from its front page (2026-10-21)
+Issue #8. One server-rendered page with a card per film: the title and its `ikaraja-{n|s}`
+badge, the runtime, one price beside the times, and each time printed twice, the second
+copy in a mobile block. Every time carries `esitysaika`, a Unix stamp of the local clock
+written as UTC, so 1791644400 is printed "la 10.10. 15:00". The stamp gives the year the
+print lacks, and a row stands only where the stamp's day, weekday and clock agree with the
+print. Coming-soon cards and the gift card tile carry no time and are not films. The site
+sells no tickets, so `book` is door and a showtime links to the film page. No poster of the
+site's own is published, on the maintainer's word; every snapshot card matched TMDB. The
+shade #73115F / #EB81DD is the one farthest from every existing accent. Six mutations red.
