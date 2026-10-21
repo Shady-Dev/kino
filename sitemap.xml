@@ -13,6 +13,7 @@
   <url><loc>https://leffavuoro.fi/en/city/mikkeli/</loc><lastmod>2026-10-21</lastmod></url>
   <url><loc>https://leffavuoro.fi/en/city/nurmijarvi/</loc><lastmod>2026-10-21</lastmod></url>
   <url><loc>https://leffavuoro.fi/en/city/oulu/</loc><lastmod>2026-10-21</lastmod></url>
+  <url><loc>https://leffavuoro.fi/en/city/salo/</loc><lastmod>2026-10-21</lastmod></url>
   <url><loc>https://leffavuoro.fi/en/city/savonlinna/</loc><lastmod>2026-10-21</lastmod></url>
   <url><loc>https://leffavuoro.fi/en/city/tampere/</loc><lastmod>2026-10-21</lastmod></url>
   <url><loc>https://leffavuoro.fi/en/city/turku/</loc><lastmod>2026-10-21</lastmod></url>
@@ -26,7 +27,9 @@
   <url><loc>https://leffavuoro.fi/en/theatre/bio-pallas-karjaa/</loc><lastmod>2026-10-21</lastmod></url>
   <url><loc>https://leffavuoro.fi/en/theatre/bio-rex-kokkola-kokkola/</loc><lastmod>2026-10-21</lastmod></url>
   <url><loc>https://leffavuoro.fi/en/theatre/bio-sade-mantta/</loc><lastmod>2026-10-21</lastmod></url>
+  <url><loc>https://leffavuoro.fi/en/theatre/bio-salo-salo/</loc><lastmod>2026-10-21</lastmod></url>
   <url><loc>https://leffavuoro.fi/en/theatre/bio-savoy-mariehamn/</loc><lastmod>2026-10-21</lastmod></url>
+  <url><loc>https://leffavuoro.fi/en/theatre/bio-stara-paimio/</loc><lastmod>2026-10-21</lastmod></url>
   <url><loc>https://leffavuoro.fi/en/theatre/bio-vuoksi-imatra/</loc><lastmod>2026-10-21</lastmod></url>
   <url><loc>https://leffavuoro.fi/en/theatre/biorex-kajaani-kajaani/</loc><lastmod>2026-10-21</lastmod></url>
   <url><loc>https://leffavuoro.fi/en/theatre/biorex-pietarsaari-pietarsaari/</loc><lastmod>2026-10-21</lastmod></url>
@@ -171,6 +174,7 @@
   <url><loc>https://leffavuoro.fi/kaupunki/mikkeli/</loc><lastmod>2026-10-21</lastmod></url>
   <url><loc>https://leffavuoro.fi/kaupunki/nurmijarvi/</loc><lastmod>2026-10-21</lastmod></url>
   <url><loc>https://leffavuoro.fi/kaupunki/oulu/</loc><lastmod>2026-10-21</lastmod></url>
+  <url><loc>https://leffavuoro.fi/kaupunki/salo/</loc><lastmod>2026-10-21</lastmod></url>
   <url><loc>https://leffavuoro.fi/kaupunki/savonlinna/</loc><lastmod>2026-10-21</lastmod></url>
   <url><loc>https://leffavuoro.fi/kaupunki/tampere/</loc><lastmod>2026-10-21</lastmod></url>
   <url><loc>https://leffavuoro.fi/kaupunki/turku/</loc><lastmod>2026-10-21</lastmod></url>
@@ -188,6 +192,7 @@
   <url><loc>https://leffavuoro.fi/sv/kaupunki/mikkeli/</loc><lastmod>2026-10-21</lastmod></url>
   <url><loc>https://leffavuoro.fi/sv/kaupunki/nurmijarvi/</loc><lastmod>2026-10-21</lastmod></url>
   <url><loc>https://leffavuoro.fi/sv/kaupunki/oulu/</loc><lastmod>2026-10-21</lastmod></url>
+  <url><loc>https://leffavuoro.fi/sv/kaupunki/salo/</loc><lastmod>2026-10-21</lastmod></url>
   <url><loc>https://leffavuoro.fi/sv/kaupunki/savonlinna/</loc><lastmod>2026-10-21</lastmod></url>
   <url><loc>https://leffavuoro.fi/sv/kaupunki/tampere/</loc><lastmod>2026-10-21</lastmod></url>
   <url><loc>https://leffavuoro.fi/sv/kaupunki/turku/</loc><lastmod>2026-10-21</lastmod></url>
@@ -201,7 +206,9 @@
   <url><loc>https://leffavuoro.fi/sv/teatteri/bio-pallas-karjaa/</loc><lastmod>2026-10-21</lastmod></url>
   <url><loc>https://leffavuoro.fi/sv/teatteri/bio-rex-kokkola-kokkola/</loc><lastmod>2026-10-21</lastmod></url>
   <url><loc>https://leffavuoro.fi/sv/teatteri/bio-sade-mantta/</loc><lastmod>2026-10-21</lastmod></url>
+  <url><loc>https://leffavuoro.fi/sv/teatteri/bio-salo-salo/</loc><lastmod>2026-10-21</lastmod></url>
   <url><loc>https://leffavuoro.fi/sv/teatteri/bio-savoy-mariehamn/</loc><lastmod>2026-10-21</lastmod></url>
+  <url><loc>https://leffavuoro.fi/sv/teatteri/bio-stara-paimio/</loc><lastmod>2026-10-21</lastmod></url>
   <url><loc>https://leffavuoro.fi/sv/teatteri/bio-vuoksi-imatra/</loc><lastmod>2026-10-21</lastmod></url>
   <url><loc>https://leffavuoro.fi/sv/teatteri/biorex-kajaani-kajaani/</loc><lastmod>2026-10-21</lastmod></url>
   <url><loc>https://leffavuoro.fi/sv/teatteri/biorex-pietarsaari-pietarsaari/</loc><lastmod>2026-10-21</lastmod></url>
@@ -342,7 +349,9 @@
   <url><loc>https://leffavuoro.fi/teatteri/bio-pallas-karjaa/</loc><lastmod>2026-10-21</lastmod></url>
   <url><loc>https://leffavuoro.fi/teatteri/bio-rex-kokkola-kokkola/</loc><lastmod>2026-10-21</lastmod></url>
   <url><loc>https://leffavuoro.fi/teatteri/bio-sade-mantta/</loc><lastmod>2026-10-21</lastmod></url>
+  <url><loc>https://leffavuoro.fi/teatteri/bio-salo-salo/</loc><lastmod>2026-10-21</lastmod></url>
   <url><loc>https://leffavuoro.fi/teatteri/bio-savoy-mariehamn/</loc><lastmod>2026-10-21</lastmod></url>
+  <url><loc>https://leffavuoro.fi/teatteri/bio-stara-paimio/</loc><lastmod>2026-10-21</lastmod></url>
   <url><loc>https://leffavuoro.fi/teatteri/bio-vuoksi-imatra/</loc><lastmod>2026-10-21</lastmod></url>
   <url><loc>https://leffavuoro.fi/teatteri/biorex-kajaani-kajaani/</loc><lastmod>2026-10-21</lastmod></url>
   <url><loc>https://leffavuoro.fi/teatteri/biorex-pietarsaari-pietarsaari/</loc><lastmod>2026-10-21</lastmod></url>

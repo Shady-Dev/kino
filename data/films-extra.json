@@ -302,6 +302,16 @@
    },
    "tr": ""
   },
+  "autot 20v julkaisu": {
+   "id": 920,
+   "img": "data/posters/6cfe6fb6720fa102.jpg",
+   "r": 7.1,
+   "s": {
+    "en": "",
+    "fi": "Autot on seikkailu Ihmeperhe ja Nemoa etsimässä -elokuvien Oscar®-palkituilta tekijöiltä. Vauhtia, makeita menopelejä ja loistavaa animaatiota – riemua ja huumoria startista maaliin! Kilpa-auto Salama McQueen on matkalla Kaliforniaan osallistuakseen suureen Piston Cup -kisaan. Se eksyy valtatien 66:n varrella olevaan uinuvaan Syylari Cityyn. Siellä se tapaa Salli-nimisen Porschen, hinausauto Martin ja veteraaniauto Doc Hudsonin, jolla on arvoituksellinen menneisyys. Tämä sekalainen sakki auttaa Salamaa ymmärtämään, että elämässä on tärkeämpiäkin asioita kuin kilpaileminen, maine tai sponsorirahat. Kiinnitä siis turvavyösi ja valmistaudu vauhdikkaaseen menoon!"
+   },
+   "tr": "https://www.youtube.com/watch?v=XszNWHhpaTc"
+  },
   "autot re release": {
    "id": 920,
    "r": 0,
@@ -929,6 +939,8 @@
    "kr": "K-12",
    "krs": [
     "biorex",
+    "biosalo",
+    "biostara",
     "gilda",
     "kinojuha",
     "kinopiispanristi",
@@ -2319,6 +2331,8 @@
     "biorex",
     "biorexkokkola",
     "biosade",
+    "biosalo",
+    "biostara",
     "biovuoksi",
     "cine",
     "cinemantsala",
@@ -3433,6 +3447,19 @@
    },
    "tr": "https://www.youtube.com/watch?v=zvQn44a_IHo"
   },
+  "laatusarja the testament of ann lee": {
+   "id": 1401281,
+   "img": "data/posters/c2fa9e625324e2dc.jpg",
+   "r": 6.3,
+   "s": {
+    "en": "The extraordinary true legend of Ann Lee, founder of the devotional sect known as the Shakers, who preached gender and social equality and was revered by her followers as the female Christ.",
+    "fi": ""
+   },
+   "tr": "https://www.youtube.com/watch?v=Rb0ZhiDD9J0",
+   "ts": [
+    "en"
+   ]
+  },
   "lahden videokuvaajat 70v neljä lyhytelokuvaa": {
    "r": 0,
    "s": {
@@ -3664,6 +3691,8 @@
    "krs": [
     "bioforum",
     "biorex",
+    "biosalo",
+    "biostara",
     "cinemantsala",
     "engel",
     "isohannu",
@@ -5167,6 +5196,8 @@
    "krs": [
     "bioforum",
     "biorex",
+    "biosalo",
+    "biostara",
     "cinemantsala",
     "engel",
     "isohannu",
@@ -5187,6 +5218,14 @@
    "s": {
     "en": "",
     "fi": "Yhdessä Lapaniinan, Pikkuprinssin ja ystäviensä kanssa hän joutuu hauskoihin, jännittäviin ja välillä hieman pelottaviinkin tilanteisiin, joissa ystävyys, rohkeus ja mielikuvitus ovat aina keskiössä."
+   },
+   "tr": ""
+  },
+  "pikku kummitus lapanen keppostelee dub": {
+   "r": 0,
+   "s": {
+    "en": "",
+    "fi": "Pikku Kummitus Lapanen palaa uusien seikkailujen pariin Hyvänhuomenen linnassa. Yhdessä Lapaniinan, Pikkuprinssin ja ystäviensä kanssa hän joutuu hauskoihin, jännittäviin ja välillä hieman pelottaviinkin tilanteisiin, joissa ystävyys, rohkeus ja mielikuvitus ovat aina keskiössä. Lämmin ja humoristinen elokuvaelämys perheen pienimmille elokuvissakävijöille. Elokuva on saanut Euroopan unionin Luova Eurooppa -ohjelman tuen."
    },
    "tr": ""
   },
@@ -5211,6 +5250,8 @@
    "krs": [
     "bioforum",
     "biorex",
+    "biosalo",
+    "biostara",
     "cinemantsala",
     "engel",
     "isohannu",
@@ -5244,6 +5285,8 @@
     "biomarilyn",
     "biorex",
     "biosade",
+    "biosalo",
+    "biostara",
     "cinemantsala",
     "engel",
     "huvimylly",
@@ -5283,6 +5326,8 @@
     "biomarilyn",
     "biorex",
     "biosade",
+    "biosalo",
+    "biostara",
     "cinemantsala",
     "engel",
     "huvimylly",
@@ -5331,6 +5376,8 @@
     "biomarilyn",
     "biorex",
     "biosade",
+    "biosalo",
+    "biostara",
     "cinemantsala",
     "engel",
     "huvimylly",
@@ -5380,6 +5427,8 @@
     "biomarilyn",
     "biorex",
     "biosade",
+    "biosalo",
+    "biostara",
     "cinemantsala",
     "engel",
     "huvimylly",
@@ -5419,6 +5468,8 @@
     "biomarilyn",
     "biorex",
     "biosade",
+    "biosalo",
+    "biostara",
     "cinemantsala",
     "engel",
     "huvimylly",
@@ -5461,6 +5512,8 @@
     "biomarilyn",
     "biorex",
     "biosade",
+    "biosalo",
+    "biostara",
     "cinemantsala",
     "engel",
     "huvimylly",
@@ -5518,6 +5571,8 @@
     "biomarilyn",
     "biorex",
     "biosade",
+    "biosalo",
+    "biostara",
     "cinemantsala",
     "helios",
     "isohannu",
@@ -5558,6 +5613,8 @@
     "biomarilyn",
     "biorex",
     "biosade",
+    "biosalo",
+    "biostara",
     "cinemantsala",
     "helios",
     "isohannu",
@@ -6253,6 +6310,7 @@
    "kr": "K-16",
    "krs": [
     "biorex",
+    "biosalo",
     "cinemantsala",
     "gilda",
     "kino123",
@@ -8171,7 +8229,9 @@
     "alatalo",
     "biorex",
     "biosade",
+    "biosalo",
     "biosavoy",
+    "biostara",
     "biovuoksi",
     "cinemantsala",
     "helios",
@@ -8437,6 +8497,7 @@
     "biorex",
     "biorexkokkola",
     "biosade",
+    "biosalo",
     "biosavoy",
     "biovuoksi",
     "cinemantsala",

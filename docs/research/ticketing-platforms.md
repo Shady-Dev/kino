@@ -1382,6 +1382,16 @@ no screening through the platform, and the day it does it is one `SITES` entry w
 `locationid` discovered by asking. Bio Sydväst needs the municipality to publish dates in
 a page rather than in prose, and nothing here tests for that.
 
+**Re-read 2026-10-21 (issue #19): the silence was the request.** Plugin 25.051 on
+biosalo.fi answers `{"shows": []}` unless `movieid` is sent, and its own `showlist.js`
+always sends it. With `movieid=0`, `locationid=1` gave 49 shows in rooms 1, 2 and 7 (Bio-Salo
+1 to 3) and `locationid=2` gave 22 in rooms 3 and 4, which is Bio Stara in Paimio:
+`biostara.fi` (plugin 24.016) renders location 2 from biosalo.fi's API, so the 2026-09-15
+reading of Bio Stara as its own empty tenant was the same request. Asked the same day with
+and without `movieid=0` at each site's own `days`, Kino Metso answered the same 40 shows,
+and Kino Marilyn gained six concerts, a stand-up show and a ballet broadcast and lost one
+karaoke row. Built for this tenant only. Bio Jukola was not re-read with `movieid`.
+
 ---
 
 ## The Events Calendar, and the sweep that sized it (2026-09-18)

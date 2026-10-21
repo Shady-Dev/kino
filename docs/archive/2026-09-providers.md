@@ -4222,3 +4222,18 @@ organiser's 8 € ticket also needs a membership card. The first cloud run after
 release, committed as 513a1fc05 at 10:15 UTC, ended exit=0 for K13 and published the three
 rows with TMDB ids 962571, 952701 through its alias, and 999075. The live app showed each
 one at 16:00 with its poster in Chromium and WebKit.
+
+### Bio-Salo and Bio Stara on biosalo.fi (2026-10-21)
+Issue #19 found that Bio-Salo's Nexxo tenant answers only when `movieid` is sent. Re-read
+here the same day, `movieid=0` gave 49 shows for Bio-Salo (locationid 1) and 22 for Bio
+Stara in Paimio (locationid 2), whose own site renders location 2 from biosalo.fi's API.
+The maintainer scoped the parameter to this tenant, so `api_url` adds it only for a site
+that names `movieid`, and a test holds every other Nexxo request to its old bytes. Both
+are separate providers on one `base`, the Bio Säde shape. `banners` False publishes no
+banner image, so posters come from trusted TMDB matches, on the maintainer's word. Two
+titles needed aliases, Cars as 920 and LaatuSarja's The Testament of Ann Lee as 1401281.
+The same day `rating()` learned "7/4" as K-7. Accents: Bio-Salo #1F6FB2 / #4A93D3 clears
+Kino Lumo in Salo at 25.1 light and 16.8 dark on the weakest model, and Bio Stara
+#B4462B / #D96A4E is alone in Paimio and in no region. The snapshot matched both
+cinemas' own pages on films and on the first day's times. Neither town joins a travel
+area: Paimio against Turun seutu is the maintainer's decision under the REGIONS rule.
