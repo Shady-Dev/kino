@@ -659,6 +659,11 @@ PROVIDERS = [
     # the weakest model light and 5.7 dark, 9.9:1 or better on the light surfaces.
     dict(id="kurikankino", label="Kurikan Kino", host="kurikankino.com", accent="#73115F",
          accentDark="#EB81DD", book="door", module="kurikankino", where="cloud"),
+    # Pajakkakino, Kuhmo, 2026-10-21 (issue #10). Alone in Kuhmo and in no region; teal, the
+    # family farthest from the set in both themes once Kurikan Kino's plum is counted, 4.8
+    # dE00 light and 7.3 dark on the weakest model from the nearest accent anywhere.
+    dict(id="pajakkakino", label="Pajakkakino", host="pajakkakino.fi", accent="#145E66",
+         accentDark="#66CCC9", book="door", module="pajakka", where="cloud"),
     # Kino Kuusamotalo, Kuusamo, 2026-09-20. 520 seats in the Oulankasali hall of the
     # town's culture house, run by its own operator on its own site. kuusamotalo.fi is
     # the culture house and only links here; its programme block is a Flockler embed and

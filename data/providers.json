@@ -659,6 +659,14 @@
    "book": "door"
   },
   {
+   "id": "pajakkakino",
+   "label": "Pajakkakino",
+   "host": "pajakkakino.fi",
+   "accent": "#145E66",
+   "accentDark": "#66CCC9",
+   "book": "door"
+  },
+  {
    "id": "kuusamotalo",
    "label": "Kino Kuusamotalo",
    "host": "kinokuusamotalo.fi",

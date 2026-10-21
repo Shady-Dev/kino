@@ -55,6 +55,7 @@ import test_alatalo as AL
 import test_elavienkuvien as EK
 import test_matintupa as MT
 import test_kurikankino as KUR
+import test_pajakka as PJ
 import test_kuusamotalo as KU
 import test_kinohuovi as KH
 import test_localhub as LH
@@ -452,6 +453,13 @@ def sample_kurikankino():
     return (out, KUR.SITE["provider"], [v["id"] for v in KUR.SITE["venues"]])
 
 
+def sample_pajakka():
+    """A film post whose rows take every shape, one whose reading circle must not become a
+    screening, and the event post that is not read at all."""
+    out, _ = PJ.P.rows(PJ.SITE, [PJ.LAPIN, PJ.VIRTAHEPO, PJ.EVENT], PJ.TODAY)
+    return (out, PJ.SITE["provider"], [v["id"] for v in PJ.SITE["venues"]])
+
+
 def sample_k13():
     """A festival block with two timed rows, a Kinokka evening its linked page times and
     one with no linked page, so the row that must not exist is exercised beside the three
@@ -529,7 +537,7 @@ SAMPLES = {
     "pallas": sample_pallas, "huvimylly": sample_huvimylly,
     "alatalo": sample_alatalo, "elavienkuvien": sample_elavienkuvien,
     "matintupa": sample_matintupa, "kuusamotalo": sample_kuusamotalo,
-    "kurikankino": sample_kurikankino,
+    "kurikankino": sample_kurikankino, "pajakka": sample_pajakka,
     "kinohuovi": sample_kinohuovi, "localhub": sample_localhub,
     "k13": sample_k13, "helios": sample_helios, "kannusali": sample_kannusali,
 }
