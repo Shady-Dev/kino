@@ -244,6 +244,17 @@ SITES = [
          {"id": "star-oulu", "match": "star", "name": "Elokuvateatteri Star",
           "short": "Elokuvateatteri Star", "city": "Oulu"},
      ]},
+    # Kino Kaustinen (issue #17), listing films from 2026-10-21 after publishing none since
+    # 2026-09-15: Kotka's template with the place line "KINO KAUSTINEN", three films and
+    # five screenings that day, each with a price and a /salikartta ticket link. `posters`
+    # False publishes none of the site's own, so a poster comes only from a trusted TMDB
+    # match (maintainer, 2026-10-21).
+    {"provider": "kinokaustinen", "base": "https://kinokaustinen.fi",
+     "label": "Kino Kaustinen", "posters": False,
+     "venues": [
+         {"id": "ka-kaustinen", "match": "kino kaustinen", "name": "Kino Kaustinen",
+          "short": "Kino Kaustinen", "city": "Kaustinen"},
+     ]},
     # Moved from Johku 2026-09-29: the site now serves this listing, Kotka's template with
     # the place line "HAAPAMÄEN ELOKUVAT". Read that day, five screenings, each with a
     # price, a language, a runtime and a /salikartta ticket link. The venue id is Johku's.
@@ -568,7 +579,7 @@ def parse_movie(page, site, movie_url):
     if dur and (dur.group(1) or dur.group(2)):
         minutes = str(int(dur.group(1) or 0) * 60 + int(dur.group(2) or 0))
     poster = POSTER_RE.search(page)
-    img = poster.group(1).split("?")[0] if poster else ""
+    img = poster.group(1).split("?")[0] if poster and site.get("posters", True) else ""
     lang = _lang(page, no_subs=site["provider"] not in NO_SUBS_UNREAD)
     genre_hits = GENRES_RE.findall(page)
     if not genre_hits:

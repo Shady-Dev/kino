@@ -97,6 +97,14 @@
    "book": "buy"
   },
   {
+   "id": "kinokaustinen",
+   "label": "Kino Kaustinen",
+   "host": "kinokaustinen.fi",
+   "accent": "#A0522D",
+   "accentDark": "#CD7F50",
+   "book": "buy"
+  },
+  {
    "id": "leffabuumi",
    "label": "Leffabuumi",
    "host": "leffabuumi.fi",

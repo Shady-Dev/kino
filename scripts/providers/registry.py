@@ -86,6 +86,11 @@ PROVIDERS = [
     # publishes a per-show booking link, so `buy`.
     dict(id="kinopirtti", label="Kinopirtti", host="kinopirtti.fi", accent="#8E44AD",
          accentDark="#9349B1", book="buy", module="etiketti", where="cloud"),
+    # Kino Kaustinen (2026-10-21), alone in Kaustinen and in no region, so no pair binds;
+    # 5.2:1 or better against every surface in both themes.
+    dict(id="kinokaustinen", label="Kino Kaustinen", host="kinokaustinen.fi",
+         accent="#A0522D", accentDark="#CD7F50", book="buy", module="etiketti",
+         where="cloud"),
     dict(id="leffabuumi", label="Leffabuumi", host="leffabuumi.fi", accent="#1F7A8C",
          accentDark="#1F7A8C", book="buy", module="etiketti", where="cloud"),
     dict(id="studio123jarvenpaa", label="Studio 123 Järvenpää", host="studiot123.com",

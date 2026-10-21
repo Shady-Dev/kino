@@ -566,6 +566,50 @@ class HaapamakiTest(Stubbed):
         self.assertEqual(row["aud"], "")
 
 
+# Kino Kaustinen's film page, read 2026-10-21: Kotka's template, the place line alone.
+KAUSTINEN_FILM = """<main>
+<h1>Lapin sota</h1>
+<div class="movie-icons"> <img src="https://cdn.example/kinokaustinen/img/ikarajat/fi-16.svg"
+alt="Sallittu yli 16-vuotiaille" title="Sallittu yli 16-vuotiaille" /></div>
+<img class="poster-img" src="https://cdn.example/kinokaustinen/poster/lapin-sota.webp?w=200" alt="">
+<span class="label">Ensi-ilta:</span> 23.10.2026<br /> <span class="label">Kesto:</span> 2 h 38 min<br />
+<div class="screenings">
+<div class="item kaustinen date-24.10.2026"> <div> <p> <strong><span>LA 24.10. klo 18.30</span></strong>
+</p> <p> KINO KAUSTINEN<br /> Lippu 13,00&euro;<br /> Vapaat paikat 85/117 </p> </div>
+<div> <a class="button-screening" href="/salikartta?id=53530"> Osta liput </a> </div> </div>
+<div class="item kaustinen date-25.10.2026"> <div> <p> <strong><span>SU 25.10. klo 18.30</span></strong>
+</p> <p> KINO KAUSTINEN<br /> Lippu 13,00&euro;<br /> Vapaat paikat 101/117 </p> </div>
+<div> <a class="button-screening" href="/salikartta?id=53531"> Osta liput </a> </div> </div>
+</div></main>"""
+
+
+class KaustinenTest(Stubbed):
+    """Kino Kaustinen from 2026-10-21 (issue #17). Its own poster is not published: a
+    poster comes only from a trusted TMDB match, on the maintainer's word."""
+
+    def fetch(self, **over):
+        e = self.stub({"/elokuvat/ohjelmistossa": listing("/elokuvat/3174/lapin-sota"),
+                       "/elokuvat/3174/lapin-sota": KAUSTINEN_FILM})
+        with contextlib.redirect_stdout(io.StringIO()):
+            return e.fetch_site({**site("kinokaustinen"), **over}, sleep=0)
+
+    def test_both_screenings_read_with_price_rating_and_ticket_link(self):
+        out = self.fetch()
+        self.assertEqual(list(out), ["ka-kaustinen"])
+        self.assertEqual([(r["start"], r["price"], r["rating"], r["len"], r["url"])
+                          for r in out["ka-kaustinen"]],
+                         [("2026-10-24T18:30:00+03:00", "13€", "K-16", "158",
+                           "https://kinokaustinen.fi/salikartta?id=53530"),
+                          # Summer time ends in Finland on 25.10.
+                          ("2026-10-25T18:30:00+02:00", "13€", "K-16", "158",
+                           "https://kinokaustinen.fi/salikartta?id=53531")])
+
+    def test_the_sites_own_poster_is_not_published(self):
+        self.assertEqual({r["img"] for r in self.fetch()["ka-kaustinen"]}, {""})
+        self.assertEqual({r["img"] for r in self.fetch(posters=True)["ka-kaustinen"]},
+                         {"https://cdn.example/kinokaustinen/poster/lapin-sota.webp"})
+
+
 class NiagaraTemplateTest(Stubbed):
 
     def rows(self, page=NIAGARA_FILM):

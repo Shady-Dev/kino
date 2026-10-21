@@ -188,9 +188,10 @@ class OtherSitesUnchangedTest(unittest.TestCase):
         others = [s["provider"] for s in load().SITES
                   if not s.get("aud_repeats_venue")]
         # The sixteen from the sweep, Cinema Niagara (2026-09-02), Elokuvateatteri
-        # Star (2026-09-07) and Haapamäen Elokuvat (2026-09-29, whose rows print no room).
-        # Pinned so a new site lands here as a decision rather than a drift.
-        self.assertEqual(len(others), 19)
+        # Star (2026-09-07), Haapamäen Elokuvat (2026-09-29, whose rows print no room) and
+        # Kino Kaustinen (2026-10-21, the same). Pinned so a new site lands here as a
+        # decision rather than a drift.
+        self.assertEqual(len(others), 20)
         for prov in others:
             vals = self.by_provider.get(prov)
             if not vals:
