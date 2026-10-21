@@ -2079,3 +2079,35 @@ region.
 
 `helios.py` reads this listing. Next: compare the published rows with the house's own
 listing once `www.malmitalo.fi` answers again.
+
+---
+
+## Issue leads #13 to #16, read 2026-10-21
+
+**Findings** (each source read once as a visitor, 2026-10-21; the issues are dated 2026-10-15)
+
+- **Cinema Levi Summit, Kittilä (#13).** `levisummit.fi/cinema/` redirects to
+  `kassiopeia.fi/levi-summit/cinema/`, 200. The page carries a `#show-calendar-week-select`
+  and twelve `movies-container__single` film cards, each with a `cinema-levi-summit-next-show`
+  table. The `levi-summit-cinema-show-day-container` sections the issue read are not in the
+  server HTML, so the week's calendar arrives by another request.
+- **Kino Tervakoski, Janakkala (#14).** `janakkala.fi/kino/ohjelmisto-2-2-2/` answered 503
+  to an ordinary connection. Not taken as unreachable from one answer.
+- **Virtain Pirtti, Virrat (#15).** `virtainpirtti.fi/ohjelmistossa-nyt.html`, 200, thirteen
+  lines of the shape "ke 21.10. klo 15.45*". The footnote "21.10. ja 28.10. on 9€
+  päivänäytökset ja tekstitys suomeksi" sets a price and Finnish subtitles on the starred
+  dates, and one row opens with U+200B.
+- **Helsinki Linked Events (#16).** `api.hel.fi/linkedevents/v1/event/` by location, to
+  31.12.: Malmitalo (tprek:8740) 17 rows named Kino Helios, HopeaCine or Yleisön suosikit
+  with "9 €" offers; Kanneltalo (tprek:7255) two Kino Kuutamo rows, 2.11. and 7.12., under
+  "Maksuttomat maanantait"; Vuotalo (tprek:7260) three HopeaCine rows at 10 €.
+
+**Inferences and open questions**
+
+- Kino Helios has read this API since the same evening, when the culture houses' POST
+  began answering 404 (section above). Its CC BY 4.0 credit is on /status/, so the
+  Kanneltalo and Vuotalo rows would come by the same route under the same credit.
+- Kino Kuutamo and HopeaCine would be new chains in Helsinki, whose palette was solved
+  jointly for ten chains on 2026-09-21. A new chain there takes the same solve.
+
+**Status and next step.** Not built. The open item is in `IDEAS.md`.
