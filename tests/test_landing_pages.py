@@ -1458,6 +1458,12 @@ class StaleEmptyPageTest(unittest.TestCase):
         data.mkdir()
         for p in REAL_DATA.glob("*.json"):
             shutil.copy2(p, data / p.name)
+        # Only the stamps below decide staleness. A real failed read lists its venues
+        # under `stale`, and on 2026-10-21 BioRex's did, which made the "fresh" city old.
+        for f in data.glob("venues-*.json"):
+            d = json.loads(f.read_text())
+            d["stale"], d["unverified"] = [], []
+            f.write_text(json.dumps(d))
         cls.today = today = bp.recorded_date()
         cls.saved = (bp.ROOT, bp.DATA)
         bp.ROOT, bp.DATA = root, data
