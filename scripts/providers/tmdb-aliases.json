@@ -185,5 +185,8 @@
  "_comment59": "Kino K13, 2026-10-20. Its page lists \"Kotiinpaluu\" on 22.11. with \"Ohjaaja: Davy Chou, 2022\". TMDB gave 952701 that day as Retour à Séoul / Return to Seoul, Davy Chou, 2022-11-18, 119 minutes, with FI \"Kotiinpaluu\" in its alternative titles. The search finds it only as a weak match, and without a year it picks 722711, a 2018 short of the same name.",
  "kotiinpaluu": "952701",
  "_comment60": "Bio Savoy, Mariehamn, 2026-10-21. Its page lists \"LAPIN SOTA (LAPPLANDSKRIGET)\" from 23.10. at 155 minutes, the Finnish title with the Swedish one in brackets. TMDB gave 1450460 that day as Lapin sota / Lapland War, Aku Louhimies, 2026-10-23, 155 minutes, the id every other chain's \"Lapin sota\" already carries.",
- "lapin sota lapplandskriget": "1450460"
+ "lapin sota lapplandskriget": "1450460",
+ "_comment61": "Bio-Salo, 2026-10-21. \"Autot (20v julkaisu)\" is the 20th-anniversary reissue of Cars: TMDB gave 920 that day as Cars, John Lasseter, 2006-06-08, 117 minutes, against Bio-Salo's 118. \"LaatuSarja: The Testament of Ann Lee\" is the film under the cinema's series name: TMDB gave 1401281 as The Testament of Ann Lee, Mona Fastvold, 2025-12-25, 137 minutes, Bio-Salo's runtime. LaatuSarja is aliased rather than made a strand: one title carries it, at one cinema.",
+ "autot 20v julkaisu": "920",
+ "laatusarja the testament of ann lee": "1401281"
 }
