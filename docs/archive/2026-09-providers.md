@@ -4307,3 +4307,14 @@ film page once, paced. A line whose weekday is not its date's is left out and co
 film page that cannot be read fails the site, and "Lipun hinta" is each screening's price
 as the film's one amount. No poster of the site's own is published. Ochre #664A0A /
 #E0A416. Six mutations red.
+
+### Bio Marlon, Kauhajoki, from its front page (2026-10-21)
+Issue #11. One Elementor page with a text-editor widget per film: one `h1` title and its
+`h4` rows, each a weekday, a date and one or more clocks ("la 24.10. 14:00 ja 18:30"). The
+`h1` links to nytleffaan.fi, so showtimes link to the cinema's own front page. "Ensi-ilta"
+before a row goes in `method`; a bracketed private screening and an untimed premiere are
+left out; "0 €" publishes as free. Widgets holding several `h1`s are the coming films under
+"Tulossa" or the address, never screenings. The Kauhajoki archive film has no TMDB record
+and is aliased as such. No poster of the site's own is published. #663B29 / #F28D61 clears
+Kurikan Kino's shade by 28.1 and 36.3 should the two towns ever share an area. Seven
+mutations red.
