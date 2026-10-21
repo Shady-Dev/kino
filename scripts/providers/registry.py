@@ -674,6 +674,13 @@ PROVIDERS = [
     # the two ever share an area: 28.1 dE00 light and 36.3 dark on the weakest model.
     dict(id="biomarlon", label="Bio Marlon", host="biomarlon.fi", accent="#663B29",
          accentDark="#F28D61", book="door", module="biomarlon", where="cloud"),
+    # Kino-Kuva, Teuva, 2026-10-21 (issue #12). Alone in Teuva and in no region. Teuva is
+    # 25 to 40 km from Kurikka and Kauhajoki, so the shade clears both should the three
+    # ever share an area: 26.0 dE00 light and 18.9 dark on the weakest model, the lower
+    # against Bio Marlon. No shade clears every South Ostrobothnia chain in both themes; the
+    # near ones, Matin-Tupa and Bio Marilyn, are 70 to 90 km off.
+    dict(id="kinokuva", label="Kino-Kuva", host="kinokuva.fi", accent="#4C997F",
+         accentDark="#5CB899", book="door", module="kinokuva", where="cloud"),
     # Kino Kuusamotalo, Kuusamo, 2026-09-20. 520 seats in the Oulankasali hall of the
     # town's culture house, run by its own operator on its own site. kuusamotalo.fi is
     # the culture house and only links here; its programme block is a Flockler embed and

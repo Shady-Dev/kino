@@ -58,6 +58,7 @@ import test_kurikankino as KUR
 import test_pajakka as PJ
 import test_kisakino as KIS
 import test_biomarlon as BM
+import test_kinokuva as KKV
 import test_kuusamotalo as KU
 import test_kinohuovi as KH
 import test_localhub as LH
@@ -488,6 +489,14 @@ def sample_biomarlon():
     return (out, BM.SITE["provider"], [v["id"] for v in BM.SITE["venues"]])
 
 
+def sample_kinokuva():
+    """Two films in the programme table, as ISO-8859-1 bytes, beside a film-shaped block
+    above it that must not be read: a premiere, a series heading, two clocks on one row and
+    an announced date with none."""
+    out, _ = KKV.K.rows(KKV.SITE, KKV.K.decode(KKV.LIVE), KKV.TODAY)
+    return (out, KKV.SITE["provider"], [v["id"] for v in KKV.SITE["venues"]])
+
+
 def sample_k13():
     """A festival block with two timed rows, a Kinokka evening its linked page times and
     one with no linked page, so the row that must not exist is exercised beside the three
@@ -567,6 +576,7 @@ SAMPLES = {
     "matintupa": sample_matintupa, "kuusamotalo": sample_kuusamotalo,
     "kurikankino": sample_kurikankino, "pajakka": sample_pajakka,
     "kisakino": sample_kisakino, "biomarlon": sample_biomarlon,
+    "kinokuva": sample_kinokuva,
     "kinohuovi": sample_kinohuovi, "localhub": sample_localhub,
     "k13": sample_k13, "helios": sample_helios, "kannusali": sample_kannusali,
 }
