@@ -3,8 +3,7 @@
 [ritzvaasa] 13 of 13 screening(s) carry a portrait poster
 [ritzvaasa] Ritz Vaasa: 13 showtimes, 9 dates
 [ritzvaasa] Ritz Vaasa: 13 showtimes, 9 dates
-[ritzvaasa] synopses merged: 1
-[ritzvaasa] synopses by language: en 1
+[ritzvaasa] synopses merged: 0
 [tahtikino] 11 event(s) in category elokuvat, 1 page(s) read
 [tahtikino] 0 of 11 screening(s) carry a portrait poster
 [tahtikino] Tähti Kino: 11 showtimes, 5 dates
@@ -14,5 +13,5 @@
 [run] http: 0 revalidated (304), 2 full, 0 not stored (origin said no-store), 0 cache entries written
 [run] hosts: 2 attempted -- muhos.fi, ritz.fi
 [run] tribe: 2 venues, 24 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
-[run] timing: 2 site(s), 8.6s of fetching added up across workers that overlap, longest site 7.2s, longest queue wait 191.3s, 7.2s wall from this module's first fetch starting to its last ending
+[run] timing: 2 site(s), 8.1s of fetching added up across workers that overlap, longest site 6.8s, longest queue wait 181.2s, 6.8s wall from this module's first fetch starting to its last ending
 exit=0
