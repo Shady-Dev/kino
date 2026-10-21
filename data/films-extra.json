@@ -5323,6 +5323,7 @@
     "kuvakukko",
     "laitilankino",
     "lieksankino",
+    "pajakkakino",
     "tapiola",
     "vihdinkino"
    ],
@@ -5366,6 +5367,7 @@
     "kuvakukko",
     "laitilankino",
     "lieksankino",
+    "pajakkakino",
     "tapiola",
     "vihdinkino"
    ],
@@ -5418,6 +5420,7 @@
     "kuvakukko",
     "laitilankino",
     "lieksankino",
+    "pajakkakino",
     "tapiola",
     "vihdinkino"
    ],
@@ -5471,6 +5474,7 @@
     "kuvakukko",
     "laitilankino",
     "lieksankino",
+    "pajakkakino",
     "tapiola",
     "vihdinkino"
    ],
@@ -5514,6 +5518,7 @@
     "kuvakukko",
     "laitilankino",
     "lieksankino",
+    "pajakkakino",
     "tapiola",
     "vihdinkino"
    ],
@@ -5560,6 +5565,7 @@
     "kuvakukko",
     "laitilankino",
     "lieksankino",
+    "pajakkakino",
     "tapiola",
     "vihdinkino"
    ],
@@ -5846,6 +5852,7 @@
     "kinomyyri",
     "kinopiispanristi",
     "leffabuumi",
+    "pajakkakino",
     "savonkinot",
     "star",
     "studio123jarvenpaa"
@@ -6610,6 +6617,58 @@
     "fi": "Satuelokuva on Allu Tuppuraisen 1980-luvulla luoman rakastetun hahmon toinen esiintyminen valkokankaalla. Uusia asuinsijoja etsivä hirmuisten röllien heimo päätyy ajamaan rauhaa rakastavat menninkäiset pois kotikylästään. Avain sopuun löytyy pohjimmiltaan hyväntahtoisen Rölli-peikon ja menninkäisneito Millin orastavasta ystävyydestä."
    },
    "tr": ""
+  },
+  "römppäviikot lapin sota": {
+   "id": 1450460,
+   "img": "data/posters/c15d678a31ae397e.jpg",
+   "r": 0,
+   "s": {
+    "en": "",
+    "fi": "Nuori sotamies Heikki taistelee Karjalan kannaksella ystävänsä Paulin kanssa. Komppaniaan liittyy vankilasta vapautunut Arvo, jonka maailmankuva haastaa muiden käsitykset sodasta ja velvollisuudesta. Aselepo herättää toivon kotiinpaluusta, mutta pian selviää, että Suomen on käännyttävä entisiä saksalaisia liittolaisiaan vastaan Lapissa. Samaan aikaan Rovaniemellä saksalaisten tulkkina työskentelevä Saara joutuu valitsemaan tulevaisuutensa: jäädä Suomeen vai paeta Saksaan rakastettunsa, majuri Duisbergin, kanssa."
+   },
+   "tr": "",
+   "ts": [
+    "fi"
+   ]
+  },
+  "römppäviikot nosferatu 1922": {
+   "id": 653,
+   "img": "data/posters/77ff72e53240e7e7.jpg",
+   "r": 7.7,
+   "s": {
+    "en": "",
+    "fi": "Nosferatu (Nosferatu, eine Symphonie des Grauens) on F. W. Murnaun ohjaama saksalainen kauhuelokuva vuodelta 1922. Nosferatu on elokuvataiteen klassikko, jolla on ollut huomattava vaikutus kauhuelokuviin.  Max Schrekin tähdittämä klassinen kuvaus transsilvanialaisesta kreivistä, joka herää öisin ja elää ihmisten verestä."
+   },
+   "tr": "https://www.youtube.com/watch?v=npxhdRMYHy0",
+   "ts": [
+    "fi"
+   ]
+  },
+  "römppäviikot pikkuli ja tähtipeura": {
+   "id": 1403476,
+   "img": "data/posters/79b249e47f0870db.jpg",
+   "r": 0,
+   "s": {
+    "en": "",
+    "fi": "Pikkuli sekä muu Aurinkonummen metsän väki on valmistautumassa jouluun, mutta aikuiset alkavat riidellä ja peruvat koko joulun. Pikkuli ystävineen päättää pelastaa tilanteen ja lähtee lumiseen metsään löytääkseen avuksi tarujen Tähtipeuran. Revontulien loimutessa sinnikäs retkue kohtaa monia seikkailuja, tavoitteenaan pelastaa kaikkien joulu."
+   },
+   "tr": "",
+   "ts": [
+    "fi"
+   ]
+  },
+  "römppäviikot rakkautta ja virtahepoja elokuva lukupiiri": {
+   "id": 1450473,
+   "img": "data/posters/3630a8c5eeb607ff.jpg",
+   "r": 0,
+   "s": {
+    "en": "",
+    "fi": "Kaksi toisilleen tuntematonta ihmistä kohtaavat kreikkalaissuomalaisissa häissä keskellä omia eroprosessejaan. Vielä naimisissa oleva, vähäistä menestystä niittänyt muusikko Touko tuntee vetoa juuri eroamassa olevaan Eevikseen. Häissä on vieraana myös Toukon vaimo, tunnettu laulajatähti Leena, joka huomaa Toukon ja Eeviksen välisen vetovoiman. Kreikan upeissa merimaisemissa yhden illan aikana käytävissä keskusteluissa pohditaan vanhemmuutta, lapsettomuutta, seksiä, eroja, avioliittoa ja tietenkin rakkautta sekä juhlitaan ikimuistoisia häitä."
+   },
+   "tr": "",
+   "ts": [
+    "fi"
+   ]
   },
   "saapasjalkakissa": {
    "id": 58704,
@@ -8269,6 +8328,7 @@
     "kinoset",
     "kotkanleffat",
     "leffabuumi",
+    "pajakkakino",
     "savonkinot",
     "star",
     "studio123jarvenpaa",

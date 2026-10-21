@@ -4286,3 +4286,15 @@ print. Coming-soon cards and the gift card tile carry no time and are not films.
 sells no tickets, so `book` is door and a showtime links to the film page. No poster of the
 site's own is published, on the maintainer's word; every snapshot card matched TMDB. The
 shade #73115F / #EB81DD is the one farthest from every existing accent. Six mutations red.
+
+### Pajakkakino, Kuhmo, from its WordPress posts (2026-10-21)
+Issue #10. The front page is an Instagram feed and the programme is the posts, one per film,
+read in one request from `/wp-json/wp/v2/posts`. A film post has a facts line ("Draama,
+sota, kotimainen I 2h 35min I 23.10.2026 I AUDIO suomi") and an `ESITYKSET:` list; a post
+with neither is not read, which on the first read was an event post whose prose put a
+15:30 burger slot beside an 18:00 documentary. Rows take every shape seen: no second dot,
+clocks on the next line, two clocks on one line. A row with a note other than the film
+starting is left out, so "16:30 alkaen lukupiiri" is not a screening and "18:00 elokuva
+alkaa" is; struck-through, untimed and out-of-window rows are left out and counted. Its
+"RÖMPPÄVIIKOT:" event weeks are aliased title by title, the Vilimit-festivaali call. No
+poster of the site's own is published. Teal #145E66 / #66CCC9. Six mutations red.
