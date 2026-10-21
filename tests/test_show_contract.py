@@ -56,6 +56,7 @@ import test_elavienkuvien as EK
 import test_matintupa as MT
 import test_kurikankino as KUR
 import test_pajakka as PJ
+import test_kisakino as KIS
 import test_kuusamotalo as KU
 import test_kinohuovi as KH
 import test_localhub as LH
@@ -460,6 +461,25 @@ def sample_pajakka():
     return (out, PJ.SITE["provider"], [v["id"] for v in PJ.SITE["venues"]])
 
 
+def sample_kisakino():
+    """Two film pages through fetch_site, one line with the wrong weekday, so the line that
+    must not exist is exercised beside the three that must."""
+    D24, D25, B = KIS.D24, KIS.D25, KIS.BASE
+    pages = {B + "/": KIS.front(("lapin-sota", "Lapin sota"), ("pikkuli", "Pikkuli")),
+             f"{B}/elokuvat/lapin-sota/": KIS.film(KIS.line(D24, "16:00"),
+                                                   KIS.line(D25, "16:00", wd="La")),
+             f"{B}/elokuvat/pikkuli/": KIS.film(KIS.line(D24, "18:00"), KIS.line(D25, "18:00"),
+                                                age="s")}
+    saved = KIS.K.get_text
+    KIS.K.get_text = lambda url, **kw: pages[url]
+    try:
+        with contextlib.redirect_stdout(io.StringIO()):
+            out = KIS.K.fetch_site(KIS.SITE, sleep=0)[KIS.VENUE]
+    finally:
+        KIS.K.get_text = saved
+    return (out, KIS.SITE["provider"], [v["id"] for v in KIS.SITE["venues"]])
+
+
 def sample_k13():
     """A festival block with two timed rows, a Kinokka evening its linked page times and
     one with no linked page, so the row that must not exist is exercised beside the three
@@ -538,6 +558,7 @@ SAMPLES = {
     "alatalo": sample_alatalo, "elavienkuvien": sample_elavienkuvien,
     "matintupa": sample_matintupa, "kuusamotalo": sample_kuusamotalo,
     "kurikankino": sample_kurikankino, "pajakka": sample_pajakka,
+    "kisakino": sample_kisakino,
     "kinohuovi": sample_kinohuovi, "localhub": sample_localhub,
     "k13": sample_k13, "helios": sample_helios, "kannusali": sample_kannusali,
 }

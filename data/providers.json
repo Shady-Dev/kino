@@ -667,6 +667,14 @@
    "book": "door"
   },
   {
+   "id": "kisakino",
+   "label": "KisaKino",
+   "host": "kisakino.fi",
+   "accent": "#664A0A",
+   "accentDark": "#E0A416",
+   "book": "door"
+  },
+  {
    "id": "kuusamotalo",
    "label": "Kino Kuusamotalo",
    "host": "kinokuusamotalo.fi",

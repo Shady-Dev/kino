@@ -664,6 +664,11 @@ PROVIDERS = [
     # dE00 light and 7.3 dark on the weakest model from the nearest accent anywhere.
     dict(id="pajakkakino", label="Pajakkakino", host="pajakkakino.fi", accent="#145E66",
          accentDark="#66CCC9", book="door", module="pajakka", where="cloud"),
+    # KisaKino, Saarijärvi, 2026-10-21 (issue #9). Alone in Saarijärvi and in no region;
+    # ochre, the family farthest from the set in both themes once the two above are
+    # counted, 5.1 dE00 on the weakest model from the nearest accent in each theme.
+    dict(id="kisakino", label="KisaKino", host="kisakino.fi", accent="#664A0A",
+         accentDark="#E0A416", book="door", module="kisakino", where="cloud"),
     # Kino Kuusamotalo, Kuusamo, 2026-09-20. 520 seats in the Oulankasali hall of the
     # town's culture house, run by its own operator on its own site. kuusamotalo.fi is
     # the culture house and only links here; its programme block is a Flockler embed and
