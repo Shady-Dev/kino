@@ -1,0 +1,8 @@
+[kurikankino] Kurikan Kino, Kurikka: 31 showtimes, 19 dates, 3 film(s), 5 coming soon
+[kurikankino] Kurikan Kino: 31 showtimes, 19 dates
+[kurikankino] synopses merged: 0
+[run] http: 0 revalidated (304), 1 full, 0 not stored (origin said no-store), 0 cache entries written
+[run] hosts: 1 attempted -- www.kurikankino.com
+[run] kurikankino: 1 venues, 31 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
+[run] timing: 1 site(s), 1.2s of fetching added up across workers that overlap, longest site 1.2s, longest queue wait 194.6s, 1.2s wall from this module's first fetch starting to its last ending
+exit=0

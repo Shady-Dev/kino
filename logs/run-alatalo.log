@@ -1,22 +1,5 @@
-[alatalo] 7 screening(s) in 4 town heading(s) read
-[alatalo] 1 screening line(s) whose time, title or date this parser could not place, left out
-[alatalo] Kiuruvesi: a date or a time under its heading and no screening placed, so not published as empty and the previous file stands
-[alatalo] 8 line(s) that are neither a town heading, a date heading nor a screening, left out
-[alatalo] Pohjantähti, Pudasjärvi: 3 showtimes, 1 dates, priced 10€
-[alatalo] Teatterisali, Haapajärvi: 2 showtimes, 1 dates, priced 10€
-[alatalo] Kiurusali, Kiuruvesi: 0 showtimes, 0 dates
-[alatalo] Toholampisali, Toholampi: 0 showtimes, 0 dates
-[alatalo] Kulttuurikeskus, Kemijärvi: 2 showtimes, 1 dates, priced 10€
-[alatalo] Pohjantähti: 3 showtimes, 1 dates
-[alatalo] Teatterisali: 2 showtimes, 1 dates
-[alatalo] Kiurusali: no showtimes, keeping previous data from 2026-10-19T05:15:09+00:00
-[alatalo] Toholampisali: no programme at the moment (adapter confirmed the venue empty); publishing an empty file
-[alatalo] Kulttuurikeskus: 2 showtimes, 1 dates
-[alatalo] synopses merged: 0
-[run] http: 0 revalidated (304), 1 full, 1 not stored (origin said no-store), 0 cache entries written
+[alatalo] FAILED: <urlopen error timed out>
 [run] hosts: 1 attempted -- www.moviecompanyalatalo.fi
-[run] pending: alatalo has 1 venue(s) with no programme yet: alatalo-toholampi
-[run] partial: alatalo kept previous data for 1 venue(s): alatalo-kiuruvesi
-[run] alatalo: 3 venues, 7 showtimes, 1 stale, 0 unverified, 1 pending, 0 with no programme, 0 failures
-[run] timing: 1 site(s), 0.7s of fetching added up across workers that overlap, longest site 0.7s, longest queue wait 154.6s, 0.7s wall from this module's first fetch starting to its last ending
-exit=0
+[run] alatalo: 0 venues, 0 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 1 failures
+[run] timing: 1 site(s), 106.0s of fetching added up across workers that overlap, longest site 106.0s, longest queue wait 193.3s, 106.0s wall from this module's first fetch starting to its last ending
+exit=1

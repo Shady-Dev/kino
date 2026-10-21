@@ -271,8 +271,7 @@
    "kr": "K-12",
    "krs": [
     "engel",
-    "kinoaurora",
-    "kinometso"
+    "kinoaurora"
    ],
    "r": 6.2,
    "s": {
@@ -1378,6 +1377,16 @@
     "en"
    ]
   },
+  "gremlins": {
+   "id": 927,
+   "img": "data/posters/24c8fa65c2d6fcdc.jpg",
+   "r": 7.1,
+   "s": {
+    "en": "",
+    "fi": "Pienet ja söpöt karvaiset olennot muuttuvat riehuviksi riiviöiksi ja ovat lähes tuhota pikkukaupungin rauhallisen elämänmenon."
+   },
+   "tr": "https://www.youtube.com/watch?v=PXXZx6skXrw"
+  },
   "gremlins 2 the new batch": {
    "id": 928,
    "r": 0,
@@ -1786,16 +1795,12 @@
   },
   "hyvä talo": {
    "id": 1035047,
-   "img": "data/posters/bdbab05dd04763e3.jpg",
-   "r": 6.7,
+   "r": 0,
    "s": {
-    "en": "When Gośka meets Grzesiek online, she's sure he's her Mr. Right. Grzesiek is crazy about her, showers her with flowers, and proposes in Venice, but soon enough, the picture perfect romance starts to crumble, revealing a darker side.",
+    "en": "",
     "fi": "Puolalaisen nykyelokuvan kärkitekijän uusi elokuva on raju kuvaus parisuhdeväkivallasta. Gośka tutustuu internetissä Grzesiekiin ja uskoo löytäneensä viimein elämänsä rakkauden. Mies hurmaa hänet huomiolla, kukilla ja romanttisella kosinnalla Venetsiassa. Aluksi suhde näyttää täydelliseltä, mutta vähitellen idylliin alkaa kuitenkin ilmestyä säröjä. Yhteisestä kodista tulee Gośkalle yhä ahdistavampi ja vaarallisempi paikka. Hän joutuu kohtaamaan rakkauden synkän ja hallitsevan puolen."
    },
-   "tr": "",
-   "ts": [
-    "en"
-   ]
+   "tr": ""
   },
   "häpeä": {
    "id": 26372,
@@ -2139,6 +2144,7 @@
    "img": "data/posters/31b4bfa4354c3f1d.jpg",
    "kr": "K-7",
    "krs": [
+    "biorex",
     "cine",
     "gilda",
     "ihmekompleksi",
@@ -2359,7 +2365,6 @@
     "helios",
     "ihmekompleksi",
     "isohannu",
-    "jarvelankino",
     "kino123",
     "kinoakseli",
     "kinoaurora",
@@ -3575,6 +3580,7 @@
    "img": "data/posters/93eda5fa30b7d70c.jpg",
    "kr": "K-7",
    "krs": [
+    "biorex",
     "elavienkuvien",
     "engel",
     "haapamaki",
@@ -3658,6 +3664,19 @@
     "fi": "Lemmenlatu on osittain dramatisoitu pitkä dokumenttielokuva, joka kertoo Lahden yli satavuotisen historian perustamisvuodesta 1905 tähän päivään. Rinnalla kuljetamme Suomen satavuotisen itse-näisyyden dramaattisimpia hetkiä. Mukana ovat Salpausselällä järjestetyt hiihdon MM-kisat alkaen vuodesta 1926 huipennuksena juhlavuoden 2017 MM-kisat."
    },
    "tr": ""
+  },
+  "leviticus": {
+   "id": 1564614,
+   "img": "data/posters/bcc43fe8ab925846.jpg",
+   "r": 6.8,
+   "s": {
+    "en": "Two teenage boys must escape a violent entity that takes the form of the person they desire most:  each other.",
+    "fi": "TALK TO ME- ja BRING HER BACK -elokuvien tuottajilta uusi, omaperäinen painajainen. Kahden teinipojan on paettava väkivaltaista olentoa, joka ottaa sen ihmisen hahmon, jota he eniten haluavat – eli toisensa."
+   },
+   "tr": "https://www.youtube.com/watch?v=WXuK0vlFxII",
+   "ts": [
+    "en"
+   ]
   },
   "lex julia": {
    "id": 1450457,
@@ -4036,6 +4055,14 @@
    "ts": [
     "en"
    ]
+  },
+  "me olemme pariisin orkesteri": {
+   "r": 0,
+   "s": {
+    "en": "",
+    "fi": "Ohjaaja Philippe Beziat on loihtinut elokuvallisen sukelluksen musiikin luomisen ytimeen. Elokuva vie yleisön orkesterin sisään, kokemaan musiikin 90 mikrofonin avulla eri kulmista, eri muusikoiden kokemana. 120 muusikon yhteinen soittamisen tahto kannattelee elämystä. Orkesterin häikäisevä kotisali Grande Salle Pierre Boulez on Pritzker-palkitun Jean Nouvelin suunnittelema. Elokuva vie katsojat mukaansa myös Pariisin orkesterin kiertueelle. Stravinskyn ja Mahlerin klassikoita soitetaan kuin hurmiossa."
+   },
+   "tr": ""
   },
   "me ollaan parhaita vi är bäst": {
    "r": 0,
@@ -5628,7 +5655,6 @@
     "kinohamina",
     "kinohirvi",
     "kinolumo",
-    "kinomarilyn",
     "kinometso",
     "kinoolympia",
     "kinopiispanristi",
@@ -5672,7 +5698,6 @@
     "kinohamina",
     "kinohirvi",
     "kinolumo",
-    "kinomarilyn",
     "kinometso",
     "kinoolympia",
     "kinopiispanristi",
@@ -6364,7 +6389,6 @@
     "gilda",
     "kino123",
     "kinohirvi",
-    "kinokuva",
     "kinolaika",
     "kinolumo",
     "kotkanleffat",
@@ -7075,6 +7099,19 @@
     "fi": "Uppoudu Stevie Wonderin ajattomaan klassikkoon Pitchblack Playbackin pilkkopimeässä kuuntelusessiossa juhlistaessamme sen 50. juhlavuotta. Kuule tämä pysäyttävä teos järisyttävällä äänentoistojärjestelmällämme, pakkaamattomana ja kovalla äänenvoimakkuudella. Ei häiriötekijöitä – vain sinä ja musiikki."
    },
    "tr": ""
+  },
+  "stray kids world tour run it live viewing": {
+   "id": 1795555,
+   "img": "data/posters/0b6f307f1ac0be55.jpg",
+   "r": 0,
+   "s": {
+    "en": "Stray Kids bring their World Tour (RUN IT) concert to cinemas in a live broadcast, with all eight members performing their high-energy choreography.",
+    "fi": ""
+   },
+   "tr": "",
+   "ts": [
+    "en"
+   ]
   },
   "street fighter": {
    "id": 1153576,
@@ -8185,7 +8222,6 @@
     "kinokilta",
     "kinokonepaja",
     "kinolaika",
-    "kinomarilyn",
     "korjaamo",
     "kuvakukko",
     "tapiola"
@@ -8221,16 +8257,12 @@
   },
   "työväenluokka nousee taivaaseen": {
    "id": 56231,
-   "img": "data/posters/d0e8d1a9520f988d.jpg",
-   "r": 7.8,
+   "r": 0,
    "s": {
-    "en": "After losing a finger in a work accident, an Italian worker becomes increasingly involved in political and revolutionary groups.",
+    "en": "",
     "fi": "Cannesin pääpalkinnon voittaneessa elokuvassa tehdastyöläinen Lulù Massa on tehokkuuteen alistunut mallityöläinen, kunnes tehdas alkaa näyttäytyä klaustrofobisena koneistona, jossa ihminen on vain tuotantolinjan mekanismi. Elio Petrin ”vainoharhaisuuden trilogian” toinen osa vie katsojan aistivoimaisesti tehtaan uumeniin, jossa metallin kalkatus, kellon tikitys ja tiukat leikkaukset symboloivat kapitalismin ajallista vallankäyttöä."
    },
-   "tr": "https://www.youtube.com/watch?v=RRUz45GVOAM",
-   "ts": [
-    "en"
-   ]
+   "tr": ""
   },
   "udta teer": {
    "id": 1375156,
@@ -8751,13 +8783,25 @@
   },
   "wholetrain 2006": {
    "id": 14231,
-   "img": "data/posters/2dab9b0442a25b52.jpg",
-   "r": 6.5,
+   "r": 0,
    "s": {
     "en": "Wholetrain is a highly suspenseful, emotionally gripping drama that delves deep into the secret cosmos of the graffiti scene. Florian Gaag tells the story of a crew of four graffiti writers who have dedicated themselves to the scene with its own hierarchies, values, rules and codes. Night after night, they set out to spray the city‘s subways with their opulent images. When another graffiti crew turns up and challenges the four, a creative competition breaks out that will change the lives of the protagonists forever. It‘s about a life on the edge. Always on the verge of illegality, always on the run from the police. It is about the conquest of urban spaces, about friendship, passion and creativity.",
     "fi": ""
    },
-   "tr": "https://www.youtube.com/watch?v=oNKTp3Ta_Oc"
+   "tr": ""
+  },
+  "wicker intohimosta punottu": {
+   "id": 1195803,
+   "img": "data/posters/aca6e1cdaad07a60.jpg",
+   "r": 0,
+   "s": {
+    "en": "On the outskirts of a village by the sea, lives a Fisherwoman; smelly, single and perpetually ridiculed. One day, fed up with her stuffy, small-minded neighbours, she commissions herself a husband to be made from wicker. In an otherwise conservative town, this unconventional romance sparks outrage, jealousy and chaos.",
+    "fi": "Omaperäinen ja sykähdyttävä elokuva Wicker – intohimosta punottu on Oscar-voittaja Olivia Colmanin ja Alexander Skarsgårdin tähdittämä komedia avioliitosta ja yhteiskunnan normien absurdiudesta. Naimaton kalastajanainen (Olivia Colman) saa tarpeekseen kyläläisten ahdasmielisyydestä ja päättää tilata paikalliselta korinpunojalta (Peter Dinklage) itselleen aviomiehen – pajusta. Pajusta punotussa miehessä (Alexander Skarsgård) on aviomiesainesta enemmän kuin nainen olisi osannut odottaa. Yllättävä puoliso herättää naisessa uudenlaisia tunteita ja käynnistää ihastuksen, kateuden, ja mullistusten aallon, joka uhkaa järkyttää koko kyläyhteisöä. Teräväkielinen, humoristinen ja normeja uskaliaasti rikkova komedia haastaa pohtimaan rakkautta ja avioliittoa täysin uudesta näkökulmasta. Elokuvan maailmanensi-ilta oli Sundance-elokuvajuhlilla vuonna 2026."
+   },
+   "tr": "https://www.youtube.com/watch?v=kA9NfV4pM_Q",
+   "ts": [
+    "en"
+   ]
   },
   "wild horse nine": {
    "id": 891621,

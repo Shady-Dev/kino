@@ -1,4 +1,3 @@
-[http] 503 from www.kinokilta.fi, gave up after 1 attempt(s) -- Retry-After: 7200
 [kinokilta] FAILED: HTTP Error 503: Service Unavailable
 [kinolaika] 35 screening(s) listed, 20 film page(s) read
 [kinolaika] omitted 0 confirmed non-film(s) by evidence-backed exclusion over 0 screening(s), and 7 unresolved over 7
@@ -31,8 +30,7 @@
 [kinokonepaja] Kino Konepaja: 45 showtimes, 24 dates
 [kinokonepaja] synopses merged: 0
 [run] http: 0 revalidated (304), 56 full, 19 not stored (origin said no-store), 0 cache entries written
-[run] throttled: 1 Retry-After responses, 0s waited, 1 not retried (asked for longer than a run can wait)
 [run] hosts: 4 attempted -- kinokonepaja.fi, kinomyyri.fi, www.kinokilta.fi, www.kinolaika.fi
 [run] kinola: 3 venues, 104 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 1 failures
-[run] timing: 4 site(s), 118.7s of fetching added up across workers that overlap, longest site 45.0s, longest queue wait 117.0s, 46.9s wall from this module's first fetch starting to its last ending
+[run] timing: 4 site(s), 144.6s of fetching added up across workers that overlap, longest site 46.3s, longest queue wait 149.0s, 55.5s wall from this module's first fetch starting to its last ending
 exit=1

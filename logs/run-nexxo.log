@@ -1,30 +1,30 @@
-[kinoset] Kino 1-2 (Huittinen): 26 showtimes
-[kinoset] Kinema (Loimaa): 13 showtimes
-[kinoset] Bio (Sastamala): 13 showtimes
-[kinoset] Kino 1-2: 26 showtimes, 8 dates
-[kinoset] Kinema: 13 showtimes, 9 dates
-[kinoset] Bio: 13 showtimes, 9 dates
+[kinoset] Kino 1-2 (Huittinen): 23 showtimes
+[kinoset] Kinema (Loimaa): 11 showtimes
+[kinoset] Bio (Sastamala): 11 showtimes
+[kinoset] Kino 1-2: 23 showtimes, 7 dates
+[kinoset] Kinema: 11 showtimes, 8 dates
+[kinoset] Bio: 11 showtimes, 8 dates
 [kinoset] synopses merged: 0
 [kinoaurora] Kino Aurora (Jyväskylä): 35 showtimes
 [kinoaurora] Kino Aurora: 35 showtimes, 12 dates
-[kinoaurora] synopses merged: 0
-[kinohirvi] Kino Hirvi (Äänekoski): 26 showtimes
-[kinohirvi] Kino Hirvi: 26 showtimes, 8 dates
+[kinoaurora] synopses merged: 1
+[kinohirvi] Kino Hirvi (Äänekoski): 24 showtimes
+[kinohirvi] Kino Hirvi: 24 showtimes, 7 dates
 [kinohirvi] synopses merged: 0
-[biosade] Bio Säde (Mänttä): 21 showtimes
-[biosade] Bio Säde: 21 showtimes, 8 dates
+[biosade] Bio Säde (Mänttä): 19 showtimes
+[biosade] Bio Säde: 19 showtimes, 7 dates
 [biosade] synopses merged: 0
-[kinomarilyn] Kino Marilyn (Loviisa): 48 showtimes
-[kinomarilyn] Kino Marilyn: 48 showtimes, 12 dates
+[kinomarilyn] Kino Marilyn (Loviisa): 42 showtimes
+[kinomarilyn] Kino Marilyn: 42 showtimes, 11 dates
 [kinomarilyn] synopses merged: 0
-[kinoolympia] Kino Olympia (Hanko): 16 showtimes
-[kinoolympia] Kino Olympia: 16 showtimes, 9 dates
+[kinoolympia] Kino Olympia (Hanko): 14 showtimes
+[kinoolympia] Kino Olympia: 14 showtimes, 8 dates
 [kinoolympia] synopses merged: 0
-[jarvelankino] Järvelän Kino (Järvelä): 10 showtimes
-[jarvelankino] Järvelän Kino: 10 showtimes, 7 dates
+[jarvelankino] Järvelän Kino (Järvelä): 9 showtimes
+[jarvelankino] Järvelän Kino: 9 showtimes, 6 dates
 [jarvelankino] synopses merged: 0
 [kinometso] Muurame (Muurame): 9 showtimes
-[kinometso] Petäjävesi (Petäjävesi): 9 showtimes
+[kinometso] Petäjävesi (Petäjävesi): 7 showtimes
 [kinometso] Tikkakoski (Jyväskylä): 2 showtimes
 [kinometso] Vaajakoski (Jyväskylä): 0 showtimes
 [kinometso] Laukaa (Laukaa): 5 showtimes
@@ -32,7 +32,7 @@
 [kinometso] Toivakka (Toivakka): 5 showtimes
 [kinometso] Hankasalmi (Hankasalmi): 5 showtimes
 [kinometso] Muurame: 9 showtimes, 6 dates
-[kinometso] Petäjävesi: 9 showtimes, 5 dates
+[kinometso] Petäjävesi: 7 showtimes, 4 dates
 [kinometso] Tikkakoski: 2 showtimes, 1 dates
 [kinometso] Vaajakoski: no programme at the moment (adapter confirmed the venue empty); publishing an empty file
 [kinometso] Laukaa: 5 showtimes, 1 dates
@@ -40,7 +40,6 @@
 [kinometso] Toivakka: 5 showtimes, 1 dates
 [kinometso] Hankasalmi: 5 showtimes, 1 dates
 [kinometso] synopses merged: 0
-[http] 503 from biosalo.fi, gave up after 1 attempt(s) -- Retry-After: 7200
 [biosalo] locationid 1 FAILED: HTTP Error 503: Service Unavailable
 [biosalo] Bio-Salo: no showtimes, keeping previous data from 2026-10-21T12:28:35+00:00
 [biosalo] synopses merged: 0
@@ -48,11 +47,10 @@
 [biostara] Bio Stara: no showtimes, keeping previous data from 2026-10-21T12:28:35+00:00
 [biostara] synopses merged: 0
 [run] http: 0 revalidated (304), 10 full, 10 not stored (origin said no-store), 0 cache entries written
-[run] throttled: 2 Retry-After responses, 0s waited, 2 not retried (asked for longer than a run can wait)
 [run] hosts: 7 attempted -- biosalo.fi, jarvelankino.fi, kino-olympia.fi, kinoaurora.fi, kinohirvi.fi, kinomarilyn.fi, kinoset.fi
 [run] pending: kinometso has 1 venue(s) with no programme yet: km-vaajakoski
 [run] partial: biosalo kept previous data for 1 venue(s): bs-salo
 [run] partial: biostara kept previous data for 1 venue(s): bs-paimio
-[run] nexxo: 16 venues, 248 showtimes, 2 stale, 0 unverified, 1 pending, 0 with no programme, 2 failures
-[run] timing: 10 site(s), 41.9s of fetching added up across workers that overlap, longest site 10.5s, longest queue wait 0.0s, 10.5s wall from this module's first fetch starting to its last ending
+[run] nexxo: 16 venues, 226 showtimes, 2 stale, 0 unverified, 1 pending, 0 with no programme, 2 failures
+[run] timing: 10 site(s), 82.2s of fetching added up across workers that overlap, longest site 21.9s, longest queue wait 0.0s, 43.8s wall from this module's first fetch starting to its last ending
 exit=1

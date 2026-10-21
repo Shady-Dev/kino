@@ -13,7 +13,7 @@
 [studio123jarvenpaa] synopses merged: 0
 [studio123kouvola] Studio 123 Kouvola: 60 showtimes, 20 dates
 [studio123kouvola] synopses merged: 0
-[ihmekompleksi] Ihme Kompleksi: 36 showtimes, 16 dates
+[ihmekompleksi] Ihme Kompleksi: 35 showtimes, 15 dates
 [ihmekompleksi] synopses merged: 0
 [ihmekompleksi] screening-note sentences left out of synopses: 1
 [kino123] Kino 123: 67 showtimes, 10 dates
@@ -25,7 +25,7 @@
 [kinojuha] synopses merged: 0
 [biogrand] Bio Grand: 23 showtimes, 8 dates
 [biogrand] synopses merged: 0
-[biovuoksi] Bio Vuoksi: 25 showtimes, 10 dates
+[biovuoksi] Bio Vuoksi: 24 showtimes, 9 dates
 [biovuoksi] synopses merged: 0
 [kinoiiris] strand prefix split off 2 showtimes
 [kinoiiris] Kino Iiris: 38 showtimes, 24 dates
@@ -35,12 +35,12 @@
 [kkino] synopses merged: 0
 [biograni] Bio Grani: 10 showtimes, 6 dates
 [biograni] synopses merged: 0
-[niagara] no registered venue claims '' (47 row(s)); no venue of this site is confirmed empty on this read
-[niagara] Cinema Niagara: no showtimes, keeping previous data from 2026-10-21T11:15:52+00:00
+[niagara] Cinema Niagara: 47 showtimes, 18 dates
 [niagara] synopses merged: 0
-[run] http: 0 revalidated (304), 330 full, 330 not stored (origin said no-store), 0 cache entries written
-[run] hosts: 16 attempted -- biogrand.fi, biograni.fi, biovuoksi.fi, cinemaniagara.fi, ihmekompleksi.fi, jamsankinotar.fi, k-kino.fi, kino123.fi, kinoiiris.com, kinojuha.fi, kinopirtti.fi, kotkanleffat.fi, leffabuumi.fi, studio123.fi, studiot123.com, www.biorex.org
-[run] partial: niagara kept previous data for 1 venue(s): cn-tampere
-[run] etiketti: 19 venues, 781 showtimes, 1 stale, 0 unverified, 0 pending, 0 with no programme, 1 failures
-[run] timing: 16 site(s), 553.6s of fetching added up across workers that overlap, longest site 83.5s, longest queue wait 54.5s, 113.4s wall from this module's first fetch starting to its last ending
-exit=1
+[kinokaustinen] Kino Kaustinen: 5 showtimes, 2 dates
+[kinokaustinen] synopses merged: 0
+[run] http: 0 revalidated (304), 333 full, 333 not stored (origin said no-store), 0 cache entries written
+[run] hosts: 17 attempted -- biogrand.fi, biograni.fi, biovuoksi.fi, cinemaniagara.fi, ihmekompleksi.fi, jamsankinotar.fi, k-kino.fi, kino123.fi, kinoiiris.com, kinojuha.fi, kinokaustinen.fi, kinopirtti.fi, kotkanleffat.fi, leffabuumi.fi, studio123.fi, studiot123.com, www.biorex.org
+[run] etiketti: 21 venues, 831 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
+[run] timing: 17 site(s), 584.7s of fetching added up across workers that overlap, longest site 87.9s, longest queue wait 78.5s, 138.1s wall from this module's first fetch starting to its last ending
+exit=0

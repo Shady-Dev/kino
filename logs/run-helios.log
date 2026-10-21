@@ -1,5 +1,7 @@
-[helios] FAILED: HTTP Error 404: The requested content does not exist.
-[run] hosts: 1 attempted -- www.malmitalo.fi
-[run] helios: 0 venues, 0 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 1 failures
-[run] timing: 1 site(s), 18.1s of fetching added up across workers that overlap, longest site 18.1s, longest queue wait 157.3s, 18.1s wall from this module's first fetch starting to its last ending
-exit=1
+[helios] Kino Helios, Helsinki: 10 showtimes, 6 dates, 10 with a language, 10 of 97 event(s) are this cinema
+[helios] Kino Helios: 10 showtimes, 6 dates
+[helios] synopses merged: 0
+[run] hosts: 1 attempted -- api.hel.fi
+[run] helios: 1 venues, 10 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
+[run] timing: 1 site(s), 2.4s of fetching added up across workers that overlap, longest site 2.4s, longest queue wait 200.5s, 2.4s wall from this module's first fetch starting to its last ending
+exit=0
