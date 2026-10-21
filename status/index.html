@@ -213,6 +213,7 @@
       <details id="srcDetails">
         <summary id="srcSum"></summary>
         <p id="srcData"></p>
+        <p id="srcOpen"></p>
         <p class="links"><a href="https://github.com/Shady-Dev/kino" rel="noopener" id="srcRepo">Lähdekoodi GitHubissa</a>
            <a href="https://github.com/Shady-Dev/kino/blob/main/LICENSE" rel="noopener">AGPL-3.0-or-later</a></p>
         <p id="srcThird"></p>
@@ -300,6 +301,7 @@
       contactRemoval:'Teatterit voivat pyytää tietojensa korjaamista tai poistamista.',
       srcSum:'Tietolähteet ja lähdekoodi',
       srcData:'Näytösajat ovat elokuvateattereiden julkaisemasta ohjelmistosta. Elokuvien lisätietoja saadaan myös TMDB:stä.',
+      srcOpen:'Osa näytösajoista on Helsingin kaupungin avointa dataa, muokattuna:',
       srcRepo:'Lähdekoodi GitHubissa',
       srcThird:'Julisteet ja muu kolmansien osapuolten aineisto kuuluvat oikeudenhaltijoilleen. Archivo-kirjasimen lisenssi on SIL Open Font License.',
       footTag:'elokuvat ja näytösajat',
@@ -353,6 +355,7 @@
       contactRemoval:'Biografer kan begära rättelse eller radering av sina uppgifter.',
       srcSum:'Datakällor och källkod',
       srcData:'Visningstiderna kommer från biografernas publicerade program. Filmuppgifter hämtas även från TMDB.',
+      srcOpen:'En del av visningstiderna är Helsingfors stads öppna data, bearbetade:',
       srcRepo:'Källkod på GitHub',
       srcThird:'Affischer och annat material från tredje part tillhör sina rättighetsinnehavare. Typsnittet Archivo används under SIL Open Font License.',
       footTag:'filmer och visningstider',
@@ -406,6 +409,7 @@
       contactRemoval:'Cinemas can ask for their data to be corrected or removed.',
       srcSum:'Data sources and source code',
       srcData:'Showtimes come from the cinemas’ own published programmes. Film details also come from TMDB.',
+      srcOpen:'Some showtimes are City of Helsinki open data, modified:',
       srcRepo:'Source code on GitHub',
       srcThird:'Posters and other third-party material belong to their rights holders. The Archivo typeface is used under the SIL Open Font License.',
       footTag:'films and showtimes',
@@ -959,6 +963,10 @@
     $('contactRemoval').textContent = T.contactRemoval;
     $('srcSum').textContent = T.srcSum;
     $('srcData').textContent = T.srcData;
+    // Kino Helios is read from Linked Events, whose data is CC BY 4.0 (helios.py).
+    $('srcOpen').innerHTML = `${esc(T.srcOpen)} `
+      + `<a href="https://api.hel.fi/linkedevents/v1/" rel="noopener">Linked Events</a>, `
+      + `<a href="https://creativecommons.org/licenses/by/4.0/" rel="license noopener">CC BY 4.0</a>`;
     $('srcRepo').textContent = T.srcRepo;
     $('srcThird').textContent = T.srcThird;
     $('footTag').textContent = T.footTag;

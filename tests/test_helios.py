@@ -304,6 +304,18 @@ class RegistryTest(unittest.TestCase):
         self.assertEqual(SITE["base"], "https://api.hel.fi")
         self.assertNotIn("reads", SITE)
 
+    def test_the_open_data_licence_is_credited_on_the_status_page(self):
+        """Linked Events is CC BY 4.0. Every page's footer links /status/, which names the
+        source, the licence and that the data is modified."""
+        status = (_ctx.ROOT / "status" / "index.html").read_text(encoding="utf-8")
+        self.assertEqual(SITE["base"], "https://api.hel.fi")
+        for anchor in ('<p id="srcOpen"></p>', "$('srcOpen').innerHTML",
+                       'href="https://api.hel.fi/linkedevents/v1/"',
+                       'href="https://creativecommons.org/licenses/by/4.0/"'):
+            self.assertIn(anchor, status)
+        for words in ("muokattuna", "bearbetade", "modified"):
+            self.assertIn(words, status)
+
     def test_the_three_filter_fields_are_declared(self):
         self.assertEqual((SITE["place"], SITE["keyword"], SITE["strand"]),
                          ("tprek:8740", "kulke:29", "Kino Helios"))
