@@ -348,9 +348,11 @@ class ReportRankingTest(unittest.TestCase):
         # 315 and 22 the same day: Kino Konepaja and Kino Kulttuurimylly joined Helsinki
         # and Kannusali joined Espoo (+75). The six new pairs below the floor are the
         # light half of ExceptionTest.RECORDED.
-        self.assertEqual(len(rows), 315)
+        # 316 from 2026-10-21: Bio-Salo joined Salo beside Kino Lumo (+1), 25.1 apart on the
+        # weakest model, and Bio Stara added none, alone in Paimio and in no region.
+        self.assertEqual(len(rows), 316)
         self.assertEqual(sum(1 for r in rows if r < A.FLOOR), 22)
-        self.assertIn(f"22 of 315 pairs are below {A.FLOOR}", self.report())
+        self.assertIn(f"22 of 316 pairs are below {A.FLOOR}", self.report())
 
     def test_the_floor_is_the_fixed_policy_value(self):
         """14.4 is the threshold CLAUDE.md and the registry state, not a reading of the

@@ -359,15 +359,17 @@ class HostGroupsAgainstTheRealSitesTest(unittest.TestCase):
                 hosts = [run.host_of(s) for g in groups for _, s in g[:1]]
                 self.assertEqual(len(hosts), len(set(hosts)))
 
-    def test_the_two_nexxo_pairs_that_share_a_host_are_grouped(self):
+    def test_the_three_nexxo_pairs_that_share_a_host_are_grouped(self):
         """Measured 2026-09-01: eight sites, six hosts. kinoaurora.fi serves kinoaurora
-        and kinometso; kinohirvi.fi serves kinohirvi and biosade."""
+        and kinometso; kinohirvi.fi serves kinohirvi and biosade. From 2026-10-21 ten sites
+        and seven hosts: biosalo.fi serves biosalo and biostara."""
         nexxo = importlib.import_module("nexxo")
         groups = run.host_groups(nexxo.SITES)
         together = {frozenset(s["provider"] for _, s in g) for g in groups}
-        self.assertEqual(len(groups), 6)
+        self.assertEqual(len(groups), 7)
         self.assertIn(frozenset({"kinoaurora", "kinometso"}), together)
         self.assertIn(frozenset({"kinohirvi", "biosade"}), together)
+        self.assertIn(frozenset({"biosalo", "biostara"}), together)
 
     def test_every_etiketti_site_is_its_own_host(self):
         """The property the pool size is argued from: no eTiketti site shares a host

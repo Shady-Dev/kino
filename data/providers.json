@@ -273,6 +273,22 @@
    "book": "reserve"
   },
   {
+   "id": "biosalo",
+   "label": "Bio-Salo",
+   "host": "biosalo.fi",
+   "accent": "#1F6FB2",
+   "accentDark": "#4A93D3",
+   "book": "reserve"
+  },
+  {
+   "id": "biostara",
+   "label": "Bio Stara",
+   "host": "biosalo.fi",
+   "accent": "#B4462B",
+   "accentDark": "#D96A4E",
+   "book": "reserve"
+  },
+  {
    "id": "niagara",
    "label": "Cinema Niagara",
    "host": "cinemaniagara.fi",

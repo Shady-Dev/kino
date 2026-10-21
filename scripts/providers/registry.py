@@ -172,6 +172,14 @@ PROVIDERS = [
     # pair 26.9 dE00 (vs Finnkino and Kino Aurora in Jyväskylä), L* 46.9.
     dict(id="kinometso", label="Kino Metso", host="kinoaurora.fi", accent="#227D63",
          accentDark="#227D63", book="reserve", module="nexxo", where="cloud"),
+    # Bio-Salo and Bio Stara, both read from biosalo.fi on locationids 1 and 2; the host
+    # credited is the one read, as with Bio Säde. Accents measured 2026-10-21: Bio-Salo
+    # against Kino Lumo in Salo, 25.1 dE00 light and 16.8 dark on the weakest model; Bio
+    # Stara is the only cinema in Paimio and in no region.
+    dict(id="biosalo", label="Bio-Salo", host="biosalo.fi", accent="#1F6FB2",
+         accentDark="#4A93D3", book="reserve", module="nexxo", where="cloud"),
+    dict(id="biostara", label="Bio Stara", host="biosalo.fi", accent="#B4462B",
+         accentDark="#D96A4E", book="reserve", module="nexxo", where="cloud"),
     # Cinema Niagara, Tampere (2026-09-02): the eTiketti host the sweep left behind,
     # because its screenings render in a second template that etiketti.py now reads.
     # Tampere becomes the sixth two-chain city, so the accent is measured against

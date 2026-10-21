@@ -146,13 +146,33 @@ SITES = [
           "page": "/kino-metso/hankasalmi/", "name": "Hankasalmi",
           "short": "Hankasalmi", "city": "Hankasalmi"},
      ]},
+    # One tenant, two cinemas: biosalo.fi serves Bio-Salo on locationid 1 and Bio Stara
+    # (Paimio) on 2, and biostara.fi's front page renders location 2 from biosalo.fi's API,
+    # the Bio Säde shape. Plugin 25.051 answers {"shows": []} unless `movieid` is sent, as
+    # its own showlist.js always does: read 2026-10-21, movieid=0 gave 49 shows on 1 and 22
+    # on 2 (issue #19). `banners` False publishes no banner image, so a poster comes only
+    # from a trusted TMDB match (maintainer, 2026-10-21).
+    {"provider": "biosalo", "base": "https://biosalo.fi", "label": "Bio-Salo",
+     "programme": "/", "movieid": "0", "banners": False, "venues": [
+         {"id": "bs-salo", "locationid": "1", "name": "Bio-Salo",
+          "short": "Bio-Salo", "city": "Salo"},
+     ]},
+    {"provider": "biostara", "base": "https://biosalo.fi", "site": "https://biostara.fi",
+     "label": "Bio Stara", "programme": "/", "movieid": "0", "banners": False, "venues": [
+         {"id": "bs-paimio", "locationid": "2", "name": "Bio Stara",
+          "short": "Bio Stara", "city": "Paimio"},
+     ]},
 ]
 
 
 def api_url(site, locationid, days):
-    q = urllib.parse.urlencode({"action": "exportdailyshows", "locationid": locationid,
-                                "days": days, "lang": "fi", "upcoming": "0"})
-    return f"{site['base']}/wp-content/plugins/nexxo-scope/public_api.php?{q}"
+    q = {"action": "exportdailyshows", "locationid": locationid, "days": days, "lang": "fi",
+         "upcoming": "0"}
+    # Only a site that names `movieid` sends it, so every other site's request is unchanged.
+    if "movieid" in site:
+        q["movieid"] = site["movieid"]
+    return (f"{site['base']}/wp-content/plugins/nexxo-scope/public_api.php?"
+            f"{urllib.parse.urlencode(q)}")
 
 
 # Codes Nexxo writes that are not this app's: Swedish as SE, the country, and Hebrew as
@@ -316,7 +336,7 @@ def parse(payload, site, venue):
                     f"{site.get('site') or site['base']}{site['programme']}"
                     f"?location={venue['locationid']}"),
             "img": (f"{site['base']}/wp-content/plugins/nexxo-scope/banners/{poster}"
-                    if poster else ""),
+                    if poster and site.get("banners", True) else ""),
             "lang": _lang(r),
             "soldOut": False,
             "price": price,
