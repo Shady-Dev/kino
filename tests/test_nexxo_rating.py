@@ -25,6 +25,16 @@ class RatingTest(unittest.TestCase):
         self.assertEqual([nexxo.rating(a) for a in ("K-12", "k12", "K 16")],
                          ["K-12", "K-12", "K-16"])
 
+    def test_a_flexible_age_after_a_slash_keeps_the_rating(self):
+        """Plugin 25.051 writes "7/4", K-7 from 4 with an adult (Bio-Salo, 2026-10-15)."""
+        self.assertEqual([nexxo.rating(a) for a in ("7/4", "12/9", "16/13", "K-7/4")],
+                         ["K-7", "K-12", "K-16", "K-7"])
+
+    def test_a_slash_that_is_not_a_lower_age_is_no_rating(self):
+        for a in ("7/", "/4", "7/7", "7/12", "7/4/2"):
+            with self.subTest(age=a):
+                self.assertEqual(nexxo.rating(a), "")
+
     def test_anything_else_is_no_rating(self):
         for a in ("", None, "Tulossa", "-", "Kaikille", "123"):
             with self.subTest(age=a):
@@ -32,10 +42,11 @@ class RatingTest(unittest.TestCase):
 
     def test_the_parsed_show_carries_it_for_two_rows(self):
         p = {"shows": {"2026-10-14": [dict(row(1, "Sali 1", "Animaatioaarteet"), ageLimit="s"),
-                                      dict(row(1, "Sali 1", "Film B"), ageLimit="12")]}}
+                                      dict(row(1, "Sali 1", "Film B"), ageLimit="12"),
+                                      dict(row(1, "Sali 1", "Film C"), ageLimit="7/4")]}}
         shows = nexxo.parse(p, SITE, PLAIN_VENUE)
         self.assertEqual({s["title"]: s["rating"] for s in shows},
-                         {"Animaatioaarteet": "S", "Film B": "K-12"})
+                         {"Animaatioaarteet": "S", "Film B": "K-12", "Film C": "K-7"})
 
 
 if __name__ == "__main__":

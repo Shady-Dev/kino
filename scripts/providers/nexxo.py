@@ -210,8 +210,11 @@ def rating(age):
     a = re.sub(r"\s+", "", str(age or "")).upper()
     if a == "S":
         return "S"
-    m = re.fullmatch(r"(?:K-?)?(\d{1,2})", a)
-    return f"K-{int(m.group(1))}" if m else ""
+    # Plugin 25.051 writes "7/4": K-7, from 4 with an adult (Bio-Salo, 2026-10-15).
+    m = re.fullmatch(r"(?:K-?)?(\d{1,2})(?:/(\d{1,2}))?", a)
+    if not m or (m.group(2) and int(m.group(2)) >= int(m.group(1))):
+        return ""
+    return f"K-{int(m.group(1))}"
 
 
 # The cinema's production year, a search hint for the TMDB pass. A range such as
