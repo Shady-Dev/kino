@@ -4318,3 +4318,14 @@ left out; "0 €" publishes as free. Widgets holding several `h1`s are the comin
 and is aliased as such. No poster of the site's own is published. #663B29 / #F28D61 clears
 Kurikan Kino's shade by 28.1 and 36.3 should the two towns ever share an area. Seven
 mutations red.
+
+### Kino-Kuva, Teuva, from its front page (2026-10-21)
+Issue #12. One page served as ISO-8859-1, read as bytes: strict UTF-8 first and ISO-8859-1
+when that fails, since `get_text`'s replacement turned "TÄHTIPEURA" into a replacement
+character. Only `table.naytokset` is read, one nested table per film: the `h1` title and
+"Kesto: 1 h 34 min -K16-", then a `<pre>` whose lines are the screenings, a dashed rule and
+"Liput 14,-". Each "KLO" clock on a row is a screening. "ENSI-ILTA" before a row, a heading
+ending in a colon and "ENNAKKONÄYTÖKSET!" go in `method`; a premiere announced with no clock
+is left out. "Puhumme suomea!" marks a Finnish dub. First snapshot: nine screenings of four
+films, each matching the page, all four on TMDB with mirrored posters. No poster of the
+site's own is published. Seven mutations red.
