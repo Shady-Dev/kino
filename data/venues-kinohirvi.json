@@ -1,1 +1,1 @@
-{"generated": "2026-10-21T05:16:07+00:00", "oldest": "2026-10-20T23:16:39+00:00", "status": "partial", "stale": ["hi-aanekoski"], "unverified": [], "pending": [], "provider": "kinohirvi", "venues": [{"id": "hi-aanekoski", "name": "Kino Hirvi", "short": "Kino Hirvi", "city": "Äänekoski"}]}
+{"generated": "2026-10-21T07:52:16+00:00", "oldest": "2026-10-21T07:52:16+00:00", "status": "ok", "stale": [], "unverified": [], "pending": [], "provider": "kinohirvi", "venues": [{"id": "hi-aanekoski", "name": "Kino Hirvi", "short": "Kino Hirvi", "city": "Äänekoski"}]}

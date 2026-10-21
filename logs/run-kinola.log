@@ -1,11 +1,11 @@
-[kinokilta] 68 screening(s) listed, 43 film page(s) read
+[kinokilta] 67 screening(s) listed, 42 film page(s) read
 [kinokilta] omitted 0 confirmed non-film(s) by evidence-backed exclusion over 0 screening(s), and 0 unresolved over 0
 [kinokilta] override retkikino-2026: active
 [kinokilta] 4 synopsis/synopses withheld, no language settled: Combat Shock, Kinokopla: DIG! XX, RetkiKino 2026, Teenage Sex and Death at Camp Miasma
 [kinokilta] 8 film(s) with a language name not read, that part left blank: Alligator (Ei teksitystä); Combat Shock (Ei teksitystä); Joysticks (Ei teksitystä); Pieni kauhukauppa (Ei teksitystä); Prom Night (Ei teksitystä); Savage Dawn (Ei teksitystä); Sleepaway Camp (Ei teksitystä); The Devils (Ei teksitystä)
-[kinokilta] Kino Kilta: 68 showtimes, 33 dates
+[kinokilta] Kino Kilta: 67 showtimes, 33 dates
 [kinokilta] strand prefix split off 8 showtimes
-[kinokilta] Kino Kilta: 68 showtimes, 33 dates
+[kinokilta] Kino Kilta: 67 showtimes, 33 dates
 [kinokilta] synopses merged: 0
 [kinokilta] screening-note sentences left out of synopses: 1
 [kinolaika] 37 screening(s) listed, 21 film page(s) read
@@ -38,8 +38,8 @@
 [kinokonepaja] Kino Konepaja: 47 showtimes, 25 dates
 [kinokonepaja] Kino Konepaja: 47 showtimes, 25 dates
 [kinokonepaja] synopses merged: 0
-[run] http: 43 revalidated (304), 60 full, 21 not stored (origin said no-store), 1 cache entries written
+[run] http: 42 revalidated (304), 60 full, 21 not stored (origin said no-store), 1 cache entries written
 [run] hosts: 4 attempted -- kinokonepaja.fi, kinomyyri.fi, www.kinokilta.fi, www.kinolaika.fi
-[run] kinola: 4 venues, 186 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
-[run] timing: 4 site(s), 207.9s of fetching added up across workers that overlap, longest site 72.0s, longest queue wait 146.2s, 72.0s wall from this module's first fetch starting to its last ending
+[run] kinola: 4 venues, 185 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
+[run] timing: 4 site(s), 196.9s of fetching added up across workers that overlap, longest site 68.8s, longest queue wait 133.0s, 68.8s wall from this module's first fetch starting to its last ending
 exit=0
