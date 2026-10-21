@@ -54,6 +54,7 @@ import test_huvimylly as HV
 import test_alatalo as AL
 import test_elavienkuvien as EK
 import test_matintupa as MT
+import test_kurikankino as KUR
 import test_kuusamotalo as KU
 import test_kinohuovi as KH
 import test_localhub as LH
@@ -444,6 +445,13 @@ def sample_matintupa():
     return (out, MT.SITE["provider"], [v["id"] for v in MT.SITE["venues"]])
 
 
+def sample_kurikankino():
+    """Two film cards, every time printed twice, beside a coming-soon card and the gift card
+    tile, so the deduplicated rows are exercised and the non-film cards yield none."""
+    out, _ = KUR.K.rows(KUR.SITE, KUR.LIVE)
+    return (out, KUR.SITE["provider"], [v["id"] for v in KUR.SITE["venues"]])
+
+
 def sample_k13():
     """A festival block with two timed rows, a Kinokka evening its linked page times and
     one with no linked page, so the row that must not exist is exercised beside the three
@@ -521,6 +529,7 @@ SAMPLES = {
     "pallas": sample_pallas, "huvimylly": sample_huvimylly,
     "alatalo": sample_alatalo, "elavienkuvien": sample_elavienkuvien,
     "matintupa": sample_matintupa, "kuusamotalo": sample_kuusamotalo,
+    "kurikankino": sample_kurikankino,
     "kinohuovi": sample_kinohuovi, "localhub": sample_localhub,
     "k13": sample_k13, "helios": sample_helios, "kannusali": sample_kannusali,
 }

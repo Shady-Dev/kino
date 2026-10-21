@@ -651,6 +651,14 @@
    "book": "door"
   },
   {
+   "id": "kurikankino",
+   "label": "Kurikan Kino",
+   "host": "kurikankino.com",
+   "accent": "#73115F",
+   "accentDark": "#EB81DD",
+   "book": "door"
+  },
+  {
    "id": "kuusamotalo",
    "label": "Kino Kuusamotalo",
    "host": "kinokuusamotalo.fi",

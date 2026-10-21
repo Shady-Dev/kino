@@ -654,6 +654,11 @@ PROVIDERS = [
     # shares no view with it. L* 51.3, saturation 0.50.
     dict(id="matintupa", label="Elokuvateatteri Matin-Tupa", host="matin-tupa.fi",
          accent="#448855", accentDark="#448855", book="door", module="matintupa", where="cloud"),
+    # Kurikan Kino, Kurikka, 2026-10-21 (issue #8). Alone in Kurikka and in no region, so
+    # no pair binds; the shade is the one farthest from every existing accent, 9.2 dE00 on
+    # the weakest model light and 5.7 dark, 9.9:1 or better on the light surfaces.
+    dict(id="kurikankino", label="Kurikan Kino", host="kurikankino.com", accent="#73115F",
+         accentDark="#EB81DD", book="door", module="kurikankino", where="cloud"),
     # Kino Kuusamotalo, Kuusamo, 2026-09-20. 520 seats in the Oulankasali hall of the
     # town's culture house, run by its own operator on its own site. kuusamotalo.fi is
     # the culture house and only links here; its programme block is a Flockler embed and
