@@ -303,8 +303,17 @@ class RunnerTest(unittest.TestCase):
             code = run.main(["k13", "--half", "all"])
         return code, out.getvalue() + err.getvalue()
 
+    def line(self, days, film):
+        """A screening line `days` from today. run.main reads the real clock, and ROW1's
+        5.10. leaves the 30-day window on 2026-11-05."""
+        d = datetime.datetime.now(K.FI).date() + datetime.timedelta(days=days)
+        wd = ("ma", "ti", "ke", "to", "pe", "la", "su")[d.weekday()]
+        return f"{wd} {d.day}.{d.month}. klo 18: {film}"
+
     def test_the_site_publishes_from_one_request(self):
-        self.serve({LISTING: page(KINOKKA, KINOKKA_BODY, FESTIVAL, FREE, ROW1, ROW2)})
+        self.serve({LISTING: page(KINOKKA, KINOKKA_BODY, FESTIVAL, FREE,
+                                  self.line(1, "LUVATTU MAA (Ziemia obiecana) 1974, 179 min."),
+                                  self.line(2, "KUORIPOJAT (Ministranci) 2025, 105 min."))})
         code, log = self.main()
         self.assertEqual(code, 0, log)
         self.assertEqual(self.calls, [LISTING])
