@@ -4251,3 +4251,11 @@ Against the 12 rows the old service gave the 11:15 UTC run, the new reader match
 title, rating, ticket link and language on all 12; the hall name is no longer stated.
 Twenty-six mutations went red. The data is CC BY 4.0, credited on /status/. Findings in
 [docs/research/ticketing-platforms.md](../research/ticketing-platforms.md).
+
+### eTiketti reads Cinema Niagara's place from `data-locations` (2026-10-21)
+Between the 11:15 and 15:26 UTC cloud runs Niagara moved to the `data-dates` item, and its
+place left the class (`item tampere ...`) for `data-locations="[&quot;tampere&quot;]"`. All
+48 rows reached no venue and cn-tampere kept its previous file. A row with no place line now
+takes the one place that attribute lists, then the class. Read live 2026-10-21 16:46 UTC: 47
+of 47 ticket ids on its front page and special screenings, dates and times equal. Four
+mutations red.

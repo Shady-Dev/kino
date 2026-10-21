@@ -685,6 +685,69 @@ class NiagaraTemplateTest(Stubbed):
         self.assertEqual(rows, [])
 
 
+def located_item(date, hhmm, sid, locations="[&quot;tampere&quot;]", **kw):
+    """Niagara's item as read live on 2026-10-21: a bare `item` class, the place in
+    `data-locations`, the date in `data-dates`, the closing `>` on a line of its own."""
+    opener = (f'<div class="item"\n    data-locations="{locations}"\n'
+              f'    data-dates="[&quot;{date}&quot;]"\n>')
+    return niagara_item(date, hhmm, sid, opener=opener, **kw)
+
+
+LOCATED_FILM = niagara_page(
+    '<div class="show-date-header">Perjantai 23.10.</div>'
+    + located_item("23.10.2026", "10.00", 54387, price="11,00", seats="124/127")
+    + '<div class="show-date-header">Maanantai 26.10.</div>'
+    + located_item("26.10.2026", "14.15", 54382, price="11,00", seats="127/127",
+                   tags=("Seniorikino",)),
+    twice=False)
+
+
+class NiagaraLocationsTest(Stubbed):
+    """On 2026-10-21 Niagara's items lost the place class and carry `data-locations`. The
+    15:26 UTC cloud run left all 48 of its rows unclaimed and kept cn-tampere's last file."""
+
+    def fetch(self, film):
+        e = self.stub({"/elokuvat/ohjelmistossa": listing("/elokuvat/105/matka-piemonteen"),
+                       "/elokuvat/105/matka-piemonteen": film})
+        log = io.StringIO()
+        with contextlib.redirect_stdout(log):
+            out = e.fetch_site(site("niagara"), sleep=0)
+        return out, log.getvalue()
+
+    def test_the_place_is_read_from_data_locations(self):
+        rows, meta = load().parse_movie(LOCATED_FILM, site("niagara"),
+                                        "/elokuvat/105/matka-piemonteen")
+        self.assertEqual(meta["skipped"], 0)
+        self.assertEqual([(r["theatre_raw"], r["aud"], r["start"], r["sid"]) for r in rows],
+                         [("tampere", "", "2026-10-23T10:00:00+03:00", "/salikartta?id=54387"),
+                          ("tampere", "", "2026-10-26T14:15:00+02:00", "/salikartta?id=54382")])
+
+    def test_cinema_niagara_claims_every_row(self):
+        out, log = self.fetch(LOCATED_FILM)
+        self.assertEqual(list(out), ["cn-tampere"])
+        self.assertEqual([(s["start"][:16], s["price"], s["method"], s["url"])
+                          for s in out["cn-tampere"]],
+                         [("2026-10-23T10:00", "11€", "", "https://cinemaniagara.fi/salikartta?id=54387"),
+                          ("2026-10-26T14:15", "11€", "Seniorikino",
+                           "https://cinemaniagara.fi/salikartta?id=54382")])
+        self.assertNotIn("no registered venue claims", log)
+
+    def test_a_place_line_still_wins_over_data_locations(self):
+        """Leffabuumi's items carry the town in `data-locations` and print a place line."""
+        rows, _ = load().parse_movie(BUUMI_FILM, site("leffabuumi"), "/elokuvat/3287/digger")
+        self.assertEqual([r["theatre_raw"] for r in rows], ["MIKKELI"] * 3)
+
+    def test_a_list_naming_two_places_or_none_places_no_row(self):
+        for locations in ("[&quot;tampere&quot;,&quot;nokia&quot;]", "[]", "tampere"):
+            with self.subTest(locations=locations):
+                film = niagara_page(located_item("23.10.2026", "10.00", 1, locations=locations)
+                                    + located_item("26.10.2026", "14.15", 2, locations=locations),
+                                    twice=False)
+                out, log = self.fetch(film)
+                self.assertEqual(out, {})
+                self.assertIn("no registered venue claims '' (2 row(s))", log)
+
+
 class NoScreeningIdFallbackTest(Stubbed):
     """A row without a ticket href has no public screening id. It is keyed on film,
     start, place and auditorium together, and recorded only once a venue took it."""

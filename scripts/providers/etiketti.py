@@ -225,7 +225,8 @@ SITES = [
      ]},
     # Cinema Niagara, Tampere (2026-09-02): the host the sweep left behind, because its
     # screenings render in the second template. It prints no place line at all, so
-    # `match` runs against the item's place class -- "tampere" -- which is what the
+    # `match` runs against the item's place -- "tampere" -- read from its
+    # `data-locations` since 2026-10-21 and from its class before, which is what the
     # fallback in parse_movie exists for. arthousecinemaniagara.fi redirects here.
     {"provider": "niagara", "base": "https://cinemaniagara.fi", "label": "Cinema Niagara",
      "screening_pages": ("/", "/erikoisnaytokset"),
@@ -282,6 +283,8 @@ ITEM_RE = re.compile(r'<div\s+class="(item(?:\s[^"]*)?)"([^>]*)>(.*?)'
                      r'(?=<div\s+class="item[\s"]|</div>\s*</div>\s*</div>|\Z)', re.S)
 ITEM_DATE_RE = re.compile(r"\bdate-(\d{1,2})\.(\d{1,2})\.(\d{4})\b")
 DATA_DATES_RE = re.compile(r'\bdata-dates="([^"]*)"')
+# Niagara (2026-10-21) moved to the data-dates item and its place class to this attribute.
+DATA_LOCATIONS_RE = re.compile(r'\bdata-locations="([^"]*)"')
 DATE_RE = re.compile(r"\b(\d{1,2})\.(\d{1,2})\.(\d{4})\b")
 # Kotka: "KE 2.9. klo 20.00". Niagara: <div class="time"><span>16.15</span>.
 TIME_RE = re.compile(r'(?:klo\s*|class="time"[^>]*>\s*(?:<span[^>]*>\s*)?)(\d{1,2})[.:](\d{2})')
@@ -524,6 +527,17 @@ def _place_class(cls):
                     if t != "item" and not t.startswith(("date-", "name-")))
 
 
+def _place_attr(attrs):
+    """`data-locations="[&quot;tampere&quot;]"` -> "tampere". A list of any other length
+    names no one place and gives ""."""
+    m = DATA_LOCATIONS_RE.search(attrs)
+    try:
+        places = json.loads(html_mod.unescape(m.group(1))) if m else []
+    except ValueError:
+        places = []
+    return places[0] if len(places) == 1 and isinstance(places[0], str) else ""
+
+
 def house_facts_cut(paras):
     """The paragraphs before K-Kino's facts block. Its six film pages, read 2026-10-04, end
     the description with a "Tiedot" heading, "Kesto: ...", "Ikäraja: ...", then ticket
@@ -587,9 +601,10 @@ def parse_movie(page, site, movie_url):
             skipped += 1
             continue
         place = PLACE_RE.search(block)
-        # Niagara prints no place line; its item carries the place as a class instead
-        # ("item tampere date-..."), and `match` runs against that.
-        theatre = _txt(place.group(1)) if place else _place_class(cls)
+        # Niagara prints no place line; its item carries the place in `data-locations`
+        # (2026-10-21) or, before that, as a class ("item tampere date-..."), and `match`
+        # runs against that.
+        theatre = _txt(place.group(1)) if place else (_place_attr(attrs) or _place_class(cls))
         room = _txt(place.group(2)) if (place and place.group(2)) else ""
         price = PRICE_RE.search(block)
         seats = SEATS_RE.search(block)
