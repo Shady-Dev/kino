@@ -12,27 +12,27 @@
 [kinolaika] Kino Laika: 28 showtimes, 11 dates
 [kinolaika] synopses merged: 0
 [kinolaika] synopses skipped as screening notes: 1
-[kinomyyri] 35 screening(s) listed, 17 film page(s) read
+[kinomyyri] 34 screening(s) listed, 17 film page(s) read
 [kinomyyri] omitted 0 confirmed non-film(s) by evidence-backed exclusion over 0 screening(s), and 2 unresolved over 3
 [kinomyyri] unresolved: Boléro, Pikku Kummitus Lapanen keppostelee
 [kinomyyri] override kojootti-vs-acme-dub: evidence-unavailable
 [kinomyyri] override must-pori-nakku: active
 [kinomyyri] 1 synopsis/synopses withheld, no language settled: Hamnet
 [kinomyyri] 5 film(s) with a language name not read, that part left blank: Lapin sota (saami); Naza (heprealainen); Premada Oorali (kannada); Two Seasons, Two Strangers (japanilainen, korealainen); Vasenkätinen tyttö (mandariini)
-[kinomyyri] Kino Myyri: 32 showtimes, 14 dates
-[kinomyyri] Kino Myyri: 32 showtimes, 14 dates
+[kinomyyri] Kino Myyri: 31 showtimes, 13 dates
+[kinomyyri] Kino Myyri: 31 showtimes, 13 dates
 [kinomyyri] synopses merged: 0
-[kinokonepaja] 46 screening(s) listed, 16 film page(s) read
+[kinokonepaja] 45 screening(s) listed, 16 film page(s) read
 [kinokonepaja] omitted 0 confirmed non-film(s) by evidence-backed exclusion over 0 screening(s), and 0 unresolved over 0
 [kinokonepaja] override edward-scissorhands: active
 [kinokonepaja] override gremlins: active
 [kinokonepaja] override nightmare-on-elm-street: active
-[kinokonepaja] Kino Konepaja: 46 showtimes, 25 dates
-[kinokonepaja] Kino Konepaja: 46 showtimes, 25 dates
+[kinokonepaja] Kino Konepaja: 45 showtimes, 24 dates
+[kinokonepaja] Kino Konepaja: 45 showtimes, 24 dates
 [kinokonepaja] synopses merged: 0
 [run] http: 0 revalidated (304), 56 full, 19 not stored (origin said no-store), 0 cache entries written
 [run] throttled: 1 Retry-After responses, 0s waited, 1 not retried (asked for longer than a run can wait)
 [run] hosts: 4 attempted -- kinokonepaja.fi, kinomyyri.fi, www.kinokilta.fi, www.kinolaika.fi
-[run] kinola: 3 venues, 106 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 1 failures
-[run] timing: 4 site(s), 122.6s of fetching added up across workers that overlap, longest site 44.9s, longest queue wait 143.2s, 48.8s wall from this module's first fetch starting to its last ending
+[run] kinola: 3 venues, 104 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 1 failures
+[run] timing: 4 site(s), 118.7s of fetching added up across workers that overlap, longest site 45.0s, longest queue wait 117.0s, 46.9s wall from this module's first fetch starting to its last ending
 exit=1

@@ -1,15 +1,16 @@
-[biorex] BioRex Tripla FAILED: <urlopen error [Errno 101] Network is unreachable>
-[biorex] BioRex Redi FAILED: <urlopen error [Errno 101] Network is unreachable>
-[biorex] BioRex Verkatehdas FAILED: <urlopen error [Errno 101] Network is unreachable>
-[biorex] BioRex Sveitsi FAILED: <urlopen error [Errno 101] Network is unreachable>
-[biorex] BioRex Kajaani FAILED: <urlopen error [Errno 101] Network is unreachable>
-[biorex] BioRex Pietarsaari FAILED: <urlopen error [Errno 101] Network is unreachable>
-[biorex] BioRex Porvoo FAILED: <urlopen error [Errno 101] Network is unreachable>
-[biorex] BioRex Riihimäki FAILED: <urlopen error [Errno 101] Network is unreachable>
-[biorex] BioRex Rovaniemi FAILED: <urlopen error [Errno 101] Network is unreachable>
-[biorex] BioRex Seinäjoki FAILED: <urlopen error [Errno 101] Network is unreachable>
-[biorex] BioRex Tornio FAILED: <urlopen error [Errno 101] Network is unreachable>
-[biorex] BioRex Vaasa FAILED: <urlopen error [Errno 101] Network is unreachable>
+[http] 503 from biorex.fi, gave up after 1 attempt(s) -- Server: nginx; Retry-After: 300
+[biorex] BioRex Tripla FAILED: HTTP Error 503: Service Temporarily Unavailable
+[biorex] BioRex Redi FAILED: HTTP Error 503: Service Temporarily Unavailable
+[biorex] BioRex Verkatehdas FAILED: HTTP Error 503: Service Temporarily Unavailable
+[biorex] BioRex Sveitsi FAILED: HTTP Error 503: Service Temporarily Unavailable
+[biorex] BioRex Kajaani FAILED: HTTP Error 503: Service Temporarily Unavailable
+[biorex] BioRex Pietarsaari FAILED: HTTP Error 503: Service Temporarily Unavailable
+[biorex] BioRex Porvoo FAILED: HTTP Error 503: Service Temporarily Unavailable
+[biorex] BioRex Riihimäki FAILED: HTTP Error 503: Service Temporarily Unavailable
+[biorex] BioRex Rovaniemi FAILED: HTTP Error 503: Service Temporarily Unavailable
+[biorex] BioRex Seinäjoki FAILED: HTTP Error 503: Service Temporarily Unavailable
+[biorex] BioRex Tornio FAILED: HTTP Error 503: Service Temporarily Unavailable
+[biorex] BioRex Vaasa FAILED: HTTP Error 503: Service Temporarily Unavailable
 [biorex] film pages: 0/0
 [biorex] BioRex Tripla: no showtimes, keeping previous data from 2026-10-21T07:52:16+00:00
 [biorex] BioRex Redi: no showtimes, keeping previous data from 2026-10-21T07:52:16+00:00
@@ -24,8 +25,9 @@
 [biorex] BioRex Tornio: no showtimes, keeping previous data from 2026-10-21T07:52:16+00:00
 [biorex] BioRex Vaasa: no showtimes, keeping previous data from 2026-10-21T07:52:16+00:00
 [biorex] synopses merged: 0
+[run] throttled: 12 Retry-After responses, 0s waited, 12 not retried (asked for longer than a run can wait)
 [run] hosts: 1 attempted -- biorex.fi
 [run] partial: biorex kept previous data for 12 venue(s): br-tripla, br-redi, br-verkatehdas, br-sveitsi, br-kajaani, br-pietarsaari, br-porvoo, br-riihimaki, br-rovaniemi, br-seinajoki, br-tornio, br-vaasa
 [run] biorex: 0 venues, 0 showtimes, 12 stale, 0 unverified, 0 pending, 0 with no programme, 1 failures
-[run] timing: 1 site(s), 192.6s of fetching added up across workers that overlap, longest site 192.6s, longest queue wait 0.0s, 192.6s wall from this module's first fetch starting to its last ending
+[run] timing: 1 site(s), 11.7s of fetching added up across workers that overlap, longest site 11.7s, longest queue wait 0.0s, 11.7s wall from this module's first fetch starting to its last ending
 exit=1

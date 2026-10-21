@@ -54,5 +54,5 @@
 [run] partial: biosalo kept previous data for 1 venue(s): bs-salo
 [run] partial: biostara kept previous data for 1 venue(s): bs-paimio
 [run] nexxo: 16 venues, 248 showtimes, 2 stale, 0 unverified, 1 pending, 0 with no programme, 2 failures
-[run] timing: 10 site(s), 44.1s of fetching added up across workers that overlap, longest site 11.1s, longest queue wait 0.0s, 11.1s wall from this module's first fetch starting to its last ending
+[run] timing: 10 site(s), 41.9s of fetching added up across workers that overlap, longest site 10.5s, longest queue wait 0.0s, 10.5s wall from this module's first fetch starting to its last ending
 exit=1

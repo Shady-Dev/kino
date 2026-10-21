@@ -1,5 +1,5 @@
 [helios] FAILED: HTTP Error 404: The requested content does not exist.
 [run] hosts: 1 attempted -- www.malmitalo.fi
 [run] helios: 0 venues, 0 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 1 failures
-[run] timing: 1 site(s), 18.6s of fetching added up across workers that overlap, longest site 18.6s, longest queue wait 192.6s, 18.6s wall from this module's first fetch starting to its last ending
+[run] timing: 1 site(s), 18.1s of fetching added up across workers that overlap, longest site 18.1s, longest queue wait 157.3s, 18.1s wall from this module's first fetch starting to its last ending
 exit=1

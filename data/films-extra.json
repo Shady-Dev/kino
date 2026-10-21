@@ -1018,12 +1018,17 @@
    "tr": "https://www.youtube.com/watch?v=GPY-g86tcS4"
   },
   "dune part three preview screening": {
-   "r": 0,
+   "id": 841,
+   "img": "data/posters/980c83adb0ad1d27.jpg",
+   "r": 6.2,
    "s": {
     "en": "Emperor Paul Atreides faces the fallout from his ascent to power as political plots and a galaxy-wide holy war endanger the future only he can see.",
-    "fi": ""
+    "fi": "On vuosi 10191. Aavikkoplaneetta Arrakis on uhkaava ja epäystävällinen planeetta - jättiläismäiset, kilometrejä pitkät hirviöt käyttävät ihmisiä ravinnokseen, kuin hyönteisiä ja raivokkaat hiekkamyrskyt muuttavat ihmislihan pölyksi muutamassa sekunnissa. Se on myös on ainoa paikka, josta saa Melange-maustetta, universumin arvokkainta ainetta, joka on avain kuolemattomuuteen ja kosmiseen voimaan, sen avulla liikutaan paitsi ajassa myös maailmankaikkeudessa. Sillä, jolla on kasvi on myös universumin valta. Kaksi suurta sukua taistelee oikeudesta maustetuotantoon, mutta kun petos tuhoaa suvuista toisen, nuoren miehen on kohdattava kohtalonsa ja saatava planeetta hallintaansa. Elokuva pohjautuu Frank Hebertin samannimiseen menestysromaaniin, jota on myyty jo  yli 30 miljoonaa kappaletta."
    },
-   "tr": ""
+   "tr": "https://www.youtube.com/watch?v=hjRG8kvMFw0",
+   "ts": [
+    "fi"
+   ]
   },
   "dyyni osa kolme": {
    "id": 1170608,
@@ -3582,7 +3587,6 @@
     "kinomyyri",
     "kinoolympia",
     "kkino",
-    "savonkinot",
     "star",
     "tapiola"
    ],
@@ -5302,6 +5306,7 @@
     "huvimylly",
     "isohannu",
     "jarvelankino",
+    "julia",
     "kinohannikainen",
     "kinohirvi",
     "kinokilta",
@@ -5344,6 +5349,7 @@
     "huvimylly",
     "isohannu",
     "jarvelankino",
+    "julia",
     "kinohannikainen",
     "kinohirvi",
     "kinokilta",
@@ -5395,6 +5401,7 @@
     "huvimylly",
     "isohannu",
     "jarvelankino",
+    "julia",
     "kinohannikainen",
     "kinohirvi",
     "kinokilta",
@@ -5447,6 +5454,7 @@
     "huvimylly",
     "isohannu",
     "jarvelankino",
+    "julia",
     "kinohannikainen",
     "kinohirvi",
     "kinokilta",
@@ -5489,6 +5497,7 @@
     "huvimylly",
     "isohannu",
     "jarvelankino",
+    "julia",
     "kinohannikainen",
     "kinohirvi",
     "kinokilta",
@@ -5534,6 +5543,7 @@
     "huvimylly",
     "isohannu",
     "jarvelankino",
+    "julia",
     "kinohannikainen",
     "kinohirvi",
     "kinokilta",
@@ -6331,7 +6341,6 @@
     "kinohirvi",
     "kinolaika",
     "kinolumo",
-    "kinopirtti",
     "kotkanleffat",
     "leffabuumi",
     "savonkinot",
@@ -6989,19 +6998,6 @@
    },
    "tr": ""
   },
-  "stray kids world tour run it live viewing": {
-   "id": 1795555,
-   "img": "data/posters/0b6f307f1ac0be55.jpg",
-   "r": 0,
-   "s": {
-    "en": "Stray Kids bring their World Tour (RUN IT) concert to cinemas in a live broadcast, with all eight members performing their high-energy choreography.",
-    "fi": ""
-   },
-   "tr": "",
-   "ts": [
-    "en"
-   ]
-  },
   "street fighter": {
    "id": 1153576,
    "img": "data/posters/2c34dcbef60ffbda.jpg",
@@ -7363,16 +7359,12 @@
   },
   "the dog stars": {
    "id": 1384216,
-   "img": "data/posters/72e28fa6bfda49e3.jpg",
-   "r": 6.6,
+   "r": 0,
    "s": {
-    "en": "After the world's population has been ravaged by a pandemic, a man lives a lonesome existence in a Colorado airplane hangar with his dog and a dour gunman he has befriended. When a mysterious transmission comes through on the radio while he’s flying his old Cessna, it sparks a hunt for the provenance of the sound.",
+    "en": "",
     "fi": "Visionääriohjaaja Ridley Scottilta tulee mukaansatempaava trilleri “The Dog Stars”, joka sijoittuu maailmaan, jossa selviytyminen on vaistonvaraista ja inhimillisyys valinnaista. Scott kertoo tarinan nuoresta lentäjästä nimeltä Hig sekä hampaisiin asti aseistautuneesta survivalistista nimeltä Bangley, joka on erakoitunut linnoituksensa suojiin brutaalissa postapokalyptisessa maailmassa. Eräänä päivänä Hig sattuu kuulemaan mystisen radiolähetyksen ja tuntee pakottavaa tarvetta suunnata kohti tuntematonta löytääkseen toivoa ja inhimillisyyttä, jota hän kaikesta huolimatta uskoo olevan vielä jäljellä."
    },
-   "tr": "https://www.youtube.com/watch?v=-xSxaE1ClEE",
-   "ts": [
-    "en"
-   ]
+   "tr": ""
   },
   "the drama": {
    "id": 1325734,
@@ -7935,7 +7927,6 @@
     "ihmekompleksi",
     "isohannu",
     "kinoaurora",
-    "kinoiiris",
     "kinokonepaja",
     "kinoolympia",
     "kinopiispanristi",
@@ -8659,16 +8650,12 @@
   },
   "whalefall poistuu ohjelmistosta": {
    "id": 1255833,
-   "img": "data/posters/b06de03c5de0cf45.jpg",
-   "r": 6.7,
+   "r": 0,
    "s": {
-    "en": "Following the death of his father, Jay Gardiner goes diving off the central Coast of California in search of his remains, but is swallowed by a massive sperm whale. While trapped inside its belly with only one hour of oxygen left, Jay comes to realize that the hard-earned lessons his father imparted may be the key to his escape.",
+    "en": "",
     "fi": "20th Century Studios ja Imagine Entertainment tuovat valkokankaalle elokuvan “Whalefall”. Kyseessä on suurten tunteiden selviytymistrilleri, joka kertoo nuoren miehen ja massiivisen kaskelotin kohtaamisesta. Brian Duffieldin ohjaaman elokuvan ovat käsikirjoittaneet Duffield & Daniel Kraus perustuen Krausin samannimiseen kirjaan ja sen pääosissa nähdään Austin Abrams, Josh Brolin, Elisabeth Shue, John Ortiz, Jane Levy ja Emily Rudd. Tuottajina toimivat Brian Grazer, Brian Duffield, Jeb Brody, Allan Mandelbaum sekä vastaavina tuottajina Doug Merrifield, Richard Abate ja Will Rowbotham. Menetettyään traagisesti isänsä (Josh Brolin) Jay Gardiner (Austin Abrams) lähtee keskisen Kalifornian rannikolle sukeltamaan ja etsimään tämän ruumista, mutta tulee valtavan kaskelotin nielaisemaksi. Valaan vatsassa Jay joutuu toteamaan, että hänellä riittää happea enää tunniksi, ja siinä taistelussa hänen isänsä ankarat opetukset saattavat sittenkin olla avain selviytymiseen."
    },
-   "tr": "https://www.youtube.com/watch?v=Dw-5ZGapGTQ",
-   "ts": [
-    "en"
-   ]
+   "tr": ""
   },
   "white riot": {
    "id": 627051,

@@ -3,5 +3,5 @@
 [run] throttled: 1 Retry-After responses, 0s waited, 1 not retried (asked for longer than a run can wait)
 [run] hosts: 1 attempted -- kinokuusamotalo.fi
 [run] kuusamotalo: 0 venues, 0 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 1 failures
-[run] timing: 1 site(s), 0.5s of fetching added up across workers that overlap, longest site 0.5s, longest queue wait 191.3s, 0.5s wall from this module's first fetch starting to its last ending
+[run] timing: 1 site(s), 0.5s of fetching added up across workers that overlap, longest site 0.5s, longest queue wait 155.5s, 0.5s wall from this module's first fetch starting to its last ending
 exit=1
