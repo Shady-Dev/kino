@@ -38,6 +38,9 @@ item is in [IDEAS.md](../../IDEAS.md).
   ends with the film's facts, `Kieli: suomi<br />Tekstitys: suomi`, also `Kesto` and
   `Ikäraja`. 13 of the 17 rows that day parsed as names; the other four are two dubbed
   films, and both records read say `Kieli: puhuttu suomeksi`.
+- **Kino Helios, from the listing, read 2026-10-21.** The same lines end each Kino
+  Helios event's `description.fi` in the city's Linked Events API, which the adapter
+  reads since that day. All 12 rows parsed, and each gave the language the record had.
 - **Bio-Kaari, Forssan Elävienkuvien teatteri and Kino-Huovi, nowhere, read 2026-09-29.**
   No language wording on Bio-Kaari's four event pages, on four of Elävien kuvien's film
   pages, or on Kino-Huovi's front page, the pages the three adapters read. Bio-Kaari's

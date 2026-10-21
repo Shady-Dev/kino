@@ -4237,3 +4237,17 @@ Kino Lumo in Salo at 25.1 light and 16.8 dark on the weakest model, and Bio Star
 #B4462B / #D96A4E is alone in Paimio and in no region. The snapshot matched both
 cinemas' own pages on films and on the first day's times. Neither town joins a travel
 area: Paimio against Turun seutu is the maintainer's decision under the REGIONS rule.
+
+### Kino Helios reads the City of Helsinki's Linked Events (2026-10-21)
+From 15:26 UTC on 2026-10-21 every cloud run failed on Kino Helios: `www.malmitalo.fi`
+redirected to the city's outage copy and the `GetEvents` POST answered 404. The city's open
+Linked Events API answered the same programme by GET, so the adapter now reads it by place,
+paged by `meta.next` and failing past five pages. A row is this cinema when it is at the
+place, carries the film keyword `kulke:29` and has a Finnish name ending `– Kino Helios`,
+which leaves out HopeaCine, Yleisön suosikit and Joululomaleffa. The language comes from
+the description's `Kieli` and `Tekstitys` lines, so the per-screening record requests and
+`film-lang-helios.json` are gone. Price, runtime and pictures stay unpublished as before.
+Against the 12 rows the old service gave the 11:15 UTC run, the new reader matched start,
+title, rating, ticket link and language on all 12; the hall name is no longer stated.
+Twenty-six mutations went red. The data is CC BY 4.0, credited on /status/. Findings in
+[docs/research/ticketing-platforms.md](../research/ticketing-platforms.md).

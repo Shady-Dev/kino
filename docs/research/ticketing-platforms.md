@@ -2030,3 +2030,48 @@ button only where none is; see the 2026-09-25 entry in `docs/archive/2026-09-pro
 The adapter and its tests are committed. Kannusali has no registry entry yet, so nothing is
 published: the entry and its accent wait on the per-theme accent decision for the capital
 region.
+
+---
+
+## Kino Helios from Linked Events, read 2026-10-21
+
+**Findings** (from this connection, 2026-10-21 between 16:40 and 16:50 UTC)
+
+- `www.malmitalo.fi/` answered 302 to `https://kopio.hel.fi/`, a page reading "Sivua ei
+  löytynyt" that points to `www.hel.fi`. `www.hel.fi/fi` and `tapahtumat.hel.fi` answered
+  the same 302, from `Microsoft-Azure-Application-Gateway/v2`. The cloud run's POST to
+  `GetEvents` had answered 404 from 15:26 UTC (`logs/run-helios.log`).
+- `api.hel.fi/linkedevents/v1/event/?location=tprek:8740&start=2026-10-21&end=2027-01-19
+  &page_size=100&sort=start_time` answered 200 with 100 events and no `meta.next`; with
+  `page_size=40` the same count came with a `next` link. 21 of the 100 carry keyword
+  `kulke:29` ("Elokuvat"): 12 named `... – Kino Helios`, 3 `HopeaCine: ...`, 2 Yleisön
+  suosikit and 4 `Joululomaleffa: ...`. `kulke:755` on the Kino Helios rows is
+  "Kaupunkiuudistusalueet", and `kulke:53`/`54`/`55` (Suomi, Ruotsi, Englanti) are on every
+  row, so neither marks the cinema.
+- The 12 Kino Helios rows equal the 12 the old service gave the 11:15 UTC run in start,
+  title, rating, ticket link and language. `start_time` is UTC with `Z`.
+  `location_extra_info` is empty on all 12, where the old `specificLocation` said
+  `Malmitalon Pieni sali`.
+- `description.fi` ends with `Ikäraja`, `Kesto`, `Ensi-ilta`, `Kieli` and `Tekstitys`
+  lines; Unohdettu saari says `Kieli: puhuttu suomeksi`. `short_description.fi` is the
+  one-paragraph blurb.
+- `offers[0].price.fi` is `9 €` on 11 rows and `7 €` on Unohdettu saari (7);
+  `info_url.fi` is the lippu.fi event. Every image is `event_only`. `event_status` is
+  `EventRescheduled` on 81 of the 100 rows and `EventScheduled` on 19.
+- The API's front page (`?format=api`) states: "Unless otherwise stated, the data is
+  licensed using CC BY 4.0", with `event_only` images as the exception.
+
+**Inferences and open questions**
+
+- The city's own front page redirecting the same way reads as an outage of the city's web
+  front end rather than a move of the house's site. Whether `GetEvents` comes back was not
+  established.
+- Whether the offer amount is the screening's ticket price or its floor is not settled:
+  the house's page gave "alkaen 9 EUR" on 2026-09-18.
+- Neither Malmitalo's nor hel.fi's listing could be read to compare against, for the
+  redirect above.
+
+**Status and next step**
+
+`helios.py` reads this listing. Next: compare the published rows with the house's own
+listing once `www.malmitalo.fi` answers again.
