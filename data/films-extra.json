@@ -2116,10 +2116,10 @@
     "gilda",
     "ihmekompleksi",
     "joutsankino",
+    "kinoaurora",
     "kinojuha",
     "kinokulma",
     "kinometso",
-    "kinomyyri",
     "kkino",
     "korjaamo",
     "savonkinot",
@@ -2330,7 +2330,6 @@
     "ihmekompleksi",
     "isohannu",
     "jarvelankino",
-    "joutsankino",
     "kino123",
     "kinoakseli",
     "kinoaurora",
@@ -2396,13 +2395,12 @@
   },
   "kerro kaikille suomeksi tekstitetty": {
    "id": 1304530,
-   "img": "data/posters/133d5c0758982817.jpg",
    "r": 0,
    "s": {
     "en": "",
     "fi": "Kerro kaikille on voimaelokuva Amanda Aaltosesta, joka kieltäytyy alistumasta hänelle varattuun köyhän naisen ankeaan kohtaloon ja etsii huimapäisesti onneaan maailmalta. Rangaistukseksi sääntöjen rikkomisesta yhteiskunta anastaa häneltä kaikkein tärkeimmän, vapauden, ja sulkee hänet Seilin saarelle."
    },
-   "tr": "https://www.youtube.com/watch?v=iUpszeSB7k4"
+   "tr": ""
   },
   "keskustelussa naza elokuvan tuottaja harry davies": {
    "r": 0,
@@ -2672,6 +2670,14 @@
    "s": {
     "en": "",
     "fi": "KIRJASTOKINO ESITTÄÄ: MISERY (1990)\n\nRob Reinerin ohjaama, metaforinen ja sysimusta tutkielma fanikulttuurin pakkomielteistä, taiteilijan vangitsevuudesta ja luovan työn tuskasta. Kathy Batesin hyytävä, Oscar-palkittu roolisuoritus kääntää perinteisen hoivavietti-arkkityypin päälaelleen luoden yhden elokuvahistorian moniulotteisimmista psykopaateista. Stephen Kingin omaelämäkerrallisiakin sävyjä heijastavaan romaaniin perustuva teos on mestarillisen tiivis, lähes klaustrofobinen kamarinäytelmä, joka purkaa vallankäytön ja riippuvuuden dynamiikkaa tavalla, joka resonoi nykyisessä \"toxic fandom\" -aikakaudessa ajankohtaisemmin kuin koskaan."
+   },
+   "tr": ""
+  },
+  "kirjastokino one battle after another": {
+   "r": 0,
+   "s": {
+    "en": "",
+    "fi": "Tervetuloa ensimmäiseen KirjastoKinoon keskiviikkona 28.10. klo 17.00! Tämä elokuvailta yhdistää elokuvan, kirjat ja keskustelun. Tule katsomaan Kotiseutuhuoneeseen ilmaiseksi Paul Thomas Andersonin vuonna 2025 ensi-iltansa saanutta elokuvaa One Battle After Another. Se käsittelee poliittisia teemoja, yksilön mahdollisuuksia ja tekojen seurauksia upealla näyttelijäkaartilla tulkittuna. Lisäksi on lainattavissa yhteiskunnallisista teemoista kertovia kirjoja sekä mahdollisuus keskustella elokuvan herättämistä ajatuksista. Elokuvan kesto on 2 tuntia ja 42 minuuttia ja ikäraja K-12, vanhemman seurassa 9 vuotta täyttänyt. Lämpimästi tervetuloa ensimmäiseen KirjastoKinoon! Tapahtuma on osa Pakkopullasta polttoaineeksi – Voimaa ja virtaa lukemisesta -hanketta, jonka on rahoittanut Lupa- ja valvontavirasto."
    },
    "tr": ""
   },
@@ -3076,13 +3082,12 @@
   },
   "kolme väriä valkoinen": {
    "id": 109,
-   "img": "data/posters/a3181831c9efb271.jpg",
-   "r": 7.4,
+   "r": 0,
    "s": {
     "en": "",
     "fi": "Kolme väriä: Valkoinen on Krzysztof Kieślowskin väritrilogian toinen osa – mustan huumorin ja hienovaraisen melankolian sävyttämä kertomus tasa-arvosta, nöyryytyksestä ja kostosta. Elokuva käynnistyy kylmästi ja julkisesti: oikeussalissa ranskalainen Dominique (Julie Delpy) hakee avioeroa puolalaisesta miehestään Karolista (Zbigniew Zamachowski). Karol menettää avioliiton lisäksi työnsä, arvokkuutensa ja lopulta koko asemansa vieraassa maassa. Nöyryytettynä ja rahattomana hän palaa Puolaan matkalaukussa salamatkustajana – kirjaimellisesti pohjalle ajettuna. Kotimaassaan Karol alkaa koota elämäänsä uudelleen. Hänen kasvava itseluottamuksensa kietoutuu yhteen halun kanssa kostaa Dominique’lle ja palauttaa kadotettu tasapaino. Kieślowski tarkastelee kostoa ironisesti mutta ymmärtävästi: joskus oikeudenmukaisuus, tai edes tunne siitä, löytyy kaikkein kyseenalaisimmista teoista."
    },
-   "tr": "https://www.youtube.com/watch?v=mfw46ZiSScw"
+   "tr": ""
   },
   "konsertti il volo at the valley of the temples": {
    "r": 0,
@@ -3531,6 +3536,7 @@
     "haapamaki",
     "ihmekompleksi",
     "joutsankino",
+    "kinoaurora",
     "kinoelo",
     "kinojuha",
     "kinolaika",
@@ -3800,13 +3806,12 @@
   },
   "luvattu maa ziemia obiecana the promised land": {
    "id": 511,
-   "img": "data/posters/a822d70d6d42bfb2.jpg",
-   "r": 7.4,
+   "r": 0,
    "s": {
     "en": "Celebrating the 100th anniversary of one of Poland's most prominent film directors, Andrzej Wajda. Three friends hope to build a factory but their plans are quickly jeopardized by local politics and one of the partner's dangerous love affair. The screening is part of The Polish Film Weeks and is subtitled in English. The Polish Film Week takes place in several locations around Finland and is arranged by Polish-Finnish Associations Union, The Polish embassy in Finland, Finnish Film Foundation and local Film Centers.",
     "fi": ""
    },
-   "tr": "https://www.youtube.com/watch?v=UGosYBfbRBc"
+   "tr": ""
   },
   "lyhyt rakkaustarina": {
    "id": 1299382,
@@ -5051,13 +5056,12 @@
   },
   "pension patta": {
    "id": 1711182,
-   "img": "data/posters/cd87724b30163f64.jpg",
    "r": 0,
    "s": {
     "en": "Pension Patta is a heartfelt story of identity, family, redemption, and the transformative power of humanity, where a simple pension document becomes the beginning of an extraordinary journey of self-discovery. Writer and Director: Maotse Gurung",
     "fi": ""
    },
-   "tr": "https://www.youtube.com/watch?v=k_yjATHbTPY"
+   "tr": ""
   },
   "perfect blue": {
    "id": 10494,
@@ -6995,6 +6999,15 @@
    },
    "tr": ""
   },
+  "svenska veckan knyckertz och snutjakten": {
+   "r": 0,
+   "s": {
+    "en": "",
+    "fi": "",
+    "sv": "Familjen Knyckertz brinner av iver. Stadens museum kommer få världens dyrbaraste artefakt: Farah Dibas kröningsdiadem. Mamma Fia, pappa Bove och lillasyster Kriminellen planerar en kupp för att stjäla diademen. Den ärliga brodern Ture försöker i sin tur stoppa planen. Samtidigt utreder polisen en försvunnen hund, och spåren leder till familjen Knyckertz. Ture måste välja: ska han vara ärlig och lämna tillbaka hunden, eller behålla den och således hjälpa familjen att genomföra en livsfarlig kupp? Böckerna om familjen Knyckertz har spritt glädje till många unga läsare, och nu som familjefilm. Knyckertz och snutjakten är ett roligt och humoristiskt äventyr om en familj som är allt annat än vanligt, eller ärligt."
+   },
+   "tr": ""
+  },
   "svečias the visitor": {
    "id": 1427167,
    "r": 0,
@@ -7209,6 +7222,7 @@
     "biorexkokkola",
     "engel",
     "gilda",
+    "kinoaurora",
     "kinokilta",
     "kinolaika",
     "korjaamo",
@@ -7233,6 +7247,7 @@
     "biorexkokkola",
     "engel",
     "gilda",
+    "kinoaurora",
     "kinokilta",
     "kinolaika",
     "korjaamo",
@@ -7420,6 +7435,14 @@
    "ts": [
     "en"
    ]
+  },
+  "the promised land": {
+   "r": 0,
+   "s": {
+    "en": "Celebrating the 100th anniversary of one of Poland's most prominent film directors, Andrzej Wajda. Three friends hope to build a factory but their plans are quickly jeopardized by local politics and one of the partner's dangerous love affair. The screening is part of The Polish Film Weeks and is subtitled in English. The Polish Film Week takes place in several locations around Finland and is arranged by Polish-Finnish Associations Union, The Polish embassy in Finland, Finnish Film Foundation and local Film Centers.",
+    "fi": ""
+   },
+   "tr": ""
   },
   "the promised land free screening polish film weeks puolan elokuvaviikot": {
    "id": 511,
@@ -7898,6 +7921,14 @@
    },
    "tr": ""
   },
+  "trains": {
+   "r": 0,
+   "s": {
+    "en": "TRAINS is a found-footage documentary composed entirely from archive footage and sound design that creates a collective portrait of people in 20th century Europe, capturing their hopes, desires, dramas and tragedies. A train compartment is a place where people are taken out of their everyday context for a while. Sometimes the journey is accompanied by the hope that something will change in our lives upon reaching the destination, or conversely, by a stark absence of hope. And yet the history of the 20th century unfolds in railway carriages in a repetitive refrain. Every few years, hauntingly similar scenes play out in railway stations around the world: carriages full of men leaving for war, only to return wounded or as casualties. This cycle is followed by an exodus of civilians, evacuees mingling with prisoners of war returning from camps, and soldiers of victorious armies leading the defeated, until ordinary passengers reappear at stations. The screening is part of The Polish Film Weeks and is subtitled in English. The Polish Film Week takes place in several locations around Finland and is arranged by Polish-Finnish Associations Union, The Polish embassy in Finland, Finnish Film Foundation and local Film Centers.",
+    "fi": ""
+   },
+   "tr": ""
+  },
   "tremors väristyksiä": {
    "id": 9362,
    "img": "data/posters/8cb769a36b286d97.jpg",
@@ -8206,16 +8237,12 @@
   },
   "unohdettu saari orig": {
    "id": 1465063,
-   "img": "data/posters/9bcaf7ef167a0f8f.jpg",
-   "r": 7.9,
+   "r": 0,
    "s": {
-    "en": "While celebrating their last night together, high school graduates and best friends Jo and Raissa stumble upon a mysterious portal that transports them to the fantastical island of Nakali. When they discover that the memories of their entire friendship are the price for returning home, Jo and Raissa must race to find a way to leave the island before they forget each other forever.",
+    "en": "",
     "fi": "Tämä elokuva sisältää välkkyviä valoja, jotka voivat aiheuttaa oireita henkilöille, joilla on valoherkkä epilepsia tai muu valoherkkyys. Parhaan ystävyyden puolesta kannattaa taistella. DreamWorks Animation on aiemmin tuonut katsojille tarinoita unohtumattomista siteistä pojan ja lohikäärmeen välillä Näin koulutat lohikäärmeesi -elokuvissa, jätin ja aasin välillä Shrek-elokuvissa sekä robotin ja hanhenpoikasen välillä elokuvassa Villi robotti. Nyt luvassa on huikean tunteikas tarina kahdesta parhaasta ystävyksestä, joiden täytyy yhdistää voimansa eron uhatessa elokuvassa Unohdettu saari. Uuden alkuperäistarinan on käsikirjoittanut ja ohjannut Oscar-ehdokas Joel Crawford ja Januel Mercado. Tuottajana toimii Oscar-ehdokas Mark Swift. Sama tiimi on myös ollut tekemässä elokuvaa Saapasjalkakissa: Viimeinen toivomus. Grammy- ja Oscar-palkittu supertähti H.E.R. ja Liza Soberano (Lisa Frankenstein, Alone/Together) ovat Jo ja Raissa, high schoolista valmistunut parivaljakko. He ovat olleet parhaita ystäviä ala-asteelta asti, mutta nyt elämä uhkaa erottaa ystävykset. Juhliessaan viimeistä yhteistä iltaansa Jo ja Raissa törmäävät salaperäiseen portaaliin, joka kuljettaa heidät Nakalin mielikuvitukselliselle saarelle. Saari on täynnä maagisia ja myyttisiä olentoja, joista ystävysten filippiiniläisperheet ovat kertoneet tarinoita. Uusista tuttavuuksista paljastuu niin ystäviä kuin vihollisiakin. Apunaan hyvää tarkoittava mutta melko avuton ihmiskoira Raww (Dave Franco) sekä pieni mutta pippurinen joukko muita kamuja Jo ja Raissa ottavat mittaa karmeasta Manananggalista (Tony-palkittu ikoni Lea Salonga), saaren pelätyimmästä olennosta. Kun parille paljastuu, että hinta kotiinpaluusta on kaikkien yhteisten muistojen menettäminen, Jon ja Raissan täytyy keksiä keino päästä pois saarelta unohtamatta toisiaan."
    },
-   "tr": "https://www.youtube.com/watch?v=PhgY8cOJiQA",
-   "ts": [
-    "en"
-   ]
+   "tr": ""
   },
   "unohdettu saari på svenska": {
    "id": 1465063,
@@ -8343,10 +8370,19 @@
    },
    "tr": ""
   },
-  "varjoja paratiisissa 40 vuotta juhlanäytös": {
+  "varjoja paratiisissa": {
    "id": 3,
    "img": "data/posters/62b157e67bc2049d.jpg",
    "r": 7.3,
+   "s": {
+    "en": "",
+    "fi": "Roskakuski Nikander (Matti Pellonpää) tapaa Valintatalon kassalla työskentelevän Ilonan (Kati Outinen) ja heidän välilleen kehittyy vähitellen ongelmainen rakkaustarina. Nikander on menettänyt omasta yrityksestä haaveilleen työtoverinsa (Esko Nikkari) ja löytää yöksi putkaan jouduttuaan uudeksi ystäväkseen Melartinin (Sakari Kuosmanen). Ilona saa ilman omaa syytään potkut työpaikaltaan ja varastaa hetkellisen kostonhimon vallitessa Valintatalon kassalippaan. Nikander ja Ilona matkustavat pois Helsingistä ja majoittuvat motelliin. Autiolla rannalla ujonoloinen roskakuski kerää viimein kaiken rohkeutensa ja kumartuu suutelemaan naistaan ensi kertaa. Heidän tiensä ajautuvat kuitenkin ennen pitkää uudelleen erilleen ja Ilona alkaa puolivillaisesti tapailla uuden työpaikkansa lipevää esimiestä. Nikander lääkitsee suruaan juomalla ja tulee välillä hakatuksikin mutta kerää lopulta rohkeutensa ja hakee Ilonan mukaansa. Harri Marstion tulkitseman Älä kiiruhda -kappaleen soidessa he matkustavat yhdessä laivalla Viroon, kohti uutta ja tuntematonta tulevaisuutta."
+   },
+   "tr": ""
+  },
+  "varjoja paratiisissa 40 vuotta juhlanäytös": {
+   "id": 3,
+   "r": 0,
    "s": {
     "en": "",
     "fi": "Roskakuski Nikander (Matti Pellonpää) tapaa Valintatalon kassalla työskentelevän Ilonan (Kati Outinen) ja heidän välilleen kehittyy vähitellen ongelmainen rakkaustarina. Nikander on menettänyt omasta yrityksestä haaveilleen työtoverinsa (Esko Nikkari) ja löytää yöksi putkaan jouduttuaan uudeksi ystäväkseen Melartinin (Sakari Kuosmanen). Ilona saa ilman omaa syytään potkut työpaikaltaan ja varastaa hetkellisen kostonhimon vallitessa Valintatalon kassalippaan. Nikander ja Ilona matkustavat pois Helsingistä ja majoittuvat motelliin. Autiolla rannalla ujonoloinen roskakuski kerää viimein kaiken rohkeutensa ja kumartuu suutelemaan naistaan ensi kertaa. Heidän tiensä ajautuvat kuitenkin ennen pitkää uudelleen erilleen ja Ilona alkaa puolivillaisesti tapailla uuden työpaikkansa lipevää esimiestä. Nikander lääkitsee suruaan juomalla ja tulee välillä hakatuksikin mutta kerää lopulta rohkeutensa ja hakee Ilonan mukaansa. Harri Marstion tulkitseman Älä kiiruhda -kappaleen soidessa he matkustavat yhdessä laivalla Viroon, kohti uutta ja tuntematonta tulevaisuutta."
@@ -8576,6 +8612,7 @@
    "kr": "K-16",
    "krs": [
     "biorex",
+    "kinoaurora",
     "kinokonepaja"
    ],
    "r": 0,

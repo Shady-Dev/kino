@@ -1,31 +1,31 @@
-[biorex] BioRex Tripla: 239 showtimes
-[biorex] BioRex Redi: 176 showtimes
-[biorex] BioRex Verkatehdas: 154 showtimes
-[biorex] BioRex Sveitsi: 111 showtimes
-[biorex] BioRex Kajaani: 73 showtimes
-[biorex] BioRex Pietarsaari: 47 showtimes
-[biorex] BioRex Porvoo: 106 showtimes
-[biorex] BioRex Riihimäki: 48 showtimes
-[biorex] BioRex Rovaniemi: 126 showtimes
-[biorex] BioRex Seinäjoki: 146 showtimes
-[biorex] BioRex Tornio: 105 showtimes
-[biorex] BioRex Vaasa: 135 showtimes
-[biorex] film pages: 40/40
-[biorex] BioRex Tripla: 239 showtimes, 24 dates
-[biorex] BioRex Redi: 176 showtimes, 19 dates
-[biorex] BioRex Verkatehdas: 154 showtimes, 21 dates
-[biorex] BioRex Sveitsi: 111 showtimes, 19 dates
-[biorex] BioRex Kajaani: 73 showtimes, 19 dates
-[biorex] BioRex Pietarsaari: 47 showtimes, 14 dates
-[biorex] BioRex Porvoo: 106 showtimes, 19 dates
-[biorex] BioRex Riihimäki: 48 showtimes, 15 dates
-[biorex] BioRex Rovaniemi: 126 showtimes, 21 dates
-[biorex] BioRex Seinäjoki: 146 showtimes, 21 dates
-[biorex] BioRex Tornio: 105 showtimes, 19 dates
-[biorex] BioRex Vaasa: 135 showtimes, 19 dates
+[biorex] BioRex Tripla FAILED: <urlopen error [Errno 101] Network is unreachable>
+[biorex] BioRex Redi FAILED: <urlopen error [Errno 101] Network is unreachable>
+[biorex] BioRex Verkatehdas FAILED: <urlopen error [Errno 101] Network is unreachable>
+[biorex] BioRex Sveitsi FAILED: <urlopen error [Errno 101] Network is unreachable>
+[biorex] BioRex Kajaani FAILED: <urlopen error [Errno 101] Network is unreachable>
+[biorex] BioRex Pietarsaari FAILED: <urlopen error [Errno 101] Network is unreachable>
+[biorex] BioRex Porvoo FAILED: <urlopen error [Errno 101] Network is unreachable>
+[biorex] BioRex Riihimäki FAILED: <urlopen error [Errno 101] Network is unreachable>
+[biorex] BioRex Rovaniemi FAILED: <urlopen error [Errno 101] Network is unreachable>
+[biorex] BioRex Seinäjoki FAILED: <urlopen error [Errno 101] Network is unreachable>
+[biorex] BioRex Tornio FAILED: <urlopen error [Errno 101] Network is unreachable>
+[biorex] BioRex Vaasa FAILED: <urlopen error [Errno 101] Network is unreachable>
+[biorex] film pages: 0/0
+[biorex] BioRex Tripla: no showtimes, keeping previous data from 2026-10-21T07:52:16+00:00
+[biorex] BioRex Redi: no showtimes, keeping previous data from 2026-10-21T07:52:16+00:00
+[biorex] BioRex Verkatehdas: no showtimes, keeping previous data from 2026-10-21T07:52:16+00:00
+[biorex] BioRex Sveitsi: no showtimes, keeping previous data from 2026-10-21T07:52:16+00:00
+[biorex] BioRex Kajaani: no showtimes, keeping previous data from 2026-10-21T07:52:16+00:00
+[biorex] BioRex Pietarsaari: no showtimes, keeping previous data from 2026-10-21T07:52:16+00:00
+[biorex] BioRex Porvoo: no showtimes, keeping previous data from 2026-10-21T07:52:16+00:00
+[biorex] BioRex Riihimäki: no showtimes, keeping previous data from 2026-10-21T07:52:16+00:00
+[biorex] BioRex Rovaniemi: no showtimes, keeping previous data from 2026-10-21T07:52:16+00:00
+[biorex] BioRex Seinäjoki: no showtimes, keeping previous data from 2026-10-21T07:52:16+00:00
+[biorex] BioRex Tornio: no showtimes, keeping previous data from 2026-10-21T07:52:16+00:00
+[biorex] BioRex Vaasa: no showtimes, keeping previous data from 2026-10-21T07:52:16+00:00
 [biorex] synopses merged: 0
-[run] http: 0 revalidated (304), 40 full, 0 not stored (origin said no-store), 0 cache entries written
 [run] hosts: 1 attempted -- biorex.fi
-[run] biorex: 12 venues, 1466 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
-[run] timing: 1 site(s), 102.6s of fetching added up across workers that overlap, longest site 102.6s, longest queue wait 0.0s, 102.6s wall from this module's first fetch starting to its last ending
-exit=0
+[run] partial: biorex kept previous data for 12 venue(s): br-tripla, br-redi, br-verkatehdas, br-sveitsi, br-kajaani, br-pietarsaari, br-porvoo, br-riihimaki, br-rovaniemi, br-seinajoki, br-tornio, br-vaasa
+[run] biorex: 0 venues, 0 showtimes, 12 stale, 0 unverified, 0 pending, 0 with no programme, 1 failures
+[run] timing: 1 site(s), 191.2s of fetching added up across workers that overlap, longest site 191.2s, longest queue wait 0.0s, 191.2s wall from this module's first fetch starting to its last ending
+exit=1
