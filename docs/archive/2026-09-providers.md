@@ -4298,3 +4298,12 @@ starting is left out, so "16:30 alkaen lukupiiri" is not a screening and "18:00 
 alkaa" is; struck-through, untimed and out-of-window rows are left out and counted. Its
 "RÖMPPÄVIIKOT:" event weeks are aliased title by title, the Vilimit-festivaali call. No
 poster of the site's own is published. Teal #145E66 / #66CCC9. Six mutations red.
+
+### KisaKino, Saarijärvi, from its film pages (2026-10-21)
+Issue #9. The front page shows each film's next three screenings and links the film page,
+whose sidebar lists all of them with the year: "<strong>La</strong> 24.10.2026 16:00".
+`/wp-json/` exposes no film type, so the front page is read for the film links and each
+film page once, paced. A line whose weekday is not its date's is left out and counted, a
+film page that cannot be read fails the site, and "Lipun hinta" is each screening's price
+as the film's one amount. No poster of the site's own is published. Ochre #664A0A /
+#E0A416. Six mutations red.
