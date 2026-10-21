@@ -16,6 +16,7 @@ table that day. What they exist to prove:
   cards without them still fails the site.
 """
 import contextlib
+import datetime
 import io
 import json
 import pathlib
@@ -253,8 +254,12 @@ class RunnerTest(unittest.TestCase):
         """A card filed under an undeclared town may be a declared town's screening under a
         place that reads differently, so the empty town keeps its previous file, as
         eTiketti, Nexxo and Alatalo do (audit A3, 2026-09-25)."""
-        future = {**self.PREV, "dates": ["2027-01-09"], "horizon": "2027-01-09",
-                  "shows": [{"title": "Old", "start": "2027-01-09T12:00:00+02:00"}]}
+        # Dated from today: run.main reads the real clock, and a fixed 2027-01-09 is spent
+        # from 2027-01-10, when the file is no longer kept.
+        day = datetime.datetime.now(K.FI).date() + datetime.timedelta(days=30)
+        noon = datetime.datetime(day.year, day.month, day.day, 12, tzinfo=K.FI)
+        future = {**self.PREV, "dates": [day.isoformat()], "horizon": day.isoformat(),
+                  "shows": [{"title": "Old", "start": noon.isoformat()}]}
         (run.OUT / "area-kinotour-kyro.json").write_text(json.dumps(future))
         self.serve(page(card(city="Pöytyä", place="Pöytyä · Kurkisali"), DECLARED))
         code, log = self.main()
