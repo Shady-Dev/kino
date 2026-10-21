@@ -7,16 +7,15 @@
 [kinoset] synopses merged: 0
 [kinoaurora] Kino Aurora (Jyväskylä): 35 showtimes
 [kinoaurora] Kino Aurora: 35 showtimes, 12 dates
-[kinoaurora] synopses merged: 2
-[kinoaurora] synopses by language: en 2
-[kinohirvi] Kino Hirvi (Äänekoski): 22 showtimes
-[kinohirvi] Kino Hirvi: 22 showtimes, 8 dates
+[kinoaurora] synopses merged: 0
+[kinohirvi] Kino Hirvi (Äänekoski): 26 showtimes
+[kinohirvi] Kino Hirvi: 26 showtimes, 8 dates
 [kinohirvi] synopses merged: 0
-[biosade] Bio Säde (Mänttä): 14 showtimes
-[biosade] Bio Säde: 14 showtimes, 5 dates
+[biosade] Bio Säde (Mänttä): 21 showtimes
+[biosade] Bio Säde: 21 showtimes, 8 dates
 [biosade] synopses merged: 0
-[kinomarilyn] Kino Marilyn (Loviisa): 20 showtimes
-[kinomarilyn] Kino Marilyn: 20 showtimes, 8 dates
+[kinomarilyn] Kino Marilyn (Loviisa): 48 showtimes
+[kinomarilyn] Kino Marilyn: 48 showtimes, 12 dates
 [kinomarilyn] synopses merged: 0
 [kinoolympia] Kino Olympia (Hanko): 16 showtimes
 [kinoolympia] Kino Olympia: 16 showtimes, 9 dates
@@ -41,9 +40,19 @@
 [kinometso] Toivakka: 5 showtimes, 1 dates
 [kinometso] Hankasalmi: 5 showtimes, 1 dates
 [kinometso] synopses merged: 0
+[http] 503 from biosalo.fi, gave up after 1 attempt(s) -- Retry-After: 7200
+[biosalo] locationid 1 FAILED: HTTP Error 503: Service Unavailable
+[biosalo] Bio-Salo: no showtimes, keeping previous data from 2026-10-21T12:28:35+00:00
+[biosalo] synopses merged: 0
+[biostara] locationid 2 FAILED: HTTP Error 503: Service Unavailable
+[biostara] Bio Stara: no showtimes, keeping previous data from 2026-10-21T12:28:35+00:00
+[biostara] synopses merged: 0
 [run] http: 0 revalidated (304), 10 full, 10 not stored (origin said no-store), 0 cache entries written
-[run] hosts: 6 attempted -- jarvelankino.fi, kino-olympia.fi, kinoaurora.fi, kinohirvi.fi, kinomarilyn.fi, kinoset.fi
+[run] throttled: 2 Retry-After responses, 0s waited, 2 not retried (asked for longer than a run can wait)
+[run] hosts: 7 attempted -- biosalo.fi, jarvelankino.fi, kino-olympia.fi, kinoaurora.fi, kinohirvi.fi, kinomarilyn.fi, kinoset.fi
 [run] pending: kinometso has 1 venue(s) with no programme yet: km-vaajakoski
-[run] nexxo: 16 venues, 209 showtimes, 0 stale, 0 unverified, 1 pending, 0 with no programme, 0 failures
-[run] timing: 8 site(s), 38.1s of fetching added up across workers that overlap, longest site 10.6s, longest queue wait 0.0s, 10.6s wall from this module's first fetch starting to its last ending
-exit=0
+[run] partial: biosalo kept previous data for 1 venue(s): bs-salo
+[run] partial: biostara kept previous data for 1 venue(s): bs-paimio
+[run] nexxo: 16 venues, 248 showtimes, 2 stale, 0 unverified, 1 pending, 0 with no programme, 2 failures
+[run] timing: 10 site(s), 44.1s of fetching added up across workers that overlap, longest site 11.1s, longest queue wait 0.0s, 11.1s wall from this module's first fetch starting to its last ending
+exit=1

@@ -1,5 +1,7 @@
-[k13] FAILED: <urlopen error [Errno 111] Connection refused>
+[http] 503 from www.ses.fi, gave up after 1 attempt(s) -- Server: nginx; Retry-After: 300
+[k13] FAILED: HTTP Error 503: Service Temporarily Unavailable
+[run] throttled: 1 Retry-After responses, 0s waited, 1 not retried (asked for longer than a run can wait)
 [run] hosts: 1 attempted -- www.ses.fi
 [run] k13: 0 venues, 0 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 1 failures
-[run] timing: 1 site(s), 16.2s of fetching added up across workers that overlap, longest site 16.2s, longest queue wait 209.1s, 16.2s wall from this module's first fetch starting to its last ending
+[run] timing: 1 site(s), 0.8s of fetching added up across workers that overlap, longest site 0.8s, longest queue wait 191.9s, 0.8s wall from this module's first fetch starting to its last ending
 exit=1

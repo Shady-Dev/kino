@@ -8,10 +8,10 @@
 [tahtikino] 0 of 12 screening(s) carry a portrait poster
 [tahtikino] Tähti Kino: 12 showtimes, 6 dates
 [tahtikino] Tähti Kino: 12 showtimes, 6 dates
-[tahtikino] synopses merged: 1
+[tahtikino] synopses merged: 0
 [tahtikino] synopses skipped as screening notes: 11
 [run] http: 0 revalidated (304), 2 full, 0 not stored (origin said no-store), 0 cache entries written
 [run] hosts: 2 attempted -- muhos.fi, ritz.fi
 [run] tribe: 2 venues, 25 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
-[run] timing: 2 site(s), 7.9s of fetching added up across workers that overlap, longest site 6.4s, longest queue wait 198.1s, 6.4s wall from this module's first fetch starting to its last ending
+[run] timing: 2 site(s), 9.8s of fetching added up across workers that overlap, longest site 8.3s, longest queue wait 184.2s, 8.3s wall from this module's first fetch starting to its last ending
 exit=0
