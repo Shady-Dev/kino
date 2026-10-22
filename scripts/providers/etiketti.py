@@ -326,7 +326,8 @@ SEATS_RE = re.compile(r"(?:Vapaat paikat|Paikkoja vapaana):?\s*(\d+)\s*/\s*(\d+)
 BOOK_RE = re.compile(r'href="(/salikartta\?id=\d+)"')
 # Per-screening labels: Niagara's "Seniorikino" and "Q&amp;A", Kotka's "Erikoisnäytös".
 TAG_RE = re.compile(r'<span class="tag"[^>]*>(.*?)</span>', re.S)
-AGE_RE = re.compile(r"ikarajat/fi-(\d+|s)\.svg", re.I)
+# All ages is `fi-sallittu.svg` on 20 of the 22 hosts read 2026-10-22. None printed `fi-s.svg`.
+AGE_RE = re.compile(r"ikarajat/fi-(\d+|s|sallittu)\.svg", re.I)
 # Kotka: `Kesto:</span> 1 h 46 min`. Niagara: `Kesto </span> 1 h 48 min`, no colon.
 DUR_RE = re.compile(r"Kesto:?\s*</span>\s*(?:(\d+)\s*h)?\s*(?:(\d+)\s*min)?", re.I)
 LANGV_RE = re.compile(r"Kieli:?\s*</span>\s*([^<]+)", re.I)
@@ -573,7 +574,7 @@ def parse_movie(page, site, movie_url):
     rating = ""
     if age:
         a = age.group(1).lower()
-        rating = "S" if a == "s" else f"K-{a}"
+        rating = "S" if a in ("s", "sallittu") else f"K-{a}"
     dur = DUR_RE.search(page)
     minutes = ""
     if dur and (dur.group(1) or dur.group(2)):

@@ -792,6 +792,21 @@ class NiagaraLocationsTest(Stubbed):
                 self.assertIn("no registered venue claims '' (2 row(s))", log)
 
 
+class AllAgesIconTest(unittest.TestCase):
+    """Every host read 2026-10-22 prints the all-ages icon as `fi-sallittu.svg`, which the
+    adapter did not read, so those films published no rating."""
+
+    def test_both_icon_names_read_as_s_on_both_templates(self):
+        e = load()
+        for pid, page, icon in (("kotkanleffat", KOTKA_FILM, "fi-16.svg"),
+                                ("niagara", NIAGARA_FILM, "fi-12.svg")):
+            for name in ("fi-sallittu.svg", "fi-s.svg"):
+                with self.subTest(site=pid, icon=name):
+                    rows, meta = e.parse_movie(page.replace(icon, name), site(pid), "/elokuvat/1/x")
+                    self.assertEqual(meta["rating"], "S")
+                    self.assertTrue(rows)
+
+
 class NoScreeningIdFallbackTest(Stubbed):
     """A row without a ticket href has no public screening id. It is keyed on film,
     start, place and auditorium together, and recorded only once a venue took it."""

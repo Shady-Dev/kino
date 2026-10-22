@@ -4329,3 +4329,11 @@ ending in a colon and "ENNAKKONÄYTÖKSET!" go in `method`; a premiere announced
 is left out. "Puhumme suomea!" marks a Finnish dub. First snapshot: nine screenings of four
 films, each matching the page, all four on TMDB with mirrored posters. No poster of the
 site's own is published. Seven mutations red.
+
+### eTiketti reads the all-ages icon `fi-sallittu.svg` (2026-10-22)
+The adapter read the all-ages icon only as `fi-s.svg`. Read 2026-10-22, 20 of the 22 hosts
+print `fi-sallittu.svg` and none prints `fi-s.svg`. Bio Rex Kokkola's listing shows no icon
+and K-Kino had no all-ages film. Those films published no rating unless enrichment filled
+one from another chain, and at c745c37d3 117 of 1,239 eTiketti rows had none. Minä ja Riikka
+Purra at Niagara and Pirjo i Sverige at Kotka now parse as S. `fi-s.svg` still reads. Three
+mutations red.
