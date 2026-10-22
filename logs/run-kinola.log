@@ -1,11 +1,11 @@
-[kinokilta] 62 screening(s) listed, 42 film page(s) read
+[kinokilta] 61 screening(s) listed, 41 film page(s) read
 [kinokilta] omitted 0 confirmed non-film(s) by evidence-backed exclusion over 0 screening(s), and 0 unresolved over 0
 [kinokilta] override retkikino-2026: active
-[kinokilta] 4 synopsis/synopses withheld, no language settled: Combat Shock, Kinokopla: DIG! XX, RetkiKino 2026, Teenage Sex and Death at Camp Miasma
+[kinokilta] 3 synopsis/synopses withheld, no language settled: Combat Shock, Kinokopla: DIG! XX, RetkiKino 2026
 [kinokilta] 7 film(s) with a language name not read, that part left blank: Alligator (Ei teksitystä); Combat Shock (Ei teksitystä); Joysticks (Ei teksitystä); Pieni kauhukauppa (Ei teksitystä); Prom Night (Ei teksitystä); Savage Dawn (Ei teksitystä); The Devils (Ei teksitystä)
-[kinokilta] Kino Kilta: 62 showtimes, 34 dates
+[kinokilta] Kino Kilta: 61 showtimes, 33 dates
 [kinokilta] strand prefix split off 8 showtimes
-[kinokilta] Kino Kilta: 62 showtimes, 34 dates
+[kinokilta] Kino Kilta: 61 showtimes, 33 dates
 [kinokilta] synopses merged: 0
 [kinokilta] screening-note sentences left out of synopses: 1
 [kinolaika] 32 screening(s) listed, 20 film page(s) read
@@ -38,8 +38,8 @@
 [kinokonepaja] Kino Konepaja: 44 showtimes, 23 dates
 [kinokonepaja] Kino Konepaja: 44 showtimes, 23 dates
 [kinokonepaja] synopses merged: 0
-[run] http: 0 revalidated (304), 100 full, 20 not stored (origin said no-store), 43 cache entries written
+[run] http: 0 revalidated (304), 99 full, 20 not stored (origin said no-store), 42 cache entries written
 [run] hosts: 4 attempted -- kinokonepaja.fi, kinomyyri.fi, www.kinokilta.fi, www.kinolaika.fi
-[run] kinola: 4 venues, 160 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
-[run] timing: 4 site(s), 224.9s of fetching added up across workers that overlap, longest site 96.2s, longest queue wait 130.2s, 96.2s wall from this module's first fetch starting to its last ending
+[run] kinola: 4 venues, 159 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
+[run] timing: 4 site(s), 234.2s of fetching added up across workers that overlap, longest site 103.1s, longest queue wait 116.9s, 103.1s wall from this module's first fetch starting to its last ending
 exit=0
