@@ -3,8 +3,8 @@
 [k13] 3 dated entry(ies) given a start time by the page they link
 [k13] Kino K13: 3 showtimes, 3 dates
 [k13] synopses merged: 0
-[run] http: 0 revalidated (304), 2 full, 0 not stored (origin said no-store), 0 cache entries written
+[run] http: 0 revalidated (304), 2 full, 0 not stored (origin said no-store), 1 cache entries written
 [run] hosts: 2 attempted -- kaupunginosat.fi, www.ses.fi
 [run] k13: 1 venues, 3 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
-[run] timing: 1 site(s), 7.0s of fetching added up across workers that overlap, longest site 7.0s, longest queue wait 196.9s, 7.0s wall from this module's first fetch starting to its last ending
+[run] timing: 1 site(s), 42.6s of fetching added up across workers that overlap, longest site 42.6s, longest queue wait 215.3s, 42.6s wall from this module's first fetch starting to its last ending
 exit=0

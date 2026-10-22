@@ -6,7 +6,7 @@
 [kinokilta] Kino Kilta: 65 showtimes, 34 dates
 [kinokilta] strand prefix split off 8 showtimes
 [kinokilta] Kino Kilta: 65 showtimes, 34 dates
-[kinokilta] synopses merged: 2
+[kinokilta] synopses merged: 0
 [kinokilta] screening-note sentences left out of synopses: 1
 [kinolaika] 35 screening(s) listed, 20 film page(s) read
 [kinolaika] omitted 0 confirmed non-film(s) by evidence-backed exclusion over 0 screening(s), and 7 unresolved over 7
@@ -41,5 +41,5 @@
 [run] http: 0 revalidated (304), 101 full, 19 not stored (origin said no-store), 45 cache entries written
 [run] hosts: 4 attempted -- kinokonepaja.fi, kinomyyri.fi, www.kinokilta.fi, www.kinolaika.fi
 [run] kinola: 4 venues, 169 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
-[run] timing: 4 site(s), 223.5s of fetching added up across workers that overlap, longest site 93.2s, longest queue wait 135.6s, 93.2s wall from this module's first fetch starting to its last ending
+[run] timing: 4 site(s), 215.6s of fetching added up across workers that overlap, longest site 93.3s, longest queue wait 150.8s, 93.3s wall from this module's first fetch starting to its last ending
 exit=0
