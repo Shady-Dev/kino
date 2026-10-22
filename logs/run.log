@@ -1,16 +1,18 @@
 [token] using FINNKINO_TOKEN from the environment
 [sites] 17 cinemas
-[schedule] 2026-10-22: 66 showtimes
 [schedule] 2026-10-23: 459 showtimes
 [schedule] 2026-10-24: 508 showtimes
 [schedule] 2026-10-25: 456 showtimes
 [schedule] 2026-10-26: 414 showtimes
 [schedule] 2026-10-27: 389 showtimes
 [schedule] 2026-10-28: 390 showtimes
-[tmdb] no TMDB match (3): Fallen Angels by Noël Coward | NT LIVE: The Playboy of the Western World | Ooppera: Macbeth
-[tmdb] weak candidate kept, not searched until 2026-10-23 (9): ENHYPEN WORLD TOUR 'BLOOD SAGA' -> 엔하이픈 월드 투어 ‘블러드 사가’ | HYBE CHEERING PARTY -> 하이브 치어링 파티 | Jailer 2 -> ஜெயிலர் 2 | Matloob Aelian -> مكرر | Ozzy & Black Sabbath: Back to the Beginning -> Back to the Beginning: Ozzy's Final Bow | Rose -> Rose | SEVENTEEN WORLD TOUR 'NEW_' -> SEVENTEEN WORLD TOUR [NEW_] ENCORE | TOMORROW X TOGETHER WORLD TOUR 'ACT : TOMORROW' -> TOMORROW X TOGETHER WORLD TOUR 'ACT : TOMORROW' IN SEOUL | Two Seasons, Two Strangers -> 旅と日々
-[tmdb] 0 new lookups, 0 re-checks, cache 117, 96 mergeable by id
-[films] 62 film entries
+[schedule] 2026-10-29: 408 showtimes
+[tmdb] no TMDB match (2): NT LIVE: The Playboy of the Western World | Ooppera: Macbeth
+[tmdb] weak match, no exact title (8): ENHYPEN WORLD TOUR 'BLOOD SAGA' -> 엔하이픈 월드 투어 ‘블러드 사가’ | HYBE CHEERING PARTY -> 하이브 치어링 파티 | Jailer 2 -> ஜெயிலர் 2 | Ozzy & Black Sabbath: Back to the Beginning -> Back to the Beginning: Ozzy's Final Bow | Rose -> Rose | SEVENTEEN WORLD TOUR 'NEW_' -> SEVENTEEN WORLD TOUR [NEW_] ENCORE | TOMORROW X TOGETHER WORLD TOUR 'ACT : TOMORROW' -> TOMORROW X TOGETHER WORLD TOUR 'ACT : TOMORROW' IN SEOUL | Two Seasons, Two Strangers -> 旅と日々
+[tmdb] rating held back, under 25 votes (3): Bamse ja meren salaisuus (6.3 / 9 votes) | Jailer 2 (8.0 / 12 votes) | Two Seasons, Two Strangers (7.1 / 16 votes)
+[tmdb] rating refresh: 12 scheduled, 12 re-read, 0 failed and still due, 6 deferred (budget 12)
+[tmdb] 8 new lookups, 26 re-checks, cache 117, 97 mergeable by id
+[films] 61 film entries
 [attrs] dropped, neither format nor language (7): Maxim | OCAP | Pkseutu | SEVERAL | TKU & R | Tampere | Varaus20
 [schedule] 17 venue files written, 0 kept as-is
 done
