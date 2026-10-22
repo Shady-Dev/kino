@@ -1,4 +1,4 @@
-[kinokilta] 65 screening(s) listed, 44 film page(s) read
+[kinokilta] 65 screening(s) listed, 43 film page(s) read
 [kinokilta] omitted 0 confirmed non-film(s) by evidence-backed exclusion over 0 screening(s), and 0 unresolved over 0
 [kinokilta] override retkikino-2026: active
 [kinokilta] 4 synopsis/synopses withheld, no language settled: Combat Shock, Kinokopla: DIG! XX, RetkiKino 2026, Teenage Sex and Death at Camp Miasma
@@ -8,7 +8,7 @@
 [kinokilta] Kino Kilta: 65 showtimes, 34 dates
 [kinokilta] synopses merged: 0
 [kinokilta] screening-note sentences left out of synopses: 1
-[kinolaika] 35 screening(s) listed, 20 film page(s) read
+[kinolaika] 34 screening(s) listed, 20 film page(s) read
 [kinolaika] omitted 0 confirmed non-film(s) by evidence-backed exclusion over 0 screening(s), and 7 unresolved over 7
 [kinolaika] unresolved: Antti Autio, Arppa, Dave Lindholm & Pepe Ahlqvist: WALKIN' BLUES -kiertue, Garden Folly, Knipi - Sivellinvetoja, Livemusavisa, Mariska - Laulan, kirjoitan
 [kinolaika] override a-fox-under-a-pink-moon: evidence-unavailable
@@ -16,30 +16,31 @@
 [kinolaika] override naza: active
 [kinolaika] override pikku-kummitus-lapanen-keppostelee: active
 [kinolaika] override two-seasons-two-strangers: active
-[kinolaika] Kino Laika: 28 showtimes, 11 dates
-[kinolaika] Kino Laika: 28 showtimes, 11 dates
+[kinolaika] Kino Laika: 27 showtimes, 11 dates
+[kinolaika] Kino Laika: 27 showtimes, 11 dates
 [kinolaika] synopses merged: 0
 [kinolaika] synopses skipped as screening notes: 1
-[kinomyyri] 34 screening(s) listed, 17 film page(s) read
+[kinomyyri] 35 screening(s) listed, 18 film page(s) read
 [kinomyyri] omitted 0 confirmed non-film(s) by evidence-backed exclusion over 0 screening(s), and 2 unresolved over 3
 [kinomyyri] unresolved: Boléro, Pikku Kummitus Lapanen keppostelee
 [kinomyyri] override kojootti-vs-acme-dub: evidence-unavailable
 [kinomyyri] override must-pori-nakku: active
 [kinomyyri] 1 synopsis/synopses withheld, no language settled: Hamnet
 [kinomyyri] 5 film(s) with a language name not read, that part left blank: Lapin sota (saami); Naza (heprealainen); Premada Oorali (kannada); Two Seasons, Two Strangers (japanilainen, korealainen); Vasenkätinen tyttö (mandariini)
-[kinomyyri] Kino Myyri: 31 showtimes, 13 dates
-[kinomyyri] Kino Myyri: 31 showtimes, 13 dates
-[kinomyyri] synopses merged: 0
-[kinokonepaja] 45 screening(s) listed, 16 film page(s) read
+[kinomyyri] Kino Myyri: 32 showtimes, 13 dates
+[kinomyyri] Kino Myyri: 32 showtimes, 13 dates
+[kinomyyri] synopses merged: 1
+[kinomyyri] synopses by language: sv 1
+[kinokonepaja] 44 screening(s) listed, 16 film page(s) read
 [kinokonepaja] omitted 0 confirmed non-film(s) by evidence-backed exclusion over 0 screening(s), and 0 unresolved over 0
 [kinokonepaja] override edward-scissorhands: active
 [kinokonepaja] override gremlins: active
 [kinokonepaja] override nightmare-on-elm-street: active
-[kinokonepaja] Kino Konepaja: 45 showtimes, 24 dates
-[kinokonepaja] Kino Konepaja: 45 showtimes, 24 dates
+[kinokonepaja] Kino Konepaja: 44 showtimes, 23 dates
+[kinokonepaja] Kino Konepaja: 44 showtimes, 23 dates
 [kinokonepaja] synopses merged: 0
-[run] http: 0 revalidated (304), 101 full, 19 not stored (origin said no-store), 45 cache entries written
+[run] http: 0 revalidated (304), 101 full, 20 not stored (origin said no-store), 44 cache entries written
 [run] hosts: 4 attempted -- kinokonepaja.fi, kinomyyri.fi, www.kinokilta.fi, www.kinolaika.fi
-[run] kinola: 4 venues, 169 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
-[run] timing: 4 site(s), 215.6s of fetching added up across workers that overlap, longest site 93.3s, longest queue wait 150.8s, 93.3s wall from this module's first fetch starting to its last ending
+[run] kinola: 4 venues, 168 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
+[run] timing: 4 site(s), 219.6s of fetching added up across workers that overlap, longest site 92.7s, longest queue wait 148.2s, 92.7s wall from this module's first fetch starting to its last ending
 exit=0

@@ -2206,16 +2206,12 @@
   },
   "kapina": {
    "id": 977942,
-   "img": "data/posters/59b0797f18403107.jpg",
    "r": 0,
    "s": {
-    "en": "As war and plague devastate 14th-century England, a humble peasant ignites a rebellion, uniting an army of commoners to defy the King’s might in a desperate fight for justice and survival.",
+    "en": "",
     "fi": "Kapina (The Uprising) on elokuvien Jason Bourne ja Captain Phillips ohjaajan Paul Greengrassin uusi eeppinen toimintadraama. Elokuva sijoittuu keskiajan Englantiin, jossa Andrew Garfieldin esittämä kyntäjä nousee vaatimattomista oloista legendaariseksi kapinajohtajaksi haastamaan kuningas Richard II tyranniaa vastaan. Hän kokoaa kansasta armeijan taisteluun oikeuden, selviytymisen ja pelastuksen puolesta."
    },
-   "tr": "https://www.youtube.com/watch?v=lyhCxZN4Ro8",
-   "ts": [
-    "en"
-   ]
+   "tr": ""
   },
   "katoava kiireettömyys työpaja": {
    "r": 0,
@@ -2375,7 +2371,6 @@
     "kinojuha",
     "kinokilta",
     "kinokonepaja",
-    "kinokulma",
     "kinolaika",
     "kinolumo",
     "kinomania",
@@ -3587,15 +3582,12 @@
     "ihmekompleksi",
     "joutsankino",
     "kinoaurora",
-    "kinoelo",
     "kinojuha",
     "kinolaika",
-    "kinomania",
     "kinometso",
     "kinomyyri",
     "kinoolympia",
     "kkino",
-    "star",
     "tapiola"
    ],
    "r": 0,
@@ -3610,16 +3602,12 @@
   },
   "late lammas elokuva hämäräpuuhissa ennakkonäytös": {
    "id": 1477104,
-   "img": "data/posters/93eda5fa30b7d70c.jpg",
    "r": 0,
    "s": {
-    "en": "On Halloween Eve at Mossy Bottom Farm, excitement turns to dismay when the clumsy Farmer ruins the pumpkin patch. Shaun tries fixing it with science experiments, but things go awry when a wild beast appears in the woods.",
+    "en": "",
     "fi": "Rakastettu Late Lammas palaa valkokankaille uudessa, riemastuttavassa ja kutkuttavan hauskassa seikkailussa. Farmin asukkaat odottavat innolla Halloweenia, kunnes heidän rakkaudella kasvattamansa kurpitsaviljelmä tuhoutuu juhlan kynnyksellä. Late ei jää toimettomaksi, vaan päättää ryhtyä “hulluksi tiedemieheksi” korjatakseen tilanteen – ja pian tapahtumat karkaavatkin täysin käsistä. Kun tilan maajussi katoaa ja outo villi peto herättää kauhua kyläläisissä, ovat kaikki ainekset kasassa hirviömäisen hauskalle seikkailulle kaiken ikäisille. Kananlento ja Wallace & Gromit -elokuvien tekijöiden uusi seikkailu Late Lammas: Hämäräpuuhissa saapuu elokuvateattereihin 30. lokakuuta."
    },
-   "tr": "https://www.youtube.com/watch?v=daZMq0AyOMc",
-   "ts": [
-    "en"
-   ]
+   "tr": ""
   },
   "late lammas elokuva hämäräpuuhissa suomeksi": {
    "id": 1477104,
@@ -5373,6 +5361,7 @@
     "kinolumo",
     "kinomarilyn",
     "kinometso",
+    "kinomyyri",
     "kinopiispanristi",
     "kinoset",
     "kinotour",
@@ -5418,6 +5407,7 @@
     "kinolumo",
     "kinomarilyn",
     "kinometso",
+    "kinomyyri",
     "kinopiispanristi",
     "kinoset",
     "kinotour",
@@ -5472,6 +5462,7 @@
     "kinolumo",
     "kinomarilyn",
     "kinometso",
+    "kinomyyri",
     "kinopiispanristi",
     "kinoset",
     "kinotour",
@@ -5527,6 +5518,7 @@
     "kinolumo",
     "kinomarilyn",
     "kinometso",
+    "kinomyyri",
     "kinopiispanristi",
     "kinoset",
     "kinotour",
@@ -5572,6 +5564,7 @@
     "kinolumo",
     "kinomarilyn",
     "kinometso",
+    "kinomyyri",
     "kinopiispanristi",
     "kinoset",
     "kinotour",
@@ -5620,6 +5613,7 @@
     "kinolumo",
     "kinomarilyn",
     "kinometso",
+    "kinomyyri",
     "kinopiispanristi",
     "kinoset",
     "kinotour",
@@ -5901,13 +5895,11 @@
     "gilda",
     "isohannu",
     "kinohirvi",
-    "kinokilta",
     "kinolaika",
     "kinometso",
     "kinomyyri",
     "kinopiispanristi",
     "leffabuumi",
-    "pajakkakino",
     "savonkinot",
     "star",
     "studio123jarvenpaa"
@@ -6628,7 +6620,6 @@
     "kinolumo",
     "kinometso",
     "kinopiispanristi",
-    "kotkanleffat",
     "star"
    ],
    "r": 8.3,
@@ -7115,19 +7106,6 @@
    },
    "tr": ""
   },
-  "stray kids world tour run it live viewing": {
-   "id": 1795555,
-   "img": "data/posters/0b6f307f1ac0be55.jpg",
-   "r": 0,
-   "s": {
-    "en": "Stray Kids bring their World Tour (RUN IT) concert to cinemas in a live broadcast, with all eight members performing their high-energy choreography.",
-    "fi": ""
-   },
-   "tr": "",
-   "ts": [
-    "en"
-   ]
-  },
   "street fighter": {
    "id": 1153576,
    "img": "data/posters/2c34dcbef60ffbda.jpg",
@@ -7212,6 +7190,15 @@
    "tr": ""
   },
   "svenska veckan knyckertz och snutjakten": {
+   "r": 0,
+   "s": {
+    "en": "",
+    "fi": "",
+    "sv": "Familjen Knyckertz brinner av iver. Stadens museum kommer få världens dyrbaraste artefakt: Farah Dibas kröningsdiadem. Mamma Fia, pappa Bove och lillasyster Kriminellen planerar en kupp för att stjäla diademen. Den ärliga brodern Ture försöker i sin tur stoppa planen. Samtidigt utreder polisen en försvunnen hund, och spåren leder till familjen Knyckertz. Ture måste välja: ska han vara ärlig och lämna tillbaka hunden, eller behålla den och således hjälpa familjen att genomföra en livsfarlig kupp? Böckerna om familjen Knyckertz har spritt glädje till många unga läsare, och nu som familjefilm. Knyckertz och snutjakten är ett roligt och humoristiskt äventyr om en familj som är allt annat än vanligt, eller ärligt."
+   },
+   "tr": ""
+  },
+  "svenska veckan knyckertz och snutjakten vorosen perhe ja kyttäjahti": {
    "r": 0,
    "s": {
     "en": "",
@@ -7516,16 +7503,12 @@
   },
   "the ice tower": {
    "id": 1143440,
-   "img": "data/posters/38e4e65ce55be5a0.jpg",
-   "r": 5.8,
+   "r": 0,
    "s": {
-    "en": "Jeanne, a 15-year-old orphan, witnesses the shoot for a film adaptation of the fairy tale The Snow Queen, and she becomes fascinated by its star, Cristina, an actress who is just as mysterious and alluring as the Queen she is playing.",
+    "en": "",
     "fi": "The Ice Tower on hypnoottinen jännitysdraama, jonka pääosassa loistaa Oscar-voittaja Marion Cotillard. Cotillard on kylmäävän karismaattinen Cristina, joka on valittu Lumikuningatar-sadun elokuvaversion päätähdeksi 1970-luvun Ranskassa. Nainen kietoo pauloihinsa orpokodista karanneen 15-vuotiaan Jeannen (Clara Pacini), joka eksyy kuvauspaikalle vahingossa. Kaksikon välille kehittyy räjähdysherkkä suhde, jossa valta-aseman häikäilemätön hyödyntäminen sulautuu intohimoon ja haavekuviin autuaaksi tekevästä tulevaisuudesta. Cotillardia jo esikoisensa Innocencen (2004) pääosassa ohjannut Lucile Hadzihalilovic sekoittaa The Ice Towerissa satua ja totta tavalla, josta David Lynch olisi ollut ylpeä. Visuaalisesti häikäisevän kauniin tarinan keskeisessä sivuosassa nähdään ohjaaja Hadzihalilovicin elämänkumppani, eurooppalaisen elokuvan provokaattorina tunnettu Gaspar Noe. Elokuva voitti Berliinin arvovaltaisella elokuvafestivaalilla Hopeisen karhun 'poikkeuksellisesta taiteellisesta saavutuksesta'. Maailman arvostetuimpiin lukeutuvan elokuvalehden Sight and Soundin kriitikoiden listalla se kohosi vuoden 2025 elokuvien top 20 -listalle."
    },
-   "tr": "https://www.youtube.com/watch?v=TajSHMLwhQU",
-   "ts": [
-    "en"
-   ]
+   "tr": ""
   },
   "the invite": {
    "id": 950028,
@@ -8375,7 +8358,6 @@
     "biosalo",
     "biosavoy",
     "biostara",
-    "biovuoksi",
     "cinemantsala",
     "helios",
     "isohannu",
@@ -8391,7 +8373,6 @@
     "kinoset",
     "kotkanleffat",
     "leffabuumi",
-    "pajakkakino",
     "savonkinot",
     "star",
     "studio123jarvenpaa",
@@ -8804,6 +8785,23 @@
     "fi": ""
    },
    "tr": ""
+  },
+  "wicker": {
+   "id": 1195803,
+   "img": "data/posters/aca6e1cdaad07a60.jpg",
+   "kr": "K-12",
+   "krs": [
+    "biorex"
+   ],
+   "r": 0,
+   "s": {
+    "en": "On the outskirts of a village by the sea, lives a Fisherwoman; smelly, single and perpetually ridiculed. One day, fed up with her stuffy, small-minded neighbours, she commissions herself a husband to be made from wicker. In an otherwise conservative town, this unconventional romance sparks outrage, jealousy and chaos.",
+    "fi": ""
+   },
+   "tr": "https://www.youtube.com/watch?v=kA9NfV4pM_Q",
+   "ts": [
+    "en"
+   ]
   },
   "wicker intohimosta punottu": {
    "id": 1195803,

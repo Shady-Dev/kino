@@ -1,10 +1,9 @@
 [cinemantsala] 23 date(s) to 2027-01-07, 9 window(s) of 7 days
-[cinemantsala] dropped 25 showtime(s) already read in an earlier window
-[cinemantsala] Cine Mäntsälä: 67 showtimes, 23 dates
-[cinemantsala] Cine Mäntsälä: 67 showtimes, 23 dates
+[cinemantsala] Cine Mäntsälä: 63 showtimes, 20 dates
+[cinemantsala] Cine Mäntsälä: 63 showtimes, 20 dates
 [cinemantsala] synopses merged: 0
 [run] http: 6 revalidated (304), 4 full, 0 not stored (origin said no-store), 4 cache entries written
 [run] hosts: 1 attempted -- mantsala.cine.fi
-[run] cinemantsala: 1 venues, 67 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
-[run] timing: 1 site(s), 20.0s of fetching added up across workers that overlap, longest site 20.0s, longest queue wait 138.4s, 20.0s wall from this module's first fetch starting to its last ending
+[run] cinemantsala: 1 venues, 63 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
+[run] timing: 1 site(s), 20.0s of fetching added up across workers that overlap, longest site 20.0s, longest queue wait 138.0s, 20.0s wall from this module's first fetch starting to its last ending
 exit=0
