@@ -1,18 +1,17 @@
 [token] using FINNKINO_TOKEN from the environment
 [sites] 17 cinemas
-[schedule] 2026-10-22: 318 showtimes
+[schedule] 2026-10-22: 66 showtimes
 [schedule] 2026-10-23: 459 showtimes
 [schedule] 2026-10-24: 508 showtimes
 [schedule] 2026-10-25: 456 showtimes
 [schedule] 2026-10-26: 414 showtimes
 [schedule] 2026-10-27: 389 showtimes
-[schedule] 2026-10-28: 391 showtimes
+[schedule] 2026-10-28: 390 showtimes
 [tmdb] no TMDB match (3): Fallen Angels by Noël Coward | NT LIVE: The Playboy of the Western World | Ooppera: Macbeth
 [tmdb] weak candidate kept, not searched until 2026-10-23 (9): ENHYPEN WORLD TOUR 'BLOOD SAGA' -> 엔하이픈 월드 투어 ‘블러드 사가’ | HYBE CHEERING PARTY -> 하이브 치어링 파티 | Jailer 2 -> ஜெயிலர் 2 | Matloob Aelian -> مكرر | Ozzy & Black Sabbath: Back to the Beginning -> Back to the Beginning: Ozzy's Final Bow | Rose -> Rose | SEVENTEEN WORLD TOUR 'NEW_' -> SEVENTEEN WORLD TOUR [NEW_] ENCORE | TOMORROW X TOGETHER WORLD TOUR 'ACT : TOMORROW' -> TOMORROW X TOGETHER WORLD TOUR 'ACT : TOMORROW' IN SEOUL | Two Seasons, Two Strangers -> 旅と日々
 [tmdb] 0 new lookups, 0 re-checks, cache 117, 96 mergeable by id
-[films] 2 character(s) restored from another chain's copy
-[films] 64 film entries
-[attrs] dropped, neither format nor language (8): Ennakko | Maxim | OCAP | Pkseutu | SEVERAL | TKU & R | Tampere | Varaus20
+[films] 62 film entries
+[attrs] dropped, neither format nor language (7): Maxim | OCAP | Pkseutu | SEVERAL | TKU & R | Tampere | Varaus20
 [schedule] 17 venue files written, 0 kept as-is
 done
 exit=0
