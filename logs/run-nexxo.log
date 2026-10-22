@@ -1,27 +1,24 @@
-[http] 403 from kinoset.fi, gave up after 3 attempt(s) -- Server: openresty/1.31.1.1
-[kinoset] locationid 1 FAILED: HTTP Error 403: Forbidden
-[kinoset] locationid 2 FAILED: HTTP Error 403: Forbidden
-[kinoset] locationid 3 FAILED: HTTP Error 403: Forbidden
-[kinoset] Kino 1-2: no showtimes, keeping previous data from 2026-10-22T11:14:43+00:00
-[kinoset] Kinema: no showtimes, keeping previous data from 2026-10-22T11:14:43+00:00
-[kinoset] Bio: no showtimes, keeping previous data from 2026-10-22T11:14:43+00:00
+[kinoset] Kino 1-2 (Huittinen): 23 showtimes
+[kinoset] Kinema (Loimaa): 11 showtimes
+[kinoset] Bio (Sastamala): 11 showtimes
+[kinoset] Kino 1-2: 23 showtimes, 7 dates
+[kinoset] Kinema: 11 showtimes, 8 dates
+[kinoset] Bio: 11 showtimes, 8 dates
 [kinoset] synopses merged: 0
 [kinoaurora] Kino Aurora (Jyväskylä): 35 showtimes
 [kinoaurora] Kino Aurora: 35 showtimes, 12 dates
 [kinoaurora] synopses merged: 0
-[http] 403 from kinohirvi.fi, gave up after 3 attempt(s) -- Server: openresty/1.31.1.1
-[kinohirvi] locationid 2 FAILED: HTTP Error 403: Forbidden
-[kinohirvi] Kino Hirvi: no showtimes, keeping previous data from 2026-10-22T11:14:43+00:00
+[kinohirvi] Kino Hirvi (Äänekoski): 24 showtimes
+[kinohirvi] Kino Hirvi: 24 showtimes, 7 dates
 [kinohirvi] synopses merged: 0
-[biosade] locationid 4 FAILED: HTTP Error 403: Forbidden
-[biosade] Bio Säde: no showtimes, keeping previous data from 2026-10-22T11:14:43+00:00
+[biosade] Bio Säde (Mänttä): 19 showtimes
+[biosade] Bio Säde: 19 showtimes, 7 dates
 [biosade] synopses merged: 0
 [kinomarilyn] Kino Marilyn (Loviisa): 42 showtimes
 [kinomarilyn] Kino Marilyn: 42 showtimes, 11 dates
 [kinomarilyn] synopses merged: 0
-[http] 403 from kino-olympia.fi, gave up after 3 attempt(s) -- Server: Apache
-[kinoolympia] locationid 1 FAILED: HTTP Error 403: Forbidden
-[kinoolympia] Kino Olympia: no showtimes, keeping previous data from 2026-10-22T11:14:43+00:00
+[kinoolympia] Kino Olympia (Hanko): 14 showtimes
+[kinoolympia] Kino Olympia: 14 showtimes, 8 dates
 [kinoolympia] synopses merged: 0
 [jarvelankino] Järvelän Kino (Järvelä): 9 showtimes
 [jarvelankino] Järvelän Kino: 9 showtimes, 6 dates
@@ -49,13 +46,9 @@
 [biostara] Bio Stara (Paimio): 19 showtimes
 [biostara] Bio Stara: 19 showtimes, 5 dates
 [biostara] synopses merged: 0
-[run] http: 0 revalidated (304), 6 full, 6 not stored (origin said no-store), 0 cache entries written
+[run] http: 0 revalidated (304), 12 full, 12 not stored (origin said no-store), 0 cache entries written
 [run] hosts: 7 attempted -- biosalo.fi, jarvelankino.fi, kino-olympia.fi, kinoaurora.fi, kinohirvi.fi, kinomarilyn.fi, kinoset.fi
 [run] pending: kinometso has 1 venue(s) with no programme yet: km-vaajakoski
-[run] partial: kinoset kept previous data for 3 venue(s): ks-huittinen, ks-loimaa, ks-sastamala
-[run] partial: kinohirvi kept previous data for 1 venue(s): hi-aanekoski
-[run] partial: biosade kept previous data for 1 venue(s): sa-mantta
-[run] partial: kinoolympia kept previous data for 1 venue(s): ol-hanko
-[run] nexxo: 12 venues, 188 showtimes, 6 stale, 0 unverified, 1 pending, 0 with no programme, 4 failures
-[run] timing: 10 site(s), 151.1s of fetching added up across workers that overlap, longest site 65.0s, longest queue wait 0.0s, 65.0s wall from this module's first fetch starting to its last ending
-exit=1
+[run] nexxo: 18 venues, 290 showtimes, 0 stale, 0 unverified, 1 pending, 0 with no programme, 0 failures
+[run] timing: 10 site(s), 45.2s of fetching added up across workers that overlap, longest site 10.9s, longest queue wait 0.0s, 10.9s wall from this module's first fetch starting to its last ending
+exit=0
