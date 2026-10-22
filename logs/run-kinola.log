@@ -1,4 +1,13 @@
-[kinokilta] FAILED: HTTP Error 503: Service Unavailable
+[kinokilta] 65 screening(s) listed, 44 film page(s) read
+[kinokilta] omitted 0 confirmed non-film(s) by evidence-backed exclusion over 0 screening(s), and 0 unresolved over 0
+[kinokilta] override retkikino-2026: active
+[kinokilta] 4 synopsis/synopses withheld, no language settled: Combat Shock, Kinokopla: DIG! XX, RetkiKino 2026, Teenage Sex and Death at Camp Miasma
+[kinokilta] 8 film(s) with a language name not read, that part left blank: Alligator (Ei teksitystä); Combat Shock (Ei teksitystä); Joysticks (Ei teksitystä); Pieni kauhukauppa (Ei teksitystä); Prom Night (Ei teksitystä); Savage Dawn (Ei teksitystä); Sleepaway Camp (Ei teksitystä); The Devils (Ei teksitystä)
+[kinokilta] Kino Kilta: 65 showtimes, 34 dates
+[kinokilta] strand prefix split off 8 showtimes
+[kinokilta] Kino Kilta: 65 showtimes, 34 dates
+[kinokilta] synopses merged: 2
+[kinokilta] screening-note sentences left out of synopses: 1
 [kinolaika] 35 screening(s) listed, 20 film page(s) read
 [kinolaika] omitted 0 confirmed non-film(s) by evidence-backed exclusion over 0 screening(s), and 7 unresolved over 7
 [kinolaika] unresolved: Antti Autio, Arppa, Dave Lindholm & Pepe Ahlqvist: WALKIN' BLUES -kiertue, Garden Folly, Knipi - Sivellinvetoja, Livemusavisa, Mariska - Laulan, kirjoitan
@@ -29,8 +38,8 @@
 [kinokonepaja] Kino Konepaja: 45 showtimes, 24 dates
 [kinokonepaja] Kino Konepaja: 45 showtimes, 24 dates
 [kinokonepaja] synopses merged: 0
-[run] http: 0 revalidated (304), 56 full, 19 not stored (origin said no-store), 0 cache entries written
+[run] http: 0 revalidated (304), 101 full, 19 not stored (origin said no-store), 45 cache entries written
 [run] hosts: 4 attempted -- kinokonepaja.fi, kinomyyri.fi, www.kinokilta.fi, www.kinolaika.fi
-[run] kinola: 3 venues, 104 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 1 failures
-[run] timing: 4 site(s), 144.6s of fetching added up across workers that overlap, longest site 46.3s, longest queue wait 149.0s, 55.5s wall from this module's first fetch starting to its last ending
-exit=1
+[run] kinola: 4 venues, 169 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
+[run] timing: 4 site(s), 223.5s of fetching added up across workers that overlap, longest site 93.2s, longest queue wait 135.6s, 93.2s wall from this module's first fetch starting to its last ending
+exit=0

@@ -7,7 +7,7 @@
 [kinoset] synopses merged: 0
 [kinoaurora] Kino Aurora (Jyväskylä): 35 showtimes
 [kinoaurora] Kino Aurora: 35 showtimes, 12 dates
-[kinoaurora] synopses merged: 1
+[kinoaurora] synopses merged: 0
 [kinohirvi] Kino Hirvi (Äänekoski): 24 showtimes
 [kinohirvi] Kino Hirvi: 24 showtimes, 7 dates
 [kinohirvi] synopses merged: 0
@@ -40,17 +40,15 @@
 [kinometso] Toivakka: 5 showtimes, 1 dates
 [kinometso] Hankasalmi: 5 showtimes, 1 dates
 [kinometso] synopses merged: 0
-[biosalo] locationid 1 FAILED: HTTP Error 503: Service Unavailable
-[biosalo] Bio-Salo: no showtimes, keeping previous data from 2026-10-21T12:28:35+00:00
+[biosalo] Bio-Salo (Salo): 45 showtimes
+[biosalo] Bio-Salo: 45 showtimes, 8 dates
 [biosalo] synopses merged: 0
-[biostara] locationid 2 FAILED: HTTP Error 503: Service Unavailable
-[biostara] Bio Stara: no showtimes, keeping previous data from 2026-10-21T12:28:35+00:00
+[biostara] Bio Stara (Paimio): 19 showtimes
+[biostara] Bio Stara: 19 showtimes, 5 dates
 [biostara] synopses merged: 0
-[run] http: 0 revalidated (304), 10 full, 10 not stored (origin said no-store), 0 cache entries written
+[run] http: 0 revalidated (304), 12 full, 12 not stored (origin said no-store), 0 cache entries written
 [run] hosts: 7 attempted -- biosalo.fi, jarvelankino.fi, kino-olympia.fi, kinoaurora.fi, kinohirvi.fi, kinomarilyn.fi, kinoset.fi
 [run] pending: kinometso has 1 venue(s) with no programme yet: km-vaajakoski
-[run] partial: biosalo kept previous data for 1 venue(s): bs-salo
-[run] partial: biostara kept previous data for 1 venue(s): bs-paimio
-[run] nexxo: 16 venues, 226 showtimes, 2 stale, 0 unverified, 1 pending, 0 with no programme, 2 failures
-[run] timing: 10 site(s), 82.2s of fetching added up across workers that overlap, longest site 21.9s, longest queue wait 0.0s, 43.8s wall from this module's first fetch starting to its last ending
-exit=1
+[run] nexxo: 18 venues, 290 showtimes, 0 stale, 0 unverified, 1 pending, 0 with no programme, 0 failures
+[run] timing: 10 site(s), 44.8s of fetching added up across workers that overlap, longest site 11.6s, longest queue wait 0.0s, 11.6s wall from this module's first fetch starting to its last ending
+exit=0
