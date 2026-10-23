@@ -699,6 +699,14 @@
    "book": "door"
   },
   {
+   "id": "levisummit",
+   "label": "Cinema Levi Summit",
+   "host": "levisummit.fi",
+   "accent": "#70173F",
+   "accentDark": "#F7688B",
+   "book": "door"
+  },
+  {
    "id": "kuusamotalo",
    "label": "Kino Kuusamotalo",
    "host": "kinokuusamotalo.fi",

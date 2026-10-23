@@ -691,6 +691,11 @@ PROVIDERS = [
     # it join Hämeenlinnan seutu: 30.9 dE00 light and 34.7 dark on the weakest model.
     dict(id="kinotervakoski", label="Kino Tervakoski", host="janakkala.fi", accent="#543147",
          accentDark="#FFA9F4", book="door", module="tervakoski", where="cloud"),
+    # Cinema Levi Summit, Kittilä, 2026-10-24 (issue #13). Kittilä holds no other chain and
+    # no region, so no pair binds; the shade is the farthest from every existing accent in
+    # both themes, 7.4 dE00 on the weakest model, 5.7:1 or better on every surface.
+    dict(id="levisummit", label="Cinema Levi Summit", host="levisummit.fi", accent="#70173F",
+         accentDark="#F7688B", book="door", module="levisummit", where="cloud"),
     # Kino Kuusamotalo, Kuusamo, 2026-09-20. 520 seats in the Oulankasali hall of the
     # town's culture house, run by its own operator on its own site. kuusamotalo.fi is
     # the culture house and only links here; its programme block is a Flockler embed and
