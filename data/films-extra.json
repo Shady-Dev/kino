@@ -3703,6 +3703,7 @@
     "kinoolympia",
     "kinotervakoski",
     "kkino",
+    "levisummit",
     "tapiola"
    ],
    "r": 0,
@@ -4079,13 +4080,17 @@
   },
   "marsupilami": {
    "id": 1145899,
-   "r": 0,
+   "img": "data/posters/d24763d2c244cd16.jpg",
+   "r": 6.3,
    "s": {
-    "en": "",
+    "en": "David is tasked to deliver a mysterious package from South America, only to find out he is carrying a baby Marsupilami!",
     "fi": "Perhelomaan tulee uusia käänteitä, kun perheenisä saa Etelä-Amerikasta yllättävän paketin. Seikkailu lähtee liikkeelle kun salaperäisestä laatikosta paljastuu keltainen, täplikäs ja hulvaton veijari – vauva Marsupilami, joka tuo vauhtia niin perheen kuin koko lomaristeilynkin menoon. Marsupilami sulattaa kovimmankin sydämen. Ihmeolento Marsupilami perustuu samannimiseen, André Franquinin luomaan suosittuun belgialaiseen sarjakuvasarjaan. Marsupilami selviää niin villissä viidakossa kuin kaupungissakin nopean älynsä, rajattoman mielikuvituksensa sekä voimakkaan häntänsä avulla.",
     "sv": "För att rädda sitt jobb går David med på en galen plan: han måste ta med sig ett mystiskt paket från Sydamerika. Han hamnar på en kryssningsfartyg med sitt ex Tess, sin son Leo och sin klumpiga, och inte så smarta kollega Stéphane, som David använder för att i hemlighet transportera paketet åt honom. Men allt går fel när Stéphane av misstag öppnar paketet och släpper lös en söt liten Marsupilami. Den sällsynta och busiga lilla varelsen förvandlar snabbt resan till ett fullständigt kaos. Den extraordinära varelsen Marsupilami bygger på den populära belgiska serien med samma namn, skapad av André Franquin. Vare sig det är i den vilda djungeln eller i storstaden klarar sig Marsupilamin utmärkt tack vare sin kvickhet, gränslösa fantasi och kraftfulla svans."
    },
-   "tr": ""
+   "tr": "https://www.youtube.com/watch?v=pXGuY9qcSe0",
+   "ts": [
+    "en"
+   ]
   },
   "marsupilami dub": {
    "id": 1145899,
@@ -4741,12 +4746,13 @@
   },
   "nälkäpeli elonkorjuun sarastus": {
    "id": 1300968,
+   "img": "data/posters/cad95ad93c0d2c85.jpg",
    "r": 0,
    "s": {
     "en": "",
     "fi": "Nälkäpeli: Elonkorjuun sarastus sijoittuu tapahtumiin 24 vuotta ennen kuin Katniss Everdeen ilmoittautui vapaaehtoiseksi tribuutiksi, jolloin hänen tuleva ohjaajansa Haymitch Abernathy joutuu osallistumaan Nälkäpeliin. Juhlavuoden kunniaksi peliin valitaan kaksinkertainen määrä tribuutteja ja 50. Nälkäpeli voi alkaa."
    },
-   "tr": ""
+   "tr": "https://www.youtube.com/watch?v=Dr060OLTodE"
   },
   "nälkäpeli maraton": {
    "r": 0,
@@ -7707,6 +7713,7 @@
     "gilda",
     "isohannu",
     "kinopiispanristi",
+    "levisummit",
     "savonkinot",
     "star"
    ],
@@ -8496,6 +8503,7 @@
     "kinopirtti",
     "kotkanleffat",
     "leffabuumi",
+    "levisummit",
     "savonkinot",
     "star",
     "studio123jarvenpaa",
@@ -8748,6 +8756,7 @@
     "kinopirtti",
     "kotkanleffat",
     "leffabuumi",
+    "levisummit",
     "savonkinot",
     "star",
     "studio123jarvenpaa"

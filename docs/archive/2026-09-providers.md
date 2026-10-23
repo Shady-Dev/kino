@@ -4369,3 +4369,16 @@ poster of the site's own is published; the short Late Lammas title is aliased to
 its long title already has. #543147 / #FFA9F4 clears BioRex, the one chain in Hämeenlinna
 and Riihimäki, by 30.9 and 34.7 should Janakkala join Hämeenlinnan seutu. Seven mutations
 red.
+
+### Cinema Levi Summit, Kittilä, from its cinema page (2026-10-24)
+Issue #13. The Levi Summit event centre's cinema, run by Kassiopeia, publishes its calendar
+and its film cards on one page; levisummit.fi/cinema/ redirects there. A day is an `h3`
+with its year and a screening carries the film's link, its title and "To klo 14:00"; a
+weekday that is not the date's leaves the row out. One calendar link went to the English
+path, so screenings join their card on the film's slug and link its Finnish page. The
+ordinary ticket, "15 €" in `movie-tickets`, is the price; the under-12 concession in
+`movie-tickets__children` is not published. The card gives runtime, the rating from the age
+image's alt text and the "Kieli" and "Tekstitys" flags; TMDB lists Rakkautta ja
+virtahepoja as Finnish-language, which matches "Kieli: Finnish". Tickets are sold at the
+café, so `book` is door. #70173F / #F7688B sits 7.4 from every existing accent in Kittilä,
+which holds no other chain and no region. Seven mutations red.
