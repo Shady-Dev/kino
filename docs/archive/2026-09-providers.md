@@ -4345,3 +4345,15 @@ no programme on it and a notice giving the outage until the next morning. The pa
 moved. The adapter was left unchanged and both cinemas kept their 11:15 UTC files until the
 run committed at 23:21 UTC read the listing again. Findings in
 [docs/research/kuvakukko.md](../research/kuvakukko.md).
+
+### Seven eTiketti hosts move to the local half (2026-10-24)
+Kotkan Leffat, Leffabuumi, Studio 123 Järvenpää and Kouvola, Kino 123, Ihme Kompleksi and
+Bio Grand, ten venues. From the cloud run committed at 2026-10-22 23:20 UTC, Cloudflare
+answered the runner 403 on all seven hosts in six runs in a row, while an ordinary
+connection got 200 and the adapter read all ten venues from it. The venues' data aged past
+`STALE_H`. Unlike the intermittent challenges recorded in `runner-challenges.md`, no later
+run recovered, so the maintainer moved exactly these seven local. The cause is
+cloud-request blocking; the exact rule is unconfirmed. Only `where` changed: the adapter,
+its request headers and the venue ids are untouched, and the wrapper's existing
+`etiketti --half local` block fetches them with no new job. Findings in
+[docs/research/runner-challenges.md](../research/runner-challenges.md).

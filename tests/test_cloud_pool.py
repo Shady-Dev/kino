@@ -1103,7 +1103,7 @@ class RoutingTest(CloudTestCase):
         local site inside a cloud module stays out of the cloud half."""
         class FakeMod:
             __name__ = "fakemod"
-            SITES = [{"provider": "kotkanleffat", "venues": []},   # cloud in the registry
+            SITES = [{"provider": "biorexkokkola", "venues": []},  # cloud in the registry
                      {"provider": "joutsankino", "venues": []}]    # local in the registry
 
         real = importlib.import_module
@@ -1111,7 +1111,7 @@ class RoutingTest(CloudTestCase):
         self.addCleanup(lambda: setattr(importlib, "import_module", real))
         cloud = run_cloud.collect(["fakemod"], "cloud")[0]
         local = run_cloud.collect(["fakemod"], "local")[0]
-        self.assertEqual([s["provider"] for s in cloud.sites], ["kotkanleffat"])
+        self.assertEqual([s["provider"] for s in cloud.sites], ["biorexkokkola"])
         self.assertEqual([s["provider"] for s in local.sites], ["joutsankino"])
 
     def test_a_site_with_no_registry_entry_costs_its_module_and_not_the_pool(self):
@@ -1126,7 +1126,7 @@ class RoutingTest(CloudTestCase):
 
         class Fine:
             __name__ = "finemod"
-            SITES = [{"provider": "kotkanleffat", "venues": []}]   # cloud in the registry
+            SITES = [{"provider": "biorexkokkola", "venues": []}]  # cloud in the registry
 
         mods = {"orphanmod": Orphan, "finemod": Fine}
         real = importlib.import_module
@@ -1136,7 +1136,7 @@ class RoutingTest(CloudTestCase):
         self.assertIsInstance(bad.error, run.UnregisteredProvider)
         self.assertIn("nosuchprovider", str(bad.error))
         self.assertEqual(bad.sites, [])
-        self.assertEqual([s["provider"] for s in good.sites], ["kotkanleffat"])
+        self.assertEqual([s["provider"] for s in good.sites], ["biorexkokkola"])
 
     def test_run_py_reports_the_same_misconfiguration_instead_of_a_traceback(self):
         """The other caller. `poolmod`'s fake providers have no registry entry, so any

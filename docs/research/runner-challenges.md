@@ -304,3 +304,32 @@ adapters call `common.bot_check` where their guard has already failed, and their
 lines name the bot-check page with its size, title and `Server` header. The run still
 fails. Routing waits on the maintainer, in [IDEAS.md](../../IDEAS.md) under "Shared hosts
 serve the runner a bot-check page".
+
+## Seven eTiketti hosts: Cloudflare answers the runner 403 (2026-10-22 to 2026-10-24)
+
+**Findings.**
+- **Committed cloud logs.** `logs/run-etiketti.log` at `e632ee68c` (2026-10-22 17:21 UTC)
+  has one 403, from leffabuumi.fi. Every cloud commit from `fdc231801` (23:20 UTC) to
+  `5e4a3c0a6` (2026-10-23 17:19 UTC), six runs, has seven: kotkanleffat.fi, leffabuumi.fi,
+  studiot123.com, studio123.fi, ihmekompleksi.fi, kino123.fi and biogrand.fi, each
+  `Server: cloudflare` with a `CF-Ray`, three attempts each. The CF-Ray suffixes name the
+  San Jose, Minneapolis and Los Angeles edges. The forty cloud commits before `e632ee68c`
+  have none.
+- **An ordinary connection got 200** from all seven front pages on 2026-10-23 at 06:0x UTC,
+  each `Server: cloudflare`. On 2026-10-23 at 21:1x UTC, `run.main` over the seven sites
+  from the same connection read 10 venues and 369 showtimes with 0 failures.
+- **The ten eTiketti hosts left on the cloud half** answered 200 or 301 with
+  `Server: nginx` and no `CF-Ray` on 2026-10-23 at 21:2x UTC. The seven were the cloud
+  half's only Cloudflare-fronted eTiketti hosts.
+- **No request change caused it.** `a29af4bb8`, the last commit to `scripts/` before the
+  first 403, changed only the all-ages rating pattern, and nothing under `scripts/` or
+  `.github/` changed between it and `5e4a3c0a6`.
+
+**Inferences, not verified.** This is cloud-request blocking at Cloudflare, by address or
+network. The exact rule is unconfirmed: nothing read here says whether the sites' owner,
+eTiketti or Cloudflare's own defaults set it, or whether it targets GitHub's ranges.
+
+**Status and next step.** Routed local on 2026-10-24 by the maintainer's decision; the
+wrapper's existing `etiketti --half local` block fetches them into
+`logs/run-etiketti-local.log`. Next: read that log and the ten venues' `generated` stamps
+after the first scheduled local run.

@@ -44,8 +44,9 @@ PROVIDERS = [
          accentDark="#8A28FF", book="buy", module="biorex", where="cloud"),
     dict(id="kinoset", label="Kinoset", host="kinoset.fi", accent="#0E9B63",
          accentDark="#0E9B63", book="reserve", module="nexxo", where="cloud"),
+    # Local since 2026-10-24, one of seven eTiketti hosts; see Leffabuumi below.
     dict(id="kotkanleffat", label="Kotkan Leffat", host="kotkanleffat.fi",
-         accent="#C42749", accentDark="#C42D4D", book="buy", module="etiketti", where="cloud"),
+         accent="#C42749", accentDark="#C42D4D", book="buy", module="etiketti", where="local"),
     # Teal, not the violet it launched with. Violet and BioRex's blue differ almost
     # entirely in the red-green channel a deuteranope does not have -- 3.9 dE00 apart,
     # in the one city where the two appear side by side. Riviera moved rather than
@@ -91,10 +92,14 @@ PROVIDERS = [
     dict(id="kinokaustinen", label="Kino Kaustinen", host="kinokaustinen.fi",
          accent="#A0522D", accentDark="#CD7F50", book="buy", module="etiketti",
          where="cloud"),
+    # Local since 2026-10-24, with Kotkan Leffat, both Studio 123s, Kino 123, Ihme Kompleksi
+    # and Bio Grand: from the cloud run of 2026-10-22 23:20 UTC on, Cloudflare answered the
+    # runner 403 on all seven hosts while an ordinary connection got 200. Cloud-request
+    # blocking; the exact rule is unconfirmed.
     dict(id="leffabuumi", label="Leffabuumi", host="leffabuumi.fi", accent="#1F7A8C",
-         accentDark="#1F7A8C", book="buy", module="etiketti", where="cloud"),
+         accentDark="#1F7A8C", book="buy", module="etiketti", where="local"),
     dict(id="studio123jarvenpaa", label="Studio 123 Järvenpää", host="studiot123.com",
-         accent="#B0308F", accentDark="#B23691", book="buy", module="etiketti", where="cloud"),
+         accent="#B0308F", accentDark="#B23691", book="buy", module="etiketti", where="local"),
     # Kouvola is the one town this sweep puts two of its own chains in, so these two
     # accents are measured against each other and against nothing else -- and because
     # *both* are free, the pair is taken at the maximum the L* band allows rather than
@@ -104,11 +109,11 @@ PROVIDERS = [
     # outside Kouvola and the accent renders only inside a combined city view, so the
     # two are never on screen together.
     dict(id="studio123kouvola", label="Studio 123 Kouvola", host="studio123.fi",
-         accent="#2040F0", accentDark="#474FFF", book="buy", module="etiketti", where="cloud"),
+         accent="#2040F0", accentDark="#474FFF", book="buy", module="etiketti", where="local"),
     dict(id="kino123", label="Kino 123", host="kino123.fi", accent="#E07000",
-         accentDark="#E07000", book="buy", module="etiketti", where="cloud"),
+         accentDark="#E07000", book="buy", module="etiketti", where="local"),
     dict(id="ihmekompleksi", label="Ihme Kompleksi", host="ihmekompleksi.fi",
-         accent="#7A5CD0", accentDark="#7A5CD0", book="buy", module="etiketti", where="cloud"),
+         accent="#7A5CD0", accentDark="#7A5CD0", book="buy", module="etiketti", where="local"),
     dict(id="kinotar", label="Kinotar 123", host="jamsankinotar.fi", accent="#2E7D5B",
          accentDark="#2E7D5B", book="buy", module="etiketti", where="cloud"),
     dict(id="kinojuha", label="Kino Juha", host="kinojuha.fi", accent="#A6431F",
@@ -116,7 +121,7 @@ PROVIDERS = [
     # Vantaa already has Finnkino Flamingo, so this one is measured against Finnkino's
     # orange. Green is what it must not be: 13.6 dE00 under the harsher deutan model.
     dict(id="biogrand", label="Bio Grand", host="biogrand.fi", accent="#67338D",
-         accentDark="#EF64FF", book="buy", module="etiketti", where="cloud"),
+         accentDark="#EF64FF", book="buy", module="etiketti", where="local"),
     dict(id="biovuoksi", label="Bio Vuoksi", host="biovuoksi.fi", accent="#3E6FA8",
          accentDark="#3E6FA8", book="buy", module="etiketti", where="cloud"),
     # Lahti already has Finnkino Kuvapalatsi. Same constraint, same measurement.

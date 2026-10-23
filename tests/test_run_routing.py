@@ -19,7 +19,7 @@ import run
 class FakeMod:
     __name__ = "fakemod"
     SITES = [
-        {"provider": "kotkanleffat", "venues": []},        # cloud in the registry
+        {"provider": "biorexkokkola", "venues": []},       # cloud in the registry
         {"provider": "joutsankino", "venues": []},         # local in the registry
     ]
 
@@ -37,12 +37,12 @@ def ids(sites):
 class SitesForTest(unittest.TestCase):
     def test_cloud_excludes_a_local_site(self):
         self.assertNotIn("joutsankino", ids(run.sites_for(FakeMod, "cloud")))
-        self.assertIn("kotkanleffat", ids(run.sites_for(FakeMod, "cloud")))
+        self.assertIn("biorexkokkola", ids(run.sites_for(FakeMod, "cloud")))
 
     def test_local_takes_the_local_site_and_not_the_cloud_one(self):
         got = ids(run.sites_for(FakeMod, "local"))
         self.assertIn("joutsankino", got)
-        self.assertNotIn("kotkanleffat", got)
+        self.assertNotIn("biorexkokkola", got)
 
     def test_all_keeps_every_site(self):
         self.assertEqual(len(run.sites_for(FakeMod, "all")), 2)
@@ -64,7 +64,7 @@ class SitesForTest(unittest.TestCase):
         route, and an empty name in the message says nothing."""
         class Nameless:
             __name__ = "nameless"
-            SITES = [{"venues": []}, {"provider": "kotkanleffat", "venues": []}]
+            SITES = [{"venues": []}, {"provider": "biorexkokkola", "venues": []}]
         with self.assertRaises(run.UnregisteredProvider) as cm:
             run.sites_for(Nameless, "cloud")
         self.assertIn("<no provider id>", str(cm.exception))
@@ -154,17 +154,22 @@ class LiveRegistryTest(unittest.TestCase):
         self.assertIn("joutsankino", ids(run.sites_for(etiketti, "local")))
         self.assertGreater(len(run.sites_for(etiketti, "cloud")), 1)
 
-    def test_the_local_etiketti_sites_are_the_four_that_403_a_runner_and_haapamaki(self):
-        """Savon Kinot joined the local half on 2026-09-04, Cine and Star on 2026-09-08:
-        each sits behind Cloudflare, which answers a datacenter address 403 at the edge
-        while an ordinary connection gets 200. Haapamäen Elokuvat came with its move from
-        Johku on 2026-09-29, local as it was there until a committed run log shows a
-        runner reads it. The list is explicit so a site drifting between halves is a
-        failing test and a decision, never a side effect of a registry edit."""
+    def test_the_local_etiketti_sites_are_the_ones_that_403_a_runner_and_haapamaki(self):
+        """Savon Kinot joined the local half on 2026-09-04, Cine and Star on 2026-09-08,
+        and seven more on 2026-10-24 by the maintainer's decision: each sits behind
+        Cloudflare, which answers a datacenter address 403 at the edge while an ordinary
+        connection gets 200. Haapamäen Elokuvat came with its move from Johku on
+        2026-09-29, local as it was there until a committed run log shows a runner reads
+        it. The list is explicit so a site drifting between halves is a failing test and a
+        decision, never a side effect of a registry edit."""
         etiketti = importlib.import_module("etiketti")
         self.assertEqual(ids(run.sites_for(etiketti, "local")),
-                         ["savonkinot", "joutsankino", "cine", "star", "haapamaki"])
-        for pid in ("savonkinot", "cine", "star"):
+                         ["kotkanleffat", "savonkinot", "leffabuumi", "studio123jarvenpaa",
+                          "studio123kouvola", "ihmekompleksi", "kino123", "biogrand",
+                          "joutsankino", "cine", "star", "haapamaki"])
+        for pid in ("savonkinot", "cine", "star", "kotkanleffat", "leffabuumi",
+                    "studio123jarvenpaa", "studio123kouvola", "ihmekompleksi", "kino123",
+                    "biogrand"):
             with self.subTest(provider=pid):
                 self.assertEqual(registry.by_id(pid)["where"], "local")
                 self.assertNotIn(pid, ids(run.sites_for(etiketti, "cloud")))

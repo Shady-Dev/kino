@@ -281,7 +281,7 @@ totals.
 | Finnkino | Vista OCAPI, short-lived token | 17 | local |
 | BioRex | own site | 12 | cloud |
 | Kinoset, Kino Aurora, Kino Hirvi, Bio Säde, Kino Marilyn, Kino Olympia, Järvelän Kino, Kino Metso, Bio-Salo, Bio Stara | Nexxo | 19 | cloud |
-| Kotkan Leffat, Savon Kinot, Bio Rex Kokkola, Kinopirtti, Leffabuumi, Studio 123 Järvenpää, Studio 123 Kouvola, Kino 123, Ihme Kompleksi, Kinotar 123, Kino Juha, Bio Grand, Bio Vuoksi, Kino Iiris, Joutsan Kino, K-Kino, Bio Grani, Cine, Elokuvateatteri Star, Cinema Niagara, Haapamäen Elokuvat, Kino Kaustinen | eTiketti | 32 | cloud; local: Savon Kinot, Joutsan Kino, Cine, Elokuvateatteri Star, Haapamäen Elokuvat |
+| Kotkan Leffat, Savon Kinot, Bio Rex Kokkola, Kinopirtti, Leffabuumi, Studio 123 Järvenpää, Studio 123 Kouvola, Kino 123, Ihme Kompleksi, Kinotar 123, Kino Juha, Bio Grand, Bio Vuoksi, Kino Iiris, Joutsan Kino, K-Kino, Bio Grani, Cine, Elokuvateatteri Star, Cinema Niagara, Haapamäen Elokuvat, Kino Kaustinen | eTiketti | 32 | cloud; local: Kotkan Leffat, Savon Kinot, Leffabuumi, Studio 123 Järvenpää, Studio 123 Kouvola, Kino 123, Ihme Kompleksi, Bio Grand, Joutsan Kino, Cine, Elokuvateatteri Star, Haapamäen Elokuvat |
 | Riviera | own site | 2 | cloud |
 | Gilda | MyCloudCinema | 2 | cloud |
 | Cinema Orion | own site | 1 | cloud |
