@@ -22,7 +22,7 @@
 [cloud] johku: exit=0
 [cloud] tribe: exit=0
 [cloud] hamina: exit=0
-[cloud] kinotour: exit=1
+[cloud] kinotour: exit=0
 [cloud] marita: exit=0
 [cloud] lieksa: exit=0
 [cloud] navetta: exit=0
@@ -40,86 +40,86 @@
 [cloud] k13: exit=0
 [cloud] helios: exit=0
 [cloud] kannusali: exit=0
-[cloud] site biorex/biorex: group 0, queued 0.0s, started 0.0s, ended 100.8s
-[cloud] site nexxo/kinoset: group 1, queued 0.0s, started 0.0s, ended 10.5s
-[cloud] site nexxo/kinoaurora: group 2, queued 0.0s, started 0.0s, ended 3.3s
-[cloud] site nexxo/kinohirvi: group 3, queued 0.0s, started 0.0s, ended 4.0s
-[cloud] site nexxo/biosade: group 3, queued 4.0s, started 4.0s, ended 7.9s
-[cloud] site nexxo/kinomarilyn: group 4, queued 0.0s, started 0.0s, ended 3.6s
-[cloud] site nexxo/kinoolympia: group 5, queued 0.0s, started 0.0s, ended 3.4s
-[cloud] site nexxo/jarvelankino: group 6, queued 0.0s, started 0.0s, ended 3.4s
-[cloud] site nexxo/kinometso: group 2, queued 3.3s, started 3.3s, ended 6.7s
+[cloud] site biorex/biorex: group 0, queued 0.0s, started 0.0s, ended 144.5s
+[cloud] site nexxo/kinoset: group 1, queued 0.0s, started 0.0s, ended 11.6s
+[cloud] site nexxo/kinoaurora: group 2, queued 0.0s, started 0.0s, ended 3.6s
+[cloud] site nexxo/kinohirvi: group 3, queued 0.0s, started 0.0s, ended 4.8s
+[cloud] site nexxo/biosade: group 3, queued 4.8s, started 4.8s, ended 9.1s
+[cloud] site nexxo/kinomarilyn: group 4, queued 0.0s, started 0.0s, ended 3.7s
+[cloud] site nexxo/kinoolympia: group 5, queued 0.0s, started 0.0s, ended 4.0s
+[cloud] site nexxo/jarvelankino: group 6, queued 0.0s, started 0.0s, ended 4.1s
+[cloud] site nexxo/kinometso: group 2, queued 3.6s, started 3.6s, ended 7.4s
 [cloud] site nexxo/biosalo: group 7, queued 0.0s, started 0.0s, ended 4.0s
-[cloud] site nexxo/biostara: group 7, queued 4.0s, started 4.0s, ended 7.6s
-[cloud] site etiketti/kotkanleffat: group 8, queued 0.0s, started 3.4s, ended 20.1s, failed
-[cloud] site etiketti/biorexkokkola: group 9, queued 0.0s, started 3.4s, ended 42.2s
-[cloud] site etiketti/kinopirtti: group 10, queued 0.0s, started 3.6s, ended 52.4s
-[cloud] site etiketti/leffabuumi: group 11, queued 0.0s, started 6.7s, ended 23.0s, failed
-[cloud] site etiketti/studio123jarvenpaa: group 12, queued 0.0s, started 7.6s, ended 22.8s, failed
-[cloud] site etiketti/studio123kouvola: group 13, queued 0.0s, started 7.9s, ended 25.3s, failed
-[cloud] site etiketti/ihmekompleksi: group 14, queued 0.0s, started 10.5s, ended 27.5s, failed
-[cloud] site etiketti/kino123: group 15, queued 0.0s, started 20.1s, ended 37.1s, failed
-[cloud] site etiketti/kinotar: group 16, queued 0.0s, started 22.8s, ended 53.9s
-[cloud] site etiketti/kinojuha: group 17, queued 0.0s, started 23.0s, ended 49.1s
-[cloud] site etiketti/biogrand: group 18, queued 0.0s, started 25.3s, ended 42.3s, failed
-[cloud] site etiketti/biovuoksi: group 19, queued 0.0s, started 27.5s, ended 44.2s
-[cloud] site etiketti/kinoiiris: group 20, queued 0.0s, started 37.1s, ended 70.2s
-[cloud] site etiketti/kkino: group 21, queued 0.0s, started 42.2s, ended 50.3s
-[cloud] site etiketti/biograni: group 22, queued 0.0s, started 42.3s, ended 52.6s
-[cloud] site etiketti/niagara: group 23, queued 0.0s, started 44.2s, ended 108.0s
-[cloud] site etiketti/kinokaustinen: group 24, queued 0.0s, started 49.1s, ended 55.8s
-[cloud] site riviera/riviera: group 25, queued 0.0s, started 50.3s, ended 52.3s
-[cloud] site gilda/gilda: group 26, queued 0.0s, started 52.3s, ended 70.8s
-[cloud] site orion/orion: group 27, queued 0.0s, started 52.4s, ended 53.2s
-[cloud] site vista/korjaamo: group 28, queued 0.0s, started 52.6s, ended 55.5s
-[cloud] site tapiola/tapiola: group 29, queued 0.0s, started 53.2s, ended 88.1s
-[cloud] site cinemahouse/kinopiispanristi: group 30, queued 0.0s, started 53.9s, ended 98.5s
-[cloud] site cinemahouse/kinolumo: group 31, queued 0.0s, started 55.5s, ended 90.7s
-[cloud] site cinemahouse/laitilankino: group 32, queued 0.0s, started 55.8s, ended 71.2s
-[cloud] site isohannu/isohannu: group 33, queued 0.0s, started 70.2s, ended 90.4s
-[cloud] site tmb/kinotoijala: group 34, queued 0.0s, started 70.8s, ended 85.4s
-[cloud] site tmb/kinosampo: group 35, queued 0.0s, started 71.2s, ended 83.9s
-[cloud] site tmb/kinomania: group 36, queued 0.0s, started 83.9s, ended 98.5s
-[cloud] site tmb/kinoelo: group 37, queued 0.0s, started 85.4s, ended 100.0s
-[cloud] site julia/julia: group 38, queued 0.0s, started 88.1s, ended 91.0s
-[cloud] site biokaari/biokaari: group 39, queued 0.0s, started 90.4s, ended 97.4s
-[cloud] site vaakuna/vaakuna: group 40, queued 0.0s, started 90.7s, ended 91.6s
-[cloud] site kuvakukko/kuvakukko: group 41, queued 0.0s, started 91.0s, ended 138.3s
-[cloud] site kirkkonummi/kirkkonummi: group 42, queued 0.0s, started 91.6s, ended 92.4s
-[cloud] site biosavoy/biosavoy: group 43, queued 0.0s, started 92.4s, ended 197.9s, failed
-[cloud] site cinemantsala/cinemantsala: group 44, queued 0.0s, started 97.4s, ended 112.4s
-[cloud] site kinola/kinokilta: group 45, queued 0.0s, started 98.5s, ended 177.9s
-[cloud] site kinola/kinolaika: group 46, queued 0.0s, started 98.5s, ended 137.8s
-[cloud] site kinola/kinomyyri: group 47, queued 0.0s, started 100.0s, ended 131.9s
-[cloud] site kinola/kinokonepaja: group 48, queued 0.0s, started 100.8s, ended 145.0s
-[cloud] site johku/biomarilyn: group 49, queued 0.0s, started 108.0s, ended 137.2s
-[cloud] site johku/vihdinkino: group 50, queued 0.0s, started 112.4s, ended 126.7s
-[cloud] site johku/bioforum: group 51, queued 0.0s, started 126.7s, ended 148.7s
-[cloud] site johku/kinokulma: group 52, queued 0.0s, started 131.9s, ended 144.9s
-[cloud] site johku/kinohannikainen: group 53, queued 0.0s, started 137.2s, ended 145.3s
-[cloud] site johku/kinovirta: group 54, queued 0.0s, started 137.8s, ended 151.7s
-[cloud] site johku/kulttuurimylly: group 55, queued 0.0s, started 138.3s, ended 160.6s
-[cloud] site tribe/ritzvaasa: group 56, queued 0.0s, started 144.9s, ended 147.5s
-[cloud] site tribe/tahtikino: group 57, queued 0.0s, started 145.0s, ended 146.3s
-[cloud] site hamina/kinohamina: group 58, queued 0.0s, started 145.3s, ended 147.8s
-[cloud] site kinotour/kinotour: group 59, queued 0.0s, started 146.3s, ended 163.0s, failed
-[cloud] site marita/marita: group 60, queued 0.0s, started 147.5s, ended 150.9s
-[cloud] site lieksa/lieksankino: group 61, queued 0.0s, started 147.8s, ended 149.3s
-[cloud] site navetta/navettakino: group 62, queued 0.0s, started 148.7s, ended 150.1s
-[cloud] site vpk/pyhasalmenvpk: group 63, queued 0.0s, started 149.3s, ended 152.0s
-[cloud] site pallas/biopallas: group 64, queued 0.0s, started 150.1s, ended 150.2s
-[cloud] site alatalo/alatalo: group 65, queued 0.0s, started 150.2s, ended 255.8s, failed
-[cloud] site matintupa/matintupa: group 66, queued 0.0s, started 150.9s, ended 153.7s
-[cloud] site kurikankino/kurikankino: group 67, queued 0.0s, started 151.7s, ended 152.7s
-[cloud] site pajakka/pajakkakino: group 68, queued 0.0s, started 152.0s, ended 153.0s
-[cloud] site kisakino/kisakino: group 69, queued 0.0s, started 152.7s, ended 158.5s
-[cloud] site biomarlon/biomarlon: group 70, queued 0.0s, started 153.0s, ended 155.2s
-[cloud] site kinokuva/kinokuva: group 71, queued 0.0s, started 153.7s, ended 154.7s
-[cloud] site kuusamotalo/kuusamotalo: group 72, queued 0.0s, started 154.7s, ended 155.9s
-[cloud] site localhub/kinoakustiikka: group 73, queued 0.0s, started 155.2s, ended 156.0s
-[cloud] site k13/k13: group 74, queued 0.0s, started 155.9s, ended 190.4s
-[cloud] site helios/helios: group 75, queued 0.0s, started 156.0s, ended 158.2s
-[cloud] site kannusali/kannusali: group 76, queued 0.0s, started 158.2s, ended 180.0s
-[cloud] 255.9s wall, 1484.1s of fetching added up across workers that overlap, 80 site(s) fetched
-[cloud] held at most 44 fetched site(s) and 8163 byte(s) of captured log waiting for publication
+[cloud] site nexxo/biostara: group 7, queued 4.0s, started 4.0s, ended 7.3s
+[cloud] site etiketti/kotkanleffat: group 8, queued 0.0s, started 3.7s, ended 21.3s, failed
+[cloud] site etiketti/biorexkokkola: group 9, queued 0.0s, started 4.0s, ended 47.2s
+[cloud] site etiketti/kinopirtti: group 10, queued 0.0s, started 4.1s, ended 57.7s
+[cloud] site etiketti/leffabuumi: group 11, queued 0.0s, started 7.3s, ended 23.6s, failed
+[cloud] site etiketti/studio123jarvenpaa: group 12, queued 0.0s, started 7.4s, ended 22.6s, failed
+[cloud] site etiketti/studio123kouvola: group 13, queued 0.0s, started 9.1s, ended 26.4s, failed
+[cloud] site etiketti/ihmekompleksi: group 14, queued 0.0s, started 11.6s, ended 29.5s, failed
+[cloud] site etiketti/kino123: group 15, queued 0.0s, started 21.3s, ended 38.2s, failed
+[cloud] site etiketti/kinotar: group 16, queued 0.0s, started 22.6s, ended 57.3s
+[cloud] site etiketti/kinojuha: group 17, queued 0.0s, started 23.6s, ended 53.3s
+[cloud] site etiketti/biogrand: group 18, queued 0.0s, started 26.4s, ended 43.8s, failed
+[cloud] site etiketti/biovuoksi: group 19, queued 0.0s, started 29.5s, ended 48.0s
+[cloud] site etiketti/kinoiiris: group 20, queued 0.0s, started 38.2s, ended 76.7s
+[cloud] site etiketti/kkino: group 21, queued 0.0s, started 43.8s, ended 53.0s
+[cloud] site etiketti/biograni: group 22, queued 0.0s, started 47.2s, ended 58.3s
+[cloud] site etiketti/niagara: group 23, queued 0.0s, started 48.0s, ended 116.6s
+[cloud] site etiketti/kinokaustinen: group 24, queued 0.0s, started 53.0s, ended 60.7s
+[cloud] site riviera/riviera: group 25, queued 0.0s, started 53.3s, ended 98.0s
+[cloud] site gilda/gilda: group 26, queued 0.0s, started 57.3s, ended 93.4s
+[cloud] site orion/orion: group 27, queued 0.0s, started 57.7s, ended 81.5s
+[cloud] site vista/korjaamo: group 28, queued 0.0s, started 58.3s, ended 62.3s
+[cloud] site tapiola/tapiola: group 29, queued 0.0s, started 60.7s, ended 99.2s
+[cloud] site cinemahouse/kinopiispanristi: group 30, queued 0.0s, started 62.3s, ended 120.3s
+[cloud] site cinemahouse/kinolumo: group 31, queued 0.0s, started 76.7s, ended 119.1s
+[cloud] site cinemahouse/laitilankino: group 32, queued 0.0s, started 81.5s, ended 103.2s
+[cloud] site isohannu/isohannu: group 33, queued 0.0s, started 93.4s, ended 115.6s
+[cloud] site tmb/kinotoijala: group 34, queued 0.0s, started 98.0s, ended 114.1s
+[cloud] site tmb/kinosampo: group 35, queued 0.0s, started 99.2s, ended 113.1s
+[cloud] site tmb/kinomania: group 36, queued 0.0s, started 103.2s, ended 119.2s
+[cloud] site tmb/kinoelo: group 37, queued 0.0s, started 113.1s, ended 130.4s
+[cloud] site julia/julia: group 38, queued 0.0s, started 114.1s, ended 117.6s
+[cloud] site biokaari/biokaari: group 39, queued 0.0s, started 115.6s, ended 144.6s
+[cloud] site vaakuna/vaakuna: group 40, queued 0.0s, started 116.6s, ended 117.6s
+[cloud] site kuvakukko/kuvakukko: group 41, queued 0.0s, started 117.6s, ended 169.0s
+[cloud] site kirkkonummi/kirkkonummi: group 42, queued 0.0s, started 117.6s, ended 119.0s
+[cloud] site biosavoy/biosavoy: group 43, queued 0.0s, started 119.0s, ended 224.5s, failed
+[cloud] site cinemantsala/cinemantsala: group 44, queued 0.0s, started 119.1s, ended 136.1s
+[cloud] site kinola/kinokilta: group 45, queued 0.0s, started 119.2s, ended 207.1s
+[cloud] site kinola/kinolaika: group 46, queued 0.0s, started 120.3s, ended 166.6s
+[cloud] site kinola/kinomyyri: group 47, queued 0.0s, started 130.4s, ended 161.4s
+[cloud] site kinola/kinokonepaja: group 48, queued 0.0s, started 136.1s, ended 188.5s
+[cloud] site johku/biomarilyn: group 49, queued 0.0s, started 144.5s, ended 176.3s
+[cloud] site johku/vihdinkino: group 50, queued 0.0s, started 144.6s, ended 160.6s
+[cloud] site johku/bioforum: group 51, queued 0.0s, started 160.6s, ended 185.7s
+[cloud] site johku/kinokulma: group 52, queued 0.0s, started 161.4s, ended 176.1s
+[cloud] site johku/kinohannikainen: group 53, queued 0.0s, started 166.6s, ended 176.5s
+[cloud] site johku/kinovirta: group 54, queued 0.0s, started 169.0s, ended 184.8s
+[cloud] site johku/kulttuurimylly: group 55, queued 0.0s, started 176.1s, ended 201.5s
+[cloud] site tribe/ritzvaasa: group 56, queued 0.0s, started 176.3s, ended 182.7s
+[cloud] site tribe/tahtikino: group 57, queued 0.0s, started 176.5s, ended 178.0s
+[cloud] site hamina/kinohamina: group 58, queued 0.0s, started 178.0s, ended 180.5s
+[cloud] site kinotour/kinotour: group 59, queued 0.0s, started 180.5s, ended 181.8s
+[cloud] site marita/marita: group 60, queued 0.0s, started 181.8s, ended 186.0s
+[cloud] site lieksa/lieksankino: group 61, queued 0.0s, started 182.7s, ended 183.8s
+[cloud] site navetta/navettakino: group 62, queued 0.0s, started 183.8s, ended 185.8s
+[cloud] site vpk/pyhasalmenvpk: group 63, queued 0.0s, started 184.8s, ended 188.8s
+[cloud] site pallas/biopallas: group 64, queued 0.0s, started 185.7s, ended 186.0s
+[cloud] site alatalo/alatalo: group 65, queued 0.0s, started 185.8s, ended 291.5s, failed
+[cloud] site matintupa/matintupa: group 66, queued 0.0s, started 186.0s, ended 189.4s
+[cloud] site kurikankino/kurikankino: group 67, queued 0.0s, started 186.0s, ended 187.3s
+[cloud] site pajakka/pajakkakino: group 68, queued 0.0s, started 187.3s, ended 188.6s
+[cloud] site kisakino/kisakino: group 69, queued 0.0s, started 188.5s, ended 195.0s
+[cloud] site biomarlon/biomarlon: group 70, queued 0.0s, started 188.6s, ended 190.9s
+[cloud] site kinokuva/kinokuva: group 71, queued 0.0s, started 188.8s, ended 190.0s
+[cloud] site kuusamotalo/kuusamotalo: group 72, queued 0.0s, started 189.4s, ended 190.4s
+[cloud] site localhub/kinoakustiikka: group 73, queued 0.0s, started 190.0s, ended 191.4s
+[cloud] site k13/k13: group 74, queued 0.0s, started 190.4s, ended 213.1s
+[cloud] site helios/helios: group 75, queued 0.0s, started 190.9s, ended 193.8s
+[cloud] site kannusali/kannusali: group 76, queued 0.0s, started 191.4s, ended 217.9s
+[cloud] 291.6s wall, 1744.3s of fetching added up across workers that overlap, 80 site(s) fetched
+[cloud] held at most 45 fetched site(s) and 8477 byte(s) of captured log waiting for publication
 exit=1

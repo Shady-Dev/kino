@@ -1,6 +1,13 @@
-[http] 502 from www.kinotour.fi, gave up after 3 attempt(s) -- Server: nginx
-[kinotour] FAILED: HTTP Error 502: Bad Gateway
+[kinotour] 25 screening(s) in 3 declared town(s), 25 priced
+[kinotour] Kurkisali, Kyrö: 11 showtimes, 4 dates
+[kinotour] Kristoffersali, Naantali: 9 showtimes, 3 dates
+[kinotour] Valtuustosali, Lieto: 5 showtimes, 2 dates
+[kinotour] Kurkisali: 11 showtimes, 4 dates
+[kinotour] Kristoffersali: 9 showtimes, 3 dates
+[kinotour] Valtuustosali: 5 showtimes, 2 dates
+[kinotour] synopses merged: 0
+[run] http: 0 revalidated (304), 1 full, 0 not stored (origin said no-store), 0 cache entries written
 [run] hosts: 1 attempted -- www.kinotour.fi
-[run] kinotour: 0 venues, 0 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 1 failures
-[run] timing: 1 site(s), 16.7s of fetching added up across workers that overlap, longest site 16.7s, longest queue wait 146.3s, 16.7s wall from this module's first fetch starting to its last ending
-exit=1
+[run] kinotour: 3 venues, 25 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
+[run] timing: 1 site(s), 1.4s of fetching added up across workers that overlap, longest site 1.4s, longest queue wait 180.5s, 1.4s wall from this module's first fetch starting to its last ending
+exit=0
