@@ -1336,13 +1336,12 @@
   },
   "ghost in the machine": {
    "id": 1596315,
-   "img": "data/posters/ac5edf460a89b8ae.jpg",
    "r": 0,
    "s": {
     "en": "Ghost in the Machine (dir. Valerie Veatch) is a gripping and urgently relevant investigative documentary that exposes the buried history of artificial intelligence, not as a neutral system of algorithms, but as a technology shaped by racism, misogyny, eugenics, and entrenched structures of power long before it entered everyday life. Rejecting the notion of AI as inevitable or objective, the film traces how myths of progress and efficiency have obscured deeper political and cultural agendas, revealing the ideological foundations beneath the systems now reshaping modern society. The film is directed by Valerie Veatch, whose past Sundance-premiering films Me @ the Zoo (HBO) and Love Child (HBO) explore how emerging technologies reshape identity, culture, and global power. This new film is her most ambitious work yet – over eight chapters, Veatch helms an urgent excavation of the philosophical, cultural, and political forces driving the global AI boom. After the screening there will be a discussion led by Dr. Nitin Sawhney, Filmmaker and Transdisciplinary Researcher, Docent from University of Helsinki and Uniarts Helsinki. Invited discussants to be announced soon.",
     "fi": "Valerie Veatchin uusi essee-elokuva hylkää tekoälyn väistämättömyyden tai objektiivisuuden ja jäljittää, kuinka edistyksen ja tehokkuuden myytit ovat hämärtäneet syvempiä poliittisia ja kulttuurisia tavoitteita, paljastaen ideologiset perustat systeemeissä, jotka nyt muokkaavat modernia yhteiskuntaa. Elokuvan ohjaaja Valerie Veatchin aiemmat Sundancessa ensi-iltansa saaneet elokuvat Me @ the Zoo (HBO) ja Love Child (HBO) tutkivat, kuinka nousevat teknologiat muokkaavat identiteettiä, kulttuuria ja globaalia valtaa. Tämä uusi elokuva on hänen tähän mennessä kunnianhimoisin teoksensa. Kahdeksan luvun kautta Veatch sukeltaa tutkimaan globaalin tekoälybuumin filosofisia, kulttuurisia ja poliittisia voimia. Näytöksen jälkeen on keskustelu, jota johtaa elokuvantekijä ja monitieteinen tutkija, Helsingin yliopiston ja Taideyliopiston dosentti, tohtori Nitin Sawhney. Kutsutut keskustelijat julkistetaan pian."
    },
-   "tr": "https://www.youtube.com/watch?v=i9DAv0D7tnY"
+   "tr": ""
   },
   "ghost näkymätön rakkaus": {
    "id": 251,
@@ -2144,6 +2143,7 @@
     "cine",
     "gilda",
     "ihmekompleksi",
+    "isohannu",
     "joutsankino",
     "kinoaurora",
     "kinojuha",
@@ -2984,6 +2984,19 @@
     "en"
    ]
   },
+  "kojootti vs acme suomeksi puhuttu": {
+   "id": 1204680,
+   "img": "data/posters/2cb6f7dbe10cca53.jpg",
+   "r": 7.5,
+   "s": {
+    "en": "After Acme products fail him one too many times in his dogged pursuit of the Roadrunner, Wile E. Coyote decides to hire a billboard lawyer to sue the Acme Corporation.",
+    "fi": ""
+   },
+   "tr": "https://www.youtube.com/watch?v=kMsiD1Nky5I",
+   "ts": [
+    "en"
+   ]
+  },
   "kokuho kabukin mestari": {
    "id": 1379266,
    "r": 0,
@@ -3529,6 +3542,18 @@
   "la grazia": {
    "id": 1397364,
    "img": "data/posters/6c8d0779f3581c89.jpg",
+   "kr": "K-7",
+   "krs": [
+    "biograni",
+    "biorex",
+    "engel",
+    "gilda",
+    "joutsankino",
+    "kinomyyri",
+    "korjaamo",
+    "kuvakukko",
+    "niagara"
+   ],
    "r": 7.3,
    "s": {
     "en": "Toni Servillo plays the widowed Italian President Mariano De Santis, who struggles with moral dilemmas and grieves whilst clinging to the memory of his wife. A judge specialising in criminal law, he would prefer not to convict anyone, even as his colleagues and political players at the pinnacle of power seek to pressure the President into doing their bidding. As the President’s term draws to its inevitable close, he seeks support from his daughter Dorotea (Anna Ferzetti). The President’s close friend Coco Valori (Milvia Marigliano) is a long-standing socialite who still finds the energy to criticise everyone and everything. LA GRAZIA, the opening film of the Venice Film Festival, marks the return to the top of Paolo Sorrentino, director of The Great Beauty. Sorrentino tackles big questions: what is the meaning of a life lived? Toni Servillo was awarded the prize for Best Actor in Venice.",
@@ -3559,13 +3584,12 @@
   },
   "lakko": {
    "id": 44967,
-   "img": "data/posters/83aff075842c9335.jpg",
-   "r": 7.4,
+   "r": 0,
    "s": {
     "en": "",
     "fi": "Eisensteinin esikoiselokuva Lakko nosti hänet neuvostoavantgarden kärkeen. Tsaarinajan työtaistelua kuvaava teos yhdistää voimakkaan visuaalisuuden ja montaasin, jossa kuvien törmäys luo merkityksiä. Sergei Prokofjevin vaikuttava musiikki siivittää näytelmää, jossa massat ovat pääosassa. Työn, vallan ja väkivallan ristiriidat näyttäytyvät järisyttävinä, usein groteskeina kuvina, jotka huipentuvat lakon veriseen tukahduttamiseen."
    },
-   "tr": "https://www.youtube.com/watch?v=3UQMg3saU4Q"
+   "tr": ""
   },
   "lapin sota": {
    "id": 1450460,
@@ -3665,6 +3689,7 @@
     "engel",
     "haapamaki",
     "ihmekompleksi",
+    "isohannu",
     "joutsankino",
     "kinoaurora",
     "kinojuha",
@@ -4832,16 +4857,12 @@
   },
   "oktoberfest": {
    "id": 263967,
-   "img": "data/posters/702a7adb073a673c.jpg",
    "r": 0,
    "s": {
-    "en": "Luka Banjanin is an unemployed young man living with his parents in Belgrade. He hangs out with few devoted friends who, like him, are yet to find place in a society that discarded young intellectuals. He plays saxophone and dreams about going to Oktoberfest, the annual beer festival in Munich, but he's being unable to get passport because of a smaller drug incident he had in the past. Totally careless about his long-term girlfriend, he suddenly falls for a mysterious woman who seems to appear in the same places as him, and then vanishes as quickly as possible. Believing that he's at the wrong place at the wrong time, Luka wanders from one misadventure to another, gradually losing the contact with reality and living out his own Oktoberfest in his mind.",
+    "en": "",
     "fi": "Mukaan mahtuu vain 50 ensimmäistä, joten ostathan liput ajoissa. Ruoan riittävyyden varmistamiseksi tulisi liput ostaa 19.10. mennessä."
    },
-   "tr": "",
-   "ts": [
-    "en"
-   ]
+   "tr": ""
   },
   "once upon a time in china": {
    "id": 10617,
@@ -6457,7 +6478,6 @@
     "gilda",
     "kino123",
     "kinohirvi",
-    "kinolaika",
     "kinolumo",
     "kinopiispanristi",
     "kotkanleffat",
@@ -6666,27 +6686,6 @@
    "s": {
     "en": "The Paw Patrol lands on a mysterious dinosaur island after a storm, where they meet Rex, a stranded pup. When Humdinger's reckless mining triggers a volcano, the team faces their biggest rescue mission yet to save the island.",
     "fi": "Ryhmä Haun laiva joutuu mystisen myrskyn kouriin ja haaksirikkoutuu trooppiselle saarelle, joka kuhisee dinosauruksia. He tapaavat Rexin – pennun, joka on jo vuosia ollut saarella jumissa ja josta on kehkeytynyt melkoinen dinosaurusekspertti. Kun Ryhmä Haun arkkivihollinen, Pormestari Hanttinen, aloittaa valtavat kaivuutyöt voidakseen hyödyntää saaren luonnonvaroja, hän saa vahingossa valtavan nukuksissa olleen tulivuoren purkautumaan. Pennut tempautuvat mukaan riskialttiiseen, dinon kokoiseen, kaikkien aikojen suurimpaan pelastusoperaatioonsa tavoitteenaan pysäyttää Hanttinen ennen kuin kaikki saarella katoaa ikiajoiksi."
-   },
-   "tr": "https://www.youtube.com/watch?v=xgI5iYmOf5Q",
-   "ts": [
-    "en"
-   ]
-  },
-  "ryhmä hau dinoelokuva elokuvanäytös": {
-   "id": 1185806,
-   "img": "data/posters/b7775ab25a7de6bc.jpg",
-   "kr": "K-7",
-   "krs": [
-    "biorex",
-    "isohannu",
-    "kinolumo",
-    "kinopiispanristi",
-    "star"
-   ],
-   "r": 8.3,
-   "s": {
-    "en": "The Paw Patrol lands on a mysterious dinosaur island after a storm, where they meet Rex, a stranded pup. When Humdinger's reckless mining triggers a volcano, the team faces their biggest rescue mission yet to save the island.",
-    "fi": ""
    },
    "tr": "https://www.youtube.com/watch?v=xgI5iYmOf5Q",
    "ts": [
@@ -7170,6 +7169,19 @@
    },
    "tr": ""
   },
+  "stray kids world tour run it live viewing": {
+   "id": 1795555,
+   "img": "data/posters/0b6f307f1ac0be55.jpg",
+   "r": 0,
+   "s": {
+    "en": "Stray Kids bring their World Tour (RUN IT) concert to cinemas in a live broadcast, with all eight members performing their high-energy choreography.",
+    "fi": ""
+   },
+   "tr": "",
+   "ts": [
+    "en"
+   ]
+  },
   "street fighter": {
    "id": 1153576,
    "img": "data/posters/2c34dcbef60ffbda.jpg",
@@ -7586,8 +7598,7 @@
    "img": "data/posters/2755bb2be0a0c120.jpg",
    "kr": "K-12",
    "krs": [
-    "engel",
-    "tapiola"
+    "engel"
    ],
    "r": 7.2,
    "s": {
@@ -7681,6 +7692,7 @@
    "krs": [
     "biorex",
     "gilda",
+    "isohannu",
     "kinopiispanristi",
     "savonkinot",
     "star"
@@ -8150,7 +8162,6 @@
     "kinoolympia",
     "kinovirta",
     "kuvakukko",
-    "orion",
     "savonkinot",
     "tapiola"
    ],

@@ -1,14 +1,14 @@
-[kinokilta] 61 screening(s) listed, 42 film page(s) read
+[kinokilta] 60 screening(s) listed, 42 film page(s) read
 [kinokilta] omitted 0 confirmed non-film(s) by evidence-backed exclusion over 0 screening(s), and 0 unresolved over 0
 [kinokilta] override retkikino-2026: active
 [kinokilta] 3 synopsis/synopses withheld, no language settled: Combat Shock, Kinokopla: DIG! XX, RetkiKino 2026
 [kinokilta] 7 film(s) with a language name not read, that part left blank: Alligator (Ei teksitystä); Combat Shock (Ei teksitystä); Joysticks (Ei teksitystä); Pieni kauhukauppa (Ei teksitystä); Prom Night (Ei teksitystä); Savage Dawn (Ei teksitystä); The Devils (Ei teksitystä)
-[kinokilta] Kino Kilta: 61 showtimes, 34 dates
+[kinokilta] Kino Kilta: 60 showtimes, 33 dates
 [kinokilta] strand prefix split off 8 showtimes
-[kinokilta] Kino Kilta: 61 showtimes, 34 dates
+[kinokilta] Kino Kilta: 60 showtimes, 33 dates
 [kinokilta] synopses merged: 0
 [kinokilta] screening-note sentences left out of synopses: 1
-[kinolaika] 29 screening(s) listed, 20 film page(s) read
+[kinolaika] 28 screening(s) listed, 19 film page(s) read
 [kinolaika] omitted 0 confirmed non-film(s) by evidence-backed exclusion over 0 screening(s), and 7 unresolved over 7
 [kinolaika] unresolved: Antti Autio, Arppa, Dave Lindholm & Pepe Ahlqvist: WALKIN' BLUES -kiertue, Garden Folly, Knipi - Sivellinvetoja, Livemusavisa, Mariska - Laulan, kirjoitan
 [kinolaika] override a-fox-under-a-pink-moon: evidence-unavailable
@@ -16,19 +16,19 @@
 [kinolaika] override naza: active
 [kinolaika] override pikku-kummitus-lapanen-keppostelee: active
 [kinolaika] override two-seasons-two-strangers: active
-[kinolaika] Kino Laika: 22 showtimes, 10 dates
-[kinolaika] Kino Laika: 22 showtimes, 10 dates
+[kinolaika] Kino Laika: 21 showtimes, 9 dates
+[kinolaika] Kino Laika: 21 showtimes, 9 dates
 [kinolaika] synopses merged: 0
 [kinolaika] synopses skipped as screening notes: 1
-[kinomyyri] 30 screening(s) listed, 18 film page(s) read
+[kinomyyri] 29 screening(s) listed, 18 film page(s) read
 [kinomyyri] omitted 0 confirmed non-film(s) by evidence-backed exclusion over 0 screening(s), and 2 unresolved over 3
 [kinomyyri] unresolved: Boléro, Pikku Kummitus Lapanen keppostelee
 [kinomyyri] override kojootti-vs-acme-dub: evidence-unavailable
 [kinomyyri] override must-pori-nakku: active
 [kinomyyri] 1 synopsis/synopses withheld, no language settled: Hamnet
 [kinomyyri] 5 film(s) with a language name not read, that part left blank: Lapin sota (saami); Naza (heprealainen); Premada Oorali (kannada); Two Seasons, Two Strangers (japanilainen, korealainen); Vasenkätinen tyttö (mandariini)
-[kinomyyri] Kino Myyri: 27 showtimes, 12 dates
-[kinomyyri] Kino Myyri: 27 showtimes, 12 dates
+[kinomyyri] Kino Myyri: 26 showtimes, 11 dates
+[kinomyyri] Kino Myyri: 26 showtimes, 11 dates
 [kinomyyri] synopses merged: 0
 [kinokonepaja] 45 screening(s) listed, 17 film page(s) read
 [kinokonepaja] omitted 0 confirmed non-film(s) by evidence-backed exclusion over 0 screening(s), and 0 unresolved over 0
@@ -38,8 +38,8 @@
 [kinokonepaja] Kino Konepaja: 45 showtimes, 24 dates
 [kinokonepaja] Kino Konepaja: 45 showtimes, 24 dates
 [kinokonepaja] synopses merged: 0
-[run] http: 0 revalidated (304), 101 full, 20 not stored (origin said no-store), 43 cache entries written
+[run] http: 0 revalidated (304), 100 full, 20 not stored (origin said no-store), 43 cache entries written
 [run] hosts: 4 attempted -- kinokonepaja.fi, kinomyyri.fi, www.kinokilta.fi, www.kinolaika.fi
-[run] kinola: 4 venues, 155 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
-[run] timing: 4 site(s), 213.7s of fetching added up across workers that overlap, longest site 86.9s, longest queue wait 118.6s, 86.9s wall from this module's first fetch starting to its last ending
+[run] kinola: 4 venues, 152 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
+[run] timing: 4 site(s), 218.3s of fetching added up across workers that overlap, longest site 94.0s, longest queue wait 103.8s, 94.0s wall from this module's first fetch starting to its last ending
 exit=0

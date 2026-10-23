@@ -1,26 +1,12 @@
-[http] 403 from kotkanleffat.fi, gave up after 3 attempt(s) -- Server: cloudflare; CF-Ray: a4f2617858b0f897-SJC
-[kotkanleffat] FAILED: HTTP Error 403: Forbidden
 [biorexkokkola] Bio Rex Kokkola: 34 showtimes, 11 dates
 [biorexkokkola] synopses merged: 0
 [kinopirtti] Kinopirtti: 79 showtimes, 19 dates
 [kinopirtti] synopses merged: 0
-[http] 403 from leffabuumi.fi, gave up after 3 attempt(s) -- Server: cloudflare; CF-Ray: a4f26189ec5b7a20-SJC
-[leffabuumi] FAILED: HTTP Error 403: Forbidden
-[http] 403 from studiot123.com, gave up after 3 attempt(s) -- Server: cloudflare; CF-Ray: a4f26183f866d293-SJC
-[studio123jarvenpaa] FAILED: HTTP Error 403: Forbidden
-[http] 403 from studio123.fi, gave up after 3 attempt(s) -- Server: cloudflare; CF-Ray: a4f26196a986c52c-SJC
-[studio123kouvola] FAILED: HTTP Error 403: Forbidden
-[http] 403 from ihmekompleksi.fi, gave up after 3 attempt(s) -- Server: cloudflare; CF-Ray: a4f261acba796ce3-SJC
-[ihmekompleksi] FAILED: HTTP Error 403: Forbidden
-[http] 403 from kino123.fi, gave up after 3 attempt(s) -- Server: cloudflare; CF-Ray: a4f261e49a5d3ec8-SJC
-[kino123] FAILED: HTTP Error 403: Forbidden
 [kinotar] Kinotar 123: 41 showtimes, 19 dates
 [kinotar] synopses merged: 0
 [kinojuha] Kino Juha: 15 showtimes, 9 dates
 [kinojuha] VIP-Sali: 10 showtimes, 8 dates
 [kinojuha] synopses merged: 0
-[http] 403 from biogrand.fi, gave up after 3 attempt(s) -- Server: cloudflare; CF-Ray: a4f2620489954e48-SJC
-[biogrand] FAILED: HTTP Error 403: Forbidden
 [biovuoksi] Bio Vuoksi: 17 showtimes, 7 dates
 [biovuoksi] synopses merged: 0
 [kinoiiris] strand prefix split off 1 showtimes
@@ -31,12 +17,12 @@
 [kkino] synopses merged: 0
 [biograni] Bio Grani: 8 showtimes, 4 dates
 [biograni] synopses merged: 0
-[niagara] Cinema Niagara: 39 showtimes, 18 dates
+[niagara] Cinema Niagara: 38 showtimes, 17 dates
 [niagara] synopses merged: 0
 [kinokaustinen] Kino Kaustinen: 5 showtimes, 2 dates
 [kinokaustinen] synopses merged: 0
 [run] http: 0 revalidated (304), 166 full, 166 not stored (origin said no-store), 0 cache entries written
-[run] hosts: 17 attempted -- biogrand.fi, biograni.fi, biovuoksi.fi, cinemaniagara.fi, ihmekompleksi.fi, jamsankinotar.fi, k-kino.fi, kino123.fi, kinoiiris.com, kinojuha.fi, kinokaustinen.fi, kinopirtti.fi, kotkanleffat.fi, leffabuumi.fi, studio123.fi, studiot123.com, www.biorex.org
-[run] etiketti: 11 venues, 290 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 7 failures
-[run] timing: 17 site(s), 440.1s of fetching added up across workers that overlap, longest site 70.2s, longest queue wait 52.4s, 115.1s wall from this module's first fetch starting to its last ending
-exit=1
+[run] hosts: 10 attempted -- biograni.fi, biovuoksi.fi, cinemaniagara.fi, jamsankinotar.fi, k-kino.fi, kinoiiris.com, kinojuha.fi, kinokaustinen.fi, kinopirtti.fi, www.biorex.org
+[run] etiketti: 11 venues, 289 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
+[run] timing: 10 site(s), 297.8s of fetching added up across workers that overlap, longest site 66.4s, longest queue wait 38.8s, 98.7s wall from this module's first fetch starting to its last ending
+exit=0
