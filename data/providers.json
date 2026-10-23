@@ -691,6 +691,14 @@
    "book": "door"
   },
   {
+   "id": "kinotervakoski",
+   "label": "Kino Tervakoski",
+   "host": "janakkala.fi",
+   "accent": "#543147",
+   "accentDark": "#FFA9F4",
+   "book": "door"
+  },
+  {
    "id": "kuusamotalo",
    "label": "Kino Kuusamotalo",
    "host": "kinokuusamotalo.fi",

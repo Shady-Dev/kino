@@ -59,6 +59,7 @@ import test_pajakka as PJ
 import test_kisakino as KIS
 import test_biomarlon as BM
 import test_kinokuva as KKV
+import test_tervakoski as TKS
 import test_kuusamotalo as KU
 import test_kinohuovi as KH
 import test_localhub as LH
@@ -497,6 +498,13 @@ def sample_kinokuva():
     return (out, KKV.SITE["provider"], [v["id"] for v in KKV.SITE["venues"]])
 
 
+def sample_tervakoski():
+    """Four film slots over three days beside a private event with no film link, and a
+    clock inside a film section below the programme that is not a slot."""
+    out, _ = TKS.T.rows(TKS.SITE, TKS.LIVE, TKS.TODAY)
+    return (out, TKS.SITE["provider"], [v["id"] for v in TKS.SITE["venues"]])
+
+
 def sample_k13():
     """A festival block with two timed rows, a Kinokka evening its linked page times and
     one with no linked page, so the row that must not exist is exercised beside the three
@@ -577,6 +585,7 @@ SAMPLES = {
     "kurikankino": sample_kurikankino, "pajakka": sample_pajakka,
     "kisakino": sample_kisakino, "biomarlon": sample_biomarlon,
     "kinokuva": sample_kinokuva,
+    "tervakoski": sample_tervakoski,
     "kinohuovi": sample_kinohuovi, "localhub": sample_localhub,
     "k13": sample_k13, "helios": sample_helios, "kannusali": sample_kannusali,
 }

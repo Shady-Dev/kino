@@ -686,6 +686,11 @@ PROVIDERS = [
     # near ones, Matin-Tupa and Bio Marilyn, are 70 to 90 km off.
     dict(id="kinokuva", label="Kino-Kuva", host="kinokuva.fi", accent="#4C997F",
          accentDark="#5CB899", book="door", module="kinokuva", where="cloud"),
+    # Kino Tervakoski, Janakkala, 2026-10-24 (issue #14). Janakkala is in no region; it lies
+    # between Hämeenlinna and Riihimäki, so the shade clears their one chain, BioRex, should
+    # it join Hämeenlinnan seutu: 30.9 dE00 light and 34.7 dark on the weakest model.
+    dict(id="kinotervakoski", label="Kino Tervakoski", host="janakkala.fi", accent="#543147",
+         accentDark="#FFA9F4", book="door", module="tervakoski", where="cloud"),
     # Kino Kuusamotalo, Kuusamo, 2026-09-20. 520 seats in the Oulankasali hall of the
     # town's culture house, run by its own operator on its own site. kuusamotalo.fi is
     # the culture house and only links here; its programme block is a Flockler embed and
