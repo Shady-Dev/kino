@@ -87,12 +87,12 @@ List, reads and gaps: [docs/research/empty-states.md](docs/research/empty-states
 
 ### Provider leads from issues #13 to #16
 
-Read 2026-10-21; none set aside for a weekly programme, free admission or a full palette.
-#13 Levi Summit: its calendar now loads by another request. #14 Tervakoski: page answered
-503. #15 Virtain Pirtti: 13 rows, footnotes set price and subtitles. #16: Kuutamo and
-HopeaCine take a joint Helsinki palette solve, read by the Linked Events route Helios uses.
+Re-read 2026-10-24; none set aside for a weekly programme, free admission or a full palette.
+#14 Kino Tervakoski is built. #13 Levi Summit's calendar is in its page, 15 € ordinary
+ticket beside an under-12 price. #15 Virtain Pirtti sets price and subtitles in dated
+footnotes only. #16: Linked Events lists Kuutamo at Kanneltalo and HopeaCine at two houses.
 Evidence: [docs/research/ticketing-platforms.md](docs/research/ticketing-platforms.md).
-**Next action:** find #13's calendar request, then build #15.
+**Next action:** build #13, then #15, then #16 grouped by its verified operator.
 
 ## Blocked
 

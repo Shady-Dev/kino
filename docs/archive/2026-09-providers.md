@@ -4357,3 +4357,15 @@ cloud-request blocking; the exact rule is unconfirmed. Only `where` changed: the
 its request headers and the venue ids are untouched, and the wrapper's existing
 `etiketti --half local` block fetches them with no new job. Findings in
 [docs/research/runner-challenges.md](../research/runner-challenges.md).
+
+### Kino Tervakoski, Janakkala, from its programme page (2026-10-24)
+Issue #14. The municipality's cinema in Tervakosken Seuratalo publishes one WordPress page,
+read through its REST twin in one request. A bold paragraph is a day, "Keskiviikko 21.10.",
+and a slot is a paragraph opening with "Klo" or "klo", the title and rating in a link to
+the film's section, then genres, runtime and that slot's price. Only the paragraphs above
+the first film section are read, and a slot is a film only when it links to a section: of
+18 slots, the private event linked none and is left out. Tickets are sold at the door. No
+poster of the site's own is published; the short Late Lammas title is aliased to the record
+its long title already has. #543147 / #FFA9F4 clears BioRex, the one chain in Hämeenlinna
+and Riihimäki, by 30.9 and 34.7 should Janakkala join Hämeenlinnan seutu. Seven mutations
+red.

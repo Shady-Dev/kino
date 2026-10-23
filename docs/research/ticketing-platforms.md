@@ -2110,4 +2110,18 @@ listing once `www.malmitalo.fi` answers again.
 - Kino Kuutamo and HopeaCine would be new chains in Helsinki, whose palette was solved
   jointly for ten chains on 2026-09-21. A new chain there takes the same solve.
 
-**Status and next step.** Not built. The open item is in `IDEAS.md`.
+**Re-read 2026-10-24** (one visitor GET per source):
+- #14: `janakkala.fi/kino/ohjelmisto-2-2-2/` answered 200 (nginx) with 18 slots over 9 days,
+  21.10. to 6.11.; two write "klo" in lower case, and one, "Klo 17.00 – Yksityistilaisuus",
+  links to no film section. The page's REST twin is `/kino/wp-json/wp/v2/pages/196`.
+- #13: `kassiopeia.fi/levi-summit/cinema/` (Apache) now carries the calendar in the page:
+  14 screenings, 12.11. to 20.11., each with `movie-tickets` "15 €" and
+  `movie-tickets__children` "10 € (alle 12-v)"; one links the English path `/en/cinema/`.
+  The film cards give runtime, rating and "Kieli"/"Tekstitys" flags.
+- #15: ten rows over five films; `Server: cloudflare`. The dated footnotes set 9 € on 27.10.
+  and 9 € with Finnish subtitles on 28.10.; "9 € päivänäytös" under Unohdettu saari names no date.
+- #16: to 31.12., Kanneltalo (tprek:7255) two free Kino Kuutamo rows, Vuotalo (tprek:7260)
+  three HopeaCine rows at 10 €, Malmitalo (tprek:8740) two HopeaCine rows at 9 € beside
+  seven Kino Helios rows; `helios.py` publishes the Kino Helios rows only.
+
+**Status and next step.** #14 built 2026-10-24. The open item is in `IDEAS.md`.

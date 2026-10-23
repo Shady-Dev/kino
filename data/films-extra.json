@@ -943,6 +943,7 @@
     "gilda",
     "kinojuha",
     "kinopiispanristi",
+    "kinotervakoski",
     "kuvakukko",
     "niagara",
     "orion",
@@ -2149,6 +2150,7 @@
     "kinojuha",
     "kinokulma",
     "kinometso",
+    "kinotervakoski",
     "kkino",
     "korjaamo",
     "savonkinot",
@@ -2377,6 +2379,7 @@
     "kinosampo",
     "kinoset",
     "kinotar",
+    "kinotervakoski",
     "kinotoijala",
     "kinotour",
     "kinovirta",
@@ -2454,6 +2457,7 @@
     "kinosampo",
     "kinoset",
     "kinotar",
+    "kinotervakoski",
     "kinotoijala",
     "kinotour",
     "kinovirta",
@@ -3697,6 +3701,7 @@
     "kinometso",
     "kinomyyri",
     "kinoolympia",
+    "kinotervakoski",
     "kkino",
     "tapiola"
    ],
@@ -3729,12 +3734,17 @@
    "tr": ""
   },
   "late lammas hämäräpuuhissa": {
-   "r": 0,
+   "id": 1477104,
+   "img": "data/posters/93eda5fa30b7d70c.jpg",
+   "r": 7.4,
    "s": {
-    "en": "",
+    "en": "On Halloween Eve at Mossy Bottom Farm, excitement turns to dismay when the clumsy Farmer ruins the pumpkin patch. Shaun tries fixing it with science experiments, but things go awry when a wild beast appears in the woods.",
     "fi": "Rakastettu Late Lammas palaa valkokankaille uudessa, riemastuttavassa ja kutkuttavan hauskassa seikkailussa. Farmin asukkaat odottavat innolla Halloweenia, kunnes heidän rakkaudella kasvattamansa kurpitsaviljelmä tuhoutuu juhlan kynnyksellä. Late ei jää toimettomaksi, vaan päättää ryhtyä “hulluksi tiedemieheksi” korjatakseen tilanteen – ja pian tapahtumat karkaavatkin täysin käsistä. Kun tilan maajussi … katoaa ja outo villi peto herättää kauhua kyläläisissä, ovat kaikki ainekset kasassa hirviömäisen hauskalle seikkailulle kaiken ikäisille. Kananlento ja Wallace & Gromit -elokuvien tekijöiden uusi seikkailu Late Lammas: Hämäräpuuhissa saapuu elokuvateattereihin 30. lokakuuta."
    },
-   "tr": ""
+   "tr": "https://www.youtube.com/watch?v=daZMq0AyOMc",
+   "ts": [
+    "en"
+   ]
   },
   "late lammas hämäräpuuhissa ennakkonäytös 10": {
    "id": 1477104,
@@ -3844,6 +3854,7 @@
     "kinopirtti",
     "kinoset",
     "kinotar",
+    "kinotervakoski",
     "kotkanleffat",
     "kulttuurimylly",
     "laitilankino",
@@ -5752,6 +5763,7 @@
     "kinopirtti",
     "kinoset",
     "kinotar",
+    "kinotervakoski",
     "kinotour",
     "kotkanleffat",
     "kulttuurimylly",
@@ -5806,6 +5818,7 @@
     "kinopirtti",
     "kinoset",
     "kinotar",
+    "kinotervakoski",
     "kinotour",
     "kotkanleffat",
     "kulttuurimylly",
@@ -8907,7 +8920,8 @@
    "krs": [
     "biorex",
     "kinoaurora",
-    "kinokonepaja"
+    "kinokonepaja",
+    "kinotervakoski"
    ],
    "r": 0,
    "s": {
