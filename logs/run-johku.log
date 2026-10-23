@@ -1,10 +1,11 @@
-[biomarilyn] 18 screening(s) in 2 schedule block(s), 8 film page(s) read
-[biomarilyn] prices for 18 of 18 screening(s); 6 of 6 price scheme(s) read establish an ordinary ticket, from 6 shows.json read(s)
+[biomarilyn] 17 screening(s) in 2 schedule block(s), 8 film page(s) read
+[biomarilyn] prices for 17 of 17 screening(s); 6 of 6 price scheme(s) read establish an ordinary ticket, from 6 shows.json read(s)
 [biomarilyn] 15 coming-soon entry/entries with no time, left out: Angry Birds 3, Avengers : Doomsday, Billie maailmojen välissä, Dyyni: osa kolme, Ebenezer-Saiturin joulu, George Michael:The Faith Tour, How to Rob a Bank, I Play Rocky
 [biomarilyn] 9 screening(s) listed in a second block, published once
+[biomarilyn] left out as the page does: 1 already started, 0 not in the catalogue
 [biomarilyn] 1 synopsis/synopses withheld, no language settled: PäiväKaffiLeffa-näytös :Kerro kaikille
-[biomarilyn] Bio Marilyn: 18 showtimes, 10 dates
-[biomarilyn] Bio Marilyn: 18 showtimes, 10 dates
+[biomarilyn] Bio Marilyn: 17 showtimes, 10 dates
+[biomarilyn] Bio Marilyn: 17 showtimes, 10 dates
 [biomarilyn] synopses merged: 0
 [vihdinkino] 11 screening(s) in 1 schedule block(s), 4 film page(s) read
 [vihdinkino] prices for 11 of 11 screening(s); 4 of 4 price scheme(s) read establish an ordinary ticket, from 3 shows.json read(s)
@@ -13,19 +14,21 @@
 [vihdinkino] Vihdin Kino: 11 showtimes, 6 dates
 [vihdinkino] Vihdin Kino: 11 showtimes, 6 dates
 [vihdinkino] synopses merged: 0
-[bioforum] 20 screening(s) in 1 schedule block(s), 8 film page(s) read
-[bioforum] prices for 20 of 20 screening(s); 3 of 3 price scheme(s) read establish an ordinary ticket, from 3 shows.json read(s)
+[bioforum] 19 screening(s) in 1 schedule block(s), 8 film page(s) read
+[bioforum] prices for 19 of 19 screening(s); 3 of 3 price scheme(s) read establish an ordinary ticket, from 3 shows.json read(s)
+[bioforum] left out as the page does: 1 already started, 0 not in the catalogue
 [bioforum] 3 synopsis/synopses withheld, no language settled: Bokkalaset i Ekenäs: Så länge hjärtat slår & Bianca Kronlöf, Clayface, Lapin sota
-[bioforum] Bio Forum: 20 showtimes, 9 dates
-[bioforum] Bio Forum: 20 showtimes, 9 dates
+[bioforum] Bio Forum: 19 showtimes, 9 dates
+[bioforum] Bio Forum: 19 showtimes, 9 dates
 [bioforum] synopses merged: 0
-[kinokulma] 26 screening(s) in 1 schedule block(s), 5 film page(s) read
-[kinokulma] prices for 15 of 21 screening(s); 3 of 4 price scheme(s) read establish an ordinary ticket, from 1 shows.json read(s)
+[kinokulma] 25 screening(s) in 1 schedule block(s), 5 film page(s) read
+[kinokulma] prices for 14 of 20 screening(s); 3 of 4 price scheme(s) read establish an ordinary ticket, from 1 shows.json read(s)
+[kinokulma] left out as the page does: 1 already started, 0 not in the catalogue
 [kinokulma] 1 hall-hire title(s) over 3 row(s) left out: Salivaraus
 [kinokulma] 1 product(s) the site lists as not a film over 2 row(s) left out: Oulaisten Valovoima ry
 [kinokulma] 2 synopsis/synopses withheld, no language settled: Clayface, Lapin sota
-[kinokulma] Kinokulma: 21 showtimes, 12 dates
-[kinokulma] Kinokulma: 21 showtimes, 12 dates
+[kinokulma] Kinokulma: 20 showtimes, 11 dates
+[kinokulma] Kinokulma: 20 showtimes, 11 dates
 [kinokulma] synopses merged: 0
 [kinohannikainen] 12 screening(s) in 1 schedule block(s), 2 film page(s) read
 [kinohannikainen] prices for 12 of 12 screening(s); 2 of 2 price scheme(s) read establish an ordinary ticket, from 2 shows.json read(s)
@@ -34,20 +37,22 @@
 [kinohannikainen] Kino Hannikainen: 12 showtimes, 7 dates
 [kinohannikainen] Kino Hannikainen: 12 showtimes, 7 dates
 [kinohannikainen] synopses merged: 0
-[kinovirta] 14 screening(s) in 1 schedule block(s), 5 film page(s) read
-[kinovirta] prices for 14 of 14 screening(s); 2 of 2 price scheme(s) read establish an ordinary ticket, from 2 shows.json read(s)
+[kinovirta] 12 screening(s) in 1 schedule block(s), 5 film page(s) read
+[kinovirta] prices for 12 of 12 screening(s); 2 of 2 price scheme(s) read establish an ordinary ticket, from 2 shows.json read(s)
+[kinovirta] left out as the page does: 2 already started, 0 not in the catalogue
 [kinovirta] 2 synopsis/synopses withheld, no language settled: Clayface, Lapin Sota
-[kinovirta] Kino Virta: 14 showtimes, 5 dates
-[kinovirta] Kino Virta: 14 showtimes, 5 dates
+[kinovirta] Kino Virta: 12 showtimes, 5 dates
+[kinovirta] Kino Virta: 12 showtimes, 5 dates
 [kinovirta] synopses merged: 0
-[kulttuurimylly] 10 screening(s) in 1 schedule block(s), 8 film page(s) read
-[kulttuurimylly] prices for 10 of 10 screening(s); 3 of 3 price scheme(s) read establish an ordinary ticket, from 3 shows.json read(s)
-[kulttuurimylly] Kino Kulttuurimylly: 10 showtimes, 6 dates
+[kulttuurimylly] 9 screening(s) in 1 schedule block(s), 7 film page(s) read
+[kulttuurimylly] prices for 9 of 9 screening(s); 3 of 3 price scheme(s) read establish an ordinary ticket, from 3 shows.json read(s)
+[kulttuurimylly] left out as the page does: 1 already started, 0 not in the catalogue
+[kulttuurimylly] Kino Kulttuurimylly: 9 showtimes, 6 dates
 [kulttuurimylly] strand prefix split off 4 showtimes
-[kulttuurimylly] Kino Kulttuurimylly: 10 showtimes, 6 dates
+[kulttuurimylly] Kino Kulttuurimylly: 9 showtimes, 6 dates
 [kulttuurimylly] synopses merged: 0
-[run] http: 0 revalidated (304), 67 full, 20 not stored (origin said no-store), 0 cache entries written
+[run] http: 0 revalidated (304), 66 full, 20 not stored (origin said no-store), 0 cache entries written
 [run] hosts: 8 attempted -- bioforum.fi, biomarilyn.johku.com, kinokulma.fi, kinovirta.johku.com, kulttuurimylly.johku.com, vihdinkino.fi, www.biomarilyn.com, www.kinohannikainen.net
-[run] johku: 7 venues, 106 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
-[run] timing: 7 site(s), 138.6s of fetching added up across workers that overlap, longest site 31.8s, longest queue wait 176.1s, 57.0s wall from this module's first fetch starting to its last ending
+[run] johku: 7 venues, 100 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
+[run] timing: 7 site(s), 136.3s of fetching added up across workers that overlap, longest site 31.7s, longest queue wait 160.1s, 54.5s wall from this module's first fetch starting to its last ending
 exit=0

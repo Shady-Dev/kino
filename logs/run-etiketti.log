@@ -1,27 +1,27 @@
-[http] 403 from kotkanleffat.fi, gave up after 3 attempt(s) -- Server: cloudflare; CF-Ray: a4f055aaf946693f-LAX
+[http] 403 from kotkanleffat.fi, gave up after 3 attempt(s) -- Server: cloudflare; CF-Ray: a4f1b69159aacb9b-LAX
 [kotkanleffat] FAILED: HTTP Error 403: Forbidden
-[biorexkokkola] Bio Rex Kokkola: 38 showtimes, 12 dates
+[biorexkokkola] Bio Rex Kokkola: 36 showtimes, 12 dates
 [biorexkokkola] synopses merged: 0
-[kinopirtti] Kinopirtti: 86 showtimes, 20 dates
+[kinopirtti] Kinopirtti: 82 showtimes, 20 dates
 [kinopirtti] synopses merged: 0
-[http] 403 from leffabuumi.fi, gave up after 3 attempt(s) -- Server: cloudflare; CF-Ray: a4f055b9acd65d5c-LAX
+[http] 403 from leffabuumi.fi, gave up after 3 attempt(s) -- Server: cloudflare; CF-Ray: a4f1b6a5680e52af-LAX
 [leffabuumi] FAILED: HTTP Error 403: Forbidden
-[http] 403 from studiot123.com, gave up after 3 attempt(s) -- Server: cloudflare; CF-Ray: a4f055b36fc82b7b-LAX
+[http] 403 from studiot123.com, gave up after 3 attempt(s) -- Server: cloudflare; CF-Ray: a4f1b69fade30d81-LAX
 [studio123jarvenpaa] FAILED: HTTP Error 403: Forbidden
-[http] 403 from studio123.fi, gave up after 3 attempt(s) -- Server: cloudflare; CF-Ray: a4f055cb289d2c7d-LAX
+[http] 403 from studio123.fi, gave up after 3 attempt(s) -- Server: cloudflare; CF-Ray: a4f1b6b50c9ef7c3-LAX
 [studio123kouvola] FAILED: HTTP Error 403: Forbidden
-[http] 403 from ihmekompleksi.fi, gave up after 3 attempt(s) -- Server: cloudflare; CF-Ray: a4f055de5ee4498b-LAX
+[http] 403 from ihmekompleksi.fi, gave up after 3 attempt(s) -- Server: cloudflare; CF-Ray: a4f1b6c6393ecb9b-LAX
 [ihmekompleksi] FAILED: HTTP Error 403: Forbidden
-[http] 403 from kino123.fi, gave up after 3 attempt(s) -- Server: cloudflare; CF-Ray: a4f056149f030ab6-LAX
+[http] 403 from kino123.fi, gave up after 3 attempt(s) -- Server: cloudflare; CF-Ray: a4f1b6fc0d116d35-LAX
 [kino123] FAILED: HTTP Error 403: Forbidden
-[kinotar] Kinotar 123: 45 showtimes, 20 dates
+[kinotar] Kinotar 123: 44 showtimes, 20 dates
 [kinotar] synopses merged: 0
-[kinojuha] Kino Juha: 16 showtimes, 10 dates
+[kinojuha] Kino Juha: 15 showtimes, 9 dates
 [kinojuha] VIP-Sali: 11 showtimes, 9 dates
 [kinojuha] synopses merged: 0
-[http] 403 from biogrand.fi, gave up after 3 attempt(s) -- Server: cloudflare; CF-Ray: a4f05637f8ba2c7d-LAX
+[http] 403 from biogrand.fi, gave up after 3 attempt(s) -- Server: cloudflare; CF-Ray: a4f1b726bf04a5f0-LAX
 [biogrand] FAILED: HTTP Error 403: Forbidden
-[biovuoksi] Bio Vuoksi: 19 showtimes, 8 dates
+[biovuoksi] Bio Vuoksi: 17 showtimes, 7 dates
 [biovuoksi] synopses merged: 0
 [kinoiiris] strand prefix split off 1 showtimes
 [kinoiiris] Kino Iiris: 32 showtimes, 23 dates
@@ -29,14 +29,14 @@
 [kinoiiris] screening-note sentences left out of synopses: 4
 [kkino] K-Kino: 11 showtimes, 6 dates
 [kkino] synopses merged: 0
-[biograni] Bio Grani: 9 showtimes, 5 dates
+[biograni] Bio Grani: 8 showtimes, 4 dates
 [biograni] synopses merged: 0
-[niagara] Cinema Niagara: 41 showtimes, 18 dates
+[niagara] Cinema Niagara: 39 showtimes, 18 dates
 [niagara] synopses merged: 0
 [kinokaustinen] Kino Kaustinen: 5 showtimes, 2 dates
 [kinokaustinen] synopses merged: 0
 [run] http: 0 revalidated (304), 166 full, 166 not stored (origin said no-store), 0 cache entries written
 [run] hosts: 17 attempted -- biogrand.fi, biograni.fi, biovuoksi.fi, cinemaniagara.fi, ihmekompleksi.fi, jamsankinotar.fi, k-kino.fi, kino123.fi, kinoiiris.com, kinojuha.fi, kinokaustinen.fi, kinopirtti.fi, kotkanleffat.fi, leffabuumi.fi, studio123.fi, studiot123.com, www.biorex.org
-[run] etiketti: 11 venues, 313 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 7 failures
-[run] timing: 17 site(s), 433.5s of fetching added up across workers that overlap, longest site 68.6s, longest queue wait 53.0s, 112.9s wall from this module's first fetch starting to its last ending
+[run] etiketti: 11 venues, 300 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 7 failures
+[run] timing: 17 site(s), 444.2s of fetching added up across workers that overlap, longest site 70.4s, longest queue wait 53.8s, 116.7s wall from this module's first fetch starting to its last ending
 exit=1

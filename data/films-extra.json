@@ -6446,6 +6446,7 @@
     "kinohirvi",
     "kinolaika",
     "kinolumo",
+    "kinopiispanristi",
     "kotkanleffat",
     "leffabuumi",
     "savonkinot",
@@ -6911,6 +6912,14 @@
    },
    "tr": "https://www.youtube.com/watch?v=zBFstFXdk90"
   },
+  "shaun the sheep the beast of mossy bottom eng audio": {
+   "r": 0,
+   "s": {
+    "en": "The much-loved Shaun the Sheep returns to the big screen in a new, delightful, and hilarious adventure! The farm’s residents are eagerly awaiting Halloween, until the pumpkin patch they’ve lovingly tended is destroyed on the eve of the festivities. Shaun isn’t one to sit idly by, so he decides to become a ‘mad scientist’ to rectify the situation. Soon events spiral out of control. When the farm’s owner goes missing and a strange wild beast strikes terror into the villagers, everything is set for a monstrously fun adventure.",
+    "fi": ""
+   },
+   "tr": ""
+  },
   "she killed in ecstasy": {
    "id": 28294,
    "r": 0,
@@ -7147,6 +7156,19 @@
     "fi": "Uppoudu Stevie Wonderin ajattomaan klassikkoon Pitchblack Playbackin pilkkopimeässä kuuntelusessiossa juhlistaessamme sen 50. juhlavuotta. Kuule tämä pysäyttävä teos järisyttävällä äänentoistojärjestelmällämme, pakkaamattomana ja kovalla äänenvoimakkuudella. Ei häiriötekijöitä – vain sinä ja musiikki."
    },
    "tr": ""
+  },
+  "stray kids world tour run it live viewing": {
+   "id": 1795555,
+   "img": "data/posters/0b6f307f1ac0be55.jpg",
+   "r": 0,
+   "s": {
+    "en": "Stray Kids bring their World Tour (RUN IT) concert to cinemas in a live broadcast, with all eight members performing their high-energy choreography.",
+    "fi": ""
+   },
+   "tr": "",
+   "ts": [
+    "en"
+   ]
   },
   "street fighter": {
    "id": 1153576,
