@@ -1,25 +1,25 @@
-[http] 403 from kotkanleffat.fi, gave up after 3 attempt(s) -- Server: cloudflare; CF-Ray: a4ec34ef8d1dcdb3-SJC
+[http] 403 from kotkanleffat.fi, gave up after 3 attempt(s) -- Server: cloudflare; CF-Ray: a4ee44ecef38102a-MSP
 [kotkanleffat] FAILED: HTTP Error 403: Forbidden
 [biorexkokkola] Bio Rex Kokkola: 38 showtimes, 12 dates
 [biorexkokkola] synopses merged: 0
 [kinopirtti] Kinopirtti: 89 showtimes, 20 dates
 [kinopirtti] synopses merged: 0
-[http] 403 from leffabuumi.fi, gave up after 3 attempt(s) -- Server: cloudflare; CF-Ray: a4ec3502cb2e67b3-SJC
+[http] 403 from leffabuumi.fi, gave up after 3 attempt(s) -- Server: cloudflare; CF-Ray: a4ee44f649029b4f-MSP
 [leffabuumi] FAILED: HTTP Error 403: Forbidden
-[http] 403 from studiot123.com, gave up after 3 attempt(s) -- Server: cloudflare; CF-Ray: a4ec34fc3a8949fc-SJC
+[http] 403 from studiot123.com, gave up after 3 attempt(s) -- Server: cloudflare; CF-Ray: a4ee44f26bb11ee8-MSP
 [studio123jarvenpaa] FAILED: HTTP Error 403: Forbidden
-[http] 403 from studio123.fi, gave up after 3 attempt(s) -- Server: cloudflare; CF-Ray: a4ec350c9d904f1b-SJC
+[http] 403 from studio123.fi, gave up after 3 attempt(s) -- Server: cloudflare; CF-Ray: a4ee4507384d4ca0-MSP
 [studio123kouvola] FAILED: HTTP Error 403: Forbidden
-[http] 403 from ihmekompleksi.fi, gave up after 3 attempt(s) -- Server: cloudflare; CF-Ray: a4ec351f5c962271-SJC
+[http] 403 from ihmekompleksi.fi, gave up after 3 attempt(s) -- Server: cloudflare; CF-Ray: a4ee451b6b2d4aa8-MSP
 [ihmekompleksi] FAILED: HTTP Error 403: Forbidden
-[http] 403 from kino123.fi, gave up after 3 attempt(s) -- Server: cloudflare; CF-Ray: a4ec355b8c9267fc-SJC
+[http] 403 from kino123.fi, gave up after 3 attempt(s) -- Server: cloudflare; CF-Ray: a4ee455739e0102a-MSP
 [kino123] FAILED: HTTP Error 403: Forbidden
 [kinotar] Kinotar 123: 45 showtimes, 20 dates
 [kinotar] synopses merged: 0
 [kinojuha] Kino Juha: 16 showtimes, 10 dates
 [kinojuha] VIP-Sali: 11 showtimes, 9 dates
 [kinojuha] synopses merged: 0
-[http] 403 from biogrand.fi, gave up after 3 attempt(s) -- Server: cloudflare; CF-Ray: a4ec357e69a14f1b-SJC
+[http] 403 from biogrand.fi, gave up after 3 attempt(s) -- Server: cloudflare; CF-Ray: a4ee4574dee2a20f-MSP
 [biogrand] FAILED: HTTP Error 403: Forbidden
 [biovuoksi] Bio Vuoksi: 19 showtimes, 8 dates
 [biovuoksi] synopses merged: 0
@@ -38,5 +38,5 @@
 [run] http: 0 revalidated (304), 164 full, 164 not stored (origin said no-store), 0 cache entries written
 [run] hosts: 17 attempted -- biogrand.fi, biograni.fi, biovuoksi.fi, cinemaniagara.fi, ihmekompleksi.fi, jamsankinotar.fi, k-kino.fi, kino123.fi, kinoiiris.com, kinojuha.fi, kinokaustinen.fi, kinopirtti.fi, kotkanleffat.fi, leffabuumi.fi, studio123.fi, studiot123.com, www.biorex.org
 [run] etiketti: 11 venues, 318 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 7 failures
-[run] timing: 17 site(s), 441.9s of fetching added up across workers that overlap, longest site 67.8s, longest queue wait 53.7s, 113.1s wall from this module's first fetch starting to its last ending
+[run] timing: 17 site(s), 415.2s of fetching added up across workers that overlap, longest site 65.2s, longest queue wait 51.1s, 108.5s wall from this module's first fetch starting to its last ending
 exit=1

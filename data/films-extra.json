@@ -1310,13 +1310,26 @@
   "fåret shaun och monstret på bondgården": {
    "id": 1477104,
    "img": "data/posters/93eda5fa30b7d70c.jpg",
-   "r": 0,
+   "r": 7.4,
    "s": {
-    "en": "On Halloween Eve at Mossy Bottom Farm, excitement turns to dismay when the clumsy Farmer ruins the pumpkin patch. Shaun tries fixing it with science experiments, but things go wrong when a wild beast appears in the woods.",
+    "en": "On Halloween Eve at Mossy Bottom Farm, excitement turns to dismay when the clumsy Farmer ruins the pumpkin patch. Shaun tries fixing it with science experiments, but things go awry when a wild beast appears in the woods.",
     "fi": "",
     "sv": "I den tredje biofilmen om fåret Shaun ser invånarna på Mossy Bottom Farm fram emot Halloween, tills den klumpiga bonden förstör fårflockens älskade pumpaland. När Shaun förvandlas till galet vetenskapsfår för att åtgärda problemet går saker och ting snabbt överstyr, speciellt efter att bonden försvinner och ett vilddjur dyker upp i Mossinghams skogar. OBS! Ingen dialog. Shaun och flocken talar sitt eget språk."
    },
    "tr": "https://www.youtube.com/watch?v=daZMq0AyOMc",
+   "ts": [
+    "en"
+   ]
+  },
+  "george michael the faith tour": {
+   "id": 1649403,
+   "img": "data/posters/ab35e373af42f3c1.jpg",
+   "r": 0,
+   "s": {
+    "en": "A stunning delve into George Michael's 1988 Faith Tour, as shot live at the famous Palais Omnisports de Paris-Bercy. This exclusive footage, assembled from a 14-camera shoot captured on 35mm over two nights (30–31 May 1988), features the 24-year-old pop star at the height of his powers.",
+    "fi": ""
+   },
+   "tr": "https://www.youtube.com/watch?v=H_NwyHRY9yk",
    "ts": [
     "en"
    ]
@@ -1765,19 +1778,6 @@
    "tr": "https://www.youtube.com/watch?v=9QYVIver2yE",
    "ts": [
     "en"
-   ]
-  },
-  "huviretki hirttopaikalle": {
-   "id": 11020,
-   "img": "data/posters/15dbecaa3e7e8fca.jpg",
-   "r": 7.2,
-   "s": {
-    "en": "",
-    "fi": "Elokuvaklassikko kolmesta tyttökoulun oppilaasta ja heidän opettajastaan, jotka katoavat mystisesti huviretkellä kuuluisalle kalliomuodostelmalle Australian erämaassa ystävänpäivänä vuonna 1900."
-   },
-   "tr": "https://www.youtube.com/watch?v=CFtQMzXZZQs",
-   "ts": [
-    "fi"
    ]
   },
   "hytti nro 6": {
@@ -3730,7 +3730,7 @@
    "img": "data/posters/c7eca1af3b9c6236.jpg",
    "r": 0,
    "s": {
-    "en": "Julia, a music producer, travels from Berlin to spend a late-summer weekend with her new friend Anna on a remote Finnish island. They met at a yoga retreat in Estonia and quickly bonded. Anna lives there with her Swedish husband JP, surrounded by wild scenery and a beautifully restored sauna that reminds her of childhood summers with her late grandmother.",
+    "en": "Julia travels to her new friend Anna's private island and meets Anna's husband JP, whom she recognises from a past traumatic encounter.",
     "fi": ""
    },
    "tr": "",
@@ -5685,7 +5685,6 @@
     "helios",
     "ihmekompleksi",
     "isohannu",
-    "julia",
     "kino123",
     "kinoakseli",
     "kinohirvi",
@@ -5740,7 +5739,6 @@
     "helios",
     "ihmekompleksi",
     "isohannu",
-    "julia",
     "kino123",
     "kinoakseli",
     "kinohirvi",
@@ -5929,7 +5927,6 @@
    "kr": "K-12",
    "krs": [
     "biorex",
-    "cinemantsala",
     "gilda",
     "isohannu",
     "kinohirvi",
@@ -7130,19 +7127,6 @@
    },
    "tr": ""
   },
-  "stray kids world tour run it live viewing": {
-   "id": 1795555,
-   "img": "data/posters/0b6f307f1ac0be55.jpg",
-   "r": 0,
-   "s": {
-    "en": "Stray Kids bring their World Tour (RUN IT) concert to cinemas in a live broadcast, with all eight members performing their high-energy choreography.",
-    "fi": ""
-   },
-   "tr": "",
-   "ts": [
-    "en"
-   ]
-  },
   "street fighter": {
    "id": 1153576,
    "img": "data/posters/2c34dcbef60ffbda.jpg",
@@ -7889,7 +7873,6 @@
    "kr": "K-12",
    "krs": [
     "biorex",
-    "cinemantsala",
     "gilda",
     "kinoaurora",
     "niagara",
@@ -8936,5 +8919,5 @@
    "tr": ""
   }
  },
- "generated": "2026-10-22"
+ "generated": "2026-10-23"
 }
