@@ -1,6 +1,6 @@
 [token] using FINNKINO_TOKEN from the environment
 [sites] 17 cinemas
-[schedule] 2026-10-23: 459 showtimes
+[schedule] 2026-10-23: 340 showtimes
 [schedule] 2026-10-24: 508 showtimes
 [schedule] 2026-10-25: 456 showtimes
 [schedule] 2026-10-26: 414 showtimes
@@ -9,9 +9,8 @@
 [schedule] 2026-10-29: 408 showtimes
 [tmdb] no TMDB match (2): NT LIVE: The Playboy of the Western World | Ooppera: Macbeth
 [tmdb] weak candidate kept, not searched until 2026-10-24 (8): ENHYPEN WORLD TOUR 'BLOOD SAGA' -> 엔하이픈 월드 투어 ‘블러드 사가’ | HYBE CHEERING PARTY -> 하이브 치어링 파티 | Jailer 2 -> ஜெயிலர் 2 | Ozzy & Black Sabbath: Back to the Beginning -> Back to the Beginning: Ozzy's Final Bow | Rose -> Rose | SEVENTEEN WORLD TOUR 'NEW_' -> SEVENTEEN WORLD TOUR [NEW_] ENCORE | TOMORROW X TOGETHER WORLD TOUR 'ACT : TOMORROW' -> TOMORROW X TOGETHER WORLD TOUR 'ACT : TOMORROW' IN SEOUL | Two Seasons, Two Strangers -> 旅と日々
-[tmdb] rating refresh: 6 scheduled, 6 re-read, 0 failed and still due, 0 deferred (budget 12)
-[tmdb] 0 new lookups, 6 re-checks, cache 117, 97 mergeable by id
-[films] 61 film entries
+[tmdb] 0 new lookups, 0 re-checks, cache 117, 97 mergeable by id
+[films] 60 film entries
 [attrs] dropped, neither format nor language (7): Maxim | OCAP | Pkseutu | SEVERAL | TKU & R | Tampere | Varaus20
 [schedule] 17 venue files written, 0 kept as-is
 done
