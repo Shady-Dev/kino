@@ -4382,3 +4382,16 @@ image's alt text and the "Kieli" and "Tekstitys" flags; TMDB lists Rakkautta ja
 virtahepoja as Finnish-language, which matches "Kieli: Finnish". Tickets are sold at the
 café, so `book` is door. #70173F / #F7688B sits 7.4 from every existing accent in Kittilä,
 which holds no other chain and no region. Seven mutations red.
+
+### Virtain Pirtti, Virrat, from its programme page (2026-10-24)
+Issue #15. Virtain Urheilijat ry's cinema publishes one Weebly page, a paragraph per film:
+the title and rating ("K-16", "-S-", "K-7 dub." for a Finnish-dubbed print), one line per
+screening with no year, and the runtime. "Ensi-ilta" above the rows marks the first as the
+premiere. A footnote applies only to the dates it names, as the maintainer set: "*28.10. on
+9€ päivänäytös ja tekstitys suomeksi" gives that screening 9 € and Finnish subtitles and
+"(27.10. on 9 € päivänäytös)" the 27.10. one 9 €, while "9 € päivänäytös" under Unohdettu
+saari names no date and sets nothing. The page states no ordinary price, so every other
+screening publishes none. Tickets are sold at the café, so `book` is door. The host
+answers through Cloudflare; the first cloud run settles the half. #004612 / #8DBF9E clears
+Bio Säde and Haapamäen Elokuvat, the nearest towns' chains, by 30.9 or more. Seven
+mutations red.
