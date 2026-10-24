@@ -85,15 +85,6 @@ None has a recorded empty state, so zero rows fails the run instead of clearing 
 List, reads and gaps: [docs/research/empty-states.md](docs/research/empty-states.md).
 **Next action:** when one fails with its own page showing nothing on, record that state.
 
-### Provider leads from issues #13 to #16
-
-Re-read 2026-10-24; none set aside for a weekly programme, free admission or a full palette.
-#14 Kino Tervakoski, #13 Cinema Levi Summit and #15 Virtain Pirtti are built; Pirtti's
-prices and subtitles come only from dated footnotes, and its Cloudflare host awaits a
-first cloud run. #16: Linked Events lists Kuutamo at Kanneltalo and HopeaCine at two houses.
-Evidence: [docs/research/ticketing-platforms.md](docs/research/ticketing-platforms.md).
-**Next action:** build #16 grouped by its verified operator.
-
 ## Blocked
 
 ### A way to read a generated page's full synopsis

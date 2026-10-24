@@ -35,13 +35,13 @@ Earlier hand-measured passes, and what each of them measured, are in
 | | |
 |---|---:|
 | providers | 97 |
-| venues | 152 |
+| venues | 154 |
 | cities | 110 |
 | cities with more than one venue | 18 |
 | local providers (venues) | 21 (46) |
 | venues per adapter, largest 5 | `etiketti` 32, `nexxo` 19, `Finnkino` 17, `biorex` 12, `johku` 7 |
-| generated pages per language | 170 |
-| sitemap URLs | 511 |
+| generated pages per language | 172 |
+| sitemap URLs | 517 |
 | off-origin poster references | 0 |
-| `sw.js` CACHE | `leffavuoro-v304` |
+| `sw.js` CACHE | `leffavuoro-v305` |
 <!-- counts:end -->

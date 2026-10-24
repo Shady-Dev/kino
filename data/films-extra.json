@@ -106,6 +106,24 @@
     "en"
    ]
   },
+  "aleksi salmenperä isänpäivä": {
+   "id": 1262748,
+   "img": "data/posters/65c60ab63113da26.jpg",
+   "kr": "K-7",
+   "krs": [
+    "kannusali",
+    "korjaamo"
+   ],
+   "r": 0,
+   "s": {
+    "en": "",
+    "fi": "Terveytensä juonut Tinke asuu palveluyksikössä, jossa elämää pitää kasassa sen nurjasta puolesta kumpuava huumori ja arjessa auttava ystävä Veikko. Kun takavuosilta hämärästi tutun Saimin teini-ikäiset kaksoset päättävät ottaa selvää isästään, etsintä johtaa heidät Tinken jäljille. Saimi aikoo kaikin keinoin estää kaksosia tapaamasta Tinkeä, mutta sotkun keskelle tempautunut Veikko on eri mieltä."
+   },
+   "tr": "",
+   "ts": [
+    "fi"
+   ]
+  },
   "alligator": {
    "id": 33518,
    "img": "data/posters/6ee55325769ac81c.jpg",
@@ -3655,6 +3673,19 @@
    },
    "tr": ""
   },
+  "lapin sota ohj aku louhimies": {
+   "id": 1450460,
+   "img": "data/posters/c15d678a31ae397e.jpg",
+   "r": 0,
+   "s": {
+    "en": "",
+    "fi": "Nuori sotamies Heikki taistelee Karjalan kannaksella ystävänsä Paulin kanssa. Komppaniaan liittyy vankilasta vapautunut Arvo, jonka maailmankuva haastaa muiden käsitykset sodasta ja velvollisuudesta. Aselepo herättää toivon kotiinpaluusta, mutta pian selviää, että Suomen on käännyttävä entisiä saksalaisia liittolaisiaan vastaan Lapissa. Samaan aikaan Rovaniemellä saksalaisten tulkkina työskentelevä Saara joutuu valitsemaan tulevaisuutensa: jäädä Suomeen vai paeta Saksaan rakastettunsa, majuri Duisbergin, kanssa."
+   },
+   "tr": "",
+   "ts": [
+    "fi"
+   ]
+  },
   "lapin sota tekijävierailu olli rahkonen": {
    "id": 1450460,
    "img": "data/posters/c15d678a31ae397e.jpg",
@@ -5172,6 +5203,19 @@
     "fi": "Tunisialaisen Moufida Tlatlin feministinen esikoiselokuva liikkuu kahdella aikatasolla 1900-luvun puolivälissä. Nuori laulajatar Alia palaa lapsuudenkotiinsa, Ranskan vallan aikaiseen palatsiin. Muistojen kautta hahmottuu kuva prinssiä alistettuna palvelleen äidin elämästä, ja rinnalla kulkee itsemääräämisoikeutta tavoittelevan Alian oma kasvutarina."
    },
    "tr": ""
+  },
+  "pamela tola teräsleidit kuin viimeistä päivää": {
+   "id": 1448231,
+   "img": "data/posters/ee15e99f98c4e826.jpg",
+   "r": 0,
+   "s": {
+    "en": "",
+    "fi": "Vastaanotolla ollessaan Inkeri kuulee lääkärin paljastavan nurkan takana hoitajalle, ettei elinaikaa tai toivoa enää ole. Inkerin tytär Maija ottaa tehtäväkseen äitinsä saattohoitamisen vaikka väkisin, mutta Inkerillä on muita suunnitelmia. Viimeisenä tekonaan hän aikoo pelastaa Maijan toistamasta itsensä tekemiä virheitä ja heittäytyä sitten iäksi Jäämereen.Inkeri pakenee palvelutalosta viimeiselle matkalleen teräsleidien ja mukaan matkaan tarttuneen Matin kanssa. Ennen Jäämerta Inkeri heittäytyy vielä elämään: kipeisiin muistoihin, suuriin tunteisiin ja metsäreiveihin."
+   },
+   "tr": "",
+   "ts": [
+    "fi"
+   ]
   },
   "paper tiger": {
    "id": 1381273,

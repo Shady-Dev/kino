@@ -3,7 +3,7 @@
 Leffavuoro collects Finnish cinema showtimes into one web app that you can install on a
 phone or a computer: **https://leffavuoro.fi**
 
-It has showtimes for 152 venues in 110 cities across 97 providers. The full list is in
+It has showtimes for 154 venues in 110 cities across 97 providers. The full list is in
 [Cinemas](#cinemas).
 
 ## What it does
@@ -102,8 +102,8 @@ schedule and its pages always land in the same commit.
     /teatteri/{slug}/   one venue      /sv/teatteri/{slug}/   /en/theatre/{slug}/
     /kaupunki/{slug}/   a whole city   /sv/kaupunki/{slug}/   /en/city/{slug}/
 
-Each language has 170 pages, one for each of the 152 venues and the 18 cities with more than one venue.
-Together with the front page the sitemap has 511 URLs. Regions do not get pages because
+Each language has 172 pages, one for each of the 154 venues and the 18 cities with more than one venue.
+Together with the front page the sitemap has 517 URLs. Regions do not get pages because
 they would compete with the city and venue pages they are made of. A city with only one
 venue does not get a page either. Its venue page has the city in its title and address.
 
@@ -319,7 +319,7 @@ totals.
 | Kino Akustiikka | Localhub | 1 | cloud |
 | Kino-Huovi | own site | 1 | local |
 | Kino K13 | own site | 1 | cloud |
-| Kino Helios | Malmitalo's site | 1 | cloud |
+| Helsingin kulttuurikeskukset | City of Helsinki Linked Events | 3 | cloud |
 | Kannusali | Espoo's event calendar | 1 | cloud |
 | Kurikan Kino | own site | 1 | cloud |
 | Pajakkakino | own site | 1 | cloud |

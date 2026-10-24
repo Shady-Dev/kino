@@ -2124,4 +2124,5 @@ listing once `www.malmitalo.fi` answers again.
   three HopeaCine rows at 10 €, Malmitalo (tprek:8740) two HopeaCine rows at 9 € beside
   seven Kino Helios rows; `helios.py` publishes the Kino Helios rows only.
 
-**Status and next step.** #14, #13 and #15 built 2026-10-24. The open item is in `IDEAS.md`.
+**Status and next step.** All four built 2026-10-24, #16 as one provider for the three houses;
+closed, recorded in `docs/archive/2026-09-providers.md`.

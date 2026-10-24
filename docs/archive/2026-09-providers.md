@@ -4406,3 +4406,24 @@ a screening, and a slash row still publishes nothing unless every part reads. Th
 read for the review on 2026-10-24 yields 16 of 16, each once, and so did the live page the
 same day. The page reader stays; the API returns the same free text and saves no parsing.
 Four mutations red.
+
+### The City of Helsinki's culture centres: Kino Helios, Vuotalo, Kanneltalo (2026-10-24)
+Issue #16. Linked Events names one publisher for every row at the three houses,
+`ahjo:u48040010` "Kulttuuripalvelukokonaisuus" under the City's culture and leisure
+division, and Kanneltalo's own footer lists Kanneltalo, Malmitalo and Vuotalo among the
+division's houses (read 2026-10-24). The `helios` provider keeps its id, its
+`helios-helsinki` venue and its accent and now reads three places: Malmitalo's Kino Helios
+rows and its HopeaCine rows, which the house sells as "Kino Helios esittää"; Vuotalo's
+HopeaCine; Kanneltalo's Kino Kuutamo, free Monday screenings. HopeaCine's prefix moves to
+`method` through the central strands pass, where it was already registered; Kuutamo keeps
+"Kino Kuutamo | Maksuttomat maanantait" in `method` and publishes free entry, since its
+offer says `is_free`; paid rows keep their lippu.fi links and no price, as before. The
+maintainer chose to relabel the provider "Helsingin kulttuurikeskukset" (host hel.fi) and
+keep the Kino Helios page where it was: a page slug follows its chain label, so
+`build_pages.SLUG_PINS` holds `/teatteri/kino-helios-helsinki/` and its two language
+twins. A separate chain was not taken, because no free shade clears 14.4 in the Helsinki
+city view. Every venue is in Helsinki, so the grouping enters no new view: the same 29
+pairs, worst 14.5 light and 14.4 dark in the city view. Three titles carrying a director's
+name are aliased. Kanneltalo will read as unverified in a stretch with no Kuutamo row,
+which the API cannot tell from a renamed strand. Seven mutations red; without the pin the
+page test fails. This closes the issue leads #13 to #16.
