@@ -696,6 +696,11 @@ PROVIDERS = [
     # both themes, 7.4 dE00 on the weakest model, 5.7:1 or better on every surface.
     dict(id="levisummit", label="Cinema Levi Summit", host="levisummit.fi", accent="#70173F",
          accentDark="#F7688B", book="door", module="levisummit", where="cloud"),
+    # Virtain Pirtti, Virrat, 2026-10-24 (issue #15). Virrat is in no region; the nearest
+    # cinema towns are Mänttä and Haapamäki, so the shade clears Bio Säde and Haapamäen
+    # Elokuvat should they share an area: 30.9 dE00 light and 30.9 dark at the least.
+    dict(id="virtainpirtti", label="Virtain Pirtti", host="virtainpirtti.fi", accent="#004612",
+         accentDark="#8DBF9E", book="door", module="virtainpirtti", where="cloud"),
     # Kino Kuusamotalo, Kuusamo, 2026-09-20. 520 seats in the Oulankasali hall of the
     # town's culture house, run by its own operator on its own site. kuusamotalo.fi is
     # the culture house and only links here; its programme block is a Flockler embed and

@@ -61,6 +61,7 @@ import test_biomarlon as BM
 import test_kinokuva as KKV
 import test_tervakoski as TKS
 import test_levisummit as LVS
+import test_virtainpirtti as VPT
 import test_kuusamotalo as KU
 import test_kinohuovi as KH
 import test_localhub as LH
@@ -513,6 +514,13 @@ def sample_levisummit():
     return (out, LVS.SITE["provider"], [v["id"] for v in LVS.SITE["venues"]])
 
 
+def sample_virtainpirtti():
+    """Five screenings of three films, a dated footnote setting one screening's price and
+    subtitles, a note naming no date, and a stray paragraph above the content area."""
+    out, _ = VPT.V.rows(VPT.SITE, VPT.LIVE, VPT.TODAY)
+    return (out, VPT.SITE["provider"], [v["id"] for v in VPT.SITE["venues"]])
+
+
 def sample_k13():
     """A festival block with two timed rows, a Kinokka evening its linked page times and
     one with no linked page, so the row that must not exist is exercised beside the three
@@ -595,6 +603,7 @@ SAMPLES = {
     "kinokuva": sample_kinokuva,
     "tervakoski": sample_tervakoski,
     "levisummit": sample_levisummit,
+    "virtainpirtti": sample_virtainpirtti,
     "kinohuovi": sample_kinohuovi, "localhub": sample_localhub,
     "k13": sample_k13, "helios": sample_helios, "kannusali": sample_kannusali,
 }

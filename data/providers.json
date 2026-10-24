@@ -707,6 +707,14 @@
    "book": "door"
   },
   {
+   "id": "virtainpirtti",
+   "label": "Virtain Pirtti",
+   "host": "virtainpirtti.fi",
+   "accent": "#004612",
+   "accentDark": "#8DBF9E",
+   "book": "door"
+  },
+  {
    "id": "kuusamotalo",
    "label": "Kino Kuusamotalo",
    "host": "kinokuusamotalo.fi",
