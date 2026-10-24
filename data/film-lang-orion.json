@@ -1,7 +1,7 @@
 {
  "casper": {
   "price": "",
-  "at": "2026-10-22T07:49:48+00:00",
+  "at": "2026-10-24T11:14:59+00:00",
   "fields": {
    "lang": "EN-A, FI-S",
    "len": "100",
@@ -13,7 +13,7 @@
  },
  "digger": {
   "price": "",
-  "at": "2026-10-22T07:49:48+00:00",
+  "at": "2026-10-24T11:14:59+00:00",
   "fields": {
    "lang": "EN-A, FI-S, SV-S",
    "len": "128",
@@ -25,7 +25,7 @@
  },
  "ghost-nakymaton-rakkaus": {
   "price": "",
-  "at": "2026-10-22T07:49:48+00:00",
+  "at": "2026-10-24T11:14:59+00:00",
   "fields": {
    "lang": "EN-A, EN-S",
    "len": "126",
@@ -104,7 +104,7 @@
  },
  "mina-ja-riikka-purra": {
   "price": "",
-  "at": "2026-10-22T07:49:48+00:00",
+  "at": "2026-10-24T11:14:59+00:00",
   "fields": {
    "lang": "FI-A",
    "len": "93",
@@ -127,14 +127,14 @@
  },
  "pia-langbacka-meedion-tyo": {
   "price": "",
-  "at": "2026-10-22T07:49:48+00:00",
+  "at": "2026-10-24T11:14:59+00:00",
   "fields": {
    "syn_fi": "Sukella salaperäisten istuntojen ja tuonpuoleisten viestien maailmaan näkyvän ja näkymättömän maailman rajamaille! Helsinkiläinen meedio ja tarot-tulkitsija Pia Långbacka saapuu vieraaksemme. Pia kertoo työstään, siitä miten viestit henkimaailmasta välittyvät ja miten todellinen meedion työ eroaa elokuvien luomista mielikuvista. Luvassa on lämmin, valoisa ja maanläheinen kohtaaminen. Pian puheenvuoro on osa Näkymätön yhteys – Meedioelokuvapäivää ja sitä voi tulla kuuntelemaan ilmaiseksi LA 24.10. KLO 17:00-17:45."
   }
  },
  "rakkauden-risti": {
   "price": "",
-  "at": "2026-10-22T07:49:48+00:00",
+  "at": "2026-10-24T11:14:59+00:00",
   "fields": {
    "lang": "FI-A, EN-S",
    "len": "99",
@@ -181,7 +181,7 @@
  },
  "unesta-tehty-mies": {
   "price": "",
-  "at": "2026-10-22T07:49:48+00:00",
+  "at": "2026-10-24T11:14:59+00:00",
   "fields": {
    "lang": "FI-A",
    "len": "94",

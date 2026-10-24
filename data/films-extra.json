@@ -387,13 +387,12 @@
   },
   "avengers endgame encore": {
    "id": 299534,
-   "img": "data/posters/b7147419b96540ff.jpg",
-   "r": 8.2,
+   "r": 0,
    "s": {
     "en": "",
     "fi": "Avengers: Endgame tulee takaisin elokuvateattereihin Encore-juhlajulkaisuna. Elokuvassa on uutta materiaalia, joka sitoo Endgamen tapahtumat joulukuussa tulevaan Avengers: Doomsday -elokuvaan. Thanoksen aiheuttamien tuhojen jälijltä koko maailma on raunioina. Jäljellä olevien liittolaistensa avulla Avengers kokoontuu jälleen palauttaakseen täydellisen tasapainon universumiin."
    },
-   "tr": "https://www.youtube.com/watch?v=L2NAh3CIdig"
+   "tr": ""
   },
   "avengers endgame encore 2d": {
    "id": 299534,
@@ -1848,13 +1847,12 @@
   },
   "i swear minun ääneni elokuvakerho pennittömät": {
    "id": 1317149,
-   "img": "data/posters/9481c7c73a87c143.jpg",
-   "r": 8.3,
+   "r": 0,
    "s": {
     "en": "",
     "fi": "Tositarinaan perustuva, sympaattinen ja koskettava I Swear - Minun ääneni kertoo nuoresta Johnista, joka yrittää elää “normaalia” elämää maailmassa, joka näkee hänet erilaisena. Elokuva vie katsojan 1980-luvun Skotlantiin. 15-vuotiaalla Johnilla todetaan Touretten syndrooma aikana, jolloin sairaudesta tiedetään vielä hyvin vähän. John kohtaa ennakkoluuloja ja epäilyjä. Yllättävien ja avuliaiden ihmisten avulla hän alkaa löytää keinoja selviytyä yhteiskunnassa, ja avaa samalla tietä erilaisuuden hyväksymiselle. I Swear - Minun ääneni on lämminhenkinen tarina rohkeudesta, oman äänen löytämisestä ja monimuotoisuuden arvostamisesta."
    },
-   "tr": "https://www.youtube.com/watch?v=10ynpduiRpM"
+   "tr": ""
   },
   "i was a stranger": {
    "id": 1193128,
@@ -2358,7 +2356,6 @@
     "alatalo",
     "bioforum",
     "biogrand",
-    "biograni",
     "biokaari",
     "biomarilyn",
     "biopallas",
@@ -2437,7 +2434,6 @@
     "alatalo",
     "bioforum",
     "biogrand",
-    "biograni",
     "biokaari",
     "biomarilyn",
     "biopallas",
@@ -3003,19 +2999,6 @@
    "s": {
     "en": "After Acme products fail him one too many times in his dogged pursuit of the Roadrunner, Wile E. Coyote decides to hire a billboard lawyer to sue the Acme Corporation.",
     "fi": "Vuosikymmenten ajan pommien räjäyttämä, dynamiitin murskaama, magneettien runtelema, siirtolohkareiden litistämä, junien tallaama, tunneleiden huijaama, jousien sinkoama, höyryjyrien yliajama, viallisten laitteiden pettämä, benjiköysien kiusaama, rakettien riepottelema, lepakkoasujen selkäänpuukottama, rakettiluistinten paiskoma, yksipyöräisten kumoama, maanjäristyspillereiden tärisyttämä, villiintyneiden kuminauhojen venyttämä ja lounaisten Yhdysvaltojen jokaiselta jyrkänteeltä syösty Kelju K. Kojootti saa viimein tarpeekseen ja päättää iskeä takaisin. Mainostauluonnettomuuksiin erikoistuneen asianajajan Kevin Averyn (Will Forte) kanssa liittoutuessaan hän haastaa oikeuteen ACME Inc.:n – ahneuttaan tavoittelevan jättiyhtiön, jonka tuotteet ovat olleet jokaisen Kojoottia kohdanneen katastrofin taustalla – sekä yhtiötä edustavan lipevän yritysjuristin Buddy Cranen (John Cena)."
-   },
-   "tr": "https://www.youtube.com/watch?v=kMsiD1Nky5I",
-   "ts": [
-    "en"
-   ]
-  },
-  "kojootti vs acme suomeksi puhuttu": {
-   "id": 1204680,
-   "img": "data/posters/2cb6f7dbe10cca53.jpg",
-   "r": 7.5,
-   "s": {
-    "en": "After Acme products fail him one too many times in his dogged pursuit of the Roadrunner, Wile E. Coyote decides to hire a billboard lawyer to sue the Acme Corporation.",
-    "fi": ""
    },
    "tr": "https://www.youtube.com/watch?v=kMsiD1Nky5I",
    "ts": [
@@ -3686,19 +3669,6 @@
     "fi"
    ]
   },
-  "lapin sota tekijävierailu olli rahkonen": {
-   "id": 1450460,
-   "img": "data/posters/c15d678a31ae397e.jpg",
-   "r": 0,
-   "s": {
-    "en": "",
-    "fi": "Nuori sotamies Heikki taistelee Karjalan kannaksella ystävänsä Paulin kanssa. Komppaniaan liittyy vankilasta vapautunut Arvo, jonka maailmankuva haastaa muiden käsitykset sodasta ja velvollisuudesta. Aselepo herättää toivon kotiinpaluusta, mutta pian selviää, että Suomen on käännyttävä entisiä saksalaisia liittolaisiaan vastaan Lapissa. Samaan aikaan Rovaniemellä saksalaisten tulkkina työskentelevä Saara joutuu valitsemaan tulevaisuutensa: jäädä Suomeen vai paeta Saksaan rakastettunsa, majuri Duisbergin, kanssa."
-   },
-   "tr": "",
-   "ts": [
-    "fi"
-   ]
-  },
   "laputa linna taivaalla": {
    "id": 10515,
    "r": 0,
@@ -3873,7 +3843,6 @@
     "biorexkokkola",
     "biosalo",
     "biostara",
-    "biovuoksi",
     "cine",
     "cinemantsala",
     "engel",
@@ -5504,7 +5473,6 @@
     "kino123",
     "kinohannikainen",
     "kinohirvi",
-    "kinojuha",
     "kinokaustinen",
     "kinokilta",
     "kinokulma",
@@ -5585,7 +5553,6 @@
     "kino123",
     "kinohannikainen",
     "kinohirvi",
-    "kinojuha",
     "kinokaustinen",
     "kinokilta",
     "kinokulma",
@@ -5668,7 +5635,6 @@
     "kino123",
     "kinohannikainen",
     "kinohirvi",
-    "kinojuha",
     "kinokaustinen",
     "kinokilta",
     "kinokulma",
@@ -5734,7 +5700,6 @@
     "kino123",
     "kinohannikainen",
     "kinohirvi",
-    "kinojuha",
     "kinokaustinen",
     "kinokilta",
     "kinokulma",
@@ -7240,19 +7205,6 @@
    },
    "tr": ""
   },
-  "stray kids world tour run it live viewing": {
-   "id": 1795555,
-   "img": "data/posters/0b6f307f1ac0be55.jpg",
-   "r": 0,
-   "s": {
-    "en": "Stray Kids bring their World Tour (RUN IT) concert to cinemas in a live broadcast, with all eight members performing their high-energy choreography.",
-    "fi": ""
-   },
-   "tr": "",
-   "ts": [
-    "en"
-   ]
-  },
   "street fighter": {
    "id": 1153576,
    "img": "data/posters/2c34dcbef60ffbda.jpg",
@@ -8558,8 +8510,7 @@
     "savonkinot",
     "star",
     "studio123jarvenpaa",
-    "vaakuna",
-    "virtainpirtti"
+    "vaakuna"
    ],
    "r": 7.8,
    "s": {
@@ -8734,8 +8685,7 @@
   },
   "varjoja paratiisissa": {
    "id": 3,
-   "img": "data/posters/62b157e67bc2049d.jpg",
-   "r": 7.3,
+   "r": 0,
    "s": {
     "en": "",
     "fi": "Roskakuski Nikander (Matti Pellonpää) tapaa Valintatalon kassalla työskentelevän Ilonan (Kati Outinen) ja heidän välilleen kehittyy vähitellen ongelmainen rakkaustarina. Nikander on menettänyt omasta yrityksestä haaveilleen työtoverinsa (Esko Nikkari) ja löytää yöksi putkaan jouduttuaan uudeksi ystäväkseen Melartinin (Sakari Kuosmanen). Ilona saa ilman omaa syytään potkut työpaikaltaan ja varastaa hetkellisen kostonhimon vallitessa Valintatalon kassalippaan. Nikander ja Ilona matkustavat pois Helsingistä ja majoittuvat motelliin. Autiolla rannalla ujonoloinen roskakuski kerää viimein kaiken rohkeutensa ja kumartuu suutelemaan naistaan ensi kertaa. Heidän tiensä ajautuvat kuitenkin ennen pitkää uudelleen erilleen ja Ilona alkaa puolivillaisesti tapailla uuden työpaikkansa lipevää esimiestä. Nikander lääkitsee suruaan juomalla ja tulee välillä hakatuksikin mutta kerää lopulta rohkeutensa ja hakee Ilonan mukaansa. Harri Marstion tulkitseman Älä kiiruhda -kappaleen soidessa he matkustavat yhdessä laivalla Viroon, kohti uutta ja tuntematonta tulevaisuutta."

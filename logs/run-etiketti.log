@@ -1,13 +1,13 @@
 [biorexkokkola] Bio Rex Kokkola: 34 showtimes, 11 dates
 [biorexkokkola] synopses merged: 0
-[kinopirtti] Kinopirtti: 79 showtimes, 19 dates
+[kinopirtti] Kinopirtti: 76 showtimes, 19 dates
 [kinopirtti] synopses merged: 0
 [kinotar] Kinotar 123: 41 showtimes, 19 dates
 [kinotar] synopses merged: 0
-[kinojuha] Kino Juha: 15 showtimes, 9 dates
+[kinojuha] Kino Juha: 14 showtimes, 9 dates
 [kinojuha] VIP-Sali: 10 showtimes, 8 dates
 [kinojuha] synopses merged: 0
-[biovuoksi] Bio Vuoksi: 17 showtimes, 7 dates
+[biovuoksi] Bio Vuoksi: 15 showtimes, 7 dates
 [biovuoksi] synopses merged: 0
 [kinoiiris] strand prefix split off 1 showtimes
 [kinoiiris] Kino Iiris: 31 showtimes, 22 dates
@@ -15,14 +15,14 @@
 [kinoiiris] screening-note sentences left out of synopses: 4
 [kkino] K-Kino: 11 showtimes, 6 dates
 [kkino] synopses merged: 0
-[biograni] Bio Grani: 8 showtimes, 4 dates
+[biograni] Bio Grani: 7 showtimes, 4 dates
 [biograni] synopses merged: 0
-[niagara] Cinema Niagara: 38 showtimes, 17 dates
+[niagara] Cinema Niagara: 36 showtimes, 17 dates
 [niagara] synopses merged: 0
 [kinokaustinen] Kino Kaustinen: 5 showtimes, 2 dates
 [kinokaustinen] synopses merged: 0
-[run] http: 0 revalidated (304), 166 full, 166 not stored (origin said no-store), 0 cache entries written
+[run] http: 0 revalidated (304), 162 full, 162 not stored (origin said no-store), 0 cache entries written
 [run] hosts: 10 attempted -- biograni.fi, biovuoksi.fi, cinemaniagara.fi, jamsankinotar.fi, k-kino.fi, kinoiiris.com, kinojuha.fi, kinokaustinen.fi, kinopirtti.fi, www.biorex.org
-[run] etiketti: 11 venues, 289 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
-[run] timing: 10 site(s), 285.8s of fetching added up across workers that overlap, longest site 62.3s, longest queue wait 38.6s, 91.8s wall from this module's first fetch starting to its last ending
+[run] etiketti: 11 venues, 280 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
+[run] timing: 10 site(s), 277.8s of fetching added up across workers that overlap, longest site 64.0s, longest queue wait 39.1s, 96.6s wall from this module's first fetch starting to its last ending
 exit=0
