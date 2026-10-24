@@ -70,8 +70,12 @@ WINDOW = (30, 60)
 CONTAINER_RE = re.compile(r'elementor-icon-list-text', re.I)
 HEAD_RE = re.compile(r'<p class="elementor-heading-title[^"]*">(.*?)</p>', re.S | re.I)
 ITEM_RE = re.compile(r'<span class="elementor-icon-list-text">(.*?)</span>', re.S | re.I)
-SHOW_RE = re.compile(r'^(\d{1,2})\.(\d{1,2})\.\s*([A-Za-zÄÖäö]{2,12})\s*klo\s*'
-                     r'(\d{1,2})[.:](\d{2})\s*!?\s*$', re.I)
+# `24.10. La klo17.00 ja klo18.00`: one date may carry several clocks, each a screening
+# (Lapin Sota, 2026-10-19 to 2026-10-24, logged as skipped on every run until read).
+SHOW_RE = re.compile(r'^(\d{1,2})\.(\d{1,2})\.\s*([A-Za-zÄÖäö]{2,12})\s*'
+                     r'(klo\s*\d{1,2}[.:]\d{2}(?:\s*(?:ja|&|,)\s*(?:klo\s*)?\d{1,2}[.:]\d{2})*)'
+                     r'\s*!?\s*$', re.I)
+CLOCK_RE = re.compile(r'(\d{1,2})[.:](\d{2})')
 # `26-27.9. La,Su klo17.00`: consecutive days at one time, a weekday for each (2026-09-27).
 RANGE_RE = re.compile(r'^(\d{1,2})\s*-\s*(\d{1,2})\.(\d{1,2})\.\s*([A-Za-zÄÖäö, ]{2,60}?)\s*'
                       r'klo\s*(\d{1,2})[.:](\d{2})\s*$', re.I)
@@ -265,20 +269,24 @@ def parse(page, today=None):
     return shows
 
 
+def _clocks(m):
+    """A matched date row -> one (day, month, weekday, hh, mm) per clock on it."""
+    return [(int(m.group(1)), int(m.group(2)), m.group(3), int(h), int(mm))
+            for h, mm in CLOCK_RE.findall(m.group(4))]
+
+
 def _rows(text):
     """One list item -> [(day, month, weekday, hh, mm)], or None when it is no screening.
     A range needs one weekday per day, or it settles nothing. A row of screenings joined
-    by a slash needs every one of them to read."""
+    by a slash needs every one of them to read, and each of them may name several clocks."""
     if "/" in text:
         parts = [SHOW_RE.match(p.strip()) for p in text.split("/")]
         if not all(parts):
             return None
-        return [(int(m.group(1)), int(m.group(2)), m.group(3), int(m.group(4)),
-                 int(m.group(5))) for m in parts]
+        return [row for m in parts for row in _clocks(m)]
     m = SHOW_RE.match(text)
     if m:
-        return [(int(m.group(1)), int(m.group(2)), m.group(3), int(m.group(4)),
-                 int(m.group(5)))]
+        return _clocks(m)
     m = RANGE_RE.match(text)
     if not m:
         return None

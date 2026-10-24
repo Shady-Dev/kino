@@ -122,6 +122,56 @@ class ProgrammeTest(unittest.TestCase):
                            {kirkkonummi.VENUE["id"]})
 
 
+class SeveralClocksTest(unittest.TestCase):
+    """The two rows every cloud run logged as skipped from 94d96e463 (2026-10-19), read with
+    the rest of the programme as the page carried it on 2026-10-24: sixteen screenings, each
+    once, although the page prints the programme twice."""
+
+    TODAY = datetime.date(2026, 10, 24)
+    BODY = "".join([
+        head("tulossa"), head("Järki ja tunteet"),
+        head("Pikkuli ja Tähtipeura"),
+        item("24.10. Lauantai klo16.00"), item("25.10. Sunnuntai klo16.00"),
+        head("Matka Piemonteen / Resan till Piemonte"),
+        item("23.10. Perjantai klo18.30"), item("27.10. Tiistai klo18.00"),
+        item("28.10. Keskiviikko klo18.30"),
+        head("LAPIN SOTA"),
+        item("23.10. Pe klo18.00 / 24.10. La klo17.00 ja klo18.00"),
+        item("25.10. Su klo17.00 ja klo18.00 / 26.10. Ma klo18.30"),
+        item("27.10. Ti klo18.30 / 28.10. Ke klo18.00 / 29.10. To klo12.30!"),
+        head("Kerro kaikille"),
+        item("26.10. Maanantai klo19.00"), item("29.10. Torstai klo13.00"),
+    ])
+
+    def parse(self, body=None):
+        out = io.StringIO()
+        with contextlib.redirect_stdout(out):
+            shows = kirkkonummi.parse(page(self.BODY if body is None else body), self.TODAY)
+        return shows, out.getvalue()
+
+    def test_every_clock_of_both_rows_is_a_screening(self):
+        shows, _ = self.parse()
+        self.assertEqual([s["start"][:16] for s in shows if s["title"] == "LAPIN SOTA"],
+                         ["2026-10-23T18:00", "2026-10-24T17:00", "2026-10-24T18:00",
+                          "2026-10-25T17:00", "2026-10-25T18:00", "2026-10-26T18:30",
+                          "2026-10-27T18:30", "2026-10-28T18:00", "2026-10-29T12:30"])
+
+    def test_the_programme_reads_sixteen_screenings_once_each_and_skips_nothing(self):
+        shows, log = self.parse()
+        keys = [(s["title"], s["start"]) for s in shows]
+        self.assertEqual((len(keys), len(set(keys))), (16, 16))
+        self.assertNotIn("skipped", log)
+
+    def test_a_slash_row_with_one_part_unread_publishes_none_of_it(self):
+        shows, log = self.parse("".join([
+            head("LAPIN SOTA"),
+            item("24.10. La klo17.00 ja klo18.00 / 25.10. Su kello 17"),
+            item("26.10. Ma klo18.30"),
+        ]))
+        self.assertEqual([s["start"][:16] for s in shows], ["2026-10-26T18:30"])
+        self.assertIn("skipped", log)
+
+
 class YearTest(unittest.TestCase):
     def _weekday_case(self, wd, want):
         """Parse `15.9. wd klo19.00` beside a placed `16.9.` row; `want` is the date, or
