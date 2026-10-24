@@ -533,11 +533,12 @@ def sample_k13():
 
 
 def sample_helios():
-    """Two Kino Helios rows beside a HopeaCine one, so the strand that must not publish
-    is exercised beside the two that must."""
+    """Two Kino Helios rows and a HopeaCine one at Malmitalo beside a Yleisön suosikit row,
+    the strand that must not publish."""
     out, _ = HE.H.rows(HE.SITE, [
         HE.event(),
         HE.event(name="HopeaCine: Presidentin kyyditys", id_="kulke:69509"),
+        HE.event(name="Yleisön suosikit: Sydäntalvi", id_="kulke:69510"),
         HE.second(),
     ], HE.TODAY)
     return (out, HE.SITE["provider"], [v["id"] for v in HE.SITE["venues"]])

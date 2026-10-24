@@ -744,10 +744,13 @@ PROVIDERS = [
     # the programme section, the mode Gilda already uses.
     dict(id="k13", label="Kino K13", host="ses.fi", accent="#003689",
          accentDark="#9CBDFF", book="list", module="k13", where="cloud"),
-    # Kino Helios is the Malmitalo hall's cinema strand, read from the City of Helsinki's
-    # Linked Events API since 2026-10-21. `book="buy"`: every row carries a lippu.fi ticket
-    # link. The house's other strands, HopeaCine among them, are filtered out by name.
-    dict(id="helios", label="Kino Helios", host="malmitalo.fi", accent="#FE17EA",
+    # The City of Helsinki's culture centres since 2026-10-24 (issue #16): Kino Helios at
+    # Malmitalo, HopeaCine at Malmitalo and Vuotalo, Kino Kuutamo at Kanneltalo, all three
+    # houses under one publisher in the City's Linked Events API. The id and the Malmitalo
+    # venue keep their names, and the accent its value: every venue is in Helsinki, so the
+    # grouping enters no view the provider was not already in. `book="buy"`: the paid rows
+    # carry a lippu.fi ticket link; Kuutamo's free rows link the house's event page.
+    dict(id="helios", label="Helsingin kulttuurikeskukset", host="hel.fi", accent="#FE17EA",
          accentDark="#FEA0C7", book="buy", module="helios", where="cloud"),
     # Added 2026-10-13. kinokonepaja.fi answered a non-residential fetcher that day.
     dict(id="kinokonepaja", label="Kino Konepaja", host="kinokonepaja.fi", accent="#4D3900",

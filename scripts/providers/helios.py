@@ -1,6 +1,11 @@
-"""Kino Helios, the Malmitalo hall in Helsinki. Stdlib only.
+"""The City of Helsinki's culture centres: Kino Helios at Malmitalo, Vuotalo and Kanneltalo.
+Stdlib only.
 
-Read by GET from the City of Helsinki's open Linked Events API, by the house's place,
+All three houses belong to the city's culture and leisure division: Linked Events names one
+publisher for every row read here, `ahjo:u48040010` "Kulttuuripalvelukokonaisuus", and
+Kanneltalo's own footer lists the three among the division's houses (read 2026-10-24,
+issue #16). One provider holds them, keeping the `helios` id and the `helios-helsinki`
+venue, and each house is read by GET from the City's open Linked Events API by its place,
 paged by `meta.next`:
 
     https://api.hel.fi/linkedevents/v1/event/?location=tprek:8740&start=YYYY-MM-DD
@@ -11,6 +16,22 @@ www.malmitalo.fi. From 15:26 UTC that day the host redirected to the city's outa
 the POST answered 404, while this API carried the same twelve screenings. The answer is the
 whole house's programme: concerts, courses, exhibitions and the cinema together. The data is
 CC BY 4.0 by the API's own front page, read 2026-10-21, and its credit is on /status/.
+
+Which rows of each house are cinema, read 2026-10-24:
+
+- **Malmitalo**: `... – Kino Helios`, and `HopeaCine: ...`, whose ticket the house sells as
+  "Kino Helios esittää". The series also screens at Vuotalo and at Cinema Orion, which has
+  its own provider. The house's other strands, `Yleisön suosikit` and `Joululomaleffa`,
+  stay out.
+- **Vuotalo**: `HopeaCine: ...`.
+- **Kanneltalo**: `... – Kino Kuutamo | Maksuttomat maanantait`, free Monday screenings.
+  The strand after the dash names neither the house nor the venue, so it is kept in
+  `method`, where Kino Helios's suffix is the venue's own name and goes nowhere.
+
+A series row leaves here with its prefix, and run.py's central pass moves `HopeaCine`, a
+registered strand in `strands.py`, into `method` before anything is written. A row whose
+offer says `is_free` is published as free entry; any other offer amount is not a price, as
+below.
 
 What shapes the parser, measured on the live API 2026-10-21:
 
@@ -69,11 +90,23 @@ from etiketti import strict_codes
 FI = ZoneInfo("Europe/Helsinki")
 
 SITES = [
-    {"provider": "helios", "label": "Kino Helios",
+    {"provider": "helios", "label": "Helsingin kulttuurikeskukset",
      "base": "https://api.hel.fi",
      "path": "/linkedevents/v1/event/",
-     "place": "tprek:8740", "keyword": "kulke:29", "strand": "Kino Helios",
+     "keyword": "kulke:29",
+     # One entry per house: `strand` is a name suffix after a dash, `series` a title prefix
+     # before a colon. The first entry is Malmitalo, the provider's original venue.
+     "places": [
+         {"place": "tprek:8740", "venue": "helios-helsinki", "strand": "Kino Helios",
+          "series": "HopeaCine"},
+         {"place": "tprek:7260", "venue": "vuotalo-helsinki", "series": "HopeaCine"},
+         {"place": "tprek:7255", "venue": "kanneltalo-helsinki", "strand": "Kino Kuutamo"},
+     ],
      "venues": [{"id": "helios-helsinki", "name": "Kino Helios", "short": "Kino Helios",
+                 "city": "Helsinki"},
+                {"id": "vuotalo-helsinki", "name": "Vuotalo", "short": "Vuotalo",
+                 "city": "Helsinki"},
+                {"id": "kanneltalo-helsinki", "name": "Kanneltalo", "short": "Kanneltalo",
                  "city": "Helsinki"}]},
 ]
 
@@ -100,8 +133,30 @@ TAG_RE = re.compile(r"<[^>]+>")
 def strand_title(name, strand):
     """`Kerro kaikille (12) – Kino Helios` -> `Kerro kaikille (12)`, or None for a name
     that does not end with the strand."""
-    m = re.match(rf"^(.*?)\s+[–-]\s+{re.escape(strand)}$", (name or "").strip())
-    return m.group(1).strip() if m else None
+    got = strand_split(name, strand)
+    return got[0] if got else None
+
+
+def strand_split(name, strand):
+    """`Isänpäivä – Kino Kuutamo | Maksuttomat maanantait` -> ("Isänpäivä", "Kino Kuutamo |
+    Maksuttomat maanantait"), or None for a name that does not end with the strand."""
+    m = re.match(rf"^(.*?)\s+[–-]\s+({re.escape(strand)}(?:\s*\|\s*.+)?)$",
+                 (name or "").strip())
+    return (m.group(1).strip(), m.group(2).strip()) if m else None
+
+
+def match(name, place, venue):
+    """A row's Finnish name -> (title, method) for a strand or series of this house, or
+    None. A strand that is the venue's own name goes in no `method`."""
+    if place.get("strand"):
+        got = strand_split(name, place["strand"])
+        if got:
+            title, tail = got
+            return title, "" if tail == venue["name"] else tail
+    series = place.get("series")
+    if series and re.match(rf"^{re.escape(series)}\s*:", (name or "").strip()):
+        return (name or "").strip(), ""
+    return None
 
 
 def split_title(title):
@@ -145,10 +200,12 @@ def language(description):
     return ", ".join(parts)
 
 
-def rows(site, events, today=None):
-    """-> (shows, report). One row per screening this cinema publishes."""
-    venue = site["venues"][0]
-    place = f"/place/{site['place']}/"
+def rows(site, events, today=None, place=None):
+    """-> (shows, report). One row per screening one house publishes; the first house
+    when `place` is not given."""
+    place_cfg = place or site["places"][0]
+    venue = next(v for v in site["venues"] if v["id"] == place_cfg["venue"])
+    place = f"/place/{place_cfg['place']}/"
     keyword = f"/keyword/{site['keyword']}/"
     out = []
     report = {"rows": 0, "mine": 0, "unreadable": 0, "cancelled": 0}
@@ -156,7 +213,8 @@ def rows(site, events, today=None):
         report["rows"] += 1
         if not isinstance(event, dict):
             continue
-        title = strand_title(fi(event.get("name")), site["strand"])
+        got = match(fi(event.get("name")), place_cfg, venue)
+        title, method = got if got else (None, "")
         if (title is None
                 or not ((event.get("location") or {}).get("@id") or "").endswith(place)
                 or not any((k.get("@id") or "").endswith(keyword)
@@ -173,6 +231,7 @@ def rows(site, events, today=None):
         sold = bool(SOLD_OUT_RE.match(title))
         title, rating = split_title(SOLD_OUT_RE.sub("", title))
         offer = next((o for o in event.get("offers") or [] if isinstance(o, dict)), {})
+        free = offer.get("is_free") is True
         show = {
             "eventId": str(event.get("id") or ""),
             "title": title,
@@ -180,15 +239,15 @@ def rows(site, events, today=None):
             "len": "",
             "rating": rating,
             "genres": "",
-            "method": "",
+            "method": method,
             "theatre": venue["name"],
             "aud": fi(event.get("location_extra_info")),
             "start": start.isoformat(),
-            "url": fi(offer.get("info_url")),
+            "url": fi(offer.get("info_url")) or fi(event.get("info_url")),
             "img": "",
             "lang": language(fi(event.get("description"))),
             "soldOut": sold,
-            "price": "",
+            "price": "Vapaa pääsy" if free else "",
             "provider": site["provider"],
             "venue": venue["id"],
         }
@@ -202,10 +261,11 @@ def rows(site, events, today=None):
     return out, report
 
 
-def listing(site, today=None):
-    """Every event at the place in the window, one paged query. -> list."""
+def listing(site, today=None, place=None):
+    """Every event at one house in the window, one paged query. -> list."""
     today = today or datetime.datetime.now(FI).date()
-    query = urlencode({"location": site["place"], "start": today.isoformat(),
+    place = place or site["places"][0]
+    query = urlencode({"location": place["place"], "start": today.isoformat(),
                        "end": (today + datetime.timedelta(days=HORIZON)).isoformat(),
                        "page_size": PAGE_SIZE, "sort": "start_time"}, safe=":")
     events = []
@@ -222,31 +282,36 @@ def listing(site, today=None):
         # The next page's query, asked of the declared host whatever host the link names.
         query = urlsplit(nxt).query
     raise RuntimeError(f"Linked Events has more than {MAX_PAGES} pages for place "
-                       f"{site['place']}")
+                       f"{place['place']}")
 
 
 def fetch_site(site, today=None):
-    """Runner contract: the place's listing, one GET per page of 100 events."""
-    pid, venue = site["provider"], site["venues"][0]
-    shows, report = rows(site, listing(site, today), today)
-    if not shows:
+    """Runner contract: each house's listing, one GET per page of 100 events."""
+    pid = site["provider"]
+    per_venue, total, mine = {}, 0, 0
+    for n, place in enumerate(site["places"]):
+        if n:
+            time.sleep(PAUSE)
+        venue = next(v for v in site["venues"] if v["id"] == place["venue"])
+        shows, report = rows(site, listing(site, today, place), today, place)
+        per_venue[venue["id"]] = shows
+        total, mine = total + report["rows"], mine + report["mine"]
+        days = sorted({s["start"][:10] for s in shows})
+        print(f"[{pid}] {venue['name']}, {venue['city']}: {len(shows)} showtimes, "
+              f"{len(days)} dates, {sum(1 for s in shows if s['lang'])} with a language, "
+              f"{report['mine']} of {report['rows']} event(s) are this house's cinema")
+        for key, note in (("cancelled", "row(s) cancelled or postponed, left out"),
+                          ("unreadable", "row(s) whose start is not a timed instant, left out")):
+            if report[key]:
+                print(f"[{pid}] {venue['name']}: {report[key]} {note}")
+    if not any(per_venue.values()):
         raise RuntimeError(
-            f"{site['base']}{site['path']}: no Kino Helios row among {report['rows']} "
-            f"event(s). The API answers the whole house, so an empty result is as "
-            f"consistent with a renamed strand as with a dark fortnight and the previous "
-            f"files stand")
-    per_venue = {venue["id"]: shows}
-    check_shows(per_venue, pid, {venue["id"]})
-    days = sorted({s["start"][:10] for s in shows})
-    print(f"[{pid}] {venue['name']}, {venue['city']}: {len(shows)} showtimes, "
-          f"{len(days)} dates, {sum(1 for s in shows if s['lang'])} with a language, "
-          f"{report['mine']} of {report['rows']} event(s) are this cinema")
-    for key, note in (("cancelled", "row(s) cancelled or postponed, left out"),
-                      ("unreadable", "row(s) whose start is not a timed instant, left out")):
-        if report[key]:
-            print(f"[{pid}] {report[key]} {note}")
+            f"{site['base']}{site['path']}: no cinema row among {total} event(s) at "
+            f"{len(site['places'])} houses. The API answers the whole house, so an empty "
+            f"result is as consistent with a renamed strand as with a dark fortnight and the "
+            f"previous files stand")
+    check_shows(per_venue, pid, {v["id"] for v in site["venues"]})
     return per_venue
-
 
 if __name__ == "__main__":
     src = sys.argv[1] if len(sys.argv) > 1 else None

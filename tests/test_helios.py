@@ -1,13 +1,16 @@
-"""The Kino Helios reader: Linked Events by place, the whole house, three fields to filter.
+"""The culture centres reader: Linked Events by place, three houses, three fields to filter.
 
 The fixtures are the API's own event shape as read on 2026-10-21, cut to the fields the
 reader touches. Two rows everywhere there is a loop.
 
 What they exist to prove:
 
-- **All three fields are needed to pick this cinema out.** The place held 21 film events
-  over 90 days: 12 Kino Helios and 9 in other strands of the same house, `HopeaCine`,
-  `Yleisön suosikit` and `Joululomaleffa`.
+- **All three fields are needed to pick a house's cinema out.** Malmitalo held 21 film
+  events over 90 days on 2026-10-21: 12 Kino Helios, 3 HopeaCine, and 6 in strands that stay
+  out, `Yleisön suosikit` and `Joululomaleffa`.
+- **Each house reads only its own strands** (2026-10-24, issue #16): HopeaCine at Malmitalo
+  and Vuotalo, whose prefix run.py moves into `method`; Kino Kuutamo at Kanneltalo, its
+  strand in `method` and its free entry as the price.
 - **`start_time` is a UTC instant**, published as the same moment in Helsinki. A date alone
   or a clock with no offset is refused rather than published in a guessed zone.
 - **The age limit is a suffix on the title.** It goes to `rating`, and the published title
@@ -34,6 +37,7 @@ import run
 
 SITE = H.SITES[0]
 VENUE = SITE["venues"][0]["id"]
+MALMI, VUO, KANNEL = SITE["places"]
 URL = SITE["base"] + SITE["path"]
 API = "https://api.hel.fi/linkedevents/v1"
 TODAY = datetime.date(2026, 10, 21)
@@ -73,6 +77,16 @@ def event(name="Kerro kaikille (12) – Kino Helios", start="2026-10-21T18:00", 
     }
 
 
+def kuutamo(start="2026-11-02T17:00", id_="kulke:70001"):
+    """A Kanneltalo Monday: free, no ticket link, the house's own event page."""
+    e = event(name="Aleksi Salmenperä: Isänpäivä – Kino Kuutamo | Maksuttomat maanantait",
+              start=start, id_=id_, place="tprek:7255",
+              keywords=("kulke:205", "kulke:29", "kulke:41"), ticket="", price="")
+    e["offers"] = [{"is_free": True, "price": None, "info_url": None, "description": None}]
+    e["info_url"] = {"fi": "http://www.kanneltalo.fi/fi/tapahtumat/event/46E706CE9605ECF"}
+    return e
+
+
 def second(day="2026-10-22"):
     return event(name="Hetki ennen valoa (7) – Kino Helios", start=f"{day}T15:00",
                  id_="kulke:68851")
@@ -91,13 +105,39 @@ class FilterTest(unittest.TestCase):
         ])
 
     def test_the_other_strands_of_the_house_never_publish(self):
-        for name in ("HopeaCine: Presidentin kyyditys", "Yleisön suosikit: Sydäntalvi",
+        for name in ("Yleisön suosikit: Sydäntalvi",
                      "Teräsleidit – kuin viimeistä päivää – Yleisön suosikit",
                      "Joululomaleffa: Tuhkimo (S)", "Kappale kauneinta Suomea – Doc Helios"):
             with self.subTest(name=name):
                 shows, report = self.rows(event(name=name), event())
                 self.assertEqual(report["mine"], 1)
                 self.assertEqual([s["title"] for s in shows], ["Kerro kaikille"])
+
+    def test_hopeacine_publishes_verbatim_at_malmitalo_and_vuotalo(self):
+        name = "HopeaCine: Lapin sota, ohj. Aku Louhimies"
+        for place in (MALMI, VUO):
+            with self.subTest(place=place["place"]):
+                shows, _ = H.rows(SITE, [event(name=name, place=place["place"]),
+                                         event(name="Kerro kaikille (12) – Kino Helios",
+                                               place=place["place"])], TODAY, place)
+                got = [(s["title"], s["method"], s["venue"]) for s in shows]
+                self.assertIn((name, "", place["venue"]), got)
+
+    def test_kino_helios_is_malmitalos_alone(self):
+        shows, _ = H.rows(SITE, [event(place="tprek:7260"), event(name="HopeaCine: X",
+                                                                   place="tprek:7260")],
+                          TODAY, VUO)
+        self.assertEqual([s["title"] for s in shows], ["HopeaCine: X"])
+
+    def test_kino_kuutamo_keeps_its_strand_and_publishes_free_entry(self):
+        shows, _ = H.rows(SITE, [kuutamo(), kuutamo("2026-12-07T17:00", "kulke:70002"),
+                                 event(name="HopeaCine: X", place="tprek:7255")], TODAY, KANNEL)
+        self.assertEqual([(s["title"], s["method"], s["price"], s["venue"]) for s in shows],
+                         [("Aleksi Salmenperä: Isänpäivä",
+                           "Kino Kuutamo | Maksuttomat maanantait", "Vapaa pääsy",
+                           "kanneltalo-helsinki")] * 2)
+        self.assertEqual(shows[0]["url"],
+                         "http://www.kanneltalo.fi/fi/tapahtumat/event/46E706CE9605ECF")
 
     def test_another_place_or_no_film_keyword_never_publishes(self):
         self.assertEqual(self.rows(event(place="tprek:7255"))[0], [])
@@ -233,8 +273,8 @@ class RunnerTest(unittest.TestCase):
             code = run.main(["helios", "--half", "all"])
         return code, out.getvalue() + err.getvalue()
 
-    def published(self):
-        return json.loads((run.OUT / f"area-{VENUE}.json").read_text(encoding="utf-8"))["shows"]
+    def published(self, venue=VENUE):
+        return json.loads((run.OUT / f"area-{venue}.json").read_text(encoding="utf-8"))["shows"]
 
     def keep(self):
         kept = {"generated": "2026-10-20T00:00:00+00:00", "dates": ["2026-10-20"],
@@ -242,22 +282,40 @@ class RunnerTest(unittest.TestCase):
                 "shows": [{"title": "Yesterday", "start": "2026-10-20T17:00:00+03:00"}]}
         (run.OUT / f"area-{VENUE}.json").write_text(json.dumps(kept), encoding="utf-8")
 
-    def test_the_site_publishes_from_one_get_by_place_and_window(self):
-        self.serve(self.page(self.rows + [event(name="HopeaCine: Lapin sota")]))
+    def test_each_house_publishes_from_one_get_by_place_and_window(self):
+        day = (self.today + datetime.timedelta(days=3)).isoformat()
+        self.serve(self.page(self.rows + [event(name="Yleisön suosikit: Sydäntalvi")]),
+                   self.page([event(name="HopeaCine: Lapin sota", place="tprek:7260",
+                                    start=f"{day}T14:00")]),
+                   self.page([kuutamo(start=f"{day}T17:00")]))
         code, log = self.main()
         self.assertEqual(code, 0, log)
-        (url,) = self.calls
-        self.assertTrue(url.startswith(URL + "?"), url)
-        q = {k: v[0] for k, v in parse_qs(urlsplit(url).query).items()}
-        self.assertEqual(q, {"location": "tprek:8740", "start": self.today.isoformat(),
-                             "end": (self.today + datetime.timedelta(days=H.HORIZON)).isoformat(),
-                             "page_size": "100", "sort": "start_time"})
+        self.assertEqual(len(self.calls), 3)
+        for url, place in zip(self.calls, ("tprek:8740", "tprek:7260", "tprek:7255")):
+            self.assertTrue(url.startswith(URL + "?"), url)
+            q = {k: v[0] for k, v in parse_qs(urlsplit(url).query).items()}
+            self.assertEqual(q, {"location": place, "start": self.today.isoformat(),
+                                 "end": (self.today + datetime.timedelta(days=H.HORIZON)).isoformat(),
+                                 "page_size": "100", "sort": "start_time"})
         self.assertEqual([(s["title"], s["lang"]) for s in self.published()],
                          [("Kerro kaikille", "FI-A, FI-S"), ("Hetki ennen valoa", "FI-A, FI-S")])
+        # run.py's central strands pass moves the registered prefix into `method`.
+        self.assertEqual([(s["title"], s["method"]) for s in self.published("vuotalo-helsinki")],
+                         [("Lapin sota", "HopeaCine")])
+        self.assertEqual([s["price"] for s in self.published("kanneltalo-helsinki")],
+                         ["Vapaa pääsy"])
+
+    def test_a_house_with_no_row_is_published_empty_beside_the_others(self):
+        self.serve(self.page(self.rows), self.page([]), self.page([]))
+        code, log = self.main()
+        self.assertEqual(code, 0, log)
+        self.assertEqual(self.published("vuotalo-helsinki"), [])
+        self.assertEqual(len(self.published()), 2)
 
     def test_the_next_page_is_followed_and_asked_of_the_declared_host(self):
         nxt = "https://elsewhere.example/linkedevents/v1/event/?location=tprek%3A8740&page=2"
-        self.serve(self.page(self.rows[:1], nxt), self.page(self.rows[1:]))
+        self.serve(self.page(self.rows[:1], nxt), self.page(self.rows[1:]), self.page([]),
+                   self.page([]))
         code, log = self.main()
         self.assertEqual(code, 0, log)
         self.assertEqual(self.calls[1], URL + "?location=tprek%3A8740&page=2")
@@ -277,11 +335,12 @@ class RunnerTest(unittest.TestCase):
     def test_a_payload_with_no_row_of_this_cinema_fails_and_keeps_the_previous_file(self):
         """The API answers the whole house, so this is not evidence of a dark week."""
         self.keep()
-        self.serve(self.page([event(name="HopeaCine: Lapin sota"),
-                              event(name="Yleisön suosikit: Sydäntalvi")]))
+        self.serve(self.page([event(name="Joululomaleffa: Tuhkimo (S)"),
+                              event(name="Yleisön suosikit: Sydäntalvi")]),
+                   self.page([]), self.page([]))
         code, log = self.main()
         self.assertNotEqual(code, 0)
-        self.assertIn("no Kino Helios row", log)
+        self.assertIn("no cinema row", log)
         self.assertEqual(self.published()[0]["title"], "Yesterday")
 
     def test_a_refused_request_keeps_the_previous_file(self):
@@ -296,7 +355,7 @@ class RegistryTest(unittest.TestCase):
     def test_the_registry_entry(self):
         p = registry.by_id("helios")
         self.assertEqual((p["label"], p["host"], p["book"], p["module"], p["where"]),
-                         ("Kino Helios", "malmitalo.fi", "buy", "helios", "cloud"))
+                         ("Helsingin kulttuurikeskukset", "hel.fi", "buy", "helios", "cloud"))
         self.assertEqual(sum(1 for q in registry.PROVIDERS
                              if q["accent"] == p["accent"]), 1)
 
@@ -316,9 +375,14 @@ class RegistryTest(unittest.TestCase):
         for words in ("muokattuna", "bearbetade", "modified"):
             self.assertIn(words, status)
 
-    def test_the_three_filter_fields_are_declared(self):
-        self.assertEqual((SITE["place"], SITE["keyword"], SITE["strand"]),
-                         ("tprek:8740", "kulke:29", "Kino Helios"))
+    def test_the_filter_fields_are_declared_per_house(self):
+        self.assertEqual(SITE["keyword"], "kulke:29")
+        self.assertEqual([(p["place"], p["venue"], p.get("strand"), p.get("series"))
+                          for p in SITE["places"]],
+                         [("tprek:8740", "helios-helsinki", "Kino Helios", "HopeaCine"),
+                          ("tprek:7260", "vuotalo-helsinki", None, "HopeaCine"),
+                          ("tprek:7255", "kanneltalo-helsinki", "Kino Kuutamo", None)])
+        self.assertEqual(SITE["venues"][0]["id"], "helios-helsinki")
 
 
 if __name__ == "__main__":
