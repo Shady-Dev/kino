@@ -41,5 +41,5 @@
 [run] http: 0 revalidated (304), 100 full, 20 not stored (origin said no-store), 43 cache entries written
 [run] hosts: 4 attempted -- kinokonepaja.fi, kinomyyri.fi, www.kinokilta.fi, www.kinolaika.fi
 [run] kinola: 4 venues, 152 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
-[run] timing: 4 site(s), 218.3s of fetching added up across workers that overlap, longest site 94.0s, longest queue wait 103.8s, 94.0s wall from this module's first fetch starting to its last ending
+[run] timing: 4 site(s), 221.9s of fetching added up across workers that overlap, longest site 94.7s, longest queue wait 110.9s, 94.7s wall from this module's first fetch starting to its last ending
 exit=0
