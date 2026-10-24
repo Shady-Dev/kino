@@ -4395,3 +4395,14 @@ screening publishes none. Tickets are sold at the café, so `book` is door. The 
 answers through Cloudflare; the first cloud run settles the half. #004612 / #8DBF9E clears
 Bio Säde and Haapamäen Elokuvat, the nearest towns' chains, by 30.9 or more. Seven
 mutations red.
+
+### Kino Kirkkonummi reads several clocks on one date (2026-10-24)
+Lapin Sota's rows read "24.10. La klo17.00 ja klo18.00" and "25.10. Su klo17.00 ja
+klo18.00 / 26.10. Ma klo18.30". The row rule took one clock per date, and a slash row needs
+every part, so both rows were logged as skipped on every cloud run from 94d96e463 on
+2026-10-19 and six screenings went unpublished, while the page and the site's movie API
+both listed 16. A date now carries one or more clocks joined by "ja", "&" or a comma, each
+a screening, and a slash row still publishes nothing unless every part reads. The page
+read for the review on 2026-10-24 yields 16 of 16, each once, and so did the live page the
+same day. The page reader stays; the API returns the same free text and saves no parsing.
+Four mutations red.
