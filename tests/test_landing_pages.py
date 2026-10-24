@@ -204,7 +204,7 @@ class GeneratedPagesTest(unittest.TestCase):
         for v in bp.load_venues():
             v["city"] = bp.city_of(v)
             v["label"] = bp.label_of(v, chains)
-            v["slug"] = bp.slug(f"{v['label']} {v['city']}")
+            v["slug"] = bp.SLUG_PINS.get(v["id"]) or bp.slug(f"{v['label']} {v['city']}")
             if v["slug"] in seen:
                 v["slug"] = f"{v['slug']}-{bp.slug(v['id'])}"
             seen.add(v["slug"])
@@ -272,6 +272,15 @@ class GeneratedPagesTest(unittest.TestCase):
         locs = set(re.findall(r"<loc>(.*?)</loc>", sm))
         self.assertEqual(locs, {bp.SITE + "/"} | {bp.SITE + k for k in self.canonical})
         self.assertEqual(len(locs), len(bp.LANGS) * self.per_lang + 1)
+
+    def test_a_relabelled_venue_keeps_the_url_it_was_published_at(self):
+        """Kino Helios's provider became Helsingin kulttuurikeskukset on 2026-10-24; its
+        page stays where search results and saved links reach it, in every language."""
+        for path in ("/teatteri/kino-helios-helsinki/", "/sv/teatteri/kino-helios-helsinki/",
+                     "/en/theatre/kino-helios-helsinki/"):
+            with self.subTest(path=path):
+                self.assertIn(path, self.canonical)
+        self.assertFalse([k for k in self.pages if "kulttuurikeskukset-kino-helios" in k])
 
     def test_the_legacy_redirects_are_untouched(self):
         for k, text in self.redirects.items():

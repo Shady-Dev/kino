@@ -660,6 +660,13 @@ footer .statuslink a:hover{text-decoration:underline}
 
 # ---------------------------------------------------------------- helpers
 
+# A venue whose chain was relabelled keeps the URL it was published at: the slug follows
+# the label, and a landing page that moved would break every link and search result that
+# reached it. Kino Helios was published as `kino-helios-helsinki` until its provider became
+# Helsingin kulttuurikeskukset on 2026-10-24 (issue #16).
+SLUG_PINS = {"helios-helsinki": "kino-helios-helsinki"}
+
+
 def slug(s):
     """URL slug. ä/ö/å are folded by hand first: NFKD does not decompose them in all
     Python builds, and a venue silently losing a letter changes its URL."""
@@ -1712,7 +1719,7 @@ def main(today=None) -> int:
     for v in venues:
         v["city"] = city_of(v)
         v["label"] = label_of(v, chains)
-        v["slug"] = slug(f"{v['label']} {v['city']}")
+        v["slug"] = SLUG_PINS.get(v["id"]) or slug(f"{v['label']} {v['city']}")
 
     seen = {}
     for v in venues:                     # a collision would silently drop a venue's page
