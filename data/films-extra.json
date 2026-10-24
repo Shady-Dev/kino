@@ -956,7 +956,6 @@
    "krs": [
     "biorex",
     "biosalo",
-    "biostara",
     "gilda",
     "kinojuha",
     "kinopiispanristi",
@@ -1971,16 +1970,12 @@
   },
   "it must be heaven": {
    "id": 539531,
-   "img": "data/posters/2078ab71ae729742.jpg",
-   "r": 6.5,
+   "r": 0,
    "s": {
-    "en": "Filmmaker Elia Suleiman travels to different cities and finds unexpected parallels to his homeland of Palestine.",
+    "en": "",
     "fi": "Nokkelassa ja omalaatuisessa road moviessa ohjaaja esittää itseään matkustamassa Nasaretista Pariisiin ja New Yorkiin etsimään rahoitusta uudelle elokuvalleen. Matkan aikana hän tarkkailee ympäristöään tavaramerkikseen muodostuneella hiljaisella hämmästyksellä. Cannesin elokuvajuhlilla palkittu teos on yhtä aikaa hauska ja pohdiskeleva elokuva siitä, kuinka oudon tutulta maailma voi näyttää missä tahansa."
    },
-   "tr": "https://www.youtube.com/watch?v=TDBnCGSLGi4",
-   "ts": [
-    "en"
-   ]
+   "tr": ""
   },
   "ivan and hadoum": {
    "r": 0,
@@ -4633,7 +4628,6 @@
   },
   "niskavuori taistelee": {
    "id": 94773,
-   "img": "data/posters/8b28dc715bada65e.jpg",
    "r": 0,
    "s": {
     "en": "",
@@ -5800,64 +5794,6 @@
    },
    "tr": ""
   },
-  "pirjo i sverige elokuvanäytös": {
-   "id": 1729175,
-   "img": "data/posters/a8cdd21dca604433.jpg",
-   "kr": "S",
-   "krs": [
-    "alatalo",
-    "bioforum",
-    "biomarilyn",
-    "biomarlon",
-    "biorex",
-    "biorexkokkola",
-    "biosade",
-    "biosalo",
-    "biostara",
-    "biovuoksi",
-    "cine",
-    "cinemantsala",
-    "haapamaki",
-    "helios",
-    "ihmekompleksi",
-    "isohannu",
-    "kino123",
-    "kinoakseli",
-    "kinohirvi",
-    "kinoiiris",
-    "kinojuha",
-    "kinolumo",
-    "kinometso",
-    "kinopiispanristi",
-    "kinopirtti",
-    "kinoset",
-    "kinotar",
-    "kinotervakoski",
-    "kinotour",
-    "kotkanleffat",
-    "kulttuurimylly",
-    "kuvakukko",
-    "laitilankino",
-    "leffabuumi",
-    "niagara",
-    "savonkinot",
-    "star",
-    "studio123jarvenpaa",
-    "studio123kouvola",
-    "vaakuna",
-    "vihdinkino",
-    "virtainpirtti"
-   ],
-   "r": 0,
-   "s": {
-    "en": "",
-    "fi": "Kun Pirjo Heikkilä nolaa itsensä julkisesti hyväntekeväisyystapahtumassa, hän alkaa uskoa, että elämässä tarvitaan maisemanvaihdos. Pirjo saa kuulla suvustaan hämmentävän salaisuuden, joka johdattaa hänet Ruotsiin. Pirjo suuntaa matkalle vakuuttuneena, että hänen oikea elämänsä odottaa Tukholmassa — kuninkaallisten, uusien ystävien ja paremman ihmisarvon keskellä. Mutta matkasta tulee kaikkea muuta kuin arvokas. Vastaan tulevat toinen toistaan kiusallisemmat tilanteet ja loputon tarve vaikuttaa ruotsalaisemmalta kuin oikeasti onkaan."
-   },
-   "tr": "",
-   "ts": [
-    "fi"
-   ]
-  },
   "pirjo i sverige kahvi ja kino": {
    "id": 1729175,
    "img": "data/posters/a8cdd21dca604433.jpg",
@@ -6500,7 +6436,6 @@
    "kr": "K-16",
    "krs": [
     "biorex",
-    "biosalo",
     "cinemantsala",
     "gilda",
     "kino123",
@@ -8079,13 +8014,12 @@
   },
   "thelma louise": {
    "id": 1541,
-   "img": "data/posters/87b0013ad260765f.jpg",
-   "r": 7.6,
+   "r": 0,
    "s": {
     "en": "",
     "fi": "Ikoninen tie-elokuvan uudistaja ja feministisen elokuvan klassikko on kohtalonomainen western-mukaelma, mutta myös räiskyvä kaverikomedia naisten välisestä sisaruudesta patriarkaatin puristuksessa. Naiskaksikon pyrkimykset ottaa elämänsä ja kehonsa omaan määräysvaltaansa ajavat heidät lainsuojattomiksi ja lopulta feministisiksi marttyyreiksi. Sarandonin ja Davisin vimmaiset roolisuoritukset hehkuvat vastarintaa ja voimaa, joka hakee edelleen vertaistaan."
    },
-   "tr": "https://www.youtube.com/watch?v=g8Uti7PDLnI"
+   "tr": ""
   },
   "tie pimeään": {
    "id": 388237,
@@ -8180,7 +8114,6 @@
     "helios",
     "kinoaurora",
     "kinokonepaja",
-    "kinoolympia",
     "kinovirta",
     "kuvakukko",
     "savonkinot",
@@ -8478,41 +8411,6 @@
    "s": {
     "en": "While celebrating their last night together, high school graduates and best friends Jo and Raissa stumble upon a mysterious portal that transports them to the fantastical island of Nakali. When they discover that the memories of their entire friendship are the price for returning home, Jo and Raissa must race to find a way to leave the island before they forget each other forever.",
     "fi": "Parhaan ystävyyden puolesta kannattaa taistella. DreamWorks Animation on aiemmin tuonut katsojille tarinoita unohtumattomista siteistä pojan ja lohikäärmeen välillä Näin koulutat lohikäärmeesi -elokuvissa, jätin ja aasin välillä Shrek-elokuvissa sekä robotin ja hanhenpoikasen välillä elokuvassa Villi robotti. Nyt luvassa on huikean tunteikas tarina kahdesta parhaasta ystävyksestä, joiden täytyy yhdistää voimansa eron uhatessa elokuvassa Unohdettu saari. Uuden alkuperäistarinan on käsikirjoittanut ja ohjannut Oscar-ehdokas Joel Crawford ja Januel Mercado. Tuottajana toimii Oscar-ehdokas Mark Swift. Sama tiimi on myös ollut tekemässä elokuvaa Saapasjalkakissa: Viimeinen toivomus. Grammy- ja Oscar-palkittu supertähti H.E.R. ja Liza Soberano (Lisa Frankenstein, Alone/Together) ovat Jo ja Raissa, high schoolista valmistunut parivaljakko. He ovat olleet parhaita ystäviä ala-asteelta asti, mutta nyt elämä uhkaa erottaa ystävykset. Juhliessaan viimeistä yhteistä iltaansa Jo ja Raissa törmäävät salaperäiseen portaaliin, joka kuljettaa heidät Nakalin mielikuvitukselliselle saarelle. Saari on täynnä maagisia ja myyttisiä olentoja, joista ystävysten filippiiniläisperheet ovat kertoneet tarinoita. Uusista tuttavuuksista paljastuu niin ystäviä kuin vihollisiakin. Apunaan hyvää tarkoittava mutta melko avuton ihmiskoira Raww (Dave Franco) sekä pieni mutta pippurinen joukko muita kamuja Jo ja Raissa ottavat mittaa karmeasta Manananggalista (Tony-palkittu ikoni Lea Salonga), saaren pelätyimmästä olennosta. Kun parille paljastuu, että hinta kotiinpaluusta on kaikkien yhteisten muistojen menettäminen, Jon ja Raissan täytyy keksiä keino päästä pois saarelta unohtamatta toisiaan. Elokuvan ääninäyttelijöiden tähtisikermää täydentävät Emmy-ehdokas Jenny Slate (Marcell the Shell with Shoes On, Dying for Sex), Manny Jacinto (The Good Place, Top Gun: Maverick), BAFTA-ehdokas Dolly de Leon (Triangle of Sadness, Ghostlight), komedian supertähti Jo Koy (Haunted Mansion, Jo Koy: Live from B"
-   },
-   "tr": "https://www.youtube.com/watch?v=PhgY8cOJiQA",
-   "ts": [
-    "en"
-   ]
-  },
-  "unohdettu saari elokuvanäytös": {
-   "id": 1465063,
-   "img": "data/posters/9bcaf7ef167a0f8f.jpg",
-   "kr": "K-7",
-   "krs": [
-    "alatalo",
-    "biorex",
-    "biosade",
-    "biosalo",
-    "biosavoy",
-    "biostara",
-    "cinemantsala",
-    "helios",
-    "kinohirvi",
-    "kinolumo",
-    "kinopiispanristi",
-    "kinopirtti",
-    "kotkanleffat",
-    "leffabuumi",
-    "levisummit",
-    "savonkinot",
-    "star",
-    "studio123jarvenpaa",
-    "vaakuna"
-   ],
-   "r": 7.8,
-   "s": {
-    "en": "While celebrating their last night together, high school graduates and best friends Jo and Raissa stumble upon a mysterious portal that transports them to the fantastical island of Nakali. When they discover that the memories of their entire friendship are the price for returning home, Jo and Raissa must race to find a way to leave the island before they forget each other forever.",
-    "fi": ""
    },
    "tr": "https://www.youtube.com/watch?v=PhgY8cOJiQA",
    "ts": [
@@ -8973,16 +8871,12 @@
   },
   "without warning": {
    "id": 44932,
-   "img": "data/posters/c5deb8ab5dce70db.jpg",
-   "r": 5.2,
+   "r": 0,
    "s": {
-    "en": "When a mountain town is besieged by aliens, stranded teens Sandy and Greg team up with a local hunter as a paranoid war vet becomes convinced they're the enemy.",
+    "en": "",
     "fi": "Täydellinen halpis Halloween-illan päätökseen. Retkihommissa ollaan vaikka varoiteltu on, ettei kannattaisi! Ollaan sellaisella seudulla, jossa alienit touhuaa metsästyshommia. Eli selviytymistaistelua on luvassa metsän siimeksessä. Tehosteet ovat vertaansa vailla! Martin Landau viihdytti meitä viime vuoden Halloweenissakin. Nyt kaverina Jack Palance."
    },
-   "tr": "https://www.youtube.com/watch?v=JLkhKBEO1B4",
-   "ts": [
-    "en"
-   ]
+   "tr": ""
   },
   "women in love rakastavaisia": {
    "id": 66027,
