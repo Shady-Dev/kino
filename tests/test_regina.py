@@ -591,8 +591,8 @@ class RegistryAndPagesTest(unittest.TestCase):
         self.assertIn("chain-regina", city)
         # 16 since 2026-09-21: Kino K13 and Kino Helios took Helsinki to ten chains
         # over sixteen venues. 18 since 2026-10-13, with Kino Konepaja and Kino
-        # Kulttuurimylly.
-        self.assertIn("18 teatteria", city)
+        # Kulttuurimylly. 20 since 2026-10-24, with Vuotalo and Kanneltalo.
+        self.assertIn("20 teatteria", city)
 
 
 class FilmIdentityTest(unittest.TestCase):
