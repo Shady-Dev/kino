@@ -21,9 +21,8 @@
 [kinoolympia] Kino Olympia (Hanko): 8 showtimes
 [kinoolympia] Kino Olympia: 8 showtimes, 5 dates
 [kinoolympia] synopses merged: 0
-[http] 403 from jarvelankino.fi, gave up after 3 attempt(s) -- Server: nginx
-[jarvelankino] locationid 1 FAILED: HTTP Error 403: Forbidden
-[jarvelankino] Järvelän Kino: no showtimes, keeping previous data from 2026-10-24T17:30:59+00:00
+[jarvelankino] Järvelän Kino (Järvelä): 6 showtimes
+[jarvelankino] Järvelän Kino: 6 showtimes, 4 dates
 [jarvelankino] synopses merged: 0
 [kinometso] Muurame (Muurame): 9 showtimes
 [kinometso] Petäjävesi (Petäjävesi): 5 showtimes
@@ -48,11 +47,10 @@
 [biostara] Bio Stara (Paimio): 14 showtimes
 [biostara] Bio Stara: 14 showtimes, 4 dates
 [biostara] synopses merged: 0
-[run] http: 0 revalidated (304), 10 full, 10 not stored (origin said no-store), 0 cache entries written
+[run] http: 0 revalidated (304), 11 full, 11 not stored (origin said no-store), 0 cache entries written
 [run] hosts: 7 attempted -- biosalo.fi, jarvelankino.fi, kino-olympia.fi, kinoaurora.fi, kinohirvi.fi, kinomarilyn.fi, kinoset.fi
 [run] pending: kinometso has 2 venue(s) with no programme yet: km-tikkakoski, km-vaajakoski
 [run] partial: kinomarilyn kept previous data for 1 venue(s): ma-loviisa
-[run] partial: jarvelankino kept previous data for 1 venue(s): ja-jarvela
-[run] nexxo: 15 venues, 165 showtimes, 2 stale, 0 unverified, 2 pending, 0 with no programme, 2 failures
-[run] timing: 10 site(s), 87.0s of fetching added up across workers that overlap, longest site 24.4s, longest queue wait 0.0s, 24.4s wall from this module's first fetch starting to its last ending
+[run] nexxo: 16 venues, 171 showtimes, 1 stale, 0 unverified, 2 pending, 0 with no programme, 1 failures
+[run] timing: 10 site(s), 64.2s of fetching added up across workers that overlap, longest site 24.1s, longest queue wait 0.0s, 24.1s wall from this module's first fetch starting to its last ending
 exit=1

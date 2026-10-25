@@ -4547,7 +4547,6 @@
    "krs": [
     "bioforum",
     "engel",
-    "gilda",
     "kinokilta",
     "kinokonepaja",
     "kinolaika",
@@ -6270,13 +6269,12 @@
   },
   "queen budapest": {
    "id": 142773,
-   "img": "data/posters/fc3dc1b53e616386.jpg",
-   "r": 8.2,
+   "r": 0,
    "s": {
     "en": "On July 27, 1986, Queen performed the largest-ever stadium concert at the Népstadion in Budapest in front of 80,000 ecstatic fans. The concert was part of the famed Magic Tour, which was the last time the band toured with lead singer Freddie Mercury. Now, this original concert film has been beautifully rescanned and remastered in 4K alongside a dynamic new audio mix, featuring many of Queen's favorite tracks— 'Bohemian Rhapsody,” 'Crazy Little Thing Called Love,' 'I Want To Break Free” and 'We Are The Champions.' With three years to go before the fall of the Berlin Wall, this was the first Western rock concert performed in a stadium behind the then Iron Curtain. It was of such significance to the Hungarian authorities and film industry that a group of the country’s top film cameramen and technicians were brought together to film it for posterity.",
     "fi": ""
    },
-   "tr": "https://www.youtube.com/watch?v=zmAjjW9A0o4"
+   "tr": ""
   },
   "rakasta minua manhattan": {
    "id": 94066,
@@ -6555,7 +6553,7 @@
   },
   "rose": {
    "id": 1176962,
-   "img": "data/posters/abbaf8c90c0c135c.jpg",
+   "img": "data/posters/7de845a87ecfdd03.jpg",
    "r": 7.7,
    "s": {
     "en": "In the early 17th century, a soldier arrives at an isolated Protestant village in Germany claiming to be the heir to an abandoned farmstead. Even though he proves to be a good man, the villagers’ suspicions about his identity grow and they force a reckoning.",
@@ -7554,10 +7552,6 @@
   "the invite": {
    "id": 950028,
    "img": "data/posters/2755bb2be0a0c120.jpg",
-   "kr": "K-12",
-   "krs": [
-    "engel"
-   ],
    "r": 7.2,
    "s": {
     "en": "",
@@ -7934,11 +7928,10 @@
   },
   "the social reckoning": {
    "id": 1281331,
-   "img": "data/posters/baccbbbb98b979e0.jpg",
+   "img": "data/posters/cc94b9de33574b5f.jpg",
    "kr": "K-12",
    "krs": [
     "biorex",
-    "gilda",
     "kinoaurora",
     "niagara",
     "tapiola"
@@ -8943,5 +8936,5 @@
    "tr": ""
   }
  },
- "generated": "2026-10-24"
+ "generated": "2026-10-25"
 }
