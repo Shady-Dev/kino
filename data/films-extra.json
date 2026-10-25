@@ -136,16 +136,12 @@
   },
   "alpha": {
    "id": 1284460,
-   "img": "data/posters/c86137e8eee41407.jpg",
-   "r": 6.2,
+   "r": 0,
    "s": {
-    "en": "Alpha, a troubled 13-year-old lives with her single mom. Their world collapses the day she returns from school with a tattoo on her arm.",
+    "en": "",
     "fi": "Titanella Cannesin Kultaisen palmun voittanut ohjaaja Julia Ducournau palaa uudella body horror -draamalla Alpha . Shokeeraavassa tarinassa 13-vuotias tyttö tulee kotiin tatuoituna. Pian merkit alkavat viitata siihen, että hän on saanut tartuntana uuden viruksen, joka aiheuttaa hätää ympäri Le Havren kaupunkia. Tauti näyttää muuttavan ihmisen kehon hitaasti marmoriksi. Pelon kasvaessa tartuntahuhuista tulee yhtä suuri uhka kuin itse viruksesta. Titanen tavoin Alpha oli suuri kohutapaus Cannesin kilpasarjassa. ” Huomaan kuitenkin itse liikuttuvani rankasta elokuvasta yllättävän vahvasti, ja pidän siitä lopulta yhtä paljon tai enemmän kuin Titanesta ” – Sakri Pölönen / HS"
    },
-   "tr": "https://www.youtube.com/watch?v=4Cc2A-YLARs",
-   "ts": [
-    "en"
-   ]
+   "tr": ""
   },
   "alt skal bort 2025": {
    "id": 1401113,
@@ -795,7 +791,6 @@
     "kinosampo",
     "kinotar",
     "kinotoijala",
-    "kinovirta",
     "kotkanleffat",
     "leffabuumi",
     "lieksankino",
@@ -2148,6 +2143,7 @@
    "kr": "K-7",
    "krs": [
     "bioforum",
+    "biograni",
     "biorex",
     "cine",
     "gilda",
@@ -2166,6 +2162,7 @@
     "kinotoijala",
     "kkino",
     "korjaamo",
+    "leffabuumi",
     "savonkinot",
     "tapiola"
    ],
@@ -2372,6 +2369,7 @@
     "alatalo",
     "bioforum",
     "biogrand",
+    "biograni",
     "biokaari",
     "biomarilyn",
     "biomarlon",
@@ -2445,6 +2443,7 @@
     "alatalo",
     "bioforum",
     "biogrand",
+    "biograni",
     "biokaari",
     "biomarilyn",
     "biomarlon",
@@ -3709,6 +3708,7 @@
     "kinotervakoski",
     "kinotoijala",
     "kkino",
+    "leffabuumi",
     "levisummit",
     "tapiola"
    ],
@@ -3733,12 +3733,16 @@
   },
   "late lammas elokuva hämäräpuuhissa suomeksi": {
    "id": 1477104,
-   "r": 0,
+   "img": "data/posters/93eda5fa30b7d70c.jpg",
+   "r": 7.4,
    "s": {
-    "en": "",
+    "en": "On Halloween Eve at Mossy Bottom Farm, excitement turns to dismay when the clumsy Farmer ruins the pumpkin patch. Shaun tries fixing it with science experiments, but things go awry when a wild beast appears in the woods.",
     "fi": "Rakastettu Late Lammas palaa valkokankaille uudessa, riemastuttavassa ja kutkuttavan hauskassa seikkailussa. Farmin asukkaat odottavat innolla Halloweenia, kunnes heidän rakkaudella kasvattamansa kurpitsaviljelmä tuhoutuu juhlan kynnyksellä. Late ei jää toimettomaksi, vaan päättää ryhtyä “hulluksi tiedemieheksi” korjatakseen tilanteen – ja pian tapahtumat karkaavatkin täysin käsistä. Kun tilan maajussi katoaa ja outo villi peto herättää kauhua kyläläisissä, ovat kaikki ainekset kasassa hirviömäisen hauskalle seikkailulle kaiken ikäisille. Kananlento ja Wallace & Gromit -elokuvien tekijöiden uusi seikkailu Late Lammas: Hämäräpuuhissa saapuu elokuvateattereihin 30. lokakuuta."
    },
-   "tr": ""
+   "tr": "https://www.youtube.com/watch?v=daZMq0AyOMc",
+   "ts": [
+    "en"
+   ]
   },
   "late lammas hämäräpuuhissa": {
    "id": 1477104,
@@ -3847,7 +3851,6 @@
     "engel",
     "ihmekompleksi",
     "isohannu",
-    "kinoakseli",
     "kinojuha",
     "kinokuva",
     "kinolaika",
@@ -5437,6 +5440,7 @@
    "kr": "S",
    "krs": [
     "alatalo",
+    "biograni",
     "biomarilyn",
     "biorex",
     "biorexkokkola",
@@ -5444,7 +5448,6 @@
     "biosalo",
     "biostara",
     "engel",
-    "haapamaki",
     "huvimylly",
     "ihmekompleksi",
     "isohannu",
@@ -5505,6 +5508,7 @@
    "kr": "S",
    "krs": [
     "alatalo",
+    "biograni",
     "biomarilyn",
     "biorex",
     "biorexkokkola",
@@ -5512,7 +5516,6 @@
     "biosalo",
     "biostara",
     "engel",
-    "haapamaki",
     "huvimylly",
     "ihmekompleksi",
     "isohannu",
@@ -5575,6 +5578,7 @@
    "kr": "S",
    "krs": [
     "alatalo",
+    "biograni",
     "biomarilyn",
     "biorex",
     "biorexkokkola",
@@ -5582,7 +5586,6 @@
     "biosalo",
     "biostara",
     "engel",
-    "haapamaki",
     "huvimylly",
     "ihmekompleksi",
     "isohannu",
@@ -5628,6 +5631,7 @@
    "kr": "S",
    "krs": [
     "alatalo",
+    "biograni",
     "biomarilyn",
     "biorex",
     "biorexkokkola",
@@ -5635,7 +5639,6 @@
     "biosalo",
     "biostara",
     "engel",
-    "haapamaki",
     "huvimylly",
     "ihmekompleksi",
     "isohannu",
@@ -5696,6 +5699,7 @@
    "krs": [
     "alatalo",
     "bioforum",
+    "biograni",
     "biomarilyn",
     "biorex",
     "biorexkokkola",
@@ -7420,8 +7424,7 @@
     "kinolaika",
     "korjaamo",
     "niagara",
-    "regina",
-    "sheryl"
+    "regina"
    ],
    "r": 7.5,
    "s": {
@@ -7444,8 +7447,7 @@
     "kinolaika",
     "korjaamo",
     "niagara",
-    "regina",
-    "sheryl"
+    "regina"
    ],
    "r": 7.5,
    "s": {
@@ -8104,16 +8106,12 @@
   },
   "toy story 5 dub": {
    "id": 1084244,
-   "img": "data/posters/61da1236c24613ee.jpg",
-   "r": 8.3,
+   "r": 0,
    "s": {
-    "en": "When Bonnie receives a Lilypad tablet as a gift and becomes obsessed, Buzz, Woody, Jessie and the rest of the gang's jobs become exponentially harder when they have to go head to head with the all-new threat to playtime.",
+    "en": "",
     "fi": "Lelut tekevät paluun elokuvassa Toy Story 5, ja tällä kertaa ne joutuvat törmäyskurssille tekniikan kanssa. Uuden uhan edessä Buzz, Woody, Jessie ja muu jengi joutuvat paiskimaan hommia monin verroin lelujen ja laitteiden käydessä kamppailua lasten leikkiajasta."
    },
-   "tr": "https://www.youtube.com/watch?v=QftAW9TTmuQ",
-   "ts": [
-    "en"
-   ]
+   "tr": ""
   },
   "toy story 5 suomeksi": {
    "id": 1084244,
@@ -8236,6 +8234,7 @@
     "kinolaika",
     "korjaamo",
     "kuvakukko",
+    "leffabuumi",
     "niagara",
     "savonkinot",
     "tapiola"
@@ -8411,7 +8410,7 @@
   "unohdettu saari suomeksi": {
    "id": 1465063,
    "img": "data/posters/9bcaf7ef167a0f8f.jpg",
-   "r": 7.9,
+   "r": 7.8,
    "s": {
     "en": "While celebrating their last night together, high school graduates and best friends Jo and Raissa stumble upon a mysterious portal that transports them to the fantastical island of Nakali. When they discover that the memories of their entire friendship are the price for returning home, Jo and Raissa must race to find a way to leave the island before they forget each other forever.",
     "fi": "Parhaan ystävyyden puolesta kannattaa taistella. DreamWorks Animation on aiemmin tuonut katsojille tarinoita unohtumattomista siteistä pojan ja lohikäärmeen välillä Näin koulutat lohikäärmeesi -elokuvissa, jätin ja aasin välillä Shrek-elokuvissa sekä robotin ja hanhenpoikasen välillä elokuvassa Villi robotti. Nyt luvassa on huikean tunteikas tarina kahdesta parhaasta ystävyksestä, joiden täytyy yhdistää voimansa eron uhatessa elokuvassa Unohdettu saari. Uuden alkuperäistarinan on käsikirjoittanut ja ohjannut Oscar-ehdokas Joel Crawford ja Januel Mercado. Tuottajana toimii Oscar-ehdokas Mark Swift. Sama tiimi on myös ollut tekemässä elokuvaa Saapasjalkakissa: Viimeinen toivomus. Grammy- ja Oscar-palkittu supertähti H.E.R. ja Liza Soberano (Lisa Frankenstein, Alone/Together) ovat Jo ja Raissa, high schoolista valmistunut parivaljakko. He ovat olleet parhaita ystäviä ala-asteelta asti, mutta nyt elämä uhkaa erottaa ystävykset. Juhliessaan viimeistä yhteistä iltaansa Jo ja Raissa törmäävät salaperäiseen portaaliin, joka kuljettaa heidät Nakalin mielikuvitukselliselle saarelle. Saari on täynnä maagisia ja myyttisiä olentoja, joista ystävysten filippiiniläisperheet ovat kertoneet tarinoita. Uusista tuttavuuksista paljastuu niin ystäviä kuin vihollisiakin. Apunaan hyvää tarkoittava mutta melko avuton ihmiskoira Raww (Dave Franco) sekä pieni mutta pippurinen joukko muita kamuja Jo ja Raissa ottavat mittaa karmeasta Manananggalista (Tony-palkittu ikoni Lea Salonga), saaren pelätyimmästä olennosta. Kun parille paljastuu, että hinta kotiinpaluusta on kaikkien yhteisten muistojen menettäminen, Jon ja Raissan täytyy keksiä keino päästä pois saarelta unohtamatta toisiaan. Elokuvan ääninäyttelijöiden tähtisikermää täydentävät Emmy-ehdokas Jenny Slate (Marcell the Shell with Shoes On, Dying for Sex), Manny Jacinto (The Good Place, Top Gun: Maverick), BAFTA-ehdokas Dolly de Leon (Triangle of Sadness, Ghostlight), komedian supertähti Jo Koy (Haunted Mansion, Jo Koy: Live from B"

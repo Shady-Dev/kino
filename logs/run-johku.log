@@ -9,7 +9,7 @@
 [biomarilyn] synopses merged: 0
 [vihdinkino] 3 screening(s) in 1 schedule block(s), 1 film page(s) read
 [vihdinkino] prices for 3 of 3 screening(s); 2 of 2 price scheme(s) read establish an ordinary ticket, from 1 shows.json read(s)
-[vihdinkino] left out as the page does: 4 already started, 0 not in the catalogue
+[vihdinkino] left out as the page does: 3 already started, 0 not in the catalogue
 [vihdinkino] 1 synopsis/synopses withheld, no language settled: Lapin sota
 [vihdinkino] Vihdin Kino: 3 showtimes, 3 dates
 [vihdinkino] Vihdin Kino: 3 showtimes, 3 dates
@@ -20,7 +20,7 @@
 [bioforum] 2 synopsis/synopses withheld, no language settled: Bokkalaset i Ekenäs: Så länge hjärtat slår & Bianca Kronlöf, Lapin sota
 [bioforum] Bio Forum: 30 showtimes, 12 dates
 [bioforum] Bio Forum: 30 showtimes, 12 dates
-[bioforum] synopses merged: 4
+[bioforum] synopses merged: 0
 [kinokulma] 19 screening(s) in 1 schedule block(s), 4 film page(s) read
 [kinokulma] prices for 10 of 14 screening(s); 3 of 4 price scheme(s) read establish an ordinary ticket, from 1 shows.json read(s)
 [kinokulma] left out as the page does: 3 already started, 0 not in the catalogue
@@ -37,12 +37,12 @@
 [kinohannikainen] Kino Hannikainen: 9 showtimes, 5 dates
 [kinohannikainen] Kino Hannikainen: 9 showtimes, 5 dates
 [kinohannikainen] synopses merged: 0
-[kinovirta] 4 screening(s) in 1 schedule block(s), 3 film page(s) read
-[kinovirta] prices for 4 of 4 screening(s); 1 of 1 price scheme(s) read establish an ordinary ticket, from 1 shows.json read(s)
-[kinovirta] left out as the page does: 3 already started, 0 not in the catalogue
-[kinovirta] 2 synopsis/synopses withheld, no language settled: Clayface, Lapin Sota
-[kinovirta] Kino Virta: 4 showtimes, 3 dates
-[kinovirta] Kino Virta: 4 showtimes, 3 dates
+[kinovirta] 3 screening(s) in 1 schedule block(s), 2 film page(s) read
+[kinovirta] prices for 3 of 3 screening(s); 1 of 1 price scheme(s) read establish an ordinary ticket, from 1 shows.json read(s)
+[kinovirta] left out as the page does: 4 already started, 0 not in the catalogue
+[kinovirta] 1 synopsis/synopses withheld, no language settled: Lapin Sota
+[kinovirta] Kino Virta: 3 showtimes, 2 dates
+[kinovirta] Kino Virta: 3 showtimes, 2 dates
 [kinovirta] synopses merged: 0
 [kulttuurimylly] 4 screening(s) in 1 schedule block(s), 4 film page(s) read
 [kulttuurimylly] prices for 4 of 4 screening(s); 3 of 3 price scheme(s) read establish an ordinary ticket, from 3 shows.json read(s)
@@ -51,8 +51,8 @@
 [kulttuurimylly] strand prefix split off 2 showtimes
 [kulttuurimylly] Kino Kulttuurimylly: 4 showtimes, 3 dates
 [kulttuurimylly] synopses merged: 0
-[run] http: 0 revalidated (304), 55 full, 16 not stored (origin said no-store), 0 cache entries written
+[run] http: 0 revalidated (304), 54 full, 16 not stored (origin said no-store), 0 cache entries written
 [run] hosts: 8 attempted -- bioforum.fi, biomarilyn.johku.com, kinokulma.fi, kinovirta.johku.com, kulttuurimylly.johku.com, vihdinkino.fi, www.biomarilyn.com, www.kinohannikainen.net
-[run] johku: 7 venues, 74 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
-[run] timing: 7 site(s), 100.0s of fetching added up across workers that overlap, longest site 29.7s, longest queue wait 137.2s, 38.9s wall from this module's first fetch starting to its last ending
+[run] johku: 7 venues, 73 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
+[run] timing: 7 site(s), 90.8s of fetching added up across workers that overlap, longest site 28.4s, longest queue wait 123.4s, 39.0s wall from this module's first fetch starting to its last ending
 exit=0

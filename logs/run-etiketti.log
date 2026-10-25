@@ -15,15 +15,15 @@
 [kinoiiris] screening-note sentences left out of synopses: 4
 [kkino] K-Kino: 9 showtimes, 5 dates
 [kkino] synopses merged: 0
-[biograni] Bio Grani: 2 showtimes, 2 dates
+[biograni] Bio Grani: 9 showtimes, 6 dates
 [biograni] synopses merged: 0
 [niagara] Cinema Niagara: 30 showtimes, 15 dates
 [niagara] synopses merged: 0
 [kinokaustinen] Kino Kaustinen: no programme at the moment (adapter confirmed the venue empty); publishing an empty file
 [kinokaustinen] synopses merged: 0
 [kinokaustinen] no programme published: https://kinokaustinen.fi/elokuvat/ohjelmistossa renders the template's empty programme
-[run] http: 0 revalidated (304), 149 full, 149 not stored (origin said no-store), 0 cache entries written
+[run] http: 0 revalidated (304), 155 full, 155 not stored (origin said no-store), 0 cache entries written
 [run] hosts: 10 attempted -- biograni.fi, biovuoksi.fi, cinemaniagara.fi, jamsankinotar.fi, k-kino.fi, kinoiiris.com, kinojuha.fi, kinokaustinen.fi, kinopirtti.fi, www.biorex.org
-[run] etiketti: 10 venues, 205 showtimes, 0 stale, 0 unverified, 0 pending, 1 with no programme, 0 failures
-[run] timing: 10 site(s), 251.2s of fetching added up across workers that overlap, longest site 58.2s, longest queue wait 41.0s, 88.1s wall from this module's first fetch starting to its last ending
+[run] etiketti: 10 venues, 212 showtimes, 0 stale, 0 unverified, 0 pending, 1 with no programme, 0 failures
+[run] timing: 10 site(s), 261.4s of fetching added up across workers that overlap, longest site 57.6s, longest queue wait 34.0s, 82.5s wall from this module's first fetch starting to its last ending
 exit=0
