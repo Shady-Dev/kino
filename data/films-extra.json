@@ -777,7 +777,6 @@
    "img": "data/posters/ea1d6efb7cdae5e2.jpg",
    "kr": "K-16",
    "krs": [
-    "bioforum",
     "biopallas",
     "biorex",
     "biorexkokkola",
@@ -788,7 +787,6 @@
     "isohannu",
     "kino123",
     "kinoelo",
-    "kinokulma",
     "kinolumo",
     "kinomania",
     "kinomarilyn",
@@ -1255,7 +1253,7 @@
    "r": 0,
    "s": {
     "en": "On election night 2010, two young Sweden Democrats — the charming but unserious Ville and his cousin Tobias — are given the task of hanging a huge Swedish flag in Rinkeby square, but end up drawn into a chaotic night full of crazy encounters with drug dealers, activists, and Finnish bikers.",
-    "fi": "",
+    "fi": "On vaaliyö vuonna 2010, ja ruotsidemokraatit ovat juuri saaneet ensimmäiset paikkansa valtiopäiviltä. Serkukset Ville ja Tobias saavat tehtäväkseen ripustaa valtavan Ruotsin lipun Rinkebyn torille puolueen voiton kunniaksi. Kuulostaa helpolta – kunnes kaikki alkaa mennä pieleen.",
     "sv": "Under valnatten 2010 får två unga Sverigedemokrater, den charmige men oseriöse Ville och hans kusin Tobias, i uppdrag att hänga en enorm svensk flagga på Rinkeby torg, men blir indragna i en stökig natt fylld av galna möten med langare, aktivister och finska bikers."
    },
    "tr": "https://www.youtube.com/watch?v=Syq9tr4hiGA",
@@ -1318,6 +1316,19 @@
     "en": "On Halloween Eve at Mossy Bottom Farm, excitement turns to dismay when the clumsy Farmer ruins the pumpkin patch. Shaun tries fixing it with science experiments, but things go awry when a wild beast appears in the woods.",
     "fi": "",
     "sv": "I den tredje biofilmen om fåret Shaun ser invånarna på Mossy Bottom Farm fram emot Halloween, tills den klumpiga bonden förstör fårflockens älskade pumpaland. När Shaun förvandlas till galet vetenskapsfår för att åtgärda problemet går saker och ting snabbt överstyr, speciellt efter att bonden försvinner och ett vilddjur dyker upp i Mossinghams skogar. OBS! Ingen dialog. Shaun och flocken talar sitt eget språk."
+   },
+   "tr": "https://www.youtube.com/watch?v=daZMq0AyOMc",
+   "ts": [
+    "en"
+   ]
+  },
+  "fåret shaun och monstret på bondgården late lammas hämärapuuhissa": {
+   "id": 1477104,
+   "img": "data/posters/93eda5fa30b7d70c.jpg",
+   "r": 7.4,
+   "s": {
+    "en": "On Halloween Eve at Mossy Bottom Farm, excitement turns to dismay when the clumsy Farmer ruins the pumpkin patch. Shaun tries fixing it with science experiments, but things go awry when a wild beast appears in the woods.",
+    "fi": "Farmin asukkaat odottavat innolla Halloweenia, kunnes heidän rakkaudella kasvattamansa kurpitsaviljelmä tuhoutuu juhlan kynnyksellä. Late ei jää toimettomaksi, vaan päättää ryhtyä “hulluksi tiedemieheksi” korjatakseen tilanteen – ja pian tapahtumat karkaavatkin täysin käsistä. Kun tilan maajussi katoaa ja outo villi peto herättää kauhua kyläläisissä, ovat kaikki ainekset kasassa hirviömäisen hauskalle seikkailulle kaiken ikäisille."
    },
    "tr": "https://www.youtube.com/watch?v=daZMq0AyOMc",
    "ts": [
@@ -2136,6 +2147,7 @@
    "img": "data/posters/31b4bfa4354c3f1d.jpg",
    "kr": "K-7",
    "krs": [
+    "bioforum",
     "biorex",
     "cine",
     "gilda",
@@ -2143,11 +2155,15 @@
     "isohannu",
     "joutsankino",
     "kinoaurora",
+    "kinoelo",
     "kinojuha",
     "kinokonepaja",
     "kinokulma",
+    "kinomania",
     "kinometso",
+    "kinosampo",
     "kinotervakoski",
+    "kinotoijala",
     "kkino",
     "korjaamo",
     "savonkinot",
@@ -2164,6 +2180,16 @@
    "id": 1503762,
    "img": "data/posters/31b4bfa4354c3f1d.jpg",
    "r": 7.4,
+   "s": {
+    "en": "",
+    "fi": "Uusi, vastustamaton tulkinta Jane Austenin ikonisesta Järki ja tunteet -teoksesta: hurmaava, nokkela ja syvästi samaistuttava tarina rakkaudesta ja sisaruudesta. Pääosissa loistavat Daisy Edgar-Jones ja Esmé Creed-Miles."
+   },
+   "tr": "https://www.youtube.com/watch?v=OFLyW0lxFU0"
+  },
+  "järki ja tunteet sense and sensibility": {
+   "id": 1503762,
+   "img": "data/posters/056008305739a764.jpg",
+   "r": 7.2,
    "s": {
     "en": "",
     "fi": "Uusi, vastustamaton tulkinta Jane Austenin ikonisesta Järki ja tunteet -teoksesta: hurmaava, nokkela ja syvästi samaistuttava tarina rakkaudesta ja sisaruudesta. Pääosissa loistavat Daisy Edgar-Jones ja Esmé Creed-Miles."
@@ -2348,6 +2374,7 @@
     "biogrand",
     "biokaari",
     "biomarilyn",
+    "biomarlon",
     "biopallas",
     "biorex",
     "biorexkokkola",
@@ -2400,7 +2427,6 @@
     "star",
     "studio123jarvenpaa",
     "studio123kouvola",
-    "tapiola",
     "vaakuna",
     "virtainpirtti"
    ],
@@ -2421,6 +2447,7 @@
     "biogrand",
     "biokaari",
     "biomarilyn",
+    "biomarlon",
     "biopallas",
     "biorex",
     "biorexkokkola",
@@ -2473,7 +2500,6 @@
     "star",
     "studio123jarvenpaa",
     "studio123kouvola",
-    "tapiola",
     "vaakuna",
     "virtainpirtti"
    ],
@@ -3663,6 +3689,7 @@
    "img": "data/posters/93eda5fa30b7d70c.jpg",
    "kr": "K-7",
    "krs": [
+    "bioforum",
     "biorex",
     "elavienkuvien",
     "engel",
@@ -3671,12 +3698,16 @@
     "isohannu",
     "joutsankino",
     "kinoaurora",
+    "kinoelo",
     "kinojuha",
     "kinolaika",
+    "kinomania",
     "kinometso",
     "kinomyyri",
     "kinoolympia",
+    "kinosampo",
     "kinotervakoski",
+    "kinotoijala",
     "kkino",
     "levisummit",
     "tapiola"
@@ -3808,7 +3839,6 @@
   "lilla spöket laban busar vidare": {
    "kr": "S",
    "krs": [
-    "biomarlon",
     "biorex",
     "biorexkokkola",
     "biosalo",
@@ -3832,8 +3862,7 @@
     "leffabuumi",
     "savonkinot",
     "star",
-    "studio123jarvenpaa",
-    "vaakuna"
+    "studio123jarvenpaa"
    ],
    "r": 0,
    "s": {
@@ -4734,13 +4763,12 @@
   },
   "nälkäpeli matkijanärhi osa 2": {
    "id": 131634,
-   "img": "data/posters/1389bf9bdb26c03a.jpg",
-   "r": 6.9,
+   "r": 0,
    "s": {
     "en": "",
     "fi": "Maailmanlaajuinen elokuvamenestys Nälkäpeli on saanut toden teolla koko maailman liekkeihin. Nälkäpeli – Matkijanärhi, osa 2 on elokuvasarjan odotettu päätösosa, jossa Katniss Everdeen (Jennifer Lawrence) ymmärtää, että pelissä ei ole enää pelkkä selviytyminen, vaan koko Panemin tulevaisuus. Panemin kansan käydessä täysimittaiseen sotaan Katnissin on kohdattava presidentti Snow (Donald Sutherland) lopullisessa välienselvittelyssä. Vapauttaakseen Panemin kansan Katniss käy taisteluun Capitolia vastaan yhdessä Vyöhyke 13 joukkojen kanssa. Heidän suunnitelmissaan on murhata presidentti Snow, jonka pakkomielle tuhota Katniss on kasvanut äärimmilleen. Kuolettavat ansat, viholliset ja moraaliset valinnat odottavat jälleen Katnissia, mutta tällä kertaa ne ovat haastavampia kuin yhdelläkään Nälkäpeli-areenoista."
    },
-   "tr": "https://www.youtube.com/watch?v=SoKIqLEGhI0"
+   "tr": ""
   },
   "nälkäpeli vihan liekit": {
    "id": 101299,
@@ -5473,6 +5501,47 @@
   },
   "pikkuli ja tähtipeura puhumme suomea": {
    "id": 1403476,
+   "img": "data/posters/79b249e47f0870db.jpg",
+   "kr": "S",
+   "krs": [
+    "alatalo",
+    "biomarilyn",
+    "biorex",
+    "biorexkokkola",
+    "biosade",
+    "biosalo",
+    "biostara",
+    "engel",
+    "haapamaki",
+    "huvimylly",
+    "ihmekompleksi",
+    "isohannu",
+    "jarvelankino",
+    "joutsankino",
+    "julia",
+    "kino123",
+    "kinohannikainen",
+    "kinohirvi",
+    "kinokulma",
+    "kinokuva",
+    "kinolumo",
+    "kinomarilyn",
+    "kinometso",
+    "kinomyyri",
+    "kinopiispanristi",
+    "kinopirtti",
+    "kinoset",
+    "kinotour",
+    "kotkanleffat",
+    "kuvakukko",
+    "leffabuumi",
+    "lieksankino",
+    "pajakkakino",
+    "savonkinot",
+    "star",
+    "studio123jarvenpaa",
+    "virtainpirtti"
+   ],
    "r": 0,
    "s": {
     "en": "",
@@ -5628,7 +5697,6 @@
     "alatalo",
     "bioforum",
     "biomarilyn",
-    "biomarlon",
     "biorex",
     "biorexkokkola",
     "biosade",
@@ -6620,7 +6688,7 @@
   "saapasjalkakissa tekiöiltä unohdettu saari": {
    "id": 1465063,
    "img": "data/posters/db8d634869fa04ac.jpg",
-   "r": 7.9,
+   "r": 7.8,
    "s": {
     "en": "While celebrating their last night together, high school graduates and best friends Jo and Raissa stumble upon a mysterious portal that transports them to the fantastical island of Nakali. When they discover that the memories of their entire friendship are the price for returning home, Jo and Raissa must race to find a way to leave the island before they forget each other forever.",
     "fi": ""
@@ -7013,7 +7081,7 @@
   "street fighter": {
    "id": 1153576,
    "img": "data/posters/2c34dcbef60ffbda.jpg",
-   "r": 6.3,
+   "r": 6.4,
    "s": {
     "en": "In 1993, estranged Street Fighters Ryu and Ken Masters are thrown back into combat when the mysterious Chun-Li recruits them for the next World Warrior Tournament: a brutal clash of fists, fate, and fury. But behind this battle royale lies a deadly conspiracy that forces them to face off against each other and the demons of their past. And if they don't, it's GAME OVER!",
     "fi": "Eletään vuotta 1993, ja toisistaan vieraantuneet tappelijat Ryu (Andrew Koji) ja Ken Masters (Noah Centineo) vedetään takaisin tappelukuvioihin, kun salaperäinen Chun-Li (Callina Liang) värvää heidät seuraavaan World Warrior -turnaukseen – armottomaan nyrkkien, kohtalon ja raivon yhteentörmäykseen. Turnauksen kulisseissa kytee vaarallinen salaliitto, joka pakottaa Ryun ja Kenin kohtaamaan sekä toisensa että menneisyytensä demonit. Muuten peli on ohi.",
@@ -7292,6 +7360,19 @@
     "fi": "Anna Bára: 9 MILLION COLORS (Czech Republic 2025) 15 min Eliška Kirásková: BETTER MAN (Czech Republic 2025) 6 min Nora Štrbová: WHAT IF WE RUN OUT OF STONES? (Czech Republic 2025) 7 min Jamaica Kindlová: GENTLY (Czech Republic 2026) 9 min Olexi Chubun: SECOND SPRING (Czech Republic 2025) 18 min Klára Kubenková: POLIO (Czech Republic 2025) 5 min Viktorie Štěpánová: VOLKLORE (Czech Republic 2026) 16 min"
    },
    "tr": ""
+  },
+  "the altar boys kuoripojat": {
+   "id": 1383172,
+   "img": "data/posters/c2c545949f40f7cf.jpg",
+   "r": 0,
+   "s": {
+    "en": "A group of teenage altar boys, frustrated by the indifferent attitude of adults and the Church towards social injustices, decides to implement their own unconventional plan for moral renewal of their neighbourhood. Armed with youthful rebellion and their personal interpretation of the Bible, they set up a wiretap… in the confessional.",
+    "fi": "Elokuvan päähenkilöt ovat nuoria kuoripoikia, jotka turhautuvat aikuisten ja kirkon välinpitämättömyyteen epäoikeudenmukaisuutta kohtaan. He alkavat salakuunnella ihmisten ripittäytymisiä ja ryhtyvät omalla tavallaan jakamaan oikeutta naapurustossaan. Leikillinen supersankarimainen tehtävä muuttuu vähitellen vaaralliseksi, kun pojat alkavat horjua hyvän ja pahan rajalla."
+   },
+   "tr": "https://www.youtube.com/watch?v=QRa-4A3D9Fg",
+   "ts": [
+    "en"
+   ]
   },
   "the babadook": {
    "id": 242224,
@@ -8544,12 +8625,37 @@
   },
   "verityn varjo verity": {
    "id": 1283515,
-   "r": 0,
+   "img": "data/posters/052a413644e02ce6.jpg",
+   "kr": "K-12",
+   "krs": [
+    "biorex",
+    "biosade",
+    "biosavoy",
+    "cinemantsala",
+    "gilda",
+    "isohannu",
+    "kino123",
+    "kinohirvi",
+    "kinojuha",
+    "kinolumo",
+    "kinopiispanristi",
+    "kinopirtti",
+    "kotkanleffat",
+    "leffabuumi",
+    "levisummit",
+    "savonkinot",
+    "star",
+    "studio123jarvenpaa"
+   ],
+   "r": 6.4,
    "s": {
-    "en": "",
+    "en": "Lowen Ashleigh, hired to ghostwrite for best-selling author Verity Crawford, uncovers Verity's autobiographical notes, and becomes involved in what may prove to be a lethal conspiracy.",
     "fi": "Colleen Hooverin menestysromaaniin perustuva viettelevä psykologinen trilleri seuraa menestyskirjailija Verity Crawfordia (Anne Hathaway) ja Lowen Ashleighia (Dakota Johnson), vaikeuksissa olevaa kirjailijaa, joka muuttaa syrjäiselle Crawfordin kartanolle kirjoittaakseen Verityn puolesta. Kun Lowen löytää jotakin, mikä vaikuttaa Verityn karmivilta omaelämäkerrallisilta muistiinpanoilta, hän joutuu kamppailemaan näiden häiritsevien ja kieroutuneiden tunnustusten kanssa, jotka koskevat Verityn aviomiestä Jeremyä (Josh Hartnett) – yrittäen erottaa fiktion todellisuudesta, manipuloinnin vetovoimasta ja tilaisuuden pakkomielteestä."
    },
-   "tr": ""
+   "tr": "https://www.youtube.com/watch?v=xdPMKhjMSFs",
+   "ts": [
+    "en"
+   ]
   },
   "vi är bäst me ollaan parhaita": {
    "r": 0,
