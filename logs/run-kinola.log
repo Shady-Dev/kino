@@ -8,7 +8,7 @@
 [kinokilta] Kino Kilta: 53 showtimes, 32 dates
 [kinokilta] synopses merged: 0
 [kinokilta] screening-note sentences left out of synopses: 1
-[kinolaika] 23 screening(s) listed, 16 film page(s) read
+[kinolaika] 22 screening(s) listed, 16 film page(s) read
 [kinolaika] omitted 0 confirmed non-film(s) by evidence-backed exclusion over 0 screening(s), and 6 unresolved over 6
 [kinolaika] unresolved: Antti Autio, Arppa, Dave Lindholm & Pepe Ahlqvist: WALKIN' BLUES -kiertue, Garden Folly, Knipi - Sivellinvetoja, Livemusavisa
 [kinolaika] override a-fox-under-a-pink-moon: evidence-unavailable
@@ -16,30 +16,31 @@
 [kinolaika] override naza: evidence-unavailable
 [kinolaika] override pikku-kummitus-lapanen-keppostelee: active
 [kinolaika] override two-seasons-two-strangers: active
-[kinolaika] Kino Laika: 17 showtimes, 8 dates
-[kinolaika] Kino Laika: 17 showtimes, 8 dates
+[kinolaika] Kino Laika: 16 showtimes, 8 dates
+[kinolaika] Kino Laika: 16 showtimes, 8 dates
 [kinolaika] synopses merged: 0
 [kinolaika] synopses skipped as screening notes: 1
-[kinomyyri] 23 screening(s) listed, 16 film page(s) read
+[kinomyyri] 24 screening(s) listed, 16 film page(s) read
 [kinomyyri] omitted 0 confirmed non-film(s) by evidence-backed exclusion over 0 screening(s), and 1 unresolved over 2
 [kinomyyri] unresolved: Boléro
 [kinomyyri] override kojootti-vs-acme-dub: evidence-unavailable
 [kinomyyri] override must-pori-nakku: active
 [kinomyyri] 1 synopsis/synopses withheld, no language settled: Hamnet
-[kinomyyri] 5 film(s) with a language name not read, that part left blank: Lapin sota (saami); Naza (heprealainen); Premada Oorali (kannada); Two Seasons, Two Strangers (japanilainen, korealainen); Vasenkätinen tyttö (mandariini)
-[kinomyyri] Kino Myyri: 21 showtimes, 10 dates
-[kinomyyri] Kino Myyri: 21 showtimes, 10 dates
-[kinomyyri] synopses merged: 0
-[kinokonepaja] 41 screening(s) listed, 17 film page(s) read
+[kinomyyri] 4 film(s) with a language name not read, that part left blank: Lapin sota (saami); Premada Oorali (kannada); Two Seasons, Two Strangers (japanilainen, korealainen); Vasenkätinen tyttö (mandariini)
+[kinomyyri] Kino Myyri: 22 showtimes, 12 dates
+[kinomyyri] Kino Myyri: 22 showtimes, 12 dates
+[kinomyyri] synopses merged: 1
+[kinomyyri] synopses by language: en 1
+[kinokonepaja] 46 screening(s) listed, 18 film page(s) read
 [kinokonepaja] omitted 0 confirmed non-film(s) by evidence-backed exclusion over 0 screening(s), and 0 unresolved over 0
 [kinokonepaja] override edward-scissorhands: active
 [kinokonepaja] override gremlins: active
 [kinokonepaja] override nightmare-on-elm-street: active
-[kinokonepaja] Kino Konepaja: 41 showtimes, 23 dates
-[kinokonepaja] Kino Konepaja: 41 showtimes, 23 dates
+[kinokonepaja] Kino Konepaja: 46 showtimes, 24 dates
+[kinokonepaja] Kino Konepaja: 46 showtimes, 24 dates
 [kinokonepaja] synopses merged: 0
-[run] http: 0 revalidated (304), 93 full, 18 not stored (origin said no-store), 41 cache entries written
+[run] http: 0 revalidated (304), 94 full, 18 not stored (origin said no-store), 41 cache entries written
 [run] hosts: 4 attempted -- kinokonepaja.fi, kinomyyri.fi, www.kinokilta.fi, www.kinolaika.fi
-[run] kinola: 4 venues, 132 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
-[run] timing: 4 site(s), 200.0s of fetching added up across workers that overlap, longest site 84.0s, longest queue wait 107.8s, 84.0s wall from this module's first fetch starting to its last ending
+[run] kinola: 4 venues, 137 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
+[run] timing: 4 site(s), 205.1s of fetching added up across workers that overlap, longest site 86.0s, longest queue wait 110.1s, 86.0s wall from this module's first fetch starting to its last ending
 exit=0
