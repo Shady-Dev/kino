@@ -13,5 +13,5 @@
 [run] http: 0 revalidated (304), 2 full, 0 not stored (origin said no-store), 0 cache entries written
 [run] hosts: 2 attempted -- muhos.fi, ritz.fi
 [run] tribe: 2 venues, 20 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
-[run] timing: 2 site(s), 23.2s of fetching added up across workers that overlap, longest site 22.0s, longest queue wait 146.5s, 22.0s wall from this module's first fetch starting to its last ending
+[run] timing: 2 site(s), 4.8s of fetching added up across workers that overlap, longest site 3.6s, longest queue wait 139.0s, 4.8s wall from this module's first fetch starting to its last ending
 exit=0
