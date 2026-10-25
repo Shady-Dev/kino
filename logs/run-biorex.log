@@ -1,31 +1,31 @@
-[biorex] BioRex Tripla: 224 showtimes
-[biorex] BioRex Redi: 163 showtimes
-[biorex] BioRex Verkatehdas: 146 showtimes
-[biorex] BioRex Sveitsi: 116 showtimes
+[biorex] BioRex Tripla: 218 showtimes
+[biorex] BioRex Redi: 158 showtimes
+[biorex] BioRex Verkatehdas: 142 showtimes
+[biorex] BioRex Sveitsi: 113 showtimes
 [biorex] BioRex Kajaani: 74 showtimes
 [biorex] BioRex Pietarsaari: 49 showtimes
-[biorex] BioRex Porvoo: 107 showtimes
-[biorex] BioRex Riihimäki: 51 showtimes
-[biorex] BioRex Rovaniemi: 123 showtimes
-[biorex] BioRex Seinäjoki: 144 showtimes
-[biorex] BioRex Tornio: 101 showtimes
-[biorex] BioRex Vaasa: 133 showtimes
+[biorex] BioRex Porvoo: 104 showtimes
+[biorex] BioRex Riihimäki: 49 showtimes
+[biorex] BioRex Rovaniemi: 118 showtimes
+[biorex] BioRex Seinäjoki: 143 showtimes
+[biorex] BioRex Tornio: 97 showtimes
+[biorex] BioRex Vaasa: 128 showtimes
 [biorex] film pages: 48/48
-[biorex] BioRex Tripla: 224 showtimes, 26 dates
-[biorex] BioRex Redi: 163 showtimes, 22 dates
-[biorex] BioRex Verkatehdas: 146 showtimes, 23 dates
-[biorex] BioRex Sveitsi: 116 showtimes, 22 dates
+[biorex] BioRex Tripla: 218 showtimes, 26 dates
+[biorex] BioRex Redi: 158 showtimes, 22 dates
+[biorex] BioRex Verkatehdas: 142 showtimes, 23 dates
+[biorex] BioRex Sveitsi: 113 showtimes, 22 dates
 [biorex] BioRex Kajaani: 74 showtimes, 22 dates
 [biorex] BioRex Pietarsaari: 49 showtimes, 17 dates
-[biorex] BioRex Porvoo: 107 showtimes, 22 dates
-[biorex] BioRex Riihimäki: 51 showtimes, 18 dates
-[biorex] BioRex Rovaniemi: 123 showtimes, 23 dates
-[biorex] BioRex Seinäjoki: 144 showtimes, 23 dates
-[biorex] BioRex Tornio: 101 showtimes, 22 dates
-[biorex] BioRex Vaasa: 133 showtimes, 22 dates
+[biorex] BioRex Porvoo: 104 showtimes, 22 dates
+[biorex] BioRex Riihimäki: 49 showtimes, 18 dates
+[biorex] BioRex Rovaniemi: 118 showtimes, 23 dates
+[biorex] BioRex Seinäjoki: 143 showtimes, 23 dates
+[biorex] BioRex Tornio: 97 showtimes, 22 dates
+[biorex] BioRex Vaasa: 128 showtimes, 22 dates
 [biorex] synopses merged: 0
 [run] http: 0 revalidated (304), 48 full, 0 not stored (origin said no-store), 0 cache entries written
 [run] hosts: 1 attempted -- biorex.fi
-[run] biorex: 12 venues, 1431 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
-[run] timing: 1 site(s), 119.5s of fetching added up across workers that overlap, longest site 119.5s, longest queue wait 0.0s, 119.5s wall from this module's first fetch starting to its last ending
+[run] biorex: 12 venues, 1393 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
+[run] timing: 1 site(s), 139.7s of fetching added up across workers that overlap, longest site 139.7s, longest queue wait 0.0s, 139.7s wall from this module's first fetch starting to its last ending
 exit=0
