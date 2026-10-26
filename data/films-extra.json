@@ -530,6 +530,15 @@
   "berliinin sankari": {
    "id": 1248217,
    "img": "data/posters/dd69f81e2218dd55.jpg",
+   "kr": "K-7",
+   "krs": [
+    "biorex",
+    "gilda",
+    "kinoaurora",
+    "kinoiiris",
+    "kinomyyri",
+    "tapiola"
+   ],
    "r": 0,
    "s": {
     "en": "Micha unwittingly becomes a German hero when a journalist portrays him as the mastermind behind the mass exodus from East Germany.",
@@ -1518,6 +1527,12 @@
   "hamnet": {
    "id": 858024,
    "img": "data/posters/84aa45b5d78814bd.jpg",
+   "kr": "K-12",
+   "krs": [
+    "biogrand",
+    "cinemantsala",
+    "kinomyyri"
+   ],
    "r": 7.7,
    "s": {
     "en": "",
@@ -2231,11 +2246,13 @@
     "kinoaurora",
     "kinoelo",
     "kinoiiris",
+    "kinojuha",
     "kinokonepaja",
     "kinokulma",
     "kinolumo",
     "kinomania",
     "kinometso",
+    "kinomyyri",
     "kinoolympia",
     "kinopiispanristi",
     "kinosampo",
@@ -2450,7 +2467,6 @@
    "kr": "K-12",
    "krs": [
     "alatalo",
-    "bioforum",
     "biogrand",
     "biograni",
     "biokaari",
@@ -2495,7 +2511,9 @@
     "kinotervakoski",
     "kinotoijala",
     "kinotour",
+    "kinovirta",
     "kirkkonummi",
+    "kisakino",
     "kotkanleffat",
     "kurikankino",
     "kuvakukko",
@@ -2509,6 +2527,7 @@
     "star",
     "studio123jarvenpaa",
     "studio123kouvola",
+    "tapiola",
     "vaakuna",
     "vihdinkino",
     "virtainpirtti"
@@ -2526,7 +2545,6 @@
    "kr": "K-12",
    "krs": [
     "alatalo",
-    "bioforum",
     "biogrand",
     "biograni",
     "biokaari",
@@ -2571,7 +2589,9 @@
     "kinotervakoski",
     "kinotoijala",
     "kinotour",
+    "kinovirta",
     "kirkkonummi",
+    "kisakino",
     "kotkanleffat",
     "kurikankino",
     "kuvakukko",
@@ -2585,6 +2605,7 @@
     "star",
     "studio123jarvenpaa",
     "studio123kouvola",
+    "tapiola",
     "vaakuna",
     "vihdinkino",
     "virtainpirtti"
@@ -3811,6 +3832,7 @@
    "krs": [
     "bioforum",
     "biogrand",
+    "biokaari",
     "biomarilyn",
     "biomarlon",
     "biorex",
@@ -3836,7 +3858,9 @@
     "kinomyyri",
     "kinoolympia",
     "kinopiispanristi",
+    "kinopirtti",
     "kinosampo",
+    "kinoset",
     "kinotervakoski",
     "kinotoijala",
     "kirkkonummi",
@@ -3882,6 +3906,14 @@
    "ts": [
     "en"
    ]
+  },
+  "late lammas hämärä puuhissa": {
+   "r": 0,
+   "s": {
+    "en": "",
+    "fi": "Rakastettu Late Lammas palaa valkokankaille uudessa, riemastuttavassa ja kutkuttavan hauskassa seikkailussa. Farmin asukkaat odottavat innolla Halloweenia, kunnes heidän rakkaudella kasvattamansa kurpitsaviljelmä tuhoutuu juhlan kynnyksellä. Late ei jää toimettomaksi, vaan päättää ryhtyä “hulluksi tiedemieheksi” korjatakseen tilanteen – ja pian tapahtumat karkaavatkin täysin käsistä. Kun tilan maajussi katoaa ja outo villi peto herättää kauhua kyläläisissä, ovat kaikki ainekset kasassa hirviömäisen hauskalle seikkailulle kaiken ikäisille."
+   },
+   "tr": ""
   },
   "late lammas hämäräpuuhissa": {
    "id": 1477104,
@@ -4238,6 +4270,19 @@
     "fi": "Tekisikö mielesi laulaa tai haluatko nähdä, miten hyvin muut laulavat. Tervetuloa Marilynin karaokeiltaan. Karaokea laulellaan Marilynin aulabaarissa. Vapaa pääsy. Klo 23 --> K18, alkuillasta myös alaikäiset voivat tulla näyttämään laulutaitonsa."
    },
    "tr": ""
+  },
+  "mark of the devil": {
+   "id": 1317586,
+   "img": "data/posters/53844d47ea8c62ed.jpg",
+   "r": 0,
+   "s": {
+    "en": "A desperate gambler in debt with a gangster robs a Chinese tattoo artist, getting stabbed and killing the man in the process. A black spot appears on his chest and begins to spread and turn into a condemning tattoo",
+    "fi": ""
+   },
+   "tr": "",
+   "ts": [
+    "en"
+   ]
   },
   "marsupilami": {
    "id": 1145899,
@@ -5614,6 +5659,7 @@
     "alatalo",
     "biogrand",
     "biograni",
+    "biokaari",
     "biomarilyn",
     "biopallas",
     "biorex",
@@ -5647,6 +5693,7 @@
     "savonkinot",
     "star",
     "studio123jarvenpaa",
+    "tapiola",
     "vihdinkino",
     "virtainpirtti"
    ],
@@ -5683,6 +5730,7 @@
     "alatalo",
     "biogrand",
     "biograni",
+    "biokaari",
     "biomarilyn",
     "biopallas",
     "biorex",
@@ -5716,6 +5764,7 @@
     "savonkinot",
     "star",
     "studio123jarvenpaa",
+    "tapiola",
     "vihdinkino",
     "virtainpirtti"
    ],
@@ -5754,6 +5803,7 @@
     "alatalo",
     "biogrand",
     "biograni",
+    "biokaari",
     "biomarilyn",
     "biopallas",
     "biorex",
@@ -5787,6 +5837,7 @@
     "savonkinot",
     "star",
     "studio123jarvenpaa",
+    "tapiola",
     "vihdinkino",
     "virtainpirtti"
    ],
@@ -5808,6 +5859,7 @@
     "alatalo",
     "biogrand",
     "biograni",
+    "biokaari",
     "biomarilyn",
     "biopallas",
     "biorex",
@@ -5841,6 +5893,7 @@
     "savonkinot",
     "star",
     "studio123jarvenpaa",
+    "tapiola",
     "vihdinkino",
     "virtainpirtti"
    ],
@@ -5889,6 +5942,7 @@
     "alatalo",
     "bioforum",
     "biograni",
+    "biokaari",
     "biomarilyn",
     "biorex",
     "biorexkokkola",
@@ -9136,6 +9190,7 @@
     "kinoolympia",
     "kinopiispanristi",
     "kinopirtti",
+    "kinovirta",
     "kotkanleffat",
     "leffabuumi",
     "levisummit",
@@ -9179,6 +9234,7 @@
     "kinoolympia",
     "kinopiispanristi",
     "kinopirtti",
+    "kinovirta",
     "kotkanleffat",
     "leffabuumi",
     "levisummit",
@@ -9270,16 +9326,29 @@
   "whalefall": {
    "id": 1255833,
    "img": "data/posters/b06de03c5de0cf45.jpg",
+   "kr": "K-16",
+   "krs": [
+    "biogrand",
+    "biorex",
+    "biorexkokkola",
+    "biosavoy",
+    "ihmekompleksi",
+    "isohannu",
+    "kinolumo",
+    "kinopiispanristi",
+    "kinopirtti",
+    "kinotar",
+    "leffabuumi",
+    "savonkinot",
+    "vaakuna"
+   ],
    "r": 6.5,
    "s": {
-    "en": "Following the death of his father, Jay Gardiner goes diving off the central Coast of California in search of his remains, but is swallowed by a massive sperm whale. While trapped inside its belly with only one hour of oxygen left, Jay comes to realize that the hard-earned lessons his father imparted may be the key to his escape.",
+    "en": "Whalefall is a high-octane survival thriller that tells the story of an encounter between a young man and a massive sperm whale. Directed by Brian Duffield, the film is written by Duffield and Daniel Kraus, based on Kraus’s book of the same name, and stars Austin Abrams, Josh Brolin, Elisabeth Shue, John Ortiz, Jane Levy and Emily Rudd. After the tragic loss of his father (Josh Brolin), Jay Gardiner (Austin Abrams) heads to the Central California coast to dive and search for his father’s body, but is swallowed by a massive sperm whale. Inside the whale’s stomach, Jay realises he has only enough oxygen to last an hour, and in that struggle, his father’s strict teachings may, after all, hold the key to his survival.",
     "fi": "20th Century Studios ja Imagine Entertainment tuovat valkokankaalle elokuvan “Whalefall”. Kyseessä on suurten tunteiden selviytymistrilleri, joka kertoo nuoren miehen ja massiivisen kaskelotin kohtaamisesta. Brian Duffieldin ohjaaman elokuvan ovat käsikirjoittaneet Duffield & Daniel Kraus perustuen Krausin samannimiseen kirjaan ja sen pääosissa nähdään Austin Abrams, Josh Brolin, Elisabeth Shue, John Ortiz, Jane Levy ja Emily Rudd. Tuottajina toimivat Brian Grazer, Brian Duffield, Jeb Brody, Allan Mandelbaum sekä vastaavina tuottajina Doug Merrifield, Richard Abate ja Will Rowbotham. Menetettyään traagisesti isänsä (Josh Brolin) Jay Gardiner (Austin Abrams) lähtee keskisen Kalifornian rannikolle sukeltamaan ja etsimään tämän ruumista, mutta tulee valtavan kaskelotin nielaisemaksi. Valaan vatsassa Jay joutuu toteamaan, että hänellä riittää happea enää tunniksi, ja siinä taistelussa hänen isänsä ankarat opetukset saattavat sittenkin olla avain selviytymiseen.",
     "sv": "På jakt efter sin avlidne fars kvarlevor blir den unge dykaren Jay uppslukad av en kaskelot och instängd i valens inre med bara en timmes syre kvar. Medan tiden rinner ut tvingas han konfrontera minnena av sin far och finna styrkan att kämpa vidare mot alla odds. Whalefall är en gripande och nervkittlande överlevnadsthriller om familj, förlust och hopp, baserad på Daniel Kraus hyllade roman."
    },
-   "tr": "https://www.youtube.com/watch?v=Dw-5ZGapGTQ",
-   "ts": [
-    "en"
-   ]
+   "tr": "https://www.youtube.com/watch?v=Dw-5ZGapGTQ"
   },
   "whalefall poistuu ohjelmistosta": {
    "id": 1255833,
@@ -9376,7 +9445,7 @@
   "wildwood sysimetsä": {
    "id": 791523,
    "img": "data/posters/3243e3129f13e25d.jpg",
-   "r": 0,
+   "r": 8.8,
    "s": {
     "en": "Prue and her classmate Curtis are drawn into a magical forest filled with enchanted creatures, loyal allies, and formidable adversaries as they embark on a desperate quest to rescue Prue's abducted baby brother from a murder of crows led by a mysterious woman named Alexandra.",
     "fi": "Kun omapäisen teinitytön Prue McKeelin pikkuveli joutuu varisparven sieppaamaksi, Prue lähtee epätoivoiselle pelastusretkelle Tiettömään korpeen – lumottuun metsään, joka kätkeytyy aivan Oregonin Portlandin kupeeseen. Seurakseen Prue saa kömpelön mutta uskollisen luokkatoverinsa Curtis Mehlbergin. Tiettömässä korvessa kaksikko kohtaa puhuvia eläimiä, rosvoja ja mahtihahmoja, joiden tekoja ohjaavat suru ja kunnianhimo. Kun Prue ja Curtis tempautuvat keskelle konfliktia, joka uhkaa koko metsän tasapainoa, Pruen on löydettävä itsestään voimaa ja uskoa, joita hän ei tiennyt omaavansa. Pelastaakseen veljensä ja suojellakseen Sysimetsän haurasta tulevaisuutta Pruen on oltava valmis panemaan kaikki peliin. Oscar®-ehdokkuuden saaneen ja BAFTA®-palkitun LAIKA -studion Sysimetsä ( Wildwood ) on suuri seikkailutarina rakkaudesta, uhrauksista ja taikuudesta, joka paljastuu, kun uskallamme katsoa tutun maailman tuolle puolen."
@@ -9436,6 +9505,19 @@
    "tr": "https://www.youtube.com/watch?v=EpXX9AoTIlg",
    "ts": [
     "fi"
+   ]
+  },
+  "you can see everything": {
+   "id": 1765072,
+   "img": "data/posters/650c789b1581e9b9.jpg",
+   "r": 9.1,
+   "s": {
+    "en": "Thirty-four days before she's sent to prison, notorious Silicon Valley founder Elizabeth Holmes invites a skeptical film crew to document her every move. What begins as an intimate portrait of an enigmatic felon becomes a mind-bending three-year journey into the abyss.",
+    "fi": "Kolmekymmentäneljä päivää ennen vankilaan joutumistaan pahamaineinen Piilaakson yritysperustaja Elizabeth Holmes kutsuu skeptisen kuvausryhmän dokumentoimaan jokaista liikettään. Arvoituksellisen rikollisen intiimistä muotokuvasta alkaa vähitellen muotoutua tajunnanräjäyttävä, kolme vuotta kestävä matka syvyyksiin. Rajoja rikkovien ohjaajien Nathan Fielderin ja Lance Oppenheimin käsialaa oleva YOU CAN SEE EVERYTHING vie katsojan matkalle, jolla mikään ei ole sitä, miltä näyttää."
+   },
+   "tr": "https://www.youtube.com/watch?v=IEx8D1Wb__U",
+   "ts": [
+    "en"
    ]
   },
   "your lovely smile": {

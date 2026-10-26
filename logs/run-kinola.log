@@ -20,26 +20,26 @@
 [kinolaika] Kino Laika: 15 showtimes, 7 dates
 [kinolaika] synopses merged: 0
 [kinolaika] synopses skipped as screening notes: 1
-[kinomyyri] 22 screening(s) listed, 16 film page(s) read
-[kinomyyri] omitted 0 confirmed non-film(s) by evidence-backed exclusion over 0 screening(s), and 1 unresolved over 2
-[kinomyyri] unresolved: Boléro
+[kinomyyri] 37 screening(s) listed, 21 film page(s) read
+[kinomyyri] omitted 0 confirmed non-film(s) by evidence-backed exclusion over 0 screening(s), and 3 unresolved over 4
+[kinomyyri] unresolved: Boléro, Minä ja Riikka Purra, Yksityistilaisuus
 [kinomyyri] override kojootti-vs-acme-dub: evidence-unavailable
 [kinomyyri] override must-pori-nakku: active
 [kinomyyri] 1 synopsis/synopses withheld, no language settled: Hamnet
-[kinomyyri] 4 film(s) with a language name not read, that part left blank: Lapin sota (saami); Premada Oorali (kannada); Two Seasons, Two Strangers (japanilainen, korealainen); Vasenkätinen tyttö (mandariini)
-[kinomyyri] Kino Myyri: 20 showtimes, 11 dates
-[kinomyyri] Kino Myyri: 20 showtimes, 11 dates
+[kinomyyri] 4 film(s) with a language name not read, that part left blank: Berliinin sankari (saksan); Lapin sota (saami); Premada Oorali (kannada); Vasenkätinen tyttö (mandariini)
+[kinomyyri] Kino Myyri: 33 showtimes, 13 dates
+[kinomyyri] Kino Myyri: 33 showtimes, 13 dates
 [kinomyyri] synopses merged: 0
-[kinokonepaja] 46 screening(s) listed, 18 film page(s) read
+[kinokonepaja] 49 screening(s) listed, 19 film page(s) read
 [kinokonepaja] omitted 0 confirmed non-film(s) by evidence-backed exclusion over 0 screening(s), and 0 unresolved over 0
 [kinokonepaja] override edward-scissorhands: active
 [kinokonepaja] override gremlins: active
 [kinokonepaja] override nightmare-on-elm-street: active
-[kinokonepaja] Kino Konepaja: 46 showtimes, 23 dates
-[kinokonepaja] Kino Konepaja: 46 showtimes, 23 dates
+[kinokonepaja] Kino Konepaja: 49 showtimes, 26 dates
+[kinokonepaja] Kino Konepaja: 49 showtimes, 26 dates
 [kinokonepaja] synopses merged: 0
-[run] http: 0 revalidated (304), 94 full, 18 not stored (origin said no-store), 41 cache entries written
+[run] http: 0 revalidated (304), 100 full, 23 not stored (origin said no-store), 41 cache entries written
 [run] hosts: 4 attempted -- kinokonepaja.fi, kinomyyri.fi, www.kinokilta.fi, www.kinolaika.fi
-[run] kinola: 4 venues, 142 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
-[run] timing: 4 site(s), 210.3s of fetching added up across workers that overlap, longest site 85.6s, longest queue wait 120.2s, 85.6s wall from this module's first fetch starting to its last ending
+[run] kinola: 4 venues, 158 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
+[run] timing: 4 site(s), 214.7s of fetching added up across workers that overlap, longest site 82.8s, longest queue wait 118.3s, 82.8s wall from this module's first fetch starting to its last ending
 exit=0
