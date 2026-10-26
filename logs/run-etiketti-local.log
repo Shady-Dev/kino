@@ -23,8 +23,7 @@
 [kino123] synopses merged: 0
 [biogrand] Bio Grand: 8 showtimes, 4 dates
 [biogrand] synopses merged: 0
-[joutsankino] Joutsan Kino: 11 showtimes, 8 dates
-[joutsankino] synopses merged: 0
+[joutsankino] FAILED: <urlopen error [Errno 8] nodename nor servname provided, or not known>
 [cine] Cine Keuda-Talo: 13 showtimes, 4 dates
 [cine] Cine Nikkilä: no programme at the moment (adapter confirmed the venue empty); publishing an empty file
 [cine] synopses merged: 0
@@ -34,8 +33,8 @@
 [haapamaki] Haapamäen Elokuvat: 13 showtimes, 11 dates
 [haapamaki] synopses merged: 0
 [run] venuelists-local.json rewritten
-[run] http: 0 revalidated (304), 241 full, 241 not stored (origin said no-store), 0 cache entries written
+[run] http: 0 revalidated (304), 233 full, 233 not stored (origin said no-store), 0 cache entries written
 [run] hosts: 12 attempted -- biogrand.fi, haapamaenelokuvat.fi, ihmekompleksi.fi, kiertue.cine.fi, kino.joutsa.fi, kino123.fi, kotkanleffat.fi, leffabuumi.fi, lippu.elokuvateatteristar.fi, studio123.fi, studiot123.com, www.savonkinot.fi
 [run] pending: cine has 1 venue(s) with no programme yet: cine-nikkila
-[run] etiketti: 20 venues, 555 showtimes, 0 stale, 0 unverified, 1 pending, 0 with no programme, 0 failures
-exit=0
+[run] etiketti: 19 venues, 544 showtimes, 0 stale, 0 unverified, 1 pending, 0 with no programme, 1 failures
+exit=1
