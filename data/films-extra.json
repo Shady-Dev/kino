@@ -2144,7 +2144,7 @@
   },
   "järki ja tunteet": {
    "id": 1503762,
-   "img": "data/posters/31b4bfa4354c3f1d.jpg",
+   "img": "data/posters/056008305739a764.jpg",
    "kr": "K-7",
    "krs": [
     "bioforum",
@@ -2154,6 +2154,7 @@
     "cine",
     "elavienkuvien",
     "gilda",
+    "helios",
     "ihmekompleksi",
     "isohannu",
     "joutsankino",
@@ -2164,11 +2165,13 @@
     "kinokulma",
     "kinomania",
     "kinometso",
+    "kinoolympia",
     "kinosampo",
     "kinotervakoski",
     "kinotoijala",
     "kkino",
     "korjaamo",
+    "kulttuurimylly",
     "kurikankino",
     "leffabuumi",
     "savonkinot",
@@ -3729,6 +3732,7 @@
     "haapamaki",
     "ihmekompleksi",
     "isohannu",
+    "jarvelankino",
     "joutsankino",
     "kinoaurora",
     "kinoelo",
@@ -3823,6 +3827,10 @@
   "leviticus": {
    "id": 1564614,
    "img": "data/posters/bcc43fe8ab925846.jpg",
+   "kr": "K-16",
+   "krs": [
+    "biorex"
+   ],
    "r": 6.8,
    "s": {
     "en": "Two teenage boys must escape a violent entity that takes the form of the person they desire most:  each other.",
@@ -8630,6 +8638,7 @@
     "kinohirvi",
     "kinojuha",
     "kinolumo",
+    "kinoolympia",
     "kinopiispanristi",
     "kinopirtti",
     "kotkanleffat",
@@ -8672,6 +8681,7 @@
     "kinohirvi",
     "kinojuha",
     "kinolumo",
+    "kinoolympia",
     "kinopiispanristi",
     "kinopirtti",
     "kotkanleffat",
@@ -8943,6 +8953,10 @@
   "yön lapsi": {
    "id": 964849,
    "img": "data/posters/d0630be5ff40e993.jpg",
+   "kr": "K-16",
+   "krs": [
+    "biorex"
+   ],
    "r": 6.0,
    "s": {
     "en": "",
