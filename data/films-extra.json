@@ -694,13 +694,12 @@
   },
   "casper": {
    "id": 8839,
-   "img": "data/posters/be1292a7b63cd541.jpg",
-   "r": 6.3,
+   "r": 0,
    "s": {
     "en": "Dr. James Harvey (Bill Pullman) moves into an old mansion with his daughter Kat (Christina Ricci) to help rid the house of its resident ghosts. Kat soon befriends Casper, a kind-hearted young ghost. When Carrigan (Cathy Moriarty), a greedy woman searching for a hidden fortune, arrives at the mansion, she sets her sights on the treasure hidden inside. Meanwhile, James and Kat try to help Casper and his three mischievous uncles find peace and move on to the afterlife. After the screening, we will be joined by Helsinki-based medium and tarot reader Pia Långbacka. Pia will talk about her work, how messages from the spirit world are conveyed and how the real work of a medium differs from the images created by films. A warm, uplifting and down-to-earth encounter awaits.",
     "fi": "Tohtori James Harvey (Bill Pullman) muuttaa tyttärensä Katin (Christina Ricci) kanssa vanhaan kartanoon karkottamaan siellä kummittelevat aaveet. Pian Kat ystävystyy Casperin, hyväntahtoisen nuoren kummituksen kanssa. Kartanossa piilevä salaisuus ja sinne kätketty aarre vetävät paikalle myös ahneen Carriganin (Cathy Moriarty), joka haluaa saada rikkauudet itselleen. Samalla James ja Kat yrittävät auttaa Casperia ja tämän kolmea ilkikurista setää löytämään rauhan ja siirtymään tuonpuoleiseen. Näytöksen jälkeen vieraaksemme saapuu helsinkiläinen meedio ja tarot-tulkitsija Pia Långbacka. Pia kertoo työstään, siitä miten viestit henkimaailmasta välittyvät ja miten todellinen meedion työ eroaa elokuvien luomista mielikuvista. Luvassa on lämmin, valoisa ja maanläheinen kohtaaminen."
    },
-   "tr": "https://www.youtube.com/watch?v=kRX7PPqbKaQ"
+   "tr": ""
   },
   "chronicle of a disappearance": {
    "id": 49104,
@@ -935,7 +934,6 @@
    "kr": "K-12",
    "krs": [
     "biorex",
-    "biosalo",
     "gilda",
     "kinojuha",
     "kinopiispanristi",
@@ -1354,13 +1352,12 @@
   },
   "ghost näkymätön rakkaus": {
    "id": 251,
-   "img": "data/posters/1dd1faff13cd16d1.jpg",
-   "r": 7.2,
+   "r": 0,
    "s": {
     "en": "Ghost is a romantic drama about Sam Wheat (Patrick Swayze), who is suddenly killed during a robbery. His spirit remains on earth because he has unfinished business with his beloved Molly Jensen (Demi Moore). Sam tries to uncover the truth behind his death while also protecting Molly from danger. He is helped by a reluctant psychic, Oda Mae Brown (Whoopi Goldberg), through whom Sam is finally able to communicate with the living. The film combines romance, mystery, comedy, and supernatural elements. Ghost is one of the most iconic films in cinematic history to explore the spirit world and the work of a medium. Before the screening, we will be joined by Helsinki-based medium and tarot reader Pia Långbacka. Pia will talk about her work, how messages from the spirit world are conveyed and how the real work of a medium differs from the images created by films. A warm, uplifting and down-to-earth encounter awaits. Following Pia’s talk, Whoopi Goldberg’s Oscar-winning performance as medium Oda Mae Brown will take on a new dimension while the touching drama featuring Demi Moore and Patrick Swayze is unlikely to leave anyone unmoved.",
     "fi": "Ghost on romanttinen draamaelokuva, jossa Sam Wheat (Patrick Swayze) kuolee yllättäen rikoksen uhrina. Hänen henkensä jää kuitenkin maan päälle, koska hänellä on keskeneräisiä asioita rakastettunsa Molly Jensenin (Demi Moore) kanssa. Sam yrittää selvittää oman kuolemansa taustalla olevan petoksen ja samalla suojella Mollya vaaralta. Apunaan hänellä on vastahakoinen meedio Oda Mae Brown (Whoopi Goldberg), jonka kautta Sam pystyy vihdoin kommunikoimaan elävien kanssa. Elokuva yhdistää romantiikkaa, rikosmysteeriä, huumoria ja yliluonnollisia elementtejä. Ghost on yksi elokuvahistorian ikonisimmista henkimaailmaa ja meedion työtä käsittelevistä klassikoista. Näytöstä ennen vieraaksemme saapuu helsinkiläinen meedio ja tarot-tulkitsija Pia Långbacka. Pia kertoo työstään, siitä miten viestit henkimaailmasta välittyvät ja miten todellinen meedion työ eroaa elokuvien luomista mielikuvista. Luvassa on lämmin, valoisa ja maanläheinen kohtaaminen. Whoopi Goldbergin Oscar-palkittu roolisuoritus meedio Oda Mae Brownina herää uuteen eloon Pian puheenvuoron jälkeen, ja Demi Mooren sekä Patrick Swayzen koskettava draama jättää tuskin ketään kylmäksi."
    },
-   "tr": "https://www.youtube.com/watch?v=jWvUTmvaOyU"
+   "tr": ""
   },
   "godzilla minus zero": {
    "id": 1381071,
@@ -1510,7 +1507,7 @@
   "heart of beast": {
    "id": 1263337,
    "img": "data/posters/980bb19ce751c44c.jpg",
-   "r": 7.4,
+   "r": 7.3,
    "s": {
     "en": "After a harrowing plane crash, Special Forces officer James Belmont and his combat dog, Odin, find themselves stranded deep in the Alaskan wilderness. Together, they are forced into a brutal fight for survival against the elements.",
     "fi": "Jouduttuaan vakavaan lentokoneonnettomuuteen entinen erikoisjoukkojen upseeri James Belmont (Brad Pitt) ja hänen taistelukoiransa Odin jäävät eristyksiin syvälle Alaskan erämaahan. Yhdessä he joutuvat armottomaan selviytymiskamppailuun luonnonvoimia vastaan. Maineikkaan ohjaaja David Ayerin Heart of the Beast on intensiivinen seikkailutrilleri, joka tutkii miehen ja hänen parhaan ystävänsä murtumatonta sidettä heidän kohdatessaan tähänastisen elämänsä suurimman taistelun."
@@ -2145,7 +2142,9 @@
     "bioforum",
     "biograni",
     "biorex",
+    "biovuoksi",
     "cine",
+    "elavienkuvien",
     "gilda",
     "ihmekompleksi",
     "isohannu",
@@ -2162,11 +2161,12 @@
     "kinotoijala",
     "kkino",
     "korjaamo",
+    "kurikankino",
     "leffabuumi",
     "savonkinot",
     "tapiola"
    ],
-   "r": 7.4,
+   "r": 7.2,
    "s": {
     "en": "",
     "fi": "Uusi, vastustamaton tulkinta Jane Austenin ikonisesta Järki ja tunteet -teoksesta: hurmaava, nokkela ja syvästi samaistuttava tarina rakkaudesta ja sisaruudesta. Pääosissa loistavat Daisy Edgar-Jones ja Esmé Creed-Miles"
@@ -2203,16 +2203,12 @@
   },
   "kaasuvalo": {
    "id": 13528,
-   "img": "data/posters/4354ed740e25ea55.jpg",
-   "r": 7.5,
+   "r": 0,
    "s": {
-    "en": "A newlywed fears she's going mad when strange things start happening at the family mansion.",
+    "en": "",
     "fi": "Jännittävässä ja ahdistavassa mestariteoksessa mies järjestelmällisesti manipuloi vaimoaan horjuttaakseen tämän todellisuudentajua. Elokuva pureutuu vallankäyttöön ja psykologiseen väkivaltaan poikkeuksellisen tarkasti. Ingrid Bergmanin Oscar-palkittu roolityö tekee naisen pelosta ja epävarmuudesta sydäntä särkevän todellisia. Hyytävän psykologisen draaman ansiosta termi “gaslighting” elää yhä kielenkäytössä."
    },
-   "tr": "https://www.youtube.com/watch?v=pnGdlnH2BDY",
-   "ts": [
-    "en"
-   ]
+   "tr": ""
   },
   "kabaddi 5 after the final match": {
    "id": 1773496,
@@ -2415,12 +2411,14 @@
     "kinotour",
     "kirkkonummi",
     "kotkanleffat",
+    "kurikankino",
     "kuvakukko",
     "laitilankino",
     "leffabuumi",
     "lieksankino",
     "niagara",
     "orion",
+    "regina",
     "savonkinot",
     "star",
     "studio123jarvenpaa",
@@ -2489,12 +2487,14 @@
     "kinotour",
     "kirkkonummi",
     "kotkanleffat",
+    "kurikankino",
     "kuvakukko",
     "laitilankino",
     "leffabuumi",
     "lieksankino",
     "niagara",
     "orion",
+    "regina",
     "savonkinot",
     "star",
     "studio123jarvenpaa",
@@ -3320,6 +3320,19 @@
     "en"
    ]
   },
+  "kuningas jolla ei ollut sydäntä": {
+   "id": 432360,
+   "img": "data/posters/ae920c4afe839100.jpg",
+   "r": 0,
+   "s": {
+    "en": "",
+    "fi": "Kuninkaan vaimo kuolee ja hän päättää luopua sydämestään, jotta ei tuntisi surua. Samalla hän kuitenkin etääntyy tyttärestään."
+   },
+   "tr": "",
+   "ts": [
+    "fi"
+   ]
+  },
   "kuolemaantuomittu": {
    "id": 687,
    "img": "data/posters/02a1a395deeafd74.jpg",
@@ -3530,6 +3543,19 @@
     "en"
    ]
   },
+  "la belle noiseuse tuntematon mestariteos": {
+   "id": 12627,
+   "img": "data/posters/115f1cc138c2fb34.jpg",
+   "r": 7.3,
+   "s": {
+    "en": "The former famous painter Frenhofer lives quietly with his wife on a countryside residence in the French Provence. When the young artist Nicolas visits him with his girlfriend Marianne, Frenhofer decides to start again the work on a painting he long ago stopped: La Belle Noiseuse. And he wants Marianne as model.",
+    "fi": ""
+   },
+   "tr": "https://www.youtube.com/watch?v=wtfsLeDXlpg",
+   "ts": [
+    "en"
+   ]
+  },
   "la bola negra": {
    "id": 1422041,
    "img": "data/posters/08d7f18267b447dd.jpg",
@@ -3699,6 +3725,7 @@
     "kinoaurora",
     "kinoelo",
     "kinojuha",
+    "kinokuva",
     "kinolaika",
     "kinomania",
     "kinometso",
@@ -3708,6 +3735,7 @@
     "kinotervakoski",
     "kinotoijala",
     "kkino",
+    "kurikankino",
     "leffabuumi",
     "levisummit",
     "tapiola"
@@ -3845,7 +3873,6 @@
    "krs": [
     "biorex",
     "biorexkokkola",
-    "biosalo",
     "biostara",
     "cinemantsala",
     "engel",
@@ -4058,6 +4085,19 @@
     "fi": "Madama Butterfly saa lumoavan näyttämötoteutuksen Bregenzin järvinäyttämöllä, jossa Michael Levinen vaikuttava lavastus ja hienovaraiset maisemamaalaukset tuovat japanilaisen estetiikan osaksi ainutlaatuista ympäristöä. Andreas Homokin ohjaama tuotanto yhdistää visuaalisen näyttävyyden ja Puccinin herkkävireisen musiikin, jonka Enrique Mazzola johtaa vivahteikkaasti. Barno Ismatullaevan ylistetty tulkinta Cio-Cio-Sanina kruunaa koskettavan esityksen, joka palkittiin seisaaltaan annetuilla suosionosoituksilla."
    },
    "tr": ""
+  },
+  "mandabi": {
+   "id": 99329,
+   "img": "data/posters/90228f9d65ff541e.jpg",
+   "r": 7.1,
+   "s": {
+    "en": "A money order from a relative in Paris throws the life of a Senegalese family man out of order. He deals with corruption, greed, problematic family members, the locals and the changing from his traditional way of living to a more modern one.",
+    "fi": ""
+   },
+   "tr": "https://www.youtube.com/watch?v=L3LJ5RJ8wOg",
+   "ts": [
+    "en"
+   ]
   },
   "mandy": {
    "id": 460885,
@@ -5386,6 +5426,19 @@
     "en"
    ]
   },
+  "piina": {
+   "id": 1700,
+   "img": "data/posters/88c57efbd67d8546.jpg",
+   "r": 7.8,
+   "s": {
+    "en": "",
+    "fi": "Kirjailija Paul Sheldon on juuri saanut päätökseen suositun kirjasarjan viimeisen osan, kun hän joutuu lumimyräkässä auto-onnettomuuteen. Paul loukkaantuu vakavasti, mutta sairaanhoitaja Annie pelastaa miehen ja alkaa hoitaa kirjailijaa kotonaan. Kirjasarjaan syvästi kiintynyt Annie lukee Paulin uusimman tuotoksen sillä välin, kun mies toipuu. Kun Annielle selviää, että sarjan päähenkilö kuolee, mieleltään epävakaa nainen raivostuu ja päättää ottaa ohjat omiin käsiinsä."
+   },
+   "tr": "https://www.youtube.com/watch?v=qM20YWFOGgY",
+   "ts": [
+    "fi"
+   ]
+  },
   "pikku kummitus lapanen": {
    "r": 0,
    "s": {
@@ -5444,19 +5497,15 @@
     "biomarilyn",
     "biorex",
     "biorexkokkola",
-    "biosade",
-    "biosalo",
     "biostara",
     "engel",
     "huvimylly",
     "ihmekompleksi",
     "isohannu",
-    "jarvelankino",
     "joutsankino",
     "julia",
     "kino123",
     "kinohannikainen",
-    "kinohirvi",
     "kinokulma",
     "kinokuva",
     "kinolumo",
@@ -5465,7 +5514,6 @@
     "kinomyyri",
     "kinopiispanristi",
     "kinopirtti",
-    "kinoset",
     "kinotour",
     "kotkanleffat",
     "kuvakukko",
@@ -5512,19 +5560,15 @@
     "biomarilyn",
     "biorex",
     "biorexkokkola",
-    "biosade",
-    "biosalo",
     "biostara",
     "engel",
     "huvimylly",
     "ihmekompleksi",
     "isohannu",
-    "jarvelankino",
     "joutsankino",
     "julia",
     "kino123",
     "kinohannikainen",
-    "kinohirvi",
     "kinokulma",
     "kinokuva",
     "kinolumo",
@@ -5533,7 +5577,6 @@
     "kinomyyri",
     "kinopiispanristi",
     "kinopirtti",
-    "kinoset",
     "kinotour",
     "kotkanleffat",
     "kuvakukko",
@@ -5582,19 +5625,15 @@
     "biomarilyn",
     "biorex",
     "biorexkokkola",
-    "biosade",
-    "biosalo",
     "biostara",
     "engel",
     "huvimylly",
     "ihmekompleksi",
     "isohannu",
-    "jarvelankino",
     "joutsankino",
     "julia",
     "kino123",
     "kinohannikainen",
-    "kinohirvi",
     "kinokulma",
     "kinokuva",
     "kinolumo",
@@ -5603,7 +5642,6 @@
     "kinomyyri",
     "kinopiispanristi",
     "kinopirtti",
-    "kinoset",
     "kinotour",
     "kotkanleffat",
     "kuvakukko",
@@ -5635,19 +5673,15 @@
     "biomarilyn",
     "biorex",
     "biorexkokkola",
-    "biosade",
-    "biosalo",
     "biostara",
     "engel",
     "huvimylly",
     "ihmekompleksi",
     "isohannu",
-    "jarvelankino",
     "joutsankino",
     "julia",
     "kino123",
     "kinohannikainen",
-    "kinohirvi",
     "kinokulma",
     "kinokuva",
     "kinolumo",
@@ -5656,7 +5690,6 @@
     "kinomyyri",
     "kinopiispanristi",
     "kinopirtti",
-    "kinoset",
     "kinotour",
     "kotkanleffat",
     "kuvakukko",
@@ -5897,7 +5930,6 @@
    "kr": "K-12",
    "krs": [
     "biorex",
-    "isohannu",
     "kinohirvi",
     "kinolaika",
     "kinometso",
@@ -6387,7 +6419,6 @@
    "krs": [
     "biorex",
     "cinemantsala",
-    "gilda",
     "kino123",
     "kinohirvi",
     "kinolumo",
@@ -8057,7 +8088,6 @@
    "krs": [
     "biopallas",
     "biorex",
-    "gilda",
     "haapamaki",
     "helios",
     "kinoaurora",
@@ -8750,6 +8780,19 @@
    },
    "tr": ""
   },
+  "wheel of fortune and fantasy": {
+   "id": 795811,
+   "img": "data/posters/5d014010a3860a7d.jpg",
+   "r": 7.2,
+   "s": {
+    "en": "An unexpected love triangle, a seduction trap, and a random encounter are the three episodes, told in three movements to depict three female characters and trace the trajectories between their choices and regrets.",
+    "fi": ""
+   },
+   "tr": "https://www.youtube.com/watch?v=e3IDB--grzs",
+   "ts": [
+    "en"
+   ]
+  },
   "white riot": {
    "id": 627051,
    "img": "data/posters/437f0d4985f6e86b.jpg",
@@ -8913,5 +8956,5 @@
    "tr": ""
   }
  },
- "generated": "2026-10-25"
+ "generated": "2026-10-26"
 }

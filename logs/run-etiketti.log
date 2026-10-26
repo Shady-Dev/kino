@@ -7,7 +7,7 @@
 [kinojuha] Kino Juha: 12 showtimes, 8 dates
 [kinojuha] VIP-Sali: 8 showtimes, 7 dates
 [kinojuha] synopses merged: 0
-[biovuoksi] Bio Vuoksi: 9 showtimes, 5 dates
+[biovuoksi] Bio Vuoksi: 30 showtimes, 10 dates
 [biovuoksi] synopses merged: 0
 [kinoiiris] strand prefix split off 1 showtimes
 [kinoiiris] Kino Iiris: 28 showtimes, 20 dates
@@ -22,8 +22,8 @@
 [kinokaustinen] Kino Kaustinen: no programme at the moment (adapter confirmed the venue empty); publishing an empty file
 [kinokaustinen] synopses merged: 0
 [kinokaustinen] no programme published: https://kinokaustinen.fi/elokuvat/ohjelmistossa renders the template's empty programme
-[run] http: 0 revalidated (304), 155 full, 155 not stored (origin said no-store), 0 cache entries written
+[run] http: 0 revalidated (304), 157 full, 157 not stored (origin said no-store), 0 cache entries written
 [run] hosts: 10 attempted -- biograni.fi, biovuoksi.fi, cinemaniagara.fi, jamsankinotar.fi, k-kino.fi, kinoiiris.com, kinojuha.fi, kinokaustinen.fi, kinopirtti.fi, www.biorex.org
-[run] etiketti: 10 venues, 212 showtimes, 0 stale, 0 unverified, 0 pending, 1 with no programme, 0 failures
-[run] timing: 10 site(s), 261.4s of fetching added up across workers that overlap, longest site 57.6s, longest queue wait 34.0s, 82.5s wall from this module's first fetch starting to its last ending
+[run] etiketti: 10 venues, 233 showtimes, 0 stale, 0 unverified, 0 pending, 1 with no programme, 0 failures
+[run] timing: 10 site(s), 266.8s of fetching added up across workers that overlap, longest site 58.5s, longest queue wait 34.5s, 85.6s wall from this module's first fetch starting to its last ending
 exit=0

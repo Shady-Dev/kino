@@ -2,28 +2,24 @@
 [biomarilyn] prices for 10 of 10 screening(s); 5 of 5 price scheme(s) read establish an ordinary ticket, from 5 shows.json read(s)
 [biomarilyn] 15 coming-soon entry/entries with no time, left out: Angry Birds 3, Avengers : Doomsday, Billie maailmojen välissä, Dyyni: osa kolme, Ebenezer-Saiturin joulu, George Michael:The Faith Tour, How to Rob a Bank, I Play Rocky
 [biomarilyn] 4 screening(s) listed in a second block, published once
-[biomarilyn] left out as the page does: 5 already started, 0 not in the catalogue
 [biomarilyn] 1 synopsis/synopses withheld, no language settled: PäiväKaffiLeffa-näytös :Kerro kaikille
 [biomarilyn] Bio Marilyn: 10 showtimes, 7 dates
 [biomarilyn] Bio Marilyn: 10 showtimes, 7 dates
 [biomarilyn] synopses merged: 0
 [vihdinkino] 3 screening(s) in 1 schedule block(s), 1 film page(s) read
 [vihdinkino] prices for 3 of 3 screening(s); 2 of 2 price scheme(s) read establish an ordinary ticket, from 1 shows.json read(s)
-[vihdinkino] left out as the page does: 3 already started, 0 not in the catalogue
 [vihdinkino] 1 synopsis/synopses withheld, no language settled: Lapin sota
 [vihdinkino] Vihdin Kino: 3 showtimes, 3 dates
 [vihdinkino] Vihdin Kino: 3 showtimes, 3 dates
 [vihdinkino] synopses merged: 0
 [bioforum] 30 screening(s) in 1 schedule block(s), 11 film page(s) read
 [bioforum] prices for 30 of 30 screening(s); 3 of 3 price scheme(s) read establish an ordinary ticket, from 3 shows.json read(s)
-[bioforum] left out as the page does: 3 already started, 0 not in the catalogue
 [bioforum] 2 synopsis/synopses withheld, no language settled: Bokkalaset i Ekenäs: Så länge hjärtat slår & Bianca Kronlöf, Lapin sota
 [bioforum] Bio Forum: 30 showtimes, 12 dates
 [bioforum] Bio Forum: 30 showtimes, 12 dates
 [bioforum] synopses merged: 0
 [kinokulma] 19 screening(s) in 1 schedule block(s), 4 film page(s) read
 [kinokulma] prices for 10 of 14 screening(s); 3 of 4 price scheme(s) read establish an ordinary ticket, from 1 shows.json read(s)
-[kinokulma] left out as the page does: 3 already started, 0 not in the catalogue
 [kinokulma] 1 hall-hire title(s) over 3 row(s) left out: Salivaraus
 [kinokulma] 1 product(s) the site lists as not a film over 2 row(s) left out: Oulaisten Valovoima ry
 [kinokulma] 1 synopsis/synopses withheld, no language settled: Lapin sota
@@ -32,21 +28,18 @@
 [kinokulma] synopses merged: 0
 [kinohannikainen] 9 screening(s) in 1 schedule block(s), 2 film page(s) read
 [kinohannikainen] prices for 9 of 9 screening(s); 2 of 2 price scheme(s) read establish an ordinary ticket, from 2 shows.json read(s)
-[kinohannikainen] left out as the page does: 2 already started, 0 not in the catalogue
 [kinohannikainen] 1 synopsis/synopses withheld, no language settled: LAPIN SOTA
 [kinohannikainen] Kino Hannikainen: 9 showtimes, 5 dates
 [kinohannikainen] Kino Hannikainen: 9 showtimes, 5 dates
 [kinohannikainen] synopses merged: 0
 [kinovirta] 3 screening(s) in 1 schedule block(s), 2 film page(s) read
 [kinovirta] prices for 3 of 3 screening(s); 1 of 1 price scheme(s) read establish an ordinary ticket, from 1 shows.json read(s)
-[kinovirta] left out as the page does: 4 already started, 0 not in the catalogue
 [kinovirta] 1 synopsis/synopses withheld, no language settled: Lapin Sota
 [kinovirta] Kino Virta: 3 showtimes, 2 dates
 [kinovirta] Kino Virta: 3 showtimes, 2 dates
 [kinovirta] synopses merged: 0
 [kulttuurimylly] 4 screening(s) in 1 schedule block(s), 4 film page(s) read
 [kulttuurimylly] prices for 4 of 4 screening(s); 3 of 3 price scheme(s) read establish an ordinary ticket, from 3 shows.json read(s)
-[kulttuurimylly] left out as the page does: 2 already started, 0 not in the catalogue
 [kulttuurimylly] Kino Kulttuurimylly: 4 showtimes, 3 dates
 [kulttuurimylly] strand prefix split off 2 showtimes
 [kulttuurimylly] Kino Kulttuurimylly: 4 showtimes, 3 dates
@@ -54,5 +47,5 @@
 [run] http: 0 revalidated (304), 54 full, 16 not stored (origin said no-store), 0 cache entries written
 [run] hosts: 8 attempted -- bioforum.fi, biomarilyn.johku.com, kinokulma.fi, kinovirta.johku.com, kulttuurimylly.johku.com, vihdinkino.fi, www.biomarilyn.com, www.kinohannikainen.net
 [run] johku: 7 venues, 73 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
-[run] timing: 7 site(s), 90.8s of fetching added up across workers that overlap, longest site 28.4s, longest queue wait 123.4s, 39.0s wall from this module's first fetch starting to its last ending
+[run] timing: 7 site(s), 90.6s of fetching added up across workers that overlap, longest site 28.1s, longest queue wait 121.6s, 40.7s wall from this module's first fetch starting to its last ending
 exit=0
