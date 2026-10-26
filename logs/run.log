@@ -1,16 +1,16 @@
 [token] using FINNKINO_TOKEN from the environment
 [sites] 17 cinemas
-[schedule] 2026-10-26: 312 showtimes
+[schedule] 2026-10-26: 72 showtimes
 [schedule] 2026-10-27: 389 showtimes
 [schedule] 2026-10-28: 390 showtimes
 [schedule] 2026-10-29: 408 showtimes
 [schedule] 2026-10-30: 47 showtimes
-[schedule] 2026-10-31: 51 showtimes
+[schedule] 2026-10-31: 50 showtimes
 [schedule] 2026-11-01: 20 showtimes
-[tmdb] no TMDB match (2): BTS WORLD TOUR 'ARIRANG' IN SÃO PAULO: L | NT LIVE: The Playboy of the Western World
+[tmdb] no TMDB match (1): BTS WORLD TOUR 'ARIRANG' IN SÃO PAULO: L
 [tmdb] weak candidate kept, not searched until 2026-10-27 (8): ENHYPEN WORLD TOUR 'BLOOD SAGA' -> 엔하이픈 월드 투어 ‘블러드 사가’ | HYBE CHEERING PARTY -> 하이브 치어링 파티 | Jailer 2 -> ஜெயிலர் 2 | Ozzy & Black Sabbath: Back to the Beginning -> Back to the Beginning: Ozzy's Final Bow | Rose -> Rose | SEVENTEEN WORLD TOUR 'NEW_' -> SEVENTEEN WORLD TOUR [NEW_] ENCORE | TOMORROW X TOGETHER WORLD TOUR 'ACT : TOMORROW' -> TOMORROW X TOGETHER WORLD TOUR 'ACT : TOMORROW' IN SEOUL | Two Seasons, Two Strangers -> 旅と日々
 [tmdb] 0 new lookups, 0 re-checks, cache 120, 99 mergeable by id
-[films] 55 film entries
+[films] 54 film entries
 [attrs] dropped, neither format nor language (8): Klassikko | Maxim | OCAP | Pkseutu | SEVERAL | TKU & R | Tampere | Varaus20
 [schedule] 17 venue files written, 0 kept as-is
 done
