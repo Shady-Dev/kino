@@ -775,6 +775,7 @@
     "biopallas",
     "biorex",
     "biorexkokkola",
+    "biosalo",
     "biosavoy",
     "cinemantsala",
     "gilda",
@@ -891,6 +892,32 @@
     "en"
    ]
   },
+  "day of the dead": {
+   "id": 8408,
+   "img": "data/posters/9c7cd443dac600ad.jpg",
+   "r": 7.0,
+   "s": {
+    "en": "",
+    "fi": "Day of the Dead on George A. Romeron legendaarisen Living Dead trilogian päätösosa. Elävät kuolleet ovat vallanneet maailman, ja vain kourallinen ihmisiä on päässyt turvaan hylättyyn ohjussiiloon. Ryhmä koostuu sotilaista ja tiedemiehistä, jotka yhdessä etsivät mahdollisia muita selvinneitä ja yrittävät löytää tavan kontrolloida ihmislihaa metsästäviä zombeja. Yhteishenki alkaa kuitenkin rakoilla ja tilanne kiristyy kohti avointa yhteenottoa tutkijoiden ja psykopaattisen sotilasjohtajan välillä. Keskinäinen uhka aiheuttaa tilanteen, jossa turvapaikan suojaus pettää ja elävien kuolleiden aalto huokuu viimeiseenkin inhimillisyyden saarekkeeseen."
+   },
+   "tr": "https://www.youtube.com/watch?v=G8gMvjmGv4k",
+   "ts": [
+    "fi"
+   ]
+  },
+  "death spa": {
+   "id": 28389,
+   "img": "data/posters/b88d722ac19fe62c.jpg",
+   "r": 5.2,
+   "s": {
+    "en": "Michael's health club is beseiged with a series of terrible murders involving killer saunas and other grisly devices. Michael's wife killed herself a while before and her brother holds Michael responsible. Michael needs to stop the bloodshed before he loses all of his clients.",
+    "fi": ""
+   },
+   "tr": "https://www.youtube.com/watch?v=Awqleezg__c",
+   "ts": [
+    "en"
+   ]
+  },
   "departures": {
    "r": 0,
    "s": {
@@ -934,11 +961,11 @@
    "kr": "K-12",
    "krs": [
     "biorex",
+    "biosalo",
     "gilda",
     "kinojuha",
     "kinopiispanristi",
     "kinotervakoski",
-    "kuvakukko",
     "niagara",
     "orion",
     "savonkinot",
@@ -996,6 +1023,16 @@
     "fi": "Näytöksen jälkeen elokuvakokemusta voi jäädä purkamaan Leffalukupiiriin, jonka vetäjänä toimii FT, dosentti Kaisa Hiltunen. Hiltunen työskentelee elokuvatutkijana Jyväskylän yliopiston Musiikin, taiteen ja kulttuurin tutkimuksen laitoksella. Hän on toiminut aiemmin myös sanomalehti Keskisuomalaisen elokuvakriitikkona. Don Quijote Barcelonassa on lämmin ja inhimillinen fiktiodraama kahdesta kodittomasta miehestä Barcelonan kaduilla. Entinen akateemikko Lluc ja Suomesta lähtöisin oleva Olli ajautuvat yhteiselle selviytymistaipaleelle, joka kasvaa vuosien mittaiseksi ystävyydeksi. Tarina kuvaa mielenterveyden haasteita, ihmisarvoa ja taiteen voimakasta merkitystä selviytymisen lähteenä – Dalín, suomalaisen iskelmän ja Cervantesin Don Quijoten heijastamana."
    },
    "tr": ""
+  },
+  "dracula": {
+   "id": 1323409,
+   "img": "data/posters/8d26aa87dac26f9c.jpg",
+   "r": 0,
+   "s": {
+    "en": "“A mercilessly funny and outrageously bold work that once again consolidates Jude as one of the most unusual and radical filmmakers of his generation” Matthew Joseph Jenner, International Cinephile Society “Radu Jude’s Gloriously Stupid Vampire Epic Is the First Movie to Make Any Meaningful Use of Generative AI” David Erlich, Indiewire",
+    "fi": "Mitä tapahtuu, kun nuori ja utelias elokuvantekijä haastaa luovuuttaan tekoälyn rajattomilla mahdollisuuksilla? Radu Juden viimeisin elokuva on provokatiivinen ja kuriton kudelma entis- ja nykyaikaan sijoittuvia variaatioita Draculan alkuperäismyytistä: vampyyrijahti, zombit ja lakkoilua häiritsevä Dracula, tieteisvisio Vlad Seivästäjän paluusta, sovitus ensimmäisestä romanialaisesta vampyyrinovellista, traaginen romanssi, rivo kansantarina, tekoälyn synnyttämä kitsch-fantasia… ja paljon muuta."
+   },
+   "tr": "https://www.youtube.com/watch?v=n58Zr82ZC_Q"
   },
   "dumbo": {
    "id": 11360,
@@ -1275,6 +1312,19 @@
    },
    "tr": ""
   },
+  "forbidden world": {
+   "id": 42251,
+   "img": "data/posters/314e746d8c75f108.jpg",
+   "r": 5.3,
+   "s": {
+    "en": "In the distant future, a federation marshal arrives at a research lab on a remote planet where a genetic experiment has gotten loose and begins feeding on the dwindling scientific group.",
+    "fi": ""
+   },
+   "tr": "https://www.youtube.com/watch?v=R9hvzM0_K9Y",
+   "ts": [
+    "en"
+   ]
+  },
   "forest of the hanged": {
    "r": 0,
    "s": {
@@ -1300,6 +1350,19 @@
     "fi": "Pikkukaupungissa elämä kulkee tuttua ja turvallista rataansa – kunnes yksi ihminen saa kaiken tuntumaan yhtäkkiä aivan toiselta. 16-vuotias Sebastian on elänyt suojattua elämää, jossa yllätyksille ei juuri ole ollut tilaa. Kaikki muuttuu, kun hänen perheensä ottaa luokseen 15-vuotiaan Koljan. Kahden nuoren välille syntyy yhteys, joka avaa Sebastianille kokonaan uuden maailman: täynnä uteliaisuutta, läheisyyttä ja ensimmäisten suurten tunteiden hämmentävää voimaa. Free at Heart on herkkä mutta intensiivinen queer-kasvutarina ensirakkaudesta, itsensä löytämisestä ja hetkestä, jolloin turvallisen maailman rajat alkavat murtua. Se tavoittaa hienosti nuoruuden ristiriidan – halun olla vapaa ja pelon siitä, mitä tapahtuu, kun uskaltaa viimein seurata sydäntään."
    },
    "tr": ""
+  },
+  "full contact": {
+   "id": 27073,
+   "img": "data/posters/03260a2ea886032a.jpg",
+   "r": 6.8,
+   "s": {
+    "en": "In an effort to get his buddy out of a gambling debt, Jeff agrees to join forces with Judge in a weapons heist. The job goes bad and Judge betrays Jeff. Jeff plots the ultimate revenge on Judge and his followers and it is a question of whether he can follow through with his plan.",
+    "fi": ""
+   },
+   "tr": "https://www.youtube.com/watch?v=1jTmkANCi7g",
+   "ts": [
+    "en"
+   ]
   },
   "fåret shaun och monstret på bondgården": {
    "id": 1477104,
@@ -2148,8 +2211,14 @@
    "kr": "K-7",
    "krs": [
     "bioforum",
+    "biogrand",
     "biograni",
+    "biomarlon",
+    "biopallas",
     "biorex",
+    "biorexkokkola",
+    "biosalo",
+    "biostara",
     "biovuoksi",
     "cine",
     "elavienkuvien",
@@ -2158,24 +2227,31 @@
     "ihmekompleksi",
     "isohannu",
     "joutsankino",
+    "kino123",
     "kinoaurora",
     "kinoelo",
-    "kinojuha",
+    "kinoiiris",
     "kinokonepaja",
     "kinokulma",
+    "kinolumo",
     "kinomania",
     "kinometso",
     "kinoolympia",
+    "kinopiispanristi",
     "kinosampo",
     "kinotervakoski",
     "kinotoijala",
+    "kirkkonummi",
     "kkino",
     "korjaamo",
+    "kotkanleffat",
     "kulttuurimylly",
     "kurikankino",
     "leffabuumi",
     "savonkinot",
-    "tapiola"
+    "studio123kouvola",
+    "tapiola",
+    "vihdinkino"
    ],
    "r": 7.2,
    "s": {
@@ -2380,7 +2456,6 @@
     "biokaari",
     "biomarilyn",
     "biomarlon",
-    "biopallas",
     "biorex",
     "biorexkokkola",
     "biosade",
@@ -2435,6 +2510,7 @@
     "studio123jarvenpaa",
     "studio123kouvola",
     "vaakuna",
+    "vihdinkino",
     "virtainpirtti"
    ],
    "r": 0,
@@ -2456,7 +2532,6 @@
     "biokaari",
     "biomarilyn",
     "biomarlon",
-    "biopallas",
     "biorex",
     "biorexkokkola",
     "biosade",
@@ -2511,6 +2586,7 @@
     "studio123jarvenpaa",
     "studio123kouvola",
     "vaakuna",
+    "vihdinkino",
     "virtainpirtti"
    ],
    "r": 0,
@@ -3006,12 +3082,16 @@
   },
   "kojootti vs acme suomeksi": {
    "id": 1204680,
-   "r": 0,
+   "img": "data/posters/9bcb7891e3c4c53a.jpg",
+   "r": 7.5,
    "s": {
-    "en": "",
+    "en": "After Acme products fail him one too many times in his dogged pursuit of the Roadrunner, Wile E. Coyote decides to hire a billboard lawyer to sue the Acme Corporation.",
     "fi": "Vuosikymmenten ajan pommien räjäyttämä, dynamiitin murskaama, magneettien runtelema, siirtolohkareiden litistämä, junien tallaama, tunneleiden huijaama, jousien sinkoama, höyryjyrien yliajama, viallisten laitteiden pettämä, benjiköysien kiusaama, rakettien riepottelema, lepakkoasujen selkäänpuukottama, rakettiluistinten paiskoma, yksipyöräisten kumoama, maanjäristyspillereiden tärisyttämä, villiintyneiden kuminauhojen venyttämä ja lounaisten Yhdysvaltojen jokaiselta jyrkänteeltä syösty Kelju K. Kojootti saa viimein tarpeekseen ja päättää iskeä takaisin. Mainostauluonnettomuuksiin erikoistuneen asianajajan Kevin Averyn (Will Forte) kanssa liittoutuessaan hän haastaa oikeuteen ACME Inc.:n – ahneuttaan tavoittelevan jättiyhtiön, jonka tuotteet ovat olleet jokaisen Kojoottia kohdanneen katastrofin taustalla – sekä yhtiötä edustavan lipevän yritysjuristin Buddy Cranen (John Cena)."
    },
-   "tr": ""
+   "tr": "https://www.youtube.com/watch?v=kMsiD1Nky5I",
+   "ts": [
+    "en"
+   ]
   },
   "kokuho kabukin mestari": {
    "id": 1379266,
@@ -3468,12 +3548,16 @@
   },
   "kätyrit ja monsterit suomeksi": {
    "id": 1315772,
-   "r": 0,
+   "img": "data/posters/67059865db3405c0.jpg",
+   "r": 7.6,
    "s": {
-    "en": "",
+    "en": "This is the rambunctious, ridiculous and totally true story of how the Minions conquered Hollywood, became movie stars, lost everything, unleashed monsters onto the world and then banded together to try and save the planet from the mayhem they had just created.",
     "fi": "Suosithan paikkavarausta! Illumination johdattaa meidät jälleen hulvattomaan animaatiomaailmaansa uudella elokuvallaan Kätyrit & Monsterit, joka tuo maailman suosituimpaan animaatio-franchiseen kokonaan uusia hahmoja. Hillitön, riehakas ja täysin tositapahtumiin perustuva elokuva kertoo, miten Kätyrit valloittavat Hollywoodin ja nousevat elokuvatähdiksi, menettävät kaiken, tulevat päästäneeksi hirviöitä maailmaan ja lopulta yhdistävät … voimansa pelastaakseen planeetan itse aiheuttamaltaan kaaokselta. Alkuperäisissä äänirooleissa kuullaan muun muassa Oscar®-voittaja Allison Janney, kaksinkertainen Oscar®-voittaja Christoph Waltz, Oscar®-voittaja Jeff Bridges, kaksinkertainen Oscar®-ehdokas Jesse Eisenberg, Zoey Deutch (Nouvelle Vague) sekä Oscar®-ehdokas Trey Parker, joka tunnetaan myös yhtenä South Parkin luojista. Näyttelijäkaartia täydentävät myös entinen Saturday Night Live -tähti Bobby Moynihan ja Phil LaMarr (Futurama, Kukkulan kuningas). Kätyrit & Monsterit -elokuvan on ohjannut Oscar-ehdokkuuden saanut Pierre Coffin, jonka ohjaustöihin lukeutuvat myös kolme ensimmäistä Itse ilkimys -elokuvaa ja ensimmäinen Kätyrit-elokuva. Coffin on myös ääninäytellyt itse Kätyreitä niiden elokuvadebyytistä 2010 alkaen. Elokuvan käsikirjoittajat ovat Brian Lynch (Kätyrit, Lemmikkien salainen elämä -elokuvat) ja Pierre Coffin. Elokuvan ovat tuottaneet myös Oscar-ehdokkuuden saanut Illuminationin perustaja ja pääjohtaja Chris Meledandri sekä Bill Ryan (The Super Mario Bros. Movie -elokuvan vastaava tuottaja ). Kätyrit & Monsterit -elokuvan vastaava tuottaja on Brian Lynch. Yli 15 vuotta on kulunut Kätyreiden luomisesta, ja niistä on tullut sukupolvensa ikonisimpia animaatiohahmoja. Kaikenikäisten fanien rakastamat Kätyrit ovat siivittäneet Illuminationin Itse ilkimys- ja Kätyrit-elokuvatuotannot yli 5,6 miljardia dollaria tuottaneiksi maailmanlaajuisiksi jymymenestyksiksi."
    },
-   "tr": ""
+   "tr": "https://www.youtube.com/watch?v=V-O-uBaHk3c",
+   "ts": [
+    "en"
+   ]
   },
   "kätyrit monsterit": {
    "id": 1315772,
@@ -3726,7 +3810,13 @@
    "kr": "K-7",
    "krs": [
     "bioforum",
+    "biogrand",
+    "biomarilyn",
+    "biomarlon",
     "biorex",
+    "biorexkokkola",
+    "biosalo",
+    "biostara",
     "elavienkuvien",
     "engel",
     "haapamaki",
@@ -3734,23 +3824,32 @@
     "isohannu",
     "jarvelankino",
     "joutsankino",
+    "kino123",
     "kinoaurora",
     "kinoelo",
     "kinojuha",
     "kinokuva",
     "kinolaika",
+    "kinolumo",
     "kinomania",
     "kinometso",
     "kinomyyri",
     "kinoolympia",
+    "kinopiispanristi",
     "kinosampo",
     "kinotervakoski",
     "kinotoijala",
+    "kirkkonummi",
     "kkino",
+    "kotkanleffat",
     "kurikankino",
+    "laitilankino",
     "leffabuumi",
     "levisummit",
-    "tapiola"
+    "matintupa",
+    "studio123kouvola",
+    "tapiola",
+    "vihdinkino"
    ],
    "r": 7.4,
    "s": {
@@ -3827,10 +3926,6 @@
   "leviticus": {
    "id": 1564614,
    "img": "data/posters/bcc43fe8ab925846.jpg",
-   "kr": "K-16",
-   "krs": [
-    "biorex"
-   ],
    "r": 6.8,
    "s": {
     "en": "Two teenage boys must escape a violent entity that takes the form of the person they desire most:  each other.",
@@ -3889,6 +3984,7 @@
    "krs": [
     "biorex",
     "biorexkokkola",
+    "biosalo",
     "biostara",
     "engel",
     "ihmekompleksi",
@@ -4098,6 +4194,14 @@
    "s": {
     "en": "",
     "fi": "Madama Butterfly saa lumoavan näyttämötoteutuksen Bregenzin järvinäyttämöllä, jossa Michael Levinen vaikuttava lavastus ja hienovaraiset maisemamaalaukset tuovat japanilaisen estetiikan osaksi ainutlaatuista ympäristöä. Andreas Homokin ohjaama tuotanto yhdistää visuaalisen näyttävyyden ja Puccinin herkkävireisen musiikin, jonka Enrique Mazzola johtaa vivahteikkaasti. Barno Ismatullaevan ylistetty tulkinta Cio-Cio-Sanina kruunaa koskettavan esityksen, joka palkittiin seisaaltaan annetuilla suosionosoituksilla."
+   },
+   "tr": ""
+  },
+  "majakoiden ja luotsien porkkala sodassa ja rauhassa": {
+   "r": 0,
+   "s": {
+    "en": "",
+    "fi": "Majakkaseuran klassikko Majakoiden ja luotsien Porkkala sodassa ja rauhassa uusintaensi-illassa. Laadukas elokuva kuvaa Porkkalan meri- ja sotahistoriaa viiden ihmisen silmin. Kallbådan nykyinen isäntä Veikka Gustafsson välittää toisen maailmansodasn veteraanien dramaattiset kokemukset Kallbådalta nykypäivään. Tauon jälkeen Majakkaseuran historia-asiantuntija Pekka Väisänen pitää esityksen Kaksi luotsitupaa - kaksi pelastustarinaa. Klo 10.15-12 Majakkaseuran myyjäiset Iiriksen tiloissa."
    },
    "tr": ""
   },
@@ -4608,9 +4712,9 @@
    "krs": [
     "bioforum",
     "engel",
+    "gilda",
     "kinokilta",
     "kinokonepaja",
-    "kuvakukko",
     "niagara",
     "orion",
     "studio123kouvola"
@@ -5508,12 +5612,16 @@
    "kr": "S",
    "krs": [
     "alatalo",
+    "biogrand",
     "biograni",
     "biomarilyn",
+    "biopallas",
     "biorex",
     "biorexkokkola",
+    "biosalo",
     "biostara",
     "engel",
+    "helios",
     "huvimylly",
     "ihmekompleksi",
     "isohannu",
@@ -5521,6 +5629,7 @@
     "julia",
     "kino123",
     "kinohannikainen",
+    "kinokaustinen",
     "kinokulma",
     "kinokuva",
     "kinolumo",
@@ -5538,6 +5647,7 @@
     "savonkinot",
     "star",
     "studio123jarvenpaa",
+    "vihdinkino",
     "virtainpirtti"
    ],
    "r": 0,
@@ -5571,12 +5681,16 @@
    "kr": "S",
    "krs": [
     "alatalo",
+    "biogrand",
     "biograni",
     "biomarilyn",
+    "biopallas",
     "biorex",
     "biorexkokkola",
+    "biosalo",
     "biostara",
     "engel",
+    "helios",
     "huvimylly",
     "ihmekompleksi",
     "isohannu",
@@ -5584,6 +5698,7 @@
     "julia",
     "kino123",
     "kinohannikainen",
+    "kinokaustinen",
     "kinokulma",
     "kinokuva",
     "kinolumo",
@@ -5601,6 +5716,7 @@
     "savonkinot",
     "star",
     "studio123jarvenpaa",
+    "vihdinkino",
     "virtainpirtti"
    ],
    "r": 0,
@@ -5636,12 +5752,16 @@
    "kr": "S",
    "krs": [
     "alatalo",
+    "biogrand",
     "biograni",
     "biomarilyn",
+    "biopallas",
     "biorex",
     "biorexkokkola",
+    "biosalo",
     "biostara",
     "engel",
+    "helios",
     "huvimylly",
     "ihmekompleksi",
     "isohannu",
@@ -5649,6 +5769,7 @@
     "julia",
     "kino123",
     "kinohannikainen",
+    "kinokaustinen",
     "kinokulma",
     "kinokuva",
     "kinolumo",
@@ -5666,6 +5787,7 @@
     "savonkinot",
     "star",
     "studio123jarvenpaa",
+    "vihdinkino",
     "virtainpirtti"
    ],
    "r": 0,
@@ -5684,12 +5806,16 @@
    "kr": "S",
    "krs": [
     "alatalo",
+    "biogrand",
     "biograni",
     "biomarilyn",
+    "biopallas",
     "biorex",
     "biorexkokkola",
+    "biosalo",
     "biostara",
     "engel",
+    "helios",
     "huvimylly",
     "ihmekompleksi",
     "isohannu",
@@ -5697,6 +5823,7 @@
     "julia",
     "kino123",
     "kinohannikainen",
+    "kinokaustinen",
     "kinokulma",
     "kinokuva",
     "kinolumo",
@@ -5714,6 +5841,7 @@
     "savonkinot",
     "star",
     "studio123jarvenpaa",
+    "vihdinkino",
     "virtainpirtti"
    ],
    "r": 0,
@@ -5723,6 +5851,19 @@
     "sv": "Pikkuli och de andra invånarna i Solbackens skog förbereder sig som bäst för julfirandet. Men när de vuxna i skogen börjar gräla, bestämmer de sig plötsligt för att ställa in och avboka hela julen..."
    },
    "tr": "",
+   "ts": [
+    "fi"
+   ]
+  },
+  "pimeyden armeija": {
+   "id": 766,
+   "img": "data/posters/78268017176f4870.jpg",
+   "r": 7.3,
+   "s": {
+    "en": "",
+    "fi": "Ihmislihasta sidottu, verellä kirjoitettu - ja harvinaisen hankala lausua: muinainen Necronomicon - kuolleiden kirja vapauttaa ennenkuulumattomat pahuuden voimat valloilleen ihmisten kiusaksi hillittömässä eeppisessä tarinassa täynnä miekkataistoja ja taikuutta.  Bruce Campbell palaa The Evil Dead (Kauhun riivaamat) -sarjan rooliinsa. Ash - komea, haulikkoa heilutteleva ja moottorisahaan sonnustautunut rautakauppias - taistelee jälleen pahuutta vastaan. Demoniset voimat lähettävät Ashin ja tämän -73 Oldsmobilen englannin pimeään keskiaikaan, jossa Ash kohtaa kauniin neidon (Embeth Davidtz) lisäksi legioonittain eläviä kuolleita ja kolisevia luurankoarmeijoita. Onnistuuko Ash pelastamaan maailman ja tyttöystävänsä karmivalta kuolemalta ja palaamaan kaiken päätteeksi takaisin omaan aikaansa? Uskomattomilla erikoistehosteilla täytetty kulttiklassikko Pimeyden armeija saa sinut kirkumaan pelosta ja naurusta!"
+   },
+   "tr": "https://www.youtube.com/watch?v=UHZQEtG8xYo",
    "ts": [
     "fi"
    ]
@@ -5947,6 +6088,7 @@
     "biorex",
     "kinohirvi",
     "kinolaika",
+    "kinolumo",
     "kinometso",
     "kinomyyri",
     "kinopiispanristi",
@@ -6434,6 +6576,7 @@
    "krs": [
     "biorex",
     "cinemantsala",
+    "gilda",
     "kino123",
     "kinohirvi",
     "kinolumo",
@@ -6993,12 +7136,16 @@
   },
   "ryhmä hau dinoelokuva suomeksi": {
    "id": 1185806,
-   "r": 0,
+   "img": "data/posters/b7775ab25a7de6bc.jpg",
+   "r": 8.3,
    "s": {
-    "en": "",
+    "en": "The Paw Patrol lands on a mysterious dinosaur island after a storm, where they meet Rex, a stranded pup. When Humdinger's reckless mining triggers a volcano, the team faces their biggest rescue mission yet to save the island.",
     "fi": "Ryhmä Haun laiva joutuu mystisen myrskyn kouriin ja haaksirikkoutuu trooppiselle saarelle, joka kuhisee dinosauruksia. He tapaavat Rexin – pennun, joka on jo vuosia ollut saarella jumissa ja josta on kehkeytynyt melkoinen dinosaurusekspertti. Kun Ryhmä Haun arkkivihollinen, Pormestari Hanttinen, aloittaa valtavat kaivuutyöt voidakseen hyödyntää saaren luonnonvaroja, hän saa vahingossa valtavan nukuksissa olleen tulivuoren purkautumaan. Pennut tempautuvat mukaan riskialttiiseen, dinon kokoiseen, kaikkien aikojen suurimpaan pelastusoperaatioonsa tavoitteenaan pysäyttää Hanttinen ennen kuin kaikki saarella katoaa ikiajoiksi."
    },
-   "tr": ""
+   "tr": "https://www.youtube.com/watch?v=xgI5iYmOf5Q",
+   "ts": [
+    "en"
+   ]
   },
   "rölli ja metsänhenki": {
    "id": 64029,
@@ -8439,6 +8586,7 @@
    "krs": [
     "biopallas",
     "biorex",
+    "gilda",
     "haapamaki",
     "helios",
     "kinoaurora",
@@ -8927,6 +9075,7 @@
    "img": "data/posters/99a2c3bb145ea6bf.jpg",
    "kr": "K-12",
    "krs": [
+    "biogrand",
     "k13",
     "kinokilta",
     "kinopirtti"
@@ -8939,12 +9088,14 @@
    "tr": "https://www.youtube.com/watch?v=0rXnpfzpk8s"
   },
   "vasenkätinen tyttö matinea": {
-   "r": 0,
+   "id": 999075,
+   "img": "data/posters/99a2c3bb145ea6bf.jpg",
+   "r": 7.3,
    "s": {
     "en": "",
     "fi": "Äiti ja kaksi tytärtä muuttavat väkeä kuhisevaan Taipeihin. Sisukas kolmikko ryhtyy pitämään nuudelikojua vilkkaalla yötorilla. Koju ei ehkä ole suurmenestys, mutta kolmikko pitää yhtä. Suurkaupungin vauhti ja vilinä lumoaa kolmikon nuorimmaisen. Isoisä moittii tyttöä vasemman käden käyttämisestä, se kun on vanhojen uskomusten mukaan ´paholaisen käsi´. Tyttö uskoo isoisää kirjaimellisesti. Perheen pitkään vaietut salaisuudet alkavat paljastua. Vasenkätisen tytön tuottaja, leikkaaja ja toinen käsikirjoittaja Sean Baker muistetaan Oscar –magneetti Anoran ohjauksesta. Tuottajana (mm. Florida Project) mainetta niittäneen Shih-Ching Tsoun esikoisohjaus tavoittaa Taipein neonvalojen kaleidoskoopin, elämän sirkuksen ja seikkailun. Vuonna 2016 syntynyt nuori tähti Nina Ye on vuoden hurmaavin läpimurto valkokankailla."
    },
-   "tr": ""
+   "tr": "https://www.youtube.com/watch?v=0rXnpfzpk8s"
   },
   "vasenkätinen tyttö pennittömät": {
    "r": 0,
@@ -9197,9 +9348,11 @@
    "kr": "K-16",
    "krs": [
     "biorex",
+    "helios",
     "kinoaurora",
     "kinokonepaja",
-    "kinotervakoski"
+    "kinotervakoski",
+    "tapiola"
    ],
    "r": 0,
    "s": {
@@ -9272,6 +9425,19 @@
    },
    "tr": ""
   },
+  "yksinäinen susi mcquade": {
+   "id": 14854,
+   "img": "data/posters/d4e089388aabc311.jpg",
+   "r": 6.5,
+   "s": {
+    "en": "",
+    "fi": "J.J. McQuade on harvasanainen Texas ranger, metsänvartija, joka antaa tekojensa puhua puolestaan. Lakia hän tulkitsee ilman opaskirjaa ja rangaistukset ovat ansaittuja – ainakin McQuaden mielestä. McQuade pyrkii pysäyttämään mahtavan rikollisjärjestön, joka myy armeijalta ryöstämiään aseita terroristeille ympäri maailmaa. Ajojahti vie McQuaden Meksikoon, jossa hän joutuu kasvokkain terroristijärjestön johtajan, Rawleyn, kanssa. Rawley kidnappaa McQuaden tyttären ja kuvittelee alhaisen tekonsa vaientavan yksinäisen suden. Rawley on väärässä. Hyvin väärässä."
+   },
+   "tr": "https://www.youtube.com/watch?v=EpXX9AoTIlg",
+   "ts": [
+    "fi"
+   ]
+  },
   "your lovely smile": {
    "id": 1025517,
    "r": 0,
@@ -9299,7 +9465,8 @@
    "img": "data/posters/d0630be5ff40e993.jpg",
    "kr": "K-16",
    "krs": [
-    "biorex"
+    "biorex",
+    "tapiola"
    ],
    "r": 6.0,
    "s": {
