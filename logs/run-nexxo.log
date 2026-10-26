@@ -52,5 +52,5 @@
 [run] pending: kinometso has 2 venue(s) with no programme yet: km-tikkakoski, km-vaajakoski
 [run] partial: kinomarilyn kept previous data for 1 venue(s): ma-loviisa
 [run] nexxo: 16 venues, 131 showtimes, 1 stale, 0 unverified, 2 pending, 0 with no programme, 1 failures
-[run] timing: 10 site(s), 64.0s of fetching added up across workers that overlap, longest site 23.5s, longest queue wait 0.0s, 23.5s wall from this module's first fetch starting to its last ending
+[run] timing: 10 site(s), 62.4s of fetching added up across workers that overlap, longest site 23.6s, longest queue wait 0.0s, 23.6s wall from this module's first fetch starting to its last ending
 exit=1

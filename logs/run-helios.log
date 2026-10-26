@@ -9,5 +9,5 @@
 [helios] synopses skipped as screening notes: 2
 [run] hosts: 1 attempted -- api.hel.fi
 [run] helios: 3 venues, 12 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
-[run] timing: 1 site(s), 6.0s of fetching added up across workers that overlap, longest site 6.0s, longest queue wait 135.7s, 6.0s wall from this module's first fetch starting to its last ending
+[run] timing: 1 site(s), 7.0s of fetching added up across workers that overlap, longest site 7.0s, longest queue wait 137.9s, 7.0s wall from this module's first fetch starting to its last ending
 exit=0
