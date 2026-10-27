@@ -12,10 +12,10 @@
 [leffabuumi] Kino Ritz: 26 showtimes, 22 dates
 [leffabuumi] Kino Saimaa: 4 showtimes, 3 dates
 [leffabuumi] synopses merged: 0
-[studio123jarvenpaa] Studio 123 Järvenpää: 28 showtimes, 11 dates
-[studio123jarvenpaa] synopses merged: 0
+[studio123jarvenpaa] Studio 123 Järvenpää: 76 showtimes, 16 dates
+[studio123jarvenpaa] synopses merged: 1
 [studio123kouvola] Studio 123 Kouvola: 72 showtimes, 23 dates
-[studio123kouvola] synopses merged: 1
+[studio123kouvola] synopses merged: 0
 [ihmekompleksi] Ihme Kompleksi: 21 showtimes, 10 dates
 [ihmekompleksi] synopses merged: 0
 [ihmekompleksi] screening-note sentences left out of synopses: 1
@@ -29,13 +29,13 @@
 [cine] Cine Nikkilä: no programme at the moment (adapter confirmed the venue empty); publishing an empty file
 [cine] synopses merged: 0
 [star] strand prefix split off 4 showtimes
-[star] Elokuvateatteri Star: 139 showtimes, 11 dates
+[star] Elokuvateatteri Star: 145 showtimes, 11 dates
 [star] synopses merged: 0
-[haapamaki] Haapamäen Elokuvat: 17 showtimes, 14 dates
+[haapamaki] Haapamäen Elokuvat: 18 showtimes, 15 dates
 [haapamaki] synopses merged: 0
 [run] venuelists-local.json rewritten
-[run] http: 0 revalidated (304), 303 full, 303 not stored (origin said no-store), 0 cache entries written
+[run] http: 0 revalidated (304), 307 full, 307 not stored (origin said no-store), 0 cache entries written
 [run] hosts: 12 attempted -- biogrand.fi, haapamaenelokuvat.fi, ihmekompleksi.fi, kiertue.cine.fi, kino.joutsa.fi, kino123.fi, kotkanleffat.fi, leffabuumi.fi, lippu.elokuvateatteristar.fi, studio123.fi, studiot123.com, www.savonkinot.fi
 [run] pending: cine has 1 venue(s) with no programme yet: cine-nikkila
-[run] etiketti: 20 venues, 816 showtimes, 0 stale, 0 unverified, 1 pending, 0 with no programme, 0 failures
+[run] etiketti: 20 venues, 871 showtimes, 0 stale, 0 unverified, 1 pending, 0 with no programme, 0 failures
 exit=0
