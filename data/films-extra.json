@@ -534,17 +534,13 @@
   },
   "begyndelser": {
    "id": 1239478,
-   "img": "data/posters/828268611ece53f6.jpg",
    "r": 0,
    "s": {
-    "en": "Ane and Thomas are on the verge of being divorced when Ane suffers a stroke, forcing them to stay together and postpone telling their children about the split. Faced with this new reality, the two find hope where they least expect it.",
+    "en": "",
     "fi": "Ane ( Trine Dyrholm ) ja Thomas ( David Dencik ) ovat keski-ikäiset kahden kouluikäisen lapsenvanhemmat keskellä eroamisprosessia. Thomasilla on uusi kumppani, jonka luokse hän aikoomuuttaa, mutta ensin pitäisi saada kerrottua suuret ja hankalat uutiset tyttärille, jotka eivättiedä eroaikeista mitään. Suunnitelmat menevät uusiksi, kun Ane saa yllättäen aivoinfarktin ja hänen kehonsa toinenpuoli halvaantuu. Vaikeassa tilanteessa pariskunta päättää jäädyttää muuttoaikeet ja jatkaayhteiseloa toistaiseksi. Päätöksellä on yllättävät seuraukset. Rikollisperheestä kertoneella Wildlandilla (Espoo Ciné 2020) läpimurron tehnyttanskalaisohjaaja Jeanette Nordahl osoittaa jälleen hallitsevansa hillityn psykologisen ihmissuhde- ja perhedynamiikkakuvauksen. Beginnings sai ensi-iltansa Berliininelokuvajuhlien Panorama-sarjassa.",
     "sv": "Vuxet, varmt och mänskligt om en skilsmässa på paus, med Trine Dyrholm och DavidDencik i sitt absoluta skådespelaresse. Dansk film när den är som bäst! Ane och Thomas är båda inställda på skilsmässa, och Thomas har redan köpt en lägenhettillsammans med sin nya partner. Ändå kommer de sig inte för att berätta för barnen. Husetska ju säljas, annat måste ordnas. Så länge lunkar den gemensamma vardagen på – tills Anefår en stroke och tillvaron för alla inblandade sätts på paus. Skådespelarna Trine Dyrholmoch David Dencik är i sitt esse i händerna på regissören Jeanette Nordahl, och tillsammanslevererar de ett varmt, vuxet och mänskligt drama."
    },
-   "tr": "https://www.youtube.com/watch?v=wrVkzVwE6JE",
-   "ts": [
-    "en"
-   ]
+   "tr": ""
   },
   "belle epoque muutosten aika": {
    "id": 2470,
@@ -999,7 +995,6 @@
     "biosalo",
     "gilda",
     "kinojuha",
-    "kinotervakoski",
     "orion",
     "savonkinot",
     "studio123kouvola",
@@ -2480,7 +2475,6 @@
    "krs": [
     "biogrand",
     "biograni",
-    "biokaari",
     "biomarilyn",
     "biomarlon",
     "biorex",
@@ -2560,7 +2554,6 @@
    "krs": [
     "biogrand",
     "biograni",
-    "biokaari",
     "biomarilyn",
     "biomarlon",
     "biorex",
@@ -4056,8 +4049,8 @@
     "kinolaika",
     "kinolumo",
     "kinomarilyn",
-    "kinopiispanristi",
     "kinopirtti",
+    "kinotar",
     "kinotervakoski",
     "kotkanleffat",
     "kulttuurimylly",
@@ -4475,6 +4468,14 @@
    "s": {
     "en": "",
     "fi": "Cannesin elokuvajuhlien Kultaisella palmulla palkittu visionääriohjaaja Apichatpong Weerasethakul on ohjannut ensimmäisen englanninkielisen elokuvansa. Tilda Swinton näyttelee skotlantilaista naista, joka kuultuaan aamuisin kovan pamauksen lähtee sekä aistilliselle että todelliselle matkalle Kolumbian viidakkoon. Memoria on upea mystinen elokuvaelämys miltei kaikille aisteille. ” Memoria on elokuva, joka kiertyy äänen ympärille. Äänisuunnittelija Akritchalerm Kalayanamitr luo Weerasethakulin elokuviin unenomaisen hidastempoisia äänimaisemia, joissa luonto, hiljaisuus ja teollisen yhteiskunnan todellisuus limittyvät. ” – Laura Naukkarinen"
+   },
+   "tr": ""
+  },
+  "metallica": {
+   "r": 0,
+   "s": {
+    "en": "Kuuntelusession alustaa Metallica Clubin Finnish Chapter, vieraanaan albumin tuottaja Flemming Rasmussen, joka tuotti yhtyeen 1980-luvun albumit “Ride the Lightning”, “Master of Puppets” ja “…And Justice for All”. Albumin kesto: 55 minuuttia Pitchblack Playbackista sanottua: ”This sounds great” — Rick Rubin ”A fabulous idea” — Jay Kay, Jamiroquai ”The optimal way to experience an album” — Max Richter ”This might just be my new favourite thing to do” — Nihal, BBC Radio 5 Live Lippu sisältää pimentävän Pitchblack Playback -silmämaskin. Suositeltu mm. The Guardianin, GQ:n, Time Outin ja BBC 6 Musicin toimesta. Lue lisää",
+    "fi": ""
    },
    "tr": ""
   },
@@ -5737,6 +5738,7 @@
     "kinomyyri",
     "kinopiispanristi",
     "kinopirtti",
+    "kinotar",
     "kinotour",
     "kotkanleffat",
     "kuvakukko",
@@ -5809,6 +5811,7 @@
     "kinomyyri",
     "kinopiispanristi",
     "kinopirtti",
+    "kinotar",
     "kinotour",
     "kotkanleffat",
     "kuvakukko",
@@ -5883,6 +5886,7 @@
     "kinomyyri",
     "kinopiispanristi",
     "kinopirtti",
+    "kinotar",
     "kinotour",
     "kotkanleffat",
     "kuvakukko",
@@ -5940,6 +5944,7 @@
     "kinomyyri",
     "kinopiispanristi",
     "kinopirtti",
+    "kinotar",
     "kinotour",
     "kotkanleffat",
     "kuvakukko",
@@ -9530,13 +9535,10 @@
    "img": "data/posters/650c789b1581e9b9.jpg",
    "r": 9.1,
    "s": {
-    "en": "Thirty-four days before she's sent to prison, notorious Silicon Valley founder Elizabeth Holmes invites a skeptical film crew to document her every move. What begins as an intimate portrait of an enigmatic felon becomes a mind-bending three-year journey into the abyss.",
+    "en": "Thirty-four days before she’s sent to prison, notorious Silicon Valley founder Elizabeth Holmes invites a skeptical film crew to document her every move. What begins as an intimate portrait of an enigmatic felon becomes a mind-bending three-year journey into the abyss. From boundary-pushing directors Nathan Fielder and Lance Oppenheim comes You Can See Everything.",
     "fi": "Kolmekymmentäneljä päivää ennen vankilaan joutumistaan pahamaineinen Piilaakson yritysperustaja Elizabeth Holmes kutsuu skeptisen kuvausryhmän dokumentoimaan jokaista liikettään. Arvoituksellisen rikollisen intiimistä muotokuvasta alkaa vähitellen muotoutua tajunnanräjäyttävä, kolme vuotta kestävä matka syvyyksiin. Rajoja rikkovien ohjaajien Nathan Fielderin ja Lance Oppenheimin käsialaa oleva YOU CAN SEE EVERYTHING vie katsojan matkalle, jolla mikään ei ole sitä, miltä näyttää."
    },
-   "tr": "https://www.youtube.com/watch?v=IEx8D1Wb__U",
-   "ts": [
-    "en"
-   ]
+   "tr": "https://www.youtube.com/watch?v=IEx8D1Wb__U"
   },
   "your lovely smile": {
    "id": 1025517,
