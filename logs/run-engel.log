@@ -1,10 +1,10 @@
-[engel] 7 date(s) listed with no time anywhere, skipped: 10-31, 11-06, 11-13, 11-20, 11-27, 12-04, 12-18 -- Dracula | Me olemme Pariisin orkesteri | Unesta tehty mies | La bola negra | Kuin lammas laatikossa | Minotaur | Fatherland
-[engel] film pages: 11 parsed, 0 with nothing usable, 21/21 showtimes rated
+[engel] 6 date(s) listed with no time anywhere, skipped: 11-06, 11-13, 11-20, 11-27, 12-04, 12-18 -- Me olemme Pariisin orkesteri | Unesta tehty mies | La bola negra | Kuin lammas laatikossa | Minotaur | Fatherland
+[engel] film pages: 17 parsed, 0 with nothing usable, 59/59 showtimes rated
 [engel] strand prefix split off 4 showtimes
-[engel] Kino Engel: 21 showtimes, 9 dates
+[engel] Kino Engel: 59 showtimes, 12 dates
 [engel] synopses merged: 0
 [run] venuelists-local.json rewritten
-[run] http: 0 revalidated (304), 12 full, 0 not stored (origin said no-store), 0 cache entries written
+[run] http: 0 revalidated (304), 18 full, 0 not stored (origin said no-store), 0 cache entries written
 [run] hosts: 1 attempted -- kinoengel.fi
-[run] engel: 1 venues, 21 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
+[run] engel: 1 venues, 59 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
 exit=0
