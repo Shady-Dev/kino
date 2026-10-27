@@ -45,7 +45,7 @@
  },
  "hirtettyjen-kettujen-metsa": {
   "price": "",
-  "at": "2026-10-25T12:15:50+00:00",
+  "at": "2026-10-27T12:16:53+00:00",
   "fields": {
    "lang": "FI-A",
    "len": "93",
@@ -80,7 +80,7 @@
  },
  "kerro-kaikille": {
   "price": "",
-  "at": "2026-10-25T12:15:50+00:00",
+  "at": "2026-10-27T12:16:53+00:00",
   "fields": {
    "lang": "FI-A, EN-S",
    "len": "112",
@@ -92,7 +92,7 @@
  },
  "kinokonsertti-moana-auringon-poika": {
   "price": "",
-  "at": "2026-10-25T12:15:50+00:00",
+  "at": "2026-10-27T12:16:53+00:00",
   "fields": {
    "lang": "EN-A, EN-S",
    "len": "78",
@@ -104,13 +104,24 @@
  },
  "lapin-sota": {
   "price": "",
-  "at": "2026-10-25T12:15:50+00:00",
+  "at": "2026-10-27T12:16:53+00:00",
   "fields": {
    "lang": "FI-A, FI-S, SV-S",
    "len": "158",
    "rating": "K-16",
    "year": "2026",
    "syn_fi": "Elokuvan tapahtumat sijoittuvat Lappiin syksyllä 1944, Suomen ja Saksan väliseen konfliktiin toisen maailmansodan loppuvaiheessa. Nuori sotamies Heikki taistelee Karjalan kannaksella ystävänsä Paulin kanssa. Komppaniaan liittyy vankilasta vapautunut Arvo, jonka maailmankuva haastaa muiden käsitykset sodasta ja velvollisuudesta. Aselepo herättää toivon kotiinpaluusta, mutta pian selviää, että Suomen on käännyttävä entisiä saksalaisia liittolaisiaan vastaan Lapissa. Samaan aikaan Rovaniemellä saksalaisten tulkkina työskentelevä Saara joutuu valitsemaan tulevaisuutensa: jäädä Suomeen vai paeta Saksaan rakastettunsa, majuri Duisbergin, kanssa. Lapin sota on vahvasti hahmojensa inhimillisiin kokemuksiin nojaava kertomus ihmisistä, jotka ajautuvat historiallisten mullistusten keskelle. Sodan kauheuksien keskeltä he etsivät merkitystä, inhimillisyyttä ja anteeksiantoa – ja kysyvät, miten armottomassa ympäristössä voidaan löytää armollisuutta."
+  }
+ },
+ "mannerlaatta": {
+  "price": "",
+  "at": "2026-10-27T12:16:53+00:00",
+  "fields": {
+   "len": "74",
+   "rating": "S",
+   "year": "2016",
+   "syn_fi": "Mannerlaatta on täyspitkä lettristinen elokuva lentopelosta, turvatarkastuksista ja aikavyöhykkeistä. Kokonaan ilman kameraa tehty teos pohjautuu runoilija Harry Salmenniemen alkuperäistekstiin. Elokuvan musiikin on säveltänyt Mika Vainio. ” Mannerlaatan materiaali resonoi ihmeellisesti keskenään. Visuaalisuus, runous, rosoiset foley -äänet, Olli Huhtasen koko kaarta kuljettava äänisuunnittelu ja Mika Vainion musiikki muodostavat kokonaisuuden jolle ei voi kuin antautua.” – Sanna Salmenkallio",
+   "syn_en": "Äänen alkemistit is a special screening series dedicated to film sound and film music. The films in the series have been selected by leading professionals in music and cinematic sound. Composer and violinist Sanna Salmenkallio chose Mannerlaatta, an experimental film work by Mika Taanila, for the series. Mannerlaatta is a feature-length lettrist film about fear of flying, security checks and time zones. Made entirely without a camera, the work is based on an original text by Harry Salmenniemi. The film’s music was composed by Mika Vainio."
   }
  },
  "mina-ja-riikka-purra": {
@@ -126,7 +137,7 @@
  },
  "naza": {
   "price": "",
-  "at": "2026-10-25T12:15:50+00:00",
+  "at": "2026-10-27T12:16:53+00:00",
   "fields": {
    "lang": "HE-A, EN-A, EN-S",
    "rating": "K-12",
@@ -150,18 +161,18 @@
  },
  "spider-man-brand-new-day": {
   "price": "",
-  "at": "2026-10-25T12:15:50+00:00",
+  "at": "2026-10-27T12:16:53+00:00",
   "fields": {
    "lang": "EN-A, FI-S, SV-S",
    "len": "145",
    "rating": "K-12",
    "year": "2026",
-   "syn_fi": "Spider-Man: Brand New Day -erikoisnäytös järjestetään osana Kritiikkifestivaalia. Suomen arvostelijain liitto ry (SARV) järjestää Suomen ensimmäisen Kritiikkifestivaalin 16.–22.11.2026 Helsingissä. Kritiikkifestivaalin teemana on tänä vuonna kritiikin moniäänisyys. Moniäänisyys käsittää paitsi taiteen eri alat, myös erilaiset kritiikin tekemisen tavat ja näkökulmat. Festivaalilla kritiikki on yläkäsite, sateenvarjo, jonka alla voidaan käydä monialaista ja rakentavaa kulttuurikeskustelua. Festivaalille ovat tervetulleita kaikki kritiikistä, taiteesta ja kulttuurista kiinnostuneet. Festivaalihanketta tukee Koneen Säätiö. Maailmanlaajuisen menestyksen saavuttaneen ja ennätyksiä rikkoneen Spider-Man: No Way Home -elokuvan jälkeen Spider-Man: Brand New Day aloittaa täysin uuden luvun Peter Parkerin ja Spider-Manin tarinassa. On kulunut neljä vuotta No Way Home -elokuvan tapahtumista, ja Peter on nyt aikuinen, joka elää täysin yksin poistettuaan itsensä vapaaehtoisesti rakastamiensa ihmisten elämästä ja muistoista. Taistellessaan rikollisuutta vastaan New Yorkissa, joka ei enää tunne hänen nimeään, hän on omistautunut täysin kaupungin suojelemiselle — täysipäiväisenä Spider-Manina. Mutta kun vaatimukset häntä kohtaan kasvavat, paine käynnistää yllättävän fyysisen muutoksen, joka uhkaa hänen olemassaoloaan. Samalla uusi outo rikosaalto synnyttää yhden voimakkaimmista uhista, jonka hän on koskaan kohdannut. Näytöstä edeltää Supersankarielokuvien vastaanotto ja kritiikki -keskustelu klo 17:30-18:45. Elokuva alkaa klo 19:00. Nopeita juonenkäänteitä ja erikoisefektejä vilisevät supersankarielokuvat jakavat usein voimakkaasti mielipiteitä. Stereotyyppisesti massat rakastavat niitä, mutta kriitikot eivät niinkään. Pitääkö tämä yhä paikkansa? Millaista on arvioida supersankarielokuvia? Aiheesta ovat keskustelemassa tietokirjailija, toimittaja, kriitikko Jussi Ahlroth sekä toimittaja, kriitikko Jaana Semeri. Jussi Ahlroth on tietokirjailija, vapaa toimittaja ja kriitikko. Hän on kirjoittanut kritiikkejä vuodesta 1998, pääasiassa Helsingin Sanomiin, jossa hän työskenteli 20 vuoden ajan. Hän oikeasti pitää supersankarielokuvista. Jaana Semeri on aiemmin toiminut kulttuuritoimittajana -ja tuottajana Ylellä ja nykyään on freelancer teatterikriitikko. Hän on toiminut elokuvatoimittajana ja -kriitikkona jo viime vuosisadalla. Semeri on toinen teoksen Neitoperhot ja Pahanhautojat – naiset tekevät elokuvia kirjoittajista. Lisäksi hänellä on tekeillä toinen kirja suomalaisesta elokuvasta. Keskustelutilaisuuteen on vapaa pääsy. Keskustelun kieli on suomi."
+   "syn_fi": "Spider-Man: Brand New Day -erikoisnäytös järjestetään osana Kritiikkifestivaalia. Suomen arvostelijain liitto ry (SARV) järjestää Suomen ensimmäisen Kritiikkifestivaalin 16.–22.11.2026 Helsingissä. Kritiikkifestivaalin teemana on tänä vuonna kritiikin moniäänisyys. Moniäänisyys käsittää paitsi taiteen eri alat, myös erilaiset kritiikin tekemisen tavat ja näkökulmat. Festivaalilla kritiikki on yläkäsite, sateenvarjo, jonka alla voidaan käydä monialaista ja rakentavaa kulttuurikeskustelua. Festivaalille ovat tervetulleita kaikki kritiikistä, taiteesta ja kulttuurista kiinnostuneet. Festivaalihanketta tukee Koneen Säätiö. Maailmanlaajuisen menestyksen saavuttaneen ja ennätyksiä rikkoneen Spider-Man: No Way Home -elokuvan jälkeen Spider-Man: Brand New Day aloittaa täysin uuden luvun Peter Parkerin ja Spider-Manin tarinassa. On kulunut neljä vuotta No Way Home -elokuvan tapahtumista, ja Peter on nyt aikuinen, joka elää täysin yksin poistettuaan itsensä vapaaehtoisesti rakastamiensa ihmisten elämästä ja muistoista. Taistellessaan rikollisuutta vastaan New Yorkissa, joka ei enää tunne hänen nimeään, hän on omistautunut täysin kaupungin suojelemiselle — täysipäiväisenä Spider-Manina. Mutta kun vaatimukset häntä kohtaan kasvavat, paine käynnistää yllättävän fyysisen muutoksen, joka uhkaa hänen olemassaoloaan. Samalla uusi outo rikosaalto synnyttää yhden voimakkaimmista uhista, jonka hän on koskaan kohdannut. Näytöstä edeltää Supersankarielokuvien vastaanotto ja kritiikki -keskustelu klo 17:30-18:45. Elokuva alkaa klo 19:00. Nopeita juonenkäänteitä ja erikoisefektejä vilisevät supersankarielokuvat jakavat usein voimakkaasti mielipiteitä. Stereotyyppisesti massat rakastavat niitä, mutta kriitikot eivät niinkään. Pitääkö tämä yhä paikkansa? Millaista on arvioida supersankarielokuvia? Aiheesta ovat keskustelemassa tietokirjailija, toimittaja, kriitikko Jussi Ahlroth sekä toimittaja, kriitikko Jaana Semeri. Keskustelun moderoi toimittaja ja kriitikko Paavo Ihalainen. Jussi Ahlroth on tietokirjailija, vapaa toimittaja ja kriitikko. Hän on kirjoittanut kritiikkejä vuodesta 1998, pääasiassa Helsingin Sanomiin, jossa hän työskenteli 20 vuoden ajan. Hän oikeasti pitää supersankarielokuvista. Jaana Semeri on aiemmin toiminut kulttuuritoimittajana -ja tuottajana Ylellä ja nykyään on freelancer teatterikriitikko. Hän on toiminut elokuvatoimittajana ja -kriitikkona jo viime vuosisadalla. Semeri on toinen teoksen Neitoperhot ja Pahanhautojat – naiset tekevät elokuvia kirjoittajista. Lisäksi hänellä on tekeillä toinen kirja suomalaisesta elokuvasta. Halutessasi voit tulla paikalle supersankariksi pukeutuneena. Keskustelutilaisuuteen on vapaa pääsy. Keskustelun kieli on suomi. Tilaisuus striimataan Kritiikin Uutisten YouTube-kanavalle. Striimistä ja tallenteesta vastaa Jonni Pantzar."
   }
  },
  "talvitarina": {
   "price": "",
-  "at": "2026-10-25T12:15:50+00:00",
+  "at": "2026-10-27T12:16:53+00:00",
   "fields": {
    "lang": "FR-A, EN-S",
    "len": "115",
@@ -186,7 +197,7 @@
  },
  "ulvova-myllari": {
   "price": "",
-  "at": "2026-10-25T12:15:50+00:00",
+  "at": "2026-10-27T12:16:53+00:00",
   "fields": {
    "lang": "FI-A",
    "len": "95",

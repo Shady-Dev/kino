@@ -5,8 +5,8 @@
 [kuvakukko] Kino Kuvakukko: 39 showtimes, 10 dates
 [kuvakukko] Kino Manttu: 8 showtimes, 3 dates
 [kuvakukko] synopses merged: 0
-[run] http: 0 revalidated (304), 19 full, 0 not stored (origin said no-store), 19 cache entries written
+[run] http: 1 revalidated (304), 18 full, 0 not stored (origin said no-store), 18 cache entries written
 [run] hosts: 1 attempted -- www.kuvakukko.fi
 [run] kuvakukko: 2 venues, 47 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
-[run] timing: 1 site(s), 50.7s of fetching added up across workers that overlap, longest site 50.7s, longest queue wait 90.2s, 50.7s wall from this module's first fetch starting to its last ending
+[run] timing: 1 site(s), 54.2s of fetching added up across workers that overlap, longest site 54.2s, longest queue wait 98.5s, 54.2s wall from this module's first fetch starting to its last ending
 exit=0

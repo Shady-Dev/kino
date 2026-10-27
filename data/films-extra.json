@@ -112,6 +112,7 @@
    "kr": "K-7",
    "krs": [
     "kannusali",
+    "kinolaika",
     "korjaamo"
    ],
    "r": 0,
@@ -396,12 +397,13 @@
   },
   "avengers endgame encore": {
    "id": 299534,
-   "r": 0,
+   "img": "data/posters/b7147419b96540ff.jpg",
+   "r": 8.2,
    "s": {
     "en": "",
     "fi": "Avengers: Endgame tulee takaisin elokuvateattereihin Encore-juhlajulkaisuna. Elokuvassa on uutta materiaalia, joka sitoo Endgamen tapahtumat joulukuussa tulevaan Avengers: Doomsday -elokuvaan. Thanoksen aiheuttamien tuhojen jälijltä koko maailma on raunioina. Jäljellä olevien liittolaistensa avulla Avengers kokoontuu jälleen palauttaakseen täydellisen tasapainon universumiin."
    },
-   "tr": ""
+   "tr": "https://www.youtube.com/watch?v=L2NAh3CIdig"
   },
   "avengers endgame encore 2d": {
    "id": 299534,
@@ -496,6 +498,19 @@
    "tr": "",
    "ts": [
     "en"
+   ]
+  },
+  "bamse ja meren salaisuus": {
+   "id": 1275785,
+   "img": "data/posters/aed5ff66e478c590.jpg",
+   "r": 0,
+   "s": {
+    "en": "",
+    "fi": "Bamse, Pomppi ja Kilpinen ovat jälleen uuden seikkailun keskellä! Bamse, Pomppi ja Kilpinen lähtevät kohti suurta meriseikkailua ja sukeltavat keskelle merimysteeriä – pian alkaa koko perheen seikkailu, täynnä ystävyyttä, yllätyksiä ja huikeita hetkiä."
+   },
+   "tr": "https://www.youtube.com/watch?v=Vh9Tp3JXbQM",
+   "ts": [
+    "fi"
    ]
   },
   "beau travail": {
@@ -796,6 +811,7 @@
     "biorexkokkola",
     "biosalo",
     "biosavoy",
+    "cinemantsala",
     "gilda",
     "ihmekompleksi",
     "isohannu",
@@ -1046,6 +1062,7 @@
    "img": "data/posters/8d26aa87dac26f9c.jpg",
    "kr": "K-16",
    "krs": [
+    "engel",
     "kinoiiris",
     "niagara"
    ],
@@ -1241,12 +1258,16 @@
   },
   "father mother sister brother": {
    "id": 1159206,
-   "r": 0,
+   "img": "data/posters/9748f77855a4de36.jpg",
+   "r": 6.4,
    "s": {
-    "en": "",
+    "en": "Estranged siblings reunite after years apart, forced to confront unresolved tensions and reevaluate their strained relationships with their emotionally distant parents.",
     "fi": "Father Mother Sister Brother kuvaa aikuisten lasten ja heidän vanhempiensa välisiä monimutkaisia suhteita. Tarinat sijoittuvat nykyaikaan ja kolmeen eri paikkaan; Yhdysvaltain koillisosiin, Dubliniin ja Pariisiin. Father: Sisarukset Jeff (Adam Driver) ja Emily (Mayim Bialik) vierailevat eristäytyneen ja mahdollisesti varattoman isänsä (Tom Waits) luona. Vierailun aikana he alkavat epäillä isänsä teeskentelevän kurjuuttaan ja huomaavat tämän ranteessa arvokkaan Rolex-kellon. Mother: Sisarukset Timothea (Cate Blanchett) ja Lilith (Vicky Krieps) vierailevat kirjailijaäitinsä (Charlotte Rampling) luona iltapäiväteellä. Tarina keskittyy pinnan alla kyteviin jännitteisiin ja siihen, mitä jätetään sanomatta perinteisten rituaalien äärellä. Sister Brother: Kaksoset Skye (Indya Moore) ja Billy (Luka Sabbat) siivoavat edesmenneiden vanhempiensa asuntoa. He käyvät läpi muistoja ja tavaroita, löytäen uusia puolia vanhemmistaan ja perheensä historiasta. Elokuva piirtää inhimillisen kuvan perheestä, läheisyydestä ja etäisyydestä lempeällä huumorilla, johon sekoittuu melankolian sävyjä."
    },
-   "tr": ""
+   "tr": "https://www.youtube.com/watch?v=PA07EmbZ0b0",
+   "ts": [
+    "en"
+   ]
   },
   "faust": {
    "id": 10728,
@@ -2136,6 +2157,14 @@
    },
    "tr": ""
   },
+  "joki 25 vuotisjuhlanäytös": {
+   "r": 0,
+   "s": {
+    "en": "",
+    "fi": "Äänekoskella vuonna 2000 kuvattu Joki saavutti ilmestyessään suuren suosion sekä yleisön että kriitikoiden keskuudessa. Elokuva palkittiin muun muassa viidellä Jussi-palkinnolla (mukaan lukien paras elokuva ja ohjaus) sekä kansainvälisesti Göteborgin elokuvafestivaaleilla. Elokuvan ajaton tarina puhuttelee edelleen: kuluvana vuonna elokuva esitettiin muun muassa Espoo Ciné -elokuvafestivaalilla 30. elokuuta Kino Tapiolassa yli sadalle katsojalle. Juhlanäytös tarjoaa ainutlaatuisen mahdollisuuden palata elokuvan tunnelmiin ja kuulla sen synnystä suoraan tekijöiltä. Elokuvaesityksen jälkeen yleisöllä on mahdollisuus esittää kysymyksiä ja jakaa muistojaan elokuvasta ja sen kuvauksista. Paikalla näytöksessä ovat ohjaaja-käsikirjoittaja Jarmo Lampela sekä näyttelijät Jari Virman ja Jyri Ojansivu."
+   },
+   "tr": ""
+  },
   "jonain päivänä": {
    "id": 1277884,
    "r": 0,
@@ -2369,10 +2398,7 @@
     "en": "In 1990s Finland, people watched The Bold and the Beautiful and the news side by side on television. One offered an escape from reality, while the other presented a bleak picture of the recession gripping society. When the clock struck five on a weekday afternoon, more than a million Finns would gather around their screens to follow the relationship dramas of an American fashion dynasty. At the same time as people queued for bread and took to the streets to protest, unprecedented crowds turned out to see the American stars brought to Finland – the legendary Ridge and Eric. In Kaunarikuume (Soap Fever), director Inka Achté dives into this captivating fan phenomenon. As she gets to know the show’s devoted fans, she is forced to confront her own painful memories of the recession years, but also discovers what may be the Finns’ greatest superpower.",
     "fi": "Ysäri-Suomessa telkkarista seurattiin rinta rinnan Kauniita ja rohkeita sekä uutisia. Toinen tarjosi pakoa todellisuudesta, toinen masentavaa lamakuvastoa ympäröivästä yhteiskunnasta. Kun kello löi arki-iltapäivänä 17, jopa yli miljoona suomalaista kerääntyi amerikkalaisen muotitalon suhdesotkujen äärelle. Samaan aikaan kun jonotettiin leipää ja keräännyttiin osoittamaan mieltä, muodostui ennennäkemättömät yleisömassat katsomaan maahamme lennätettyjä Ameriikan ihmeitä, Ridgeä ja Ericiä. Ohjaaja Inka Achté sukeltaa Kaunarikuumeessa tarkastelemaan tätä valloittavaa fani-ilmiötä. Tutustuessaan sarjan faneihin hän joutuu kohtaamaan oman kipeän lama-ajan menneisyytensä, mutta oppii myös, mikä on suomalaisten supervoima."
    },
-   "tr": "https://www.youtube.com/watch?v=zL4AAcxBX_0",
-   "ts": [
-    "fi"
-   ]
+   "tr": "https://www.youtube.com/watch?v=zL4AAcxBX_0"
   },
   "ke kino lyhyt rakkaustarina": {
    "r": 0,
@@ -2499,6 +2525,7 @@
     "kinovirta",
     "kirkkonummi",
     "kisakino",
+    "kkino",
     "kotkanleffat",
     "kurikankino",
     "kuvakukko",
@@ -2508,6 +2535,7 @@
     "marita",
     "niagara",
     "orion",
+    "pajakkakino",
     "regina",
     "savonkinot",
     "star",
@@ -2577,6 +2605,7 @@
     "kinovirta",
     "kirkkonummi",
     "kisakino",
+    "kkino",
     "kotkanleffat",
     "kurikankino",
     "kuvakukko",
@@ -2586,6 +2615,7 @@
     "marita",
     "niagara",
     "orion",
+    "pajakkakino",
     "regina",
     "savonkinot",
     "star",
@@ -3829,8 +3859,10 @@
     "biomarlon",
     "biorex",
     "biorexkokkola",
+    "biosade",
     "biosalo",
     "biostara",
+    "cinemantsala",
     "elavienkuvien",
     "engel",
     "haapamaki",
@@ -3864,6 +3896,7 @@
     "leffabuumi",
     "levisummit",
     "matintupa",
+    "savonkinot",
     "star",
     "studio123jarvenpaa",
     "studio123kouvola",
@@ -4013,6 +4046,7 @@
     "biorexkokkola",
     "biosalo",
     "biostara",
+    "cinemantsala",
     "engel",
     "ihmekompleksi",
     "isohannu",
@@ -4215,6 +4249,19 @@
     "en"
    ]
   },
+  "mad max fury road": {
+   "id": 76341,
+   "img": "data/posters/3033ccf2f2f9d7c4.jpg",
+   "r": 7.6,
+   "s": {
+    "en": "",
+    "fi": "Mad Maxin apokalyptinen tarina sijoittuu planeettamme syrjäisimpään kolkkaan, karulle aavikkoseudulle, jossa ihminen on ajettu hulluuden partaalle taistelemaan henkiinjäämisestään. Tässä maailmassa on kaksi kapinallista, jotka saattavat pystyä palauttamaan järjestyksen. Max on toiminnan ja harvojen sanojen mies, joka etsii rauhaa menetettyään vaimonsa ja lapsensa kaaoksen keskelle. Furiosa puolestaan on toiminnan nainen, joka uskoo selviävänsä, mikäli onnistuu matkaamaan halki aavikon synnyinseuduilleen."
+   },
+   "tr": "https://www.youtube.com/watch?v=MonFNCgK4WE",
+   "ts": [
+    "fi"
+   ]
+  },
   "madama butterfly bregenz festival puccini": {
    "r": 0,
    "s": {
@@ -4256,6 +4303,16 @@
    "ts": [
     "fi"
    ]
+  },
+  "mannerlaatta": {
+   "id": 384036,
+   "img": "data/posters/f374a4a7a21aae37.jpg",
+   "r": 0,
+   "s": {
+    "en": "Äänen alkemistit is a special screening series dedicated to film sound and film music. The films in the series have been selected by leading professionals in music and cinematic sound. Composer and violinist Sanna Salmenkallio chose Mannerlaatta, an experimental film work by Mika Taanila, for the series. Mannerlaatta is a feature-length lettrist film about fear of flying, security checks and time zones. Made entirely without a camera, the work is based on an original text by Harry Salmenniemi. The film’s music was composed by Mika Vainio.",
+    "fi": "Mannerlaatta on täyspitkä lettristinen elokuva lentopelosta, turvatarkastuksista ja aikavyöhykkeistä. Kokonaan ilman kameraa tehty teos pohjautuu runoilija Harry Salmenniemen alkuperäistekstiin. Elokuvan musiikin on säveltänyt Mika Vainio. ” Mannerlaatan materiaali resonoi ihmeellisesti keskenään. Visuaalisuus, runous, rosoiset foley -äänet, Olli Huhtasen koko kaarta kuljettava äänisuunnittelu ja Mika Vainion musiikki muodostavat kokonaisuuden jolle ei voi kuin antautua.” – Sanna Salmenkallio"
+   },
+   "tr": ""
   },
   "marilynin karaoke": {
    "r": 0,
@@ -5659,6 +5716,7 @@
     "biopallas",
     "biorex",
     "biorexkokkola",
+    "biosade",
     "biosalo",
     "biostara",
     "engel",
@@ -5730,6 +5788,7 @@
     "biopallas",
     "biorex",
     "biorexkokkola",
+    "biosade",
     "biosalo",
     "biostara",
     "engel",
@@ -5803,6 +5862,7 @@
     "biopallas",
     "biorex",
     "biorexkokkola",
+    "biosade",
     "biosalo",
     "biostara",
     "engel",
@@ -5859,6 +5919,7 @@
     "biopallas",
     "biorex",
     "biorexkokkola",
+    "biosade",
     "biosalo",
     "biostara",
     "engel",
@@ -5931,9 +5992,7 @@
     "biosalo",
     "biostara",
     "biovuoksi",
-    "cine",
     "cinemantsala",
-    "haapamaki",
     "helios",
     "ihmekompleksi",
     "isohannu",
@@ -5957,6 +6016,7 @@
     "leffabuumi",
     "marita",
     "niagara",
+    "pajakkakino",
     "savonkinot",
     "star",
     "studio123jarvenpaa",
@@ -7235,19 +7295,6 @@
     "fi"
    ]
   },
-  "römppäviikot rakkautta ja virtahepoja elokuva lukupiiri": {
-   "id": 1450473,
-   "img": "data/posters/3630a8c5eeb607ff.jpg",
-   "r": 0,
-   "s": {
-    "en": "",
-    "fi": "Kaksi toisilleen tuntematonta ihmistä kohtaavat kreikkalaissuomalaisissa häissä keskellä omia eroprosessejaan. Vielä naimisissa oleva, vähäistä menestystä niittänyt muusikko Touko tuntee vetoa juuri eroamassa olevaan Eevikseen. Häissä on vieraana myös Toukon vaimo, tunnettu laulajatähti Leena, joka huomaa Toukon ja Eeviksen välisen vetovoiman. Kreikan upeissa merimaisemissa yhden illan aikana käytävissä keskusteluissa pohditaan vanhemmuutta, lapsettomuutta, seksiä, eroja, avioliittoa ja tietenkin rakkautta sekä juhlitaan ikimuistoisia häitä."
-   },
-   "tr": "",
-   "ts": [
-    "fi"
-   ]
-  },
   "saapasjalkakissa": {
    "id": 58704,
    "r": 0,
@@ -7329,7 +7376,7 @@
   "se oli pelkkä sattuma": {
    "id": 1456349,
    "img": "data/posters/63f9c6488985f762.jpg",
-   "r": 7.1,
+   "r": 7.2,
    "s": {
     "en": "An unassuming mechanic is reminded of his time in an Iranian prison when he encounters a man he suspects to be his sadistic jailhouse captor.",
     "fi": "Cannesissa Kultaisen palmun voittanut iranilaisohjaaja Jafar Panahin Se oli pelkkä satuma (englanninkielinen nimi It Was Just an Accident ) on intensiivinen ja ajatuksia herättävä kostotarina joukosta ihmisistä, jotka saavat sattumalta tilaisuuden kostaa kiduttajalleen. Sattuma käynnistää odottamattoman, paikoin jopa humoristisen tapahtumaketjun. Ryhmä ei kuitenkaan ole varma, onko heidän käsissään sittenkään oikea henkilö. Elokuvan ydin pureutuu eettiseen kysymykseen: voiko koston tavoittelu oikeuttaa turvautumisen samoihin menetelmiin – sieppaukseen ja kidutukseen – joita sortaja itse on käyttänyt?"
@@ -8007,7 +8054,7 @@
    ],
    "r": 7.5,
    "s": {
-    "en": "In 1634 France, charismatic Father Urbain Grandier becomes the target of a sexually obsessed nun’s witchcraft accusations, which corrupt church and state officials are all too happy to exploit.​​​​​​​​​​​​​​​​",
+    "en": "In 1634 France, charismatic Father Urbain Grandier becomes the target of sexually depraved Sister Jeanne's accusations of witchcraft, which corrupt officials of church and state are all too happy to exploit.​​​​​​​​​​​​​​​​",
     "fi": ""
    },
    "tr": "https://www.youtube.com/watch?v=ImeXlanF3iY",
@@ -8063,6 +8110,10 @@
   "the invite": {
    "id": 950028,
    "img": "data/posters/2755bb2be0a0c120.jpg",
+   "kr": "K-12",
+   "krs": [
+    "engel"
+   ],
    "r": 7.2,
    "s": {
     "en": "",
@@ -8156,7 +8207,8 @@
     "biorex",
     "isohannu",
     "kinopiispanristi",
-    "levisummit"
+    "levisummit",
+    "savonkinot"
    ],
    "r": 8.0,
    "s": {
@@ -8892,16 +8944,12 @@
   },
   "unohdettu saari dub": {
    "id": 1465063,
-   "img": "data/posters/9bcaf7ef167a0f8f.jpg",
-   "r": 7.9,
+   "r": 0,
    "s": {
-    "en": "While celebrating their last night together, high school graduates and best friends Jo and Raissa stumble upon a mysterious portal that transports them to the fantastical island of Nakali. When they discover that the memories of their entire friendship are the price for returning home, Jo and Raissa must race to find a way to leave the island before they forget each other forever.",
+    "en": "",
     "fi": "DreamWorks Animation on aiemmin tuonut katsojille tarinoita unohtumattomista siteistä pojan ja lohikäärmeen välillä Näin koulutat lohikäärmeesi -elokuvissa, jätin ja aasin välillä Shrek-elokuvissa sekä robotin ja hanhenpoikasen välillä elokuvassa Villi robotti. Nyt luvassa on huikean tunteikas tarina kahdesta parhaasta ystävyksestä, joiden täytyy yhdistää voimansa eron uhatessa elokuvassa Unohdettu saari. Uuden alkuperäistarinan on käsikirjoittanut ja ohjannut Oscar-ehdokas Joel Crawford ja Januel Mercado. Tuottajana toimii Oscar-ehdokas Mark Swift. Sama tiimi on myös ollut tekemässä elokuvaa Saapasjalkakissa: Viimeinen toivomus. Grammy- ja Oscar-palkittu supertähti H.E.R. ja Liza Soberano (Lisa Frankenstein, Alone/Together) ovat Jo ja Raissa, high schoolista valmistunut parivaljakko. He ovat olleet parhaita ystäviä ala-asteelta asti, mutta nyt elämä uhkaa erottaa ystävykset. Juhliessaan viimeistä yhteistä iltaansa Jo ja Raissa törmäävät salaperäiseen portaaliin, joka kuljettaa heidät Nakalin mielikuvitukselliselle saarelle. Saari on täynnä maagisia ja myyttisiä olentoja, joista ystävysten filippiiniläisperheet ovat kertoneet tarinoita. Uusista tuttavuuksista paljastuu niin ystäviä kuin vihollisiakin. Apunaan hyvää tarkoittava mutta melko avuton ihmiskoira Raww (Dave Franco) sekä pieni mutta pippurinen joukko muita kamuja Jo ja Raissa ottavat mittaa karmeasta Manananggalista (Tony-palkittu ikoni Lea Salonga), saaren pelätyimmästä olennosta. Kun parille paljastuu, että hinta kotiinpaluusta on kaikkien yhteisten muistojen menettäminen, Jon ja Raissan täytyy keksiä keino päästä pois saarelta unohtamatta toisiaan."
    },
-   "tr": "https://www.youtube.com/watch?v=PhgY8cOJiQA",
-   "ts": [
-    "en"
-   ]
+   "tr": ""
   },
   "unohdettu saari dup": {
    "id": 1465063,
@@ -9151,6 +9199,7 @@
    "krs": [
     "biorex",
     "biosavoy",
+    "cinemantsala",
     "gilda",
     "isohannu",
     "kino123",
@@ -9194,6 +9243,7 @@
    "krs": [
     "biorex",
     "biosavoy",
+    "cinemantsala",
     "gilda",
     "isohannu",
     "kino123",
@@ -9516,6 +9566,7 @@
    "kr": "K-16",
    "krs": [
     "biorex",
+    "kinoaurora",
     "kinokulma",
     "orion",
     "tapiola"
