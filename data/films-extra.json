@@ -191,6 +191,19 @@
     "en"
    ]
   },
+  "angel s egg": {
+   "id": 15916,
+   "img": "data/posters/5f27483c89b48bd6.jpg",
+   "r": 7.7,
+   "s": {
+    "en": "",
+    "fi": "Nuori neito hoivaa mystistä enkelin munaa karussa ja unenomaisessa kaupungissa. Sotaisa nuorukainen saapuu kaupunkiin jahtaamaan unelmiaan. Heidän välilleen syntyy hauras ystävyys."
+   },
+   "tr": "https://www.youtube.com/watch?v=SqyVGzaQFpQ",
+   "ts": [
+    "fi"
+   ]
+  },
   "anni tahtoo äidin ja kala": {
    "id": 599152,
    "img": "data/posters/697f7b31ba391e01.jpg",
@@ -537,6 +550,7 @@
     "kinoaurora",
     "kinoiiris",
     "kinomyyri",
+    "niagara",
     "tapiola"
    ],
    "r": 0,
@@ -970,7 +984,6 @@
     "gilda",
     "kinojuha",
     "kinotervakoski",
-    "niagara",
     "orion",
     "savonkinot",
     "studio123kouvola",
@@ -1031,6 +1044,11 @@
   "dracula": {
    "id": 1323409,
    "img": "data/posters/8d26aa87dac26f9c.jpg",
+   "kr": "K-16",
+   "krs": [
+    "kinoiiris",
+    "niagara"
+   ],
    "r": 0,
    "s": {
     "en": "“A mercilessly funny and outrageously bold work that once again consolidates Jude as one of the most unusual and radical filmmakers of his generation” Matthew Joseph Jenner, International Cinephile Society “Radu Jude’s Gloriously Stupid Vampire Epic Is the First Movie to Make Any Meaningful Use of Generative AI” David Erlich, Indiewire",
@@ -1618,6 +1636,14 @@
     "fi": "Rock-elokuvien kulttiklassikko, ja ehkä kaikkien aikojen kuuluisin mockumentary, seuraa brittiläisen heavy rock -yhtyeen Yhdysvaltain-kiertuetta, jolla vastaan tulevat pienenevät yleisöt, epäonniset lavasteet, loputtomat bändidraamat. Hulvaton satiiri sukeltaa rockmaailman kulisseihin, joissa ego, luovat erimielisyydet ja loputon itsensä vakavasti ottaminen johtavat toinen toistaan absurdeimpiin tilanteisiin."
    },
    "tr": "https://www.youtube.com/watch?v=_9leMez8sQ8"
+  },
+  "heikki katajisto in memoriam": {
+   "r": 0,
+   "s": {
+    "en": "",
+    "fi": "HEIKKI KATAJISTO (1941-2026) kuvaaja, joka luki kirjan päivässä. Tule kunnioittamaan Heikki Katajiston muistoa erikoisnäytökseen, jossa nähdään hänen ohjaamansa ja kuvaamansa elokuva Aamulla sekä hänen käsikirjoittamansa ja kuvaamansa elokuva Kuningas lähtee Ranskaan. ”Heikki heitti pöydälleni kirjan ja sanoi: ”Tehdään tästä elokuva”. Kirja oli Paavo Haavikon Kuningas lähtee Ranskaan. Luin kirjan ja soitin saman tien Haavikolle. Rahoitus kesti kuusi vuotta. Ensimmäisen leikkausversion näytin Paavolle ja valitin, että kahden viimeisen kohtauksen välistä puuttuu jotain enkä tiedä mitä. Parin päivän päästä hän toi täysin uuden kohtauksen, jonka kuvasimme välittömästi. Hessu ohjasi uransa alussa neljä lyhyttä fiktiota, mm. nyt nähtävän Aamulla. Olen näissä nyt esitettävissä elokuvissa näkevinäni jotain Hessun nuoruuden haaveesta tulla kuvanveistäjäksi. Hessu oli kuvaaja, joka ei koskaan käyttänyt valotusmittaria. Hän katsoi tarvittavan valaisun määrän kämmenestään.” -Anssi Mänttäri AAMULLA (1966) ohjaus, suunnittelu, kuvaus, leikkaus: Heikki Katajisto musiikki: Heikki Katajisto, Anssi Mänttäri, Pentti Lasanen Viisihenkisen seurueen juttelua ja pieniä sattumuksia juhlien jälkeisellä kotimatkalla halki Helsingin. KUNINGAS LÄHTEE RANSKAAN (1986) ohjaus: Anssi Mänttäri käsikirjoitus: Paavo Haavikko, Anssi Mänttäri, Heikki Katajisto kuvaus: Heikki Katajisto leikkaus: Irma Taina lavastus: Pertti Hilkamo, Tuula Hilkamo musiikki: Anssi Tikanmäki pääosissa: Paavo Piskonen, Susanna Haavisto, Harri Nikkonen, Kati Outinen Uusi jääkausi on tulossa ja koko Englanti taistelee totaalista jäätymistä vastaan. Kaikki energialähteet on kulutettu loppuun ja epätoivo valtaa maan. Nuori kuningas päättää käyttää viimeisen valttikorttinsa, ennen kuin kuninkaan valta lopullisesti rapistuu ja anarkia valtaa saarivaltakunnan Elokuva Paavo Haavikon näytelmästä Kuningas lähtee Ranskaan (1974) oli Anssi Mänttärin pitkäaikainen haave – itse asiassa siitä piti tulla hänen toinen elokuvansa Pyhän perheen (1976) jälkeen, kun kuvaaja Heikki Katajisto 1970-luvun lopulla antoi hänelle luettavaksi Haavikon näytelmän, joka oli toteutettu kuunnelmana 1975: ”Luin tekstin useita kertoja, sillä Haavikon lauseiden visuaalisuus veti heti mukaansa. Teksti suorastaan vaati elokuvaa ilmaisumuodokseen.” Näytökseen on vapaa pääsy."
+   },
+   "tr": ""
   },
   "helaff short films 1": {
    "r": 0,
@@ -2224,7 +2250,7 @@
    "img": "data/posters/056008305739a764.jpg",
    "r": 7.2,
    "s": {
-    "en": "",
+    "en": "After the death of their father leaves their family facing financial uncertainty, sisters Elinor and Marianne Dashwood are forced to leave their home and start anew in the countryside. As they navigate the rigid expectations of Regency society, the sisters find themselves caught between love, heartbreak and social convention – Elinor guided by restraint, Marianne by passion. Georgia Oakley’s fresh adaptation of Jane Austen’s classic explores the enduring tensions between reason and feeling, and the complicated paths women must take to find love and independence. An irresistible new take on Jane Austen’s iconic Sense and Sensibility: a charming, witty, and deeply relatable story of love and sisterhood starring Daisy Edgar-Jones and Esmé Creed-Miles.",
     "fi": "Uusi, vastustamaton tulkinta Jane Austenin ikonisesta Järki ja tunteet -teoksesta: hurmaava, nokkela ja syvästi samaistuttava tarina rakkaudesta ja sisaruudesta. Pääosissa loistavat Daisy Edgar-Jones ja Esmé Creed-Miles"
    },
    "tr": "https://www.youtube.com/watch?v=OFLyW0lxFU0"
@@ -2335,6 +2361,19 @@
    },
    "tr": ""
   },
+  "kaunarikuume": {
+   "id": 1648660,
+   "img": "data/posters/dd4838ffb804cc50.jpg",
+   "r": 0,
+   "s": {
+    "en": "In 1990s Finland, people watched The Bold and the Beautiful and the news side by side on television. One offered an escape from reality, while the other presented a bleak picture of the recession gripping society. When the clock struck five on a weekday afternoon, more than a million Finns would gather around their screens to follow the relationship dramas of an American fashion dynasty. At the same time as people queued for bread and took to the streets to protest, unprecedented crowds turned out to see the American stars brought to Finland – the legendary Ridge and Eric. In Kaunarikuume (Soap Fever), director Inka Achté dives into this captivating fan phenomenon. As she gets to know the show’s devoted fans, she is forced to confront her own painful memories of the recession years, but also discovers what may be the Finns’ greatest superpower.",
+    "fi": "Ysäri-Suomessa telkkarista seurattiin rinta rinnan Kauniita ja rohkeita sekä uutisia. Toinen tarjosi pakoa todellisuudesta, toinen masentavaa lamakuvastoa ympäröivästä yhteiskunnasta. Kun kello löi arki-iltapäivänä 17, jopa yli miljoona suomalaista kerääntyi amerikkalaisen muotitalon suhdesotkujen äärelle. Samaan aikaan kun jonotettiin leipää ja keräännyttiin osoittamaan mieltä, muodostui ennennäkemättömät yleisömassat katsomaan maahamme lennätettyjä Ameriikan ihmeitä, Ridgeä ja Ericiä. Ohjaaja Inka Achté sukeltaa Kaunarikuumeessa tarkastelemaan tätä valloittavaa fani-ilmiötä. Tutustuessaan sarjan faneihin hän joutuu kohtaamaan oman kipeän lama-ajan menneisyytensä, mutta oppii myös, mikä on suomalaisten supervoima."
+   },
+   "tr": "https://www.youtube.com/watch?v=zL4AAcxBX_0",
+   "ts": [
+    "fi"
+   ]
+  },
   "ke kino lyhyt rakkaustarina": {
    "r": 0,
    "s": {
@@ -2408,25 +2447,11 @@
     "en"
    ]
   },
-  "kero se kaikille": {
-   "id": 1304530,
-   "img": "data/posters/133d5c0758982817.jpg",
-   "r": 0,
-   "s": {
-    "en": "",
-    "fi": "Amanda Aaltonen kieltäytyy alistumasta hänelle varattuun köyhän naisen ankeaan kohtaloon ja etsii huimapäisesti onneaan maailmalta. Rangaistukseksi sääntöjen rikkomisesta yhteiskunta anastaa häneltä kaikkein tärkeimmän, vapauden, ja sulkee hänet Seilin saarelle."
-   },
-   "tr": "https://www.youtube.com/watch?v=iUpszeSB7k4",
-   "ts": [
-    "fi"
-   ]
-  },
   "kerro kaikille": {
    "id": 1304530,
    "img": "data/posters/133d5c0758982817.jpg",
    "kr": "K-12",
    "krs": [
-    "alatalo",
     "biogrand",
     "biograni",
     "biokaari",
@@ -2505,7 +2530,6 @@
    "img": "data/posters/133d5c0758982817.jpg",
    "kr": "K-12",
    "krs": [
-    "alatalo",
     "biogrand",
     "biograni",
     "biokaari",
@@ -3639,6 +3663,19 @@
     "en"
    ]
   },
+  "la bola negra ennakkonäytös": {
+   "id": 1422041,
+   "img": "data/posters/a916af8ace1a0515.jpg",
+   "r": 8.1,
+   "s": {
+    "en": "The intertwined lives of three men in three different eras, three lives intimately linked by sexuality and desire, pain, and legacy.",
+    "fi": "Espoo Ciné suosittelee -ennakkonäytös tarjoilee isoksi puheenaiheeksi Oscar-veikkauksissakin nousseen La bola negran! Cannesin pääkilpasarjan parhaan ohjauksen palkinnon voittanut La bola negra on kansainvälisen lehdistön mukaan ”vaikuttava”, ”tyrmäävä”, ”kautta aikojen tärkein historiallinen queer-kuvaelma”. Elokuvan taustalla on Espanjan sisällissodassa teloitetun runoilijan Federico García Lorcan hahmo ja hänen keskeneräiseksi jäänyt romaaninsa. Tarinassa kuvataan kolmen homoseksuaalin kohtaloita vuosina 1932, 1937 ja 2017. Yhteen nivoutuvat sota, kielletty halu, suru, syyllisyys ja vaietut perhesalaisuudet. Javier Calvon ja Javier Ambrossin ohjaaman elokuvan rooleissa vakuuttavat sekä nuoret gay-näyttelijät (mm. laulaja Guitarricadelafuente) että veteraanitähdet Lola Dueñas, Glenn Close ja Pénelope Cruz."
+   },
+   "tr": "https://www.youtube.com/watch?v=lBVxKt0gKDY",
+   "ts": [
+    "en"
+   ]
+  },
   "la grazia": {
    "id": 1397364,
    "img": "data/posters/6c8d0779f3581c89.jpg",
@@ -4324,11 +4361,12 @@
    "r": 0,
    "s": {
     "en": "The film follows four newly retired people who travel to Italy to help Eva sell an olive farm she inherited. But during their sunny stay, new thoughts arise about life, freedom and the dreams they have yet to realize. The trip becomes a chance to reevaluate what really matters when you reach the second half of life.",
-    "fi": ""
+    "fi": "Matka Piemonteen (alkuperäiseltä nimeltään Resan till Piemonte) on lokakuussa 2026 Suomen elokuvateattereihin saapunut ruotsalainen draamakomedia. Elokuvan on ohjannut ja käsikirjoittanut Alexandra-Therese Keining. Tarina seuraa neljää vastikään eläkkeelle jäänyttä ruotsalaisystävää, jotka matkustavat Italiaan auttamaan Eva-nimistä ystäväänsä tämän perimän oliivitilan myynnissä. Piemonten auringon alla, hyvän ruuan ja tryffeleiden äärellä ystävykset alkavat kuitenkin kyseenalaistaa elämäänsä kotimaassa ja pohtia, olisiko nyt oikea hetki tarttua unelmiin ja aloittaa alusta."
    },
    "tr": "https://www.youtube.com/watch?v=9U5Kwlm4KcQ",
    "ts": [
-    "en"
+    "en",
+    "fi"
    ]
   },
   "matkalla piemonteen": {
@@ -5878,25 +5916,11 @@
     "fi"
    ]
   },
-  "pirjo": {
-   "id": 1729175,
-   "img": "data/posters/a8cdd21dca604433.jpg",
-   "r": 0,
-   "s": {
-    "en": "",
-    "fi": "Kun Pirjo Heikkilä nolaa itsensä julkisesti hyväntekeväisyystapahtumassa, hän alkaa uskoa, että elämässä tarvitaan maisemanvaihdos. Pirjo saa kuulla suvustaan hämmentävän salaisuuden, joka johdattaa hänet Ruotsiin. Pirjo suuntaa matkalle vakuuttuneena, että hänen oikea elämänsä odottaa Tukholmassa — kuninkaallisten, uusien ystävien ja paremman ihmisarvon keskellä. Mutta matkasta tulee kaikkea muuta kuin arvokas. Vastaan tulevat toinen toistaan kiusallisemmat tilanteet ja loputon tarve vaikuttaa ruotsalaisemmalta kuin oikeasti onkaan."
-   },
-   "tr": "",
-   "ts": [
-    "fi"
-   ]
-  },
   "pirjo i sverige": {
    "id": 1729175,
    "img": "data/posters/a8cdd21dca604433.jpg",
    "kr": "S",
    "krs": [
-    "alatalo",
     "bioforum",
     "biograni",
     "biokaari",
@@ -7233,19 +7257,6 @@
    },
    "tr": ""
   },
-  "saapasjalkakissa tekiöiltä unohdettu saari": {
-   "id": 1465063,
-   "img": "data/posters/db8d634869fa04ac.jpg",
-   "r": 7.8,
-   "s": {
-    "en": "While celebrating their last night together, high school graduates and best friends Jo and Raissa stumble upon a mysterious portal that transports them to the fantastical island of Nakali. When they discover that the memories of their entire friendship are the price for returning home, Jo and Raissa must race to find a way to leave the island before they forget each other forever.",
-    "fi": ""
-   },
-   "tr": "https://www.youtube.com/watch?v=PhgY8cOJiQA",
-   "ts": [
-    "en"
-   ]
-  },
   "saapasrasvaa": {
    "id": 33544,
    "img": "data/posters/c7981e1365b2ea4b.jpg",
@@ -7861,12 +7872,13 @@
   },
   "teenage sex and death at camp miasma": {
    "id": 1240889,
-   "r": 0,
+   "img": "data/posters/82c397a5a61fb63f.jpg",
+   "r": 6.1,
    "s": {
     "en": "A young director (Hannah Einbinder) tries to revive the cult slasher film series Camp Miasma. But an encounter with its legendary star (Gillian Anderson) draws her into a vortex of blood and desire. The hypnotic summer thriller Teenage Sex and Death at Camp Miasma blends influences from David Lynch and Friday the 13th. Directed by Jane Schoenbrun, the film had its world premiere as the opening film of the Un Certain Regard section at the Cannes Film Festival. Schoenbrun’s previous film, I Saw the TV Glow (2024), was one of the most-watched hits at the Rakkautta & Anarkiaa film festival.",
     "fi": "Nuori ohjaaja (Hannah Einbinder) yrittää herättää henkiin kulttimaineisen slasher-elokuvasarjan Camp Miasman. Kohtaaminen sen legendaarisen tähden (Gillian Anderson) kanssa tempaa hänet kuitenkin veren ja halun pyörteisiin. Hypnoottinen kesätrilleri TEENAGE SEX AND DEATH AT CAMP MIASMA yhdistelee David Lynch ja Friday the 13th -vaikutteita. Jane Schoenbrunin ohjaus sai maailmanensi-iltansa Cannesin festivaalin Un Certain Regard -sarjan avajaiselokuvana. Schoenbrunin edellinen I Saw the TV Glow (2024) oli Rakkautta & Anarkiaa -festivaalin vuoden katsotuimpia hittejä."
    },
-   "tr": ""
+   "tr": "https://www.youtube.com/watch?v=j9TsiTgYZGw"
   },
   "tehokkuuden hinta tietokirjakeskustelu": {
    "r": 0,
@@ -9504,11 +9516,13 @@
    "kr": "K-16",
    "krs": [
     "biorex",
+    "kinokulma",
+    "orion",
     "tapiola"
    ],
    "r": 6.0,
    "s": {
-    "en": "",
+    "en": "In Finnish forest, Saga (Seidi Haarla) and her husband Jon (Rupert Grint) embark on a new chapter as parents. But Saga’s joy is overshadowed by a chilling suspicion about their newborn, unbeknownst to Jon, causing a rift as she alone grapples with the disturbing truth.",
     "fi": "Yön lapsi on Hanna Bergholmin ja Ilja Rautsin yhdessä käsikirjoittama psykologinen trilleri, joka pureutuu vanhemmuuteen ja parisuhteeseen liittyviin tunteisiin ennennäkemättömällä tavalla. Lapsista haaveilevat suomalainen Saga (Seidi Haarla) ja britti Jon (Rupert Grint) muuttavat suomalaisen metsän keskelle taloon, jossa Saga on viettänyt lapsuuden kesät. Pian he saavat terveen pojan, mutta pikkuhiljaa Sagan valtaa pelottava tunne, että vaativassa vauvassa on jotain outoa. Tuoreiden vanhempien kokemukset saavat modernin kansantarun mittasuhteet."
    },
    "tr": "https://www.youtube.com/watch?v=dWePsu_Kd9c"

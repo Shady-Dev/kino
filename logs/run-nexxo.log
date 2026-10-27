@@ -8,8 +8,8 @@
 [kinoaurora] Kino Aurora (Jyväskylä): 27 showtimes
 [kinoaurora] Kino Aurora: 27 showtimes, 9 dates
 [kinoaurora] synopses merged: 0
-[kinohirvi] Kino Hirvi (Äänekoski): 9 showtimes
-[kinohirvi] Kino Hirvi: 9 showtimes, 3 dates
+[kinohirvi] Kino Hirvi (Äänekoski): 11 showtimes
+[kinohirvi] Kino Hirvi: 11 showtimes, 5 dates
 [kinohirvi] synopses merged: 0
 [biosade] Bio Säde (Mänttä): 6 showtimes
 [biosade] Bio Säde: 6 showtimes, 3 dates
@@ -51,6 +51,6 @@
 [run] hosts: 7 attempted -- biosalo.fi, jarvelankino.fi, kino-olympia.fi, kinoaurora.fi, kinohirvi.fi, kinomarilyn.fi, kinoset.fi
 [run] pending: kinometso has 2 venue(s) with no programme yet: km-tikkakoski, km-vaajakoski
 [run] partial: kinomarilyn kept previous data for 1 venue(s): ma-loviisa
-[run] nexxo: 16 venues, 230 showtimes, 1 stale, 0 unverified, 2 pending, 0 with no programme, 1 failures
-[run] timing: 10 site(s), 64.5s of fetching added up across workers that overlap, longest site 24.2s, longest queue wait 0.0s, 24.2s wall from this module's first fetch starting to its last ending
+[run] nexxo: 16 venues, 232 showtimes, 1 stale, 0 unverified, 2 pending, 0 with no programme, 1 failures
+[run] timing: 10 site(s), 65.1s of fetching added up across workers that overlap, longest site 24.4s, longest queue wait 0.0s, 24.4s wall from this module's first fetch starting to its last ending
 exit=1
