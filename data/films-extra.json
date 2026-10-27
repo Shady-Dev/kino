@@ -1609,16 +1609,12 @@
   },
   "heart of beast": {
    "id": 1263337,
-   "img": "data/posters/980bb19ce751c44c.jpg",
-   "r": 7.3,
+   "r": 0,
    "s": {
-    "en": "After a harrowing plane crash, Special Forces officer James Belmont and his combat dog, Odin, find themselves stranded deep in the Alaskan wilderness. Together, they are forced into a brutal fight for survival against the elements.",
+    "en": "",
     "fi": "Jouduttuaan vakavaan lentokoneonnettomuuteen entinen erikoisjoukkojen upseeri James Belmont (Brad Pitt) ja hänen taistelukoiransa Odin jäävät eristyksiin syvälle Alaskan erämaahan. Yhdessä he joutuvat armottomaan selviytymiskamppailuun luonnonvoimia vastaan. Maineikkaan ohjaaja David Ayerin Heart of the Beast on intensiivinen seikkailutrilleri, joka tutkii miehen ja hänen parhaan ystävänsä murtumatonta sidettä heidän kohdatessaan tähänastisen elämänsä suurimman taistelun."
    },
-   "tr": "https://www.youtube.com/watch?v=UkMuGKqAux4",
-   "ts": [
-    "en"
-   ]
+   "tr": ""
   },
   "heart of the beast": {
    "id": 1263337,
@@ -3855,6 +3851,7 @@
     "biosade",
     "biosalo",
     "biostara",
+    "cine",
     "cinemantsala",
     "elavienkuvien",
     "engel",
@@ -3879,6 +3876,7 @@
     "kinopirtti",
     "kinosampo",
     "kinoset",
+    "kinotar",
     "kinotervakoski",
     "kinotoijala",
     "kirkkonummi",
@@ -4056,7 +4054,8 @@
     "kulttuurimylly",
     "savonkinot",
     "star",
-    "studio123jarvenpaa"
+    "studio123jarvenpaa",
+    "vaakuna"
    ],
    "r": 0,
    "s": {
@@ -8671,7 +8670,6 @@
     "biopallas",
     "biorex",
     "gilda",
-    "haapamaki",
     "helios",
     "kinoaurora",
     "kinokonepaja",
@@ -8837,7 +8835,6 @@
    "kr": "S",
    "krs": [
     "biorex",
-    "cine",
     "engel",
     "gilda",
     "kinoaurora",
@@ -8890,7 +8887,6 @@
   },
   "udta teer": {
    "id": 1375156,
-   "img": "data/posters/7c1daadad09e7841.jpg",
    "r": 0,
    "s": {
     "en": "In a world where everyone has a secret and nobody can be trusted, one spy accidentally turns the entire game upside down. Blending high-stakes espionage with big laughs, comic chaos, and crowd-pleasing entertainment, this fresh spin on the spy genre delivers a complete family entertainer. It's a fast-paced spy comedy where nobody knows what's going on, least of all the hero. Age limit will be published 23.10.",
@@ -9440,6 +9436,7 @@
    "kr": "K-16",
    "krs": [
     "biorex",
+    "cine",
     "helios",
     "kinoaurora",
     "kinokonepaja",
