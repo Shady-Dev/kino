@@ -1,14 +1,14 @@
-[kinokilta] 55 screening(s) listed, 39 film page(s) read
+[kinokilta] 54 screening(s) listed, 39 film page(s) read
 [kinokilta] omitted 0 confirmed non-film(s) by evidence-backed exclusion over 0 screening(s), and 0 unresolved over 0
 [kinokilta] override retkikino-2026: active
 [kinokilta] 3 synopsis/synopses withheld, no language settled: Combat Shock, Kinokopla: DIG! XX, RetkiKino 2026
 [kinokilta] 7 film(s) with a language name not read, that part left blank: Alligator (Ei teksitystä); Combat Shock (Ei teksitystä); Joysticks (Ei teksitystä); Pieni kauhukauppa (Ei teksitystä); Prom Night (Ei teksitystä); Savage Dawn (Ei teksitystä); The Devils (Ei teksitystä)
-[kinokilta] Kino Kilta: 55 showtimes, 31 dates
+[kinokilta] Kino Kilta: 54 showtimes, 30 dates
 [kinokilta] strand prefix split off 6 showtimes
-[kinokilta] Kino Kilta: 55 showtimes, 31 dates
+[kinokilta] Kino Kilta: 54 showtimes, 30 dates
 [kinokilta] synopses merged: 0
 [kinokilta] screening-note sentences left out of synopses: 1
-[kinolaika] 36 screening(s) listed, 20 film page(s) read
+[kinolaika] 34 screening(s) listed, 19 film page(s) read
 [kinolaika] omitted 0 confirmed non-film(s) by evidence-backed exclusion over 0 screening(s), and 6 unresolved over 6
 [kinolaika] unresolved: Antti Autio, Arppa, Dave Lindholm & Pepe Ahlqvist: WALKIN' BLUES -kiertue, Garden Folly, Knipi - Sivellinvetoja, Livemusavisa
 [kinolaika] override a-fox-under-a-pink-moon: evidence-unavailable
@@ -16,19 +16,18 @@
 [kinolaika] override naza: evidence-unavailable
 [kinolaika] override pikku-kummitus-lapanen-keppostelee: active
 [kinolaika] override two-seasons-two-strangers: active
-[kinolaika] Kino Laika: 30 showtimes, 12 dates
-[kinolaika] Kino Laika: 30 showtimes, 12 dates
+[kinolaika] Kino Laika: 28 showtimes, 11 dates
+[kinolaika] Kino Laika: 28 showtimes, 11 dates
 [kinolaika] synopses merged: 0
 [kinolaika] synopses skipped as screening notes: 1
-[kinomyyri] 33 screening(s) listed, 20 film page(s) read
+[kinomyyri] 31 screening(s) listed, 19 film page(s) read
 [kinomyyri] omitted 0 confirmed non-film(s) by evidence-backed exclusion over 0 screening(s), and 3 unresolved over 4
 [kinomyyri] unresolved: Boléro, Minä ja Riikka Purra, Yksityistilaisuus
 [kinomyyri] override kojootti-vs-acme-dub: evidence-unavailable
 [kinomyyri] override must-pori-nakku: active
-[kinomyyri] 1 synopsis/synopses withheld, no language settled: Hamnet
 [kinomyyri] 4 film(s) with a language name not read, that part left blank: Berliinin sankari (saksan); Lapin sota (saami); Premada Oorali (kannada); Vasenkätinen tyttö (mandariini)
-[kinomyyri] Kino Myyri: 29 showtimes, 11 dates
-[kinomyyri] Kino Myyri: 29 showtimes, 11 dates
+[kinomyyri] Kino Myyri: 27 showtimes, 11 dates
+[kinomyyri] Kino Myyri: 27 showtimes, 11 dates
 [kinomyyri] synopses merged: 0
 [kinokonepaja] 54 screening(s) listed, 19 film page(s) read
 [kinokonepaja] omitted 0 confirmed non-film(s) by evidence-backed exclusion over 0 screening(s), and 0 unresolved over 0
@@ -38,8 +37,8 @@
 [kinokonepaja] Kino Konepaja: 54 showtimes, 29 dates
 [kinokonepaja] Kino Konepaja: 54 showtimes, 29 dates
 [kinokonepaja] synopses merged: 0
-[run] http: 0 revalidated (304), 102 full, 22 not stored (origin said no-store), 40 cache entries written
+[run] http: 0 revalidated (304), 100 full, 21 not stored (origin said no-store), 40 cache entries written
 [run] hosts: 4 attempted -- kinokonepaja.fi, kinomyyri.fi, www.kinokilta.fi, www.kinolaika.fi
-[run] kinola: 4 venues, 168 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
-[run] timing: 4 site(s), 235.2s of fetching added up across workers that overlap, longest site 98.9s, longest queue wait 116.1s, 98.9s wall from this module's first fetch starting to its last ending
+[run] kinola: 4 venues, 163 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
+[run] timing: 4 site(s), 202.5s of fetching added up across workers that overlap, longest site 75.4s, longest queue wait 102.8s, 75.4s wall from this module's first fetch starting to its last ending
 exit=0
