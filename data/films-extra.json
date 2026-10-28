@@ -1,5 +1,15 @@
 {
  "films": {
+  "100 litraa sahtia": {
+   "id": 1204016,
+   "img": "data/posters/8d6bc7b6c6db1416.jpg",
+   "r": 6.9,
+   "s": {
+    "en": "",
+    "fi": "Tekijätorstaissa TEEMU NIKKI: \nklo 17:15 Sokea Mies Joka Ei Halunnut Nähdä Titanicia\nklo 19:00-20:00 Keskustelu: haastattelussa Nikki ja ystävä\nklo 20:15 Sata Litraa Sahtia\n\nOstamalla lipun jompaan kumpaan näytökseen, pääset mukaan keskusteluun. \nOstamalla Tekijätorstai Double Feature lipun, pääset mukaan molempiin elokuviin ja keskusteluun. \n\n100 litraa sahtia on maailman sahtipääkaupunki Sysmään sijoittuva komedia, jossa siskokset Pirkko (Elina Knihtilä) ja Taina (Pirjo Lonka) ovat jatkaneet sukunsa pitkää perinnettä sahdin valmistajina. Kylällä jokainen haluaa osansa maineikkaasta juomasta, vaikka maksukykyä ei aina löytyisikään. Yllättäen kotikonnuille tekee paluun sisarustrion kolmas - Päivi (Ria Kataja), ja tilaa siskoiltaan häihinsä ei enempää eikä vähempää kuin sata litraa sahtia. Pirkko ja Taina panevat tuumasta toimeen täydellisen satsin valmistamiseksi. Pelissä on sekä perhesuhteet että maine. Prosessiin kuuluva maistelu kuitenkin venähtää, ja Sysmän kulta hulahtaa kokonaisuudessaan itse panijoiden sekä kyläläisten kitusiin. Pian häihin on enää alle kaksi vuorokautta aikaa, ja siskosten on keksittävä keino miten toimittaa juhliin luvatut sahdit. Alkaa taistelu aikaa vastaan, ja tilanteen korjaamiseksi käytetään kaikki mahdolliset keinot."
+   },
+   "tr": "https://www.youtube.com/watch?v=jRk52FiuGds"
+  },
   "12 dicembre": {
    "id": 48848,
    "img": "data/posters/662a382d458dab28.jpg",
@@ -2171,6 +2181,14 @@
    "s": {
     "en": "",
     "fi": "Uppoudu tähän Joni Mitchellin jazz-teokseen Pitchblack Playbackin pilkkopimeässä kuuntelusessiossa, kun juhlimme albumin 50. juhlavuotta. Kuule tämä pysäyttävä teos järisyttävällä äänentoistojärjestelmällämme, pakkaamattomana ja kovalla äänenvoimakkuudella. Ei häiriötekijöitä – vain sinä ja musiikki."
+   },
+   "tr": ""
+  },
+  "joulupukin salainen paja": {
+   "r": 0,
+   "s": {
+    "en": "",
+    "fi": "Yhdeksänvuotias Mari herää keskellä yötä ja huomaa jonkun käyneen huoneessaan. Ainoa johtolanka öisestä vierailijasta on huoneeseen unohtunut tontun lapanen. Mari, isoäiti ja hyvin epäileväinen isä päätyvät yhdessä seikkailuntäyteiselle matkalle etsimään joulupukkia, mutta lapasen omistaja tekee kaikkensa pysäyttääkseen heidät. Joulupukin salainen paja ei saa paljastua – se olisi katastrofi! Puhuttu suomeksi!"
    },
    "tr": ""
   },
@@ -4997,6 +5015,12 @@
   "nälkäpeli elonkorjuun sarastus": {
    "id": 1300968,
    "img": "data/posters/cad95ad93c0d2c85.jpg",
+   "kr": "K-12",
+   "krs": [
+    "ihmekompleksi",
+    "kisakino",
+    "levisummit"
+   ],
    "r": 0,
    "s": {
     "en": "",
@@ -6020,11 +6044,10 @@
     "kinotour",
     "kotkanleffat",
     "kulttuurimylly",
-    "kuvakukko",
     "laitilankino",
     "leffabuumi",
+    "lieksankino",
     "marita",
-    "niagara",
     "pajakkakino",
     "savonkinot",
     "star",
@@ -7965,6 +7988,76 @@
    },
    "tr": ""
   },
+  "tekijätorstai down by law": {
+   "id": 1554,
+   "img": "data/posters/c4c6092a0dd91433.jpg",
+   "r": 7.4,
+   "s": {
+    "en": "",
+    "fi": "Tekijätorstaissa ALEKSI SALMENPERÄ: \nklo 17:15 Down By Law (Jim Jarmusch,1986) \nklo 19:00-20:00 Keskustelu: haastattelussa Aleksi ja ystävä\nklo 20:15 Miehen Työ (2007)\n\nOstamalla lipun jompaan kumpaan näytökseen, pääset mukaan keskusteluun. \nOstamalla Tekijätorstai Double Feature lipun, pääset mukaan molempiin elokuviin ja keskusteluun. \n\nAleksi Salmenperä haluaa näyttää Tekijätorstain ensimmäisessä näytöksessä Jim Jarmuschin vuoden 1986 mestariteoksen - Down By Law. Aleksi tulee itse alustamaan näytöksen. \n\nDown by Law on minimalistisen indie-elokuvan ja amerikkalaisen rikoselokuvaperinteen dekonstruktio, joka vaihtaa genrelle tyypillisen toiminnan verkkaisen lakoniseen hahmotutkielmaan. Visuaalisesti teos on  mestarillisen mustavalkoisen kuvauksen siivittämä runollinen kuvaus New Orleansin nuhruisista kortteleista ja Louisianan suistoalueista. Elokuvan ytimessä on Tom Waitsin, John Lurien ja Roberto Benignin esittämän kolmikon absurdi kemia, jossa vankilapako toimii vain näyttämönä eksistentiaaliselle vaeltelulle, Jarmuschin tavaramerkiksi muodostuneelle vieraantumisen tematiikalle sekä Waitsin ja Lurien sielukkaalle soundtrackille."
+   },
+   "tr": "https://www.youtube.com/watch?v=IeFU1PJ-APQ"
+  },
+  "tekijätorstai hetki ennen valoa": {
+   "id": 1015881,
+   "img": "data/posters/ec99ecd6b2aa4dcc.jpg",
+   "r": 0,
+   "s": {
+    "en": "",
+    "fi": "Tekijätorstaissa KLAUS HÄRÖ: \nklo 17:15 Miekkailij\nklo 19:00-20:00 Keskustelu: haastattelussa Klaus Härö\nklo 20:15 Hetki Ennen Valoa  \n\nOstamalla lipun jompaan kumpaan näytökseen, pääset mukaan keskusteluun. \nOstamalla Tekijätorstai Double Feature lipun, pääset mukaan molempiin elokuviin ja keskusteluun. \n\nKlaus Härön uutuuselokuva kertoo kahden naisen kohtaamisesta keskellä hoitoalan kriisiä. Erikoissairaanhoitaja Inka (Laura Birn) tekee työtään suurella sydämellä vaativien työolosuhteiden ja oman perhe-elämänsä ristipaineessa. Lenin (Oona Airola) ja Karin (Jussi Vatanen) onni rakoilee, kun heidän vastasyntynyt vauvansa kiidätetään äkillisesti tehohoitoon. Sairaanhoitajat suunnittelevat lakkoa parempien työolosuhteiden puolesta, ja epävarmuuden hetkellä hämmentynyt Leni löytää tukea ja toivoa Inkasta. Inka on kuitenkin vaikeiden päätösten äärellä. Molemmat naiset toimivat rakkaudesta ja velvollisuudesta –  mutta miten tehdä oikea valinta, kun vaakalaudalla ovat oma ja toisten elämä?"
+   },
+   "tr": "https://www.youtube.com/watch?v=bOD_fRxNT4Q"
+  },
+  "tekijätorstai hyvä poika": {
+   "id": 102534,
+   "img": "data/posters/6ba82e859d1cba31.jpg",
+   "r": 0,
+   "s": {
+    "en": "",
+    "fi": "Tekijätorstaissa ZAIDA BERGROTH: \nklo 17:15 Hyvä Poika (2011)\nklo 19:00-20:00 Keskustelu: haastattelussa Zaida ja ystävä\nklo 20:15 Tove  (2020)\n\nOstamalla lipun jompaan kumpaan näytökseen, pääset mukaan keskusteluun. \nOstamalla Tekijätorstai Double Feature lipun, pääset mukaan molempiin elokuviin ja keskusteluun. \n\nHyvä poika on intensiivinen psykologinen draama, joka kuvaa purevasti narsistisen näyttelijä-äidin ja tämän suojelevan pojan välistä symbioottista suhdetta. Elokuva tasapainoilee mestarillisesti mustan huumorin ja piinaavan jännitteen välillä, kun kesämökin rauha rikkoutuu kutsumattomien vieraiden saapuessa. Elina Knihtilän ja Samuli Niittymäen viiltävän tarkat roolisuoritukset tekevät perhedynamiikan valtapeleistä poikkeuksellisen vangitsevaa katsottavaa. Tämä palkittu teos on tyylikäs ja kerroksellinen luonnetutkielma, joka haastaa katsojan pohtimaan lojaalisuuden ja manipuloinnin rajoja."
+   },
+   "tr": "https://www.youtube.com/watch?v=BPZfE87ff4A"
+  },
+  "tekijätorstai miehen työ": {
+   "id": 20163,
+   "img": "data/posters/23fa5ddf79bb7696.jpg",
+   "r": 5.8,
+   "s": {
+    "en": "",
+    "fi": "Tekijätorstaissa ALEKSI SALMENPERÄ: \nklo 17:15 Down By Law (Jim Jarmusch,1986) \nklo 19:00-20:00 Keskustelu: haastattelussa Aleksi ja ystävä\nklo 20:15 Miehen Työ (2007)\n\nOstamalla lipun jompaan kumpaan näytökseen, pääset mukaan keskusteluun. \nOstamalla Tekijätorstai Double Feature lipun, pääset mukaan molempiin elokuviin ja keskusteluun. \n\nMiehen työ (2007) on palkitun Aleksi Salmenperän ohjaama, sysimustalla huumorilla sävytetty draama perheenelättäjän myytistä ja modernista miehen kriisistä. Työttömyytensä salaava Juha (Tommi Korpela) ajautuu elättämään perhettään seksityöllä, mikä käynnistää salaisuuksien ja häpeän hallitsemattoman kierteensä. Kuudella Jussi-palkinnolla palkittu teos loistaa erityisesti Korpelan huikean pääosaroolin ansiosta. Tämä ajaton suomalaisen nykyelokuvan merkkiteos on tyylikäs, koskettava ja ajatuksia herättävä."
+   },
+   "tr": ""
+  },
+  "tekijätorstai miekkailija": {
+   "id": 322488,
+   "img": "data/posters/fb74c9427056a7d3.jpg",
+   "r": 7.0,
+   "s": {
+    "en": "",
+    "fi": "Tekijätorstaissa KLAUS HÄRÖ: \nklo 17:15 Miekkailija (2015)\nklo 19:00-20:00 Keskustelu: haastattelussa Klaus Härö\nklo 20:15 Hetki Ennen Valoa\n\nOstamalla lipun jompaan kumpaan näytökseen, pääset mukaan keskusteluun. \nOstamalla Tekijätorstai Double Feature lipun, pääset mukaan molempiin elokuviin ja keskusteluun. \n\nKlaus Härön ohjaama Miekkailija on koskettava ja visuaalisesti hätkähdyttävä historiallinen draama, joka sijoittuu 1950-luvun alun neuvosto-Viroon. Elokuva kertoo stalinistista koneistoa pakoilevasta nuoresta miehestä, joka löytää turvapaikan pikkukaupungin koulun liikunnanopettajana ja sytyttää lapsissa intohimon miekkailuun. Härölle ominainen herkkä ja humaani kerronta yhdistyy elokuvassa painostavaan historialliseen jännitteeseen sekä klassisen urheiluelokuvan parhaaseen perinteeseen. Tämä Golden Globe -ehdokkuudella ja kahdella Jussi-palkinnolla huomioitu mestariteos on ajaton ja elegantti ylistys rohkeudelle, itsepäiselle toivolle sekä sille pyyteettömälle vaikutukselle, joka yhdellä opettajalla voi olla nuoren elämään."
+   },
+   "tr": "https://www.youtube.com/watch?v=c0jG3QWW4yE"
+  },
+  "tekijätorstai sokea mies joka ei halunnut nähdä titanicia": {
+   "id": 716855,
+   "img": "data/posters/20d3225c6a83c12b.jpg",
+   "r": 7.1,
+   "s": {
+    "en": "",
+    "fi": "Tekijätorstaissa TEEMU NIKKI: \nklo 17:15 Sokea Mies Joka Ei Halunnut Nähdä Titanicia\nklo 19:00-20:00 Keskustelu: haastattelussa Nikki ja ystävä\nklo 20:15 Sata Litraa Sahtia\n\nOstamalla lipun jompaan kumpaan näytökseen, pääset mukaan keskusteluun. \nOstamalla Tekijätorstai Double Feature lipun, pääset mukaan molempiin elokuviin ja keskusteluun. \n\nTeemu Nikkin ohjaama ja käsikirjoittama, Venetsian elokuvajuhlilla yleisöpalkinnolla palkittu suomalainen menestyselokuva on poikkeuksellisen intensiivinen, mustalla huumorilla höystetty jännitysdraama.\nElokuva kertoo Jaakosta (Petri Poikolainen), joka on sokea ja pyörätuolissa. Jaakko rakastaa elokuvia, mutta ei ole suostunut katsomaan maailmanhistorian tunnetuinta romantiikan klassikkoa. Kun Jaakko päättää lähteä yksin junamatkalle tapaamaan puhelimitse löytämäänsä suurta rakkauttaan Sirpaa (Marjaana Maijala), hänen on luotettava viiden ventovieraan ihmisen apuun. Matkasta muodostuu henkeäsalpaava ja koskettava selviytymistarina, joka pakottaa katsojan kokemaan maailman poikkeuksellisen aistikkaasti ja läheltä – täysin päähenkilön omasta näkökulmasta."
+   },
+   "tr": "https://www.youtube.com/watch?v=Z8KrFWXQOUo"
+  },
+  "tekijätorstai tove": {
+   "id": 608232,
+   "img": "data/posters/ae41e4f134c7d897.jpg",
+   "r": 6.5,
+   "s": {
+    "en": "",
+    "fi": "Tekijätorstaissa ZAIDA BERGROTH: \nklo 17:15 Hyvä Poika (2011)\nklo 19:00-20:00 Keskustelu: haastattelussa Zaida ja ystävä\nklo 20:15 Tove  (2020)\n\nOstamalla lipun jompaan kumpaan näytökseen, pääset mukaan keskusteluun. \nOstamalla Tekijätorstai Double Feature lipun, pääset mukaan molempiin elokuviin ja keskusteluun. \n\nZaida Bergrothin ohjaama TOVE on vangitseva elämäkerrallinen draama, joka kurkistaa Tove Janssonin nuoruusvuosiin ja Muumien syntyhetkiin sodanjälkeisessä Helsingissä. Teos ei tyydy perinteisen taiteilijaelämäkerran kaavoihin, vaan se on intohimoinen, tyylikäs ja visuaalisesti häikäisevä kuvaus vapaudenkaipuusta sekä monimutkaisesta rakkaudesta. Alma Pöysti tekee päänäytelmässä eloisan ja sielukkaan roolisuorituksen, joka kantaa elokuvan läpi sen jazz-soundeilla höystetyn, boheemin aikakauskuvauksen. Tämä peräti seitsemällä Jussi-palkinnolla palkittu mestariteos on älykäs ja koskettava ylistys luovuudelle ja rohkeudelle elää omilla ehdoillaan."
+   },
+   "tr": "https://www.youtube.com/watch?v=pw_JrV8HYHE"
+  },
   "tell everyone kerro kaikille": {
    "r": 0,
    "s": {
@@ -9388,7 +9481,6 @@
     "kinolumo",
     "kinopiispanristi",
     "kinopirtti",
-    "kinotar",
     "leffabuumi",
     "savonkinot"
    ],
@@ -9469,6 +9561,7 @@
     "biorex",
     "cine",
     "helios",
+    "ihmekompleksi",
     "kinoaurora",
     "kinokonepaja",
     "kinotervakoski",
@@ -9596,6 +9689,7 @@
    "kr": "K-16",
    "krs": [
     "biorex",
+    "ihmekompleksi",
     "kinoaurora",
     "kinokulma",
     "orion",

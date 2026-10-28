@@ -1,28 +1,28 @@
 [biorexkokkola] Bio Rex Kokkola: 45 showtimes, 13 dates
 [biorexkokkola] synopses merged: 0
-[kinopirtti] Kinopirtti: 103 showtimes, 19 dates
+[kinopirtti] Kinopirtti: 100 showtimes, 19 dates
 [kinopirtti] synopses merged: 0
 [kinotar] Kinotar 123: 53 showtimes, 22 dates
 [kinotar] synopses merged: 0
 [kinojuha] Kino Juha: 13 showtimes, 8 dates
-[kinojuha] VIP-Sali: 11 showtimes, 10 dates
+[kinojuha] VIP-Sali: 12 showtimes, 11 dates
 [kinojuha] synopses merged: 0
 [biovuoksi] Bio Vuoksi: 27 showtimes, 9 dates
 [biovuoksi] synopses merged: 0
 [kinoiiris] strand prefix split off 1 showtimes
-[kinoiiris] Kino Iiris: 45 showtimes, 24 dates
+[kinoiiris] Kino Iiris: 43 showtimes, 24 dates
 [kinoiiris] synopses merged: 0
 [kinoiiris] screening-note sentences left out of synopses: 4
-[kkino] K-Kino: 10 showtimes, 5 dates
-[kkino] synopses merged: 0
+[kkino] K-Kino: 11 showtimes, 5 dates
+[kkino] synopses merged: 1
 [biograni] Bio Grani: 9 showtimes, 6 dates
 [biograni] synopses merged: 0
-[niagara] Cinema Niagara: 54 showtimes, 19 dates
+[niagara] Cinema Niagara: 52 showtimes, 19 dates
 [niagara] synopses merged: 0
 [kinokaustinen] Kino Kaustinen: 4 showtimes, 3 dates
 [kinokaustinen] synopses merged: 0
-[run] http: 0 revalidated (304), 183 full, 183 not stored (origin said no-store), 0 cache entries written
+[run] http: 0 revalidated (304), 182 full, 182 not stored (origin said no-store), 0 cache entries written
 [run] hosts: 10 attempted -- biograni.fi, biovuoksi.fi, cinemaniagara.fi, jamsankinotar.fi, k-kino.fi, kinoiiris.com, kinojuha.fi, kinokaustinen.fi, kinopirtti.fi, www.biorex.org
-[run] etiketti: 11 venues, 374 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
-[run] timing: 10 site(s), 334.1s of fetching added up across workers that overlap, longest site 71.8s, longest queue wait 45.1s, 102.3s wall from this module's first fetch starting to its last ending
+[run] etiketti: 11 venues, 369 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
+[run] timing: 10 site(s), 352.4s of fetching added up across workers that overlap, longest site 75.0s, longest queue wait 44.8s, 108.8s wall from this module's first fetch starting to its last ending
 exit=0
