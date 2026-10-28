@@ -30,16 +30,16 @@
 [kinomyyri] Kino Myyri: 29 showtimes, 11 dates
 [kinomyyri] Kino Myyri: 29 showtimes, 11 dates
 [kinomyyri] synopses merged: 0
-[kinokonepaja] 53 screening(s) listed, 19 film page(s) read
+[kinokonepaja] 54 screening(s) listed, 19 film page(s) read
 [kinokonepaja] omitted 0 confirmed non-film(s) by evidence-backed exclusion over 0 screening(s), and 0 unresolved over 0
 [kinokonepaja] override edward-scissorhands: active
 [kinokonepaja] override gremlins: active
 [kinokonepaja] override nightmare-on-elm-street: active
-[kinokonepaja] Kino Konepaja: 53 showtimes, 29 dates
-[kinokonepaja] Kino Konepaja: 53 showtimes, 29 dates
+[kinokonepaja] Kino Konepaja: 54 showtimes, 29 dates
+[kinokonepaja] Kino Konepaja: 54 showtimes, 29 dates
 [kinokonepaja] synopses merged: 0
 [run] http: 0 revalidated (304), 102 full, 22 not stored (origin said no-store), 40 cache entries written
 [run] hosts: 4 attempted -- kinokonepaja.fi, kinomyyri.fi, www.kinokilta.fi, www.kinolaika.fi
-[run] kinola: 4 venues, 170 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
-[run] timing: 4 site(s), 225.1s of fetching added up across workers that overlap, longest site 83.7s, longest queue wait 116.5s, 83.7s wall from this module's first fetch starting to its last ending
+[run] kinola: 4 venues, 171 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
+[run] timing: 4 site(s), 214.5s of fetching added up across workers that overlap, longest site 78.4s, longest queue wait 109.5s, 78.4s wall from this module's first fetch starting to its last ending
 exit=0
