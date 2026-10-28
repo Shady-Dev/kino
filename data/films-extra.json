@@ -120,8 +120,7 @@
    "kr": "K-7",
    "krs": [
     "kannusali",
-    "kinolaika",
-    "korjaamo"
+    "kinolaika"
    ],
    "r": 0,
    "s": {
@@ -562,16 +561,6 @@
   "berliinin sankari": {
    "id": 1248217,
    "img": "data/posters/dd69f81e2218dd55.jpg",
-   "kr": "K-7",
-   "krs": [
-    "biorex",
-    "gilda",
-    "kinoaurora",
-    "kinoiiris",
-    "kinomyyri",
-    "niagara",
-    "tapiola"
-   ],
    "r": 0,
    "s": {
     "en": "Micha unwittingly becomes a German hero when a journalist portrays him as the mastermind behind the mass exodus from East Germany.",
@@ -808,37 +797,7 @@
   "clayface": {
    "id": 1400940,
    "img": "data/posters/ea1d6efb7cdae5e2.jpg",
-   "kr": "K-16",
-   "krs": [
-    "biopallas",
-    "biorex",
-    "biorexkokkola",
-    "biosalo",
-    "biosavoy",
-    "cinemantsala",
-    "gilda",
-    "ihmekompleksi",
-    "isohannu",
-    "kino123",
-    "kinoelo",
-    "kinolumo",
-    "kinomania",
-    "kinomarilyn",
-    "kinopiispanristi",
-    "kinopirtti",
-    "kinosampo",
-    "kinotar",
-    "kinotoijala",
-    "kotkanleffat",
-    "leffabuumi",
-    "lieksankino",
-    "savonkinot",
-    "sheryl",
-    "star",
-    "studio123jarvenpaa",
-    "vaakuna"
-   ],
-   "r": 0,
+   "r": 7.5,
    "s": {
     "en": "DC Studios’ first-ever foray into the genre, “Clayface” is a horror thriller from director James Watkins, starring Tom Rhys Harries in the title role of the Gotham City villain. Written by Mike Flanagan (The Haunting of Hill house)",
     "fi": "Katso kauhua päin naamaa. DC Studiosin Clayface on ohjaaja James Watkinsin kauhutrilleri, jonka nimiosassa Gotham Cityn vihollisgallerian suosikkiroistona nähdään Tom Rhys Harries. Matt Hagenin huima nousu Gothamin kaduilta Hollywoodin johtavaksi tähdeksi päättyy traagisesti, kun paikallisen rikollispomon kosto jättää hänet pahoin epämuodostuneeksi. Tiiminsä hylkäämänä ja kaiken menettäneenä Matt hakeutuu uraauurtavaan hoitoon, joka ihmeenomaisesti palauttaa hänet entiselleen. Hoidolla on kuitenkin odottamattomia vaikutuksia hänen todellisuudentajuunsa, ja hän ajautuu tuhoisalle polulle, jota hallitsee kaiken nielevä kostonhimo. Elokuvassa nähdään myös Naomi Ackie, David Dencik, Max Minghella ja Eddie Marsan sekä Nancy Carroll ja Joshua James. Elokuvan ohjaa James Watkins käsikirjoituksesta, jonka ovat kirjoittaneet Mike Flanagan ja Hossein Amini. Tarinan on luonut Flanagan, ja se perustuu DC:n hahmoihin. Tuottajina toimivat Matt Reeves, Lynn Harris, James Gunn ja Peter Safran. Vastaavina tuottajina ovat Michael E. Uslan, Chantal Nong Vo, Lars P. Winther, Paul Ritchie, Rafi Crohn ja Trevor Macy. Watkinsin luovaan työryhmään kuuluvat kuvaaja Rob Hardy, lavastussuunnittelija James Price, leikkaaja Jon Harris ja pukusuunnittelija Keith Madden. Musiikista vastaa Volker Bertelmann. DC Studios esittää: 6th & Idaho Productionin tuotanto, James Watkinsin elokuva \"Clayface\". Elokuvan levittää Warner Bros. Pictures, ja se saa ensi-iltansa elokuvateattereissa 23. lokakuuta 2026.",
@@ -1534,12 +1493,14 @@
    "tr": "https://www.youtube.com/watch?v=PXXZx6skXrw"
   },
   "gremlins riiviöt 1984 night visions": {
-   "r": 0,
+   "id": 927,
+   "img": "data/posters/24c8fa65c2d6fcdc.jpg",
+   "r": 7.1,
    "s": {
     "en": "",
     "fi": "Ei tekstitystä Saatuaan joululahjaksi eksoottisen pienen eläimen nuori mies rikkoo kolmea tärkeää sääntöä ja vapauttaa lauman oikukkaita, viekkaita ja ilkikurisia otuksia pikkukaupunkiin."
    },
-   "tr": ""
+   "tr": "https://www.youtube.com/watch?v=PXXZx6skXrw"
   },
   "gråben vs acme": {
    "id": 1204680,
@@ -3888,6 +3849,7 @@
     "kinoakseli",
     "kinoaurora",
     "kinoelo",
+    "kinohirvi",
     "kinojuha",
     "kinokuva",
     "kinolaika",
@@ -4067,7 +4029,6 @@
     "isohannu",
     "kinoakseli",
     "kinojuha",
-    "kinokuva",
     "kinolaika",
     "kinolumo",
     "kinomarilyn",
@@ -5752,6 +5713,7 @@
     "julia",
     "kino123",
     "kinohannikainen",
+    "kinohirvi",
     "kinokaustinen",
     "kinokulma",
     "kinokuva",
@@ -5825,6 +5787,7 @@
     "julia",
     "kino123",
     "kinohannikainen",
+    "kinohirvi",
     "kinokaustinen",
     "kinokulma",
     "kinokuva",
@@ -5900,6 +5863,7 @@
     "julia",
     "kino123",
     "kinohannikainen",
+    "kinohirvi",
     "kinokaustinen",
     "kinokulma",
     "kinokuva",
@@ -5958,6 +5922,7 @@
     "julia",
     "kino123",
     "kinohannikainen",
+    "kinohirvi",
     "kinokaustinen",
     "kinokulma",
     "kinokuva",
@@ -6583,7 +6548,6 @@
   },
   "rakkauden risti": {
    "id": 291905,
-   "img": "data/posters/a6ae7aad419f8fb2.jpg",
    "r": 0,
    "s": {
     "en": "In this film by Teuvo Tulio, the master of flamboyant melodrama, a young woman from the Finnish archipelago is lured to the big city and soon drifts into prostitution in its shadows. The powerful visual language echoes the characters’ intense emotions. Once again, in typically Tulio fashion, we confront the deepest questions of passion. Cross of Love is loosely based on Alexander Pushkin’s short story The Stationmaster, which Tulio also used as the basis for his final film, Sensuela.",
@@ -6709,9 +6673,7 @@
     "biorex",
     "cinemantsala",
     "gilda",
-    "kinohirvi",
     "kinolumo",
-    "kinopiispanristi",
     "kotkanleffat",
     "leffabuumi",
     "savonkinot",
@@ -8054,8 +8016,8 @@
    "img": "data/posters/1f8ec30de3187d84.jpg",
    "kr": "K-16",
    "krs": [
-    "biorex",
     "biorexkokkola",
+    "cinemantsala",
     "engel",
     "gilda",
     "kinoaurora",
@@ -8077,8 +8039,8 @@
    "img": "data/posters/1f8ec30de3187d84.jpg",
    "kr": "K-16",
    "krs": [
-    "biorex",
     "biorexkokkola",
+    "cinemantsala",
     "engel",
     "gilda",
     "kinoaurora",
@@ -8539,7 +8501,6 @@
    "kr": "K-12",
    "krs": [
     "biorex",
-    "kinoaurora",
     "niagara",
     "tapiola"
    ],
@@ -8722,7 +8683,6 @@
     "kinoaurora",
     "kinokonepaja",
     "kinovirta",
-    "kuvakukko",
     "savonkinot",
     "tapiola"
    ],
@@ -9401,7 +9361,6 @@
     "biorexkokkola",
     "biosavoy",
     "ihmekompleksi",
-    "isohannu",
     "kinolumo",
     "kinopiispanristi",
     "kinopirtti",
@@ -9636,5 +9595,5 @@
    "tr": ""
   }
  },
- "generated": "2026-10-27"
+ "generated": "2026-10-28"
 }
