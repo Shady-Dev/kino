@@ -1,11 +1,11 @@
-[biorexkokkola] Bio Rex Kokkola: 43 showtimes, 13 dates
+[biorexkokkola] Bio Rex Kokkola: 41 showtimes, 12 dates
 [biorexkokkola] synopses merged: 0
-[kinopirtti] Kinopirtti: 96 showtimes, 20 dates
-[kinopirtti] synopses merged: 0
-[kinotar] Kinotar 123: 52 showtimes, 22 dates
+[kinopirtti] Kinopirtti: 95 showtimes, 21 dates
+[kinopirtti] synopses merged: 1
+[kinotar] Kinotar 123: 50 showtimes, 21 dates
 [kinotar] synopses merged: 0
 [kinojuha] Kino Juha: 13 showtimes, 8 dates
-[kinojuha] VIP-Sali: 12 showtimes, 11 dates
+[kinojuha] VIP-Sali: 11 showtimes, 10 dates
 [kinojuha] synopses merged: 0
 [biovuoksi] Bio Vuoksi: 27 showtimes, 9 dates
 [biovuoksi] synopses merged: 0
@@ -17,12 +17,12 @@
 [kkino] synopses merged: 0
 [biograni] Bio Grani: 8 showtimes, 5 dates
 [biograni] synopses merged: 0
-[niagara] Cinema Niagara: 51 showtimes, 19 dates
+[niagara] Cinema Niagara: 50 showtimes, 18 dates
 [niagara] synopses merged: 0
 [kinokaustinen] Kino Kaustinen: 4 showtimes, 3 dates
 [kinokaustinen] synopses merged: 0
-[run] http: 0 revalidated (304), 179 full, 179 not stored (origin said no-store), 0 cache entries written
+[run] http: 0 revalidated (304), 177 full, 177 not stored (origin said no-store), 0 cache entries written
 [run] hosts: 10 attempted -- biograni.fi, biovuoksi.fi, cinemaniagara.fi, jamsankinotar.fi, k-kino.fi, kinoiiris.com, kinojuha.fi, kinokaustinen.fi, kinopirtti.fi, www.biorex.org
-[run] etiketti: 11 venues, 359 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
-[run] timing: 10 site(s), 324.0s of fetching added up across workers that overlap, longest site 68.6s, longest queue wait 46.7s, 102.9s wall from this module's first fetch starting to its last ending
+[run] etiketti: 11 venues, 352 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
+[run] timing: 10 site(s), 317.9s of fetching added up across workers that overlap, longest site 66.3s, longest queue wait 47.0s, 104.0s wall from this module's first fetch starting to its last ending
 exit=0

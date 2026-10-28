@@ -1447,7 +1447,7 @@
    "r": 0,
    "s": {
     "en": "War reduced Japan to zero, and Godzilla plunged it into minus. Two years have passed since then, and the country has faced agonizing struggles to achieve recovery and finally reclaim its daily life. Just as humanity managed to cling to a hard-won peace, a new threat strikes, crushing hope in an instant.",
-    "fi": ""
+    "fi": "Sota nujersi Japanin nollille, ja Godzilla sysäsi sen miinukselle. Siitä on kulunut nyt kaksi vuotta, ja maa on kohdannut piinallisia haasteita toetakseen ja palatakseen tavalliseen arkielämään. Juuri, kun ihmiskunta on onnistunut takertumaan kovalla työllä ansaittuun rauhaan, uusi uhka iskee, murentaen toivon silmänräpäyksessä. Kolmatta kertaa ei ole. Kaikki päättyy tähän. Filmed for IMAX -projektina luotu GODZILLA MINUS ZERO on kuvattu IMAXin sertifioimilla digitaalisilla teräväpiirtokameroilla, ja sen äänen- ja kuvanlaatu on optimoitu ainutlaatuisella tavalla IMAX-valkokankaille. Faneja odottaa ihka uusiin, hurjiin ulottuvuuksiin yltävä Godzilla. GODZILLA MINUS ZERO on elokuvaelämys, josta ei kannata jäädä paitsi"
    },
    "tr": "https://www.youtube.com/watch?v=pWJjYoqVSjQ"
   },
@@ -1549,22 +1549,8 @@
    "img": "data/posters/84aa45b5d78814bd.jpg",
    "kr": "K-12",
    "krs": [
-    "biogrand",
     "cinemantsala"
    ],
-   "r": 7.7,
-   "s": {
-    "en": "",
-    "fi": "Hamnet kertoo Shakespearen ajatonta klassikkoa Hamletia innoittaneen vahvan tarinan rakkaudesta ja menetyksestä."
-   },
-   "tr": "https://www.youtube.com/watch?v=xYcgQMxQwmk",
-   "ts": [
-    "fi"
-   ]
-  },
-  "hamnet matinea": {
-   "id": 858024,
-   "img": "data/posters/84aa45b5d78814bd.jpg",
    "r": 7.7,
    "s": {
     "en": "",
@@ -4198,16 +4184,12 @@
   },
   "luvattu maa": {
    "id": 511,
-   "img": "data/posters/a822d70d6d42bfb2.jpg",
-   "r": 7.4,
+   "r": 0,
    "s": {
-    "en": "At the turn of the century, Lodz, Poland, was a quick-paced manufacturing center for textiles, replete with cutthroat industrialists and unsafe working conditions. Three young friends, a Pole, a Jew, and a German, pool their money together to build a factory.",
+    "en": "",
     "fi": "Andrzej Wajdan syntymän 100-vuotisjuhlan kunniaksi esitämme yhden mestarin hienoimmista elokuvista. Nuori insinööri Karol Borowiecki työskentelee Łódźin tehtaassa ja haaveilee oman tehtaan perustamisesta yhdessä ystäviensä Moryc Weltin ja Maks Baumin kanssa. Karol joutuu myymään sukutilansa rahoittaakseen projektin. Tehdas valmistuu, mutta tuhoutuu pian tulipalossa. Vararikon jälkeen Karol hylkää entiset ihanteensa, menee naimisiin saksalaisen miljonäärin tyttären kanssa ja kohoaa lopulta rikkaaksi teollisuusmieheksi, mutta menettää samalla nuoruutensa unelmat ja moraalinsa."
    },
-   "tr": "https://www.youtube.com/watch?v=UGosYBfbRBc",
-   "ts": [
-    "en"
-   ]
+   "tr": ""
   },
   "luvattu maa ziemia obiecana the promised land": {
    "id": 511,
@@ -5775,7 +5757,6 @@
     "kotkanleffat",
     "kuvakukko",
     "leffabuumi",
-    "lieksankino",
     "pajakkakino",
     "savonkinot",
     "star",
@@ -5850,7 +5831,6 @@
     "kotkanleffat",
     "kuvakukko",
     "leffabuumi",
-    "lieksankino",
     "pajakkakino",
     "savonkinot",
     "star",
@@ -5927,7 +5907,6 @@
     "kotkanleffat",
     "kuvakukko",
     "leffabuumi",
-    "lieksankino",
     "pajakkakino",
     "savonkinot",
     "star",
@@ -5987,7 +5966,6 @@
     "kotkanleffat",
     "kuvakukko",
     "leffabuumi",
-    "lieksankino",
     "pajakkakino",
     "savonkinot",
     "star",
@@ -6039,7 +6017,6 @@
     "ihmekompleksi",
     "isohannu",
     "kino123",
-    "kinoakseli",
     "kinohirvi",
     "kinoiiris",
     "kinojuha",
@@ -6048,7 +6025,6 @@
     "kinopiispanristi",
     "kinopirtti",
     "kinoset",
-    "kinotar",
     "kinotervakoski",
     "kinotour",
     "kotkanleffat",
@@ -6724,8 +6700,7 @@
     "kotkanleffat",
     "leffabuumi",
     "savonkinot",
-    "star",
-    "studio123jarvenpaa"
+    "star"
    ],
    "r": 7.3,
    "s": {
@@ -7723,6 +7698,19 @@
     "fi": "Uppoudu Stevie Wonderin ajattomaan klassikkoon Pitchblack Playbackin pilkkopimeässä kuuntelusessiossa juhlistaessamme sen 50. juhlavuotta. Kuule tämä pysäyttävä teos järisyttävällä äänentoistojärjestelmällämme, pakkaamattomana ja kovalla äänenvoimakkuudella. Ei häiriötekijöitä – vain sinä ja musiikki."
    },
    "tr": ""
+  },
+  "stray kids world tour run it live viewing": {
+   "id": 1795555,
+   "img": "data/posters/0b6f307f1ac0be55.jpg",
+   "r": 0,
+   "s": {
+    "en": "Stray Kids bring their World Tour (RUN IT) concert to cinemas in a live broadcast, with all eight members performing their high-energy choreography.",
+    "fi": ""
+   },
+   "tr": "",
+   "ts": [
+    "en"
+   ]
   },
   "street fighter": {
    "id": 1153576,
@@ -8794,7 +8782,6 @@
     "helios",
     "kinoaurora",
     "kinokonepaja",
-    "savonkinot",
     "tapiola"
    ],
    "r": 7.5,
@@ -8962,8 +8949,7 @@
     "korjaamo",
     "kuvakukko",
     "leffabuumi",
-    "niagara",
-    "tapiola"
+    "niagara"
    ],
    "r": 0,
    "s": {
@@ -9321,7 +9307,6 @@
     "cinemantsala",
     "gilda",
     "isohannu",
-    "kino123",
     "kinohirvi",
     "kinojuha",
     "kinolumo",
@@ -9365,7 +9350,6 @@
     "cinemantsala",
     "gilda",
     "isohannu",
-    "kino123",
     "kinohirvi",
     "kinojuha",
     "kinolumo",
@@ -9473,7 +9457,6 @@
     "ihmekompleksi",
     "kinolumo",
     "kinopiispanristi",
-    "leffabuumi",
     "savonkinot"
    ],
    "r": 6.6,
