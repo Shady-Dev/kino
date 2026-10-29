@@ -115,14 +115,21 @@ def standing(name, text, versions, complete):
     """"new", or "carried since DATE (N runs)" for one failing site, from the log's
     committed history. The version on disk is the run being judged; a committed version
     identical to it is that same run, not an earlier one."""
+    def still_failing(t):
+        ok = bool(EXIT_RE.findall(t)) and int(EXIT_RE.findall(t)[-1]) == 0
+        return not ok and name in (failing(t) or ["(log)"])
+    return _standing(still_failing, text, versions, complete)
+
+
+def _standing(holds, text, versions, complete):
+    """`standing` for any condition `holds(log text)` that the run on disk meets."""
     runs = [text] + [t for _, t in versions]
     dates = [None] + [w for w, _ in versions]
     if len(runs) > 1 and runs[1] == text:
         runs, dates = [text] + runs[2:], [dates[1]] + dates[2:]
     streak = 0
     for t in runs:
-        ok = bool(EXIT_RE.findall(t)) and int(EXIT_RE.findall(t)[-1]) == 0
-        if ok or name not in (failing(t) or ["(log)"]):
+        if not holds(t):
             break
         streak += 1
     if streak <= 1:
@@ -132,6 +139,41 @@ def standing(name, text, versions, complete):
     if reached_end and not complete:
         return f"carried since at least {since} ({streak} runs read)"
     return f"carried since {since} ({streak} runs)"
+
+
+# One unread item per line, from common.unread. An item is its site, kind and digest. The
+# text is for reading, and a repeat count is not part of the item.
+UNREAD_RE = re.compile(r"^\[([^\]]+)\] unread (line|date|place|row) ([0-9a-f]{12}): "
+                       r"(.*?)(?: \(x\d+\))?[ \t]*$", re.M)
+UNREAD_MORE_RE = re.compile(r"^\[[^\]]+\] unread: (\d+) more item\(s\) not shown", re.M)
+
+
+def unread_items(text):
+    """-> {(site, kind, digest): readable text} in the order the log names them."""
+    return {(site, kind, digest): shown for site, kind, digest, shown in UNREAD_RE.findall(text)}
+
+
+def unread_report(logs):
+    """The unread items in the logs, each marked new or carried. -> [line]. An item never
+    fails the check."""
+    rows, more = [], 0
+    for path in logs:
+        text = path.read_text(encoding="utf-8", errors="replace")
+        items = unread_items(text)
+        more += sum(int(n) for n in UNREAD_MORE_RE.findall(text))
+        if not items:
+            continue
+        versions, complete = history(path)
+        for key, shown in items.items():
+            mark = _standing(lambda t, k=key: k in unread_items(t), text, versions, complete)
+            rows.append((path.name, key, shown, mark))
+    if not rows and not more:
+        return []
+    new = sum(mark.startswith("new") for *_, mark in rows)
+    head = (f"[check] unread: {len(rows)} item(s) in {len({r[0] for r in rows})} log(s), "
+            f"{new} new" + (f", {more} more not shown in the logs" if more else ""))
+    return [head] + [f"    {name}: [{site}] unread {kind} {digest}: {shown}: {mark}"
+                     for name, (site, kind, digest), shown, mark in rows]
 
 
 def strays(repo=REPO):
@@ -181,6 +223,9 @@ def main(argv):
         versions, complete = history(path)
         for site in failing(text) or ["(log)"]:
             print(f"    {site}: {standing(site, text, versions, complete)}", file=sys.stderr)
+
+    for line in unread_report(logs):
+        print(line)
 
     print(f"[check] {len(logs)} run log(s), {len(bad)} failed")
     return 1 if bad else 0
