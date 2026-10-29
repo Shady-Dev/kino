@@ -121,6 +121,7 @@ class PoolMod:
     syn = False
     shared = False        # True, or the providers that also publish one title in common
     chatty = False
+    unread = {}           # provider -> [(kind, context)] reported through common.unread
 
     def __init__(self, sites, **kw):
         self.SITES = sites
@@ -134,6 +135,8 @@ class PoolMod:
                 print(f"[{prov}] err {n}", file=sys.stderr)
             common.fetch(f"{site['base']}/{prov}/p{n}", cache=True)
             time.sleep(self.stagger.get(prov, 0.0))
+            for kind, text in self.unread.get(prov, ()):
+                common.unread(kind, f"{text} {n}")
         if prov in self.fail:
             raise RuntimeError("connection reset")
         if prov in self.empty:
@@ -576,6 +579,52 @@ class FailureAccountingTest(PoolTestCase):
                       requests=1, fail=("p1",))
         _, text = self.main(mod)
         self.assertIn("1 failures", text)
+
+
+class UnreadTest(PoolTestCase):
+    """Unread items land in their own site's block, and the run lists the sites with any.
+    Exit codes do not change."""
+
+    def unread_mod(self, h, **kw):
+        # p0 is the slowest, and its items are recorded while the others run.
+        return PoolMod([site(f"p{i}", h.base(i)) for i in range(4)], requests=3,
+                       unread={"p0": [("line", "p0 line")], "p2": [("date", "p2 date")]},
+                       stagger={"p0": 0.03, "p1": 0.02, "p2": 0.01, "p3": 0.0}, **kw)
+
+    def test_each_site_s_items_land_in_its_own_block(self):
+        h = self.hosts(4, delay=0)
+        _, text = self.drain(self.unread_mod(h, chatty=True))
+        lines = [l for l in text.splitlines() if l.startswith("[p")]
+        for prov, kind in (("p0", "line"), ("p2", "date")):
+            mine = [i for i, l in enumerate(lines) if l.startswith(f"[{prov}]")]
+            block = lines[mine[0]:mine[-1] + 1]
+            items = [f"{prov} {kind} {n}" for n in range(3)]
+            self.assertEqual([l for l in block if " unread " in l],
+                             [f"[{prov}] unread {kind} {common.unread_id(kind, i)}: {i}"
+                              for i in items])
+        self.assertEqual([l for l in lines if l.startswith(("[p1]", "[p3]")) and "unread" in l],
+                         [])
+
+    def test_the_run_names_the_sites_with_items_and_still_passes(self):
+        h = self.hosts(4, delay=0)
+        code, text = self.main(self.unread_mod(h))
+        self.assertEqual(code, 0)
+        self.assertIn("[run] unread: 6 item(s) at 2 site(s): p0 3, p2 3", text)
+        self.assertIn("0 failures", text)
+
+    def test_a_failing_site_names_what_it_saw_and_still_fails(self):
+        h = self.hosts(4, delay=0)
+        code, text = self.main(self.unread_mod(h, fail=("p2",)))
+        self.assertEqual(code, 1)
+        self.assertIn(f"[p2] unread date {common.unread_id('date', 'p2 date 2')}: p2 date 2",
+                      text)
+        self.assertIn("[p2] FAILED: connection reset", text)
+        self.assertIn("1 failures", text)
+
+    def test_a_run_with_nothing_unread_prints_no_unread_line(self):
+        h = self.hosts(2, delay=0)
+        _, text = self.main(PoolMod([site(f"p{i}", h.base(i)) for i in range(2)], requests=1))
+        self.assertNotIn("unread", text)
 
 
 # --- films-extra.json is one file for the whole run ----------------------------------

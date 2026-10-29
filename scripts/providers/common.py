@@ -15,6 +15,7 @@ import json
 import os
 import pathlib
 import re
+import sys
 import threading
 import time
 import typing
@@ -216,6 +217,7 @@ def reset_accounting():
         _hosts_all.clear()
         _host_refused.clear()
         _diag_seen.clear()
+        _unread_counts.clear()
     with _host_cv:
         _host_owner.clear()
         _host_cv.notify_all()
@@ -232,6 +234,85 @@ def hosts_attempted(scope=None):
     with _lock:
         return set(_hosts_all if scope is None else (_scope_hosts.get(scope) or ()))
 
+
+
+# What an adapter saw on its source and did not place (2026-10-29). Each item is named in
+# its site's block of the run log, and check_runs.py marks it new or carried. Nothing here
+# changes a failure or an exit code.
+UNREAD_KINDS = ("line", "date", "place", "row")
+UNREAD_WIDTH = 200          # characters the log shows of one item
+UNREAD_SHOWN = 20           # items printed per site
+_unread = threading.local()
+_unread_counts = {}         # label -> distinct items, read by run.Tally
+
+
+def unread(kind, context):
+    """Record one thing on the source that this adapter did not place.
+
+    `kind` is `line` (a free-text line of unknown role), `date` (a date clause that cannot
+    be placed), `place` (a location no venue claims) or `row` (a row, card or block left
+    out). `context` is the source text with the film or date that locates it. Outside a
+    site's scope the item goes to stderr.
+    """
+    if kind not in UNREAD_KINDS:
+        raise ValueError(f"unread kind {kind!r} is not one of {UNREAD_KINDS}")
+    text = re.sub(r"\s+", " ", re.sub("[\u200b\ufeff]", "", str(context or ""))).strip()
+    box = getattr(_unread, "box", None)
+    if box is None:
+        print(f"[unread] {kind} {unread_id(kind, text)}: {_unread_short(text)}",
+              file=sys.stderr)
+        return
+    box[(kind, text)] = box.get((kind, text), 0) + 1
+
+
+def unread_id(kind, text):
+    """12 hex digits of SHA-256 over the kind and the whole context.
+
+    The log cuts the text at UNREAD_WIDTH, and check_runs.py tells items apart by this.
+    Python's hash() changes per process and cannot match across runs.
+    """
+    return hashlib.sha256(f"{kind}\n{text}".encode("utf-8")).hexdigest()[:12]
+
+
+def _unread_short(text):
+    return text if len(text) <= UNREAD_WIDTH else text[:UNREAD_WIDTH - 3].rstrip() + "..."
+
+
+def unread_lines(label, box):
+    """One site's items as log lines, at most UNREAD_SHOWN of them. -> [str]."""
+    items = sorted(box.items(), key=lambda kv: UNREAD_KINDS.index(kv[0][0]))
+    lines = [f"[{label}] unread {kind} {unread_id(kind, text)}: {_unread_short(text)}"
+             + (f" (x{n})" if n > 1 else "") for (kind, text), n in items[:UNREAD_SHOWN]]
+    rest = items[UNREAD_SHOWN:]
+    if rest:
+        by = {}
+        for (kind, _), _n in rest:
+            by[kind] = by.get(kind, 0) + 1
+        lines.append(f"[{label}] unread: {len(rest)} more item(s) not shown ("
+                     + ", ".join(f"{k} {n}" for k, n in by.items()) + ")")
+    return lines
+
+
+@contextlib.contextmanager
+def unread_scope(label):
+    """Collect one site's items on this thread and print them when the scope ends, also
+    when the fetch raised."""
+    prev = getattr(_unread, "box", None)
+    box = _unread.box = {}
+    try:
+        yield box
+    finally:
+        _unread.box = prev
+        for line in unread_lines(label, box):
+            print(line)
+        with _lock:
+            _unread_counts[label] = len(box)
+
+
+def take_unread(label):
+    """The number of distinct items the site's last scope recorded. Read once. -> int."""
+    with _lock:
+        return _unread_counts.pop(label, 0)
 
 # One site at a time per host, whatever URL led there.
 #
