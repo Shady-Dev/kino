@@ -50,7 +50,7 @@ import datetime, html as html_mod, json, re, time
 from urllib.parse import urlsplit
 from zoneinfo import ZoneInfo
 
-from common import EmptyProgramme, budget_or_raise, fetch, syn_language
+from common import EmptyProgramme, budget_or_raise, fetch, syn_language, unread
 from synmerge import is_note
 
 FI = ZoneInfo("Europe/Helsinki")
@@ -601,7 +601,7 @@ def parse_movie(page, site, movie_url):
     paras = [t for t in house_facts_cut(paras) if not is_note(t)]
     syn = AGE_BOILER_RE.sub("", " ".join(paras))
 
-    out, skipped = [], 0
+    out, skipped, missed = [], 0, []    # missed: (unread kind, source context)
     for m in ITEM_RE.finditer(page):
         cls, attrs, block = m.group(1), m.group(2), m.group(3)
         dm = ITEM_DATE_RE.search(cls)
@@ -612,12 +612,15 @@ def parse_movie(page, site, movie_url):
                 continue                     # no date: not a screening
             if len(dates) != 1:
                 skipped += 1
+                missed.append(("date",
+                               f"{title}: data-dates {html_mod.unescape(listed.group(1))}"))
                 continue
             dm = DATE_RE.search(html_mod.unescape(listed.group(1)))
         d, mo, y = int(dm.group(1)), int(dm.group(2)), int(dm.group(3))
         tm = TIME_RE.search(block)
         if not tm:
             skipped += 1
+            missed.append(("row", f"{title} {d}.{mo}.{y}: {_txt(block)}"))
             continue
         place = PLACE_RE.search(block)
         # Niagara prints no place line; its item carries the place in `data-locations`
@@ -651,7 +654,7 @@ def parse_movie(page, site, movie_url):
     return out, {"title": strip_version_suffix(title, stated), "rating": rating,
                  "len": minutes, "img": img,
                  "lang": lang, "genres": genres, "syn": syn, "paras": paras,
-                 "skipped": skipped}
+                 "skipped": skipped, "unread": missed}
 
 
 def _film_container(listing):
@@ -832,7 +835,10 @@ def fetch_site(site, sleep=1.2):
                                f"its screenings are on that page, so no venue of this "
                                f"site publishes a partial schedule") from e
         rows, meta = parse_movie(page, site, path)
+        for kind, item in meta["unread"]:
+            unread(kind, item)
         if rows and not meta["title"]:
+            unread("row", f"movie {mid} {path}: {len(rows)} row(s) and no title")
             # The H1 moved: every row of this film would go out titled "?". Dropped and
             # counted, and the read confirms no venue empty, so a site whose every film
             # went this way has no live venue and fails.
@@ -878,6 +884,8 @@ def fetch_site(site, sleep=1.2):
                 # reads "not updated" again. It keeps its real data while it does.
                 complete = False
                 unclaimed.setdefault(r["theatre_raw"] or r["unplaced"], []).append(meta["title"])
+                unread("place", f"{r['theatre_raw'] or r['unplaced'] or '(none)'}: "
+                                f"{meta['title']}")
                 continue
             # Recorded only once a registered venue took the row, so a malformed copy
             # that matched nothing cannot suppress the valid copy that follows it.
