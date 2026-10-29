@@ -249,7 +249,9 @@ jobs:
   browser:
     needs: verified
     if: ${{ !cancelled() && needs.verified.outputs.skip != 'true' }}
-    runs-on: ubuntu-latest
+    # Pinned: Playwright 1.62.0's WebKit needs libicu 74 and libxml2.so.2, which
+    # ubuntu-latest lost when it moved to 26.04 (failed to launch, 2026-10-29).
+    runs-on: ubuntu-24.04
     # Longest run 2026-09-17 to 09-24: 3.8 min, WebKit. A hung job stops here rather than
     # at the 360-minute default.
     timeout-minutes: 15
@@ -270,7 +272,7 @@ jobs:
       - uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9
         with:
           path: ~/.cache/ms-playwright
-          key: playwright-${{ matrix.engine }}-1.62.0
+          key: playwright-${{ matrix.engine }}-1.62.0-ubuntu-24.04
 
       - name: Install Playwright's ${{ matrix.engine }}
         run: python3 -m playwright install --with-deps ${{ matrix.engine }}
