@@ -2906,3 +2906,17 @@ only for a trusted match, and the file is in `data/posters/`. The row is then ma
 `isrc: "tmdb"`, like a poster the TMDB pass publishes, and `run-posters.log` counts it as
 replaced. For an event row, a row with no trusted match or a missing poster file the
 placeholder stays. The fallback makes no request. Sixteen mutations went red.
+
+### A decorated title does not take its plain title's id automatically (2026-10-29)
+The proposal was that a title such as "Yön lapsi (Night Visions)" takes the id of the
+screening plain title its words start with. It was measured on 65 daily snapshots to
+007258793 and closed by the maintainer. The guards were a bracket, slash, dash or comma
+after the plain words, TMDB's runtime within 5 minutes, agreeing years and original titles,
+the plain title's own match checked the same way, and no other exact-title film on TMDB
+that could fit. With those guards 31 decorated titles took an id with none wrong, and three
+of them had no match. The maintainer then required that a stub record counts as a rival and
+that the same provider ties the two rows with an event id or a page for that film alone.
+With both, no title qualified on any day. The ties found in the data join rows of different
+days, and a pass reads one day. Sequels are why runtime alone was never enough: Ringu 2,
+Gremlins 2 and Rose Water against Rose all sit within 5 minutes of the earlier film.
+Decorated titles stay with `clean()` and the alias file.
