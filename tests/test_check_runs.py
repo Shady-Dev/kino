@@ -13,6 +13,7 @@ import unittest
 
 import _ctx                                                # noqa: F401
 import check_runs
+import common
 
 
 class CheckRunsTest(unittest.TestCase):
@@ -194,3 +195,112 @@ class FailingSiteHistoryTest(unittest.TestCase):
         self.addCleanup(lambda: setattr(check_runs, "HISTORY_LIMIT", saved))
         _, err = self.report()
         self.assertIn("    alpha: carried since at least 2026-09-12 (2 runs read)", err)
+
+
+class UnreadHistoryTest(unittest.TestCase):
+    """Unread items are listed as new or carried and never change the verdict. The lines
+    come from `common.unread_lines`, the same writer the runs use."""
+
+    setUp = FailingSiteHistoryTest.setUp
+    commit = FailingSiteHistoryTest.commit
+    PALLAS = ("line", "Järki ja tunteet, To/Tors 5.11 Klo 17.00: Halvjus på")
+    # Two items alike past the width the log shows.
+    HEAD = "Film 26.10.2026: " + "x" * common.UNREAD_WIDTH
+    LONG_A, LONG_B = ("row", HEAD + " ending one"), ("row", HEAD + " ending two")
+
+    @staticmethod
+    def written(label, *items, counts=None):
+        """The log lines a site's scope prints for these items. -> str."""
+        box = {item: (counts or {}).get(item, 1) for item in items}
+        return "".join(line + "\n" for line in common.unread_lines(label, box))
+
+    @staticmethod
+    def shown(label, item):
+        """How the report quotes one item: its log line without a repeat count."""
+        return common.unread_lines(label, {item: 1})[0]
+
+    def report(self):
+        out, err = io.StringIO(), io.StringIO()
+        with contextlib.redirect_stdout(out), contextlib.redirect_stderr(err):
+            code = check_runs.main(["--dir", str(self.logs)])
+        return code, out.getvalue()
+
+    def test_an_item_first_seen_in_this_run_is_new_and_the_log_stays_green(self):
+        self.commit("[biopallas] 19 showtimes\nexit=0\n")
+        self.commit(self.written("biopallas", self.PALLAS) + "[biopallas] 19 showtimes\nexit=0\n")
+        code, out = self.report()
+        self.assertEqual(code, 0)
+        self.assertIn("[check] unread: 1 item(s) in 1 log(s), 1 new", out)
+        self.assertIn(f"    run-mod.log: {self.shown('biopallas', self.PALLAS)}: new", out)
+
+    def test_two_items_alike_in_what_the_log_shows_stay_two(self):
+        """Both lines read `Film 26.10.2026: xxx...`. The digest tells them apart."""
+        body = self.written("niagara", self.LONG_A, self.LONG_B)
+        texts = [line.split(": ", 1)[1] for line in body.splitlines()]
+        self.assertEqual(texts[0], texts[1], "the fixture must print the same text twice")
+        self.commit(body + "exit=0\n")
+        self.assertEqual(len(check_runs.unread_items(body)), 2)
+        _, out = self.report()
+        self.assertIn("[check] unread: 2 item(s) in 1 log(s), 2 new", out)
+
+    def test_the_second_of_two_alike_items_is_new_beside_the_carried_first(self):
+        self.commit(self.written("niagara", self.LONG_A) + "exit=0\n")
+        self.commit(self.written("niagara", self.LONG_A, self.LONG_B) + "exit=0\n")
+        _, out = self.report()
+        self.assertIn("2 item(s) in 1 log(s), 1 new", out)
+        self.assertIn(f"{self.shown('niagara', self.LONG_A)}: carried since 2026-09-11 (2 runs)",
+                      out)
+        self.assertIn(f"{self.shown('niagara', self.LONG_B)}: new", out)
+
+    def test_an_item_in_earlier_runs_is_carried_whatever_its_repeat_count(self):
+        """Niagara's mobile copy doubles an item on some runs and not others."""
+        self.commit("exit=0\n")
+        self.commit(self.written("biopallas", self.PALLAS) + "exit=0\n")         # 09-12
+        self.commit(self.written("biopallas", self.PALLAS, counts={self.PALLAS: 2})
+                    + "exit=0\n")                                                # 09-13
+        self.commit(self.written("biopallas", self.PALLAS) + "[x] later\nexit=0\n")  # 09-14
+        _, out = self.report()
+        self.assertIn(f"{self.shown('biopallas', self.PALLAS)}: carried since 2026-09-12 "
+                      f"(3 runs)", out)
+        self.assertIn("0 new", out)
+
+    def test_a_repeat_count_is_left_out_of_the_quoted_item(self):
+        self.commit(self.written("biopallas", self.PALLAS) + "exit=0\n")
+        self.commit(self.written("biopallas", self.PALLAS, counts={self.PALLAS: 3})
+                    + "exit=0\n")
+        _, out = self.report()
+        self.assertIn(f"{self.shown('biopallas', self.PALLAS)}: carried since 2026-09-11 "
+                      f"(2 runs)", out)
+        self.assertNotIn("(x3)", out)
+
+    def test_a_new_item_of_another_site_beside_a_carried_one_is_told_apart(self):
+        other = ("date", "KERRO KAIKILLE 3.11. TI klo 15.00 ja klo 18.00")
+        self.commit(self.written("biopallas", self.PALLAS) + "exit=0\n")
+        self.commit(self.written("biopallas", self.PALLAS) + self.written("kinohuovi", other)
+                    + "exit=0\n")
+        _, out = self.report()
+        self.assertIn(f"{self.shown('biopallas', self.PALLAS)}: carried since 2026-09-11 "
+                      f"(2 runs)", out)
+        self.assertIn(f"{self.shown('kinohuovi', other)}: new", out)
+        self.assertIn("2 item(s) in 1 log(s), 1 new", out)
+
+    def test_output_stays_bounded_and_the_rest_is_counted(self):
+        items = [("line", f"line {i}") for i in range(common.UNREAD_SHOWN + 7)]
+        body = self.written("biopallas", *items)
+        self.assertEqual(len(body.splitlines()), common.UNREAD_SHOWN + 1)
+        self.commit(body + "exit=0\n")
+        _, out = self.report()
+        self.assertIn(f"{common.UNREAD_SHOWN} item(s) in 1 log(s), {common.UNREAD_SHOWN} new, "
+                      f"7 more not shown in the logs", out)
+
+    def test_a_failing_log_with_items_is_still_red(self):
+        self.commit(self.written("biopallas", self.PALLAS)
+                    + "[biopallas] FAILED: no screening line\nexit=1\n")
+        code, out = self.report()
+        self.assertEqual(code, 1)
+        self.assertIn(f"{self.shown('biopallas', self.PALLAS)}: new", out)
+
+    def test_no_items_print_no_unread_line(self):
+        self.commit("[biopallas] 19 showtimes\nexit=0\n")
+        _, out = self.report()
+        self.assertNotIn("unread", out)
