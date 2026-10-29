@@ -24,6 +24,7 @@ import tempfile
 import unittest
 
 import _ctx                                                # noqa: F401
+import common
 import pallas as P
 import registry
 from build_pages import LANG_RE as LANG_CONTRACT
@@ -236,6 +237,37 @@ class RowsTest(unittest.TestCase):
                          ("132", "K-7", ""))
         self.assertNotIn("Puolivalot", json.dumps(shows, ensure_ascii=False))
 
+    def test_every_line_a_row_does_not_read_is_named(self):
+        """The meta line, a language, a listed type and `NOT_READ` are read. Any other
+        line is named with its row."""
+        knit = ("Neulontanäytös", "Stikningvisning", "Puolivalot päällä", "Halvjus på",
+                "Martat tarjoavat glögiä", "Marttorna bjuder på glög")
+        _, report = self.rows(page(
+            heading(SAT),
+            row(SAT, "14.00", "Järki ja tunteet", meta="2h 12min -K7-", notes=knit),
+            row(SAT, "16.00", "Toy Story 5", marker="ORIGINAL version with subtitles FI/SV"),
+            row(SAT, "18.00", "Toy Story 5", marker="SUOMEKSI!"),
+            row(SAT, "20.00", "Lentävä kuolema", notes=("FRUKOSTBIO/", "AAMUPALAELOKUVA"))))
+        self.assertEqual(report["unread"],
+                         ["Lentävä kuolema, La/Lö 19.9 Klo 20.00: FRUKOSTBIO/",
+                          "Lentävä kuolema, La/Lö 19.9 Klo 20.00: AAMUPALAELOKUVA"])
+
+    def test_a_known_wording_is_quiet_only_word_for_word(self):
+        """`NOT_READ` matches exact lines only."""
+        _, report = self.rows(page(heading(SAT), row(
+            SAT, "17.00", "Järki ja tunteet",
+            notes=("Puolivalot päällä koko näytöksen ajan", "halvjus på"))))
+        self.assertEqual(report["unread"], ["Järki ja tunteet, La/Lö 19.9 Klo 17.00: "
+                                            "Puolivalot päällä koko näytöksen ajan"])
+
+    def test_a_line_after_the_clock_is_named_too(self):
+        html = page(heading(SAT), image() + rich("Myrskyn ikkuna", "1h 40min -K12-")
+                    + rich("La/Lö 19.9", "Klo 18.00", "Förhandsvisning") + rich("13€"))
+        shows, report = self.rows(html)
+        self.assertEqual(len(shows), 1)
+        self.assertEqual(report["unread"],
+                         ["Myrskyn ikkuna, La/Lö 19.9 Klo 18.00: Förhandsvisning"])
+
     def test_a_zero_width_space_never_reaches_the_title(self):
         """The site's editor leaves one on many titles. No reader sees it and it would key
         those rows apart from the same film at every other chain."""
@@ -400,6 +432,19 @@ class RunnerTest(unittest.TestCase):
         self.assertEqual([s["title"] for s in shows], ["A"])
         self.assertIn("1 row(s) the site names as no screening, left out: Yksityistilaisuus",
                       log)
+
+    def test_an_unread_line_is_named_in_the_log_and_the_run_still_passes(self):
+        a = self.soon(1)
+        clock = f"{FI_WD[a.weekday()]}/{SV_WD[a.weekday()]} {a.day}.{a.month} Klo 18.00"
+        self.serve(page(heading(a), row(a, "18.00", "A", notes=("AAMUPALAELOKUVA",)),
+                        row(a, "20.00", "B")))
+        code, log = self.main()
+        self.assertEqual(code, 0, log)
+        item = f"A, {clock}: AAMUPALAELOKUVA"
+        self.assertIn(f"[biopallas] unread line {common.unread_id('line', item)}: {item}\n", log)
+        self.assertIn("[run] unread: 1 item(s) at 1 site(s): biopallas 1", log)
+        shows = json.loads((run.OUT / "area-pallas-karjaa.json").read_text())["shows"]
+        self.assertEqual([s["title"] for s in shows], ["A", "B"])
 
     def test_a_refused_page_keeps_the_previous_file(self):
         (run.OUT / "area-pallas-karjaa.json").write_text(json.dumps(self.PREV))

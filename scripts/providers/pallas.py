@@ -69,6 +69,8 @@ What shapes the parser:
   languages at once and settle nothing, so they publish nothing.
 - **A screening type goes into `method` only from an exact list** (`KINDS`). The title
   block's other lines are free text per event, and notes like `Puolivalot päällä` are not read.
+- **Every other line of a row is named in the log** through `common.unread`. `NOT_READ`
+  lists the wordings already reviewed and left out.
 - **Titles are published verbatim**, because the raw title is the key for `normTitle()`,
   `films-extra.json` and `tmdb-aliases.json`. The one thing removed is a zero-width space:
   the site's editor leaves a trailing U+200B on many titles, which no reader sees and
@@ -89,7 +91,7 @@ import re
 import sys
 from zoneinfo import ZoneInfo
 
-from common import check_shows, fetch, get_text, resolve_year, served, weekday_index
+from common import check_shows, fetch, get_text, resolve_year, served, unread, weekday_index
 from synmerge import norm
 
 FI = ZoneInfo("Europe/Helsinki")
@@ -137,6 +139,17 @@ PRICE_PART = re.compile(r"(\d{1,3}(?:[.,]\d{1,2})?)(?=\s*(?:[/\u2013-]\s*\d|€)
 LANGS = {"suomeksi": "FI-A", "på svenska": "SV-A", "pa svenska": "SV-A"}
 # Read 2026-10-29 on Järki ja tunteet, 5.11 at 17.00. Either spelling, the Finnish label.
 KINDS = {"neulontanäytös": "Neulontanäytös", "stikningvisning": "Neulontanäytös"}
+# Row lines reviewed and left unpublished, compared like `KINDS`.
+NOT_READ = {
+    # Subtitle notes with no audio language, from the captures the language rule used.
+    "original version with subtitles fi/sv": "names two subtitle languages, no audio",
+    "huom! ilman suomenkielistä tekstitystä": "a subtitle note, no audio",
+    # The knitting screening of Järki ja tunteet, 5.11 at 17.00, read 2026-10-29.
+    "puolivalot päällä": "the hall lighting at the knitting screening",
+    "halvjus på": "the hall lighting at the knitting screening",
+    "martat tarjoavat glögiä": "a serving at the knitting screening",
+    "marttorna bjuder på glög": "a serving at the knitting screening",
+}
 
 MEDIA = "https://static.wixstatic.com/media/"
 POSTER_MIN_W = 300
@@ -256,7 +269,8 @@ def rows(site, page, today=None):
     venue = site["venues"][0]
     url = site["base"].rstrip("/") + site["listing"]
     stream = events(page)
-    out, report = [], {"closed": [], "no_price": [], "no_poster": [], "left_out": []}
+    out = []
+    report = {"closed": [], "no_price": [], "no_poster": [], "left_out": [], "unread": []}
     headings, dated = [], set()
     last_img = None
     for i, (kind, value) in enumerate(stream):
@@ -296,6 +310,10 @@ def rows(site, page, today=None):
         except ValueError as e:
             raise ShowRowError(f"{site['provider']}: {title!r} prints the impossible "
                                f"date {day}.{month}.{year} {tm.group(0)}") from e
+        for p in title_block[1:] + value[2:]:
+            key = p.strip().lower().rstrip("!")
+            if not (META_RE.search(p) or key in LANGS or key in KINDS or key in NOT_READ):
+                report["unread"].append(f"{title}, {value[0]} {value[1]}: {p}")
         length, rating = _meta(title_block[1:])
         price = _price(price_block)
         img = _poster(last_img)
@@ -343,6 +361,8 @@ def fetch_site(site, today=None):
     url = site["base"].rstrip("/") + site["listing"]
     page = get(url)
     shows, report = rows(site, page, today)
+    for item in report["unread"]:
+        unread("line", item)
     if not shows:
         raise RuntimeError(
             f"{url}: no screening line on the programme page ({served(page)}). This site "
