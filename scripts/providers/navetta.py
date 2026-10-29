@@ -32,7 +32,9 @@ What shapes the parser:
   so lines after the heading count as the first screening. Read 2026-10-13, a title and its
   date shared one line, `Pirjo i Sverige la 17.10 klo 15:00`. Read 2026-10-20, each line put
   the date before the title, `pe 23.10 klo 18:30 Lapin sota`, and a paragraph whose every
-  line has that shape is read as one screening per line.
+  line has that shape is read as one screening per line. Read 2026-10-29, one paragraph
+  held `Lapin sota la 31.10 klo 17:00` and `Lapin sota su 01.11 klo 17:00`, the title before
+  the date on each line, and is read the same way.
 - **The date prints no year** and no dot after the month, `su 20.9 klo 15:00`, so the
   weekday selects the year through `common.resolve_year`.
 - **The metadata line is read by pattern, not by position.** The three films read gave
@@ -272,14 +274,17 @@ def listing(page):
 
 
 def title_first(listed):
-    """Each paragraph whose every line is a date, a time and a title, as one title-first
-    paragraph per line. Any other paragraph is returned as it was."""
+    """Each paragraph whose every line holds a title and a date, in either order, as one
+    title-first paragraph per line. Any other paragraph is returned as it was."""
     out = []
     for para in listed:
         lines = [line.strip() for line in para.split("\n") if line.strip()]
-        found = [DATED_RE.match(line) for line in lines]
-        if lines and all(found):
-            out += [f"{m.group(2)}\n{m.group(1)}" for m in found]
+        dated = [DATED_RE.match(line) for line in lines]
+        titled = [TITLED_RE.match(line) for line in lines]
+        if lines and all(dated):
+            out += [f"{m.group(2)}\n{m.group(1)}" for m in dated]
+        elif lines and all(titled):
+            out += [f"{m.group(1)}\n{m.group(2)}" for m in titled]
         else:
             out.append(para)
     return out

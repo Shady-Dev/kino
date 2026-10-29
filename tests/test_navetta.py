@@ -190,6 +190,30 @@ class RowsTest(unittest.TestCase):
         self.assertEqual([(s["title"], s["start"][:16]) for s in shows], [
             ("Lapin sota", "2026-10-23T18:30"), ("Hetki ennen valoa", "2026-10-24T15:00")])
 
+    def test_a_title_before_the_date_on_each_line(self):
+        """The shape read 2026-10-29: one paragraph, each line a title, a date and a time."""
+        shows, report = self.rows(page(
+            listed=[p("Lapin sota la 31.10 klo 17:00<br>Lapin sota su 01.11 klo 17:00")],
+            shelf=[block("Lapin sota")]),
+            today=datetime.date(2026, 10, 29))
+        self.assertEqual([(s["title"], s["start"][:16]) for s in shows], [
+            ("Lapin sota", "2026-10-31T17:00"), ("Lapin sota", "2026-11-01T17:00")])
+        self.assertEqual(report["no_facts"], set())
+
+    def test_each_title_first_line_keeps_its_own_title(self):
+        shows, _ = self.rows(page(
+            listed=[p("Lapin sota la 31.10 klo 17:00<br>Hetki ennen valoa su 01.11 klo 15:00")],
+            shelf=[block("Lapin sota"), block("Hetki ennen valoa")]),
+            today=datetime.date(2026, 10, 29))
+        self.assertEqual([(s["title"], s["start"][:16]) for s in shows], [
+            ("Lapin sota", "2026-10-31T17:00"), ("Hetki ennen valoa", "2026-11-01T15:00")])
+
+    def test_a_title_first_line_beside_another_shape_still_fails(self):
+        with self.assertRaises(N.ListingError):
+            self.rows(page(listed=[p("Lapin sota la 31.10 klo 17:00<br>sunnuntaina illalla")],
+                           shelf=[block("Lapin sota")]),
+                      today=datetime.date(2026, 10, 29))
+
     def test_a_date_first_line_beside_another_shape_still_fails(self):
         with self.assertRaises(N.ListingError):
             self.rows(page(listed=[p("pe 23.10 klo 18:30 Lapin sota<br>lauantaina illalla")],
