@@ -1,16 +1,18 @@
 [token] using FINNKINO_TOKEN from the environment
 [sites] 17 cinemas
-[schedule] 2026-10-28: 69 showtimes
 [schedule] 2026-10-29: 405 showtimes
 [schedule] 2026-10-30: 462 showtimes
 [schedule] 2026-10-31: 512 showtimes
 [schedule] 2026-11-01: 461 showtimes
 [schedule] 2026-11-02: 411 showtimes
 [schedule] 2026-11-03: 411 showtimes
+[schedule] 2026-11-04: 403 showtimes
 [tmdb] no TMDB match (1): BTS WORLD TOUR 'ARIRANG' IN SÃO PAULO: L
-[tmdb] weak candidate kept, not searched until 2026-10-29 (10): ENHYPEN WORLD TOUR 'BLOOD SAGA' -> 엔하이픈 월드 투어 ‘블러드 사가’ | Godzilla Minus Zero -> ゴジラ-0.0 | HYBE CHEERING PARTY -> 하이브 치어링 파티 | Jailer 2 -> ஜெயிலர் 2 | Leviticus -> Leviticus | Ozzy & Black Sabbath: Back to the Beginning -> Back to the Beginning: Ozzy's Final Bow | Rose -> Rose | SEVENTEEN WORLD TOUR 'NEW_' -> SEVENTEEN WORLD TOUR [NEW_] ENCORE | TOMORROW X TOGETHER WORLD TOUR 'ACT : TOMORROW' -> TOMORROW X TOGETHER WORLD TOUR 'ACT : TOMORROW' IN SEOUL | Two Seasons, Two Strangers -> 旅と日々
-[tmdb] 0 new lookups, 0 re-checks, cache 129, 106 mergeable by id
-[films] 69 film entries
+[tmdb] weak match, no exact title (10): ENHYPEN WORLD TOUR 'BLOOD SAGA' -> 엔하이픈 월드 투어 ‘블러드 사가’ | Godzilla Minus Zero -> ゴジラ-0.0 | HYBE CHEERING PARTY -> 하이브 치어링 파티 | Jailer 2 -> ஜெயிலர் 2 | Leviticus -> Leviticus | Ozzy & Black Sabbath: Back to the Beginning -> Back to the Beginning: Ozzy's Final Bow | Rose -> Rose | SEVENTEEN WORLD TOUR 'NEW_' -> SEVENTEEN WORLD TOUR [NEW_] ENCORE | TOMORROW X TOGETHER WORLD TOUR 'ACT : TOMORROW' -> TOMORROW X TOGETHER WORLD TOUR 'ACT : TOMORROW' IN SEOUL | Two Seasons, Two Strangers -> 旅と日々
+[tmdb] rating held back, under 25 votes (2): Jailer 2 (8.1 / 19 votes) | Two Seasons, Two Strangers (7.1 / 16 votes)
+[tmdb] rating refresh: 1 scheduled, 1 re-read, 0 failed and still due, 0 deferred (budget 12)
+[tmdb] 11 new lookups, 15 re-checks, cache 130, 107 mergeable by id
+[films] 70 film entries
 [attrs] dropped, neither format nor language (10): Ennakko | Klassikko | Maxim | OCAP | Pkseutu | SEVERAL | TKU & R | Tampere | Tekijöitä | Varaus20
 [schedule] 17 venue files written, 0 kept as-is
 done
