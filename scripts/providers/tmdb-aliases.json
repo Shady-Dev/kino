@@ -202,5 +202,11 @@
  "_comment63": "Bio Marlon, Kauhajoki, 2026-10-21. \"NÄÄ MAAT, NÄÄ MANNUT – MEIDÄN KAUHAJOKI\" is a 70-minute local film made from the Kauhajoki-Seura's digitised archive, shown free. TMDB returned nothing that day for the full title, \"Nää maat, nää mannut\" or \"Meidän Kauhajoki\", so it is a real absence and is never searched.",
  "nää maat nää mannut meidän kauhajoki": "-",
  "_comment64": "Elokuvateatteri Star, Oulu, 2026-10-29. \"Yön lapsi (Night Visions)\" is Yön lapsi shown in the Night Visions festival's touring programme, at the 92 minutes every other chain publishes. TMDB gave 964849 that day as Yön lapsi, Hanna Bergholm, 2026-07-01, 92 minutes, the id the other chains' \"Yön lapsi\" already carries.",
- "yön lapsi night visions": "964849"
+ "yön lapsi night visions": "964849",
+ "_comment65": "Kinotar 123, Jämsä, 2026-10-29. \"Dyyni: Osa kolme -ennakkonäytös!\" is TMDB 1170608, Dune: Part Three, Denis Villeneuve, 2026, 150 minutes. The search had given it 841, David Lynch's Dune from 1984.",
+ "dyyni osa kolme ennakkonäytös": "1170608",
+ "_comment66": "Elokuvateatteri Star, Oulu, 2026-10-29. \"Carrie - 1976 (Night Visions)\" is TMDB 7340, Carrie, Brian De Palma, 1976, 98 minutes. The search had given it 133805, the 2013 remake.",
+ "carrie 1976 night visions": "7340",
+ "_comment67": "Kino Olympia, Hanko, 2026-10-29. \"Late Lammas -elokuva: Hämäräpuuhissa Elokuva on tekstitetty!\" is TMDB 1477104, Shaun the Sheep: The Beast of Mossy Bottom, Steve Cox and Matthew Walker, 2026, 81 minutes. The search had given it 263109, the 2015 film.",
+ "late lammas elokuva hämäräpuuhissa elokuva on tekstitetty": "1477104"
 }

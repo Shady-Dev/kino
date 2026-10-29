@@ -721,14 +721,14 @@
    "tr": ""
   },
   "carrie 1976 night visions": {
-   "id": 133805,
-   "img": "data/posters/e2d76e14603606b0.jpg",
-   "r": 6.1,
+   "id": 7340,
+   "img": "data/posters/8f65f025c2433e60.jpg",
+   "r": 7.3,
    "s": {
     "en": "",
     "fi": "Ei tekstitystä Tyttö päästää telekineettiset voimansa valloilleen tultuaan luokkatovereidensa nöyryyttämäksi koulun päättäjäistanssiaisissa."
    },
-   "tr": "https://www.youtube.com/watch?v=szzw_SQlfpU"
+   "tr": "https://www.youtube.com/watch?v=zbdIXI1s3aU"
   },
   "casablanca": {
    "id": 289,
@@ -1144,14 +1144,17 @@
    ]
   },
   "dyyni osa kolme ennakkonäytös": {
-   "id": 841,
-   "img": "data/posters/980c83adb0ad1d27.jpg",
-   "r": 6.2,
+   "id": 1170608,
+   "img": "data/posters/e0d0640ca8bfc6cd.jpg",
+   "r": 0,
    "s": {
-    "en": "",
+    "en": "Nearly two decades after he seized control of the Imperium, Paul Atreides is now a ruthless Emperor, and must face the consequences of his reign as old allies return, terrifying new threats emerge, and betrayal lurks in every shadow. Haunted by visions of Imperial collapse and the reappearance of his long-lost love, Paul is drawn into a sweeping conspiracy, with Chani at the heart of its unfolding mystery. As enemies close in, Paul must confront the true cost of power and the fate of those he loves the most.",
     "fi": "Denis Villeneuven ohjaama ja Villeneuven sekä Brian K. Vaughanin yhdessä käsikirjoittama Dyyni: Osa kolme perustuu Frank Herbertin romaaniin Dyynin messias ja tarjoaa eeppisen päätöksen Villeneuven trilogialle. Elokuvan pääosissa ovat Timothée Chalamet, Zendaya, Jason Momoa, Florence Pugh, Rebecca Ferguson, Isaach De Bankolé, Charlotte Rampling, Anya Taylor-Joy, Robert Pattinson ja Javier Bardem, ja uusina tulokkaina nähdään Nakoa-Wolf Momoa ja Ida Brooke."
    },
-   "tr": "https://www.youtube.com/watch?v=hjRG8kvMFw0"
+   "tr": "https://www.youtube.com/watch?v=uJqaGLmZpGo",
+   "ts": [
+    "en"
+   ]
   },
   "ekakertaleffassa näytös pikku kummitus lapanen": {
    "id": 69381,
@@ -3954,6 +3957,7 @@
     "kinomania",
     "kinometso",
     "kinomyyri",
+    "kinoolympia",
     "kinopiispanristi",
     "kinopirtti",
     "kinosampo",
@@ -3989,14 +3993,17 @@
    ]
   },
   "late lammas elokuva hämäräpuuhissa elokuva on tekstitetty": {
-   "id": 263109,
-   "img": "data/posters/dc7855e0e8b1b388.jpg",
-   "r": 7.0,
+   "id": 1477104,
+   "img": "data/posters/93eda5fa30b7d70c.jpg",
+   "r": 7.3,
    "s": {
-    "en": "",
+    "en": "On Halloween Eve at Mossy Bottom Farm, excitement turns to dismay when the clumsy Farmer ruins the pumpkin patch. Shaun tries fixing it with science experiments, but things go awry when a wild beast appears in the woods.",
     "fi": "Rakastettu Late Lammas palaa valkokankaille uudessa, riemastuttavassa ja kutkuttavan hauskassa seikkailussa. Farmin asukkaat odottavat innolla Halloweenia, kunnes heidän rakkaudella kasvattamansa kurpitsaviljelmä tuhoutuu juhlan kynnyksellä. Late ei jää toimettomaksi, vaan päättää ryhtyä “hulluksi tiedemieheksi” korjatakseen tilanteen – ja pian tapahtumat karkaavatkin täysin käsistä. Kun tilan maajussi katoaa ja outo villi peto herättää kauhua kyläläisissä, ovat kaikki ainekset kasassa hirviömäisen hauskalle seikkailulle kaiken ikäisille. Kananlento ja Wallace & Gromit -elokuvien tekijöiden uusi seikkailu Late Lammas: Hämäräpuuhissa saapuu elokuvateattereihin 30. lokakuuta."
    },
-   "tr": "https://www.youtube.com/watch?v=O_ZRKMaNIy0"
+   "tr": "https://www.youtube.com/watch?v=daZMq0AyOMc",
+   "ts": [
+    "en"
+   ]
   },
   "late lammas elokuva hämäräpuuhissa ennakkonäytös": {
    "id": 1477104,

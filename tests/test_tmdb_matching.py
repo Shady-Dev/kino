@@ -952,6 +952,21 @@ class AliasFileTest(unittest.TestCase):
         self.assertEqual(doc["lyhyt rakkaustarina"], "1299382")
         self.assertEqual(enrich_tmdb.norm("Lyhyt rakkaustarina"), "lyhyt rakkaustarina")
 
+    def test_titles_matched_to_an_older_film_carry_the_right_one(self):
+        """The search matched each of these to an older film (2026-10-29)."""
+        doc = json.loads(self.FILE.read_text(encoding="utf-8"))
+        cases = {
+            "Dyyni: Osa kolme -ennakkon\u00e4yt\u00f6s!":
+                ("dyyni osa kolme ennakkon\u00e4yt\u00f6s", "1170608"),
+            "Carrie - 1976 (Night Visions)": ("carrie 1976 night visions", "7340"),
+            "Late Lammas -elokuva: H\u00e4m\u00e4r\u00e4puuhissa Elokuva on tekstitetty!":
+                ("late lammas elokuva h\u00e4m\u00e4r\u00e4puuhissa elokuva on tekstitetty", "1477104"),
+        }
+        for published, (key, tmdb_id) in cases.items():
+            with self.subTest(key=key):
+                self.assertEqual(enrich_tmdb.norm(published), key)
+                self.assertEqual(doc.get(key), tmdb_id)
+
     def test_no_alias_points_at_a_candidate_the_log_named_wrong(self):
         """The failure this file exists to prevent, in the one direction a reviewer cannot
         see by reading: an id that looks settled because the search returned it. Each of
