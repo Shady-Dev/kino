@@ -92,3 +92,34 @@ to 10-02 baseline by section, language, device and country, and for brand, "<cin
 ohjelmisto" and "elokuvat <city>" queries. Changes that would serve readers are proposed
 separately. The "coming later" list from 2026-10-18 shows the published titles behind a
 window-empty page. The footer credit is corrected in its own commit.
+
+### Later-screenings pilot, from 2026-11-01
+
+**Design.** The maintainer agreed the design on 2026-10-29. The Finnish page of each venue in
+`build_pages.PILOT_VENUES` lists, under the four-day window, every screening dated D+4 to
+D+33 by the Helsinki calendar with its own room, format, language and price. It then counts
+the screenings dated later and links to the app. The Swedish and English pages and every other page are
+unchanged. Pages were paired by similar Search Console impressions, and within each pair a
+coin flip seeded 20261029 chose the pilot page. The pairs below list the pilot page first,
+and all of them are under `/teatteri/`.
+
+- `leffabuumi-kinolinna-mikkeli/` and `savon-kinot-kuvalipas-iisalmi/`
+- `kinomania-pieksamaki/` and `vihdin-kino-vihti/`
+- `kinokulma-oulainen/` and `kino-vaakuna-lohja/`
+- `kino-hamina-hamina/` and `lieksan-kino-lieksa/`
+- `iso-hannu-rauma/` and `kino-juha-nurmijarvi/`
+- `kino-toijala-akaa/` and `kino-kirkkonummi-kirkkonummi/`
+- `haapamaen-elokuvat-haapamaki/` and `savon-kinot-kino-hovi-kitee/`
+- `kino-iiris-lahti/` and `kino-myyri-vantaa/`
+- `kino-hirvi-aanekoski/` and `kinoset-kino-1-2-huittinen/`
+- `bio-pallas-karjaa/` and `kino-akustiikka-ylivieska/`
+
+**Measurement.** The baseline is the 28 complete days before the release, 2026-10-04 to
+2026-10-31, from a Search Console export the maintainer makes. Each pair is compared over the
+same calendar weeks, starting after the pilot page's recrawl. The review is at T+56,
+2026-12-27. A pair whose pilot page has not been recrawled by then is reported as
+unevaluated and does not count as a zero result. Results are directional or inconclusive.
+Accuracy, usefulness and clutter are judged separately when deciding whether to extend it.
+
+**Status and next step.** The pilot was released on 2026-11-01 with the scope and groups
+above. The next step is to read the pairs weekly and review the pilot on 2026-12-27.

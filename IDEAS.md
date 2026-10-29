@@ -94,6 +94,13 @@ None has a recorded empty state, so zero rows fails the run instead of clearing 
 List, reads and gaps: [docs/research/empty-states.md](docs/research/empty-states.md).
 **Next action:** when one fails with its own page showing nothing on, record that state.
 
+### Later screenings on ten Finnish theatre pages, a pilot
+
+Since 2026-11-01 the ten Finnish theatre pages in `build_pages.PILOT_VENUES` list screenings
+dated D+4 to D+33, and ten matched control pages stay unchanged. The pairs, the baseline and
+the review are in [docs/research/seo-and-search.md](docs/research/seo-and-search.md).
+**Next action:** read the pairs weekly and review the pilot on 2026-12-27.
+
 ## Blocked
 
 ### A way to read a generated page's full synopsis

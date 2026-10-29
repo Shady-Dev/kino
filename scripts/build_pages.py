@@ -162,6 +162,11 @@ L = {
         "late_since": "p\u00e4ivitetty {d}.{m}. klo {h}.{mi}",
         "late_site": "Tarkista ohjelmisto: {host}", "late_status": "Katso palvelun tila",
         "next_show": "Seuraava n\u00e4yt\u00f6s: {when}",
+        "later_h": "My\u00f6hemm\u00e4t n\u00e4yt\u00f6kset",
+        "later_span": "N\u00e4yt\u00f6kset {span}",
+        "later_until": "Teatteri on julkaissut n\u00e4yt\u00f6ksi\u00e4 {d} asti.",
+        "later_beyond_one": "Lis\u00e4ksi yksi n\u00e4yt\u00f6s {d} j\u00e4lkeen.",
+        "later_beyond": "Lis\u00e4ksi {n} n\u00e4yt\u00f6st\u00e4 {d} j\u00e4lkeen.",
         "mins": "min", "tmdb": "TMDB",
         "photo": "Kuva", "event_only": "k\u00e4ytt\u00f6 vain tapahtuman yhteydess\u00e4 (event only)",
         "venues_h": "Teatterit \u2013 {city}",
@@ -1015,6 +1020,76 @@ def next_show_day(shows, today, days):
     return min(later) if later else ""
 
 
+# The later-screenings pilot, described in docs/research/seo-and-search.md.
+LATER_DAYS = 30
+PILOT_VENUES = frozenset({
+    "lb-kinolinna", "tmb-mania", "kinokulma-oulainen", "kinohamina-hamina", "ih-rauma",
+    "tmb-toijala", "haapamaki-haapamaki", "ki-lahti", "hi-aanekoski", "pallas-karjaa"})
+
+
+def later_shows(shows, today, days=DAYS, span=LATER_DAYS):
+    """Screenings dated D+days to D+days+span-1, grouped by the day list's key, and the count
+    of those dated later. -> ([((title, nonFilm), [show])], beyond)"""
+    first = (today + timedelta(days=days)).isoformat()
+    last = (today + timedelta(days=days + span - 1)).isoformat()
+    groups, beyond = {}, 0
+    for s in sorted(shows, key=lambda x: (x.get("start") or "", x.get("aud") or "")):
+        d = (s.get("start") or "")[:10]
+        if d < first:
+            continue
+        if d > last:
+            beyond += 1
+            continue
+        groups.setdefault((s.get("title") or "?", bool(s.get("nonFilm"))), []).append(s)
+    ordered = sorted(groups.items(), key=lambda kv: (kv[1][0].get("start") or "",
+                                                     kv[0][0], kv[0][1]))
+    return ordered, beyond
+
+
+def short_date(iso):
+    d = date.fromisoformat(iso)
+    return f"{d.day}.{d.month}."
+
+
+def later_item(s, t, lang):
+    """One list item with the screening's day and time and the facts printed on its row."""
+    when = f"{day_label(s['start'][:10], t)} {s['start'][11:16]}"
+    tags = [f for f in stub_tags(tags_of(s), s.get("aud")) if f.casefold() not in BOOKING_STATE]
+    facts = [x for _, x in stub_parts(s, False, lang, own_tags=tags)]
+    facts += lang_parts(s.get("lang"), lang, lead=not facts)
+    price = price_label([s], lang)
+    url = s.get("url") or ""
+    head = (f'<a href="{esc(url)}" rel="nofollow noopener">{esc(when)}</a>'
+            if url.startswith("http") else esc(when))
+    tail = f' <span class="lf">{esc(", ".join(facts))}</span>' if facts else ""
+    if price:
+        tail += f' <span class="price">{esc(price)}</span>'
+    return f"<li>{head}{tail}</li>"
+
+
+def later_block(groups, beyond, today, t, lang, app_href, days=DAYS, span=LATER_DAYS):
+    """Builds the section under the day list, or "" when nothing is dated after the window."""
+    if not groups and not beyond:
+        return ""
+    out = [f'<section class="later"><h2 class="lh">{esc(t["later_h"])}</h2>']
+    if groups:
+        dates = sorted({s["start"][:10] for _, shows in groups for s in shows})
+        a, b = short_date(dates[0]), short_date(dates[-1])
+        line = t["later_span"].format(span=a if a == b else f"{a}\u2013{b}")
+        if not beyond:
+            line += " " + t["later_until"].format(d=b)
+        out.append(f'<p class="intro"><span data-nosnippet>{esc(line)}</span></p>')
+        for (title, _), shows in groups:
+            out.append(f'<h3>{esc(film_title(title, shows, today.year))}</h3><ul class="lt">'
+                       + "".join(later_item(s, t, lang) for s in shows) + "</ul>")
+    if beyond:
+        cut = short_date((today + timedelta(days=days + span - 1)).isoformat())
+        text = t["later_beyond_one" if beyond == 1 else "later_beyond"].format(n=beyond, d=cut)
+        out.append(f'<p class="intro"><span data-nosnippet>{esc(text)} '
+                   f'<a href="{esc(app_href)}">{esc(t["cta"])}</a></span></p>')
+    return "".join(out) + "</section>"
+
+
 def day_label(iso, t):
     """"La 4.10.": the weekday and the date. A page is read until the next build, hours
     after midnight, and "Tänään" named yesterday until then (2026-10-04)."""
@@ -1463,6 +1538,16 @@ def pageview_tag(kind):
             f'</script>')
 
 
+# Emitted only on pages with the later list, which keeps every other page byte-identical.
+# The last sticky day heading stays stuck to the end of <main>, and the section has to cover it.
+PILOT_CSS = (".later{position:relative;z-index:2;background:var(--bg)}"
+             ".later .lh{font-size:.95rem;font-weight:800;padding:16px 0 8px;margin-top:10px;"
+             "border-bottom:1px solid var(--line)}"
+             ".later h3{font-size:1rem;margin:14px 0 4px}"
+             ".later .lt{list-style:none;margin:0 0 6px;padding:0}"
+             ".later .lt li{padding:4px 0}"
+             ".later .lf,.later .price{color:var(--muted);margin-left:6px}")
+
 # Only on a page that carries the warning, so the others stay byte-identical.
 LATE_CSS = (".late{color:var(--ink)}"
             ".late a{color:var(--accent-text);font-weight:700;text-decoration:none}"
@@ -1470,7 +1555,7 @@ LATE_CSS = (".late{color:var(--ink)}"
 
 def page(*, lang, paths, title, desc, h1, sub, intro, days, today, t,
          extra, gmap, city, with_venue, legend, also, og_image, app_href, area, chain_css,
-         kind, next_day="", native=None, stale=False, late=""):
+         kind, next_day="", native=None, stale=False, late="", later=""):
     # One per published language plus x-default on the Finnish page, which is the one a
     # reader with no matching language gets.
     hreflangs = "\n".join(
@@ -1497,6 +1582,8 @@ def page(*, lang, paths, title, desc, h1, sub, intro, days, today, t,
                                    with_venue=with_venue, syn_seen=syn_seen,
                                    current_year=today.year, native=native,
                                    syn_src=syn_src))
+    if later:
+        body.append(later)
     self_path = paths[lang]
     # The wordmark is the other way into the app, and it carries this page's language for
     # the same reason the CTA does. It was a bare "/", so an English page sent its reader
@@ -1532,7 +1619,7 @@ def page(*, lang, paths, title, desc, h1, sub, intro, days, today, t,
 <link rel="icon" href="/icon-192.png">
 <link rel="preload" href="/fonts/archivo-latin.woff2" as="font" type="font/woff2" crossorigin>
 <style>{CSS}
-{chain_css}{LATE_CSS if late else ''}</style>
+{chain_css}{LATE_CSS if late else ''}{PILOT_CSS if later else ''}</style>
 <script type="application/ld+json">{ld_json(days, today, city, extra)}</script>
 </head>
 <body>
@@ -1762,6 +1849,8 @@ def main(today=None) -> int:
         og = share_image(days)
         prov = providers.get(v["provider"], {})
         is_late = late(v, today)
+        lgroups, lbeyond = (later_shows(shows, today) if v["id"] in PILOT_VENUES
+                            else ([], 0))
         for lang in LANGS:
             t = L[lang]
             shown = city_name(v["city"], lang, names_sv)
@@ -1788,6 +1877,9 @@ def main(today=None) -> int:
                 # language instead of whatever the app last had selected. Both halves are
                 # decided by startupArea()/startupLang() in index.html.
                 app_href="/?area=" + urllib.parse.quote(v["id"]) + "&lang=" + lang,
+                later=(later_block(lgroups, lbeyond, today, t, lang,
+                                   "/?area=" + urllib.parse.quote(v["id"]) + "&lang=" + lang)
+                       if lang == "fi" else ""),
                 area=v["id"], chain_css="", kind="theatre")
             stage(ROOT / paths[lang].strip("/") / "index.html", text)
         urls += [paths[c] for c in LANGS]
