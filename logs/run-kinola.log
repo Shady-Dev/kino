@@ -19,27 +19,27 @@
 [kinolaika] Kino Laika: 26 showtimes, 10 dates
 [kinolaika] synopses merged: 0
 [kinolaika] synopses skipped as screening notes: 1
-[kinomyyri] 32 screening(s) listed, 20 film page(s) read
+[kinomyyri] 31 screening(s) listed, 20 film page(s) read
 [kinomyyri] omitted 0 confirmed non-film(s) by evidence-backed exclusion over 0 screening(s), and 2 unresolved over 3
 [kinomyyri] unresolved: Boléro, Minä ja Riikka Purra
 [kinomyyri] override kojootti-vs-acme-dub: evidence-unavailable
 [kinomyyri] override must-pori-nakku: active
 [kinomyyri] 4 film(s) with a language name not read, that part left blank: Berliinin sankari (saksan); Lapin sota (saami); Premada Oorali (kannada); Vasenkätinen tyttö (mandariini)
-[kinomyyri] Kino Myyri: 29 showtimes, 13 dates
-[kinomyyri] Kino Myyri: 29 showtimes, 13 dates
+[kinomyyri] Kino Myyri: 28 showtimes, 12 dates
+[kinomyyri] Kino Myyri: 28 showtimes, 12 dates
 [kinomyyri] synopses merged: 0
-[kinokonepaja] 64 screening(s) listed, 22 film page(s) read
+[kinokonepaja] 63 screening(s) listed, 22 film page(s) read
 [kinokonepaja] omitted 0 confirmed non-film(s) by evidence-backed exclusion over 0 screening(s), and 1 unresolved over 1
 [kinokonepaja] unresolved: Cold November
 [kinokonepaja] override edward-scissorhands: active
 [kinokonepaja] override gremlins: active
 [kinokonepaja] override nightmare-on-elm-street: active
 [kinokonepaja] 4 film(s) with a language name not read, that part left blank: A shelter Among the Clouds (albania); Dua (albania, serbia); Helena Ranta – Sodan viimeinen sana (serbia, albania); Shame and Money (albania)
-[kinokonepaja] Kino Konepaja: 63 showtimes, 33 dates
-[kinokonepaja] Kino Konepaja: 63 showtimes, 33 dates
+[kinokonepaja] Kino Konepaja: 62 showtimes, 32 dates
+[kinokonepaja] Kino Konepaja: 62 showtimes, 32 dates
 [kinokonepaja] synopses merged: 0
 [run] http: 0 revalidated (304), 103 full, 22 not stored (origin said no-store), 39 cache entries written
 [run] hosts: 4 attempted -- kinokonepaja.fi, kinomyyri.fi, www.kinokilta.fi, www.kinolaika.fi
-[run] kinola: 4 venues, 174 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
-[run] timing: 4 site(s), 215.6s of fetching added up across workers that overlap, longest site 82.1s, longest queue wait 113.8s, 82.1s wall from this module's first fetch starting to its last ending
+[run] kinola: 4 venues, 172 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
+[run] timing: 4 site(s), 220.8s of fetching added up across workers that overlap, longest site 81.0s, longest queue wait 110.7s, 81.0s wall from this module's first fetch starting to its last ending
 exit=0

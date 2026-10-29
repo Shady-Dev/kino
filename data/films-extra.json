@@ -1016,7 +1016,6 @@
     "gilda",
     "orion",
     "savonkinot",
-    "studio123kouvola",
     "tapiola"
    ],
    "r": 7.5,
@@ -2540,7 +2539,6 @@
     "biogrand",
     "biograni",
     "biomarilyn",
-    "biomarlon",
     "biorex",
     "biorexkokkola",
     "biosade",
@@ -2618,7 +2616,6 @@
     "biogrand",
     "biograni",
     "biomarilyn",
-    "biomarlon",
     "biorex",
     "biorexkokkola",
     "biosade",
@@ -5080,7 +5077,8 @@
     "ihmekompleksi",
     "kinopirtti",
     "kisakino",
-    "levisummit"
+    "levisummit",
+    "sheryl"
    ],
    "r": 0,
    "s": {
@@ -6031,7 +6029,6 @@
    "img": "data/posters/a8cdd21dca604433.jpg",
    "kr": "S",
    "krs": [
-    "bioforum",
     "biograni",
     "biokaari",
     "biorex",
@@ -6063,7 +6060,6 @@
     "savonkinot",
     "star",
     "studio123jarvenpaa",
-    "studio123kouvola",
     "vaakuna"
    ],
    "r": 0,
@@ -6731,7 +6727,6 @@
    "krs": [
     "biorex",
     "gilda",
-    "kotkanleffat",
     "leffabuumi",
     "savonkinot",
     "star"
@@ -7760,6 +7755,19 @@
    },
    "tr": ""
   },
+  "stray kids world tour run it live viewing": {
+   "id": 1795555,
+   "img": "data/posters/0b6f307f1ac0be55.jpg",
+   "r": 0,
+   "s": {
+    "en": "Stray Kids bring their World Tour (RUN IT) concert to cinemas in a live broadcast, with all eight members performing their high-energy choreography.",
+    "fi": ""
+   },
+   "tr": "",
+   "ts": [
+    "en"
+   ]
+  },
   "street fighter": {
    "id": 1153576,
    "img": "data/posters/2c34dcbef60ffbda.jpg",
@@ -8262,12 +8270,17 @@
    "tr": ""
   },
   "the hunger games sunrise on the reaping": {
+   "id": 1300968,
+   "img": "data/posters/08a418319b615a6e.jpg",
    "r": 0,
    "s": {
     "en": "Welcome to the Second Quarter Quell. Return to the world of Panem 24 years before the events of The Hunger Games, starting on the morning of the reaping of the 50th Hunger Games, also known as the Second Quarter Quell.",
-    "fi": ""
+    "fi": "Nälkäpeli: Elonkorjuun sarastus sijoittuu tapahtumiin 24 vuotta ennen kuin Katniss Everdeen ilmoittautui vapaaehtoiseksi tribuutiksi, jolloin hänen tuleva ohjaajansa Haymitch Abernathy joutuu osallistumaan Nälkäpeliin. Juhlavuoden kunniaksi peliin valitaan kaksinkertainen määrä tribuutteja ja 50. Nälkäpeli voi alkaa."
    },
-   "tr": ""
+   "tr": "https://www.youtube.com/watch?v=Dr060OLTodE",
+   "ts": [
+    "fi"
+   ]
   },
   "the ice tower": {
    "id": 1143440,
@@ -8377,7 +8390,6 @@
    "krs": [
     "biorex",
     "isohannu",
-    "kinopiispanristi",
     "levisummit",
     "savonkinot"
    ],
@@ -9378,11 +9390,9 @@
     "kinojuha",
     "kinolumo",
     "kinoolympia",
-    "kinopiispanristi",
     "kinopirtti",
     "kinovirta",
     "kotkanleffat",
-    "leffabuumi",
     "levisummit",
     "savonkinot",
     "star",
@@ -9420,11 +9430,9 @@
     "kinojuha",
     "kinolumo",
     "kinoolympia",
-    "kinopiispanristi",
     "kinopirtti",
     "kinovirta",
     "kotkanleffat",
-    "leffabuumi",
     "levisummit",
     "savonkinot",
     "star",
@@ -9516,7 +9524,6 @@
    "img": "data/posters/b06de03c5de0cf45.jpg",
    "kr": "K-16",
    "krs": [
-    "biogrand",
     "biorex",
     "biosavoy",
     "ihmekompleksi",

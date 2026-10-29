@@ -1,8 +1,8 @@
-[biorexkokkola] Bio Rex Kokkola: 39 showtimes, 12 dates
+[biorexkokkola] Bio Rex Kokkola: 37 showtimes, 11 dates
 [biorexkokkola] synopses merged: 0
-[kinopirtti] Kinopirtti: 95 showtimes, 25 dates
+[kinopirtti] Kinopirtti: 92 showtimes, 24 dates
 [kinopirtti] synopses merged: 0
-[kinotar] Kinotar 123: 48 showtimes, 21 dates
+[kinotar] Kinotar 123: 47 showtimes, 20 dates
 [kinotar] synopses merged: 0
 [kinojuha] Kino Juha: 11 showtimes, 7 dates
 [kinojuha] VIP-Sali: 10 showtimes, 9 dates
@@ -21,8 +21,8 @@
 [niagara] synopses merged: 0
 [kinokaustinen] Kino Kaustinen: 4 showtimes, 3 dates
 [kinokaustinen] synopses merged: 0
-[run] http: 0 revalidated (304), 173 full, 173 not stored (origin said no-store), 0 cache entries written
+[run] http: 0 revalidated (304), 171 full, 171 not stored (origin said no-store), 0 cache entries written
 [run] hosts: 10 attempted -- biograni.fi, biovuoksi.fi, cinemaniagara.fi, jamsankinotar.fi, k-kino.fi, kinoiiris.com, kinojuha.fi, kinokaustinen.fi, kinopirtti.fi, www.biorex.org
-[run] etiketti: 11 venues, 340 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
-[run] timing: 10 site(s), 313.4s of fetching added up across workers that overlap, longest site 67.8s, longest queue wait 49.5s, 106.9s wall from this module's first fetch starting to its last ending
+[run] etiketti: 11 venues, 334 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
+[run] timing: 10 site(s), 320.9s of fetching added up across workers that overlap, longest site 70.9s, longest queue wait 47.0s, 108.8s wall from this module's first fetch starting to its last ending
 exit=0
