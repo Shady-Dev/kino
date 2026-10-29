@@ -51,6 +51,17 @@ item is in [IDEAS.md](../../IDEAS.md).
   film is subtitled, in Riviera's markup. Where it is not, the page prints
   `<p class="no-subtitles"> Tekstitys : <b>No Subtitles</b>`. Riviera's page for Dyyni: Osa
   kolme printed that same line with no `Kieli` line at all.
+- **Johku's MACCS fields, read 2026-10-29.** The schedule entries of the seven storefronts
+  in `johku.SITES` (151 entries) carry `maccsboxlanguage` and `maccsboxsubtitles`. Kinokulma:
+  Lapin sota `FI`/`FI`, Pikkuli ja Tähtipeura `FI`/`XX`, Järki ja tunteet `OV`/`FI-SE`, Yön
+  lapsi `OV`/`FI`.
+- One version of Lapin sota (`maccsboxid` 105200000750) reads `FI`/`FI` at Kinokulma,
+  `DE`/`FI` at Bio Marilyn, `OV`/`FI-SE` at Kino Hannikainen and Kulttuurimylly, and `FI`/`XX`
+  at Vihdin Kino.
+- The values contradict the cinemas' own text. Bio Forum and Kulttuurimylly state Finnish
+  and Swedish subtitles for Lapin sota, and Bio Marilyn's own description of Late Lammas says
+  there is no Finnish dub against its `FI`/`XX`.
+- No storefront prints these codes in its server-rendered page.
 
 ## Inferences
 
@@ -68,10 +79,13 @@ item is in [IDEAS.md](../../IDEAS.md).
 - MyCloudCinema shows "No Subtitles" whenever no subtitle language has been set, so the
   line tells us nothing. The maintainer decided on 2026-10-09 that it is not read for
   Riviera or Bio-Kaari, even next to a stated audio language.
+- Each cinema seems to fill the MACCS fields itself, and the values are wrong where they
+  can be checked. `OV` names no language. None of Kinokulma's values is established by them.
 
 ## Open questions
 
 - Whether Orion ever lists two versions of one film under one film page; none on the day.
+- Whether the Johku storefront shows the MACCS codes after its script runs.
 
 ## Implementation status
 
@@ -84,3 +98,6 @@ run. Bio-Kaari built 2026-10-09 on the maintainer's decision: its ticket page jo
 price pass the way Riviera's does, for the price and the two language lines. Elävien kuvien
 and Kino-Huovi have no source; revisit if one of them adds the language to a page it
 already publishes.
+
+Johku's MACCS fields, 2026-10-29: not read. Kinokulma (`kinokulma-oulainen`) keeps an empty
+`lang`.

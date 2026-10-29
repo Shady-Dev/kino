@@ -4444,3 +4444,7 @@ The 5.11 17.00 row of Järki ja tunteet named a knitting screening and was publi
 empty `method`. `KINDS` maps both spellings to `Neulontanäytös`. One row at `pallas-karjaa`;
 four mutations red. Research: [bio-pallas.md](../research/bio-pallas.md).
 
+### Kinokulma: Johku's MACCS language fields are not read (2026-10-29)
+The fields disagree across cinemas for one film version and contradict the cinemas' own
+text. Nothing is published from them and `johku.py` is unchanged. Research:
+[screening-language-sources.md](../research/screening-language-sources.md).
