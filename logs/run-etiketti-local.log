@@ -8,7 +8,7 @@
 [savonkinot] Maxim Varkaus: 42 showtimes, 14 dates
 [savonkinot] Kino-Hovi Kitee: 17 showtimes, 10 dates
 [savonkinot] synopses merged: 0
-[leffabuumi] Kinolinna: 62 showtimes, 10 dates
+[leffabuumi] Kinolinna: 61 showtimes, 10 dates
 [leffabuumi] Kino Ritz: 24 showtimes, 20 dates
 [leffabuumi] Kino Saimaa: 4 showtimes, 3 dates
 [leffabuumi] synopses merged: 0
@@ -21,7 +21,7 @@
 [ihmekompleksi] screening-note sentences left out of synopses: 1
 [kino123] Kino 123: 65 showtimes, 9 dates
 [kino123] synopses merged: 0
-[biogrand] Bio Grand: 25 showtimes, 8 dates
+[biogrand] Bio Grand: 24 showtimes, 8 dates
 [biogrand] synopses merged: 0
 [joutsankino] Joutsan Kino: 10 showtimes, 7 dates
 [joutsankino] synopses merged: 0
@@ -37,5 +37,5 @@
 [run] venuelists-local.json rewritten
 [run] http: 0 revalidated (304), 315 full, 315 not stored (origin said no-store), 0 cache entries written
 [run] hosts: 12 attempted -- biogrand.fi, haapamaenelokuvat.fi, ihmekompleksi.fi, kiertue.cine.fi, kino.joutsa.fi, kino123.fi, kotkanleffat.fi, leffabuumi.fi, lippu.elokuvateatteristar.fi, studio123.fi, studiot123.com, www.savonkinot.fi
-[run] etiketti: 21 venues, 892 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
+[run] etiketti: 21 venues, 890 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
 exit=0
