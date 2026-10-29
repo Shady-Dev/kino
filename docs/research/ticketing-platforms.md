@@ -176,6 +176,11 @@ Labels carry no colon and genres sit under a label reading `genre`. `/?shows=all
 every screening twice, in a desktop and a mobile wrapper, which is why a screening is
 keyed on its `/salikartta?id=` href.
 
+**Niagara's place moved to `data-locations`** on 2026-10-21, with the date in `data-dates`
+and a bare `item` class. Read again on 2026-10-29 at 19:26 UTC, all 50 items on the front
+page carry `["tampere"]`. The Lapin sota and Järki ja tunteet film pages give three
+screenings each, the same as copies saved at 18:51 UTC.
+
 **Niagara lists its screenings on its front page** (cinemaniagara.fi, read 2026-10-13). It
 links no `/elokuvat/naytosajat`. The front page renders every screening as a dated item, 59
 ticket ids over 36 films, and `/erikoisnaytokset` the special screenings, 5 ids over 3 of

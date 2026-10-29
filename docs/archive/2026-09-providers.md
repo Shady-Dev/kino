@@ -4448,3 +4448,10 @@ four mutations red. Research: [bio-pallas.md](../research/bio-pallas.md).
 The fields disagree across cinemas for one film version and contradict the cinemas' own
 text. Nothing is published from them and `johku.py` is unchanged. Research:
 [screening-language-sources.md](../research/screening-language-sources.md).
+
+### Niagara's `data-locations` rechecked after an audit (2026-10-29)
+An audit on 2026-10-29 ran on main at bb84a65a9, before 3010f7c5b, and reported the six
+screenings on two saved Niagara film pages as unclaimed. On 007258793 the same pages give
+all six to cn-tampere. Two tests were added, for a single unknown place and for the mobile
+copy of an item. Three mutations red. Research:
+[ticketing-platforms.md](../research/ticketing-platforms.md).
