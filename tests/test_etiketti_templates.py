@@ -811,6 +811,54 @@ class NiagaraLocationsTest(Stubbed):
         self.assertIn("movie 105 (The Invite): 1 screening block(s) with no single date or no "
                       "readable time, not published", log)
 
+    def unread(self, film):
+        """fetch_site inside the site's unread scope. -> (result, {(kind, item): count})."""
+        with common.unread_scope("niagara") as box, \
+                contextlib.redirect_stdout(io.StringIO()):
+            out, _ = self.fetch(film)
+        common.take_unread("niagara")
+        return out, box
+
+    def test_an_item_with_two_dates_is_named_with_its_film_and_dates(self):
+        e = load()
+        two = dated_item("mikkeli", "14.10.2026", "19.15", "MIKKELI | KINOLINNA | SALI 2",
+                         "14,50", "52/52", 1).replace(
+            "[&quot;14.10.2026&quot;]", "[&quot;14.10.2026&quot;,&quot;15.10.2026&quot;]")
+        _, meta = e.parse_movie(dated_film(two), site("leffabuumi"), "/elokuvat/1/x")
+        self.assertEqual(meta["unread"], [
+            ("date", 'Insidious: Out of the Further: data-dates ["14.10.2026","15.10.2026"]')])
+
+    def test_a_block_with_no_time_is_named_with_its_film_date_and_text(self):
+        film = niagara_page(located_item("23.10.2026", "10.00", 1)
+                            + located_item("26.10.2026", "14.15", 2).replace("<span>14.15</span>", ""),
+                            twice=False)
+        out, box = self.unread(film)
+        self.assertEqual(len(out["cn-tampere"]), 1)
+        self.assertEqual(box, {("row", "The Invite 26.10.2026: 13,00€ Osta liput Paikkoja "
+                                       "vapaana: 126/127"): 1})
+
+    def test_a_place_no_venue_claims_is_named_with_the_film(self):
+        for locations, item in (("[&quot;nokia&quot;]", "nokia"),
+                                ("[&quot;tampere&quot;,&quot;nokia&quot;]",
+                                 'data-locations ["tampere","nokia"]')):
+            with self.subTest(locations=locations):
+                film = niagara_page(located_item("23.10.2026", "10.00", 1, locations=locations)
+                                    + located_item("26.10.2026", "14.15", 2, locations=locations),
+                                    twice=False)
+                out, box = self.unread(film)
+                self.assertEqual(out, {}, "still no venue for an unclaimed place")
+                self.assertEqual(box, {("place", f"{item}: The Invite"): 2})
+
+    def test_rows_on_a_film_page_with_no_title_are_named_with_the_page(self):
+        out, box = self.unread(LOCATED_FILM.replace("<h1>The Invite</h1>", "<h1></h1>"))
+        self.assertEqual(out, {})
+        self.assertEqual(box, {("row", "movie 105 /elokuvat/105/matka-piemonteen: 2 row(s) "
+                                       "and no title"): 1})
+
+    def test_a_clean_read_names_nothing(self):
+        _, box = self.unread(niagara_page(LOCATED_ITEMS, twice=True))
+        self.assertEqual(box, {})
+
     def test_the_mobile_copy_of_a_located_item_is_the_same_show(self):
         out, _ = self.fetch(niagara_page(LOCATED_ITEMS, twice=True))
         self.assertEqual([s["url"] for s in out["cn-tampere"]],
