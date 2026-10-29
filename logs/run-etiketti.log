@@ -1,7 +1,7 @@
 [biorexkokkola] Bio Rex Kokkola: 41 showtimes, 12 dates
 [biorexkokkola] synopses merged: 0
-[kinopirtti] Kinopirtti: 95 showtimes, 21 dates
-[kinopirtti] synopses merged: 1
+[kinopirtti] Kinopirtti: 97 showtimes, 22 dates
+[kinopirtti] synopses merged: 0
 [kinotar] Kinotar 123: 50 showtimes, 21 dates
 [kinotar] synopses merged: 0
 [kinojuha] Kino Juha: 13 showtimes, 8 dates
@@ -23,6 +23,6 @@
 [kinokaustinen] synopses merged: 0
 [run] http: 0 revalidated (304), 177 full, 177 not stored (origin said no-store), 0 cache entries written
 [run] hosts: 10 attempted -- biograni.fi, biovuoksi.fi, cinemaniagara.fi, jamsankinotar.fi, k-kino.fi, kinoiiris.com, kinojuha.fi, kinokaustinen.fi, kinopirtti.fi, www.biorex.org
-[run] etiketti: 11 venues, 352 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
-[run] timing: 10 site(s), 317.9s of fetching added up across workers that overlap, longest site 66.3s, longest queue wait 47.0s, 104.0s wall from this module's first fetch starting to its last ending
+[run] etiketti: 11 venues, 354 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
+[run] timing: 10 site(s), 410.7s of fetching added up across workers that overlap, longest site 83.8s, longest queue wait 50.2s, 122.1s wall from this module's first fetch starting to its last ending
 exit=0
