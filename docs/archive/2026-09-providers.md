@@ -4456,6 +4456,11 @@ all six to cn-tampere. Two tests were added, for a single unknown place and for 
 copy of an item. Three mutations red. Research:
 [ticketing-platforms.md](../research/ticketing-platforms.md).
 
+### eTiketti names every screening it does not publish (2026-10-29)
+At the maintainer's request, every row the adapter does not publish now leaves a line in
+the run log that names its film. A `data-locations` value that names no single place is
+printed as written instead of `''`. Published rows are unchanged. Three mutations red.
+
 ### Kino-Huovi reads a card with several dated clauses (2026-10-29)
 The LAPIN SOTA card on 2026-10-29 read `1.11. SU klo 18.00 2.11. MA klo 15.00`. The parser
 checked both weekdays against the first date and dropped the card. A card that names

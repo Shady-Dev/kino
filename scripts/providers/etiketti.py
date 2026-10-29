@@ -618,12 +618,15 @@ def parse_movie(page, site, movie_url):
         # runs against that.
         theatre = _txt(place.group(1)) if place else (_place_attr(attrs) or _place_class(cls))
         room = _txt(place.group(2)) if (place and place.group(2)) else ""
+        declared = DATA_LOCATIONS_RE.search(attrs) if not theatre else None
         price = PRICE_RE.search(block)
         seats = SEATS_RE.search(block)
         book = BOOK_RE.search(block)
         tags = [_txt(t) for t in TAG_RE.findall(block)]
         out.append({
             "theatre_raw": theatre, "aud": room,
+            "unplaced": (f"data-locations {html_mod.unescape(declared.group(1))}"
+                         if declared else ""),
             "start": datetime.datetime(y, mo, d, int(tm.group(1)), int(tm.group(2)),
                                        tzinfo=FI).isoformat(),
             "price": _price(price.group(1)) if price else "",
@@ -805,7 +808,7 @@ def fetch_site(site, sleep=1.2):
 
     per_venue = {v["id"]: [] for v in site["venues"]}
     seen_shows = set()
-    unclaimed = {}        # place text -> rows, named in the log below
+    unclaimed = {}        # place text -> titles of its rows, named in the log below
     # Emptiness is confirmed only for a read with nothing unexplained: every film page
     # fetched and producing rows, every screening row taken by a registered venue. Any
     # miss clears it.
@@ -842,6 +845,9 @@ def fetch_site(site, sleep=1.2):
                   f"({meta['skipped']} block(s) without a readable time); "
                   f"no venue of this site can be called empty")
             complete = False
+        elif meta["skipped"]:
+            print(f"[{site['provider']}] movie {mid} ({meta['title']}): {meta['skipped']} "
+                  f"screening block(s) with no single date or no readable time, not published")
         for r in rows:
             # One public screening, one show, whatever the markup repeats. The ticket id
             # is the key. A row without one is keyed on the film, its start, the place
@@ -864,7 +870,7 @@ def fetch_site(site, sleep=1.2):
                 # cinema withholds every empty confirmation on the site, and the venue
                 # reads "not updated" again. It keeps its real data while it does.
                 complete = False
-                unclaimed[r["theatre_raw"]] = unclaimed.get(r["theatre_raw"], 0) + 1
+                unclaimed.setdefault(r["theatre_raw"] or r["unplaced"], []).append(meta["title"])
                 continue
             # Recorded only once a registered venue took the row, so a malformed copy
             # that matched nothing cannot suppress the valid copy that follows it.
@@ -898,7 +904,8 @@ def fetch_site(site, sleep=1.2):
     # goes on reading "not updated" and nothing says which place did it.
     if unclaimed:
         print(f"[{site['provider']}] no registered venue claims "
-              + ", ".join(f"{p!r} ({n} row(s))" for p, n in sorted(unclaimed.items()))
+              + ", ".join(f"{p!r} ({len(t)} row(s): {', '.join(dict.fromkeys(t))})"
+                          for p, t in sorted(unclaimed.items()))
               + "; no venue of this site is confirmed empty on this read")
     for k in per_venue:
         per_venue[k].sort(key=lambda s: s["start"])

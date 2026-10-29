@@ -789,7 +789,9 @@ class NiagaraLocationsTest(Stubbed):
                                     twice=False)
                 out, log = self.fetch(film)
                 self.assertEqual(out, {})
-                self.assertIn("no registered venue claims '' (2 row(s))", log)
+                declared = locations.replace("&quot;", '"')
+                self.assertIn(f"no registered venue claims 'data-locations {declared}' "
+                              f"(2 row(s): The Invite)", log)
 
     def test_an_unknown_place_places_no_row(self):
         unknown = "[&quot;nokia&quot;]"
@@ -798,7 +800,16 @@ class NiagaraLocationsTest(Stubbed):
                             twice=False)
         out, log = self.fetch(film)
         self.assertEqual(out, {})
-        self.assertIn("no registered venue claims 'nokia' (2 row(s))", log)
+        self.assertIn("no registered venue claims 'nokia' (2 row(s): The Invite)", log)
+
+    def test_an_unread_block_beside_a_read_one_is_named(self):
+        film = niagara_page(located_item("23.10.2026", "10.00", 1)
+                            + located_item("26.10.2026", "14.15", 2).replace("<span>14.15</span>", ""),
+                            twice=False)
+        out, log = self.fetch(film)
+        self.assertEqual(len(out["cn-tampere"]), 1)
+        self.assertIn("movie 105 (The Invite): 1 screening block(s) with no single date or no "
+                      "readable time, not published", log)
 
     def test_the_mobile_copy_of_a_located_item_is_the_same_show(self):
         out, _ = self.fetch(niagara_page(LOCATED_ITEMS, twice=True))
