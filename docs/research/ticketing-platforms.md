@@ -878,6 +878,17 @@ which is worse for a reader than everything else here. Worth a decision before a
 Sun Kino is blocked on the Johku key. Bio Savoy was the highest-value of the three, for a
 new autonomous region, a source that needs no date inference and Swedish-language content
 for an interface that already has a Swedish mode; it was added on 2026-09-15 in `aec9ff4d`.
+
+**New site, read 2026-10-29.** The Drupal site went down on 2026-10-21 and a rebuilt Laravel
+site went live on 2026-10-28 with a Let's Encrypt certificate issued that day. http now
+redirects to `https://www.biosavoy.ax/`. There is no API: the one script handles menus and
+tabs, the CSP allows only same-origin connections and `/api` answers 404. `/spelschema` lists
+the week as "Torsdag 29/10" headings with time, title and hall per row, without a year. Each
+`/film/{slug}` page lists "Speltid", "Åldersgräns" ("Från N år", "Tillåten för alla") and
+"Pris" in a facts list, and repeats its own screenings under `film-day-YYYY-MM-DD` panels with
+a price per row. On that day 39 schedule rows over 10 films matched the film pages' rows
+exactly, 28 at 15 € and 11 at 13 €. One unscheduled film, `hexed`, printed "Pris 13" with no
+euro sign.
 Cine Mäntsälä's source question is answered as of 2026-09-15: read `show_times/`, never the
 JSON-LD. The adapter was written the same day, `scripts/providers/cinemantsala.py`, and the
 decisions it rests on are in

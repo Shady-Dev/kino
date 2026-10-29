@@ -106,12 +106,12 @@ class RegistrySitesTest(unittest.TestCase):
 
     def test_a_site_link_is_only_a_cleartext_base_the_adapter_reads(self):
         """`site` replaces the `https://{host}/` link only for a host with no TLS (read
-        2026-10-04: biosavoy.ax refuses 443, moviecompanyalatalo.fi has no address
-        record). It must be the `http://` origin the provider's own adapter reads, which
-        CLAUDE.md allows only with a recorded probe; anything else would be a second,
-        unchecked way to send a reader to plain http."""
+        2026-10-04 and 2026-10-29: www.moviecompanyalatalo.fi refuses 443 and the bare
+        domain has no address record). It must be the `http://` origin the provider's own
+        adapter reads, which CLAUDE.md allows only with a recorded probe; anything else
+        would be a second, unchecked way to send a reader to plain http."""
         found = {p["id"]: p["site"] for p in registry.PROVIDERS if p.get("site")}
-        self.assertEqual(sorted(found), ["alatalo", "biosavoy"])
+        self.assertEqual(sorted(found), ["alatalo"])
         for pid, site in found.items():
             with self.subTest(provider=pid):
                 mod = importlib.import_module(registry.by_id(pid)["module"])

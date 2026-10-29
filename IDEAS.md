@@ -73,11 +73,12 @@ added since: the checking state "Kontrollerar visningstiderna…", the rating la
 footer credit. The contact line matters most. Unrelated work does not wait on it.
 **Next action:** a native Finland-Swedish reader over the result.
 
-### Two providers are read over plain HTTP
+### One provider is read over plain HTTP
 
-Neither host serves TLS, probed 2026-09-22 and 2026-10-04. [CLAUDE.md](CLAUDE.md) bounds a cleartext
-`base` to that case; probe in [docs/research/adapter-http.md](docs/research/adapter-http.md).
-**Next action:** re-probe when either host is next touched.
+Alatalo's host serves no TLS, probed 2026-09-22, 2026-10-04 and 2026-10-29. Bio Savoy moved to
+https on 2026-10-28 and its adapter followed. [CLAUDE.md](CLAUDE.md) bounds a cleartext `base`
+to that case; probe in [docs/research/adapter-http.md](docs/research/adapter-http.md).
+**Next action:** re-probe when Alatalo is next touched.
 
 ### Twelve sites go red when genuinely empty
 

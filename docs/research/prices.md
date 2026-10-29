@@ -94,7 +94,7 @@ raw was written to the repo.
 | Kino Manttu | `Kino Mantun liput: 11 € / 9 €` in the listing text | none, already fetched |
 | Kino Kuvakukko | a `/liput/` page | one request |
 | Bio-Kaari | a `/liput/` page, rules by film, day, length and 2D/3D | one request |
-| Bio Savoy | `Pris: 15 €`, a labelled field on each `/film/{slug}` page | one request per distinct film |
+| Bio Savoy | each screening's own row in the schedule on its `/film/{slug}` page, since 2026-10-29 | one request per distinct film |
 | Kino Kilta, Kino Laika | only behind the Kinola checkout | forbidden |
 | Cine Mäntsälä | a "Liput" content page in the app's own content API | one request per venue |
 | Julia, Kino Vaakuna | already read | — |

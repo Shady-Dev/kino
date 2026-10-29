@@ -5,7 +5,7 @@ http:// answering 301 would have its programme read over cleartext with nothing 
 against CLAUDE.md's rule never to follow an `https:` -> `http:` redirect (audit C7,
 2026-09-25). `common.NoDowngradeRedirect` refuses it and the request fails at once, not
 after the retries: asking again gets the same redirect. A plain-HTTP site the rule allows
-(Bio Savoy, Alatalo) and every upgrade are followed as before.
+(Alatalo) and every upgrade are followed as before.
 """
 import email.message
 import http.server

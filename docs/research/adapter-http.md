@@ -84,6 +84,13 @@ Re-probed 2026-10-04: TCP/443 refused on `biosavoy.ax`, `www.biosavoy.ax` and
 notice's link, `https://{host}/`, could not connect for either; the registry's `site`
 field sends those two links to the `http://www.` origin the adapter reads.
 
+Re-probed 2026-10-29: `https://www.biosavoy.ax/` answers 200 with a Let's Encrypt
+certificate for `biosavoy.ax` and `www.biosavoy.ax`, issued 2026-10-28, and both
+`http://` origins answer 301 to https. `biosavoy.py` reads https since that day and the
+registry's `site` override for it is gone. `www.moviecompanyalatalo.fi` still refuses
+TCP/443 (`curl` exit 7) and `moviecompanyalatalo.fi` still has no address (exit 6), so
+Alatalo is now the only cleartext `base`.
+
 What that exposes: an on-path attacker controls what gets committed for those venues. What
 it does not: `esc()` and `safeUrl()` stop injected text becoming script, and `safeAssetUrl`
 stops it becoming an off-origin request. The rule this fed is in

@@ -4427,3 +4427,14 @@ pairs, worst 14.5 light and 14.4 dark in the city view. Three titles carrying a 
 name are aliased. Kanneltalo will read as unverified in a stretch with no Kuutamo row,
 which the API cannot tell from a renamed strand. Seven mutations red; without the pin the
 page test fails. This closes the issue leads #13 to #16.
+
+### Bio Savoy's rebuilt site, read over https (2026-10-29)
+The old Drupal host stopped answering on 2026-10-21 and every cloud run failed. A rebuilt
+Laravel site went live on 2026-10-28 with a Let's Encrypt certificate, and from cloud run
+b47414e04 the log read "no schedule block". The site has no API. `biosavoy.py` now reads
+`/spelschema`, places each "Torsdag 29/10" heading with `common.resolve_year` and the Swedish
+weekday, and reads runtime, age limit, synopsis and each screening's price from the film
+page's own schedule, matched on date, time and hall. "Från N år" is K-N and "Tillåten för
+alla" is S. The base and every link moved to https and the registry's http `site` override
+is gone. Read 2026-10-29: 39 rows over 10 films matched the film pages exactly, 28 at 15 €
+and 11 at 13 €. 21 mutations red. Research: [ticketing-platforms.md](../research/ticketing-platforms.md).

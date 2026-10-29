@@ -1,15 +1,12 @@
-"""Bio Savoy, Mariehamn: two halls, ISO instants, and an http-only host.
+"""Bio Savoy, Mariehamn: the weekly schedule page and one page per film.
 
-The fixtures follow `biosavoy.ax` as read on 2026-09-15: one
-`block-filmer-schema-block` per hall, each headed `Filmvisningar - Sal N`, holding rows
-whose `<span class="date-display-single">` carries the full instant in its `content`
-attribute.
-
-Both halls are in the fixture because the hall comes from the block title and nothing on
-the row, so a single-block fixture would never show it being lost. The `content` attribute
-and the visible clock deliberately disagree in one row: the attribute is the one to read.
+The fixtures follow `www.biosavoy.ax` as read on 2026-10-29: `/spelschema` with one
+`schedule__day-heading` per day ("Torsdag <span>29/10</span>") and `show-row` links under
+it, and `/film/{slug}` with a facts list, a lead and body, and its own schedule of panels
+keyed by ISO date. Two halls and two days are in every fixture, and one film plays twice.
 """
 import contextlib
+import datetime
 import io
 import json
 import pathlib
@@ -22,498 +19,429 @@ import common
 import enrich_tmdb
 import synmerge
 
-BASE = "http://www.biosavoy.ax"
+BASE = "https://www.biosavoy.ax"
+TODAY = datetime.date(2026, 10, 29)
 
 
-def row(slug, title, content, shown=None):
-    shown = shown if shown is not None else content[11:16]
-    return ('<div class="views-row"><div class="views-field views-field-title">'
-            f'<span class="field-content"><a href="/film/{slug}">'
-            f'<span class="date-display-single" property="dc:date" '
-            f'datatype="xsd:dateTime" content="{content}">{shown}</span>'
-            f' - {title}</a></span></div></div>')
+def row(slug, title, clock, hall="Sal 1"):
+    chip = f'<span class="chip">{hall}</span>' if hall is not None else ""
+    return (f'<li><a class="show-row show-row--link grid items-center gap-4" '
+            f'href="/film/{slug}"><span class="show-row__time show-row__time--large">'
+            f'{clock}</span><span class="show-row__title">{title}</span>'
+            f'<span class="flex items-center gap-4">{chip}'
+            f'<span class="show-row__arrow" aria-hidden="true">\u2192</span></span></a></li>')
 
 
-def block(hall, *rows, day="tis 15/09"):
-    return (f'<section class="block block-views block-filmer-schema-block">'
-            f'<div class="block-inner clearfix">'
-            f'<h2 class="block-title">Filmvisningar - {hall}</h2>'
-            f'<div class="block-content content"><div class="view view-filmer-schema">'
-            f'<div class="view-content"><h3>{day}</h3>' + "".join(rows) +
-            '</div></div></div></div></section>')
+def day(name, dm, *rows):
+    return (f'<div><h2 class="schedule__day-heading flex items-baseline gap-3.5">{name} '
+            f'<span>{dm}</span></h2><ul class="show-list">' + "".join(rows) + '</ul></div>')
 
 
-def page(*blocks, share_row=False):
-    """The real page carries a "Dela" block with the same class as the two schedules. It
-    holds no screening, so `share_row` puts one in it: only a block whose title actually
-    reads "Filmvisningar - ..." may contribute screenings, and that has to be provable."""
-    extra = row("shared", "SHARE WIDGET", "2026-09-15T12:00:00+03:00") if share_row else ""
-    return ('<html><body><section class="block block-views block-filmer-schema-block">'
-            f'<h2 class="block-title">Dela </h2><div>share buttons{extra}</div></section>'
-            + "".join(blocks) + "</body></html>")
+def schedule(*days):
+    return ('<html><body><main><section class="schedule " data-section="schedule">'
+            '<h1 class="heading-lg">Spelschema</h1><div class="schedule__days flex flex-col">'
+            + "".join(days) + '</div></section></main>'
+            '<nav><ul><li><a class="flex items-center justify-between" href="/om-oss">'
+            'Om oss</a></li></ul></nav></body></html>')
 
 
-LISTING = page(
-    block("Sal 1",
-          row("dog-stars", "THE DOG STARS", "2026-09-15T18:00:00+03:00"),
-          row("uprising", "THE UPRISING", "2026-09-15T20:15:00+03:00")),
-    block("Sal 2",
-          # The visible clock says something else; the attribute is authoritative.
-          row("marsupilami", "MARSUPILAMI", "2026-09-15T18:15:00+03:00", shown="18.15"),
-          row("spa-weekend", "SPA WEEKEND", "2026-09-16T20:20:00+03:00")),
+LISTING = schedule(
+    day("Torsdag", "29/10",
+        row("whalefall", "WHALEFALL", "18.00", "Sal 1"),
+        row("street-fighter", "STREET FIGHTER", "18.15", "Sal 2")),
+    day("Fredag", "30/10",
+        row("lapin-sota", "LAPIN SOTA (Lapplandskriget)", "17.00", "Sal 1"),
+        row("faret-shaun", "F\u00c5RET SHAUN", "18.00", "Sal 2"),
+        row("whalefall", "WHALEFALL", "20.00", "Sal 1")),
 )
 
 
-def film_page(price="15 \u20ac", extra=None, field=True, length="2h 7min",
-              age="Till\u00e5ten fr\u00e5n 12 \u00e5r", body="Andrew Garfield spelar den "
-              "mytomspunne ledaren f\u00f6r det stora upproret."):
-    """A `/film/{slug}` page. The price is a labelled Drupal field; `extra` adds a second
-    `field-item` under it, which is what makes the page stop saying one thing."""
-    items = "".join(f'<li class="field-item even">{v}</li>'
-                    for v in ([price] if price is not None else [])
-                    + ([extra] if extra is not None else []))
-    block = ('<section class="field field-name-field-price field-type-taxonomy-term-reference '
-             'field-label-inline clearfix view-mode-full"><h2 class="field-label">Pris:&nbsp;'
-             f'</h2><ul class="field-items">{items}</ul></section>') if field else ""
-    def sect(name, value, tag="li"):
-        if value is None:
-            return ""
-        return (f'<section class="field field-name-{name} field-label-inline clearfix '
-                f'view-mode-full"><ul class="field-items">'
-                f'<{tag} class="field-item even">{value}</{tag}></ul></section>')
+def film_page(panels=(), speltid="1 h 48 min", age="Fr\u00e5n 16 \u00e5r", pris="15 \u20ac",
+              lead="DCU sl\u00e4pper sin f\u00f6rsta skr\u00e4ckfilm.",
+              body=("<p>Clayface handlar om Matt Hagen.</p>",), hero=("16", "1 h 48 min")):
+    """A `/film/{slug}` page. `panels` is [(iso date, [(clock, hall, meta)])]. The hero
+    line repeats some facts unlabelled, as the real page does, and is never the source."""
+    facts = [("Genre", "Skr\u00e4ck"), ("Speltid", speltid), ("\u00c5ldersgr\u00e4ns", age),
+             ("Salong", "Sal 2"), ("Pris", pris)]
+    dl = "".join(f'<div class="film-facts__item"><dt class="label">{k}</dt>'
+                 f'<dd class="film-facts__value">{v}</dd></div>'
+                 for k, v in facts if v is not None)
+    hero_html = "".join(f"<span>{x}</span>" for x in hero)
+    about = ((f'<p class="film-about__lead">{lead}</p>' if lead is not None else "")
+             + (f'<div class="film-about__body mt-8">{"".join(body)}</div>' if body else ""))
+    tabs = "".join(
+        f'<div class="schedule__panel" id="film-day-{d}" data-tab-panel>'
+        f'<h3 class="schedule__day-heading schedule__day-heading--small">x</h3>'
+        f'<ul class="show-list">'
+        + "".join(f'<li class="show-row grid items-center gap-4">'
+                  f'<span class="show-row__time">{c}</span><span class="min-w-0">'
+                  f'<span class="show-row__title block">{h}</span>'
+                  + (f'<span class="show-row__meta mt-1 block">{m}</span>' if m is not None
+                     else "")
+                  + '</span></li>' for c, h, m in rs)
+        + '</ul></div>' for d, rs in panels)
+    return ('<html><body><main><article class="film">'
+            f'<div class="film-hero__meta">{hero_html}</div>'
+            f'<section class="film-facts" aria-label="Fakta om filmen"><dl>{dl}</dl></section>'
+            f'<section class="film-about container-narrow">{about}</section>'
+            f'<section class="film-schedule" id="schema">{tabs}</section>'
+            '</article></main></body></html>')
 
-    return ('<html><body>'
-            # A decoy: the genre field wraps its value in `field-item` like every other,
-            # so a page-wide read picks it up instead of the field it wants.
-            + sect("field-genre", "Drama") + block
-            + sect("field-movie-length", length)
-            + sect("field-movie-age", age)
-            + sect("body", f"<p>{body}</p>" if body else None, tag="div")
-            + "</body></html>")
+
+def pages(**over):
+    out = {
+        f"{BASE}/spelschema": LISTING,
+        f"{BASE}/film/whalefall": film_page(
+            [("2026-10-29", [("18.00", "Sal 1", "15 \u20ac")]),
+             ("2026-10-30", [("20.00", "Sal 1", "15 \u20ac")])]),
+        f"{BASE}/film/street-fighter": film_page(
+            [("2026-10-29", [("18.15", "Sal 2", "15 \u20ac")])], speltid="2 h 5 min",
+            age="Fr\u00e5n 12 \u00e5r"),
+        f"{BASE}/film/lapin-sota": film_page(
+            [("2026-10-30", [("17.00", "Sal 1", "15 \u20ac")])], speltid="2 h 35 min"),
+        f"{BASE}/film/faret-shaun": film_page(
+            [("2026-10-30", [("18.00", "Sal 2", "13 \u20ac")])], speltid="1 h 20 min",
+            age="Till\u00e5ten f\u00f6r alla", pris="13 \u20ac",
+            lead="Shaun \u00e4r tillbaka.", body=("<p>Om f\u00e5ren.</p>",
+                                                     "<p>SVENSKT TAL!</p>")),
+    }
+    out.update({f"{BASE}{k}": v for k, v in over.items()})
+    return out
+
+
+class Served:
+    """Stubs `biosavoy.get` and `time.sleep` for one test."""
+
+    def __init__(self, test, served):
+        self.calls, self.slept = [], []
+
+        def get(url):
+            self.calls.append(url)
+            body = served.get(url)
+            if isinstance(body, Exception):
+                raise body
+            if body is None:
+                raise RuntimeError(f"unexpected fetch {url}")
+            return body
+        real_get, real_sleep = biosavoy.get, biosavoy.time.sleep
+        biosavoy.get, biosavoy.time.sleep = get, self.slept.append
+        test.addCleanup(lambda: setattr(biosavoy, "get", real_get))
+        test.addCleanup(lambda: setattr(biosavoy.time, "sleep", real_sleep))
+
+
+def run_site(test, **over):
+    served = Served(test, pages(**over))
+    out = io.StringIO()
+    with contextlib.redirect_stdout(out), contextlib.redirect_stderr(out):
+        data = biosavoy.fetch_site(today=TODAY)
+    return data["savoy-mariehamn"], out.getvalue(), served
 
 
 class ScheduleTest(unittest.TestCase):
     def setUp(self):
-        self.shows = biosavoy.parse(LISTING)
+        self.shows = biosavoy.parse(LISTING, TODAY)
 
-    def test_every_row_in_both_blocks_is_read(self):
-        self.assertEqual(len(self.shows), 4)
+    def test_every_row_under_every_day_is_read(self):
+        self.assertEqual(len(self.shows), 5)
         self.assertEqual(sorted({s["eventId"] for s in self.shows}),
-                         ["dog-stars", "marsupilami", "spa-weekend", "uprising"])
+                         ["faret-shaun", "lapin-sota", "street-fighter", "whalefall"])
 
-    def test_the_hall_comes_from_the_block_title(self):
-        by = {s["eventId"]: s["aud"] for s in self.shows}
-        self.assertEqual(by["dog-stars"], "Sal 1")
-        self.assertEqual(by["marsupilami"], "Sal 2")
-        self.assertEqual(sorted({s["aud"] for s in self.shows}), ["Sal 1", "Sal 2"])
+    def test_the_date_takes_its_year_from_the_weekday(self):
+        """The heading prints "29/10" with no year. Torsdag selects 2026."""
+        by = {(s["eventId"], s["start"][11:16]): s["start"] for s in self.shows}
+        self.assertEqual(by[("whalefall", "18:00")], "2026-10-29T18:00:00+02:00")
+        self.assertEqual(by[("lapin-sota", "17:00")], "2026-10-30T17:00:00+02:00")
 
-    def test_the_share_block_is_not_a_hall_even_when_it_holds_a_row(self):
-        """It carries the same block class as the two schedules and only its title tells
-        them apart, so a row inside it must not become a screening."""
-        self.assertNotIn("Dela", {s["aud"] for s in self.shows})
-        out = biosavoy.parse(page(block("Sal 1",
-                                        row("a", "A", "2026-09-15T18:00:00+03:00")),
-                                  share_row=True))
-        self.assertEqual([s["eventId"] for s in out], ["a"])
-        self.assertNotIn("SHARE WIDGET", {s["title"] for s in out})
+    def test_a_week_across_new_year_lands_in_the_next_year(self):
+        page = schedule(day("Torsdag", "31/12", row("a", "A", "18.00")),
+                        day("Fredag", "1/1", row("b", "B", "18.00")))
+        out = biosavoy.parse(page, datetime.date(2026, 12, 30))
+        self.assertEqual([s["start"][:10] for s in out], ["2026-12-31", "2027-01-01"])
 
-    def test_the_hall_is_the_name_after_the_label_not_the_whole_title(self):
-        self.assertEqual(sorted({s["aud"] for s in self.shows}), ["Sal 1", "Sal 2"])
+    def test_the_offset_follows_finnish_and_aland_summer_time(self):
+        page = schedule(day("Fredag", "23/10", row("a", "A", "18.00")),
+                        day("Fredag", "30/10", row("b", "B", "18.00")))
+        out = biosavoy.parse(page, datetime.date(2026, 10, 22))
+        self.assertEqual([s["start"][-6:] for s in out], ["+03:00", "+02:00"])
+
+    def test_the_hall_comes_from_the_chip(self):
+        by = {(s["eventId"], s["start"][11:16]): s["aud"] for s in self.shows}
+        self.assertEqual(by[("whalefall", "18:00")], "Sal 1")
+        self.assertEqual(by[("street-fighter", "18:15")], "Sal 2")
+
+    def test_a_row_without_a_chip_has_no_hall(self):
+        out = biosavoy.parse(schedule(day("Torsdag", "29/10",
+                                          row("a", "A", "18.00", hall=None),
+                                          row("b", "B", "19.00"))), TODAY)
+        self.assertEqual([s["aud"] for s in out], ["", "Sal 1"])
+
+    def test_the_title_is_the_row_title_with_its_own_case(self):
+        self.assertIn("LAPIN SOTA (Lapplandskriget)", {s["title"] for s in self.shows})
+        self.assertIn("F\u00c5RET SHAUN", {s["title"] for s in self.shows})
+
+    def test_the_destination_is_the_films_https_page(self):
         for s in self.shows:
-            self.assertNotIn("Filmvisningar", s["aud"])
+            self.assertEqual(s["url"], f"{BASE}/film/{s['eventId']}")
 
-    def test_the_instant_comes_from_the_attribute_not_the_visible_clock(self):
-        """The attribute carries the date, the clock and the offset. Nothing is inferred
-        here: no year to resolve and no timezone to assume."""
-        by = {s["eventId"]: s["start"] for s in self.shows}
-        self.assertEqual(by["dog-stars"], "2026-09-15T18:00:00+03:00")
-        self.assertEqual(by["marsupilami"], "2026-09-15T18:15:00+03:00")
-        self.assertEqual(by["spa-weekend"], "2026-09-16T20:20:00+03:00")
-
-    def test_a_row_without_an_offset_is_skipped(self):
-        """The offset is what makes the instant unambiguous. A naive datetime would have
-        to assume a zone, and this parser assumes none."""
-        out = biosavoy.parse(page(block("Sal 1",
-                                        row("a", "A", "2026-09-15T18:00:00"),
-                                        row("b", "B", "2026-09-15T19:00:00+03:00"))))
-        self.assertEqual([s["eventId"] for s in out], ["b"])
-
-    def test_an_unparseable_instant_does_not_abort_the_page(self):
-        out = biosavoy.parse(page(block("Sal 1",
-                                        row("a", "A", "not-a-date"),
-                                        row("b", "B", "2026-09-15T19:00:00+03:00"))))
-        self.assertEqual([s["eventId"] for s in out], ["b"])
-
-    def test_the_destination_is_http_because_the_host_has_no_https(self):
-        """Port 443 is refused on both biosavoy.ax and www.biosavoy.ax. The verified
-        destination is published rather than an https one the host cannot serve."""
-        for s in self.shows:
-            self.assertTrue(s["url"].startswith("http://www.biosavoy.ax/film/"), s["url"])
-            self.assertNotIn("https://", s["url"])
-
-    def test_the_title_is_the_text_after_the_dash(self):
-        self.assertIn("THE DOG STARS", {s["title"] for s in self.shows})
-        for s in self.shows:
-            self.assertNotIn(" - ", s["title"])
-            self.assertNotIn(":0", s["title"])
+    def test_the_navigation_links_are_not_rows(self):
+        self.assertNotIn("Om oss", {s["title"] for s in self.shows})
 
     def test_a_repeated_row_is_published_once(self):
-        r = row("a", "A", "2026-09-15T18:00:00+03:00")
-        self.assertEqual(len(biosavoy.parse(page(block("Sal 1", r, r)))), 1)
+        r = row("a", "A", "18.00")
+        self.assertEqual(len(biosavoy.parse(schedule(day("Torsdag", "29/10", r, r)),
+                                            TODAY)), 1)
 
     def test_the_same_minute_in_two_halls_is_two_screenings(self):
-        out = biosavoy.parse(page(
-            block("Sal 1", row("a", "A", "2026-09-15T18:00:00+03:00")),
-            block("Sal 2", row("a", "A", "2026-09-15T18:00:00+03:00"))))
-        self.assertEqual(len(out), 2)
+        out = biosavoy.parse(schedule(day("Torsdag", "29/10",
+                                          row("a", "A", "18.00", "Sal 1"),
+                                          row("a", "A", "18.00", "Sal 2"))), TODAY)
         self.assertEqual(sorted(s["aud"] for s in out), ["Sal 1", "Sal 2"])
+
+    def test_a_colon_clock_is_read_as_well_as_a_dot(self):
+        out = biosavoy.parse(schedule(day("Torsdag", "29/10", row("a", "A", "18:45"))),
+                             TODAY)
+        self.assertEqual(out[0]["start"][11:16], "18:45")
 
     def test_every_show_meets_the_contract(self):
         common.check_shows({biosavoy.VENUE["id"]: self.shows}, "biosavoy",
                            {biosavoy.VENUE["id"]})
 
 
-class EmptyAndBrokenTest(unittest.TestCase):
-    def test_blocks_with_no_row_fail_rather_than_empty_the_venue(self):
-        """No empty state is recorded for this site. Empty hall blocks are what a changed
-        row markup would also produce, so zero rows fails."""
+class BrokenScheduleTest(unittest.TestCase):
+    def test_a_page_without_the_schedule_section_fails(self):
         with self.assertRaises(RuntimeError) as cm:
-            biosavoy.parse(page(block("Sal 1"), block("Sal 2")))
+            biosavoy.parse("<html><body><p>V\u00e4lkommen</p></body></html>", TODAY)
         self.assertNotIsInstance(cm.exception, common.EmptyProgramme)
 
-    def test_film_rows_the_parser_cannot_read_fail_the_site(self):
-        """Both halls list films, every instant unreadable or its attribute renamed: a
-        template change, not a cinema with nothing on."""
-        renamed = row("marsupilami", "MARSUPILAMI", "2026-09-15T18:15:00+03:00").replace(
-            " content=", " datetime=")
+    def test_days_with_no_row_fail_rather_than_empty_the_venue(self):
         with self.assertRaises(RuntimeError) as cm:
-            biosavoy.parse(page(
-                block("Sal 1", row("dog-stars", "THE DOG STARS", "2026-09-15 18:00"),
-                      row("uprising", "THE UPRISING", "tis 15/09 20:15")),
-                block("Sal 2", renamed)))
+            biosavoy.parse(schedule(day("Torsdag", "29/10"), day("Fredag", "30/10")), TODAY)
         self.assertNotIsInstance(cm.exception, common.EmptyProgramme)
-        self.assertIn("3 film link", str(cm.exception))
 
-    def test_a_page_without_a_schedule_block_is_a_failure(self):
-        with self.assertRaises(RuntimeError) as cm:
-            biosavoy.parse("<html><body><p>Välkommen</p></body></html>")
-        self.assertNotIsInstance(cm.exception, common.EmptyProgramme)
+    def test_a_weekday_that_fits_no_year_fails_the_site(self):
+        """29/10 is a Thursday in 2026. A Monday 29/10 inside the window does not exist."""
+        with self.assertRaises(biosavoy.ShowRowError):
+            biosavoy.parse(schedule(day("M\u00e5ndag", "29/10", row("a", "A", "18.00"))),
+                           TODAY)
+
+    def test_a_heading_that_is_no_swedish_weekday_fails_the_site(self):
+        for name in ("Torstai", "Idag", ""):
+            with self.subTest(name=name), self.assertRaises(biosavoy.ShowRowError):
+                biosavoy.parse(schedule(day(name, "29/10", row("a", "A", "18.00"))), TODAY)
+
+    def test_a_row_without_a_time_or_a_title_fails_the_site(self):
+        for bad in (row("a", "A", "kv\u00e4ll"), row("a", "", "18.00")):
+            with self.subTest(row=bad[-80:]), self.assertRaises(biosavoy.ShowRowError):
+                biosavoy.parse(schedule(day("Torsdag", "29/10", bad,
+                                            row("b", "B", "19.00"))), TODAY)
 
 
 class SiteTest(unittest.TestCase):
     def test_one_venue_on_aland_keyed_under_its_official_name(self):
-        """Åland's only official language is Swedish, and `CITY_SV` in index.html cannot
-        gain an entry without editing a file this project keeps frozen. Keying the Finnish
-        exonym would show it untranslated in the Swedish interface."""
+        """Åland's only official language is Swedish. A Finnish exonym would show
+        untranslated in the Swedish interface."""
         self.assertEqual([v["city"] for v in biosavoy.SITES[0]["venues"]], ["Mariehamn"])
 
-    def test_the_base_is_http(self):
-        self.assertTrue(biosavoy.BASE.startswith("http://"))
+    def test_the_host_is_read_over_https(self):
+        """The new site went live on 2026-10-28 with a certificate and redirects http."""
+        self.assertEqual(biosavoy.BASE, "https://www.biosavoy.ax")
+        self.assertEqual(biosavoy.SITES[0]["base"], biosavoy.BASE)
 
 
-class PriceTest(unittest.TestCase):
-    """Each film states its own price in a labelled field, so there is nothing to derive.
+class AgeTest(unittest.TestCase):
+    """Every wording read on 2026-10-29 across 19 film pages, and the ones refused."""
 
-    Surveyed across all thirteen films on 2026-09-16, not sampled: every one carried the
-    field with a single amount, 15 € but 13 € for the two children's films. That says the
-    field exists and is single-valued today, not that it always will be, so anything short
-    of one readable amount publishes nothing.
-    """
+    def rating(self, age):
+        return biosavoy.film_facts(film_page(age=age))["rating"]
 
-    def test_the_labelled_field_is_what_is_read(self):
-        self.assertEqual(biosavoy.film_price(film_page("15 \u20ac")), "15\u20ac")
-        self.assertEqual(biosavoy.film_price(film_page("13 \u20ac")), "13\u20ac")
+    def test_from_n_years_is_k_n(self):
+        for text, want in (("Fr\u00e5n 7 \u00e5r", "K-7"), ("Fr\u00e5n 12 \u00e5r", "K-12"),
+                           ("Fr\u00e5n 16 \u00e5r", "K-16"), ("Fr\u00e5n 18 \u00e5r", "K-18"),
+                           ("Till\u00e5ten fr\u00e5n 12 \u00e5r", "K-12"),
+                           ("fr\u00e5n 16 \u00e5r", "K-16")):
+            with self.subTest(text=text):
+                self.assertEqual(self.rating(text), want)
 
-    def test_a_page_with_no_price_field_publishes_nothing(self):
-        self.assertEqual(biosavoy.film_price(film_page(field=False)), "")
+    def test_allowed_for_all_is_s(self):
+        self.assertEqual(self.rating("Till\u00e5ten f\u00f6r alla"), "S")
 
-    def test_a_field_with_no_readable_amount_publishes_nothing(self):
-        self.assertEqual(biosavoy.film_price(film_page("fri entré")), "")
+    def test_any_other_wording_publishes_nothing(self):
+        for text in ("Rekommenderas fr\u00e5n 7 \u00e5r", "16", "\u00c5ldersgr\u00e4ns 12",
+                     "Fr\u00e5n 12 \u00e5r i vuxens s\u00e4llskap", "Barntill\u00e5ten", "",
+                     None):
+            with self.subTest(text=text):
+                self.assertEqual(self.rating(text), "")
 
-    def test_two_different_amounts_publish_neither(self):
-        """The page has stopped saying one thing, and picking either publishes the doubt."""
-        self.assertEqual(biosavoy.film_price(film_page("15 \u20ac", extra="13 \u20ac")), "")
-
-    def test_the_same_amount_twice_is_not_two_things(self):
-        self.assertEqual(biosavoy.film_price(film_page("15 \u20ac", extra="15 \u20ac")),
-                         "15\u20ac")
-
-    def test_another_field_on_the_page_is_not_the_price(self):
-        """`field-name-field-genre` and `-speltid` carry `field-item` too, so the block is
-        bounded to the price section rather than searched page-wide."""
-        page = film_page(field=False).replace("Drama", "12 \u20ac")
-        self.assertEqual(biosavoy.film_price(page), "")
-
-    def test_the_cents_are_dropped_only_when_they_are_zero(self):
-        self.assertEqual(biosavoy.film_price(film_page("15,00 \u20ac")), "15\u20ac")
-        self.assertEqual(biosavoy.film_price(film_page("13,50 \u20ac")), "13.5\u20ac")
+    def test_the_unlabelled_hero_number_is_never_the_rating(self):
+        page = film_page(age=None, hero=("16", "1 h 48 min"))
+        self.assertEqual(biosavoy.film_facts(page)["rating"], "")
 
 
-class PriceThroughFetchTest(unittest.TestCase):
-    """One request per distinct film, paced, and a failure costing that film alone."""
+class RuntimeTest(unittest.TestCase):
+    def length(self, speltid):
+        return biosavoy.film_facts(film_page(speltid=speltid))["len"]
 
-    def serve(self, pages):
-        self.calls = []
+    def test_hours_and_minutes_become_minutes(self):
+        for text, want in (("1 h 48 min", "108"), ("2 h 5 min", "125"), ("1 h 2 min", "62"),
+                           ("2h 35min", "155")):
+            with self.subTest(text=text):
+                self.assertEqual(self.length(text), want)
 
-        def get(url):
-            self.calls.append(url)
-            body = pages.get(url)
-            if isinstance(body, Exception):
-                raise body
-            if body is None:
-                raise RuntimeError(f"unexpected fetch {url}")
-            return body
-        self.slept = []
-        real_get, real_sleep = biosavoy.get, biosavoy.time.sleep
-        biosavoy.get = get
-        biosavoy.time.sleep = self.slept.append
-        self.addCleanup(lambda: setattr(biosavoy, "get", real_get))
-        self.addCleanup(lambda: setattr(biosavoy.time, "sleep", real_sleep))
-
-    # One film with two screenings, so "once per distinct film" is not the same number as
-    # "once per screening". LISTING has four rows and four films; this has five and four.
-    LISTING_REPEAT = page(
-        block("Sal 1",
-              row("dog-stars", "THE DOG STARS", "2026-09-15T18:00:00+03:00"),
-              row("uprising", "THE UPRISING", "2026-09-15T20:15:00+03:00")),
-        block("Sal 2",
-              row("marsupilami", "MARSUPILAMI", "2026-09-15T18:15:00+03:00"),
-              row("spa-weekend", "SPA WEEKEND", "2026-09-16T20:20:00+03:00"),
-              row("marsupilami", "MARSUPILAMI", "2026-09-17T16:00:00+03:00")),
-    )
-
-    def run_site(self, **over):
-        pages = {f"{BASE}/": self.LISTING_REPEAT,
-                 f"{BASE}/film/dog-stars": film_page("15 \u20ac"),
-                 f"{BASE}/film/uprising": film_page("15 \u20ac"),
-                 f"{BASE}/film/marsupilami": film_page("13 \u20ac"),
-                 f"{BASE}/film/spa-weekend": film_page("15 \u20ac")}
-        pages.update(over)
-        self.serve(pages)
-        out, err = io.StringIO(), io.StringIO()
-        with contextlib.redirect_stdout(out), contextlib.redirect_stderr(err):
-            data = biosavoy.fetch_site()
-        return data["savoy-mariehamn"], out.getvalue() + err.getvalue()
-
-    def test_one_request_per_distinct_film_and_none_repeated(self):
-        """Five screenings over four films, so reading per screening is one request more
-        and asks a cinema twice for a page it already answered."""
-        shows, log = self.run_site()
-        films = [c for c in self.calls if "/film/" in c]
-        self.assertEqual(len(shows), 5)
-        self.assertEqual(len({s["eventId"] for s in shows}), 4)
-        self.assertEqual(sorted(films), sorted(set(films)), "a film page was read twice")
-        self.assertEqual(len(films), 4)
-        self.assertEqual(self.calls[0], f"{BASE}/")
-
-    def test_the_film_pages_are_paced_one_sleep_apart(self):
-        """What a cinema's server experiences between two of its pages. Four films, so
-        three waits: the first page is not made to wait for nothing."""
-        self.run_site()
-        self.assertEqual(len([c for c in self.calls if "/film/" in c]), 4)
-        self.assertEqual(len(self.slept), 3)
-        self.assertTrue(all(s > 0 for s in self.slept), self.slept)
-
-    def test_every_screening_carries_its_own_films_price(self):
-        shows, log = self.run_site()
-        got = {s["title"]: s["price"] for s in shows}
-        self.assertEqual(got["MARSUPILAMI"], "13\u20ac")
-        self.assertEqual(got["THE DOG STARS"], "15\u20ac")
-        self.assertIn("5 priced", log)
-        common.check_shows({"savoy-mariehamn": shows}, "biosavoy", {"savoy-mariehamn"})
-
-    def test_a_film_page_that_refuses_costs_that_film_and_not_the_schedule(self):
-        """The schedule is already parsed by the time the pages are read. A cinema's whole
-        programme must not go stale because one film page 500s."""
-        shows, log = self.run_site(**{
-            f"{BASE}/film/marsupilami": RuntimeError("HTTP Error 500")})
-        got = {s["title"]: s["price"] for s in shows}
-        self.assertEqual(got["MARSUPILAMI"], "")
-        self.assertEqual(got["THE DOG STARS"], "15\u20ac")
-        self.assertEqual(len(shows), 5)
-        self.assertIn("film page marsupilami", log)
-
-    def test_a_film_whose_page_says_nothing_publishes_nothing(self):
-        shows, _ = self.run_site(**{f"{BASE}/film/uprising": film_page(field=False)})
-        got = {s["title"]: s["price"] for s in shows}
-        self.assertEqual(got["THE UPRISING"], "")
-        self.assertEqual(got["THE DOG STARS"], "15\u20ac")
-
-    def test_the_film_pages_are_bounded_by_the_shared_budget(self):
-        """`capped`, not `budget_or_raise`: these pages carry no showtime, so a film past
-        the cap loses its price and keeps its screenings."""
-        saved = common.PAGE_BUDGET
-        common.PAGE_BUDGET = 2
-        self.addCleanup(lambda: setattr(common, "PAGE_BUDGET", saved))
-        shows, log = self.run_site()
-        self.assertEqual(len([c for c in self.calls if "/film/" in c]), 2)
-        self.assertEqual(len(shows), 5, "the schedule is untouched by the cap")
-        self.assertIn("page budget", log)
-        # The two films the cap reached, in slug order: dog-stars once and marsupilami
-        # twice. The two it did not keep their screenings and lose only the amount.
-        self.assertEqual(sum(1 for s in shows if s["price"]), 3)
-        self.assertEqual({s["title"] for s in shows if not s["price"]},
-                         {"SPA WEEKEND", "THE UPRISING"})
+    def test_a_placeholder_or_partial_value_publishes_nothing(self):
+        for text in ("XX h 00 min", "ca 2 h", "108 min", "1 h 48 min / 2 h 10 min",
+                     "ca 1 h 48 min", "", None):
+            with self.subTest(text=text):
+                self.assertEqual(self.length(text), "")
 
 
-class FilmFactsTest(unittest.TestCase):
-    """The runtime, the age limit and the Swedish synopsis, off the page fetched anyway."""
+class ScreeningPriceTest(unittest.TestCase):
+    """The price is the screening's own, from the film page's schedule row."""
 
+    def prices(self, *rows, date="2026-10-29"):
+        return biosavoy.screening_prices(film_page([(date, list(rows))]))
+
+    def test_each_row_states_its_screenings_price(self):
+        got = biosavoy.screening_prices(film_page(
+            [("2026-10-31", [("14.00", "Sal 1", "13 \u20ac")]),
+             ("2026-11-01", [("13.30", "Sal 1", "13 \u20ac"), ("20.15", "Sal 2", "15 \u20ac")])]))
+        self.assertEqual(got, {("2026-10-31", "14:00", "Sal 1"): "13\u20ac",
+                               ("2026-11-01", "13:30", "Sal 1"): "13\u20ac",
+                               ("2026-11-01", "20:15", "Sal 2"): "15\u20ac"})
+
+    def test_cents_are_kept_unless_they_are_zero(self):
+        self.assertEqual(self.prices(("18.00", "Sal 1", "15,00 \u20ac")),
+                         {("2026-10-29", "18:00", "Sal 1"): "15\u20ac"})
+        self.assertEqual(self.prices(("18.00", "Sal 1", "13,50 \u20ac")),
+                         {("2026-10-29", "18:00", "Sal 1"): "13.5\u20ac"})
+
+    def test_anything_but_one_amount_publishes_nothing(self):
+        """`hexed` printed a bare "13" in its facts on 2026-10-29. Without the euro sign the
+        value is not stated as a price, and an unlabelled screening row says even less."""
+        for meta in ("13", "15 \u20ac / 13 \u20ac", "Sluts\u00e5ld", "fr\u00e5n 13 \u20ac",
+                     "", None):
+            with self.subTest(meta=meta):
+                self.assertEqual(self.prices(("18.00", "Sal 1", meta)),
+                                 {("2026-10-29", "18:00", "Sal 1"): ""})
+
+    def test_two_rows_for_one_screening_that_disagree_publish_neither(self):
+        self.assertEqual(self.prices(("18.00", "Sal 1", "15 \u20ac"), ("18.00", "Sal 1", "13 \u20ac")),
+                         {("2026-10-29", "18:00", "Sal 1"): ""})
+        self.assertEqual(self.prices(("18.00", "Sal 1", "15 \u20ac"), ("18.00", "Sal 1", "15 \u20ac")),
+                         {("2026-10-29", "18:00", "Sal 1"): "15\u20ac"})
+
+    def test_the_film_level_price_is_not_read(self):
+        """The facts list's "Pris" says nothing about a particular screening."""
+        self.assertEqual(biosavoy.screening_prices(film_page([], pris="15 \u20ac")), {})
+
+
+class SynopsisTest(unittest.TestCase):
     def facts(self, **kw):
         return biosavoy.film_facts(film_page(**kw))
 
-    def test_the_runtime_becomes_minutes(self):
-        self.assertEqual(self.facts(length="2h 7min")["len"], "127")
-        self.assertEqual(self.facts(length="01h 58min")["len"], "118")
-        self.assertEqual(self.facts(length="1h 30min")["len"], "90")
+    def test_the_lead_and_the_body_make_the_synopsis(self):
+        self.assertEqual(self.facts()["syn"],
+                         "DCU sl\u00e4pper sin f\u00f6rsta skr\u00e4ckfilm. "
+                         "Clayface handlar om Matt Hagen.")
 
-    def test_a_placeholder_runtime_publishes_nothing(self):
-        """`one-night-only` published `XXh 00min` on 2026-09-16: the cinema had not filled
-        it in. A card reading 0 min states a fact that is not one."""
-        self.assertEqual(self.facts(length="XXh 00min")["len"], "")
+    def test_a_page_with_only_a_lead_has_that_as_its_synopsis(self):
+        self.assertEqual(self.facts(body=())["syn"], "DCU sl\u00e4pper sin f\u00f6rsta skr\u00e4ckfilm.")
 
-    def test_a_missing_runtime_field_publishes_nothing(self):
-        self.assertEqual(self.facts(length=None)["len"], "")
+    def test_a_page_with_neither_has_none(self):
+        self.assertEqual(self.facts(lead=None, body=())["syn"], "")
 
-    def test_the_age_limit_is_read_from_the_cinemas_own_wording(self):
-        for text, want in (("Till\u00e5ten fr\u00e5n 7 \u00e5r", "K-7"),
-                           ("Till\u00e5ten fr\u00e5n 12 \u00e5r", "K-12"),
-                           ("Till\u00e5ten fr\u00e5n 16 \u00e5r", "K-16")):
-            with self.subTest(text=text):
-                self.assertEqual(self.facts(age=text)["rating"], want)
+    def test_svenskt_tal_is_the_language_and_leaves_the_synopsis(self):
+        f = self.facts(body=("<p>Om Pikkuli.</p>", "<p>SVENSKT TAL!</p>"))
+        self.assertEqual((f["syn"], f["lang"]),
+                         ("DCU sl\u00e4pper sin f\u00f6rsta skr\u00e4ckfilm. Om Pikkuli.", "SV-A"))
 
-    def test_any_other_age_wording_publishes_nothing_rather_than_a_guess(self):
-        """The rule tmb.py already follows for its age images: a classification inferred
-        from a shape is worse than none, and the shared pass can still fill a blank."""
-        for text in ("Barntillåten", "Till\u00e5ten f\u00f6r alla", "", None,
-                     # A bare number, and a label without the statement: the wording is
-                     # what says this is an age limit, and a digit on its own does not.
-                     "12", "\u00c5ldersgr\u00e4ns 12",
-                     # Defensive: not a wording this site uses, and the one that would cost
-                     # most if `från N` alone were the rule. A recommendation is not a limit.
-                     "Rekommenderas fr\u00e5n 7 \u00e5r"):
-            with self.subTest(text=text):
-                self.assertEqual(self.facts(age=text)["rating"], "")
-
-    def test_the_synopsis_is_the_body_field_and_not_another_one(self):
-        f = self.facts(body="En mening p\u00e5 svenska om filmen.")
-        self.assertEqual(f["syn"], "En mening p\u00e5 svenska om filmen.")
-        self.assertNotIn("Drama", f["syn"])
-
-    def test_a_page_with_no_body_publishes_no_synopsis(self):
-        self.assertEqual(self.facts(body=None)["syn"], "")
-
-    def test_svenskt_tal_is_the_spoken_language(self):
-        """Marsupilami and Gr\u00e5ben vs ACME, read 2026-10-04: a body paragraph of its
-        own. The words inside a sentence state nothing."""
-        self.assertEqual(self.facts(body="Om Marsupilami.</p>\n<p>SVENSKT TAL!</p>\n"
-                                         "<p>PREMI\u00c4R 21.8 2026")["lang"], "SV-A")
-        self.assertEqual(self.facts(body="Filmen visas med svenskt tal och text.")["lang"], "")
-        self.assertEqual(self.facts()["lang"], "")
-
-    def test_the_body_ends_where_the_genre_field_begins(self):
-        """The page's own order, read on /film/digger 2026-10-04: the body is a `<div>`
-        and the genre section follows it. Its items ended 15 Swedish synopses."""
-        body = ('<div class="field field-name-body field-type-text-with-summary '
-                'field-label-hidden view-mode-full"><div class="field-items">'
-                '<div class="field-item even" property="content:encoded">'
-                '<p>Digger är en svart katastrofkomedi.</p>\n'
-                '<p>PREMIÄR:<br />\n2.10 2026</p>\n</div></div></div>')
-        genre = ('<section class="field field-name-field-movie-genre field-label-inline '
-                 'clearfix view-mode-full"><h2 class="field-label">Genre:&nbsp;</h2>'
-                 '<ul class="field-items"><li class="field-item even">Drama</li>'
-                 '<li class="field-item odd">Komedi</li></ul></section>')
-        f = biosavoy.film_facts("<html><body>" + body + genre
-                                + film_page(body=None)[len("<html><body>"):])
-        self.assertEqual(f["syn"], "Digger är en svart katastrofkomedi.")
-        self.assertEqual((f["len"], f["rating"], f["price"]), ("127", "K-12", "15€"))
-
-    def test_the_screening_paragraphs_leave_the_synopsis(self):
-        """Marsupilami and Digger, read 2026-10-04. Only a whole paragraph goes: the words
-        inside a sentence are the film's."""
-        f = self.facts(body="Om Marsupilami.</p>\n<p>SVENSKT TAL!</p>\n<p>PREMI\u00c4R 21.8 2026<br />\n ")
-        self.assertEqual((f["syn"], f["lang"]), ("Om Marsupilami.", "SV-A"))
-        f = self.facts(body="Om Digger.</p>\n<p>PREMI\u00c4R:<br />\n2.10 2026")
+    def test_a_local_premiere_paragraph_leaves_the_synopsis(self):
+        f = self.facts(lead=None, body=("<p>Om Digger.</p>", "<p>PREMI\u00c4R:<br>2.10 2026</p>"))
         self.assertEqual(f["syn"], "Om Digger.")
-        for kept in ("Filmen hade premi\u00e4r 2.10 2026 i Cannes.",
-                     "Svenskt tal och finsk text p\u00e5 alla visningar.",
-                     "Svenskt tal! Filmen dubbades i Stockholm.",
-                     "Premi\u00e4r 2.10 2026 i hela Norden."):
+
+    def test_the_words_inside_a_sentence_stay(self):
+        for kept in ("Svenskt tal och finsk text p\u00e5 alla visningar.",
+                     "Filmen hade premi\u00e4r 2.10 2026 i Cannes.",
+                     "Mellan 1986-1988 - Faith-eran - inleder filmen."):
             with self.subTest(kept=kept):
-                self.assertEqual(self.facts(body=kept)["syn"], kept)
+                f = self.facts(lead=None, body=(f"<p>{kept}</p>",))
+                self.assertEqual((f["syn"], f["lang"]), (kept, ""))
 
-    def test_each_field_is_read_from_its_own_section(self):
-        """Every Drupal field wraps its value in `field-item`, so a page-wide read of any
-        one of them finds whichever field happens to come first."""
-        f = self.facts(length="2h 7min", age="Till\u00e5ten fr\u00e5n 16 \u00e5r")
-        self.assertEqual((f["len"], f["rating"], f["price"]), ("127", "K-16", "15\u20ac"))
+    def test_markup_and_entities_are_flattened(self):
+        f = self.facts(lead=None, body=("<p>En <em>ny</em> film&nbsp;om <a href=\"/x\">Laban</a>"
+                                        "<br>och&amp;sp\u00f6ken.</p>",))
+        self.assertEqual(f["syn"], "En ny film om Laban och&sp\u00f6ken.")
 
 
-class SwedishSynopsisTest(unittest.TestCase):
-    """Åland's only official language is Swedish, and the slot is shared across chains."""
+class FetchTest(unittest.TestCase):
+    def test_one_request_per_distinct_film_after_the_schedule(self):
+        shows, log, served = run_site(self)
+        films = [c for c in served.calls if "/film/" in c]
+        self.assertEqual(served.calls[0], f"{BASE}/spelschema")
+        self.assertEqual(len(shows), 5)
+        self.assertEqual(sorted(films), sorted(set(films)))
+        self.assertEqual(len(films), 4)
 
-    def run_site(self, **over):
-        pages = {f"{BASE}/": PriceThroughFetchTest.LISTING_REPEAT,
-                 f"{BASE}/film/dog-stars": film_page(body="Om h\u00f6sten och hundarna."),
-                 f"{BASE}/film/uprising": film_page(body="Om upproret."),
-                 f"{BASE}/film/marsupilami": film_page(body=None),
-                 f"{BASE}/film/spa-weekend": film_page(body="Om en spahelg.")}
-        pages.update(over)
-        calls = []
+    def test_the_film_pages_are_paced(self):
+        _, _, served = run_site(self)
+        self.assertEqual(len(served.slept), 3)
+        self.assertTrue(all(s > 0 for s in served.slept))
 
-        def get(url):
-            calls.append(url)
-            body = pages.get(url)
-            if isinstance(body, Exception):
-                raise body
-            if body is None:
-                raise RuntimeError(f"unexpected fetch {url}")
-            return body
-        real_get, real_sleep = biosavoy.get, biosavoy.time.sleep
-        biosavoy.get, biosavoy.time.sleep = get, lambda s: None
-        self.addCleanup(lambda: setattr(biosavoy, "get", real_get))
-        self.addCleanup(lambda: setattr(biosavoy.time, "sleep", real_sleep))
-        out, err = io.StringIO(), io.StringIO()
-        with contextlib.redirect_stdout(out), contextlib.redirect_stderr(err):
-            data = biosavoy.fetch_site()
-        return data["savoy-mariehamn"], out.getvalue() + err.getvalue()
+    def test_every_screening_carries_its_own_price(self):
+        shows, log, _ = run_site(self)
+        got = {(s["eventId"], s["start"][:16]): s["price"] for s in shows}
+        self.assertEqual(got[("faret-shaun", "2026-10-30T18:00")], "13\u20ac")
+        self.assertEqual(got[("whalefall", "2026-10-30T20:00")], "15\u20ac")
+        self.assertIn("5 priced", log)
 
-    def test_the_synopsis_is_published_declared_as_swedish(self):
-        """A bare string would be filed as Finnish by synmerge and served as Finnish to
-        every chain showing the same film."""
-        shows, log = self.run_site()
-        syn = {s["title"]: s.get("_syn") for s in shows}
-        self.assertEqual(syn["THE DOG STARS"], {"sv": "Om h\u00f6sten och hundarna."})
-        self.assertIn("Swedish synopsis", log)
+    def test_a_screening_the_film_page_does_not_list_has_no_price(self):
+        shows, _, _ = run_site(self, **{"/film/whalefall": film_page(
+            [("2026-10-29", [("18.00", "Sal 1", "15 \u20ac")])])})
+        got = {s["start"][:16]: s["price"] for s in shows if s["eventId"] == "whalefall"}
+        self.assertEqual(got, {"2026-10-29T18:00": "15\u20ac", "2026-10-30T20:00": ""})
 
-    def test_the_spoken_language_reaches_that_films_screenings_only(self):
-        shows, _ = self.run_site(**{f"{BASE}/film/marsupilami": film_page(
-            body="Om Marsupilami.</p><p>SVENSKT TAL!")})
-        got = {s["title"]: s["lang"] for s in shows}
-        self.assertEqual(got["MARSUPILAMI"], "SV-A")
-        self.assertEqual({v for k, v in got.items() if k != "MARSUPILAMI"}, {""})
+    def test_a_film_page_listing_another_hall_gives_no_price(self):
+        shows, _, _ = run_site(self, **{"/film/street-fighter": film_page(
+            [("2026-10-29", [("18.15", "Sal 1", "15 \u20ac")])])})
+        sf = next(s for s in shows if s["eventId"] == "street-fighter")
+        self.assertEqual(sf["price"], "")
 
-    def test_the_runtime_and_the_age_limit_reach_every_screening(self):
-        """Not only the price: the same page carries both, and both are per film, so every
-        screening of a film gets the same pair."""
-        shows, log = self.run_site()
+    def test_a_film_page_that_fails_costs_that_film_and_not_the_schedule(self):
+        shows, log, _ = run_site(self, **{"/film/lapin-sota": RuntimeError("HTTP Error 500")})
+        ls = next(s for s in shows if s["eventId"] == "lapin-sota")
+        self.assertEqual((ls["price"], ls["len"], ls["rating"]), ("", "", ""))
+        self.assertNotIn("_syn", ls)
+        self.assertEqual(len(shows), 5)
+        self.assertIn("film page lapin-sota", log)
+
+    def test_the_facts_reach_every_screening_of_their_film_only(self):
+        shows, _, _ = run_site(self)
         got = {}
         for s in shows:
-            got.setdefault(s["title"], set()).add((s["len"], s["rating"]))
-        for title, pairs in got.items():
-            with self.subTest(title=title):
-                self.assertEqual(pairs, {("127", "K-12")})
-        self.assertIn("timed", log)
-        self.assertIn("rated", log)
+            got.setdefault(s["eventId"], set()).add((s["len"], s["rating"], s["lang"]))
+        self.assertEqual(got, {"whalefall": {("108", "K-16", "")},
+                               "street-fighter": {("125", "K-12", "")},
+                               "lapin-sota": {("155", "K-16", "")},
+                               "faret-shaun": {("80", "S", "SV-A")}})
 
-    def test_a_film_with_no_body_carries_no_synopsis_key_at_all(self):
-        shows, _ = self.run_site()
-        marsu = next(s for s in shows if s["title"] == "MARSUPILAMI")
-        self.assertNotIn("_syn", marsu)
+    def test_the_film_pages_are_bounded_by_the_shared_budget(self):
+        saved = common.PAGE_BUDGET
+        common.PAGE_BUDGET = 2
+        self.addCleanup(lambda: setattr(common, "PAGE_BUDGET", saved))
+        shows, log, served = run_site(self)
+        self.assertEqual(len([c for c in served.calls if "/film/" in c]), 2)
+        self.assertEqual(len(shows), 5)
+        self.assertIn("page budget", log)
+        self.assertEqual({s["eventId"] for s in shows if not s["price"]},
+                         {"street-fighter", "whalefall"})
 
-    def test_what_synmerge_does_with_it_lands_in_the_swedish_slot(self):
-        """The end of the path, through the real helper rather than a restatement."""
-        shows, _ = self.run_site()
+    def test_the_synopsis_is_declared_swedish(self):
+        shows, log, _ = run_site(self)
+        shaun = next(s for s in shows if s["eventId"] == "faret-shaun")
+        self.assertEqual(shaun["_syn"], {"sv": "Shaun \u00e4r tillbaka. Om f\u00e5ren."})
+        self.assertIn("5 with a Swedish synopsis", log)
+
+    def test_synmerge_files_it_in_the_swedish_slot(self):
+        shows, _, _ = run_site(self)
         tmp = tempfile.TemporaryDirectory()
         self.addCleanup(tmp.cleanup)
         out = pathlib.Path(tmp.name)
@@ -522,41 +450,27 @@ class SwedishSynopsisTest(unittest.TestCase):
         with contextlib.redirect_stdout(io.StringIO()):
             synmerge.merge(out, {"savoy-mariehamn": shows}, "biosavoy", 0)
         films = json.loads((out / "films-extra.json").read_text())["films"]
-        entry = films[synmerge.norm("THE DOG STARS")]["s"]
-        self.assertEqual(entry["sv"], "Om h\u00f6sten och hundarna.")
-        self.assertEqual(entry["fi"], "")
+        entry = films[synmerge.norm("F\u00c5RET SHAUN")]["s"]
+        self.assertEqual((entry["sv"], entry["fi"]), ("Shaun \u00e4r tillbaka. Om f\u00e5ren.", ""))
 
-    def test_every_show_still_meets_the_contract_with_the_helper_stripped(self):
-        shows, _ = self.run_site()
+    def test_every_show_meets_the_contract_with_the_helper_stripped(self):
+        shows, _, _ = run_site(self)
         synmerge.strip_helpers(shows)
         common.check_shows({"savoy-mariehamn": shows}, "biosavoy", {"savoy-mariehamn"})
 
 
 class RatingPrecedenceTest(unittest.TestCase):
-    """The cinema's own age limit outranks the shared classification pass.
+    """The cinema's own age limit outranks the shared classification pass."""
 
-    That pass fills a blank rating from another chain showing the same film. Bio Savoy now
-    states its own, and a borrowed one must not replace it -- the two disagree in the normal
-    case, because one is the Åland cinema's and the other is whatever chain matched first.
-    """
-
-    TABLE = {7: {"rating": "K-16", "runtimes": {127}}}
+    TABLE = {7: {"rating": "K-16", "runtimes": {108}}}
 
     def test_a_rating_the_cinema_published_is_never_replaced(self):
-        show = {"rating": "K-12", "tmdbId": 7, "len": "127"}
-        self.assertIsNone(enrich_tmdb.borrowed_rating(show, self.TABLE))
+        self.assertIsNone(enrich_tmdb.borrowed_rating(
+            {"rating": "S", "tmdbId": 7, "len": "108"}, self.TABLE))
 
     def test_a_blank_rating_may_still_be_filled(self):
-        show = {"rating": "", "tmdbId": 7, "len": "127"}
-        self.assertEqual(enrich_tmdb.borrowed_rating(show, self.TABLE), "K-16")
-
-    def test_bio_savoy_now_publishes_one_so_the_pass_has_nothing_to_do(self):
-        shows = [dict(s) for s in biosavoy.parse(LISTING)]
-        for s in shows:
-            s["rating"] = "K-12"
-            with self.subTest(title=s["title"]):
-                self.assertIsNone(enrich_tmdb.borrowed_rating({**s, "tmdbId": 7},
-                                                              self.TABLE))
+        self.assertEqual(enrich_tmdb.borrowed_rating(
+            {"rating": "", "tmdbId": 7, "len": "108"}, self.TABLE), "K-16")
 
 
 if __name__ == "__main__":

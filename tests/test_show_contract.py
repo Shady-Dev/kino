@@ -238,9 +238,9 @@ def sample_tmb():
 
 
 def sample_biosavoy():
-    """No `today`: this source publishes a full instant per row."""
+    """`today` pinned: the schedule prints day and month only."""
     site = BS.biosavoy.SITES[0]
-    return (mod("biosavoy").parse(BS.LISTING), site["provider"],
+    return (mod("biosavoy").parse(BS.LISTING, BS.TODAY), site["provider"],
             [v["id"] for v in site["venues"]])
 
 
