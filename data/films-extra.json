@@ -3949,6 +3949,7 @@
     "biorexkokkola",
     "biosade",
     "biosalo",
+    "biosavoy",
     "biostara",
     "cine",
     "cinemantsala",
@@ -5845,6 +5846,7 @@
     "biorexkokkola",
     "biosade",
     "biosalo",
+    "biosavoy",
     "biostara",
     "cinemantsala",
     "engel",
@@ -5919,6 +5921,7 @@
     "biorexkokkola",
     "biosade",
     "biosalo",
+    "biosavoy",
     "biostara",
     "cinemantsala",
     "engel",
@@ -5995,6 +5998,7 @@
     "biorexkokkola",
     "biosade",
     "biosalo",
+    "biosavoy",
     "biostara",
     "cinemantsala",
     "engel",
@@ -7564,6 +7568,20 @@
     "fi": "Derya on Ankaran suurimman teatterin tähti: hän näyttelee pääosaa puolisonsa Azizin ohjaamassa näytelmässä. Uutuus on menestys. Vapauden tuulet puhaltavat, levottomuudet vyöryvät myös yliopistolle. Elämä alkaa hajota käsiin. Irtisanomisia merkitseviä keltaisia kirjeitä satelee kaikille. Aziz heitetään ulos yliopistosta epämääräisillä perusteilla. Näytelmän esitykset perutaan. KELTAISET KIRJEET on monitasoinen kuvaus elämästä ja perhesuhteista autoritäärisen yhteiskunnan puristuksissa. Mestarillisen Opettajainhuoneen ohjaaja Ilker Catak ei ole Turkin vallanpitäjien suosiossa, joten Berliini ja Hampuri saavat esittää tarinassa Ankaraa ja Istanbulia. Vaikutelma on vakuuttava. Keltaiset kirjeet voitti Berliinin elokuvajuhlien pääpalkinnon Kultaisen karhun."
    },
    "tr": ""
+  },
+  "sense and sensibility": {
+   "id": 1503762,
+   "img": "data/posters/056008305739a764.jpg",
+   "r": 7.4,
+   "s": {
+    "en": "",
+    "fi": "Isänsä kuoleman jälkeen sisarukset Elinor ja Marianne Dashwood joutuvat jättämään kotinsa ja aloittamaan uuden elämän maaseudulla. He navigoivat seurapiirien tiukkojen odotusten keskellä ja joutuvat samalla vastakkain rakkauden, sydänsurujen ja yhteiskunnallisten normien kanssa. Järjen ja tunteen välillä tasapainoilevat sisarukset etsivät kumpikin omaa tietään rakkauteen ja itsenäisyyteen.",
+    "sv": "Jane Austens roman få nytt liv i detta romantiska drama. En ny tolkning av Jane Austens ikoniska roman; en charmig, kvick och djupt relaterbar berättelse om kärlek och systerskap."
+   },
+   "tr": "https://www.youtube.com/watch?v=OFLyW0lxFU0",
+   "ts": [
+    "fi"
+   ]
   },
   "sentimental value": {
    "id": 1124566,
@@ -9700,6 +9718,20 @@
     "fi": "Ensimmäisenä hip hop -leffana pidetty puolidokumentaarinen Wild Style on riippumattoman elokuvan muotokieltä raa'alla DIY-estetiikallaan ja tekotavallaan muokannut värikäs musaleffojen kultakimpale! Alkukasarin ruohonjuuritason New York on taltioitu elokuvaan aikana, jolloin hip hop ei ollut vielä räjähtänyt koko maailman tietoisuuteen, vaan sykki vielä pitkälti piilossa Bronxin korttelibileissä. Hip hopin alkuvuosien originaattorit, kuten Busy Bee Starski , Fab Five Freddy , The Cold Crush Brothers ja Grandmaster Flash olivat mukana toteuttamassa tätä räpin keskeisissä levyissä sämplättyä dokkarin ja fiktion yhdistelmäklassikkoa, joka on pakollista valkokangasnähtävää kaikille hip hopin neljän elementin (graffiti, breakdance, DJ ja MC) alkuräjähdyksen ajoista kiinnostuneille leffa- ja musafaneille."
    },
    "tr": ""
+  },
+  "wildwood": {
+   "id": 791523,
+   "img": "data/posters/3243e3129f13e25d.jpg",
+   "r": 8.6,
+   "s": {
+    "en": "Prue and her classmate Curtis are drawn into a magical forest filled with enchanted creatures, loyal allies, and formidable adversaries as they embark on a desperate quest to rescue Prue's abducted baby brother from a murder of crows led by a mysterious woman named Alexandra.",
+    "fi": "",
+    "sv": "LAIKA studios är tillbaka med ett nytt enastående stop-motion mästerverk. När hennes lillebror rövas bort av en flock kråkor ger sig den envisa tonåringen Prue McKeel ut på ett desperat räddningsuppdrag i den ogenomträngliga vildmarken – en förtrollad skog som döljer sig strax utanför Portland i Oregon. Vid sin sida har hon sin klantige men lojale klasskamrat Curtis Mehlberg, och tillsammans tar de sig genom en värld fylld av talande djur, banditer och mäktiga gestalter."
+   },
+   "tr": "https://www.youtube.com/watch?v=bJQGtSeLPII",
+   "ts": [
+    "en"
+   ]
   },
   "wildwood sysimetsä": {
    "id": 791523,
