@@ -67,8 +67,8 @@ def heading(d):
 
 
 def row(d, clock, title, meta="1h 40min -K12-", price="13€", poster=image(),
-        marker=None, link="TRAILER"):
-    paras = [title] + ([marker] if marker else []) + ([meta] if meta else [])
+        marker=None, link="TRAILER", notes=()):
+    paras = [title] + ([marker] if marker else []) + ([meta] if meta else []) + list(notes)
     prices = price if isinstance(price, (list, tuple)) else [price]
     return (poster + trailer(link) + rich(*paras)
             + rich(f"{FI_WD[d.weekday()]}/{SV_WD[d.weekday()]} {d.day}.{d.month}",
@@ -217,6 +217,24 @@ class RowsTest(unittest.TestCase):
         self.assertEqual([s["lang"] for s in shows], ["FI-A", "SV-A", "", ""])
         for code in ("FI-A", "SV-A"):
             self.assertRegex(code, LANG_CONTRACT, "the form the client and the pages read")
+
+    def test_a_screening_type_on_the_list_publishes_in_method(self):
+        """The 5.11 row, read 2026-10-29. Notes about the evening are not published, and a
+        type not on the list publishes nothing."""
+        knit = ("Neulontanäytös", "Stikningvisning", "Puolivalot päällä", "Halvjus på",
+                "Martat tarjoavat glögiä", "Marttorna bjuder på glög")
+        shows, _ = self.rows(page(
+            heading(SAT),
+            row(SAT, "14.00", "Järki ja tunteet", meta="2h 12min -K7-", notes=knit),
+            row(SAT, "16.00", "Järki ja tunteet", meta="2h 12min -K7-"),
+            row(SAT, "18.00", "Järki ja tunteet", meta="2h 12min -K7-",
+                notes=("Stikningvisning",)),
+            row(SAT, "20.00", "Lentävä kuolema", notes=("FRUKOSTBIO/", "AAMUPALAELOKUVA"))))
+        self.assertEqual([s["method"] for s in shows],
+                         ["Neulontanäytös", "", "Neulontanäytös", ""])
+        self.assertEqual((shows[0]["len"], shows[0]["rating"], shows[0]["lang"]),
+                         ("132", "K-7", ""))
+        self.assertNotIn("Puolivalot", json.dumps(shows, ensure_ascii=False))
 
     def test_a_zero_width_space_never_reaches_the_title(self):
         """The site's editor leaves one on many titles. No reader sees it and it would key

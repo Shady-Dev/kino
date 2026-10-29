@@ -67,6 +67,8 @@ What shapes the parser:
   `ORIGINAL version with subtitles FI/SV` and `Huom! Ilman suomenkielistä tekstitystä`
   across captures. The first two name the audio; the others describe subtitles or name two
   languages at once and settle nothing, so they publish nothing.
+- **A screening type goes into `method` only from an exact list** (`KINDS`). The title
+  block's other lines are free text per event, and notes like `Puolivalot päällä` are not read.
 - **Titles are published verbatim**, because the raw title is the key for `normTitle()`,
   `films-extra.json` and `tmdb-aliases.json`. The one thing removed is a zero-width space:
   the site's editor leaves a trailing U+200B on many titles, which no reader sees and
@@ -133,6 +135,8 @@ PRICE_PART = re.compile(r"(\d{1,3}(?:[.,]\d{1,2})?)(?=\s*(?:[/\u2013-]\s*\d|€)
 # `original ... FI/SV` names two, so neither is here. The value is the show contract's
 # `FI-A` form: a bare `fi` matched nothing the client or the pages read (2026-10-04).
 LANGS = {"suomeksi": "FI-A", "på svenska": "SV-A", "pa svenska": "SV-A"}
+# Read 2026-10-29 on Järki ja tunteet, 5.11 at 17.00. Either spelling, the Finnish label.
+KINDS = {"neulontanäytös": "Neulontanäytös", "stikningvisning": "Neulontanäytös"}
 
 MEDIA = "https://static.wixstatic.com/media/"
 POSTER_MIN_W = 300
@@ -223,6 +227,12 @@ def _lang(paragraphs):
     return ""
 
 
+def _method(paragraphs):
+    """The row's screening types from `KINDS`, joined as `method` is, or ""."""
+    kinds = (KINDS.get(p.strip().lower().rstrip("!")) for p in paragraphs)
+    return " · ".join(dict.fromkeys(k for k in kinds if k))
+
+
 # A paragraph naming a membership: `7€ F-Keks jäsenille` beside `10€` (2026-09-27).
 MEMBER_RE = re.compile(r"j[äa]sen|medlem", re.I)
 
@@ -301,7 +311,7 @@ def rows(site, page, today=None):
             "len": length,
             "rating": rating,
             "genres": "",
-            "method": "",
+            "method": _method(title_block[1:]),
             "theatre": venue["name"],
             "aud": "",
             "start": start.isoformat(),

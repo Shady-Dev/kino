@@ -4438,3 +4438,9 @@ page's own schedule, matched on date, time and hall. "Från N år" is K-N and "T
 alla" is S. The base and every link moved to https and the registry's http `site` override
 is gone. Read 2026-10-29: 39 rows over 10 films matched the film pages exactly, 28 at 15 €
 and 11 at 13 €. 21 mutations red. Research: [ticketing-platforms.md](../research/ticketing-platforms.md).
+
+### Bio Pallas publishes its knitting screening in `method` (2026-10-29)
+The 5.11 17.00 row of Järki ja tunteet named a knitting screening and was published with an
+empty `method`. `KINDS` maps both spellings to `Neulontanäytös`. One row at `pallas-karjaa`;
+four mutations red. Research: [bio-pallas.md](../research/bio-pallas.md).
+
