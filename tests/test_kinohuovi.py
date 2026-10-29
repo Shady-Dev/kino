@@ -28,6 +28,7 @@ import tempfile
 import unittest
 
 import _ctx                                                # noqa: F401
+import common
 import kinohuovi as K
 import registry
 import run
@@ -108,6 +109,20 @@ class CardTest(unittest.TestCase):
         shows, report = self.rows(card(desc="PRESIDENTIN KYYDITYS Tulossa pian."), RANGE)
         self.assertEqual(report["undated"], 1)
         self.assertEqual({s["title"] for s in shows}, {"RAKKAUTTA JA VIRTAHEPOJA"})
+
+    def test_a_card_left_out_keeps_its_own_text_for_the_log(self):
+        """A card published with no price is not unread."""
+        _, report = self.rows(
+            card(title="X", desc="X 25.-28.9. MA, TI, KE ja TO klo 18.00 Liput 12&euro;."),
+            card(title="", desc="Tulossa."),
+            card(title="Y", desc="Y 21.9. MA klo 18.00 Liput 12&euro; / 8&euro;."))
+        self.assertEqual(report["unread"], [
+            ("date", "X 25.-28.9. MA, TI, KE ja TO klo 18.00 Liput 12€."),
+            ("row", "3. helmikuuta 2026 Tulossa.")])
+
+    def test_a_card_whose_text_does_not_open_with_its_title_carries_the_title(self):
+        _, report = self.rows(card(title="LAPIN SOTA", desc="1.11. MA klo 18.00"))
+        self.assertEqual(report["unread"], [("date", "LAPIN SOTA: 1.11. MA klo 18.00")])
 
     def test_the_year_comes_from_the_weekday_because_the_page_prints_none(self):
         """21.9. is a Monday in 2026 and a Sunday in 2025, and the card says MA."""
@@ -331,6 +346,13 @@ class RunnerTest(unittest.TestCase):
         self.assertIn("[kinohuovi] 1 card(s) whose dates, weekdays and times disagree: "
                       "KERRO KAIKILLE", log)
         self.assertIn("[kinohuovi] 1 card(s) with no title or no description, not read", log)
+        kerro = f"KERRO KAIKILLE {d.day}.{d.month}. {wd} klo 15.00 ja klo 18.00 Liput 12€."
+        self.assertIn(f"[kinohuovi] unread date {common.unread_id('date', kerro)}: {kerro}\n",
+                      log)
+        tulossa = "3. helmikuuta 2026 Tulossa."
+        self.assertIn(f"[kinohuovi] unread row {common.unread_id('row', tulossa)}: {tulossa}\n",
+                      log)
+        self.assertIn("[run] unread: 2 item(s) at 1 site(s): kinohuovi 2", log)
 
     def test_a_page_with_no_dated_card_fails_and_keeps_the_previous_file(self):
         """No sentence on this site says the programme is empty, so a zero-row parse is a
@@ -343,6 +365,8 @@ class RunnerTest(unittest.TestCase):
         code, log = self.main()
         self.assertNotEqual(code, 0)
         self.assertIn("no programme card", log)
+        item = "PRESIDENTIN KYYDITYS Tulossa pian."
+        self.assertIn(f"[kinohuovi] unread date {common.unread_id('date', item)}: {item}", log)
         after = json.loads((run.OUT / f"area-{VENUE}.json").read_text(encoding="utf-8"))
         self.assertEqual(after["shows"][0]["title"], "Yesterday")
 

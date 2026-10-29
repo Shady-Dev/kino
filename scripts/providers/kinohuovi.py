@@ -53,7 +53,7 @@ import sys
 from urllib.parse import quote
 from zoneinfo import ZoneInfo
 
-from common import check_shows, get_text, resolve_year, weekday_index
+from common import check_shows, get_text, resolve_year, unread, weekday_index
 
 FI = ZoneInfo("Europe/Helsinki")
 
@@ -183,7 +183,7 @@ def rows(site, page, today=None):
     venue, base = site["venues"][0], site["base"]
     out = []
     report = {"cards": 0, "undated": 0, "unreadable": 0, "mismatch": 0,
-              "no_price": 0, "no_weekday": 0, "untitled": 0, "titles": {}}
+              "no_price": 0, "no_weekday": 0, "untitled": 0, "titles": {}, "unread": []}
 
     def count(key, title):
         report[key] += 1
@@ -195,6 +195,7 @@ def rows(site, page, today=None):
         title = text(t.group(2)) if t else ""
         if not title or not d:
             report["untitled"] += 1
+            report["unread"].append(("row", text(card)))
             continue
         report["cards"] += 1
         body = text(d.group(1))
@@ -202,6 +203,8 @@ def rows(site, page, today=None):
         screenings, reason = screenings_of(body, blanked, today)
         if reason:
             count(reason, title)
+            report["unread"].append(
+                ("date", body if body.startswith(title) else f"{title}: {body}"))
             continue
         if not WEEKDAY_RE.search(blanked):
             count("no_weekday", title)
@@ -240,6 +243,8 @@ def fetch_site(site, today=None):
     pid, venue = site["provider"], site["venues"][0]
     url = site["base"].rstrip("/") + site["listing"]
     shows, report = rows(site, get_text(url), today)
+    for kind, item in report["unread"]:
+        unread(kind, item)
     if not shows:
         raise RuntimeError(
             f"{url}: no programme card with a screening. This site publishes no sentence "
