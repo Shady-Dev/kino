@@ -317,6 +317,21 @@ class RunnerTest(unittest.TestCase):
         self.assertEqual([(s["start"][11:16], s["price"]) for s in shows],
                          [("18:00", "15€"), ("15:00", "15€")])
 
+    def test_every_card_left_out_is_named_in_the_log(self):
+        d = datetime.datetime.now(K.FI).date() + datetime.timedelta(days=3)
+        wd = ("MA", "TI", "KE", "TO", "PE", "LA", "SU")[d.weekday()]
+        self.serve({LISTING: page(
+            self.dated("PRESIDENTIN KYYDITYS", "uusi-elokuva", 1, ""),
+            card(alias="kero kaikille", title="KERRO KAIKILLE",
+                 desc=f"KERRO KAIKILLE {d.day}.{d.month}. {wd} klo 15.00 ja klo 18.00 "
+                      f"Liput 12&euro;."),
+            card(title="", desc="Tulossa."))})
+        code, log = self.main()
+        self.assertEqual(code, 0, log)
+        self.assertIn("[kinohuovi] 1 card(s) whose dates, weekdays and times disagree: "
+                      "KERRO KAIKILLE", log)
+        self.assertIn("[kinohuovi] 1 card(s) with no title or no description, not read", log)
+
     def test_a_page_with_no_dated_card_fails_and_keeps_the_previous_file(self):
         """No sentence on this site says the programme is empty, so a zero-row parse is a
         broken read rather than evidence of one."""

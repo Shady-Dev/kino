@@ -4469,3 +4469,8 @@ cannot be read the whole card is left out, and one date with two times is still 
 The page saved at 18:52 UTC and the live page read at 19:26 UTC both give five rows through
 `run.main`, up from three. Six mutations red. Research:
 [ticketing-platforms.md](../research/ticketing-platforms.md).
+
+### Kino-Huovi names every card it leaves out (2026-10-29)
+The run log now names every card left out, and counts cards with no title or description.
+The saved page of 2026-10-29 logs `1 card(s) whose dates, weekdays and times disagree:
+KERRO KAIKILLE`. Two mutations red.

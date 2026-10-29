@@ -183,27 +183,31 @@ def rows(site, page, today=None):
     venue, base = site["venues"][0], site["base"]
     out = []
     report = {"cards": 0, "undated": 0, "unreadable": 0, "mismatch": 0,
-              "no_price": 0, "no_weekday": 0}
+              "no_price": 0, "no_weekday": 0, "untitled": 0, "titles": {}}
+
+    def count(key, title):
+        report[key] += 1
+        report["titles"].setdefault(key, []).append(title)
+
     for card in CARD_RE.findall(page):
         t = TITLE_RE.search(card)
         d = DESC_RE.search(card)
-        if not t or not d:
-            continue
-        title = text(t.group(2))
-        if not title:
+        title = text(t.group(2)) if t else ""
+        if not title or not d:
+            report["untitled"] += 1
             continue
         report["cards"] += 1
         body = text(d.group(1))
         blanked = TIME_RE.sub(lambda m: " " * len(m.group()), body)
         screenings, reason = screenings_of(body, blanked, today)
         if reason:
-            report[reason] += 1
+            count(reason, title)
             continue
         if not WEEKDAY_RE.search(blanked):
-            report["no_weekday"] += 1
+            count("no_weekday", title)
         price = price_of(body)
         if not price:
-            report["no_price"] += 1
+            count("no_price", title)
         img = html_mod.unescape(IMG_RE.search(card).group(1)) if IMG_RE.search(card) else ""
         url, length, key = absolute(t.group(1), base), minutes_of(body), slug_of(title)
         for day, (hour, minute) in screenings:
@@ -250,9 +254,11 @@ def fetch_site(site, today=None):
                       ("unreadable", "card(s) whose date is out of range"),
                       ("mismatch", "card(s) whose dates, weekdays and times disagree"),
                       ("no_weekday", "card(s) stating no weekday to check the year against"),
-                      ("no_price", "card(s) whose ticket line settles no single amount")):
+                      ("no_price", "card(s) whose ticket line settles no single amount"),
+                      ("untitled", "card(s) with no title or no description, not read")):
         if report[key]:
-            print(f"[{pid}] {report[key]} {note}")
+            titles = report["titles"].get(key)
+            print(f"[{pid}] {report[key]} {note}" + (f": {', '.join(titles)}" if titles else ""))
     return per_venue
 
 
