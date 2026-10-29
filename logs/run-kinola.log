@@ -20,9 +20,9 @@
 [kinolaika] Kino Laika: 28 showtimes, 11 dates
 [kinolaika] synopses merged: 0
 [kinolaika] synopses skipped as screening notes: 1
-[kinomyyri] 33 screening(s) listed, 21 film page(s) read
-[kinomyyri] omitted 0 confirmed non-film(s) by evidence-backed exclusion over 0 screening(s), and 3 unresolved over 4
-[kinomyyri] unresolved: Boléro, Minä ja Riikka Purra, Yksityistilaisuus
+[kinomyyri] 32 screening(s) listed, 20 film page(s) read
+[kinomyyri] omitted 0 confirmed non-film(s) by evidence-backed exclusion over 0 screening(s), and 2 unresolved over 3
+[kinomyyri] unresolved: Boléro, Minä ja Riikka Purra
 [kinomyyri] override kojootti-vs-acme-dub: evidence-unavailable
 [kinomyyri] override must-pori-nakku: active
 [kinomyyri] 4 film(s) with a language name not read, that part left blank: Berliinin sankari (saksan); Lapin sota (saami); Premada Oorali (kannada); Vasenkätinen tyttö (mandariini)
@@ -37,8 +37,8 @@
 [kinokonepaja] Kino Konepaja: 53 showtimes, 28 dates
 [kinokonepaja] Kino Konepaja: 53 showtimes, 28 dates
 [kinokonepaja] synopses merged: 0
-[run] http: 0 revalidated (304), 102 full, 23 not stored (origin said no-store), 40 cache entries written
+[run] http: 0 revalidated (304), 101 full, 22 not stored (origin said no-store), 41 cache entries written
 [run] hosts: 4 attempted -- kinokonepaja.fi, kinomyyri.fi, www.kinokilta.fi, www.kinolaika.fi
 [run] kinola: 4 venues, 164 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
-[run] timing: 4 site(s), 233.6s of fetching added up across workers that overlap, longest site 94.5s, longest queue wait 116.5s, 94.5s wall from this module's first fetch starting to its last ending
+[run] timing: 4 site(s), 193.1s of fetching added up across workers that overlap, longest site 71.7s, longest queue wait 95.6s, 71.7s wall from this module's first fetch starting to its last ending
 exit=0
