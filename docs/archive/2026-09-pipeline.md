@@ -2906,3 +2906,22 @@ only for a trusted match, and the file is in `data/posters/`. The row is then ma
 `isrc: "tmdb"`, like a poster the TMDB pass publishes, and `run-posters.log` counts it as
 replaced. For an event row, a row with no trusted match or a missing poster file the
 placeholder stays. The fallback makes no request. Sixteen mutations went red.
+
+### Adapters name what they saw and did not place (2026-10-29)
+Bio Pallas dropped its knitting line without a trace. Kino-Huovi's "2 card(s) whose dates,
+weekdays and times disagree" stood in its log from 2026-10-02 without naming a card.
+`common.unread(kind, context)` now records a `line`, `date`, `place` or `row` with the
+source text that locates it. Each log line carries 12 hex digits of SHA-256 over the kind
+and the whole context, because the log cuts the text at 200 characters. A site prints at
+most 20 items inside its own block and counts the rest. `check_runs.py` marks each item new
+or carried by site, kind and digest. No failure rule or exit code changed.
+
+The maintainer decided the same day that Pallas keeps "Neulontanäytös", that verbatim tags
+are not normalised, that a type in a title bracket is not copied into `method`, and that
+only Pallas, Kino-Huovi and eTiketti move now. A known wording is quieted only from an
+exact, reviewed list per adapter. No shared type table was built, because Pallas is the
+only one of the three that reads a type from free text.
+
+Live reads on 2026-10-29: Bio Pallas 19 rows and nothing unread, Kino-Huovi 5 rows and one
+card (`KERRO KAIKILLE 3.11. TI klo 15.00 ja klo 18.00`), eTiketti's 21 sites 1,152 rows and
+nothing unread. 38 mutations, all red.

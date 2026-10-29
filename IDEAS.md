@@ -80,6 +80,14 @@ https on 2026-10-28 and its adapter followed. [CLAUDE.md](CLAUDE.md) bounds a cl
 to that case; probe in [docs/research/adapter-http.md](docs/research/adapter-http.md).
 **Next action:** re-probe when Alatalo is next touched.
 
+### Unread-content reporting covers three adapters
+
+`common.unread` names in the run log what an adapter saw and did not place, and
+`check_runs.py` marks each item new or carried. It covers Bio Pallas, Kino-Huovi and
+eTiketti since 2026-10-29. The maintainer left 26 more adapters as they are for now.
+Record: [docs/archive/2026-09-pipeline.md](docs/archive/2026-09-pipeline.md).
+**Next action:** move one adapter at a time when the maintainer picks it.
+
 ### Twelve sites go red when genuinely empty
 
 None has a recorded empty state, so zero rows fails the run instead of clearing data.
