@@ -443,6 +443,31 @@ class PerModuleLogTest(CloudTestCase):
         self.assertIn("host group(s), pool of", logs["cloud"])
 
 
+class UnreadLogTest(CloudTestCase):
+    """The coordinator does not call run.run_site and opens each site's scope itself. Each
+    module's log names only its own sites' items."""
+
+    def test_each_module_log_names_its_own_sites_items(self):
+        h = self.hosts(3, delay=0)
+        mods = [module("mod_a", P.site("a1", h.base(0)), P.site("a2", h.base(1)),
+                       requests=1, unread={"a2": [("place", "a2 place")]}),
+                module("mod_b", P.site("b1", h.base(2)), requests=1, fail=("b1",),
+                       unread={"b1": [("row", "b1 row")]})]
+        code, logs = self.cloud(mods)
+        self.assertEqual(code, 1, "b1 failing still fails the run")
+        a = logs["mod_a"].splitlines()
+        self.assertEqual([l for l in a if "unread" in l],
+                         [f"[a2] unread place {common.unread_id('place', 'a2 place 0')}: "
+                          "a2 place 0", "[run] unread: 1 item(s) at 1 site(s): a2 1"])
+        block = a[[i for i, l in enumerate(a) if l.startswith("[a2]")][0]:]
+        self.assertTrue(block[0].startswith("[a2] unread place "), block)
+        self.assertTrue(logs["mod_a"].rstrip().endswith("exit=0"))
+        self.assertIn(f"[b1] unread row {common.unread_id('row', 'b1 row 0')}: b1 row 0",
+                      logs["mod_b"])
+        self.assertIn("[b1] FAILED: connection reset", logs["mod_b"])
+        self.assertTrue(logs["mod_b"].rstrip().endswith("exit=1"))
+
+
 # --- one site failing is one site failing ----------------------------------------------
 
 class FailureTest(CloudTestCase):

@@ -230,8 +230,8 @@ def read_host(group, rec, done, fatal):
                 # host they turn out to go to, page-derived ones included, and releases
                 # them when this site is done; `site_deadline` ends a site that runs past
                 # SITE_DEADLINE, and the others publish around it.
-                with common.accounting(it.module.name), common.reading(it.label), \
-                        common.site_deadline(SITE_DEADLINE):
+                with common.accounting(it.module.name), common.unread_scope(it.label), \
+                        common.reading(it.label), common.site_deadline(SITE_DEADLINE):
                     it.per_venue = it.mod.fetch_site(it.site)
                 it.settled = True
             except Exception as e:

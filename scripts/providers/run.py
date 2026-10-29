@@ -161,8 +161,10 @@ def run_site(mod, site, now, order=0, claim=None):
     publish as well let a site whose adapter caught `HostBusy` write its files, `status: ok`
     included, before the refusal came back out of the context (2026-09-25).
     """
+    label = site.get("provider") or mod.__name__
     try:
-        with (claim if claim is not None else contextlib.nullcontext()):
+        with common.unread_scope(label), \
+                (claim if claim is not None else contextlib.nullcontext()):
             per_venue = mod.fetch_site(site)
     except common.EmptyProgramme:
         publish_empty(mod, site, now, order)
@@ -813,6 +815,7 @@ class Tally:
         self.pendings = []      # (provider, [venue ids]) whose adapter confirmed no programme
         self.empty = []         # sites whose listing loaded and had no films on it
         self.skipped = []       # modules with no sites for this half, which is not a problem
+        self.unread = []        # (provider, distinct unread items)
 
     def unusable(self, name, error):
         """A module that could not be imported, or that has no SITES."""
@@ -828,6 +831,9 @@ class Tally:
 
     def site(self, mod, sites, label, result, error):
         """Record one site, printing the run's own line about it inside its own block."""
+        seen = common.take_unread(label)
+        if seen:
+            self.unread.append((label, seen))
         if isinstance(error, common.EmptyProgramme):
             # Not a failure, and deliberately still noisy: a cinema with nothing on
             # is a fact worth seeing in the committed log, and one that stays empty
@@ -899,6 +905,13 @@ class Tally:
             if new_ids:
                 print(f"[run] partial: {label} has {len(new_ids)} venue(s) that have "
                       f"never produced a showtime: {', '.join(new_ids)}")
+
+        # The items are named in each site's block. This line lists the sites and never
+        # changes the exit code.
+        if self.unread:
+            print(f"[run] unread: {sum(n for _, n in self.unread)} item(s) at "
+                  f"{len(self.unread)} site(s): "
+                  + ", ".join(f"{label} {n}" for label, n in self.unread))
 
         print(summary_line(self.names, self.venues, self.shows, self.partial,
                            self.pendings, self.empty, self.failures))
