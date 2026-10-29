@@ -16,6 +16,8 @@ What they exist to prove:
 - **A ticket line settles a price only when it is one bare amount.**
 - **A card with no date publishes nothing**, which is the state `PRESIDENTIN KYYDITYS` was
   in when this cinema was first read.
+- **A card that names several dates is split at each date**, as LAPIN SOTA was on
+  2026-10-29. If one part cannot be read, the whole card is left out.
 """
 import contextlib
 import datetime
@@ -136,6 +138,67 @@ class CardTest(unittest.TestCase):
         self.assertEqual([s["start"] for s in shows],
                          ["2026-09-25T18:00:00+03:00", "2026-09-26T20:15:00+03:00"])
 
+    def test_each_date_clause_keeps_its_own_weekday_and_time(self):
+        shows, report = self.rows(
+            card(alias="kopio-seuraavasta-lentaevae-kuolema", title="LAPIN SOTA",
+                 desc="LAPIN SOTA 1.11. SU klo 18.00 2.11. MA klo 15.00 "
+                      "Kestoaika n. 2t 35min. Liput 15&euro;."),
+            card(title="X",
+                 desc="X 30.-31.10. PE ja LA klo 18.00 1.11. SU klo 16.00 Liput 12&euro;."))
+        self.assertEqual(report["mismatch"], 0)
+        self.assertEqual([(s["title"], s["start"], s["price"]) for s in shows], [
+            ("X", "2026-10-30T18:00:00+02:00", "12€"),
+            ("X", "2026-10-31T18:00:00+02:00", "12€"),
+            ("X", "2026-11-01T16:00:00+02:00", "12€"),
+            ("LAPIN SOTA", "2026-11-01T18:00:00+02:00", "15€"),
+            ("LAPIN SOTA", "2026-11-02T15:00:00+02:00", "15€"),
+        ])
+
+    def test_a_clause_whose_weekday_contradicts_its_date_leaves_out_the_whole_card(self):
+        """2.11.2026 is a Monday."""
+        shows, report = self.rows(card(
+            desc="X 1.11. SU klo 18.00 2.11. SU klo 15.00 Liput 15&euro;."))
+        self.assertEqual((shows, report["mismatch"]), ([], 1))
+
+    def test_a_date_or_time_left_unpaired_leaves_out_the_whole_card(self):
+        for desc in ("X 1.11. SU 2.11. MA klo 15.00 Liput 15&euro;.",
+                     "X klo 12.00 1.11. SU klo 18.00 2.11. MA klo 15.00 Liput 15&euro;.",
+                     "X 1.11. SU klo 15.00 ja klo 18.00 2.11. MA klo 15.00 Liput 15&euro;."):
+            with self.subTest(desc=desc):
+                shows, report = self.rows(card(desc=desc))
+                self.assertEqual((shows, report["mismatch"]), ([], 1))
+
+    def test_the_programme_of_2026_10_29(self):
+        """The four cards as read 2026-10-29. KERRO KAIKILLE has two times for one date and
+        is left out."""
+        shows, report = self.rows(
+            card(alias="kopio-seuraavasta-lentaevae-kuolema", title="LAPIN SOTA",
+                 desc="LAPIN SOTA 1.11. SU klo 18.00 2.11. MA klo 15.00 "
+                      "Kestoaika n. 2t 35min. Liput 15&euro;."),
+            card(alias="matka piemonteen", title="MATKA PIEMONTEEN",
+                 desc="MATKA PIEMONTEEN 30.-31.10. PE ja LA klo 18.00 "
+                      "Kestoaika n. 1t 50min. Liput 12&euro;."),
+            card(alias="kero kaikille", title="KERRO KAIKILLE",
+                 desc="KERRO KAIKILLE 3.11. TI \ufeff klo 15.00 ja klo 18.00 "
+                      "Kestoaika n. 1t50min. Liput 12&euro;."),
+            card(alias="uusi-elokuva", title="LATE LAMMAS-elokuva : HÄMÄRÄPUUHISSA",
+                 desc="LATE LAMMAS-elokuva : HÄMÄRÄPUUHISSA 1.11. SU klo 16.00 "
+                      "Kestoaika n. 1t 20min. Liput 10&euro;."),
+            today=datetime.date(2026, 10, 29))
+        self.assertEqual((report["cards"], report["mismatch"]), (4, 1))
+        self.assertEqual([(s["start"], s["title"], s["price"], s["url"]) for s in shows], [
+            ("2026-10-30T18:00:00+02:00", "MATKA PIEMONTEEN", "12€",
+             f"{BASE}/matka%20piemonteen"),
+            ("2026-10-31T18:00:00+02:00", "MATKA PIEMONTEEN", "12€",
+             f"{BASE}/matka%20piemonteen"),
+            ("2026-11-01T16:00:00+02:00", "LATE LAMMAS-elokuva : HÄMÄRÄPUUHISSA", "10€",
+             f"{BASE}/uusi-elokuva"),
+            ("2026-11-01T18:00:00+02:00", "LAPIN SOTA", "15€",
+             f"{BASE}/kopio-seuraavasta-lentaevae-kuolema"),
+            ("2026-11-02T15:00:00+02:00", "LAPIN SOTA", "15€",
+             f"{BASE}/kopio-seuraavasta-lentaevae-kuolema"),
+        ])
+
     def test_the_title_keys_the_row_and_is_published_verbatim(self):
         """The card's own alias is recycled: this one is served at /hetki ennen valoa."""
         s = self.rows(RANGE)[0][0]
@@ -238,6 +301,21 @@ class RunnerTest(unittest.TestCase):
             (run.OUT / f"area-{VENUE}.json").read_text(encoding="utf-8"))["shows"]
         self.assertEqual(sorted({s["title"] for s in shows}),
                          ["PRESIDENTIN KYYDITYS", "RAKKAUTTA JA VIRTAHEPOJA"])
+
+    def test_a_card_with_two_date_clauses_publishes_both(self):
+        clauses = []
+        for days, clock in ((3, "18.00"), (4, "15.00")):
+            d = datetime.datetime.now(K.FI).date() + datetime.timedelta(days=days)
+            wd = ("MA", "TI", "KE", "TO", "PE", "LA", "SU")[d.weekday()]
+            clauses.append(f"{d.day}.{d.month}. {wd} klo {clock}")
+        self.serve({LISTING: page(card(title="LAPIN SOTA",
+                                       desc=f"LAPIN SOTA {' '.join(clauses)} Liput 15&euro;."))})
+        code, log = self.main()
+        self.assertEqual(code, 0, log)
+        shows = json.loads(
+            (run.OUT / f"area-{VENUE}.json").read_text(encoding="utf-8"))["shows"]
+        self.assertEqual([(s["start"][11:16], s["price"]) for s in shows],
+                         [("18:00", "15€"), ("15:00", "15€")])
 
     def test_a_page_with_no_dated_card_fails_and_keeps_the_previous_file(self):
         """No sentence on this site says the programme is empty, so a zero-row parse is a

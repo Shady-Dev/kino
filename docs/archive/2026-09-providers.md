@@ -4455,3 +4455,12 @@ screenings on two saved Niagara film pages as unclaimed. On 007258793 the same p
 all six to cn-tampere. Two tests were added, for a single unknown place and for the mobile
 copy of an item. Three mutations red. Research:
 [ticketing-platforms.md](../research/ticketing-platforms.md).
+
+### Kino-Huovi reads a card with several dated clauses (2026-10-29)
+The LAPIN SOTA card on 2026-10-29 read `1.11. SU klo 18.00 2.11. MA klo 15.00`. The parser
+checked both weekdays against the first date and dropped the card. A card that names
+several dates is now split at each date, and each part is checked on its own. If one part
+cannot be read the whole card is left out, and one date with two times is still refused.
+The page saved at 18:52 UTC and the live page read at 19:26 UTC both give five rows through
+`run.main`, up from three. Six mutations red. Research:
+[ticketing-platforms.md](../research/ticketing-platforms.md).

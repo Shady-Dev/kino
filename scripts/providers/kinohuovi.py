@@ -17,11 +17,14 @@ What shapes the parser, measured on the live page 2026-09-21:
   `RAKKAUTTA JA VIRTAHEPOJA 25.-28.9. PE, LA, SU ja MA klo 18.00` is four screenings, and
   the four weekdays are what proves the four days. A range expands only when the listed
   weekdays and the expanded dates agree one for one; a card where they disagree is counted
-  and left out rather than published on a guess.
+  and left out rather than published on a guess. A card that names several dates
+  (`1.11. SU klo 18.00 2.11. MA klo 15.00`, 2026-10-29) is split at each date, and each
+  date gets only the weekdays and times written after it.
 - **No date carries a year.** `common.resolve_year` places each one from the weekday, so a
   page left up past its week selects a year the window then refuses.
-- **One `klo` applies to every date on the card.** A card carrying as many times as dates
-  pairs them in order; any other count settles nothing and the card is left out.
+- **One `klo` applies to every date of its clause.** A clause with as many times as dates
+  pairs them in order. Any other count, or a time before the first date, leaves the whole
+  card out.
 - **The price is published only when the ticket line is one bare amount.** `Liput 12€.` is
   that; anything further on the line states a condition this cannot settle.
 - **The runtime is the card's own `Kestoaika`**, written `n.1t30min.` and `n. 1t 40min.`.
@@ -150,6 +153,30 @@ def dates_of(body, today):
     return out, ""
 
 
+def screenings_of(body, blanked, today):
+    """The card text, and the same text with its times blanked in place ->
+    ([(date, (hour, minute)), ...], reason)."""
+    starts = [m.start() for m in DATE_RE.finditer(blanked)]
+    if len(starts) > 1:
+        if TIME_RE.search(body[:starts[0]]) or WEEKDAY_RE.search(blanked[:starts[0]]):
+            return [], "mismatch"
+        clauses = list(zip(starts, starts[1:] + [len(body)]))
+    else:
+        clauses = [(0, len(body))]
+    out = []
+    for a, b in clauses:
+        days, reason = dates_of(blanked[a:b], today)
+        if reason:
+            return [], reason
+        times = [(int(h), int(mi)) for h, mi in TIME_RE.findall(body[a:b])]
+        if len(times) == 1:
+            times = times * len(days)
+        elif len(times) != len(days):
+            return [], "mismatch"
+        out += zip(days, times)
+    return out, ""
+
+
 def rows(site, page, today=None):
     """-> (shows, report). One row per date of every programme card."""
     today = today or datetime.datetime.now(FI).date()
@@ -167,25 +194,19 @@ def rows(site, page, today=None):
             continue
         report["cards"] += 1
         body = text(d.group(1))
-        times = [(int(h), int(mi)) for h, mi in TIME_RE.findall(body)]
-        blanked = TIME_RE.sub(" ", body)
-        days, reason = dates_of(blanked, today)
+        blanked = TIME_RE.sub(lambda m: " " * len(m.group()), body)
+        screenings, reason = screenings_of(body, blanked, today)
         if reason:
             report[reason] += 1
             continue
         if not WEEKDAY_RE.search(blanked):
             report["no_weekday"] += 1
-        if len(times) == 1:
-            times = times * len(days)
-        elif len(times) != len(days):
-            report["mismatch"] += 1
-            continue
         price = price_of(body)
         if not price:
             report["no_price"] += 1
         img = html_mod.unescape(IMG_RE.search(card).group(1)) if IMG_RE.search(card) else ""
         url, length, key = absolute(t.group(1), base), minutes_of(body), slug_of(title)
-        for day, (hour, minute) in zip(days, times):
+        for day, (hour, minute) in screenings:
             out.append({
                 "eventId": key,
                 "title": title,

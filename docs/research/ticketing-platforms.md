@@ -1304,6 +1304,9 @@ Source list: the Finnish Wikipedia article "Luettelo Suomen elokuvateattereista"
 
 - **Kino-Huovi**, Harjavalta: Duda site served as a JSON document; two screenings in prose
   with no year ("19.9. LA klo 18.00", "20.-21.9. SU ja MA klo 18.00").
+  On the front page read 2026-10-29 at 18:52 and 19:26 UTC, one card names two dates with
+  their own weekday and time ("LAPIN SOTA 1.11. SU klo 18.00 2.11. MA klo 15.00", 15 €).
+  Its link `/kopio-seuraavasta-lentaevae-kuolema` answered 200 at 19:29 UTC.
 - **Kino Akustiikka**, Ylivieska: town event system renders client-side.
 - **Kino Kuusamotalo**: front page names one film, one post per film. **Off this
   list 2026-09-20**: the posts carry `Esitysajat:` with dated lines, and
