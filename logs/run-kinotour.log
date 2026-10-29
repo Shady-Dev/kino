@@ -1,6 +1,13 @@
-[kinotour] FAILED: https://www.kinotour.fi/varaa-liput-elokuvatapahtumiin/: the host served a bot-check page in place of the programme (11961 B served, titled "One moment, please...", Server: openresty/1.31.1.1)
-[run] http: 0 revalidated (304), 1 full, 1 not stored (origin said no-store), 0 cache entries written
+[kinotour] 14 screening(s) in 3 declared town(s), 14 priced
+[kinotour] Kurkisali, Kyrö: 6 showtimes, 2 dates
+[kinotour] Kristoffersali, Naantali: 6 showtimes, 2 dates
+[kinotour] Valtuustosali, Lieto: 2 showtimes, 1 dates
+[kinotour] Kurkisali: 6 showtimes, 2 dates
+[kinotour] Kristoffersali: 6 showtimes, 2 dates
+[kinotour] Valtuustosali: 2 showtimes, 1 dates
+[kinotour] synopses merged: 0
+[run] http: 0 revalidated (304), 1 full, 0 not stored (origin said no-store), 0 cache entries written
 [run] hosts: 1 attempted -- www.kinotour.fi
-[run] kinotour: 0 venues, 0 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 1 failures
-[run] timing: 1 site(s), 1.0s of fetching added up across workers that overlap, longest site 1.0s, longest queue wait 151.4s, 1.0s wall from this module's first fetch starting to its last ending
-exit=1
+[run] kinotour: 3 venues, 14 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
+[run] timing: 1 site(s), 1.3s of fetching added up across workers that overlap, longest site 1.3s, longest queue wait 143.2s, 1.3s wall from this module's first fetch starting to its last ending
+exit=0

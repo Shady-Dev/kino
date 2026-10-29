@@ -1,6 +1,9 @@
-[kirkkonummi] FAILED: https://kinokirkkonummi.fi/: the host served a bot-check page in place of the programme (12030 B served, titled "One moment, please...", Server: openresty/1.31.1.1)
-[run] http: 0 revalidated (304), 1 full, 1 not stored (origin said no-store), 0 cache entries written
+[kirkkonummi] 2 row(s) whose weekday matches no candidate year, skipped: Maanantai 1.11., Maanantai 1.11.
+[kirkkonummi] 14 showtimes, 5 films, 8 dates
+[kirkkonummi] Kino Kirkkonummi: 14 showtimes, 8 dates
+[kirkkonummi] synopses merged: 0
+[run] http: 0 revalidated (304), 1 full, 0 not stored (origin said no-store), 1 cache entries written
 [run] hosts: 1 attempted -- kinokirkkonummi.fi
-[run] kirkkonummi: 0 venues, 0 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 1 failures
-[run] timing: 1 site(s), 0.7s of fetching added up across workers that overlap, longest site 0.7s, longest queue wait 83.4s, 0.7s wall from this module's first fetch starting to its last ending
-exit=1
+[run] kirkkonummi: 1 venues, 14 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
+[run] timing: 1 site(s), 1.1s of fetching added up across workers that overlap, longest site 1.1s, longest queue wait 96.1s, 1.1s wall from this module's first fetch starting to its last ending
+exit=0

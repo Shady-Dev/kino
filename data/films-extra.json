@@ -646,17 +646,13 @@
   },
   "bortglömda ön": {
    "id": 1465063,
-   "img": "data/posters/db8d634869fa04ac.jpg",
-   "r": 7.6,
+   "r": 0,
    "s": {
-    "en": "While celebrating their last night together, high school graduates and best friends Jo and Raissa stumble upon a mysterious portal that transports them to the fantastical island of Nakali. When they discover that the memories of their entire friendship are the price for returning home, Jo and Raissa must race to find a way to leave the island before they forget each other forever.",
+    "en": "",
     "fi": "",
     "sv": "Jo och Raissa har varit bästa vänner sedan grundskolan men har nu gått ut High School och ska påbörja sina separata livsresor. När de firar sin sista kväll tillsammans, råkar Jo och Raissa hitta en mystisk portal som transporterar dem till den fantastiska ön Nakali, full av de magiska och mytologiska väsen som de hört berättelser om under uppväxten i sina filippinska familjer. En del av de här varelserna blir vänner, andra blir fiender. I sällskap med den välmenande men olyckliga varhunden Raww och ett litet men mäktigt gäng kompisar, måste Jo and Raissa möta Den Fruktade Manananggal, den mest skräckinjagande varelsen på ön. När de upptäcker att priset för att återvända hem är att förlora alla minnen av deras vänskap, måste Jo och Raissa skynda sig att hitta ett sätt att lämna ön innan de helt glömmer bort varandra, för evigt."
    },
-   "tr": "https://www.youtube.com/watch?v=PhgY8cOJiQA",
-   "ts": [
-    "en"
-   ]
+   "tr": ""
   },
   "bram stoker s dracula": {
    "id": 6114,
@@ -1018,7 +1014,6 @@
     "biorex",
     "biosalo",
     "gilda",
-    "kinojuha",
     "orion",
     "savonkinot",
     "studio123kouvola",
@@ -1580,17 +1575,13 @@
   },
   "gråben vs acme coyote vs acme": {
    "id": 1204680,
-   "img": "data/posters/e1a7880d02ca0644.jpg",
-   "r": 7.5,
+   "r": 0,
    "s": {
-    "en": "After Acme products fail him one too many times in his dogged pursuit of the Roadrunner, Wile E. Coyote decides to hire a billboard lawyer to sue the Acme Corporation.",
+    "en": "",
     "fi": "",
     "sv": "Efter årtionden av att ha blivit sprängd i luften av Acmes explosiva produkter slår Gråben äntligen tillbaka – och tar hjälp av en osäker advokat för att få den upprättelse han alltid förtjänat. Dessutom finns där Hjulben… och dynamit."
    },
-   "tr": "https://www.youtube.com/watch?v=kMsiD1Nky5I",
-   "ts": [
-    "en"
-   ]
+   "tr": ""
   },
   "halloween taikashow": {
    "r": 0,
@@ -2031,16 +2022,12 @@
   },
   "i was a stranger": {
    "id": 1193128,
-   "img": "data/posters/a23637c1451f93b1.jpg",
-   "r": 6.8,
+   "r": 0,
    "s": {
-    "en": "A Syrian doctor and her daughter flee Aleppo, setting off a chain of events that binds five strangers together. A smuggler, a soldier, a poet, and a coast guard captain collide in a crisis that tests their courage, their choices, and their humanity.",
+    "en": "",
     "fi": "Kun syyrialainen lääkäri joutuu pakenemaan Alepposta nuoren tyttärensä kanssa, yksi epätoivoinen valinta käynnistää tapahtumaketjun, joka ulottuu yli rajojen ja vetää neljä toisilleen tuntematonta ihmistä samaan myrskyyn. Salakuljettajan, joka yrittää pelastaa poikansa. Sotilaan, joka kamppailee omantuntonsa kanssa. Runoilijan, joka etsii kotia. Kreikkalaisen rannikkovartioston kapteenin, joka joutuu valitsemaan velvollisuuden ja armeliaisuuden välillä. Heidän polkunsa risteävät eräänä yönä Välimerellä, jossa selviytyminen on epävarmaa ja inhimillisyys paljastuu sen raaimmassa muodossa."
    },
-   "tr": "https://www.youtube.com/watch?v=VvGvWHHjK2o",
-   "ts": [
-    "en"
-   ]
+   "tr": ""
   },
   "idän soturit": {
    "id": 43636,
@@ -2614,8 +2601,7 @@
     "studio123kouvola",
     "tapiola",
     "vaakuna",
-    "vihdinkino",
-    "virtainpirtti"
+    "vihdinkino"
    ],
    "r": 0,
    "s": {
@@ -2693,8 +2679,7 @@
     "studio123kouvola",
     "tapiola",
     "vaakuna",
-    "vihdinkino",
-    "virtainpirtti"
+    "vihdinkino"
    ],
    "r": 0,
    "s": {
@@ -3993,7 +3978,8 @@
     "studio123jarvenpaa",
     "studio123kouvola",
     "tapiola",
-    "vihdinkino"
+    "vihdinkino",
+    "virtainpirtti"
    ],
    "r": 7.4,
    "s": {
@@ -4142,31 +4128,6 @@
    "tr": ""
   },
   "lilla spöket laban busar vidare": {
-   "kr": "S",
-   "krs": [
-    "biorex",
-    "biorexkokkola",
-    "biosalo",
-    "biostara",
-    "cinemantsala",
-    "engel",
-    "ihmekompleksi",
-    "isohannu",
-    "kinoakseli",
-    "kinojuha",
-    "kinolaika",
-    "kinolumo",
-    "kinomarilyn",
-    "kinopirtti",
-    "kinotar",
-    "kinotervakoski",
-    "kotkanleffat",
-    "kulttuurimylly",
-    "savonkinot",
-    "star",
-    "studio123jarvenpaa",
-    "vaakuna"
-   ],
    "r": 0,
    "s": {
     "en": "",
@@ -5117,6 +5078,7 @@
    "krs": [
     "gilda",
     "ihmekompleksi",
+    "kinopirtti",
     "kisakino",
     "levisummit"
    ],
@@ -5872,7 +5834,6 @@
     "kinotour",
     "korjaamo",
     "kotkanleffat",
-    "kuvakukko",
     "leffabuumi",
     "pajakkakino",
     "savonkinot",
@@ -5947,7 +5908,6 @@
     "kinotour",
     "korjaamo",
     "kotkanleffat",
-    "kuvakukko",
     "leffabuumi",
     "pajakkakino",
     "savonkinot",
@@ -6024,7 +5984,6 @@
     "kinotour",
     "korjaamo",
     "kotkanleffat",
-    "kuvakukko",
     "leffabuumi",
     "pajakkakino",
     "savonkinot",
@@ -6046,52 +6005,6 @@
   "pikkuli och himmelshinden": {
    "id": 1403476,
    "img": "data/posters/e4e4be88f3bfae06.jpg",
-   "kr": "S",
-   "krs": [
-    "alatalo",
-    "biogrand",
-    "biograni",
-    "biokaari",
-    "biomarilyn",
-    "biopallas",
-    "biorex",
-    "biorexkokkola",
-    "biosade",
-    "biosalo",
-    "biostara",
-    "cinemantsala",
-    "engel",
-    "helios",
-    "huvimylly",
-    "ihmekompleksi",
-    "isohannu",
-    "joutsankino",
-    "julia",
-    "kino123",
-    "kinohannikainen",
-    "kinohirvi",
-    "kinokaustinen",
-    "kinokulma",
-    "kinokuva",
-    "kinolumo",
-    "kinomarilyn",
-    "kinometso",
-    "kinomyyri",
-    "kinopiispanristi",
-    "kinopirtti",
-    "kinotar",
-    "kinotour",
-    "korjaamo",
-    "kotkanleffat",
-    "kuvakukko",
-    "leffabuumi",
-    "pajakkakino",
-    "savonkinot",
-    "star",
-    "studio123jarvenpaa",
-    "tapiola",
-    "vihdinkino"
-   ],
    "r": 0,
    "s": {
     "en": "",
@@ -6121,12 +6034,12 @@
     "bioforum",
     "biograni",
     "biokaari",
-    "biomarilyn",
     "biorex",
     "biorexkokkola",
     "biosalo",
     "biostara",
     "biovuoksi",
+    "cinemantsala",
     "helios",
     "ihmekompleksi",
     "isohannu",
@@ -7847,19 +7760,6 @@
    },
    "tr": ""
   },
-  "stray kids world tour run it live viewing": {
-   "id": 1795555,
-   "img": "data/posters/0b6f307f1ac0be55.jpg",
-   "r": 0,
-   "s": {
-    "en": "Stray Kids bring their World Tour (RUN IT) concert to cinemas in a live broadcast, with all eight members performing their high-energy choreography.",
-    "fi": ""
-   },
-   "tr": "",
-   "ts": [
-    "en"
-   ]
-  },
   "street fighter": {
    "id": 1153576,
    "img": "data/posters/2c34dcbef60ffbda.jpg",
@@ -8239,13 +8139,12 @@
   },
   "the babadook": {
    "id": 242224,
-   "img": "data/posters/4c525e9f00f4509c.jpg",
-   "r": 6.5,
+   "r": 0,
    "s": {
     "en": "",
     "fi": "Keskiössä on yksinhuoltajaäiti Amelia ( Essie Davis ), joka suree miehensä kuolemaa ja yrittää selvitä raskaasta arjesta. Elämäntilannetta hankaloittaa hänen Samuel-poikansa ( Noah Wiseman ) levottomuus. Samuel uskoo näkevänsä hirviöitä talossa. Psykologista pyörrettä voimistaa omituinen lastenkirja salaperäisestä herra Babadookista. Pian myös Amelia alkaa uskoa, että jokin paha todella koettelee heitä ja tulee viemään heidät sietokyvyn äärirajoille."
    },
-   "tr": "https://www.youtube.com/watch?v=88DDAyYkvis"
+   "tr": ""
   },
   "the best little whorehouse in texas 1982": {
    "id": 16363,
@@ -9442,17 +9341,13 @@
   },
   "verity": {
    "id": 1283515,
-   "img": "data/posters/052a413644e02ce6.jpg",
-   "r": 6.4,
+   "r": 0,
    "s": {
-    "en": "Lowen Ashleigh, hired to ghostwrite for best-selling author Verity Crawford, uncovers Verity's autobiographical notes, and becomes involved in what may prove to be a lethal conspiracy.",
+    "en": "",
     "fi": "",
     "sv": "Lowen Ashleigh får jobb att spökskriva åt den hyllade författaren Verity Crawford och flyttar till hennes avlägsna egendom. När Lowen upptäcker vad som verkar vara Veritys självbiografiska anteckningar, dras hon in i en mörk spiral av chockerande avslöjanden om Veritys make Jeremy. Snart blir det allt svårare att skilja mellan fiktion och verklighet, manipulation och begär – och mellan en möjlighet och besatthet."
    },
-   "tr": "https://www.youtube.com/watch?v=xdPMKhjMSFs",
-   "ts": [
-    "en"
-   ]
+   "tr": ""
   },
   "verityn varjo": {
    "id": 1283515,
@@ -9460,7 +9355,6 @@
    "kr": "K-12",
    "krs": [
     "biorex",
-    "biosavoy",
     "cinemantsala",
     "gilda",
     "isohannu",
@@ -9503,7 +9397,6 @@
    "kr": "K-12",
    "krs": [
     "biorex",
-    "biosavoy",
     "cinemantsala",
     "gilda",
     "isohannu",
@@ -9609,7 +9502,6 @@
    "krs": [
     "biogrand",
     "biorex",
-    "biorexkokkola",
     "biosavoy",
     "ihmekompleksi",
     "kinolumo",
@@ -9835,6 +9727,7 @@
     "kinohannikainen",
     "kinokulma",
     "orion",
+    "star",
     "tapiola"
    ],
    "r": 6.0,

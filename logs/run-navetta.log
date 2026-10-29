@@ -1,6 +1,6 @@
-[navettakino] FAILED: https://www.navettakino.fi/: the host served a bot-check page in place of the programme (12044 B served, titled "One moment, please...", Server: openresty/1.31.1.1)
-[run] http: 0 revalidated (304), 1 full, 1 not stored (origin said no-store), 0 cache entries written
+[navettakino] FAILED: navettakino: 'Lapin sota' prints the line 'Lapin sota su 01.11 klo 17:00', which is no date and time this parser reads
+[run] http: 0 revalidated (304), 1 full, 0 not stored (origin said no-store), 0 cache entries written
 [run] hosts: 1 attempted -- www.navettakino.fi
 [run] navetta: 0 venues, 0 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 1 failures
-[run] timing: 1 site(s), 0.7s of fetching added up across workers that overlap, longest site 0.7s, longest queue wait 154.4s, 0.7s wall from this module's first fetch starting to its last ending
+[run] timing: 1 site(s), 1.4s of fetching added up across workers that overlap, longest site 1.4s, longest queue wait 147.3s, 1.4s wall from this module's first fetch starting to its last ending
 exit=1
