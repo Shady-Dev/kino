@@ -109,6 +109,9 @@ EVENT_PREFIXES = (
     # "roosa-kahvilan näytös", "vanhustenviikon näytös" and "jukka nykänen-muistonäytös",
     # one-off events or too generic to split every title, aliased title by title instead.
     "kinokopla", "hyvät kuvat-kerho", "ennakkoensi-ilta",
+    # 2026-10-30. Riviera's "Afternoon Tea:" is a screening with a tea menu, listed on its
+    # event page under the film's own credits.
+    "afternoon tea",
 )
 
 

@@ -734,6 +734,16 @@ class AliasTest(unittest.TestCase):
         self.assertEqual(enrich_tmdb.queries("Vilimit-festivaali: Aavesoturi (1987)")[0],
                          "Vilimit-festivaali: Aavesoturi")
 
+    def test_afternoon_tea_is_a_strand(self):
+        """Riviera, 2026-10-30: the film keeps its own title and the strand moves to method."""
+        published = "Afternoon Tea: J\u00e4rki ja tunteet"
+        self.assertEqual(enrich_tmdb.queries(published)[0], "J\u00e4rki ja tunteet")
+        show = {"title": published, "method": ""}
+        strands.apply(show)
+        self.assertEqual((show["title"], show["method"]),
+                         ("J\u00e4rki ja tunteet", "Afternoon Tea"))
+        self.assertEqual(strands.split("Afternoon Tea"), ("Afternoon Tea", ""))
+
     def test_the_year_survives_the_strand_and_the_cache_key_keeps_it(self):
         """The half that stops two years of one title folding. The trailing year leaves
         the *search string* through PAREN_NOISE but stays in the published year, which is
