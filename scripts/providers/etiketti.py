@@ -264,6 +264,13 @@ SITES = [
          {"id": "haapamaki-haapamaki", "match": "haapamäen elokuvat",
           "name": "Haapamäen Elokuvat", "short": "Haapamäen Elokuvat", "city": "Haapamäki"},
      ]},
+    # Moved from Nexxo when its endpoint began answering 404, read 2026-10-30. The place line
+    # reads "KINO MARILYN | SALI". The venue id is Nexxo's.
+    {"provider": "kinomarilyn", "base": "https://www.kinomarilyn.fi", "label": "Kino Marilyn",
+     "venues": [
+         {"id": "ma-loviisa", "match": "kino marilyn", "name": "Kino Marilyn",
+          "short": "Kino Marilyn", "city": "Loviisa"},
+     ]},
 ]
 
 MOVIE_LINK_RE = re.compile(r'href="(/elokuvat/(\d+)/[a-z0-9-]+)"')

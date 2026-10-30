@@ -39,7 +39,7 @@ Earlier hand-measured passes, and what each of them measured, are in
 | cities | 110 |
 | cities with more than one venue | 18 |
 | local providers (venues) | 21 (46) |
-| venues per adapter, largest 5 | `etiketti` 32, `nexxo` 19, `Finnkino` 17, `biorex` 12, `johku` 7 |
+| venues per adapter, largest 5 | `etiketti` 33, `nexxo` 18, `Finnkino` 17, `biorex` 12, `johku` 7 |
 | generated pages per language | 172 |
 | sitemap URLs | 517 |
 | off-origin poster references | 0 |

@@ -84,11 +84,6 @@ SITES = [
          {"id": "sa-mantta", "locationid": "4", "name": "Bio Säde",
           "short": "Bio Säde", "city": "Mänttä"},
      ]},
-    {"provider": "kinomarilyn", "base": "https://kinomarilyn.fi", "label": "Kino Marilyn",
-     "programme": "/esitysajat/", "venues": [
-         {"id": "ma-loviisa", "locationid": "1", "name": "Kino Marilyn",
-          "short": "Kino Marilyn", "city": "Loviisa"},
-     ]},
     {"provider": "kinoolympia", "base": "https://kino-olympia.fi", "label": "Kino Olympia",
      "programme": "/naytokset/", "venues": [
          {"id": "ol-hanko", "locationid": "1", "name": "Kino Olympia",

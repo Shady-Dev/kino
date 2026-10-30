@@ -138,8 +138,9 @@ GET {base}/wp-content/plugins/nexxo-scope/public_api.php
 
 **Status and next step**
 
-Live as `scripts/providers/nexxo.py`, eight providers on six hosts, cloud half. No next
-step; a further Nexxo cinema is a `SITES` entry.
+Live as `scripts/providers/nexxo.py`, nine providers on six hosts, cloud half. No next
+step; a further Nexxo cinema is a `SITES` entry. Kino Marilyn left for eTiketti by
+2026-10-30, as recorded under eTiketti.
 
 ---
 
@@ -181,6 +182,16 @@ and a bare `item` class. Read again on 2026-10-29 at 19:26 UTC, all 50 items on 
 page carry `["tampere"]`. The Lapin sota and Järki ja tunteet film pages give three
 screenings each, the same as copies saved at 18:51 UTC.
 
+**Kino Marilyn moved here from Nexxo** (read 2026-10-30). kinomarilyn.fi answers 301 to
+www.kinomarilyn.fi, which serves this listing in the `data-dates` shape with the town in
+`data-locations` and the place line `KINO MARILYN | SALI`, or `| AULA` for the foyer. The
+Nexxo `public_api.php` path redirects and then answers 404. The front page listed 53 dated
+screenings with a `/salikartta?id=` link each. A read of the 27 film pages linked from
+`/elokuvat/ohjelmistossa` and `/elokuvat/naytosajat` gave the same 53 ids, with the same
+dates, times, titles and prices. Two of them print `Lippu 0,00€`, and the quiz page says
+entry is free. The server answers `nginx` with no Cloudflare header. Whether a runner can
+read it is open until a cloud run does.
+
 **Niagara lists its screenings on its front page** (cinemaniagara.fi, read 2026-10-13). It
 links no `/elokuvat/naytosajat`. The front page renders every screening as a dated item, 59
 ticket ids over 36 films, and `/erikoisnaytokset` the special screenings, 5 ids over 3 of
@@ -202,8 +213,8 @@ than compared to the whole of it: Leffabuumi prints "Mikkeli Kinolinna" against 
 
 **Status and next step**
 
-Live as `scripts/providers/etiketti.py`, twenty providers and thirty venues, four of them
-on the local half. No next step.
+Live as `scripts/providers/etiketti.py`, twenty-three providers with thirty-three venues.
+Twelve of the providers run on the local half (measured 2026-10-30). No next step.
 
 ---
 

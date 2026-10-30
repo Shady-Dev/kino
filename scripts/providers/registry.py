@@ -170,8 +170,10 @@ PROVIDERS = [
          accentDark="#0F7B9C", book="reserve", module="nexxo", where="cloud"),
     dict(id="biosade", label="Bio Säde", host="kinohirvi.fi", accent="#8C3B7A",
          accentDark="#9D4C89", book="reserve", module="nexxo", where="cloud"),
+    # On eTiketti since 2026-10-30. `where` is provisional until a cloud run has read
+    # www.kinomarilyn.fi.
     dict(id="kinomarilyn", label="Kino Marilyn", host="kinomarilyn.fi", accent="#1A6E4A",
-         accentDark="#297833", book="reserve", module="nexxo", where="cloud"),
+         accentDark="#297833", book="reserve", module="etiketti", where="cloud"),
     dict(id="kinoolympia", label="Kino Olympia", host="kino-olympia.fi", accent="#9C5518",
          accentDark="#9E571A", book="reserve", module="nexxo", where="cloud"),
     dict(id="jarvelankino", label="Järvelän Kino", host="jarvelankino.fi", accent="#7A6A1E",

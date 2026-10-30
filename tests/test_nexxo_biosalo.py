@@ -30,7 +30,7 @@ class RequestTest(unittest.TestCase):
 
     def test_every_other_site_sends_the_request_it_always_sent(self):
         others = [s for s in nexxo.SITES if s["provider"] not in ("biosalo", "biostara")]
-        self.assertGreaterEqual(len(others), 8)
+        self.assertGreaterEqual(len(others), 7)
         for s in others:
             for v in s["venues"]:
                 with self.subTest(site=s["provider"], venue=v["id"]):

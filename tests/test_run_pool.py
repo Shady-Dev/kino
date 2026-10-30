@@ -362,11 +362,12 @@ class HostGroupsAgainstTheRealSitesTest(unittest.TestCase):
     def test_the_three_nexxo_pairs_that_share_a_host_are_grouped(self):
         """Measured 2026-09-01: eight sites, six hosts. kinoaurora.fi serves kinoaurora
         and kinometso; kinohirvi.fi serves kinohirvi and biosade. From 2026-10-21 ten sites
-        and seven hosts: biosalo.fi serves biosalo and biostara."""
+        and seven hosts: biosalo.fi serves biosalo and biostara. Six hosts from 2026-10-30,
+        when Kino Marilyn moved to eTiketti."""
         nexxo = importlib.import_module("nexxo")
         groups = run.host_groups(nexxo.SITES)
         together = {frozenset(s["provider"] for _, s in g) for g in groups}
-        self.assertEqual(len(groups), 7)
+        self.assertEqual(len(groups), 6)
         self.assertIn(frozenset({"kinoaurora", "kinometso"}), together)
         self.assertIn(frozenset({"kinohirvi", "biosade"}), together)
         self.assertIn(frozenset({"biosalo", "biostara"}), together)
