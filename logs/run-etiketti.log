@@ -1,5 +1,5 @@
 [biorexkokkola] Bio Rex Kokkola: 38 showtimes, 12 dates
-[biorexkokkola] synopses merged: 1
+[biorexkokkola] synopses merged: 0
 [kinopirtti] Kinopirtti: 92 showtimes, 24 dates
 [kinopirtti] synopses merged: 0
 [kinotar] Kinotar 123: 47 showtimes, 20 dates
@@ -7,24 +7,24 @@
 [kinojuha] Kino Juha: 11 showtimes, 7 dates
 [kinojuha] VIP-Sali: 10 showtimes, 9 dates
 [kinojuha] synopses merged: 0
-[biovuoksi] Bio Vuoksi: 24 showtimes, 8 dates
+[biovuoksi] Bio Vuoksi: 23 showtimes, 8 dates
 [biovuoksi] synopses merged: 0
 [kinoiiris] strand prefix split off 1 showtimes
-[kinoiiris] Kino Iiris: 39 showtimes, 22 dates
+[kinoiiris] Kino Iiris: 40 showtimes, 24 dates
 [kinoiiris] synopses merged: 0
 [kinoiiris] screening-note sentences left out of synopses: 3
 [kkino] K-Kino: 11 showtimes, 5 dates
 [kkino] synopses merged: 0
 [biograni] Bio Grani: 7 showtimes, 4 dates
 [biograni] synopses merged: 0
-[niagara] Cinema Niagara: 49 showtimes, 19 dates
+[niagara] Cinema Niagara: 48 showtimes, 19 dates
 [niagara] synopses merged: 0
 [kinokaustinen] Kino Kaustinen: 4 showtimes, 3 dates
 [kinokaustinen] synopses merged: 0
 [kinomarilyn] Kino Marilyn: 52 showtimes, 23 dates
-[kinomarilyn] synopses merged: 0
-[run] http: 0 revalidated (304), 200 full, 200 not stored (origin said no-store), 0 cache entries written
+[kinomarilyn] synopses merged: 1
+[run] http: 0 revalidated (304), 201 full, 201 not stored (origin said no-store), 0 cache entries written
 [run] hosts: 11 attempted -- biograni.fi, biovuoksi.fi, cinemaniagara.fi, jamsankinotar.fi, k-kino.fi, kinoiiris.com, kinojuha.fi, kinokaustinen.fi, kinopirtti.fi, www.biorex.org, www.kinomarilyn.fi
-[run] etiketti: 12 venues, 384 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
-[run] timing: 11 site(s), 342.3s of fetching added up across workers that overlap, longest site 63.3s, longest queue wait 39.1s, 93.5s wall from this module's first fetch starting to its last ending
+[run] etiketti: 12 venues, 383 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
+[run] timing: 11 site(s), 348.2s of fetching added up across workers that overlap, longest site 64.7s, longest queue wait 42.0s, 97.1s wall from this module's first fetch starting to its last ending
 exit=0

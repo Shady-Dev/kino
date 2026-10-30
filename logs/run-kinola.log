@@ -1,22 +1,22 @@
-[kinokilta] 56 screening(s) listed, 38 film page(s) read
+[kinokilta] 57 screening(s) listed, 39 film page(s) read
 [kinokilta] omitted 0 confirmed non-film(s) by evidence-backed exclusion over 0 screening(s), and 0 unresolved over 0
 [kinokilta] override retkikino-2026: active
 [kinokilta] 3 synopsis/synopses withheld, no language settled: Combat Shock, Kinokopla: DIG! XX, RetkiKino 2026
-[kinokilta] 7 film(s) with a language name not read, that part left blank: Alligator (Ei teksitystä); Combat Shock (Ei teksitystä); Joysticks (Ei teksitystä); Pieni kauhukauppa (Ei teksitystä); Prom Night (Ei teksitystä); Savage Dawn (Ei teksitystä); The Devils (Ei teksitystä)
-[kinokilta] Kino Kilta: 56 showtimes, 29 dates
+[kinokilta] 8 film(s) with a language name not read, that part left blank: Alligator (Ei teksitystä); Combat Shock (Ei teksitystä); Joysticks (Ei teksitystä); Kuzma (ukraina, Ei teksitystä); Pieni kauhukauppa (Ei teksitystä); Prom Night (Ei teksitystä); Savage Dawn (Ei teksitystä); The Devils (Ei teksitystä)
+[kinokilta] Kino Kilta: 57 showtimes, 29 dates
 [kinokilta] strand prefix split off 6 showtimes
-[kinokilta] Kino Kilta: 56 showtimes, 29 dates
+[kinokilta] Kino Kilta: 57 showtimes, 29 dates
 [kinokilta] synopses merged: 0
-[kinolaika] 32 screening(s) listed, 19 film page(s) read
+[kinolaika] 30 screening(s) listed, 18 film page(s) read
 [kinolaika] omitted 0 confirmed non-film(s) by evidence-backed exclusion over 0 screening(s), and 6 unresolved over 6
 [kinolaika] unresolved: Antti Autio, Arppa, Dave Lindholm & Pepe Ahlqvist: WALKIN' BLUES -kiertue, Garden Folly, Knipi - Sivellinvetoja, Livemusavisa
 [kinolaika] override a-fox-under-a-pink-moon: evidence-unavailable
 [kinolaika] override mina-ja-riikka-purra-2: active
 [kinolaika] override naza: evidence-unavailable
-[kinolaika] override pikku-kummitus-lapanen-keppostelee: active
+[kinolaika] override pikku-kummitus-lapanen-keppostelee: evidence-unavailable
 [kinolaika] override two-seasons-two-strangers: active
-[kinolaika] Kino Laika: 26 showtimes, 10 dates
-[kinolaika] Kino Laika: 26 showtimes, 10 dates
+[kinolaika] Kino Laika: 24 showtimes, 9 dates
+[kinolaika] Kino Laika: 24 showtimes, 9 dates
 [kinolaika] synopses merged: 0
 [kinolaika] synopses skipped as screening notes: 1
 [kinomyyri] 31 screening(s) listed, 20 film page(s) read
@@ -38,8 +38,8 @@
 [kinokonepaja] Kino Konepaja: 62 showtimes, 32 dates
 [kinokonepaja] Kino Konepaja: 62 showtimes, 32 dates
 [kinokonepaja] synopses merged: 0
-[run] http: 38 revalidated (304), 67 full, 22 not stored (origin said no-store), 1 cache entries written
+[run] http: 0 revalidated (304), 105 full, 22 not stored (origin said no-store), 40 cache entries written
 [run] hosts: 4 attempted -- kinokonepaja.fi, kinomyyri.fi, www.kinokilta.fi, www.kinolaika.fi
-[run] kinola: 4 venues, 172 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
-[run] timing: 4 site(s), 184.6s of fetching added up across workers that overlap, longest site 65.5s, longest queue wait 93.7s, 65.5s wall from this module's first fetch starting to its last ending
+[run] kinola: 4 venues, 171 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
+[run] timing: 4 site(s), 203.1s of fetching added up across workers that overlap, longest site 73.6s, longest queue wait 98.1s, 73.6s wall from this module's first fetch starting to its last ending
 exit=0
