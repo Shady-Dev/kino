@@ -8,10 +8,9 @@
 [schedule] 2026-11-04: 403 showtimes
 [schedule] 2026-11-05: 406 showtimes
 [tmdb] no TMDB match (1): BTS WORLD TOUR 'ARIRANG' IN SÃO PAULO: L
-[tmdb] weak match, no exact title (9): ENHYPEN WORLD TOUR 'BLOOD SAGA' -> 엔하이픈 월드 투어 ‘블러드 사가’ | Godzilla Minus Zero -> ゴジラ-0.0 | HYBE CHEERING PARTY -> 하이브 치어링 파티 | Jailer 2 -> ஜெயிலர் 2 | Leviticus -> Leviticus | Rose -> Rose | SEVENTEEN WORLD TOUR 'NEW_' -> SEVENTEEN WORLD TOUR [NEW_] ENCORE | TOMORROW X TOGETHER WORLD TOUR 'ACT : TOMORROW' -> TOMORROW X TOGETHER WORLD TOUR 'ACT : TOMORROW' IN SEOUL | Two Seasons, Two Strangers -> 旅と日々
-[tmdb] rating held back, under 25 votes (3): Bamse ja meren salaisuus (6.3 / 9 votes) | Jailer 2 (8.1 / 19 votes) | Two Seasons, Two Strangers (7.1 / 16 votes)
-[tmdb] rating refresh: 12 scheduled, 12 re-read, 0 failed and still due, 5 deferred (budget 12)
-[tmdb] 9 new lookups, 26 re-checks, cache 130, 107 mergeable by id
+[tmdb] weak candidate kept, not searched until 2026-10-31 (9): ENHYPEN WORLD TOUR 'BLOOD SAGA' -> 엔하이픈 월드 투어 ‘블러드 사가’ | Godzilla Minus Zero -> ゴジラ-0.0 | HYBE CHEERING PARTY -> 하이브 치어링 파티 | Jailer 2 -> ஜெயிலர் 2 | Leviticus -> Leviticus | Rose -> Rose | SEVENTEEN WORLD TOUR 'NEW_' -> SEVENTEEN WORLD TOUR [NEW_] ENCORE | TOMORROW X TOGETHER WORLD TOUR 'ACT : TOMORROW' -> TOMORROW X TOGETHER WORLD TOUR 'ACT : TOMORROW' IN SEOUL | Two Seasons, Two Strangers -> 旅と日々
+[tmdb] rating refresh: 5 scheduled, 5 re-read, 0 failed and still due, 0 deferred (budget 12)
+[tmdb] 0 new lookups, 5 re-checks, cache 130, 107 mergeable by id
 [films] 66 film entries
 [attrs] dropped, neither format nor language (10): Ennakko | Klassikko | Maxim | OCAP | Pkseutu | SEVERAL | TKU & R | Tampere | Tekijöitä | Varaus20
 [schedule] 17 venue files written, 0 kept as-is
