@@ -5475,6 +5475,14 @@
    },
    "tr": ""
   },
+  "opiskelijanäytös kojootti vs acme": {
+   "r": 0,
+   "s": {
+    "en": "",
+    "fi": "Puhuttu englanniksi / tekstitys suomeksi! Spoken in English / subtitled in Finnish Vuosikymmenten ajan pommien räjäyttämä, dynamiitin murskaama, magneettien runtelema, siirtolohkareiden litistämä, junien tallaama, tunneleiden huijaama, jousien sinkoama, höyryjyrien yliajama, viallisten laitteiden pettämä, benjiköysien kiusaama, rakettien riepottelema, lepakkoasujen selkäänpuukottama, rakettiluistinten paiskoma, yksipyöräisten kumoama, maanjäristyspillereiden tärisyttämä, villiintyneiden kuminauhojen venyttämä ja lounaisten Yhdysvaltojen jokaiselta jyrkänteeltä syösty Kelju K. Kojootti saa viimein tarpeekseen ja päättää iskeä takaisin. Mainostauluonnettomuuksiin erikoistuneen asianajajan Kevin Averyn (Will Forte) kanssa liittoutuessaan hän haastaa oikeuteen ACME Inc.:n – ahneuttaan tavoittelevan jättiyhtiön, jonka tuotteet ovat olleet jokaisen Kojoottia kohdanneen katastrofin taustalla – sekä yhtiötä edustavan lipevän yritysjuristin Buddy Cranen (John Cena)."
+   },
+   "tr": ""
+  },
   "orava": {
    "id": 683367,
    "r": 0,
@@ -8969,7 +8977,6 @@
    "img": "data/posters/ef343d1fb55e5d1c.jpg",
    "kr": "K-16",
    "krs": [
-    "biopallas",
     "biorex",
     "gilda",
     "jarvelankino",
