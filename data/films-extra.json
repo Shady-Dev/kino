@@ -46,12 +46,17 @@
    "tr": ""
   },
   "a clockwork orange": {
-   "r": 0,
+   "id": 185,
+   "img": "data/posters/46aa5dacf0a3a895.jpg",
+   "r": 8.2,
    "s": {
     "en": "Alex DeLarge is an “ultraviolent” youth in futuristic Britain. As with all luck, his eventually runs out and he’s arrested and convicted of murder. While in prison, Alex learns of an experimental program in which convicts are programmed to detest violence. If he goes through the program, his sentence will be reduced and he will be back on the streets sooner than expected. But Alex’s ordeals are far from over once he hits the streets of Britain.",
-    "fi": ""
+    "fi": "Knallipäisen huligaanin Alexin matka moraalittomasta pikkurikollisesta aivopestyksi kunnolliseksi kansalaiseksi ja takaisin hulttioksi."
    },
-   "tr": ""
+   "tr": "https://www.youtube.com/watch?v=2meAsIclTzQ",
+   "ts": [
+    "fi"
+   ]
   },
   "a couch in new york": {
    "id": 47434,
@@ -768,13 +773,12 @@
   },
   "cat people 1942 night visions": {
    "id": 25508,
-   "img": "data/posters/781f2464759326b3.jpg",
-   "r": 6.9,
+   "r": 0,
    "s": {
     "en": "",
     "fi": "Ei tekstitystä Tässä psykologisen kauhun klassikossa kaunis nuori muotisuunnittelija alkaa uskoa – läheisten ihmisten kuollessa karmealla tavalla – olevansa ”kissaihmisten” kirouksen alainen. Serbialaisen Irena Dubrovnan kansan keskuudessa uskotaan ikivanhaan kiroukseen: aina kun intohimo herää, he muuttuvat pantteriksi – kohtalokkain seurauksin. Muuttaessaan New Yorkiin Irena rakastuu Oliver Reediin ja suostuu tämän kosintaan. Kun Oliverin kiinnostus alkaa kuitenkin suuntautua muualle, Irena uskoutuu psykiatrilleen ja kertoo pelkäävänsä olevansa se pelottava kissaeläin, joka vaanii varjoissa aviomiehen rakastajatarta. Psykiatri vakuuttaa Irenalle pelkojen olevan vain tämän oman mielen tuotetta, mutta pian hänet löydetään kuolleena Irenan asunnosta – villieläimen raatelemana. Ajettuna ja lähes järkensä menettäneenä Irena pakenee. Mysteeri kuitenkin säilyy: muuttuuko hän intohimon hetkellä... vai eikö hän muutu?"
    },
-   "tr": "https://www.youtube.com/watch?v=w-MIQyzBWHs"
+   "tr": ""
   },
   "chronicle of a disappearance": {
    "id": 49104,
@@ -1239,13 +1243,12 @@
   },
   "eraserhead 1977 night visions": {
    "id": 985,
-   "img": "data/posters/e93a7527b6e67729.jpg",
-   "r": 7.3,
+   "r": 0,
    "s": {
     "en": "",
     "fi": "Henry Spencer yrittää selviytyä teollisesta ympäristöstään, vihaisesta tyttöystävästään ja vastasyntyneen mutanttilapsensa sietämättömästä kirkumisesta."
    },
-   "tr": "https://www.youtube.com/watch?v=zVJICfUx8M0"
+   "tr": ""
   },
   "erikoisnäytös typerät lapset": {
    "id": 1702082,
@@ -1452,7 +1455,7 @@
   "fåret shaun och monstret på bondgården": {
    "id": 1477104,
    "img": "data/posters/93eda5fa30b7d70c.jpg",
-   "r": 7.4,
+   "r": 7.3,
    "s": {
     "en": "On Halloween Eve at Mossy Bottom Farm, excitement turns to dismay when the clumsy Farmer ruins the pumpkin patch. Shaun tries fixing it with science experiments, but things go awry when a wild beast appears in the woods.",
     "fi": "",
@@ -1570,13 +1573,12 @@
   },
   "gremlins riiviöt 1984 night visions": {
    "id": 927,
-   "img": "data/posters/24c8fa65c2d6fcdc.jpg",
-   "r": 7.1,
+   "r": 0,
    "s": {
     "en": "",
     "fi": "Ei tekstitystä Saatuaan joululahjaksi eksoottisen pienen eläimen nuori mies rikkoo kolmea tärkeää sääntöä ja vapauttaa lauman oikukkaita, viekkaita ja ilkikurisia otuksia pikkukaupunkiin."
    },
-   "tr": "https://www.youtube.com/watch?v=PXXZx6skXrw"
+   "tr": ""
   },
   "gråben vs acme": {
    "id": 1204680,
@@ -3709,19 +3711,6 @@
     "en"
    ]
   },
-  "kätyrit monsterit suomeksi puhuttu": {
-   "id": 1315772,
-   "img": "data/posters/67059865db3405c0.jpg",
-   "r": 7.6,
-   "s": {
-    "en": "This is the rambunctious, ridiculous and totally true story of how the Minions conquered Hollywood, became movie stars, lost everything, unleashed monsters onto the world and then banded together to try and save the planet from the mayhem they had just created.",
-    "fi": ""
-   },
-   "tr": "https://www.youtube.com/watch?v=V-O-uBaHk3c",
-   "ts": [
-    "en"
-   ]
-  },
   "l atalante": {
    "id": 43904,
    "img": "data/posters/529a2d4feaee8f96.jpg",
@@ -3756,7 +3745,7 @@
     "biorex",
     "tapiola"
    ],
-   "r": 8.3,
+   "r": 8.0,
    "s": {
     "en": "The intertwined lives of three men in three different eras, three lives intimately linked by sexuality and desire, pain, and legacy.",
     "fi": "Cannesin pääkilpasarjan parhaan ohjauksen palkinnon voittanut La bola negra on kansainvälisen lehdistön mukaan ”vaikuttava”, ”tyrmäävä”, ”kautta aikojen tärkein historiallinen queer-kuvaelma”. Elokuvan taustalla on Espanjan sisällissodassa teloitetun runoilijan Federico García Lorcan hahmo ja hänen keskeneräiseksi jäänyt romaaninsa. Tarinassa kuvataan kolmen homoseksuaalin kohtaloita vuosina 1932, 1937 ja 2017. Yhteen nivoutuvat sota, kielletty halu, suru, syyllisyys ja vaietut perhesalaisuudet. Javier Calvon ja Javier Ambrossin ohjaaman elokuvan rooleissa vakuuttavat sekä nuoret gay-näyttelijät (mm. laulaja Guitarricadelafuente) että veteraanitähdet Lola Dueñas, Glenn Close ja Pénelope Cruz."
@@ -3977,6 +3966,7 @@
     "kinotar",
     "kinotervakoski",
     "kinotoijala",
+    "kinovirta",
     "kirkkonummi",
     "kkino",
     "korjaamo",
@@ -4037,12 +4027,17 @@
    ]
   },
   "late lammas hämärä puuhissa": {
-   "r": 0,
+   "id": 1477104,
+   "img": "data/posters/93eda5fa30b7d70c.jpg",
+   "r": 7.3,
    "s": {
-    "en": "",
+    "en": "On Halloween Eve at Mossy Bottom Farm, excitement turns to dismay when the clumsy Farmer ruins the pumpkin patch. Shaun tries fixing it with science experiments, but things go awry when a wild beast appears in the woods.",
     "fi": "Rakastettu Late Lammas palaa valkokankaille uudessa, riemastuttavassa ja kutkuttavan hauskassa seikkailussa. Farmin asukkaat odottavat innolla Halloweenia, kunnes heidän rakkaudella kasvattamansa kurpitsaviljelmä tuhoutuu juhlan kynnyksellä. Late ei jää toimettomaksi, vaan päättää ryhtyä “hulluksi tiedemieheksi” korjatakseen tilanteen – ja pian tapahtumat karkaavatkin täysin käsistä. Kun tilan maajussi katoaa ja outo villi peto herättää kauhua kyläläisissä, ovat kaikki ainekset kasassa hirviömäisen hauskalle seikkailulle kaiken ikäisille."
    },
-   "tr": ""
+   "tr": "https://www.youtube.com/watch?v=daZMq0AyOMc",
+   "ts": [
+    "en"
+   ]
   },
   "late lammas hämäräpuuhissa": {
    "id": 1477104,
@@ -4512,16 +4507,12 @@
   },
   "matkalla piemonteen": {
    "id": 1545391,
-   "img": "data/posters/e753668f77270e2f.jpg",
    "r": 0,
    "s": {
-    "en": "The film follows four newly retired people who travel to Italy to help Eva sell an olive farm she inherited. But during their sunny stay, new thoughts arise about life, freedom and the dreams they have yet to realize. The trip becomes a chance to reevaluate what really matters when you reach the second half of life.",
+    "en": "",
     "fi": "Neljä ystävää matkustaa yhdessä Italiaan, missä Eva on perinyt oliivitilan. Tarkoituksena on myydä tila, mutta perillä herää kysymys: mitä heillä oikeastaan on Ruotsissa, minkä vuoksi palata takaisin?\n\nItaliassa sen sijaan on aurinkoa, hyvää ruokaa ja hurmaavia kyläläisiä. Eikö juuri nyt olisi aika tarttua hetkeen ja toteuttaa kaikki unelmansa?"
    },
-   "tr": "https://www.youtube.com/watch?v=9U5Kwlm4KcQ",
-   "ts": [
-    "en"
-   ]
+   "tr": ""
   },
   "me olemme pariisin orkesteri": {
    "r": 0,
@@ -5089,7 +5080,9 @@
    "img": "data/posters/cad95ad93c0d2c85.jpg",
    "kr": "K-12",
    "krs": [
+    "cinemantsala",
     "gilda",
+    "haapamaki",
     "ihmekompleksi",
     "kinopirtti",
     "kisakino",
@@ -6247,7 +6240,6 @@
    "kr": "K-12",
    "krs": [
     "biorex",
-    "kinohirvi",
     "kinolumo",
     "kinometso",
     "kinomyyri",
@@ -8188,12 +8180,14 @@
    "tr": ""
   },
   "the blob 1988 night visions": {
-   "r": 0,
+   "id": 9599,
+   "img": "data/posters/0bb8f1e851b2e6b0.jpg",
+   "r": 6.9,
    "s": {
     "en": "",
     "fi": "Ei tekstitystä ”The Blob” on palannut tässä kauhistuttavassa tarinassa, joka kertoo iljettävästä ja pahansuovasta eliöstä. Se syöksyy maahan idyllisessä amerikkalaisessa pikkukaupungissa nimeltä Arborville. Olentoa ei vaivaa omatunto eikä äly; se tekee vain yhtä asiaa – ja tekee sen tehokkaasti. Se syö kaiken liikkuvan: miehiä, naisia ​​ja lapsia. Ja tänä yönä se aikoo nielaista koko Arborvillen."
    },
-   "tr": ""
+   "tr": "https://www.youtube.com/watch?v=vq0our4mceQ"
   },
   "the decline of western civilization": {
    "id": 21137,
@@ -8480,16 +8474,12 @@
   },
   "the rivals of amziah king": {
    "id": 1124142,
-   "img": "data/posters/d11d999096d6db8d.jpg",
-   "r": 6.8,
+   "r": 0,
    "s": {
-    "en": "Deep within the backwoods of rural Oklahoma, charismatic and musically gifted Amziah King herds a bluegrass-playing band of misfits while overseeing the premier honey-making operation in town. When Amziah’s estranged foster daughter unexpectedly returns, Amziah leaps at the possibility to renew connection and create a family business. But the honey game is ruthless, and Amziah’s rivals threaten to destroy everything he has built.",
+    "en": "",
     "fi": "Oklahoman syrjäseudulla asuva Amziah King (Oscar®-voittaja Matthew McConaughey) tunnetaan niin karismaattisena bluegrass-muusikkona kuin seudun menestyneimmän hunajatilan omistajana. Kun Amziahin kasvattitytär (Angelina LookingGlass) palaa vuosien jälkeen yllättäen takaisin hänen elämäänsä, Amziah näkee mahdollisuuden rakentaa heidän suhteensa uudelleen ja tehdä hunajatilasta yhteisen perheyrityksen. Mutta hunajabisneksessä kilpailu on armotonta, ja Amziahin kilpailijat ovat valmiita tuhoamaan hänen elämäntyönsä."
    },
-   "tr": "https://www.youtube.com/watch?v=GwSvAyaMGMo",
-   "ts": [
-    "en"
-   ]
+   "tr": ""
   },
   "the rocky horror picture show": {
    "id": 36685,
@@ -8709,8 +8699,7 @@
    "img": "data/posters/cc94b9de33574b5f.jpg",
    "kr": "K-12",
    "krs": [
-    "biorex",
-    "niagara"
+    "biorex"
    ],
    "r": 7.0,
    "s": {
@@ -9549,9 +9538,7 @@
    "kr": "K-16",
    "krs": [
     "biorex",
-    "biosavoy",
     "ihmekompleksi",
-    "kinolumo",
     "kinopiispanristi",
     "savonkinot"
    ],
@@ -9629,7 +9616,6 @@
    "img": "data/posters/ce1a7e45f2509c41.jpg",
    "kr": "K-16",
    "krs": [
-    "biorex",
     "cine",
     "helios",
     "ihmekompleksi",
@@ -9805,5 +9791,5 @@
    "tr": ""
   }
  },
- "generated": "2026-10-29"
+ "generated": "2026-10-30"
 }
