@@ -42,8 +42,8 @@ Check for an existing platform first. Every candidate assessed, with its evidenc
 
 Its Nexxo endpoint answers 404 and the site serves eTiketti since at least 2026-10-30. The
 adapter entry moved with the same provider and venue ids. No runner has read the new host,
-so `where="cloud"` is provisional. `book` is still Nexxo's `reserve`, although every
-screening now links to its own `/salikartta?id=` page. Changing it waits on the maintainer.
+so `where="cloud"` is provisional. Every screening links to its own `/salikartta?id=` page
+under "Osta tai varaa", and the maintainer moved `book` from `reserve` to `buy` that day.
 **Next action:** read the first cloud run's `run-etiketti.log`, then rerun `check_runs.py`.
 
 ### Heureka's own posters still wait for written permission
