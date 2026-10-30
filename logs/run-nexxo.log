@@ -14,10 +14,6 @@
 [biosade] Bio Säde (Mänttä): 14 showtimes
 [biosade] Bio Säde: 14 showtimes, 5 dates
 [biosade] synopses merged: 0
-[http] 404 from kinomarilyn.fi, gave up after 3 attempt(s) -- Server: nginx
-[kinomarilyn] locationid 1 FAILED: HTTP Error 404: Not Found
-[kinomarilyn] Kino Marilyn: no showtimes, keeping previous data from 2026-10-24T17:30:59+00:00
-[kinomarilyn] synopses merged: 0
 [kinoolympia] Kino Olympia (Hanko): 11 showtimes
 [kinoolympia] Kino Olympia: 11 showtimes, 5 dates
 [kinoolympia] synopses merged: 0
@@ -48,9 +44,8 @@
 [biostara] Bio Stara: 15 showtimes, 5 dates
 [biostara] synopses merged: 0
 [run] http: 0 revalidated (304), 11 full, 11 not stored (origin said no-store), 0 cache entries written
-[run] hosts: 7 attempted -- biosalo.fi, jarvelankino.fi, kino-olympia.fi, kinoaurora.fi, kinohirvi.fi, kinomarilyn.fi, kinoset.fi
+[run] hosts: 6 attempted -- biosalo.fi, jarvelankino.fi, kino-olympia.fi, kinoaurora.fi, kinohirvi.fi, kinoset.fi
 [run] pending: kinometso has 2 venue(s) with no programme yet: km-tikkakoski, km-vaajakoski
-[run] partial: kinomarilyn kept previous data for 1 venue(s): ma-loviisa
-[run] nexxo: 16 venues, 214 showtimes, 1 stale, 0 unverified, 2 pending, 0 with no programme, 1 failures
-[run] timing: 10 site(s), 69.3s of fetching added up across workers that overlap, longest site 27.9s, longest queue wait 0.0s, 27.9s wall from this module's first fetch starting to its last ending
-exit=1
+[run] nexxo: 16 venues, 214 showtimes, 0 stale, 0 unverified, 2 pending, 0 with no programme, 0 failures
+[run] timing: 9 site(s), 40.8s of fetching added up across workers that overlap, longest site 10.4s, longest queue wait 0.0s, 10.4s wall from this module's first fetch starting to its last ending
+exit=0
