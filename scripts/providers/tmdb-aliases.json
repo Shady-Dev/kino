@@ -202,5 +202,7 @@
  "_comment63": "Bio Marlon, Kauhajoki, 2026-10-21. \"NÄÄ MAAT, NÄÄ MANNUT – MEIDÄN KAUHAJOKI\" is a 70-minute local film made from the Kauhajoki-Seura's digitised archive, shown free. TMDB returned nothing that day for the full title, \"Nää maat, nää mannut\" or \"Meidän Kauhajoki\", so it is a real absence and is never searched.",
  "nää maat nää mannut meidän kauhajoki": "-",
  "_comment64": "Elokuvateatteri Star, Oulu, 2026-10-29. \"Yön lapsi (Night Visions)\" is Yön lapsi shown in the Night Visions festival's touring programme, at the 92 minutes every other chain publishes. TMDB gave 964849 that day as Yön lapsi, Hanna Bergholm, 2026-07-01, 92 minutes, the id the other chains' \"Yön lapsi\" already carries.",
- "yön lapsi night visions": "964849"
+ "yön lapsi night visions": "964849",
+ "_comment65": "Kino Marilyn, Loviisa, 2026-10-30. \"Mama - esitys äitiydestä\" is a solo dance-theatre piece by a Loviisa artist, per the cinema's own description. The title search matched the 2013 horror film Mama (132232) on its 100 minutes. TMDB returned nothing that day for the full title or the artist's name.",
+ "mama esitys äitiydestä": "-"
 }
