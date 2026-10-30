@@ -1,4 +1,4 @@
-[kotkanleffat] Kinopalatsi Kotka: 46 showtimes, 21 dates
+[kotkanleffat] Kinopalatsi Kotka: 45 showtimes, 21 dates
 [kotkanleffat] Trio 123: 65 showtimes, 7 dates
 [kotkanleffat] synopses merged: 0
 [savonkinot] Tapio Joensuu: 125 showtimes, 26 dates
@@ -8,7 +8,7 @@
 [savonkinot] Maxim Varkaus: 39 showtimes, 13 dates
 [savonkinot] Kino-Hovi Kitee: 16 showtimes, 9 dates
 [savonkinot] synopses merged: 0
-[leffabuumi] Kinolinna: 53 showtimes, 9 dates
+[leffabuumi] Kinolinna: 54 showtimes, 9 dates
 [leffabuumi] Kino Ritz: 22 showtimes, 19 dates
 [leffabuumi] Kino Saimaa: 3 showtimes, 2 dates
 [leffabuumi] synopses merged: 0
@@ -21,15 +21,15 @@
 [ihmekompleksi] screening-note sentences left out of synopses: 1
 [kino123] Kino 123: 57 showtimes, 8 dates
 [kino123] synopses merged: 0
-[biogrand] Bio Grand: 23 showtimes, 7 dates
+[biogrand] Bio Grand: 22 showtimes, 7 dates
 [biogrand] synopses merged: 0
 [joutsankino] Joutsan Kino: 10 showtimes, 7 dates
 [joutsankino] synopses merged: 0
-[cine] Cine Keuda-Talo: 4 showtimes, 3 dates
+[cine] Cine Keuda-Talo: 3 showtimes, 3 dates
 [cine] Cine Nikkilä: 6 showtimes, 2 dates
 [cine] synopses merged: 0
 [star] strand prefix split off 4 showtimes
-[star] Elokuvateatteri Star: 121 showtimes, 10 dates
+[star] Elokuvateatteri Star: 117 showtimes, 10 dates
 [star] synopses merged: 0
 [star] screening-note sentences left out of synopses: 1
 [haapamaki] Haapamäen Elokuvat: 18 showtimes, 16 dates
@@ -37,5 +37,5 @@
 [run] venuelists-local.json rewritten
 [run] http: 0 revalidated (304), 298 full, 298 not stored (origin said no-store), 0 cache entries written
 [run] hosts: 12 attempted -- biogrand.fi, haapamaenelokuvat.fi, ihmekompleksi.fi, kiertue.cine.fi, kino.joutsa.fi, kino123.fi, kotkanleffat.fi, leffabuumi.fi, lippu.elokuvateatteristar.fi, studio123.fi, studiot123.com, www.savonkinot.fi
-[run] etiketti: 21 venues, 819 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
+[run] etiketti: 21 venues, 813 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
 exit=0
