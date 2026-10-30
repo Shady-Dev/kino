@@ -437,10 +437,6 @@
   "avengers doomsday": {
    "id": 1003596,
    "img": "data/posters/b1eae52d6a765de3.jpg",
-   "kr": "K-12",
-   "krs": [
-    "cinemantsala"
-   ],
    "r": 0,
    "s": {
     "en": "Beloved heroes from three distinct universes are set on a deadly collision course and face an existential threat unlike anything they've ever encountered.",
@@ -451,10 +447,6 @@
   "avengers doomsday 2d": {
    "id": 1003596,
    "img": "data/posters/b1eae52d6a765de3.jpg",
-   "kr": "K-12",
-   "krs": [
-    "cinemantsala"
-   ],
    "r": 0,
    "s": {
     "en": "Beloved heroes from three distinct universes are set on a deadly collision course and face an existential threat unlike anything they've ever encountered.",
@@ -1645,10 +1637,6 @@
   "hamnet": {
    "id": 858024,
    "img": "data/posters/84aa45b5d78814bd.jpg",
-   "kr": "K-12",
-   "krs": [
-    "cinemantsala"
-   ],
    "r": 7.7,
    "s": {
     "en": "",
@@ -3786,6 +3774,19 @@
     "en"
    ]
   },
+  "kätyrit monsterit suomeksi puhuttu": {
+   "id": 1315772,
+   "img": "data/posters/67059865db3405c0.jpg",
+   "r": 7.6,
+   "s": {
+    "en": "This is the rambunctious, ridiculous and totally true story of how the Minions conquered Hollywood, became movie stars, lost everything, unleashed monsters onto the world and then banded together to try and save the planet from the mayhem they had just created.",
+    "fi": ""
+   },
+   "tr": "https://www.youtube.com/watch?v=V-O-uBaHk3c",
+   "ts": [
+    "en"
+   ]
+  },
   "l atalante": {
    "id": 43904,
    "img": "data/posters/529a2d4feaee8f96.jpg",
@@ -4079,6 +4080,19 @@
    },
    "tr": "https://www.youtube.com/watch?v=O_ZRKMaNIy0"
   },
+  "late lammas elokuva hämäräpuuhissa englanniksi": {
+   "id": 1477104,
+   "img": "data/posters/0d3865389792d3a5.jpg",
+   "r": 7.3,
+   "s": {
+    "en": "On Halloween Eve at Mossy Bottom Farm, excitement turns to dismay when the clumsy Farmer ruins the pumpkin patch. Shaun tries fixing it with science experiments, but things go awry when a wild beast appears in the woods.",
+    "fi": ""
+   },
+   "tr": "https://www.youtube.com/watch?v=daZMq0AyOMc",
+   "ts": [
+    "en"
+   ]
+  },
   "late lammas elokuva hämäräpuuhissa ennakkonäytös": {
    "id": 1477104,
    "r": 0,
@@ -4163,19 +4177,6 @@
     "fi": "TALK TO ME- ja BRING HER BACK -elokuvien tuottajilta uusi, omaperäinen painajainen. Kahden teinipojan on paettava väkivaltaista olentoa, joka ottaa sen ihmisen hahmon, jota he eniten haluavat – eli toisensa."
    },
    "tr": "https://www.youtube.com/watch?v=WXuK0vlFxII",
-   "ts": [
-    "en"
-   ]
-  },
-  "lex julia": {
-   "id": 1450457,
-   "img": "data/posters/c7eca1af3b9c6236.jpg",
-   "r": 0,
-   "s": {
-    "en": "Julia travels to her new friend Anna's private island and meets Anna's husband JP, whom she recognises from a past traumatic encounter.",
-    "fi": ""
-   },
-   "tr": "",
    "ts": [
     "en"
    ]
@@ -5179,10 +5180,10 @@
    "img": "data/posters/cad95ad93c0d2c85.jpg",
    "kr": "K-12",
    "krs": [
-    "cinemantsala",
     "gilda",
     "haapamaki",
     "ihmekompleksi",
+    "kinojuha",
     "kinopirtti",
     "kisakino",
     "levisummit",
@@ -5948,7 +5949,6 @@
     "korjaamo",
     "kotkanleffat",
     "leffabuumi",
-    "pajakkakino",
     "savonkinot",
     "star",
     "studio123jarvenpaa",
@@ -6021,7 +6021,6 @@
     "korjaamo",
     "kotkanleffat",
     "leffabuumi",
-    "pajakkakino",
     "savonkinot",
     "star",
     "studio123jarvenpaa",
@@ -6096,7 +6095,6 @@
     "korjaamo",
     "kotkanleffat",
     "leffabuumi",
-    "pajakkakino",
     "savonkinot",
     "star",
     "studio123jarvenpaa",
@@ -6341,16 +6339,6 @@
   "presidentin kyyditys": {
    "id": 1412214,
    "img": "data/posters/b6832fef0c1dad14.jpg",
-   "kr": "K-12",
-   "krs": [
-    "biorex",
-    "kinolumo",
-    "kinometso",
-    "kinomyyri",
-    "kinopiispanristi",
-    "savonkinot",
-    "star"
-   ],
    "r": 0,
    "s": {
     "en": "",
@@ -7438,32 +7426,6 @@
     "fi"
    ]
   },
-  "römppäviikot nosferatu 1922": {
-   "id": 653,
-   "img": "data/posters/77ff72e53240e7e7.jpg",
-   "r": 7.7,
-   "s": {
-    "en": "",
-    "fi": "Nosferatu (Nosferatu, eine Symphonie des Grauens) on F. W. Murnaun ohjaama saksalainen kauhuelokuva vuodelta 1922. Nosferatu on elokuvataiteen klassikko, jolla on ollut huomattava vaikutus kauhuelokuviin.  Max Schrekin tähdittämä klassinen kuvaus transsilvanialaisesta kreivistä, joka herää öisin ja elää ihmisten verestä."
-   },
-   "tr": "https://www.youtube.com/watch?v=npxhdRMYHy0",
-   "ts": [
-    "fi"
-   ]
-  },
-  "römppäviikot pikkuli ja tähtipeura": {
-   "id": 1403476,
-   "img": "data/posters/79b249e47f0870db.jpg",
-   "r": 0,
-   "s": {
-    "en": "",
-    "fi": "Pikkuli sekä muu Aurinkonummen metsän väki on valmistautumassa jouluun, mutta aikuiset alkavat riidellä ja peruvat koko joulun. Pikkuli ystävineen päättää pelastaa tilanteen ja lähtee lumiseen metsään löytääkseen avuksi tarujen Tähtipeuran. Revontulien loimutessa sinnikäs retkue kohtaa monia seikkailuja, tavoitteenaan pelastaa kaikkien joulu."
-   },
-   "tr": "",
-   "ts": [
-    "fi"
-   ]
-  },
   "saapasjalkakissa": {
    "id": 58704,
    "r": 0,
@@ -8079,6 +8041,16 @@
    "ts": [
     "en"
    ]
+  },
+  "taksikuski": {
+   "id": 103,
+   "img": "data/posters/238e6650e84ba962.jpg",
+   "r": 8.1,
+   "s": {
+    "en": "",
+    "fi": "Martin Scorsesen ajattoman mestariteoksen pääosassa Robert De Niro on Vietnam-veteraani, joka ajaa taksia yön pimeinä tunteina. Kaikki näkemänsä vaikuttaa häneen syvästi: narkkarit, prostituoidut, rikolliset, kerjäläiset… Suurkaupungin yöt ovat kuin viidakko, ja jonkun täytyy laittaa asiat järjestykseen. Koska kukaan muu tässä hullussa maailmassa ei tunnu välittävän mistään, mies päättää ottaa oikeuden omiin käsiinsä ja muuttuu pian käveleväksi aikapommiksi valmiina väkivaltaiseen toimintaan… De Niron rinnalla loistavat nuori Jodie Foster, Harvey Keitel, Peter Boyle ja Cybill Shepherd. Kaunistelemattomasta käsikirjoituksesta vastaa Paul Schrader. Musiikin sävelsi Bernard Herrmann uransa viimeisenä työnään. 50 vuotta sitten marraskuussa Suomen ensi-iltansa saanut Taksikuski nähdään Cinema Orionissa 35mm-filmikopiona!"
+   },
+   "tr": "https://www.youtube.com/watch?v=zdqCqDSTVNI"
   },
   "talven valoa": {
    "id": 29455,
@@ -9464,8 +9436,7 @@
    "krs": [
     "biogrand",
     "k13",
-    "kinokilta",
-    "kinopirtti"
+    "kinokilta"
    ],
    "r": 7.3,
    "s": {
