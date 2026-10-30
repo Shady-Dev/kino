@@ -189,8 +189,8 @@ Nexxo `public_api.php` path redirects and then answers 404. The front page liste
 screenings with a `/salikartta?id=` link each. A read of the 27 film pages linked from
 `/elokuvat/ohjelmistossa` and `/elokuvat/naytosajat` gave the same 53 ids, with the same
 dates, times, titles and prices. Two of them print `Lippu 0,00€`, and the quiz page says
-entry is free. The server answers `nginx` with no Cloudflare header. Whether a runner can
-read it is open until a cloud run does.
+entry is free. The server answers `nginx` with no Cloudflare header. The first cloud run
+after the release read it the same day, 52 screenings with `exit=0`.
 
 **Niagara lists its screenings on its front page** (cinemaniagara.fi, read 2026-10-13). It
 links no `/elokuvat/naytosajat`. The front page renders every screening as a dated item, 59

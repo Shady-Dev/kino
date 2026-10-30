@@ -4474,3 +4474,13 @@ The page saved at 18:52 UTC and the live page read at 19:26 UTC both give five r
 The run log now names every card left out, and counts cards with no title or description.
 The saved page of 2026-10-29 logs `1 card(s) whose dates, weekdays and times disagree:
 KERRO KAIKILLE`. Two mutations red.
+
+### Kino Marilyn moves from Nexxo to eTiketti (2026-10-30)
+The Nexxo endpoint had answered 404 since 2026-10-24, and www.kinomarilyn.fi now serves
+eTiketti. The entry moved with the same provider and venue ids, label, host and accents.
+All 53 listed screenings matched the cinema's front page by ticket id, date, time, title and
+price. The maintainer chose `book="buy"`, because each screening links to its own ticket
+page. "Mama - esitys äitiydestä" is a dance-theatre piece and has a `-` alias, because the
+title search matched the 2013 horror film. Released at 9482d085c7. Cloud run 41026539942
+read the host (52 screenings, `exit=0`) and `check_runs.py` passed on 7177f5b52f. Seven
+mutations red. Research: [ticketing-platforms.md](../research/ticketing-platforms.md).

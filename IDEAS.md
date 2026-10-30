@@ -38,14 +38,6 @@ Check for an existing platform first. Every candidate assessed, with its evidenc
 - **Next action:** decide what to publish for Kino K13's Serbian film days, 6.-8.11.2026.
   The festival's page gives five slots one clock each, and three slots list two films.
 
-### Kino Marilyn moved to eTiketti and waits for a cloud read
-
-Its Nexxo endpoint answers 404 and the site serves eTiketti since at least 2026-10-30. The
-adapter entry moved with the same provider and venue ids. No runner has read the new host,
-so `where="cloud"` is provisional. Every screening links to its own `/salikartta?id=` page
-under "Osta tai varaa", and the maintainer moved `book` from `reserve` to `buy` that day.
-**Next action:** read the first cloud run's `run-etiketti.log`, then rerun `check_runs.py`.
-
 ### Heureka's own posters still wait for written permission
 
 The initials tiles are gone. Three planetarium films draw Leffavuoro's own title cards as
