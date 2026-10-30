@@ -7,9 +7,9 @@
 [kinokilta] strand prefix split off 6 showtimes
 [kinokilta] Kino Kilta: 54 showtimes, 29 dates
 [kinokilta] synopses merged: 0
-[kinolaika] 30 screening(s) listed, 18 film page(s) read
-[kinolaika] omitted 0 confirmed non-film(s) by evidence-backed exclusion over 0 screening(s), and 6 unresolved over 6
-[kinolaika] unresolved: Antti Autio, Arppa, Dave Lindholm & Pepe Ahlqvist: WALKIN' BLUES -kiertue, Garden Folly, Knipi - Sivellinvetoja, Livemusavisa
+[kinolaika] 29 screening(s) listed, 17 film page(s) read
+[kinolaika] omitted 0 confirmed non-film(s) by evidence-backed exclusion over 0 screening(s), and 5 unresolved over 5
+[kinolaika] unresolved: Antti Autio, Dave Lindholm & Pepe Ahlqvist: WALKIN' BLUES -kiertue, Garden Folly, Knipi - Sivellinvetoja, Livemusavisa
 [kinolaika] override a-fox-under-a-pink-moon: evidence-unavailable
 [kinolaika] override mina-ja-riikka-purra-2: active
 [kinolaika] override naza: evidence-unavailable
@@ -38,8 +38,8 @@
 [kinokonepaja] Kino Konepaja: 61 showtimes, 32 dates
 [kinokonepaja] Kino Konepaja: 61 showtimes, 32 dates
 [kinokonepaja] synopses merged: 0
-[run] http: 39 revalidated (304), 66 full, 22 not stored (origin said no-store), 1 cache entries written
+[run] http: 39 revalidated (304), 65 full, 22 not stored (origin said no-store), 1 cache entries written
 [run] hosts: 4 attempted -- kinokonepaja.fi, kinomyyri.fi, www.kinokilta.fi, www.kinolaika.fi
 [run] kinola: 4 venues, 166 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
-[run] timing: 4 site(s), 190.1s of fetching added up across workers that overlap, longest site 62.6s, longest queue wait 97.6s, 68.2s wall from this module's first fetch starting to its last ending
+[run] timing: 4 site(s), 188.9s of fetching added up across workers that overlap, longest site 61.5s, longest queue wait 92.8s, 63.6s wall from this module's first fetch starting to its last ending
 exit=0

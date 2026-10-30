@@ -437,6 +437,10 @@
   "avengers doomsday": {
    "id": 1003596,
    "img": "data/posters/b1eae52d6a765de3.jpg",
+   "kr": "K-12",
+   "krs": [
+    "cinemantsala"
+   ],
    "r": 0,
    "s": {
     "en": "Beloved heroes from three distinct universes are set on a deadly collision course and face an existential threat unlike anything they've ever encountered.",
@@ -447,6 +451,10 @@
   "avengers doomsday 2d": {
    "id": 1003596,
    "img": "data/posters/b1eae52d6a765de3.jpg",
+   "kr": "K-12",
+   "krs": [
+    "cinemantsala"
+   ],
    "r": 0,
    "s": {
     "en": "Beloved heroes from three distinct universes are set on a deadly collision course and face an existential threat unlike anything they've ever encountered.",
@@ -753,13 +761,12 @@
   },
   "carrie 1976 night visions": {
    "id": 133805,
-   "img": "data/posters/e2d76e14603606b0.jpg",
-   "r": 6.1,
+   "r": 0,
    "s": {
     "en": "",
     "fi": "Ei tekstitystä Tyttö päästää telekineettiset voimansa valloilleen tultuaan luokkatovereidensa nöyryyttämäksi koulun päättäjäistanssiaisissa."
    },
-   "tr": "https://www.youtube.com/watch?v=szzw_SQlfpU"
+   "tr": ""
   },
   "casablanca": {
    "id": 289,
@@ -1190,6 +1197,19 @@
     "fi": "Denis Villeneuven ohjaama ja Villeneuven sekä Brian K. Vaughanin yhdessä käsikirjoittama Dyyni: Osa kolme perustuu Frank Herbertin romaaniin Dyynin messias ja tarjoaa eeppisen päätöksen Villeneuven trilogialle. Elokuvan pääosissa ovat Timothée Chalamet, Zendaya, Jason Momoa, Florence Pugh, Rebecca Ferguson, Isaach De Bankolé, Charlotte Rampling, Anya Taylor-Joy, Robert Pattinson ja Javier Bardem, ja uusina tulokkaina nähdään Nakoa-Wolf Momoa ja Ida Brooke."
    },
    "tr": "https://www.youtube.com/watch?v=hjRG8kvMFw0"
+  },
+  "ebenezer saiturin joulu ikäraja ei viellä tiedossa": {
+   "id": 1567605,
+   "img": "data/posters/445a6b495360d819.jpg",
+   "r": 0,
+   "s": {
+    "en": "An elderly miser embarks on a supernatural journey after visits from the ghost of his former business partner and the Spirits of Christmas Past, Present, and Yet to Come force him to confront his past and fight for a second chance at happiness.",
+    "fi": ""
+   },
+   "tr": "https://www.youtube.com/watch?v=l_Ozo1xUgbU",
+   "ts": [
+    "en"
+   ]
   },
   "ekakertaleffassa näytös pikku kummitus lapanen": {
    "id": 69381,
@@ -1637,6 +1657,10 @@
   "hamnet": {
    "id": 858024,
    "img": "data/posters/84aa45b5d78814bd.jpg",
+   "kr": "K-12",
+   "krs": [
+    "cinemantsala"
+   ],
    "r": 7.7,
    "s": {
     "en": "",
@@ -4181,6 +4205,19 @@
     "en"
    ]
   },
+  "lex julia": {
+   "id": 1450457,
+   "img": "data/posters/c7eca1af3b9c6236.jpg",
+   "r": 0,
+   "s": {
+    "en": "Julia travels to her new friend Anna's private island and meets Anna's husband JP, whom she recognises from a past traumatic encounter.",
+    "fi": ""
+   },
+   "tr": "",
+   "ts": [
+    "en"
+   ]
+  },
   "liekki ja nuoli": {
    "id": 32563,
    "r": 0,
@@ -5180,10 +5217,12 @@
    "img": "data/posters/cad95ad93c0d2c85.jpg",
    "kr": "K-12",
    "krs": [
+    "cinemantsala",
     "gilda",
     "haapamaki",
     "ihmekompleksi",
     "kinojuha",
+    "kinokulma",
     "kinopirtti",
     "kisakino",
     "levisummit",
@@ -5945,6 +5984,7 @@
     "kinopiispanristi",
     "kinopirtti",
     "kinotar",
+    "kinotervakoski",
     "kinotour",
     "korjaamo",
     "kotkanleffat",
@@ -6017,6 +6057,7 @@
     "kinopiispanristi",
     "kinopirtti",
     "kinotar",
+    "kinotervakoski",
     "kinotour",
     "korjaamo",
     "kotkanleffat",
@@ -6091,6 +6132,7 @@
     "kinopiispanristi",
     "kinopirtti",
     "kinotar",
+    "kinotervakoski",
     "kinotour",
     "korjaamo",
     "kotkanleffat",
@@ -6160,7 +6202,6 @@
     "kinopiispanristi",
     "kinopirtti",
     "kinoset",
-    "kinotervakoski",
     "kinotour",
     "kotkanleffat",
     "laitilankino",
@@ -8103,13 +8144,12 @@
   },
   "teenage mutant ninja turtles 1990 night visions": {
    "id": 1498,
-   "img": "data/posters/84b68b051888201b.jpg",
-   "r": 6.7,
+   "r": 0,
    "s": {
     "en": "",
     "fi": "Neljä mutanttikilpikonnaa nousee New Yorkin viemäreistä taistelemaan teini-ikäisistä ninjoista koostuvaa jengiä vastaan, jota johtaa salaperäinen japanilainen kamppailulajien taitaja."
    },
-   "tr": "https://www.youtube.com/watch?v=3y9C_P7dG6s"
+   "tr": ""
   },
   "teenage sex and death at camp miasma": {
    "id": 1240889,
@@ -9843,7 +9883,6 @@
     "kinohannikainen",
     "kinokulma",
     "orion",
-    "star",
     "tapiola"
    ],
    "r": 6.0,
@@ -9855,13 +9894,12 @@
   },
   "yön lapsi night visions": {
    "id": 964849,
-   "img": "data/posters/d0630be5ff40e993.jpg",
-   "r": 6.0,
+   "r": 0,
    "s": {
     "en": "",
     "fi": "Lapsista haaveilevat suomalainen Saga ja britti Jon muuttavat suomalaisen metsän keskelle taloon, jossa Saga on viettänyt lapsuuden kesät. Pian he saavat terveen pojan, mutta pikkuhiljaa Sagan valtaa pelottava tunne, että vaativassa vauvassa on jotain outoa. Tuoreiden vanhempien kokemukset saavat modernin kansantarun mittasuhteet."
    },
-   "tr": "https://www.youtube.com/watch?v=dWePsu_Kd9c"
+   "tr": ""
   },
   "äideistä parhain": {
    "id": 32990,
