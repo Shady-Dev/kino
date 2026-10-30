@@ -1,19 +1,20 @@
-[alatalo] 6 screening(s) in 3 town heading(s) read
+[alatalo] 4 screening(s) in 2 town heading(s) read
+[alatalo] 1 screening line(s) whose time, title or date this parser could not place, left out
 [alatalo] 8 line(s) that are neither a town heading, a date heading nor a screening, left out
 [alatalo] Pohjantähti, Pudasjärvi: 3 showtimes, 1 dates, priced 10€
-[alatalo] Teatterisali, Haapajärvi: 2 showtimes, 1 dates, priced 10€
-[alatalo] Kiurusali, Kiuruvesi: 1 showtimes, 1 dates, priced 10€
+[alatalo] Teatterisali, Haapajärvi: 1 showtimes, 1 dates, priced 10€
+[alatalo] Kiurusali, Kiuruvesi: 0 showtimes, 0 dates
 [alatalo] Toholampisali, Toholampi: 0 showtimes, 0 dates
 [alatalo] Kulttuurikeskus, Kemijärvi: 0 showtimes, 0 dates
 [alatalo] Pohjantähti: 3 showtimes, 1 dates
-[alatalo] Teatterisali: 2 showtimes, 1 dates
-[alatalo] Kiurusali: 1 showtimes, 1 dates
+[alatalo] Teatterisali: 1 showtimes, 1 dates
+[alatalo] Kiurusali: no programme at the moment (adapter confirmed the venue empty); publishing an empty file
 [alatalo] Toholampisali: no programme at the moment (adapter confirmed the venue empty); publishing an empty file
 [alatalo] Kulttuurikeskus: no programme at the moment (adapter confirmed the venue empty); publishing an empty file
 [alatalo] synopses merged: 0
 [run] http: 0 revalidated (304), 1 full, 1 not stored (origin said no-store), 0 cache entries written
 [run] hosts: 1 attempted -- www.moviecompanyalatalo.fi
-[run] pending: alatalo has 2 venue(s) with no programme yet: alatalo-toholampi, alatalo-kemijarvi
-[run] alatalo: 3 venues, 6 showtimes, 0 stale, 0 unverified, 2 pending, 0 with no programme, 0 failures
-[run] timing: 1 site(s), 0.8s of fetching added up across workers that overlap, longest site 0.8s, longest queue wait 129.6s, 0.8s wall from this module's first fetch starting to its last ending
+[run] pending: alatalo has 3 venue(s) with no programme yet: alatalo-kiuruvesi, alatalo-toholampi, alatalo-kemijarvi
+[run] alatalo: 2 venues, 4 showtimes, 0 stale, 0 unverified, 3 pending, 0 with no programme, 0 failures
+[run] timing: 1 site(s), 1.1s of fetching added up across workers that overlap, longest site 1.1s, longest queue wait 142.7s, 1.1s wall from this module's first fetch starting to its last ending
 exit=0

@@ -28,9 +28,9 @@
 [kinomyyri] Kino Myyri: 28 showtimes, 12 dates
 [kinomyyri] Kino Myyri: 28 showtimes, 12 dates
 [kinomyyri] synopses merged: 0
-[kinokonepaja] 63 screening(s) listed, 22 film page(s) read
-[kinokonepaja] omitted 0 confirmed non-film(s) by evidence-backed exclusion over 0 screening(s), and 1 unresolved over 1
-[kinokonepaja] unresolved: Cold November
+[kinokonepaja] 65 screening(s) listed, 24 film page(s) read
+[kinokonepaja] omitted 0 confirmed non-film(s) by evidence-backed exclusion over 0 screening(s), and 3 unresolved over 3
+[kinokonepaja] unresolved: Cold November, Reel Rock Film Tour 20, The BritRock Film Tour 2026
 [kinokonepaja] override edward-scissorhands: active
 [kinokonepaja] override gremlins: active
 [kinokonepaja] override nightmare-on-elm-street: active
@@ -38,8 +38,8 @@
 [kinokonepaja] Kino Konepaja: 62 showtimes, 32 dates
 [kinokonepaja] Kino Konepaja: 62 showtimes, 32 dates
 [kinokonepaja] synopses merged: 0
-[run] http: 0 revalidated (304), 103 full, 22 not stored (origin said no-store), 39 cache entries written
+[run] http: 0 revalidated (304), 105 full, 22 not stored (origin said no-store), 39 cache entries written
 [run] hosts: 4 attempted -- kinokonepaja.fi, kinomyyri.fi, www.kinokilta.fi, www.kinolaika.fi
 [run] kinola: 4 venues, 172 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
-[run] timing: 4 site(s), 201.3s of fetching added up across workers that overlap, longest site 70.7s, longest queue wait 94.1s, 70.7s wall from this module's first fetch starting to its last ending
+[run] timing: 4 site(s), 214.9s of fetching added up across workers that overlap, longest site 74.9s, longest queue wait 104.3s, 75.0s wall from this module's first fetch starting to its last ending
 exit=0
