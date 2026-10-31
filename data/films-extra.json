@@ -467,13 +467,12 @@
   },
   "avengers endgame encore": {
    "id": 299534,
-   "img": "data/posters/b7147419b96540ff.jpg",
-   "r": 8.2,
+   "r": 0,
    "s": {
     "en": "",
     "fi": "Avengers: Endgame tulee takaisin elokuvateattereihin Encore-juhlajulkaisuna. Elokuvassa on uutta materiaalia, joka sitoo Endgamen tapahtumat joulukuussa tulevaan Avengers: Doomsday -elokuvaan. Thanoksen aiheuttamien tuhojen jälijltä koko maailma on raunioina. Jäljellä olevien liittolaistensa avulla Avengers kokoontuu jälleen palauttaakseen täydellisen tasapainon universumiin."
    },
-   "tr": "https://www.youtube.com/watch?v=L2NAh3CIdig"
+   "tr": ""
   },
   "avengers endgame encore 2d": {
    "id": 299534,
@@ -3220,16 +3219,12 @@
   },
   "kojootti vs acme suomeksi": {
    "id": 1204680,
-   "img": "data/posters/9bcb7891e3c4c53a.jpg",
-   "r": 7.5,
+   "r": 0,
    "s": {
-    "en": "After Acme products fail him one too many times in his dogged pursuit of the Roadrunner, Wile E. Coyote decides to hire a billboard lawyer to sue the Acme Corporation.",
+    "en": "",
     "fi": "Vuosikymmenten ajan pommien räjäyttämä, dynamiitin murskaama, magneettien runtelema, siirtolohkareiden litistämä, junien tallaama, tunneleiden huijaama, jousien sinkoama, höyryjyrien yliajama, viallisten laitteiden pettämä, benjiköysien kiusaama, rakettien riepottelema, lepakkoasujen selkäänpuukottama, rakettiluistinten paiskoma, yksipyöräisten kumoama, maanjäristyspillereiden tärisyttämä, villiintyneiden kuminauhojen venyttämä ja lounaisten Yhdysvaltojen jokaiselta jyrkänteeltä syösty Kelju K. Kojootti saa viimein tarpeekseen ja päättää iskeä takaisin. Mainostauluonnettomuuksiin erikoistuneen asianajajan Kevin Averyn (Will Forte) kanssa liittoutuessaan hän haastaa oikeuteen ACME Inc.:n – ahneuttaan tavoittelevan jättiyhtiön, jonka tuotteet ovat olleet jokaisen Kojoottia kohdanneen katastrofin taustalla – sekä yhtiötä edustavan lipevän yritysjuristin Buddy Cranen (John Cena)."
    },
-   "tr": "https://www.youtube.com/watch?v=kMsiD1Nky5I",
-   "ts": [
-    "en"
-   ]
+   "tr": ""
   },
   "koko perheen jazz suomi 100 juhlakonsertti": {
    "r": 0,
@@ -3683,16 +3678,12 @@
   },
   "kätyrit ja monsterit suomeksi": {
    "id": 1315772,
-   "img": "data/posters/67059865db3405c0.jpg",
-   "r": 7.6,
+   "r": 0,
    "s": {
-    "en": "This is the rambunctious, ridiculous and totally true story of how the Minions conquered Hollywood, became movie stars, lost everything, unleashed monsters onto the world and then banded together to try and save the planet from the mayhem they had just created.",
+    "en": "",
     "fi": "Suosithan paikkavarausta! Illumination johdattaa meidät jälleen hulvattomaan animaatiomaailmaansa uudella elokuvallaan Kätyrit & Monsterit, joka tuo maailman suosituimpaan animaatio-franchiseen kokonaan uusia hahmoja. Hillitön, riehakas ja täysin tositapahtumiin perustuva elokuva kertoo, miten Kätyrit valloittavat Hollywoodin ja nousevat elokuvatähdiksi, menettävät kaiken, tulevat päästäneeksi hirviöitä maailmaan ja lopulta yhdistävät … voimansa pelastaakseen planeetan itse aiheuttamaltaan kaaokselta. Alkuperäisissä äänirooleissa kuullaan muun muassa Oscar®-voittaja Allison Janney, kaksinkertainen Oscar®-voittaja Christoph Waltz, Oscar®-voittaja Jeff Bridges, kaksinkertainen Oscar®-ehdokas Jesse Eisenberg, Zoey Deutch (Nouvelle Vague) sekä Oscar®-ehdokas Trey Parker, joka tunnetaan myös yhtenä South Parkin luojista. Näyttelijäkaartia täydentävät myös entinen Saturday Night Live -tähti Bobby Moynihan ja Phil LaMarr (Futurama, Kukkulan kuningas). Kätyrit & Monsterit -elokuvan on ohjannut Oscar-ehdokkuuden saanut Pierre Coffin, jonka ohjaustöihin lukeutuvat myös kolme ensimmäistä Itse ilkimys -elokuvaa ja ensimmäinen Kätyrit-elokuva. Coffin on myös ääninäytellyt itse Kätyreitä niiden elokuvadebyytistä 2010 alkaen. Elokuvan käsikirjoittajat ovat Brian Lynch (Kätyrit, Lemmikkien salainen elämä -elokuvat) ja Pierre Coffin. Elokuvan ovat tuottaneet myös Oscar-ehdokkuuden saanut Illuminationin perustaja ja pääjohtaja Chris Meledandri sekä Bill Ryan (The Super Mario Bros. Movie -elokuvan vastaava tuottaja ). Kätyrit & Monsterit -elokuvan vastaava tuottaja on Brian Lynch. Yli 15 vuotta on kulunut Kätyreiden luomisesta, ja niistä on tullut sukupolvensa ikonisimpia animaatiohahmoja. Kaikenikäisten fanien rakastamat Kätyrit ovat siivittäneet Illuminationin Itse ilkimys- ja Kätyrit-elokuvatuotannot yli 5,6 miljardia dollaria tuottaneiksi maailmanlaajuisiksi jymymenestyksiksi."
    },
-   "tr": "https://www.youtube.com/watch?v=V-O-uBaHk3c",
-   "ts": [
-    "en"
-   ]
+   "tr": ""
   },
   "kätyrit monsterit": {
    "id": 1315772,
@@ -3988,11 +3979,9 @@
     "kinomyyri",
     "kinopiispanristi",
     "kinopirtti",
-    "kinosampo",
     "kinoset",
     "kinotar",
     "kinotervakoski",
-    "kinotoijala",
     "kinovirta",
     "kirkkonummi",
     "kkino",
@@ -4030,19 +4019,6 @@
     "fi": "Rakastettu Late Lammas palaa valkokankaille uudessa, riemastuttavassa ja kutkuttavan hauskassa seikkailussa. Farmin asukkaat odottavat innolla Halloweenia, kunnes heidän rakkaudella kasvattamansa kurpitsaviljelmä tuhoutuu juhlan kynnyksellä. Late ei jää toimettomaksi, vaan päättää ryhtyä “hulluksi tiedemieheksi” korjatakseen tilanteen – ja pian tapahtumat karkaavatkin täysin käsistä. Kun tilan maajussi katoaa ja outo villi peto herättää kauhua kyläläisissä, ovat kaikki ainekset kasassa hirviömäisen hauskalle seikkailulle kaiken ikäisille. Kananlento ja Wallace & Gromit -elokuvien tekijöiden uusi seikkailu Late Lammas: Hämäräpuuhissa saapuu elokuvateattereihin 30. lokakuuta."
    },
    "tr": "https://www.youtube.com/watch?v=O_ZRKMaNIy0"
-  },
-  "late lammas elokuva hämäräpuuhissa englanniksi": {
-   "id": 1477104,
-   "img": "data/posters/0d3865389792d3a5.jpg",
-   "r": 7.3,
-   "s": {
-    "en": "On Halloween Eve at Mossy Bottom Farm, excitement turns to dismay when the clumsy Farmer ruins the pumpkin patch. Shaun tries fixing it with science experiments, but things go awry when a wild beast appears in the woods.",
-    "fi": ""
-   },
-   "tr": "https://www.youtube.com/watch?v=daZMq0AyOMc",
-   "ts": [
-    "en"
-   ]
   },
   "late lammas elokuva hämäräpuuhissa ennakkonäytös": {
    "id": 1477104,
@@ -5939,8 +5915,7 @@
     "savonkinot",
     "star",
     "studio123jarvenpaa",
-    "tapiola",
-    "vihdinkino"
+    "tapiola"
    ],
    "r": 0,
    "s": {
@@ -6013,8 +5988,7 @@
     "savonkinot",
     "star",
     "studio123jarvenpaa",
-    "tapiola",
-    "vihdinkino"
+    "tapiola"
    ],
    "r": 0,
    "s": {
@@ -6089,8 +6063,7 @@
     "savonkinot",
     "star",
     "studio123jarvenpaa",
-    "tapiola",
-    "vihdinkino"
+    "tapiola"
    ],
    "r": 0,
    "s": {
@@ -8961,16 +8934,12 @@
   },
   "toy story 5": {
    "id": 1084244,
-   "img": "data/posters/61da1236c24613ee.jpg",
-   "r": 8.4,
+   "r": 0,
    "s": {
-    "en": "When Bonnie receives a Lilypad tablet as a gift and becomes obsessed, Buzz, Woody, Jessie and the rest of the gang's jobs become exponentially harder when they have to go head to head with the all-new threat to playtime.",
+    "en": "",
     "fi": "Lelut tekevät paluun Disneyn ja Pixarin elokuvassa Toy Story 5, ja tällä kertaa ne joutuvat törmäyskurssille tekniikan kanssa. Uuden uhan edessä Buzz, Woody, Jessie ja muu jengi joutuvat paiskimaan hommia monin verroin lelujen ja laitteiden käydessä kamppailua lasten leikkiajasta."
    },
-   "tr": "https://www.youtube.com/watch?v=QftAW9TTmuQ",
-   "ts": [
-    "en"
-   ]
+   "tr": ""
   },
   "toy story 5 dub": {
    "id": 1084244,
@@ -9289,13 +9258,12 @@
   },
   "urchin vapaus on mielentila": {
    "id": 1283320,
-   "img": "data/posters/4322c23f5548f8f2.jpg",
-   "r": 6.7,
+   "r": 0,
    "s": {
     "en": "",
     "fi": "Elokuvan maailmanensi-ilta oli Cannesin elokuvajuhlien Un Certain Regard -sarjassa 2025. Ohjaaja Harris Dickinson voitti FIPRESCI-palkinnon ja Frank Dillane sarjan parhaan miespääosan palkinnon. The Triangle of Sadness ja Babygirl -elokuvista tunnetun Harris Dickinsonin esikoisohjaus Urchin on vahva, koskettava ja myötätuntoinen tarina kodittomuudesta. Elokuva kertoo nuoresta Mikestä, Lontoon kaduilla elävästä nuoresta, joka kamppailee irtautuakseen itseään tuhoavasta kierteestä ja saadakseen elämänsä takaisin raiteilleen. Matka on täynnä säröjä, sattumaa ja toivon hauraita pilkahduksia. Suomen elokuvasäätiön Maahantuontituki 2026."
    },
-   "tr": "https://www.youtube.com/watch?v=4cJL6vmYOeo"
+   "tr": ""
   },
   "urpo ja turpo johtolangan jäljillä": {
    "id": 558445,

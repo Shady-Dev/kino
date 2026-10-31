@@ -1,13 +1,13 @@
-[kinotour] 14 screening(s) in 3 declared town(s), 14 priced
-[kinotour] Kurkisali, Kyrö: 6 showtimes, 2 dates
-[kinotour] Kristoffersali, Naantali: 6 showtimes, 2 dates
+[kinotour] 12 screening(s) in 3 declared town(s), 12 priced
+[kinotour] Kurkisali, Kyrö: 5 showtimes, 2 dates
+[kinotour] Kristoffersali, Naantali: 5 showtimes, 2 dates
 [kinotour] Valtuustosali, Lieto: 2 showtimes, 1 dates
-[kinotour] Kurkisali: 6 showtimes, 2 dates
-[kinotour] Kristoffersali: 6 showtimes, 2 dates
+[kinotour] Kurkisali: 5 showtimes, 2 dates
+[kinotour] Kristoffersali: 5 showtimes, 2 dates
 [kinotour] Valtuustosali: 2 showtimes, 1 dates
 [kinotour] synopses merged: 0
 [run] http: 0 revalidated (304), 1 full, 0 not stored (origin said no-store), 0 cache entries written
 [run] hosts: 1 attempted -- www.kinotour.fi
-[run] kinotour: 3 venues, 14 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
-[run] timing: 1 site(s), 1.5s of fetching added up across workers that overlap, longest site 1.5s, longest queue wait 130.1s, 1.5s wall from this module's first fetch starting to its last ending
+[run] kinotour: 3 venues, 12 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
+[run] timing: 1 site(s), 1.3s of fetching added up across workers that overlap, longest site 1.3s, longest queue wait 149.5s, 1.3s wall from this module's first fetch starting to its last ending
 exit=0
