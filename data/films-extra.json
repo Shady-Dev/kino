@@ -1060,8 +1060,7 @@
     "biosalo",
     "gilda",
     "orion",
-    "savonkinot",
-    "tapiola"
+    "savonkinot"
    ],
    "r": 7.5,
    "s": {
@@ -1197,6 +1196,19 @@
     "fi": "Denis Villeneuven ohjaama ja Villeneuven sekä Brian K. Vaughanin yhdessä käsikirjoittama Dyyni: Osa kolme perustuu Frank Herbertin romaaniin Dyynin messias ja tarjoaa eeppisen päätöksen Villeneuven trilogialle. Elokuvan pääosissa ovat Timothée Chalamet, Zendaya, Jason Momoa, Florence Pugh, Rebecca Ferguson, Isaach De Bankolé, Charlotte Rampling, Anya Taylor-Joy, Robert Pattinson ja Javier Bardem, ja uusina tulokkaina nähdään Nakoa-Wolf Momoa ja Ida Brooke."
    },
    "tr": "https://www.youtube.com/watch?v=hjRG8kvMFw0"
+  },
+  "ebenezer saiturin joulu": {
+   "id": 1567605,
+   "img": "data/posters/445a6b495360d819.jpg",
+   "r": 0,
+   "s": {
+    "en": "An elderly miser embarks on a supernatural journey after visits from the ghost of his former business partner and the Spirits of Christmas Past, Present, and Yet to Come force him to confront his past and fight for a second chance at happiness.",
+    "fi": "Johnny Depp on Ebenezer Scrooge. Nimi on tuttu, tarina ei. Ti Westin ohjaamaa elokuvaa tähdittävät myös Rupert Grint, Andrea Riseborough, Sam Claflin, Daisy Ridley, Arthur Conti, Ellie Bamber, Henry Lloyd-Hughes, Charlie Murphy sekä Tramell Tillman ja Ian McKellen."
+   },
+   "tr": "https://www.youtube.com/watch?v=l_Ozo1xUgbU",
+   "ts": [
+    "en"
+   ]
   },
   "ebenezer saiturin joulu ikäraja ei viellä tiedossa": {
    "id": 1567605,
@@ -2004,6 +2016,19 @@
     "fi"
    ]
   },
+  "how to rob a bank": {
+   "id": 1437511,
+   "img": "data/posters/8b1166ae143c79d4.jpg",
+   "r": 0,
+   "s": {
+    "en": "A crew of social media-savvy bank robbers broadcasts their daring heists, unaware that their growing viral fame has put them in the crosshairs of a veteran FBI agent and a brilliant software engineer. Despite the unlikely duo closing in, the crime ring pushes past their limits, putting everything on the line for their most ambitious heist yet.",
+    "fi": "HOW TO ROB A BANK -elokuvassa sosiaalisen median taitava pankkiryöstäjäjoukko lähettää uhkarohkeat ryöstönsä suorina lähetyksinä tietämättä, että heidän alati kasvava viraalijulkisuutensa on saanut kokeneen FBI-agentin ja nerokkaan ohjelmistoinsinöörin heidän jäljilleen. Vaikka tämä epätodennäköinen kaksikko pääsee yhä lähemmäs, rikollisjoukkio koettelee rajojaan ja panee kaiken peliin vakaumuksensa – ja tähänastisen kunnianhimoisimman ryöstönsä – puolesta."
+   },
+   "tr": "https://www.youtube.com/watch?v=MVvWKh336m4",
+   "ts": [
+    "en"
+   ]
+  },
   "hundreds of beavers": {
    "id": 1019939,
    "r": 0,
@@ -2704,86 +2729,6 @@
    },
    "tr": "https://www.youtube.com/watch?v=iUpszeSB7k4"
   },
-  "kerro kaikille elokuvanäytös": {
-   "id": 1304530,
-   "img": "data/posters/133d5c0758982817.jpg",
-   "kr": "K-12",
-   "krs": [
-    "biogrand",
-    "biograni",
-    "biomarilyn",
-    "biorex",
-    "biorexkokkola",
-    "biosade",
-    "biosalo",
-    "biostara",
-    "biovuoksi",
-    "cine",
-    "cinemantsala",
-    "engel",
-    "gilda",
-    "haapamaki",
-    "helios",
-    "ihmekompleksi",
-    "isohannu",
-    "kino123",
-    "kinoakseli",
-    "kinoaurora",
-    "kinoelo",
-    "kinohamina",
-    "kinohirvi",
-    "kinoiiris",
-    "kinojuha",
-    "kinokilta",
-    "kinokonepaja",
-    "kinolaika",
-    "kinolumo",
-    "kinomania",
-    "kinomarilyn",
-    "kinometso",
-    "kinomyyri",
-    "kinoolympia",
-    "kinopiispanristi",
-    "kinopirtti",
-    "kinosampo",
-    "kinoset",
-    "kinotar",
-    "kinotervakoski",
-    "kinotoijala",
-    "kinotour",
-    "kinovirta",
-    "kirkkonummi",
-    "kisakino",
-    "kkino",
-    "kotkanleffat",
-    "kurikankino",
-    "kuvakukko",
-    "laitilankino",
-    "leffabuumi",
-    "lieksankino",
-    "marita",
-    "niagara",
-    "orion",
-    "pajakkakino",
-    "regina",
-    "savonkinot",
-    "star",
-    "studio123jarvenpaa",
-    "studio123kouvola",
-    "tapiola",
-    "vaakuna",
-    "vihdinkino"
-   ],
-   "r": 0,
-   "s": {
-    "en": "",
-    "fi": "Amanda Aaltonen kieltäytyy alistumasta hänelle varattuun köyhän naisen ankeaan kohtaloon ja etsii huimapäisesti onneaan maailmalta. Rangaistukseksi sääntöjen rikkomisesta yhteiskunta anastaa häneltä kaikkein tärkeimmän, vapauden, ja sulkee hänet Seilin saarelle."
-   },
-   "tr": "https://www.youtube.com/watch?v=iUpszeSB7k4",
-   "ts": [
-    "fi"
-   ]
-  },
   "kerro kaikille kahvi ja kino": {
    "id": 1304530,
    "img": "data/posters/133d5c0758982817.jpg",
@@ -3106,6 +3051,14 @@
    "s": {
     "en": "",
     "fi": "KIRJASTOKINO ESITTÄÄ: VARAVENTTIILI (1942)\n\nValentin Vaalan ohjaama, poikkeuksellisen moderni ja psykologisesti tarkka melodraama, kuvaa itsenäisen naisen identiteettikriisiä ja sopeutumista maaseudun ahtaaseen sosiaaliseen hierarkiaan. Hilja Valtonen ironiseen romaaniin perustuva teos nousee pelkän kepeän romanttisen komedian yläpuolelle syväksi yhteiskunnalliseksi peiliksi."
+   },
+   "tr": ""
+  },
+  "klara ja aurinko": {
+   "r": 0,
+   "s": {
+    "en": "",
+    "fi": "Klara (Jenna Ortega) on keinotekoinen ystävä, jonka suurin toive on löytää täydellinen koti. Kun Klara kohtaa Josien (Mia Tharia), he tunnistavat heti toisissaan hengenheimolaisen. Josien suhde äitiinsä (Amy Adams) on vaikea, ja perhettä ovat koetelleet raskaat menetykset. Klaran viaton ihmettely ja horjumaton uskollisuus alkavat kuitenkin eheyttää perhettä ja tuoda valoa Josien monimutkaiseen maailmaan. Oscar®-palkitun Taika Waititin (Jojo Rabbit) käsikirjoittama ja ohjaama Klara ja Aurinko perustuu Nobel-palkitun Kazuo Ishiguron samannimiseen menestysromaaniin."
    },
    "tr": ""
   },
@@ -3798,19 +3751,6 @@
     "en"
    ]
   },
-  "kätyrit monsterit suomeksi puhuttu": {
-   "id": 1315772,
-   "img": "data/posters/67059865db3405c0.jpg",
-   "r": 7.6,
-   "s": {
-    "en": "This is the rambunctious, ridiculous and totally true story of how the Minions conquered Hollywood, became movie stars, lost everything, unleashed monsters onto the world and then banded together to try and save the planet from the mayhem they had just created.",
-    "fi": ""
-   },
-   "tr": "https://www.youtube.com/watch?v=V-O-uBaHk3c",
-   "ts": [
-    "en"
-   ]
-  },
   "l atalante": {
    "id": 43904,
    "img": "data/posters/529a2d4feaee8f96.jpg",
@@ -3930,19 +3870,6 @@
     "fi": "Elokuvan tapahtumat sijoittuvat Lappiin syksyllä 1944, Suomen ja Saksan väliseen konfliktiin toisen maailmansodan loppuvaiheessa. Nuori sotamies Heikki taistelee Karjalan kannaksella ystävänsä Paulin kanssa. Komppaniaan liittyy vankilasta vapautunut Arvo, jonka maailmankuva haastaa muiden käsitykset sodasta ja velvollisuudesta. Aselepo herättää toivon kotiinpaluusta, mutta pian selviää, että Suomen on käännyttävä entisiä saksalaisia liittolaisiaan vastaan Lapissa. Samaan aikaan Rovaniemellä saksalaisten tulkkina työskentelevä Saara joutuu valitsemaan tulevaisuutensa: jäädä Suomeen vai paeta Saksaan rakastettunsa, majuri Duisbergin, kanssa. Lapin sota on vahvasti hahmojensa inhimillisiin kokemuksiin nojaava kertomus ihmisistä, jotka ajautuvat historiallisten mullistusten keskelle. Sodan kauheuksien keskeltä he etsivät merkitystä, inhimillisyyttä ja anteeksiantoa – ja kysyvät, miten armottomassa ympäristössä voidaan löytää armollisuutta."
    },
    "tr": ""
-  },
-  "lapin sota elokuvanäytös": {
-   "id": 1450460,
-   "img": "data/posters/c15d678a31ae397e.jpg",
-   "r": 0,
-   "s": {
-    "en": "",
-    "fi": "Nuori sotamies Heikki taistelee Karjalan kannaksella ystävänsä Paulin kanssa. Komppaniaan liittyy vankilasta vapautunut Arvo, jonka maailmankuva haastaa muiden käsitykset sodasta ja velvollisuudesta. Aselepo herättää toivon kotiinpaluusta, mutta pian selviää, että Suomen on käännyttävä entisiä saksalaisia liittolaisiaan vastaan Lapissa. Samaan aikaan Rovaniemellä saksalaisten tulkkina työskentelevä Saara joutuu valitsemaan tulevaisuutensa: jäädä Suomeen vai paeta Saksaan rakastettunsa, majuri Duisbergin, kanssa."
-   },
-   "tr": "",
-   "ts": [
-    "fi"
-   ]
   },
   "lapin sota kahvi ja kino": {
    "id": 1450460,
@@ -4257,13 +4184,18 @@
    "tr": ""
   },
   "lilla spöket laban busar vidare": {
+   "id": 1781923,
+   "img": "data/posters/8a9129f55b1b3d43.jpg",
    "r": 0,
    "s": {
-    "en": "",
+    "en": "Laban the Little Ghost is back with a new collection of cozy and just-spooky-enough adventures at the Good Morning Sun Castle. Together with his little sister Labolina and his best friend, the Little Prince, their days are filled with everything from trick-or-treating, birthday celebrations, and lost Christmas presents to unexpected guests and many other fun experiences.",
     "fi": "",
     "sv": "Lilla Spöket Laban är tillbaka med nya äventyr på Slottet Godmorgonsol. Tillsammans med Labolina, Lillprins Bus och sina vänner råkar han ut för roliga, spännande och ibland lite läskiga situationer där vänskap, mod och fantasi alltid står i centrum. En varm och humoristisk filmupplevelse för de yngsta biobesökarna."
    },
-   "tr": ""
+   "tr": "",
+   "ts": [
+    "en"
+   ]
   },
   "lilla spöket laban busar vidare på svenska": {
    "r": 0,
@@ -4546,7 +4478,7 @@
   "marsupilami": {
    "id": 1145899,
    "img": "data/posters/d24763d2c244cd16.jpg",
-   "r": 6.3,
+   "r": 6.2,
    "s": {
     "en": "David is tasked to deliver a mysterious package from South America, only to find out he is carrying a baby Marsupilami!",
     "fi": "Perhelomaan tulee uusia käänteitä, kun perheenisä saa Etelä-Amerikasta yllättävän paketin. Seikkailu lähtee liikkeelle kun salaperäisestä laatikosta paljastuu keltainen, täplikäs ja hulvaton veijari – vauva Marsupilami, joka tuo vauhtia niin perheen kuin koko lomaristeilynkin menoon. Marsupilami sulattaa kovimmankin sydämen. Ihmeolento Marsupilami perustuu samannimiseen, André Franquinin luomaan suosittuun belgialaiseen sarjakuvasarjaan. Marsupilami selviää niin villissä viidakossa kuin kaupungissakin nopean älynsä, rajattoman mielikuvituksensa sekä voimakkaan häntänsä avulla.",
@@ -5148,13 +5080,12 @@
   },
   "nosferatu": {
    "id": 653,
-   "img": "data/posters/77ff72e53240e7e7.jpg",
-   "r": 7.7,
+   "r": 0,
    "s": {
     "en": "",
     "fi": "Mestariohjaaja F. W. Murnaun ”kauhun sinfonia” on vampyyrikuvaston klassikko. Se edustaa saksalaista ekspressionismia ja kansankunnan pahaa oloa kauheimmillaan. Bram Stokerin Draculan pohjalta vapaasti sovitetun elokuvan seiniä pitkin hiipivät varjot ja Kreivi Orlokin iljettävä olomuoto saavat ihon edelleen kananlihalle."
    },
-   "tr": "https://www.youtube.com/watch?v=npxhdRMYHy0"
+   "tr": ""
   },
   "nousu": {
    "r": 0,
@@ -5908,20 +5839,30 @@
    "tr": ""
   },
   "pikku kummitus lapanen keppostelee": {
+   "id": 1781923,
+   "img": "data/posters/8a9129f55b1b3d43.jpg",
    "r": 0,
    "s": {
-    "en": "",
+    "en": "Laban the Little Ghost is back with a new collection of cozy and just-spooky-enough adventures at the Good Morning Sun Castle. Together with his little sister Labolina and his best friend, the Little Prince, their days are filled with everything from trick-or-treating, birthday celebrations, and lost Christmas presents to unexpected guests and many other fun experiences.",
     "fi": "Yhdessä Lapaniinan, Pikkuprinssin ja ystäviensä kanssa hän joutuu hauskoihin, jännittäviin ja välillä hieman pelottaviinkin tilanteisiin, joissa ystävyys, rohkeus ja mielikuvitus ovat aina keskiössä."
    },
-   "tr": ""
+   "tr": "",
+   "ts": [
+    "en"
+   ]
   },
   "pikku kummitus lapanen keppostelee dub": {
+   "id": 1781923,
+   "img": "data/posters/8a9129f55b1b3d43.jpg",
    "r": 0,
    "s": {
-    "en": "",
+    "en": "Laban the Little Ghost is back with a new collection of cozy and just-spooky-enough adventures at the Good Morning Sun Castle. Together with his little sister Labolina and his best friend, the Little Prince, their days are filled with everything from trick-or-treating, birthday celebrations, and lost Christmas presents to unexpected guests and many other fun experiences.",
     "fi": "Pikku Kummitus Lapanen palaa uusien seikkailujen pariin Hyvänhuomenen linnassa. Yhdessä Lapaniinan, Pikkuprinssin ja ystäviensä kanssa hän joutuu hauskoihin, jännittäviin ja välillä hieman pelottaviinkin tilanteisiin, joissa ystävyys, rohkeus ja mielikuvitus ovat aina keskiössä. Lämmin ja humoristinen elokuvaelämys perheen pienimmille elokuvissakävijöille. Elokuva on saanut Euroopan unionin Luova Eurooppa -ohjelman tuen."
    },
-   "tr": ""
+   "tr": "",
+   "ts": [
+    "en"
+   ]
   },
   "pikku kummitus lapanen keppostelee ennakkonäytös n 10": {
    "r": 0,
@@ -5940,12 +5881,17 @@
    "tr": ""
   },
   "pikku kummitus lapanen keppostelee suomeksi": {
+   "id": 1781923,
+   "img": "data/posters/8a9129f55b1b3d43.jpg",
    "r": 0,
    "s": {
-    "en": "",
+    "en": "Laban the Little Ghost is back with a new collection of cozy and just-spooky-enough adventures at the Good Morning Sun Castle. Together with his little sister Labolina and his best friend, the Little Prince, their days are filled with everything from trick-or-treating, birthday celebrations, and lost Christmas presents to unexpected guests and many other fun experiences.",
     "fi": "Pikku Kummitus Lapanen palaa uusien seikkailujen pariin Hyvänhuomenen linnassa. Yhdessä Lapaniinan, Pikkuprinssin ja ystäviensä kanssa hän joutuu hauskoihin, jännittäviin ja välillä hieman pelottaviinkin tilanteisiin, joissa ystävyys, rohkeus ja mielikuvitus ovat aina keskiössä. Lämmin ja humoristinen elokuvaelämys perheen pienimmille elokuvissakävijöille. Elokuva on saanut Euroopan unionin Luova Eurooppa -ohjelman tuen."
    },
-   "tr": ""
+   "tr": "",
+   "ts": [
+    "en"
+   ]
   },
   "pikkuli ja tähtipeura": {
    "id": 1403476,
@@ -5988,6 +5934,7 @@
     "kinotour",
     "korjaamo",
     "kotkanleffat",
+    "kulttuurimylly",
     "leffabuumi",
     "savonkinot",
     "star",
@@ -6061,6 +6008,7 @@
     "kinotour",
     "korjaamo",
     "kotkanleffat",
+    "kulttuurimylly",
     "leffabuumi",
     "savonkinot",
     "star",
@@ -6136,6 +6084,7 @@
     "kinotour",
     "korjaamo",
     "kotkanleffat",
+    "kulttuurimylly",
     "leffabuumi",
     "savonkinot",
     "star",
@@ -6864,14 +6813,6 @@
   "resident evil": {
    "id": 1423191,
    "img": "data/posters/647807f97cc3fb5a.jpg",
-   "kr": "K-16",
-   "krs": [
-    "biorex",
-    "gilda",
-    "leffabuumi",
-    "savonkinot",
-    "star"
-   ],
    "r": 7.3,
    "s": {
     "en": "Medical courier Bryan unwittingly finds himself fighting for survival as one fateful, horrifying night collapses around him in chaos.",
@@ -7412,7 +7353,7 @@
   "ryhmä hau dinoelokuva dub": {
    "id": 1185806,
    "img": "data/posters/b7775ab25a7de6bc.jpg",
-   "r": 8.3,
+   "r": 8.2,
    "s": {
     "en": "The Paw Patrol lands on a mysterious dinosaur island after a storm, where they meet Rex, a stranded pup. When Humdinger's reckless mining triggers a volcano, the team faces their biggest rescue mission yet to save the island.",
     "fi": "Ryhmä Haun laiva joutuu mystisen myrskyn kouriin ja haaksirikkoutuu trooppiselle saarelle, joka kuhisee dinosauruksia. He tapaavat Rexin – pennun, joka on jo vuosia ollut saarella jumissa ja josta on kehkeytynyt melkoinen dinosaurusekspertti. Kun Ryhmä Haun arkkivihollinen, Pormestari Hanttinen, aloittaa valtavat kaivuutyöt voidakseen hyödyntää saaren luonnonvaroja, hän saa vahingossa valtavan nukuksissa olleen tulivuoren purkautumaan. Pennut tempautuvat mukaan riskialttiiseen, dinon kokoiseen, kaikkien aikojen suurimpaan pelastusoperaatioonsa tavoitteenaan pysäyttää Hanttinen ennen kuin kaikki saarella katoaa ikiajoiksi."
@@ -8305,13 +8246,12 @@
   },
   "the blob 1988 night visions": {
    "id": 9599,
-   "img": "data/posters/0bb8f1e851b2e6b0.jpg",
-   "r": 6.9,
+   "r": 0,
    "s": {
     "en": "",
     "fi": "Ei tekstitystä ”The Blob” on palannut tässä kauhistuttavassa tarinassa, joka kertoo iljettävästä ja pahansuovasta eliöstä. Se syöksyy maahan idyllisessä amerikkalaisessa pikkukaupungissa nimeltä Arborville. Olentoa ei vaivaa omatunto eikä äly; se tekee vain yhtä asiaa – ja tekee sen tehokkaasti. Se syö kaiken liikkuvan: miehiä, naisia ​​ja lapsia. Ja tänä yönä se aikoo nielaista koko Arborvillen."
    },
-   "tr": "https://www.youtube.com/watch?v=vq0our4mceQ"
+   "tr": ""
   },
   "the decline of western civilization": {
    "id": 21137,
@@ -8607,24 +8547,19 @@
   },
   "the rocky horror picture show": {
    "id": 36685,
-   "img": "data/posters/881ea0a1c032f51c.jpg",
-   "r": 7.4,
+   "r": 0,
    "s": {
-    "en": "After getting a flat tire in the middle of nowhere, newly engaged couple Brad and Janet encounter the eerie mansion of the flamboyant, seductive Dr Frank-N-Furter and a variety of eccentric characters. Through elaborate dance and rock music, the mad scientist unveils his latest creation: a perfect, muscular man.",
+    "en": "",
     "fi": "Kaikkien kulttielokuvien äiti on synnyttänyt ympärilleen yhteisöllisen ilmiön, joka elää ja voi hyvin vielä yli viisikymmentä vuotta ensi-iltansa jälkeen. B-scifiä ja kauhuelokuvia rakastavasti parodioiva ja pastissoiva teos juhlistaa vapauttavaa estottomuutta ja antoi kokonaiselle sukupolvelle luvan olla oma outo itsensä."
    },
-   "tr": "https://www.youtube.com/watch?v=4plqh6obZW4",
-   "ts": [
-    "en"
-   ]
+   "tr": ""
   },
   "the rocky horror picture show 1975": {
    "id": 36685,
    "img": "data/posters/881ea0a1c032f51c.jpg",
    "kr": "K-12",
    "krs": [
-    "kinoaurora",
-    "kinokilta"
+    "kinoaurora"
    ],
    "r": 7.4,
    "s": {
@@ -9001,7 +8936,6 @@
     "gilda",
     "jarvelankino",
     "kinoaurora",
-    "kinokonepaja",
     "kinomarilyn",
     "tapiola"
    ],
@@ -9912,5 +9846,5 @@
    "tr": ""
   }
  },
- "generated": "2026-10-30"
+ "generated": "2026-10-31"
 }

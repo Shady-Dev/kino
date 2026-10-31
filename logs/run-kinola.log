@@ -1,11 +1,11 @@
-[kinokilta] 54 screening(s) listed, 39 film page(s) read
+[kinokilta] 53 screening(s) listed, 38 film page(s) read
 [kinokilta] omitted 0 confirmed non-film(s) by evidence-backed exclusion over 0 screening(s), and 0 unresolved over 0
 [kinokilta] override retkikino-2026: active
 [kinokilta] 3 synopsis/synopses withheld, no language settled: Combat Shock, Kinokopla: DIG! XX, RetkiKino 2026
 [kinokilta] 8 film(s) with a language name not read, that part left blank: Alligator (Ei teksitystä); Combat Shock (Ei teksitystä); Joysticks (Ei teksitystä); Kuzma (ukraina, Ei teksitystä); Pieni kauhukauppa (Ei teksitystä); Prom Night (Ei teksitystä); Savage Dawn (Ei teksitystä); The Devils (Ei teksitystä)
-[kinokilta] Kino Kilta: 54 showtimes, 29 dates
+[kinokilta] Kino Kilta: 53 showtimes, 28 dates
 [kinokilta] strand prefix split off 6 showtimes
-[kinokilta] Kino Kilta: 54 showtimes, 29 dates
+[kinokilta] Kino Kilta: 53 showtimes, 28 dates
 [kinokilta] synopses merged: 0
 [kinolaika] 29 screening(s) listed, 17 film page(s) read
 [kinolaika] omitted 0 confirmed non-film(s) by evidence-backed exclusion over 0 screening(s), and 5 unresolved over 5
@@ -28,18 +28,18 @@
 [kinomyyri] Kino Myyri: 27 showtimes, 11 dates
 [kinomyyri] Kino Myyri: 27 showtimes, 11 dates
 [kinomyyri] synopses merged: 0
-[kinokonepaja] 64 screening(s) listed, 24 film page(s) read
+[kinokonepaja] 63 screening(s) listed, 23 film page(s) read
 [kinokonepaja] omitted 0 confirmed non-film(s) by evidence-backed exclusion over 0 screening(s), and 3 unresolved over 3
 [kinokonepaja] unresolved: Cold November, Reel Rock Film Tour 20, The BritRock Film Tour 2026
 [kinokonepaja] override edward-scissorhands: active
 [kinokonepaja] override gremlins: active
 [kinokonepaja] override nightmare-on-elm-street: active
 [kinokonepaja] 4 film(s) with a language name not read, that part left blank: A shelter Among the Clouds (albania); Dua (albania, serbia); Helena Ranta – Sodan viimeinen sana (serbia, albania); Shame and Money (albania)
-[kinokonepaja] Kino Konepaja: 61 showtimes, 32 dates
-[kinokonepaja] Kino Konepaja: 61 showtimes, 32 dates
+[kinokonepaja] Kino Konepaja: 60 showtimes, 31 dates
+[kinokonepaja] Kino Konepaja: 60 showtimes, 31 dates
 [kinokonepaja] synopses merged: 0
-[run] http: 39 revalidated (304), 65 full, 22 not stored (origin said no-store), 1 cache entries written
+[run] http: 38 revalidated (304), 64 full, 22 not stored (origin said no-store), 1 cache entries written
 [run] hosts: 4 attempted -- kinokonepaja.fi, kinomyyri.fi, www.kinokilta.fi, www.kinolaika.fi
-[run] kinola: 4 venues, 166 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
-[run] timing: 4 site(s), 188.9s of fetching added up across workers that overlap, longest site 61.5s, longest queue wait 92.8s, 63.6s wall from this module's first fetch starting to its last ending
+[run] kinola: 4 venues, 164 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
+[run] timing: 4 site(s), 184.8s of fetching added up across workers that overlap, longest site 62.0s, longest queue wait 104.4s, 67.6s wall from this module's first fetch starting to its last ending
 exit=0
