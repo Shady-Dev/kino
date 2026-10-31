@@ -960,6 +960,9 @@ class AliasFileTest(unittest.TestCase):
                 ("dyyni osa kolme ennakkon\u00e4yt\u00f6s", "1170608"),
             "Late Lammas -elokuva: H\u00e4m\u00e4r\u00e4puuhissa Elokuva on tekstitetty!":
                 ("late lammas elokuva h\u00e4m\u00e4r\u00e4puuhissa elokuva on tekstitetty", "1477104"),
+            "Dune: Part Three (Preview Screening)": ("dune part three preview screening", "1170608"),
+            "Late Lammas-elokuva: H\u00e4m\u00e4r\u00e4hommissa":
+                ("late lammas elokuva h\u00e4m\u00e4r\u00e4hommissa", "1477104"),
         }
         for published, (key, tmdb_id) in cases.items():
             with self.subTest(key=key):
