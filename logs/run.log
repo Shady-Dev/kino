@@ -1,15 +1,15 @@
 [token] using FINNKINO_TOKEN from the environment
 [sites] 17 cinemas
-[schedule] 2026-10-31: 512 showtimes
+[schedule] 2026-10-31: 349 showtimes
 [schedule] 2026-11-01: 461 showtimes
 [schedule] 2026-11-02: 411 showtimes
 [schedule] 2026-11-03: 411 showtimes
 [schedule] 2026-11-04: 403 showtimes
 [schedule] 2026-11-05: 405 showtimes
 [schedule] 2026-11-06: 15 showtimes
-[tmdb] weak candidate kept, not searched until 2026-11-01 (7): BTS WORLD TOUR 'ARIRANG' IN SÃO PAULO: L -> BTS WORLD TOUR [ARIRANG] in São Paulo | Godzilla Minus Zero -> ゴジラ-0.0 | HYBE CHEERING PARTY -> 하이브 치어링 파티 | Jailer 2 -> ஜெயிலர் 2 | Leviticus -> Leviticus | Rose -> Rose | Two Seasons, Two Strangers -> 旅と日々
+[tmdb] weak candidate kept, not searched until 2026-11-01 (6): BTS WORLD TOUR 'ARIRANG' IN SÃO PAULO: L -> BTS WORLD TOUR [ARIRANG] in São Paulo | Godzilla Minus Zero -> ゴジラ-0.0 | Jailer 2 -> ஜெயிலர் 2 | Leviticus -> Leviticus | Rose -> Rose | Two Seasons, Two Strangers -> 旅と日々
 [tmdb] 0 new lookups, 0 re-checks, cache 130, 107 mergeable by id
-[films] 61 film entries
+[films] 58 film entries
 [attrs] dropped, neither format nor language (10): Ennakko | Klassikko | Maxim | OCAP | Pkseutu | SEVERAL | TKU & R | Tampere | Tekijöitä | Varaus20
 [schedule] 17 venue files written, 0 kept as-is
 done
