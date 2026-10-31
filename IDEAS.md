@@ -295,20 +295,13 @@ Each of these was looked at and set down, with the reason. None is scheduled.
   measured once on one stated metric with its source. The record is in
   [docs/archive/2026-09-providers.md](docs/archive/2026-09-providers.md).
 - Rewriting the history to drop the `Co-Authored-By` lines an earlier tooling default
-  added. Measured and declined 2026-09-18: the practice already stopped, the line is
-  cosmetic attribution rather than a name or a secret, and a rewrite would falsify every
-  commit SHA the decision records cite. The figures are in
+  added. It was measured and declined on 2026-09-18. Record:
   [docs/archive/2026-09-ops.md](docs/archive/2026-09-ops.md).
 - A README workflow badge. Measured and declined 2026-09-20: `ci.yml` runs only on code
   pushes, so a badge would show the verdict from the last code change rather than the
   repository's state. Record: [docs/archive/2026-09-ops.md](docs/archive/2026-09-ops.md).
-- Moving the local fetch off the laptop. **Decided 2026-09-20 by the maintainer:** local
-  fetching stays on the laptop, and replacing the infrastructure is outside this
-  repository. The constraint is unchanged and is why the item existed: nine providers
-  block or challenge datacenter addresses (Finnkino, Kino Akseli, Kino Engel, Joutsan
-  Kino, Savon Kinot, Kino Regina, Cine, Elokuvateatteri Star, Elokuvateatteri Huvimylly)
-  and three more run there until a runner is shown to read them, so 34 of 134 venues ride
-  on one machine (docs/counts.md, 2026-09-24), and no cloud VM keeps that coverage.
+- Moving the local fetch off the laptop. The maintainer decided on 2026-09-20 that it stays
+  there. Record: [docs/archive/2026-09-pipeline.md](docs/archive/2026-09-pipeline.md).
 - A Pages artifact deploy, to stop the committed pages growing the repo: 1.2 to 2.3 MiB a
   day packed, about 33 MiB a week for the whole repo (audit, 2026-09-25). It would move the
   traffic path behind Actions scheduling.

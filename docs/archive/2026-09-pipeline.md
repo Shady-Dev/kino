@@ -2939,3 +2939,16 @@ only one of the three that reads a type from free text.
 Live reads on 2026-10-29: Bio Pallas 19 rows and nothing unread, Kino-Huovi 5 rows and one
 card (`KERRO KAIKILLE 3.11. TI klo 15.00 ja klo 18.00`), eTiketti's 21 sites 1,152 rows and
 nothing unread. 38 mutations, all red.
+
+### The local fetch stays on the laptop (2026-09-20)
+
+This entry stood in the Deferred list in `IDEAS.md` until 2026-11-01 and is kept here word
+for word.
+
+Moving the local fetch off the laptop. **Decided 2026-09-20 by the maintainer:** local
+fetching stays on the laptop, and replacing the infrastructure is outside this repository.
+The constraint is unchanged and is why the item existed: nine providers block or challenge
+datacenter addresses (Finnkino, Kino Akseli, Kino Engel, Joutsan Kino, Savon Kinot, Kino
+Regina, Cine, Elokuvateatteri Star, Elokuvateatteri Huvimylly) and three more run there
+until a runner is shown to read them, so 34 of 134 venues ride on one machine
+(docs/counts.md, 2026-09-24), and no cloud VM keeps that coverage.
