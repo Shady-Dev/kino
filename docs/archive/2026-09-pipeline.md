@@ -2952,3 +2952,14 @@ datacenter addresses (Finnkino, Kino Akseli, Kino Engel, Joutsan Kino, Savon Kin
 Regina, Cine, Elokuvateatteri Star, Elokuvateatteri Huvimylly) and three more run there
 until a runner is shown to read them, so 34 of 134 venues ride on one machine
 (docs/counts.md, 2026-09-24), and no cloud VM keeps that coverage.
+
+### Unread-content reporting covers three adapters
+
+`common.unread` names in the run log what an adapter saw and did not place, and
+`check_runs.py` marks each item new or carried. It covers Bio Pallas, Kino-Huovi and
+eTiketti since 2026-10-29. The maintainer left 26 more adapters as they are for now.
+Record: [docs/archive/2026-09-pipeline.md](2026-09-pipeline.md).
+**Next action:** move one adapter at a time when the maintainer picks it.
+
+Closed 2026-11-01. The rollout to Bio Pallas, Kino-Huovi and eTiketti was released to main
+at 41449c3841. Extending it to other adapters is a new open item in `IDEAS.md`.
