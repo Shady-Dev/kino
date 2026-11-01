@@ -1,15 +1,15 @@
 [token] using FINNKINO_TOKEN from the environment
 [sites] 17 cinemas
-[schedule] 2026-11-01: 294 showtimes
+[schedule] 2026-11-01: 50 showtimes
 [schedule] 2026-11-02: 411 showtimes
 [schedule] 2026-11-03: 411 showtimes
 [schedule] 2026-11-04: 403 showtimes
 [schedule] 2026-11-05: 405 showtimes
 [schedule] 2026-11-06: 15 showtimes
 [schedule] 2026-11-07: 31 showtimes
-[tmdb] weak candidate kept, not searched until 2026-11-02 (5): Godzilla Minus Zero -> ゴジラ-0.0 | Jailer 2 -> ஜெயிலர் 2 | Leviticus -> Leviticus | Rose -> Rose | Two Seasons, Two Strangers -> 旅と日々
+[tmdb] weak candidate kept, not searched until 2026-11-02 (4): Godzilla Minus Zero -> ゴジラ-0.0 | Leviticus -> Leviticus | Rose -> Rose | Two Seasons, Two Strangers -> 旅と日々
 [tmdb] 0 new lookups, 0 re-checks, cache 131, 108 mergeable by id
-[films] 52 film entries
+[films] 51 film entries
 [attrs] dropped, neither format nor language (9): Klassikko | Maxim | OCAP | Pkseutu | SEVERAL | TKU & R | Tampere | Tekijöitä | Varaus20
 [schedule] 17 venue files written, 0 kept as-is
 done
