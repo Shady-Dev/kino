@@ -2639,7 +2639,6 @@
    "kr": "K-12",
    "krs": [
     "biogrand",
-    "biograni",
     "biomarilyn",
     "biorex",
     "biorexkokkola",
@@ -2687,7 +2686,6 @@
     "kuvakukko",
     "laitilankino",
     "leffabuumi",
-    "lieksankino",
     "niagara",
     "orion",
     "pajakkakino",
@@ -3436,13 +3434,12 @@
   },
   "kontinental 25": {
    "id": 1410189,
-   "img": "data/posters/81b6b83a8a47b9bd.jpg",
-   "r": 6.4,
+   "r": 0,
    "s": {
     "en": "Orsolya is a bailiff in Cluj, the main city in Transylvania. One day she must evict a homeless man who lives in the basement of a building. An unexpected event creates a moral crisis she tries to solve as best she can. The latest film from modern master filmmaker Radu Jude, winner of the Silver Bear for Best Screenplay at the Berlin Film Festival.",
     "fi": "Transilvanian pääkaupungissa Cluj-Napocassa Orsolya työskentelee ulosottomiehenä. Eräänä päivänä hänen on häädettävä koditon mies kellarista, mikä johtaa katastrofaalisiin seurauksiin ja herättää moraalisen ongelman, jonka Orsolya joutuu ratkaisemaan."
    },
-   "tr": "https://www.youtube.com/watch?v=b9umCIsc-zc"
+   "tr": ""
   },
   "kotiinpaluu": {
    "id": 952701,
@@ -3925,7 +3922,6 @@
     "biomarilyn",
     "biomarlon",
     "biorex",
-    "biorexkokkola",
     "biosade",
     "biosalo",
     "biosavoy",
@@ -3948,7 +3944,6 @@
     "kinokuva",
     "kinolaika",
     "kinolumo",
-    "kinomania",
     "kinomarilyn",
     "kinometso",
     "kinoolympia",
@@ -3961,7 +3956,6 @@
     "kkino",
     "korjaamo",
     "kotkanleffat",
-    "kurikankino",
     "leffabuumi",
     "levisummit",
     "savonkinot",
@@ -5835,7 +5829,6 @@
    "krs": [
     "alatalo",
     "biograni",
-    "biokaari",
     "biomarilyn",
     "biopallas",
     "biorex",
@@ -5856,8 +5849,6 @@
     "kinokulma",
     "kinokuva",
     "kinometso",
-    "kinomyyri",
-    "kinopiispanristi",
     "kinopirtti",
     "kinotar",
     "kinotervakoski",
@@ -5930,7 +5921,6 @@
    "krs": [
     "alatalo",
     "biograni",
-    "biokaari",
     "biomarilyn",
     "biopallas",
     "biorex",
@@ -5951,8 +5941,6 @@
     "kinokulma",
     "kinokuva",
     "kinometso",
-    "kinomyyri",
-    "kinopiispanristi",
     "kinopirtti",
     "kinotar",
     "kinotervakoski",
@@ -6026,7 +6014,6 @@
     "laitilankino",
     "leffabuumi",
     "lieksankino",
-    "marita",
     "pajakkakino",
     "savonkinot",
     "star",
@@ -9013,16 +9000,12 @@
   },
   "unohdettu saari dup": {
    "id": 1465063,
-   "img": "data/posters/db8d634869fa04ac.jpg",
-   "r": 7.6,
+   "r": 0,
    "s": {
-    "en": "While celebrating their last night together, high school graduates and best friends Jo and Raissa stumble upon a mysterious portal that transports them to the fantastical island of Nakali. When they discover that the memories of their entire friendship are the price for returning home, Jo and Raissa must race to find a way to leave the island before they forget each other forever.",
+    "en": "",
     "fi": "Parhaan ystävyyden puolesta kannattaa taistella. DreamWorks Animation on aiemmin tuonut katsojille tarinoita unohtumattomista siteistä pojan ja lohikäärmeen välillä Näin koulutat lohikäärmeesi -elokuvissa, jätin ja aasin välillä Shrek-elokuvissa sekä robotin ja hanhenpoikasen välillä elokuvassa Villi robotti. Nyt luvassa on huikean tunteikas tarina kahdesta parhaasta ystävyksestä, joiden täytyy yhdistää voimansa eron uhatessa elokuvassa Unohdettu saari. Uuden alkuperäistarinan on käsikirjoittanut ja ohjannut Oscar-ehdokas Joel Crawford ja Januel Mercado. Tuottajana toimii Oscar-ehdokas Mark Swift. Sama tiimi on myös ollut tekemässä elokuvaa Saapasjalkakissa: Viimeinen toivomus. Grammy- ja Oscar-palkittu supertähti H.E.R. ja Liza Soberano (Lisa Frankenstein, Alone/Together) ovat Jo ja Raissa, high schoolista valmistunut parivaljakko. He ovat olleet parhaita ystäviä ala-asteelta asti, mutta nyt elämä uhkaa erottaa ystävykset. Juhliessaan viimeistä yhteistä iltaansa Jo ja Raissa törmäävät salaperäiseen portaaliin, joka kuljettaa heidät Nakalin mielikuvitukselliselle saarelle. Saari on täynnä maagisia ja myyttisiä olentoja, joista ystävysten filippiiniläisperheet ovat kertoneet tarinoita. Uusista tuttavuuksista paljastuu niin ystäviä kuin vihollisiakin. Apunaan hyvää tarkoittava mutta melko avuton ihmiskoira Raww (Dave Franco) sekä pieni mutta pippurinen joukko muita kamuja Jo ja Raissa ottavat mittaa karmeasta Manananggalista (Tony-palkittu ikoni Lea Salonga), saaren pelätyimmästä olennosta. Kun parille paljastuu, että hinta kotiinpaluusta on kaikkien yhteisten muistojen menettäminen, Jon ja Raissan täytyy keksiä keino päästä pois saarelta unohtamatta toisiaan. Elokuvan ääninäyttelijöiden tähtisikermää täydentävät Emmy-ehdokas Jenny Slate (Marcell the Shell with Shoes On, Dying for Sex), Manny Jacinto (The Good Place, Top Gun: Maverick), BAFTA-ehdokas Dolly de Leon (Triangle of Sadness, Ghostlight), komedian supertähti Jo Koy (Haunted Mansion, Jo Koy: Live from B"
    },
-   "tr": "https://www.youtube.com/watch?v=PhgY8cOJiQA",
-   "ts": [
-    "en"
-   ]
+   "tr": ""
   },
   "unohdettu saari en dub": {
    "id": 1465063,
@@ -9072,7 +9055,7 @@
   "unohdettu saari suomeksi": {
    "id": 1465063,
    "img": "data/posters/9bcaf7ef167a0f8f.jpg",
-   "r": 7.8,
+   "r": 7.7,
    "s": {
     "en": "While celebrating their last night together, high school graduates and best friends Jo and Raissa stumble upon a mysterious portal that transports them to the fantastical island of Nakali. When they discover that the memories of their entire friendship are the price for returning home, Jo and Raissa must race to find a way to leave the island before they forget each other forever.",
     "fi": "Parhaan ystävyyden puolesta kannattaa taistella. DreamWorks Animation on aiemmin tuonut katsojille tarinoita unohtumattomista siteistä pojan ja lohikäärmeen välillä Näin koulutat lohikäärmeesi -elokuvissa, jätin ja aasin välillä Shrek-elokuvissa sekä robotin ja hanhenpoikasen välillä elokuvassa Villi robotti. Nyt luvassa on huikean tunteikas tarina kahdesta parhaasta ystävyksestä, joiden täytyy yhdistää voimansa eron uhatessa elokuvassa Unohdettu saari. Uuden alkuperäistarinan on käsikirjoittanut ja ohjannut Oscar-ehdokas Joel Crawford ja Januel Mercado. Tuottajana toimii Oscar-ehdokas Mark Swift. Sama tiimi on myös ollut tekemässä elokuvaa Saapasjalkakissa: Viimeinen toivomus. Grammy- ja Oscar-palkittu supertähti H.E.R. ja Liza Soberano (Lisa Frankenstein, Alone/Together) ovat Jo ja Raissa, high schoolista valmistunut parivaljakko. He ovat olleet parhaita ystäviä ala-asteelta asti, mutta nyt elämä uhkaa erottaa ystävykset. Juhliessaan viimeistä yhteistä iltaansa Jo ja Raissa törmäävät salaperäiseen portaaliin, joka kuljettaa heidät Nakalin mielikuvitukselliselle saarelle. Saari on täynnä maagisia ja myyttisiä olentoja, joista ystävysten filippiiniläisperheet ovat kertoneet tarinoita. Uusista tuttavuuksista paljastuu niin ystäviä kuin vihollisiakin. Apunaan hyvää tarkoittava mutta melko avuton ihmiskoira Raww (Dave Franco) sekä pieni mutta pippurinen joukko muita kamuja Jo ja Raissa ottavat mittaa karmeasta Manananggalista (Tony-palkittu ikoni Lea Salonga), saaren pelätyimmästä olennosta. Kun parille paljastuu, että hinta kotiinpaluusta on kaikkien yhteisten muistojen menettäminen, Jon ja Raissan täytyy keksiä keino päästä pois saarelta unohtamatta toisiaan. Elokuvan ääninäyttelijöiden tähtisikermää täydentävät Emmy-ehdokas Jenny Slate (Marcell the Shell with Shoes On, Dying for Sex), Manny Jacinto (The Good Place, Top Gun: Maverick), BAFTA-ehdokas Dolly de Leon (Triangle of Sadness, Ghostlight), komedian supertähti Jo Koy (Haunted Mansion, Jo Koy: Live from B"
@@ -9298,6 +9281,14 @@
    },
    "tr": ""
   },
+  "vi är orchestre de paris me olemme pariisin orkesteri": {
+   "r": 0,
+   "s": {
+    "en": "",
+    "fi": "Ohjaaja Philippe Beziat on loihtinut elokuvallisen sukelluksen musiikin luomisen ytimeen. Elokuva vie yleisön orkesterin sisään, kokemaan musiikin 90 mikrofonin avulla eri kulmista, eri muusikoiden kokemana. 120 muusikon yhteinen soittamisen tahto kannattelee elämystä. Orkesterin häikäisevä kotisali Grande Salle Pierre Boulez on Pritzker-palkitun Jean Nouvelin suunnittelema. Elokuva vie katsojat mukaansa myös Pariisin orkesterin kiertueelle. Stravinskyn ja Mahlerin klassikoita soitetaan kuin hurmiossa."
+   },
+   "tr": ""
+  },
   "viimeinen mies": {
    "id": 5991,
    "img": "data/posters/dbf34b736c2ee430.jpg",
@@ -9426,6 +9417,10 @@
   "wicker intohimosta punottu": {
    "id": 1195803,
    "img": "data/posters/aca6e1cdaad07a60.jpg",
+   "kr": "K-12",
+   "krs": [
+    "kinokonepaja"
+   ],
    "r": 0,
    "s": {
     "en": "On the outskirts of a village by the sea, lives a Fisherwoman; smelly, single and perpetually ridiculed. One day, fed up with her stuffy, small-minded neighbours, she commissions herself a husband to be made from wicker. In an otherwise conservative town, this unconventional romance sparks outrage, jealousy and chaos.",
@@ -9441,6 +9436,7 @@
    "img": "data/posters/ce1a7e45f2509c41.jpg",
    "kr": "K-16",
    "krs": [
+    "bioforum",
     "cine",
     "helios",
     "ihmekompleksi",
@@ -9579,6 +9575,7 @@
    "img": "data/posters/d0630be5ff40e993.jpg",
    "kr": "K-16",
    "krs": [
+    "bioforum",
     "cinemantsala",
     "ihmekompleksi",
     "kinoaurora",
@@ -9602,6 +9599,16 @@
     "fi": "Lapsista haaveilevat suomalainen Saga ja britti Jon muuttavat suomalaisen metsän keskelle taloon, jossa Saga on viettänyt lapsuuden kesät. Pian he saavat terveen pojan, mutta pikkuhiljaa Sagan valtaa pelottava tunne, että vaativassa vauvassa on jotain outoa. Tuoreiden vanhempien kokemukset saavat modernin kansantarun mittasuhteet."
    },
    "tr": ""
+  },
+  "yön lapsi nightborn": {
+   "id": 964849,
+   "img": "data/posters/d0630be5ff40e993.jpg",
+   "r": 6.0,
+   "s": {
+    "en": "",
+    "fi": "Yön lapsi on Hanna Bergholmin ja Ilja Rautsin yhdessä käsikirjoittama psykologinen trilleri, joka pureutuu vanhemmuuteen ja parisuhteeseen liittyviin tunteisiin ennennäkemättömällä tavalla."
+   },
+   "tr": "https://www.youtube.com/watch?v=dWePsu_Kd9c"
   },
   "äideistä parhain": {
    "id": 32990,

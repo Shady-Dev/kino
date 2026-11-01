@@ -1,30 +1,31 @@
-[biorexkokkola] Bio Rex Kokkola: 28 showtimes, 10 dates
+[biorexkokkola] Bio Rex Kokkola: 24 showtimes, 10 dates
 [biorexkokkola] synopses merged: 0
-[kinopirtti] Kinopirtti: 67 showtimes, 22 dates
+[kinopirtti] Kinopirtti: 63 showtimes, 22 dates
 [kinopirtti] synopses merged: 0
-[kinotar] Kinotar 123: 33 showtimes, 18 dates
+[kinotar] Kinotar 123: 28 showtimes, 17 dates
 [kinotar] synopses merged: 0
 [kinojuha] Kino Juha: 7 showtimes, 6 dates
 [kinojuha] VIP-Sali: 10 showtimes, 10 dates
 [kinojuha] synopses merged: 0
-[biovuoksi] Bio Vuoksi: 15 showtimes, 6 dates
+[biovuoksi] Bio Vuoksi: 14 showtimes, 6 dates
 [biovuoksi] synopses merged: 0
 [kinoiiris] strand prefix split off 1 showtimes
-[kinoiiris] Kino Iiris: 34 showtimes, 22 dates
+[kinoiiris] Kino Iiris: 33 showtimes, 21 dates
 [kinoiiris] synopses merged: 0
 [kinoiiris] screening-note sentences left out of synopses: 1
-[kkino] K-Kino: 7 showtimes, 3 dates
+[kkino] K-Kino: 6 showtimes, 2 dates
 [kkino] synopses merged: 0
-[biograni] Bio Grani: 11 showtimes, 6 dates
+[biograni] Bio Grani: 9 showtimes, 5 dates
 [biograni] synopses merged: 0
-[niagara] Cinema Niagara: 40 showtimes, 17 dates
+[niagara] Cinema Niagara: 38 showtimes, 16 dates
 [niagara] synopses merged: 0
-[kinokaustinen] Kino Kaustinen: 1 showtimes, 1 dates
+[kinokaustinen] Kino Kaustinen: no programme at the moment (adapter confirmed the venue empty); publishing an empty file
 [kinokaustinen] synopses merged: 0
-[kinomarilyn] Kino Marilyn: 43 showtimes, 21 dates
+[kinokaustinen] no programme published: https://kinokaustinen.fi/elokuvat/ohjelmistossa renders the template's empty programme
+[kinomarilyn] Kino Marilyn: 41 showtimes, 21 dates
 [kinomarilyn] synopses merged: 0
-[run] http: 0 revalidated (304), 177 full, 177 not stored (origin said no-store), 0 cache entries written
+[run] http: 0 revalidated (304), 171 full, 171 not stored (origin said no-store), 0 cache entries written
 [run] hosts: 11 attempted -- biograni.fi, biovuoksi.fi, cinemaniagara.fi, jamsankinotar.fi, k-kino.fi, kinoiiris.com, kinojuha.fi, kinokaustinen.fi, kinopirtti.fi, www.biorex.org, www.kinomarilyn.fi
-[run] etiketti: 12 venues, 296 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
-[run] timing: 11 site(s), 322.5s of fetching added up across workers that overlap, longest site 64.2s, longest queue wait 39.8s, 95.9s wall from this module's first fetch starting to its last ending
+[run] etiketti: 11 venues, 273 showtimes, 0 stale, 0 unverified, 0 pending, 1 with no programme, 0 failures
+[run] timing: 11 site(s), 305.2s of fetching added up across workers that overlap, longest site 61.9s, longest queue wait 37.0s, 92.7s wall from this module's first fetch starting to its last ending
 exit=0

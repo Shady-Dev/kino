@@ -12,7 +12,7 @@
  },
  "digger": {
   "price": "",
-  "at": "2026-10-30T16:45:31+00:00",
+  "at": "2026-11-01T16:52:36+00:00",
   "fields": {
    "lang": "EN-A, FI-S, SV-S",
    "len": "128",
@@ -150,14 +150,14 @@
  },
  "taksikuski": {
   "price": "",
-  "at": "2026-10-30T16:45:31+00:00",
+  "at": "2026-11-01T16:52:36+00:00",
   "fields": {
    "lang": "EN-A, FI-S, SV-S",
    "len": "114",
    "rating": "K-16",
    "original": "Taxi Driver",
    "year": "1976",
-   "syn_fi": "Martin Scorsesen ajattoman mestariteoksen pääosassa Robert De Niro on Vietnam-veteraani, joka ajaa taksia yön pimeinä tunteina. Kaikki näkemänsä vaikuttaa häneen syvästi: narkkarit, prostituoidut, rikolliset, kerjäläiset… Suurkaupungin yöt ovat kuin viidakko, ja jonkun täytyy laittaa asiat järjestykseen. Koska kukaan muu tässä hullussa maailmassa ei tunnu välittävän mistään, mies päättää ottaa oikeuden omiin käsiinsä ja muuttuu pian käveleväksi aikapommiksi valmiina väkivaltaiseen toimintaan… De Niron rinnalla loistavat nuori Jodie Foster, Harvey Keitel, Peter Boyle ja Cybill Shepherd. Kaunistelemattomasta käsikirjoituksesta vastaa Paul Schrader. Musiikin sävelsi Bernard Herrmann uransa viimeisenä työnään. 50 vuotta sitten marraskuussa Suomen ensi-iltansa saanut Taksikuski nähdään Cinema Orionissa 35mm-filmikopiona!"
+   "syn_fi": "Martin Scorsesen ajattoman mestariteoksen pääosassa Robert De Niro on Vietnam-veteraani, joka ajaa taksia yön pimeinä tunteina. Kaikki näkemänsä vaikuttaa häneen syvästi: narkkarit, prostituoidut, rikolliset, kerjäläiset… Suurkaupungin yöt ovat kuin viidakko, ja jonkun täytyy laittaa asiat järjestykseen. Koska kukaan muu tässä hullussa maailmassa ei tunnu välittävän mistään, mies päättää ottaa oikeuden omiin käsiinsä ja muuttuu pian käveleväksi aikapommiksi valmiina väkivaltaiseen toimintaan… De Niron rinnalla loistavat nuori Jodie Foster, Harvey Keitel, Peter Boyle ja Cybill Shepherd. Kaunistelemattomasta käsikirjoituksesta vastaa Paul Schrader. Musiikin sävelsi Bernard Herrmann uransa viimeisenä työnään. 50 vuotta sitten marraskuussa Suomen ensi-iltansa saanut Taksikuski nähdään Cinema Orionissa vanhana 35mm-filmikopiona!"
   }
  },
  "talvitarina": {
@@ -186,7 +186,7 @@
  },
  "unesta-tehty-mies": {
   "price": "",
-  "at": "2026-10-30T16:45:31+00:00",
+  "at": "2026-11-01T16:52:36+00:00",
   "fields": {
    "lang": "FI-A",
    "len": "94",
