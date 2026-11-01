@@ -565,19 +565,6 @@
     "en"
    ]
   },
-  "bamse ja meren salaisuus": {
-   "id": 1275785,
-   "img": "data/posters/aed5ff66e478c590.jpg",
-   "r": 0,
-   "s": {
-    "en": "",
-    "fi": "Bamse, Pomppi ja Kilpinen ovat jälleen uuden seikkailun keskellä! Bamse, Pomppi ja Kilpinen lähtevät kohti suurta meriseikkailua ja sukeltavat keskelle merimysteeriä – pian alkaa koko perheen seikkailu, täynnä ystävyyttä, yllätyksiä ja huikeita hetkiä."
-   },
-   "tr": "https://www.youtube.com/watch?v=Vh9Tp3JXbQM",
-   "ts": [
-    "fi"
-   ]
-  },
   "beau travail": {
    "id": 14626,
    "img": "data/posters/326524066da4f856.jpg",
@@ -3692,16 +3679,12 @@
   },
   "kätyrit monsterit dub": {
    "id": 1315772,
-   "img": "data/posters/67059865db3405c0.jpg",
-   "r": 7.6,
+   "r": 0,
    "s": {
-    "en": "This is the rambunctious, ridiculous and totally true story of how the Minions conquered Hollywood, became movie stars, lost everything, unleashed monsters onto the world and then banded together to try and save the planet from the mayhem they had just created.",
+    "en": "",
     "fi": "Illumination johdattaa meidät jälleen hulvattomaan animaatiomaailmaansa uudella elokuvallaan Kätyrit & Monsterit, joka tuo maailman suosituimpaan animaatio-franchiseen kokonaan uusia hahmoja. Hillitön, riehakas ja täysin tositapahtumiin perustuva elokuva kertoo, miten Kätyrit valloittavat Hollywoodin ja nousevat elokuvatähdiksi, menettävät kaiken, tulevat päästäneeksi hirviöitä maailmaan ja lopulta yhdistävät voimansa pelastaakseen planeetan itse aiheuttamaltaan kaaokselta. Alkuperäisissä äänirooleissa kuullaan muun muassa Oscar®-voittaja Allison Janney, kaksinkertainen Oscar®-voittaja Christoph Waltz, Oscar®-voittaja Jeff Bridges, kaksinkertainen Oscar®-ehdokas Jesse Eisenberg, Zoey Deutch (Nouvelle Vague) sekä Oscar®-ehdokas Trey Parker, joka tunnetaan myös yhtenä South Parkin luojista. Näyttelijäkaartia täydentävät myös entinen Saturday Night Live -tähti Bobby Moynihan ja Phil LaMarr (Futurama, Kukkulan kuningas). Kätyrit & Monsterit -elokuvan on ohjannut Oscar-ehdokkuuden saanut Pierre Coffin, jonka ohjaustöihin lukeutuvat myös kolme ensimmäistä Itse ilkimys -elokuvaa ja ensimmäinen Kätyrit-elokuva. Coffin on myös ääninäytellyt itse Kätyreitä niiden elokuvadebyytistä 2010 alkaen. Elokuvan käsikirjoittajat ovat Brian Lynch (Kätyrit, Lemmikkien salainen elämä -elokuvat) ja Pierre Coffin. Elokuvan ovat tuottaneet myös Oscar-ehdokkuuden saanut Illuminationin perustaja ja pääjohtaja Chris Meledandri sekä Bill Ryan (The Super Mario Bros. Movie -elokuvan vastaava tuottaja ). Kätyrit & Monsterit -elokuvan vastaava tuottaja on Brian Lynch. Yli 15 vuotta on kulunut Kätyreiden luomisesta, ja niistä on tullut sukupolvensa ikonisimpia animaatiohahmoja. Kaikenikäisten fanien rakastamat Kätyrit ovat siivittäneet Illuminationin Itse ilkimys- ja Kätyrit-elokuvatuotannot yli 5,6 miljardia dollaria tuottaneiksi maailmanlaajuisiksi jymymenestyksiksi."
    },
-   "tr": "https://www.youtube.com/watch?v=V-O-uBaHk3c",
-   "ts": [
-    "en"
-   ]
+   "tr": ""
   },
   "kätyrit monsterit dub 5": {
    "id": 1315772,
@@ -3938,6 +3921,7 @@
    "krs": [
     "bioforum",
     "biogrand",
+    "biokaari",
     "biomarilyn",
     "biomarlon",
     "biorex",
@@ -3973,22 +3957,18 @@
     "kinoset",
     "kinotar",
     "kinotervakoski",
-    "kinovirta",
     "kirkkonummi",
     "kkino",
     "korjaamo",
     "kotkanleffat",
     "kurikankino",
-    "laitilankino",
     "leffabuumi",
     "levisummit",
-    "matintupa",
     "savonkinot",
     "star",
     "studio123jarvenpaa",
     "studio123kouvola",
     "vaakuna",
-    "vihdinkino",
     "virtainpirtti"
    ],
    "r": 7.4,
@@ -4038,16 +4018,12 @@
   },
   "late lammas hämärä puuhissa": {
    "id": 1477104,
-   "img": "data/posters/93eda5fa30b7d70c.jpg",
-   "r": 7.3,
+   "r": 0,
    "s": {
-    "en": "On Halloween Eve at Mossy Bottom Farm, excitement turns to dismay when the clumsy Farmer ruins the pumpkin patch. Shaun tries fixing it with science experiments, but things go awry when a wild beast appears in the woods.",
+    "en": "",
     "fi": "Rakastettu Late Lammas palaa valkokankaille uudessa, riemastuttavassa ja kutkuttavan hauskassa seikkailussa. Farmin asukkaat odottavat innolla Halloweenia, kunnes heidän rakkaudella kasvattamansa kurpitsaviljelmä tuhoutuu juhlan kynnyksellä. Late ei jää toimettomaksi, vaan päättää ryhtyä “hulluksi tiedemieheksi” korjatakseen tilanteen – ja pian tapahtumat karkaavatkin täysin käsistä. Kun tilan maajussi katoaa ja outo villi peto herättää kauhua kyläläisissä, ovat kaikki ainekset kasassa hirviömäisen hauskalle seikkailulle kaiken ikäisille."
    },
-   "tr": "https://www.youtube.com/watch?v=daZMq0AyOMc",
-   "ts": [
-    "en"
-   ]
+   "tr": ""
   },
   "late lammas hämäräpuuhissa": {
    "id": 1477104,
@@ -4290,16 +4266,12 @@
   },
   "lyhyt rakkaustarina": {
    "id": 1299382,
-   "img": "data/posters/7eff920a1bfc91f7.jpg",
-   "r": 6.2,
+   "r": 0,
    "s": {
-    "en": "Lea and Rocco meet by chance in a bar and an instant attraction ignites between them. From that moment, a secret affair begins, consisting of fleeting, clandestine meetings in a hotel room. However, as time passes, Lea's obsession with Rocco intensifies, leading her to intrude more and more into his life. The story soon takes an unexpected and unsettling turn.",
+    "en": "",
     "fi": "Lea ja Rocco kohtaavat sattumalta baarissa. Heidän välillään kipinöi heti, ja kaksikko syöksyy salaiseen suhteeseen. Kumpikin viettää tahoillaan tavallisen onnellista, hyvää elämää, mutta hotellihuoneen lakanoissa he tuntuvat löytävän toisistaan jotain, mitä ovat kaivanneet. Kun salasuhde alkaa saada Lean osalta pakkomielteisiä sävyjä, tunnelma kiristyy. Miten pitkälle syrjähypyn voi antaa mennä – ja mitä tapahtuu, kun kaikki lopulta paljastuu? Suomen elokuvasäätiön maahantuontituki 2026."
    },
-   "tr": "",
-   "ts": [
-    "en"
-   ]
+   "tr": ""
   },
   "lyhyt rakkaustarina en kort kärlekshistoria breve storia d amore": {
    "id": 1299382,
@@ -5862,7 +5834,6 @@
    "kr": "S",
    "krs": [
     "alatalo",
-    "biogrand",
     "biograni",
     "biokaari",
     "biomarilyn",
@@ -5876,7 +5847,6 @@
     "engel",
     "helios",
     "huvimylly",
-    "ihmekompleksi",
     "isohannu",
     "joutsankino",
     "julia",
@@ -5885,22 +5855,19 @@
     "kinohirvi",
     "kinokulma",
     "kinokuva",
-    "kinolumo",
     "kinometso",
     "kinomyyri",
     "kinopiispanristi",
     "kinopirtti",
     "kinotar",
     "kinotervakoski",
-    "kinotour",
     "korjaamo",
     "kotkanleffat",
     "kulttuurimylly",
     "leffabuumi",
     "savonkinot",
     "star",
-    "studio123jarvenpaa",
-    "tapiola"
+    "studio123jarvenpaa"
    ],
    "r": 0,
    "s": {
@@ -5929,50 +5896,6 @@
   },
   "pikkuli ja tähtipeura puhumme suomea": {
    "id": 1403476,
-   "img": "data/posters/79b249e47f0870db.jpg",
-   "kr": "S",
-   "krs": [
-    "alatalo",
-    "biogrand",
-    "biograni",
-    "biokaari",
-    "biomarilyn",
-    "biopallas",
-    "biorex",
-    "biorexkokkola",
-    "biosade",
-    "biosalo",
-    "biosavoy",
-    "cinemantsala",
-    "engel",
-    "helios",
-    "huvimylly",
-    "ihmekompleksi",
-    "isohannu",
-    "joutsankino",
-    "julia",
-    "kino123",
-    "kinohannikainen",
-    "kinohirvi",
-    "kinokulma",
-    "kinokuva",
-    "kinolumo",
-    "kinometso",
-    "kinomyyri",
-    "kinopiispanristi",
-    "kinopirtti",
-    "kinotar",
-    "kinotervakoski",
-    "kinotour",
-    "korjaamo",
-    "kotkanleffat",
-    "kulttuurimylly",
-    "leffabuumi",
-    "savonkinot",
-    "star",
-    "studio123jarvenpaa",
-    "tapiola"
-   ],
    "r": 0,
    "s": {
     "en": "",
@@ -6006,7 +5929,6 @@
    "kr": "S",
    "krs": [
     "alatalo",
-    "biogrand",
     "biograni",
     "biokaari",
     "biomarilyn",
@@ -6020,7 +5942,6 @@
     "engel",
     "helios",
     "huvimylly",
-    "ihmekompleksi",
     "isohannu",
     "joutsankino",
     "julia",
@@ -6029,22 +5950,19 @@
     "kinohirvi",
     "kinokulma",
     "kinokuva",
-    "kinolumo",
     "kinometso",
     "kinomyyri",
     "kinopiispanristi",
     "kinopirtti",
     "kinotar",
     "kinotervakoski",
-    "kinotour",
     "korjaamo",
     "kotkanleffat",
     "kulttuurimylly",
     "leffabuumi",
     "savonkinot",
     "star",
-    "studio123jarvenpaa",
-    "tapiola"
+    "studio123jarvenpaa"
    ],
    "r": 0,
    "s": {
@@ -6091,7 +6009,6 @@
     "biorexkokkola",
     "biosalo",
     "biostara",
-    "biovuoksi",
     "cinemantsala",
     "helios",
     "ihmekompleksi",
@@ -6271,13 +6188,12 @@
   },
   "premada oorali": {
    "id": 1735270,
-   "img": "data/posters/48c1bf112f5c3690.jpg",
    "r": 0,
    "s": {
     "en": "A Quirky and self-absorbed father-son duo's lives from a remote village, take an unexpected turn when an unconventional Daughter in Law enters their family, challenging societal judgment.",
     "fi": ""
    },
-   "tr": "https://www.youtube.com/watch?v=271GZatiFG0"
+   "tr": ""
   },
   "presidentin kyyditys": {
    "id": 1412214,
@@ -7323,16 +7239,12 @@
   },
   "ryhmä hau dinoelokuva suomeksi": {
    "id": 1185806,
-   "img": "data/posters/b7775ab25a7de6bc.jpg",
-   "r": 8.2,
+   "r": 0,
    "s": {
-    "en": "The Paw Patrol lands on a mysterious dinosaur island after a storm, where they meet Rex, a stranded pup. When Humdinger's reckless mining triggers a volcano, the team faces their biggest rescue mission yet to save the island.",
+    "en": "",
     "fi": "Ryhmä Haun laiva joutuu mystisen myrskyn kouriin ja haaksirikkoutuu trooppiselle saarelle, joka kuhisee dinosauruksia. He tapaavat Rexin – pennun, joka on jo vuosia ollut saarella jumissa ja josta on kehkeytynyt melkoinen dinosaurusekspertti. Kun Ryhmä Haun arkkivihollinen, Pormestari Hanttinen, aloittaa valtavat kaivuutyöt voidakseen hyödyntää saaren luonnonvaroja, hän saa vahingossa valtavan nukuksissa olleen tulivuoren purkautumaan. Pennut tempautuvat mukaan riskialttiiseen, dinon kokoiseen, kaikkien aikojen suurimpaan pelastusoperaatioonsa tavoitteenaan pysäyttää Hanttinen ennen kuin kaikki saarella katoaa ikiajoiksi."
    },
-   "tr": "https://www.youtube.com/watch?v=xgI5iYmOf5Q",
-   "ts": [
-    "en"
-   ]
+   "tr": ""
   },
   "rölli ja metsänhenki": {
    "id": 64029,
@@ -7758,7 +7670,7 @@
   "street fighter": {
    "id": 1153576,
    "img": "data/posters/2c34dcbef60ffbda.jpg",
-   "r": 6.4,
+   "r": 6.3,
    "s": {
     "en": "In 1993, estranged Street Fighters Ryu and Ken Masters are thrown back into combat when the mysterious Chun-Li recruits them for the next World Warrior Tournament: a brutal clash of fists, fate, and fury. But behind this battle royale lies a deadly conspiracy that forces them to face off against each other and the demons of their past. And if they don't, it's GAME OVER!",
     "fi": "Eletään vuotta 1993, ja toisistaan vieraantuneet tappelijat Ryu (Andrew Koji) ja Ken Masters (Noah Centineo) vedetään takaisin tappelukuvioihin, kun salaperäinen Chun-Li (Callina Liang) värvää heidät seuraavaan World Warrior -turnaukseen – armottomaan nyrkkien, kohtalon ja raivon yhteentörmäykseen. Turnauksen kulisseissa kytee vaarallinen salaliitto, joka pakottaa Ryun ja Kenin kohtaamaan sekä toisensa että menneisyytensä demonit. Muuten peli on ohi.",
@@ -8137,16 +8049,12 @@
   },
   "the altar boys kuoripojat": {
    "id": 1383172,
-   "img": "data/posters/c2c545949f40f7cf.jpg",
    "r": 0,
    "s": {
-    "en": "A group of teenage altar boys, frustrated by the indifferent attitude of adults and the Church towards social injustices, decides to implement their own unconventional plan for moral renewal of their neighbourhood. Armed with youthful rebellion and their personal interpretation of the Bible, they set up a wiretap… in the confessional.",
+    "en": "",
     "fi": "Elokuvan päähenkilöt ovat nuoria kuoripoikia, jotka turhautuvat aikuisten ja kirkon välinpitämättömyyteen epäoikeudenmukaisuutta kohtaan. He alkavat salakuunnella ihmisten ripittäytymisiä ja ryhtyvät omalla tavallaan jakamaan oikeutta naapurustossaan. Leikillinen supersankarimainen tehtävä muuttuu vähitellen vaaralliseksi, kun pojat alkavat horjua hyvän ja pahan rajalla."
    },
-   "tr": "https://www.youtube.com/watch?v=QRa-4A3D9Fg",
-   "ts": [
-    "en"
-   ]
+   "tr": ""
   },
   "the babadook": {
    "id": 242224,

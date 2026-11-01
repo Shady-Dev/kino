@@ -1,13 +1,13 @@
-[kinokilta] 49 screening(s) listed, 36 film page(s) read
+[kinokilta] 48 screening(s) listed, 36 film page(s) read
 [kinokilta] omitted 0 confirmed non-film(s) by evidence-backed exclusion over 0 screening(s), and 0 unresolved over 0
 [kinokilta] override retkikino-2026: active
 [kinokilta] 3 synopsis/synopses withheld, no language settled: Combat Shock, Kinokopla: DIG! XX, RetkiKino 2026
 [kinokilta] 6 film(s) with a language name not read, that part left blank: Alligator (Ei teksitystä); Combat Shock (Ei teksitystä); Joysticks (Ei teksitystä); Kuzma (ukraina, Ei teksitystä); Prom Night (Ei teksitystä); Savage Dawn (Ei teksitystä)
-[kinokilta] Kino Kilta: 49 showtimes, 27 dates
+[kinokilta] Kino Kilta: 48 showtimes, 27 dates
 [kinokilta] strand prefix split off 6 showtimes
-[kinokilta] Kino Kilta: 49 showtimes, 27 dates
+[kinokilta] Kino Kilta: 48 showtimes, 27 dates
 [kinokilta] synopses merged: 0
-[kinolaika] 27 screening(s) listed, 16 film page(s) read
+[kinolaika] 25 screening(s) listed, 16 film page(s) read
 [kinolaika] omitted 0 confirmed non-film(s) by evidence-backed exclusion over 0 screening(s), and 5 unresolved over 5
 [kinolaika] unresolved: Antti Autio, Dave Lindholm & Pepe Ahlqvist: WALKIN' BLUES -kiertue, Garden Folly, Knipi - Sivellinvetoja, Livemusavisa
 [kinolaika] override a-fox-under-a-pink-moon: evidence-unavailable
@@ -15,17 +15,17 @@
 [kinolaika] override naza: evidence-unavailable
 [kinolaika] override pikku-kummitus-lapanen-keppostelee: evidence-unavailable
 [kinolaika] override two-seasons-two-strangers: active
-[kinolaika] Kino Laika: 22 showtimes, 8 dates
-[kinolaika] Kino Laika: 22 showtimes, 8 dates
+[kinolaika] Kino Laika: 20 showtimes, 8 dates
+[kinolaika] Kino Laika: 20 showtimes, 8 dates
 [kinolaika] synopses merged: 0
-[kinomyyri] 25 screening(s) listed, 19 film page(s) read
+[kinomyyri] 24 screening(s) listed, 18 film page(s) read
 [kinomyyri] omitted 0 confirmed non-film(s) by evidence-backed exclusion over 0 screening(s), and 2 unresolved over 3
 [kinomyyri] unresolved: Boléro, Minä ja Riikka Purra
 [kinomyyri] override kojootti-vs-acme-dub: evidence-unavailable
 [kinomyyri] override must-pori-nakku: active
-[kinomyyri] 4 film(s) with a language name not read, that part left blank: Berliinin sankari (saksan); Lapin sota (saami); Premada Oorali (kannada); Vasenkätinen tyttö (mandariini)
-[kinomyyri] Kino Myyri: 22 showtimes, 10 dates
-[kinomyyri] Kino Myyri: 22 showtimes, 10 dates
+[kinomyyri] 3 film(s) with a language name not read, that part left blank: Berliinin sankari (saksan); Lapin sota (saami); Vasenkätinen tyttö (mandariini)
+[kinomyyri] Kino Myyri: 21 showtimes, 10 dates
+[kinomyyri] Kino Myyri: 21 showtimes, 10 dates
 [kinomyyri] synopses merged: 0
 [kinokonepaja] 61 screening(s) listed, 21 film page(s) read
 [kinokonepaja] omitted 0 confirmed non-film(s) by evidence-backed exclusion over 0 screening(s), and 3 unresolved over 3
@@ -37,8 +37,8 @@
 [kinokonepaja] Kino Konepaja: 58 showtimes, 31 dates
 [kinokonepaja] Kino Konepaja: 58 showtimes, 31 dates
 [kinokonepaja] synopses merged: 0
-[run] http: 36 revalidated (304), 60 full, 21 not stored (origin said no-store), 1 cache entries written
+[run] http: 36 revalidated (304), 59 full, 20 not stored (origin said no-store), 1 cache entries written
 [run] hosts: 4 attempted -- kinokonepaja.fi, kinomyyri.fi, www.kinokilta.fi, www.kinolaika.fi
-[run] kinola: 4 venues, 151 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
-[run] timing: 4 site(s), 174.0s of fetching added up across workers that overlap, longest site 58.3s, longest queue wait 89.8s, 59.7s wall from this module's first fetch starting to its last ending
+[run] kinola: 4 venues, 147 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
+[run] timing: 4 site(s), 181.2s of fetching added up across workers that overlap, longest site 59.7s, longest queue wait 100.8s, 70.8s wall from this module's first fetch starting to its last ending
 exit=0
