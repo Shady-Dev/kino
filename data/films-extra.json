@@ -1120,11 +1120,6 @@
   "dracula": {
    "id": 1323409,
    "img": "data/posters/8d26aa87dac26f9c.jpg",
-   "kr": "K-16",
-   "krs": [
-    "engel",
-    "niagara"
-   ],
    "r": 0,
    "s": {
     "en": "“A mercilessly funny and outrageously bold work that once again consolidates Jude as one of the most unusual and radical filmmakers of his generation” Matthew Joseph Jenner, International Cinephile Society “Radu Jude’s Gloriously Stupid Vampire Epic Is the First Movie to Make Any Meaningful Use of Generative AI” David Erlich, Indiewire",
@@ -1173,7 +1168,7 @@
     "en": "Nearly two decades after he seized control of the Imperium, Paul Atreides is now a ruthless Emperor, and must face the consequences of his reign as old allies return, terrifying new threats emerge, and betrayal lurks in every shadow. Haunted by visions of Imperial collapse and the reappearance of his long-lost love, Paul is drawn into a sweeping conspiracy, with Chani at the heart of its unfolding mystery. As enemies close in, Paul must confront the true cost of power and the fate of those he loves the most.",
     "fi": "Denis Villeneuven ohjaama ja Villeneuven sekä Brian K. Vaughanin yhdessä käsikirjoittama Dyyni: Osa kolme perustuu Frank Herbertin romaaniin Dyynin messias ja tarjoaa eeppisen päätöksen Villeneuven trilogialle. Elokuvan pääosissa ovat Timothée Chalamet, Zendaya, Jason Momoa, Florence Pugh, Rebecca Ferguson, Isaach De Bankolé, Charlotte Rampling, Anya Taylor-Joy, Robert Pattinson ja Javier Bardem, ja uusina tulokkaina nähdään Nakoa-Wolf Momoa ja Ida Brooke."
    },
-   "tr": "https://www.youtube.com/watch?v=NdvqHc56lE0",
+   "tr": "https://www.youtube.com/watch?v=uJqaGLmZpGo",
    "ts": [
     "en"
    ]
@@ -2160,17 +2155,13 @@
   },
   "insidious out of the further": {
    "id": 1291595,
-   "img": "data/posters/f1fadcf01e5f6329.jpg",
-   "r": 7.7,
+   "r": 0,
    "s": {
-    "en": "Gemma, a young mother raising her daughter in the house she grew up in, discovers she can travel into The Further, where she possesses an ability to bring what lives there back to the real world.",
+    "en": "",
     "fi": "Nuori äiti Gemma kasvattaa tytärtään talossa, jossa hän itse kasvoi, ja hän huomaa voivansa matkustaa The Furtheriin, missä hänellä on kyky tuoda siellä elävät olennot takaisin todelliseen maailmaan.",
     "sv": "I filmen Insidious: Out of the Further (den sjätte delen i skräckserien) följer vi den ensamstående mamman Gemma. Hon upptäcker att hon kan resa in i \"The Further\" – den parallella, mörka världen av förlorade själar. Hon får förmågan att föra dess varelser tillbaka till vår värld, vilket släpper lös ondskefulla krafter.I rollerna ser vi bland annat Amelia Eve som Gemma och Lin Shaye som återvänder i rollen som Elise Rainier."
    },
-   "tr": "https://www.youtube.com/watch?v=gXjurDkYnEM",
-   "ts": [
-    "en"
-   ]
+   "tr": ""
   },
   "intermezzo": {
    "id": 125891,
@@ -2443,13 +2434,12 @@
   },
   "järki ja tunteet 2026": {
    "id": 1503762,
-   "img": "data/posters/31b4bfa4354c3f1d.jpg",
-   "r": 7.2,
+   "r": 0,
    "s": {
     "en": "",
     "fi": "Uusi, vastustamaton tulkinta Jane Austenin ikonisesta Järki ja tunteet -teoksesta: hurmaava, nokkela ja syvästi samaistuttava tarina rakkaudesta ja sisaruudesta. Pääosissa loistavat Daisy Edgar-Jones ja Esmé Creed-Miles."
    },
-   "tr": "https://www.youtube.com/watch?v=OFLyW0lxFU0"
+   "tr": ""
   },
   "järki ja tunteet sense and sensibility": {
    "id": 1503762,
@@ -5536,19 +5526,6 @@
    },
    "tr": ""
   },
-  "painajainen elm streetillä": {
-   "id": 377,
-   "img": "data/posters/ab74378717d7c9c0.jpg",
-   "r": 7.4,
-   "s": {
-    "en": "",
-    "fi": "Nancy näkee hirvittäviä painajaisia. Samaan aikaan hänen koulutoverinsa, jotka myös näkevät samoja unia, teurastetaan heidän nukkuessaan. Raakojen murhien takana on nuorten opiskelijoiden yhteisten painajaisten paholaismainen hahmo. Mutta kun poliisi ei ota Nancyn tarinaa kuuleviin korviinsa, tytön on kohdattava tappaja itse tämän varjomaisessa valtakunnassa."
-   },
-   "tr": "https://www.youtube.com/watch?v=CBcVZcornjI",
-   "ts": [
-    "fi"
-   ]
-  },
   "palatsin hiljaisuus": {
    "id": 44284,
    "r": 0,
@@ -5875,7 +5852,6 @@
     "biosade",
     "biosalo",
     "biosavoy",
-    "biostara",
     "cinemantsala",
     "engel",
     "helios",
@@ -5947,7 +5923,6 @@
     "biosade",
     "biosalo",
     "biosavoy",
-    "biostara",
     "cinemantsala",
     "engel",
     "helios",
@@ -6021,7 +5996,6 @@
     "biosade",
     "biosalo",
     "biosavoy",
-    "biostara",
     "cinemantsala",
     "engel",
     "helios",
@@ -6110,7 +6084,6 @@
     "kinometso",
     "kinopiispanristi",
     "kinopirtti",
-    "kinoset",
     "kinotour",
     "kotkanleffat",
     "laitilankino",
@@ -6413,13 +6386,12 @@
   },
   "psycho": {
    "id": 539,
-   "img": "data/posters/2f79b3bac115a827.jpg",
-   "r": 8.4,
+   "r": 0,
    "s": {
     "en": "",
     "fi": "Alfred Hitchcockin elokuvista löytyy kyllä useampiakin kuuluisia tapauksia, liekö yksikään silti niin kuuluisa kuin vuonna 1960 valmistunut Psyko. Yhtä hyvä ei ainakaan! Tamperelaisilla valkokankailla tätä kiistatonta mestariteosta on näkynyt turhan harvoin, mutta tilanne korjaantuu Cinema Niagarassa lauantaina 31.10. Ja tämähän kuuluu siihen pitää nähdä ainakin kerran elämässä -kategoriaan Kauhuelokuvien harrastajaksi on turha itseään väittää jos Psyko on katsomatta. Janet Leighin esittämä Marion Crane varastaa työnantajaltaan rahaa uuden elämän aloittamiseen ja livahtaa muihin maisemiin. Matkalla hän pysähtyy syrjäiseen motelliin, jota isännöi Norman Bates (roolinsa vangiksi jäänyt Anthony Perkins) ja tämän vahvatahtoinen äiti. Marionin jäljille lähtevät tämän sisko sekä miesystävä. Työnantaja puolestaan palkkaa yksityisetsivän jäljittämään kadonneita rahoja. Psykosta on kirjoitettu kirjoja ja sanottu todennäköisesti kaikki mahdollinen, jo pelkästään sen kuuluisasta - ja sittemmin loputtomiin varioidusta ja parodioidusta - suihkukohtauksesta yksinäänkin. Upea mustavalkokuvaus soljuvasti kulkevine kamera-ajoineen toivat yhden Oscar-ehdokkuuden. Kolme muuta tulivat ohjauksesta, Janet Leighin sivuosaroolista sekä musiikista, jota ilman elokuva tuskin olisi menestynyt yhtä hyvin. Taloudellisesti Psyko kohosi Hitchcockin menestyneimmäksi työksi."
    },
-   "tr": "https://www.youtube.com/watch?v=D90QhegiVvo"
+   "tr": ""
   },
   "punainen peto": {
    "id": 1453659,
@@ -6794,33 +6766,30 @@
   },
   "ringu": {
    "id": 2671,
-   "img": "data/posters/50919b2ac5826cc3.jpg",
-   "r": 7.1,
+   "r": 0,
    "s": {
     "en": "",
     "fi": "Kōji Suzukin vuonna 1991 julkaistuun kirjaan perustuva elokuva oli jättihitti, joka käynnisti japanilaisen kauhun uuden kultakauden ja avasi genrelle tietä länsimarkkinoille. Kun tutkivan journalistin Reikon sukulaistyttö kuolee salaperäisesti, jäljet johtavat hyytävään urbaaniin legendaan videonauhasta, jonka katsominen merkitsee kuolemaa seitsemän päivän sisällä."
    },
-   "tr": "https://www.youtube.com/watch?v=yAmO3vanfDQ"
+   "tr": ""
   },
   "ringu 0 bāsudei": {
    "id": 9674,
-   "img": "data/posters/9ebeb72baf6038c8.jpg",
-   "r": 6.1,
+   "r": 0,
    "s": {
     "en": "",
     "fi": "Kōji Suzukin novelliin perustuva Ringu 0 on esiosa kahdelle aiemmalle Ringu-elokuvalle. Tarina sijoittuu aikaan kolmekymmentä vuotta ennen ensimmäisen Ringu-elokuvan tapahtumia ja kertoo miten ujosta 19-vuotiaasta Sadakosta tuli videonauhoja riivaava, kostoa janoava aave."
    },
-   "tr": "https://www.youtube.com/watch?v=hV1JeyjofRk"
+   "tr": ""
   },
   "ringu 2": {
    "id": 9669,
-   "img": "data/posters/0afacaf92d613311.jpg",
-   "r": 5.8,
+   "r": 0,
    "s": {
     "en": "",
     "fi": "Menestyselokuvan jatko-osa jatkaa Ringun tarinaa suoraan ensimmäisen osan tapahtumista. Reikon kadottua tämän kollega jatkaa kirotun videonauhan arvoituksen tutkimista. Käy ilmi, että kaivoon suljettu aavetyttö Sadako janoaa edelleen kostoa. Toisin kuin edeltäjänsä, Ringu 2 ei perustu kirjaan, vaan sen alkuperäiskäsikirjoitus tehtiin Ringun suurmenestyksen innoittamana."
    },
-   "tr": "https://www.youtube.com/watch?v=uNXO-5ucOCc"
+   "tr": ""
   },
   "rocco ja hänen veljensä": {
    "id": 8422,
@@ -7410,19 +7379,6 @@
    "tr": "https://www.youtube.com/watch?v=QO3tEIvpe_E",
    "ts": [
     "en"
-   ]
-  },
-  "scream 1996": {
-   "id": 4232,
-   "img": "data/posters/5d8b9804926992c6.jpg",
-   "r": 7.4,
-   "s": {
-    "en": "",
-    "fi": "Psykoottinen sarjamurhaaja herättää kauhun hiljaisessa pikkukaupungissa. Tappaja tuntuu olevan hullaantunut kauhuelokuviin ja käyttääkin niitä inspiraation lähteinä brutaaleihin murhiinsa, joiden kohteina ovat koulun nuoret. Sidneyn koulukaveri löytyy pahasti silvottuna, ja niin joutuvat muutkin nuoret pelkäämään henkensä edestä. Kukaan ei ole turvassa, ja samalla kaikki seudun asukkaat ovat epäiltyjen listalla. Murhaaja tuntuu jollain omituisella tavalla liittyvän Sidneyn menneisyyden kauhuihin, ja niin jääkin Sidney ainoaksi, joka voi pysäyttää raa'an murhaajan."
-   },
-   "tr": "https://www.youtube.com/watch?v=U0LETmDvuXc",
-   "ts": [
-    "fi"
    ]
   },
   "se": {
@@ -8041,13 +7997,12 @@
   },
   "teenage sex and death at camp miasma": {
    "id": 1240889,
-   "img": "data/posters/82c397a5a61fb63f.jpg",
-   "r": 6.1,
+   "r": 0,
    "s": {
     "en": "A young director (Hannah Einbinder) tries to revive the cult slasher film series Camp Miasma. But an encounter with its legendary star (Gillian Anderson) draws her into a vortex of blood and desire. The hypnotic summer thriller Teenage Sex and Death at Camp Miasma blends influences from David Lynch and Friday the 13th. Directed by Jane Schoenbrun, the film had its world premiere as the opening film of the Un Certain Regard section at the Cannes Film Festival. Schoenbrun’s previous film, I Saw the TV Glow (2024), was one of the most-watched hits at the Rakkautta & Anarkiaa film festival.",
     "fi": "Nuori ohjaaja (Hannah Einbinder) yrittää herättää henkiin kulttimaineisen slasher-elokuvasarjan Camp Miasman. Kohtaaminen sen legendaarisen tähden (Gillian Anderson) kanssa tempaa hänet kuitenkin veren ja halun pyörteisiin. Hypnoottinen kesätrilleri TEENAGE SEX AND DEATH AT CAMP MIASMA yhdistelee David Lynch ja Friday the 13th -vaikutteita. Jane Schoenbrunin ohjaus sai maailmanensi-iltansa Cannesin festivaalin Un Certain Regard -sarjan avajaiselokuvana. Schoenbrunin edellinen I Saw the TV Glow (2024) oli Rakkautta & Anarkiaa -festivaalin vuoden katsotuimpia hittejä."
    },
-   "tr": "https://www.youtube.com/watch?v=j9TsiTgYZGw"
+   "tr": ""
   },
   "tehokkuuden hinta tietokirjakeskustelu": {
    "r": 0,
@@ -8224,7 +8179,6 @@
     "gilda",
     "kinoaurora",
     "kinolaika",
-    "korjaamo",
     "regina"
    ],
    "r": 7.5,
@@ -8245,7 +8199,6 @@
     "gilda",
     "kinoaurora",
     "kinolaika",
-    "korjaamo",
     "regina"
    ],
    "r": 7.5,
@@ -8684,13 +8637,12 @@
   },
   "the shining": {
    "id": 694,
-   "img": "data/posters/583139fd78a2d1d8.jpg",
-   "r": 8.2,
+   "r": 0,
    "s": {
     "en": "",
     "fi": "Mikä on maailman kauhein asia? Onko se hirviömäinen avaruusolento? Vai tappava kulkutauti? Vai pelko, että rakas ja turvallinen ihminen - ehkäpä perheenjäsen - osoittautuukin murhanhimoiseksi mielipuoleksi? Jack Torrance ottaa hoidettavakseen hienon, mutta eristyksissä olevan Overlook Hotellin talven ajaksi. Hänen mukanaan tulevat vaimo ja pieni poika. Torrance ei ole koskaan aiemmin ollut hotellissa - vai onko? Vastaus löytyy aavemaisesta mielipuolisuuden puuskasta."
    },
-   "tr": "https://www.youtube.com/watch?v=jAE7dNurHR4"
+   "tr": ""
   },
   "the social reckoning": {
    "id": 1281331,
@@ -9028,19 +8980,6 @@
   "two seasons two strangers": {
    "id": 1462735,
    "img": "data/posters/819e3e0324072544.jpg",
-   "kr": "S",
-   "krs": [
-    "engel",
-    "gilda",
-    "kinoaurora",
-    "kinokilta",
-    "kinokonepaja",
-    "kinolaika",
-    "korjaamo",
-    "kuvakukko",
-    "leffabuumi",
-    "niagara"
-   ],
    "r": 0,
    "s": {
     "en": "In summer, Nagisa and Natsuo meet by the sea. Their vacant gazes reflect each other as they exchange awkward words and wade into the rain-drenched ocean. In winter, Li, a screenwriter, travels to a snow-covered village. There, she finds a guesthouse run by Benzo.",
@@ -9387,7 +9326,6 @@
    "kr": "K-12",
    "krs": [
     "biorex",
-    "gilda",
     "isohannu",
     "kinohirvi",
     "kinolumo",
@@ -9715,7 +9653,6 @@
    "img": "data/posters/d0630be5ff40e993.jpg",
    "kr": "K-16",
    "krs": [
-    "biorex",
     "cinemantsala",
     "ihmekompleksi",
     "kinoaurora",
@@ -9751,5 +9688,5 @@
    "tr": ""
   }
  },
- "generated": "2026-10-31"
+ "generated": "2026-11-01"
 }
