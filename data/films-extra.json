@@ -1578,13 +1578,12 @@
   },
   "gremlins": {
    "id": 927,
-   "img": "data/posters/24c8fa65c2d6fcdc.jpg",
-   "r": 7.1,
+   "r": 0,
    "s": {
     "en": "",
     "fi": "Pienet ja söpöt karvaiset olennot muuttuvat riehuviksi riiviöiksi ja ovat lähes tuhota pikkukaupungin rauhallisen elämänmenon."
    },
-   "tr": "https://www.youtube.com/watch?v=PXXZx6skXrw"
+   "tr": ""
   },
   "gremlins 2 the new batch": {
    "id": 928,
@@ -2235,19 +2234,6 @@
    },
    "tr": ""
   },
-  "jailer 2": {
-   "id": 1234139,
-   "img": "data/posters/fc034c34f1eaf82a.jpg",
-   "r": 0,
-   "s": {
-    "en": "When a dangerous syndicate expands its reach to threaten his family's peace, retired jailer Tiger Muthuvel Pandian goes undercover as a driver. Operating from the shadows, he takes on ruthless new enemies to protect his home.",
-    "fi": ""
-   },
-   "tr": "",
-   "ts": [
-    "en"
-   ]
-  },
   "jakten på jultomtens verkstad": {
    "id": 1578318,
    "img": "data/posters/ce3885e6401a6f73.jpg",
@@ -2655,7 +2641,6 @@
     "ihmekompleksi",
     "isohannu",
     "kino123",
-    "kinoakseli",
     "kinoaurora",
     "kinoelo",
     "kinohamina",
@@ -2673,6 +2658,7 @@
     "kinoolympia",
     "kinopiispanristi",
     "kinopirtti",
+    "kinosampo",
     "kinoset",
     "kinotar",
     "kinotervakoski",
@@ -3105,7 +3091,7 @@
   "kojootti vs acme": {
    "id": 1204680,
    "img": "data/posters/e1a7880d02ca0644.jpg",
-   "r": 7.5,
+   "r": 8.0,
    "s": {
     "en": "After Acme products fail him one too many times in his dogged pursuit of the Roadrunner, Wile E. Coyote decides to hire a billboard lawyer to sue the Acme Corporation.",
     "fi": "Vuosikymmenten ajan pommien räjäyttämä, dynamiitin murskaama, magneettien runtelema, siirtolohkareiden litistämä, junien tallaama, tunneleiden huijaama, jousien sinkoama, höyryjyrien yliajama, viallisten laitteiden pettämä, benjiköysien kiusaama, rakettien riepottelema, lepakkoasujen selkäänpuukottama, rakettiluistinten paiskoma, yksipyöräisten kumoama, maanjäristyspillereiden tärisyttämä, villiintyneiden kuminauhojen venyttämä ja lounaisten Yhdysvaltojen jokaiselta jyrkänteeltä syösty Kelju K. Kojootti saa viimein tarpeekseen ja päättää iskeä takaisin. Mainostauluonnettomuuksiin erikoistuneen asianajajan Kevin Averyn (Will Forte) kanssa liittoutuessaan hän haastaa oikeuteen ACME Inc.:n – ahneuttaan tavoittelevan jättiyhtiön, jonka tuotteet ovat olleet jokaisen Kojoottia kohdanneen katastrofin taustalla – sekä yhtiötä edustavan lipevän yritysjuristin Buddy Cranen (John Cena)."
@@ -3930,13 +3916,11 @@
     "cinemantsala",
     "elavienkuvien",
     "engel",
-    "haapamaki",
     "ihmekompleksi",
     "isohannu",
     "jarvelankino",
     "joutsankino",
     "kino123",
-    "kinoakseli",
     "kinoaurora",
     "kinoelo",
     "kinohirvi",
@@ -3944,14 +3928,17 @@
     "kinokuva",
     "kinolaika",
     "kinolumo",
+    "kinomania",
     "kinomarilyn",
     "kinometso",
     "kinoolympia",
     "kinopiispanristi",
     "kinopirtti",
+    "kinosampo",
     "kinoset",
     "kinotar",
     "kinotervakoski",
+    "kinotoijala",
     "kirkkonummi",
     "kkino",
     "korjaamo",
@@ -5802,12 +5789,34 @@
    "tr": ""
   },
   "pikku kummitus lapanen keppostelee puhumme suomea": {
+   "id": 1781923,
+   "img": "data/posters/8a9129f55b1b3d43.jpg",
+   "kr": "S",
+   "krs": [
+    "biorex",
+    "biorexkokkola",
+    "biosalo",
+    "biosavoy",
+    "biostara",
+    "cinemantsala",
+    "ihmekompleksi",
+    "isohannu",
+    "kinotervakoski",
+    "kotkanleffat",
+    "kulttuurimylly",
+    "savonkinot",
+    "studio123jarvenpaa",
+    "vaakuna"
+   ],
    "r": 0,
    "s": {
-    "en": "",
+    "en": "Laban the Little Ghost is back with a new collection of cozy and just-spooky-enough adventures at the Good Morning Sun Castle. Together with his little sister Labolina and his best friend, the Little Prince, their days are filled with everything from trick-or-treating, birthday celebrations, and lost Christmas presents to unexpected guests and many other fun experiences.",
     "fi": "Pikku Kummitus Lapanen palaa uusien seikkailujen pariin Hyvänhuomenen linnassa. Yhdessä Lapaniinan, Pikkuprinssin ja ystäviensä kanssa hän joutuu hauskoihin, jännittäviin ja välillä hieman pelottaviinkin tilanteisiin, joissa ystävyys, rohkeus ja mielikuvitus ovat aina keskiössä. Lämmin ja humoristinen elokuvaelämys perheen pienimmille elokuvissakävijöille. Elokuva on saanut Euroopan unionin Luova Eurooppa -ohjelman tuen."
    },
-   "tr": ""
+   "tr": "",
+   "ts": [
+    "en"
+   ]
   },
   "pikku kummitus lapanen keppostelee suomeksi": {
    "id": 1781923,
@@ -5837,7 +5846,6 @@
     "biosalo",
     "biosavoy",
     "cinemantsala",
-    "engel",
     "helios",
     "huvimylly",
     "isohannu",
@@ -5929,7 +5937,6 @@
     "biosalo",
     "biosavoy",
     "cinemantsala",
-    "engel",
     "helios",
     "huvimylly",
     "isohannu",
@@ -9036,12 +9043,16 @@
   },
   "unohdettu saari orig": {
    "id": 1465063,
-   "r": 0,
+   "img": "data/posters/9bcaf7ef167a0f8f.jpg",
+   "r": 7.7,
    "s": {
-    "en": "",
+    "en": "While celebrating their last night together, high school graduates and best friends Jo and Raissa stumble upon a mysterious portal that transports them to the fantastical island of Nakali. When they discover that the memories of their entire friendship are the price for returning home, Jo and Raissa must race to find a way to leave the island before they forget each other forever.",
     "fi": "Tämä elokuva sisältää välkkyviä valoja, jotka voivat aiheuttaa oireita henkilöille, joilla on valoherkkä epilepsia tai muu valoherkkyys. Parhaan ystävyyden puolesta kannattaa taistella. DreamWorks Animation on aiemmin tuonut katsojille tarinoita unohtumattomista siteistä pojan ja lohikäärmeen välillä Näin koulutat lohikäärmeesi -elokuvissa, jätin ja aasin välillä Shrek-elokuvissa sekä robotin ja hanhenpoikasen välillä elokuvassa Villi robotti. Nyt luvassa on huikean tunteikas tarina kahdesta parhaasta ystävyksestä, joiden täytyy yhdistää voimansa eron uhatessa elokuvassa Unohdettu saari. Uuden alkuperäistarinan on käsikirjoittanut ja ohjannut Oscar-ehdokas Joel Crawford ja Januel Mercado. Tuottajana toimii Oscar-ehdokas Mark Swift. Sama tiimi on myös ollut tekemässä elokuvaa Saapasjalkakissa: Viimeinen toivomus. Grammy- ja Oscar-palkittu supertähti H.E.R. ja Liza Soberano (Lisa Frankenstein, Alone/Together) ovat Jo ja Raissa, high schoolista valmistunut parivaljakko. He ovat olleet parhaita ystäviä ala-asteelta asti, mutta nyt elämä uhkaa erottaa ystävykset. Juhliessaan viimeistä yhteistä iltaansa Jo ja Raissa törmäävät salaperäiseen portaaliin, joka kuljettaa heidät Nakalin mielikuvitukselliselle saarelle. Saari on täynnä maagisia ja myyttisiä olentoja, joista ystävysten filippiiniläisperheet ovat kertoneet tarinoita. Uusista tuttavuuksista paljastuu niin ystäviä kuin vihollisiakin. Apunaan hyvää tarkoittava mutta melko avuton ihmiskoira Raww (Dave Franco) sekä pieni mutta pippurinen joukko muita kamuja Jo ja Raissa ottavat mittaa karmeasta Manananggalista (Tony-palkittu ikoni Lea Salonga), saaren pelätyimmästä olennosta. Kun parille paljastuu, että hinta kotiinpaluusta on kaikkien yhteisten muistojen menettäminen, Jon ja Raissan täytyy keksiä keino päästä pois saarelta unohtamatta toisiaan."
    },
-   "tr": ""
+   "tr": "https://www.youtube.com/watch?v=PhgY8cOJiQA",
+   "ts": [
+    "en"
+   ]
   },
   "unohdettu saari på svenska": {
    "id": 1465063,
@@ -9438,6 +9449,7 @@
    "krs": [
     "bioforum",
     "cine",
+    "cinemantsala",
     "helios",
     "ihmekompleksi",
     "isohannu",
@@ -9581,6 +9593,7 @@
     "kinoaurora",
     "kinohannikainen",
     "kinokulma",
+    "leffabuumi",
     "orion",
     "tapiola"
    ],
