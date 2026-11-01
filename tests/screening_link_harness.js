@@ -23,7 +23,7 @@ function slice(start, end, name) {
 }
 const SRC = slice('  // --- screening link: pure, extracted verbatim by tests/screening_link_harness.js ---',
                   '  // --- end screening link ---', 'screening link');
-for (const fn of ['screeningHash', 'screeningUrl', 'parseSheetHash', 'screeningTarget', 'shareText', 'menuSide']) {
+for (const fn of ['screeningHash', 'screeningUrl', 'parseSheetHash', 'screeningTarget', 'shareText', 'menuPlace']) {
   if (!new RegExp('function ' + fn + '\\s*\\(').test(SRC)) {
     console.error('marker block does not contain ' + fn);
     process.exit(2);
@@ -42,13 +42,13 @@ vm.createContext(sandbox);
 vm.runInContext(HELPERS + '\n' + NEXT + '\n' + SRC
                 + '\n;globalThis.__h = screeningHash; globalThis.__u = screeningUrl;'
                 + 'globalThis.__p = parseSheetHash; globalThis.__t = screeningTarget; globalThis.__d = fiDate;'
-                + 'globalThis.__x = shareText; globalThis.__m = menuSide;',
+                + 'globalThis.__x = shareText; globalThis.__m = menuPlace;',
                 sandbox, { filename: 'screeningLink' });
 const screeningHash = sandbox.__h, screeningUrl = sandbox.__u;
 const parseSheetHash = sandbox.__p, screeningTarget = sandbox.__t, fiDate = sandbox.__d;
-const shareText = sandbox.__x, menuSide = sandbox.__m;
+const shareText = sandbox.__x, menuPlace = sandbox.__m;
 
-const out = { hash: {}, url: {}, parse: {}, target: {}, share: {}, side: {} };
+const out = { hash: {}, url: {}, parse: {}, target: {}, share: {}, place: {} };
 
 // -- building ---------------------------------------------------------------------------
 out.hash.plain = screeningHash('HO00000413');
@@ -105,15 +105,21 @@ out.target.pair_venue_time_gone = targetV({ day: '2026-09-13', start: '2026-09-1
 out.target.pair_venue_time_moved = targetV({ day: '2026-09-13', start: '2026-09-13T16:00:00+03:00', venue: '1151' });
 out.target.pair_unknown_venue = targetV({ day: '2026-09-13', start: '2026-09-13T17:00:00+03:00', venue: 'zzz' });
 
-// -- the share text and the menu's side (v145) -----------------------------------------
+// -- the share text (v145) and the menu's place (2026-11-01) ---------------------------
 out.share.with_hall = shareText('Ryhmä Hau: Dinoelokuva', 'Finnkino Promenadi', 'Sali 3', 'Ti 15.9.', 'klo', '16:30');
 out.share.no_hall = shareText('Kino Regina', 'Kino Regina', '', 'La 13.9.', 'kl.', '20:45');
 out.share.verbatim = shareText('<b>A & B</b>', 'V', 'H', 'D', 'at', 'T');
-out.side.far_from_edge = menuSide(120, 375);
-out.side.at_199_no_room_left = menuSide(176, 375);   // the single-view ticket at 375
-out.side.at_199_room_left = menuSide(1001, 1200);
-out.side.at_200 = menuSide(1000, 1200);
-out.side.at_edge = menuSide(375, 375);
-out.side.wide = menuSide(900, 1200);
+// A phone sheet body spans the screen; the desktop one starts at 261 in a 1200 viewport.
+const PHONE = { left: 0, top: 0, right: 320, bottom: 800 };
+const btn = (right, top) => ({ left: right - 40, top, right, bottom: top + 40 });
+out.place.under = menuPlace(btn(300, 100), 220, 150, PHONE, 16);
+out.place.flipped = menuPlace(btn(300, 700), 220, 150, { ...PHONE, bottom: 760 }, 16);
+out.place.short_both_more_below = menuPlace(btn(300, 60), 220, 150, { ...PHONE, bottom: 204 }, 16);
+out.place.short_both_equal = menuPlace(btn(300, 100), 220, 150, { ...PHONE, bottom: 240 }, 16);
+out.place.fits_below_exactly = menuPlace(btn(300, 400), 220, 150, { ...PHONE, bottom: 594 }, 16);
+out.place.left_gutter = menuPlace(btn(184, 100), 221, 150, PHONE, 16);
+out.place.right_gutter = menuPlace(btn(312, 100), 200, 150, PHONE, 16);
+out.place.desktop_body = menuPlace(btn(445, 100), 221, 150, { left: 261, top: 80, right: 939, bottom: 900 }, 16);
+out.place.wider_than_box = menuPlace(btn(300, 100), 300, 150, PHONE, 16);
 
 process.stdout.write(JSON.stringify(out) + '\n');

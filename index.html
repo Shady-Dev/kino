@@ -875,14 +875,13 @@
   .tk .more svg{width:20px; height:20px; display:block}
   .tk .more:hover{color:var(--ink)}
   .tk.open .more{color:var(--accent)}
-  /* The menu: below the ticket, opening rightwards from its left edge or, near the
-     viewport's right edge, leftwards from its right edge (menuSide). Two rows of 44 px. */
+  /* The menu: under the dots, right edges in line, above them when the sheet has no room
+     below (menuPlace sets left and top). Rows of 44 px. */
   .tkmenu{
-    position:absolute; top:calc(100% + 4px); left:0; z-index:5; min-width:196px;
+    position:absolute; top:calc(100% + 4px); right:0; z-index:5; min-width:196px;
     background:var(--surface); border:1px solid var(--line); border-radius:8px;
     box-shadow:0 8px 24px rgba(0,0,0,.18); padding:4px; margin:0;
   }
-  .tkmenu.left{left:auto; right:0}
   .tkmenu .mi{
     display:flex; flex-direction:column; align-items:flex-start; justify-content:center;
     gap:2px; width:100%; min-height:44px; padding:6px 12px; margin:0; border:0;
@@ -2962,13 +2961,17 @@
   function shareText(title, venue, hall, day, at, time){
     return [title, [venue, hall].filter(Boolean).join(', '), `${day} ${at} ${time}`].join('\n');
   }
-  // -> which way a ticket's menu opens: leftwards (aligned to the ticket's right edge)
-  // when the ticket ends within 200 px of the viewport's right edge and 200 px lie to
-  // the left of that edge for the menu to open into, else rightwards. A 157 px ticket
-  // at 375 is 198 px from the right edge and 177 from the left: flipped, its menu
-  // started 19 px off screen (seen in the rig).
-  function menuSide(right, viewportWidth){
-    return viewportWidth - right < 200 && right >= 200 ? 'left' : 'right';
+  // -> where a ticket's menu goes, in viewport px: 4 px under its dots button with the two
+  // right edges in line, so the pointer travels straight down from the dots (2026-11-01).
+  // It goes above the button instead when `box` has less room below than the menu needs
+  // and more above, and it shifts sideways to stay `gutter` px inside `box`. `btn` and
+  // `box` are rects (left, top, right, bottom), `box` the visible part of the sheet body;
+  // `w` and `h` are the menu's size.
+  function menuPlace(btn, w, h, box, gutter){
+    const below = box.bottom - btn.bottom - 4, above = btn.top - box.top - 4;
+    const up = below < h && above > below;
+    const x = Math.max(box.left + gutter, Math.min(btn.right - w, box.right - gutter - w));
+    return { x, y: up ? btn.top - 4 - h : btn.bottom + 4, up };
   }
   // --- end screening link ---
 
@@ -5089,12 +5092,23 @@
     const iso = fiDate(s.start);
     const sub = [`${fiDay[dowOf(iso)]} ${dmOf(iso)} ${fiTime(s.start)}`, s.aud].filter(Boolean).join(', ');
     const menu = document.createElement('div');
-    menu.className = 'tkmenu ' + menuSide(tk.getBoundingClientRect().right, window.innerWidth);
+    menu.className = 'tkmenu';
     menu.setAttribute('role', 'menu');
     menu.innerHTML = `<button type="button" role="menuitem" class="mi" data-act="share"><span>${esc(T.shareScreening)}</span><small>${esc(sub)}</small></button>`
       + `<button type="button" role="menuitem" class="mi" data-act="cal"><span>${esc(T.addCalendar)}</span></button>`
       + `<button type="button" role="menuitem" class="mi" data-act="report"><span>${esc(T.reportWrong)}</span></button>`;
     tk.appendChild(menu);
+    // Placed from the button's rect against the visible part of the sheet body, then
+    // written relative to the wrapper, so the menu still scrolls with its ticket.
+    const b = btn.getBoundingClientRect(), t = tk.getBoundingClientRect(), mr = menu.getBoundingClientRect();
+    const vw = document.documentElement.clientWidth, sb = btn.closest('.sheet-body');
+    const r = sb ? sb.getBoundingClientRect() : { left: 0, top: 0, right: vw, bottom: innerHeight };
+    const box = { left: Math.max(0, r.left), right: Math.min(vw, r.right),
+                  top: Math.max(0, r.top), bottom: Math.min(innerHeight, r.bottom) };
+    const at = menuPlace(b, mr.width, mr.height, box, 16);
+    menu.style.right = 'auto';
+    menu.style.left = `${at.x - t.left}px`;
+    menu.style.top = `${at.y - t.top}px`;
     tk.classList.add('open');
     btn.setAttribute('aria-expanded', 'true');
     openTk = tk;

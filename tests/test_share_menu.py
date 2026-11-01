@@ -2,9 +2,9 @@
 
 The dots button sits beside the ticket, outside the anchor, and opens a `role="menu"`
 popover; share goes through `navigator.share` or the clipboard with a toast. The two pure
-pieces, `shareText` and `menuSide`, run verbatim through tests/screening_link_harness.js;
+pieces, `shareText` and `menuPlace`, run verbatim through tests/screening_link_harness.js;
 the markup, the strings and the CSS are pinned on the source. Keyboard, focus return and
-the flip near the right edge stay verified live.
+where the menu lands are checked in tests/browser/test_ticket_menu.py.
 """
 import json
 import pathlib
@@ -44,7 +44,7 @@ class SharePureTest(unittest.TestCase):
         if out.returncode:
             raise AssertionError(f"harness failed: {out.stderr}")
         o = json.loads(out.stdout)
-        cls.share, cls.side = o["share"], o["side"]
+        cls.share, cls.place = o["share"], o["place"]
 
     def test_the_share_text_is_title_place_and_time_one_per_line(self):
         self.assertEqual(self.share["with_hall"], "Ryhmä Hau: Dinoelokuva\nFinnkino Promenadi, Sali 3\nTi 15.9. klo 16:30")
@@ -53,11 +53,20 @@ class SharePureTest(unittest.TestCase):
     def test_the_share_payload_is_plain_text_not_html_escaped(self):
         self.assertEqual(self.share["verbatim"].split("\n")[0], "<b>A & B</b>")
 
-    def test_the_menu_flips_leftwards_within_200px_of_the_right_edge_when_it_fits_there(self):
-        self.assertEqual((self.side["far_from_edge"], self.side["wide"]), ("right", "right"))
-        self.assertEqual((self.side["at_199_room_left"], self.side["at_edge"]), ("left", "left"))
-        self.assertEqual(self.side["at_200"], "right", "200 px is not within")
-        self.assertEqual(self.side["at_199_no_room_left"], "right", "a 157 px ticket at 375: flipped, the menu left the screen")
+    def test_the_menu_opens_under_the_dots_with_the_right_edges_in_line(self):
+        self.assertEqual(self.place["under"], {"x": 80, "y": 144, "up": False}, "x = 300 - 220, y = 140 + 4")
+
+    def test_the_menu_goes_above_only_when_below_is_short_and_above_is_longer(self):
+        self.assertEqual(self.place["flipped"], {"x": 80, "y": 546, "up": True}, "y = 700 - 4 - 150")
+        self.assertFalse(self.place["short_both_more_below"]["up"])
+        self.assertFalse(self.place["short_both_equal"]["up"], "a tie stays below")
+        self.assertFalse(self.place["fits_below_exactly"]["up"], "150 px below holds a 150 px menu")
+
+    def test_the_menu_shifts_to_stay_16px_inside_the_sheet_body(self):
+        self.assertEqual(self.place["left_gutter"]["x"], 16)
+        self.assertEqual(self.place["right_gutter"]["x"], 104, "right edge at 320 - 16")
+        self.assertEqual(self.place["desktop_body"]["x"], 277, "the body clips at 261 on a desktop")
+        self.assertEqual(self.place["wider_than_box"]["x"], 16, "the left edge wins when nothing fits")
 
 
 class ShareMarkupTest(unittest.TestCase):
@@ -87,10 +96,10 @@ class ShareMarkupTest(unittest.TestCase):
         menu = rule(".tkmenu")
         for want in ("background:var(--surface)", "border:1px solid var(--line)", "border-radius:8px", "position:absolute"):
             self.assertIn(want, menu)
-        self.assertEqual(rule(".tkmenu.left"), "left:auto; right:0")
+        self.assertIsNone(rule(".tkmenu.left"))
         self.assertEqual(rule(".tkmenu .mi:hover, .tkmenu .mi:focus-visible"), "background:var(--accent-soft)",
                          "--chip-bg is the surface's own white in the light theme")
-        self.assertIn("menuSide(tk.getBoundingClientRect().right, window.innerWidth)", HTML)
+        self.assertIn("const at = menuPlace(b, mr.width, mr.height, box, 16);", HTML)
 
     def test_the_button_is_40px_muted_at_rest_and_accent_while_open(self):
         more = rule(".tk .more")
