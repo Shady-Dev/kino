@@ -228,6 +228,14 @@ class RunnerTest(unittest.TestCase):
                          ["Hetki ennen valoa.", "Rakkautta ja virtahepoja"])
         self.assertIn("1 post(s) with no Esitysajat line", log)
 
+    def test_a_film_post_with_no_placed_line_fails_and_keeps_the_file(self):
+        self.kept()
+        self.serve({LISTING: json.dumps([post(times=("Pe 9.10. alkaen.",))])})
+        code, log = self.main()
+        self.assertEqual(code, 1, log)
+        self.assertIn("FAILED", log)
+        self.assertEqual(self.after()["shows"][0]["title"], "Yesterday")
+
     def test_a_post_set_with_no_film_keeps_the_previous_file_without_failing(self):
         self.kept()
         self.serve({LISTING: json.dumps([notice(), notice(pid=10579, title="Tiedoksi")])})

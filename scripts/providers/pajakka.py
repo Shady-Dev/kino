@@ -209,7 +209,7 @@ def fetch_site(site, today=None):
         raise RuntimeError(f"{url}: not a JSON list of posts ({served(body)})")
     shows, report = rows(site, posts, today)
     if not shows:
-        raise NoScreenings(
+        raise (RuntimeError if report["films"] else NoScreenings)(
             f"{url}: {report['posts']} post(s), {report['films']} with a screening list, "
             f"and no screening read. The posts carry no sentence saying there are none, so "
             f"there is no evidence of an empty programme to read this as and the previous "

@@ -189,6 +189,7 @@ class EmptyAndBrokenTest(unittest.TestCase):
         with self.assertRaises(RuntimeError) as cm:
             isohannu.parse(page())
         self.assertNotIsInstance(cm.exception, common.EmptyProgramme)
+        self.assertIsInstance(cm.exception, common.NoScreenings)
 
     def test_days_and_halls_whose_rows_the_parser_misses_are_a_failure(self):
         """The table lists two days and three halls, and every row anchor has moved off
@@ -197,6 +198,7 @@ class EmptyAndBrokenTest(unittest.TestCase):
         with self.assertRaises(RuntimeError) as cm:
             isohannu.parse(moved)
         self.assertNotIsInstance(cm.exception, common.EmptyProgramme)
+        self.assertNotIsInstance(cm.exception, common.NoScreenings)
         self.assertIn("2 day heading(s)", str(cm.exception))
 
     def test_no_venue_is_ever_vouched_empty(self):
@@ -210,6 +212,7 @@ class EmptyAndBrokenTest(unittest.TestCase):
         with self.assertRaises(RuntimeError) as cm:
             isohannu.parse("<html><body><p>Tervetuloa</p></body></html>")
         self.assertNotIsInstance(cm.exception, common.EmptyProgramme)
+        self.assertNotIsInstance(cm.exception, common.NoScreenings)
 
     def test_a_row_without_a_readable_clock_is_skipped_not_guessed(self):
         broken = page(day("Tiistai 15.09.2026",

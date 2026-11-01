@@ -49,7 +49,7 @@ import sys
 from zoneinfo import ZoneInfo
 
 import synmerge
-from common import NoScreenings, bot_check, fetch, get_text, resolve_year, served, weekday_index
+from common import bot_check, fetch, get_text, resolve_year, served, weekday_index
 from etiketti import strict_codes
 from huvimylly import KAVI_CODES
 
@@ -261,7 +261,7 @@ def parse(page, today=None):
         print(f"[kirkkonummi] {len(unplaced)} row(s) whose weekday matches no candidate "
               f"year, skipped: {', '.join(unplaced[:5])}")
     if not shows:
-        raise NoScreenings(
+        raise RuntimeError(
             f"{LISTING}: icon lists with no screening row this parser places "
             f"({len(unplaced)} unplaced). No empty state is recorded for this site, so "
             f"this is a template or format change rather than a cinema with nothing on")

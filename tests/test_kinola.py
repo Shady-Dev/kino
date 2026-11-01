@@ -1537,28 +1537,26 @@ class RunnerTest(unittest.TestCase):
         self.assertIn("empty state", log)
         self.assertTrue((run.OUT / "area-kilta-turku.json").exists())
 
-    def test_an_unrelated_page_is_no_screenings_instead_of_empty(self):
+    def test_an_unrelated_page_fails_that_site_instead_of_reading_as_empty(self):
         """It exited 0 and aged the data quietly: zero parsed rows was the whole test, and
         an unrelated page parses to zero rows exactly like an empty listing does."""
         self.with_previous()
         self.serve(self.laika(UNRELATED_HTML))
         code, log = self.main()
-        self.assertEqual(code, 0, log)
-        self.assertIn("no screenings:", log)
-        self.assertNotIn("FAILED", log)
+        self.assertEqual(code, 1, log)
+        self.assertIn("FAILED", log)
         self.assertIn("no evidence of an empty programme", log)
         self.assertNotIn("no programme published", log)
         self.unchanged()
         self.assertTrue((run.OUT / "area-kilta-turku.json").exists())
 
-    def test_a_rendered_container_with_no_readable_row_is_no_screenings_for_that_site(self):
+    def test_a_rendered_container_with_no_readable_row_fails_that_site(self):
         """The row class changing upstream: the listing is there and nothing in it parses.
         Reading that as a quiet week is the regression the whole rule exists to catch."""
         self.with_previous()
         self.serve(self.laika(listing()))
         code, log = self.main()
-        self.assertEqual(code, 0, log)
-        self.assertIn("no screenings:", log)
+        self.assertEqual(code, 1, log)
         self.assertIn("markup change", log)
         self.unchanged()
 
@@ -1588,13 +1586,10 @@ class RunnerTest(unittest.TestCase):
         self.assertIn("block 2", log)
         self.unchanged()
 
-    def test_the_other_cinema_still_publishes_when_one_listing_reads_nothing(self):
-        """Kilta's own files are written and fresh, and Laika's reading nothing is named
-        without failing the run."""
+    def test_the_other_cinema_still_publishes_when_one_listing_fails(self):
+        """One site failing is one failure. Kilta's own files are written and fresh."""
         self.serve(self.laika(UNRELATED_HTML))
-        code, log = self.main()
-        self.assertEqual(code, 0, log)
-        self.assertIn("[kinolaika] no screenings:", log)
+        self.assertEqual(self.main()[0], 1)
         shows = json.loads((run.OUT / "area-kilta-turku.json").read_text())["shows"]
         self.assertEqual(len(shows), 2)
         self.assertTrue((run.OUT / "venues-kinokilta.json").exists())
@@ -1613,7 +1608,7 @@ class RunnerTest(unittest.TestCase):
         self.assertEqual(len(shows), 2)
         self.assertIn("2 screening(s) listed", log)
 
-    def test_a_listing_whose_rows_all_fail_to_classify_is_no_screenings_for_the_site(self):
+    def test_a_listing_whose_rows_all_fail_to_classify_fails_the_site(self):
         """Blocks present and nothing published is a template or classification failure,
         not a cinema with nothing on."""
         self.serve(self.both(**{
@@ -1621,9 +1616,8 @@ class RunnerTest(unittest.TestCase):
                 laika_row("arppa", "Arppa"),
                 laika_row("arppa", "Arppa", date="31/10/2026 19:00"))}))
         code, log = self.main()
-        self.assertEqual(code, 0, log)
-        self.assertIn("no screenings:", log)
-        self.assertNotIn("FAILED", log)
+        self.assertEqual(code, 1)
+        self.assertIn("FAILED", log)
         self.assertFalse((run.OUT / "area-laika-karkkila.json").exists())
         self.assertTrue((run.OUT / "area-kilta-turku.json").exists())
 

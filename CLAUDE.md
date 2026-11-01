@@ -191,8 +191,10 @@ written instruction that names `DESIGN.md`, in one commit with the dated IDEAS e
   on 2026-11-02 that a failed run raises an alert, and tracking belongs elsewhere. Such a
   site keeps its previous files, its health line ages on them, the run log names it under
   `no screenings`, and `scripts/check_runs.py` lists it as new or carried without failing.
-  An adapter whose parse finds nothing raises `common.NoScreenings`, never a plain error.
-  A fetch error, a bot check or a row the parser cannot read still fails the site.
+  An adapter raises `common.NoScreenings` only for a valid read that carries no screening.
+  Zero output never overrides an error the adapter detects on its own: a fetch error, a
+  bot check, an unrelated page or changed markup, listed films or rows it cannot read, and
+  screenings that exist but cannot be published all still fail the site.
   `common.EmptyProgramme` stays for positive evidence of an empty listing, and only that
   publishes the venues empty. Never add a per-site "allow empty" flag.
 

@@ -420,8 +420,9 @@ class EmptyProgrammeTest(unittest.TestCase):
         pattern, and must not publish an empty programme."""
         rows = (row(PR, "A", "ei aikaa", sid="1"), row(PR, "B", "ei aikaa", sid="2"))
         with contextlib.redirect_stdout(io.StringIO()):
-            with self.assertRaisesRegex(RuntimeError, "none parsed"):
+            with self.assertRaisesRegex(RuntimeError, "none parsed") as cm:
                 ch.parse(page(days=("2026-09-15",), rows=rows), PIISPANRISTI)
+        self.assertNotIsInstance(cm.exception, common.NoScreenings)
 
 
 class FilmPageTest(unittest.TestCase):
@@ -614,16 +615,15 @@ class RunnerTest(unittest.TestCase):
         doc = json.loads((run.OUT / "venues-laitilankino.json").read_text())
         self.assertEqual((doc["status"], doc["pending"]), ("ok", ["laitilankino-laitila"]))
 
-    def test_a_page_that_still_lists_films_keeps_the_previous_file_without_failing(self):
+    def test_a_page_that_still_lists_films_fails_its_site_and_keeps_the_previous_file(self):
         prev = {"generated": "2026-09-01T00:00:00+00:00", "dates": ["2026-09-01"],
                 "horizon": "2026-09-01",
                 "shows": [{"title": "Old", "start": "2026-09-01T12:00:00+03:00"}]}
         (run.OUT / "area-piispanristi-kaarina.json").write_text(json.dumps(prev))
         self.serve(self.all_pages(**{PR + "/": FILMS_BUT_NO_ROWS}))
         code, log = self.main()
-        self.assertEqual(code, 0, log)
-        self.assertIn("no screenings:", log)
-        self.assertNotIn("FAILED", log)
+        self.assertEqual(code, 1)
+        self.assertIn("FAILED", log)
         self.assertEqual(json.loads((run.OUT / "area-piispanristi-kaarina.json").read_text()),
                          prev)
         self.assertFalse((run.OUT / "venues-kinopiispanristi.json").exists())

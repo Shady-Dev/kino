@@ -40,7 +40,7 @@ import re
 import sys
 from zoneinfo import ZoneInfo
 
-from common import NoScreenings, fetch, get_text
+from common import fetch, get_text
 
 BASE = "https://juliaelokuvat.fi"
 LISTING = BASE + "/ohjelmisto/"
@@ -153,7 +153,7 @@ def parse(page):
                 "venue": VENUE["id"],
             })
     if not shows:
-        raise NoScreenings(
+        raise RuntimeError(
             f"{LISTING}: film blocks with no screening row this parser reads. No empty "
             f"state is recorded for this site, so this is a template or format change "
             f"rather than a cinema with nothing on")

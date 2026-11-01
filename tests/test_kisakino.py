@@ -143,6 +143,14 @@ class RunnerTest(Stubbed):
         self.assertEqual(sorted({s["title"] for s in self.after()["shows"]}),
                          ["Lapin sota", "Pikkuli"])
 
+    def test_films_listed_with_no_screening_line_fail_and_keep_the_file(self):
+        self.kept()
+        self.serve({BASE + "/": front(("a", "Lapin sota")), f"{BASE}/elokuvat/a/": film()})
+        code, log = self.main()
+        self.assertEqual(code, 1, log)
+        self.assertIn("FAILED", log)
+        self.assertEqual(self.after()["shows"][0]["title"], "Yesterday")
+
     def test_a_front_page_with_no_film_keeps_the_previous_file_without_failing(self):
         self.kept()
         self.serve({BASE + "/": "<html><body><p>Kesätauko</p></body></html>"})

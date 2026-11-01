@@ -212,7 +212,7 @@ def fetch_site(site, today=None):
                            f"not a list of posts")
     shows, report = rows(site, payload, today)
     if not shows:
-        raise NoScreenings(
+        raise (RuntimeError if report["films"] else NoScreenings)(
             f"{url}: no post carries a placed screening line. This site publishes no "
             f"sentence saying there are none, so there is no evidence of an empty "
             f"programme to read this as and the previous files stand")

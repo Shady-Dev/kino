@@ -282,6 +282,22 @@ class RunnerTest(unittest.TestCase):
         routes.update(over)
         return routes
 
+    def test_events_the_parser_publishes_none_of_fail_the_site(self):
+        """Events in the film category and no row from them is a shape change, which still
+        fails since 2026-11-02, unlike an empty week."""
+        real = T.parse
+        self.addCleanup(lambda: setattr(T, "parse", real))
+
+        def nothing(site, events):
+            per_venue, report = real(site, events)
+            return {vid: [] for vid in per_venue}, report
+        T.parse = nothing
+        self.serve(self.both())
+        code, log = self.main()
+        self.assertEqual(code, 1, log)
+        self.assertIn("none published, which is a shape change", log)
+        self.assertNotIn("no screenings:", log)
+
     def test_both_sites_publish(self):
         self.serve(self.both())
         code, log = self.main()

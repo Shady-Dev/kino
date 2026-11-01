@@ -2979,3 +2979,13 @@ unseen empty state, confirmed earlier that day only to avoid a failing run, now 
 `NoScreenings` and keeps the saved screening, which settles the review's finding without an
 alert. Seven mutations red, and 39 tests that expected a failure now expect the `no
 screenings` line.
+
+The same day the maintainer corrected the classification: zero output must not override an
+error the adapter detects on its own. Kinola's unrelated page, changed markup and
+unclassifiable rows, Johku's screenings that cannot be published, and every case where
+listed films, dates, items or rows are present and unread fail again. Biokaari, Cinema
+Mäntsälä, Cinemahouse, Elävien kuvien teatteri's listed films, Heureka's empty calendar and
+category, Julia, Kino Vaakuna, Kino Kirkkonummi, Kisakino's film pages and Tribe raise a
+plain error. Iso-Hannu, Kino Huovi, Kuusamotalo, Kuvakukko, Pajakka, Kino Tapiola, TMB and
+Navettakino choose by their own counters, and the rest stay `NoScreenings`. 31 mutations
+red, 16 of them on the conditional raises in both directions.

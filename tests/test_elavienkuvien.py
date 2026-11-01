@@ -242,15 +242,14 @@ class RunnerTest(unittest.TestCase):
         self.assertEqual(json.loads(
             (run.OUT / "area-ekt-forssa.json").read_text(encoding="utf-8")), prev)
 
-    def test_films_listed_with_no_screening_at_all_keeps_the_previous_file(self):
+    def test_films_listed_with_no_screening_at_all_fails(self):
         """Twelve films and no screening on any of them is a template change, not a
         cinema with nothing on: this site publishes no empty-state text."""
         self.serve(self.pages(**{
             f"{BASE}/ohjelmisto/a/": film_page(title="A", rows=()),
             f"{BASE}/ohjelmisto/b/": film_page(title="B", rows=())}))
         code, log = self.main()
-        self.assertEqual(code, 0, log)
-        self.assertIn("no screenings:", log)
+        self.assertEqual(code, 1, log)
         self.assertIn("template change", log)
 
 

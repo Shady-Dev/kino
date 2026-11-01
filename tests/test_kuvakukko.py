@@ -193,6 +193,7 @@ class EmptyAndBrokenTest(unittest.TestCase):
         with self.assertRaises(RuntimeError) as cm:
             kuvakukko.parse(page(), today=TODAY)
         self.assertNotIsInstance(cm.exception, common.EmptyProgramme)
+        self.assertIsInstance(cm.exception, common.NoScreenings)
 
     def test_days_listed_under_both_headings_and_no_row_read_fails_the_site(self):
         """Every day and film still on the page, the colon after each time gone: the
@@ -200,6 +201,7 @@ class EmptyAndBrokenTest(unittest.TestCase):
         with self.assertRaises(RuntimeError) as cm:
             kuvakukko.parse(LISTING_PAGE.replace(": <a", " <a"), today=TODAY)
         self.assertNotIsInstance(cm.exception, common.EmptyProgramme)
+        self.assertNotIsInstance(cm.exception, common.NoScreenings)
 
     def test_a_cinema_whose_heading_is_not_read_is_not_published_empty(self):
         """Kuopio parses and Manttu's heading no longer says `esitysaikataulu`, so its

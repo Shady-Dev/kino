@@ -161,6 +161,7 @@ class GuardTest(unittest.TestCase):
         with self.assertRaises(RuntimeError) as cm:
             tmb.parse(page(), TOIJALA, TOIJALA["venues"][0])
         self.assertNotIsInstance(cm.exception, common.EmptyProgramme)
+        self.assertIsInstance(cm.exception, common.NoScreenings)
 
     def test_film_rows_the_parser_cannot_read_fail_the_site(self):
         """The rows are there, with their film links, in a time format ROW_RE misses. That
@@ -170,6 +171,7 @@ class GuardTest(unittest.TestCase):
                            row("KE", "16.09.2026", "17.30", "833", "Presidentin kyyditys")),
                       TOIJALA, TOIJALA["venues"][0])
         self.assertNotIsInstance(cm.exception, common.EmptyProgramme)
+        self.assertNotIsInstance(cm.exception, common.NoScreenings)
         self.assertIn("2 film link", str(cm.exception))
 
     def test_rows_that_all_fail_the_weekday_guard_fail_the_site(self):
@@ -179,6 +181,7 @@ class GuardTest(unittest.TestCase):
                            row("SU", "16.09.2026", "18:00", "2", "B")),
                       TOIJALA, TOIJALA["venues"][0])
         self.assertNotIsInstance(cm.exception, common.EmptyProgramme)
+        self.assertNotIsInstance(cm.exception, common.NoScreenings)
 
     def test_the_venue_is_never_vouched_empty(self):
         """`EMPTY_VENUES_CONFIRMED` would publish a returned [] as a fresh empty file. This
@@ -190,6 +193,7 @@ class GuardTest(unittest.TestCase):
             tmb.parse("<html><head><title>Just a moment...</title></head><body></body></html>",
                       TOIJALA, TOIJALA["venues"][0])
         self.assertNotIsInstance(cm.exception, common.EmptyProgramme)
+        self.assertNotIsInstance(cm.exception, common.NoScreenings)
 
     def test_the_failure_states_what_was_served(self):
         """All four of these sites failed on 2026-09-16 with "no 'Valkokankaalla'

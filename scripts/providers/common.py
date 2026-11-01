@@ -631,8 +631,10 @@ class NoScreenings(RuntimeError):
     The maintainer decided on 2026-11-02 that this does not fail the run, because a failed
     run raises an alert. The site's previous files stand, its health line ages on them, and
     the run log names the site under `no screenings`, which `check_runs.py` reports as new
-    or carried without failing. A fetch error, a bot check or a row the parser cannot read
-    still fails the site.
+    or carried without failing. Raise it only for a valid read with nothing in it. A fetch
+    error, a bot check, an unrelated page, changed markup, listed films or rows the parser
+    cannot read, and screenings that cannot be published still fail the site with a plain
+    error, whatever the row count.
     """
 
 

@@ -1042,7 +1042,7 @@ def fetch_site(site, sleep=1.2):
         print(f"[{pid}] {len(report['unplaced'])} synopsis/synopses withheld, no language "
               f"settled: {', '.join(sorted(report['unplaced'])[:8])}")
     if not any(per_venue.values()):
-        raise NoScreenings(
+        raise RuntimeError(
             f"{listing_url} holds {len(listed)} screening(s) in its schedule and none "
             f"published. That is a template failure rather than a cinema with nothing on")
     for v in site["venues"]:

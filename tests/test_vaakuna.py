@@ -165,6 +165,7 @@ class EmptyAndBrokenTest(unittest.TestCase):
         with self.assertRaises(RuntimeError) as cm:
             vaakuna.parse(page(card("a", "A", []), card("b", "B", [])), today=TODAY)
         self.assertNotIsInstance(cm.exception, common.EmptyProgramme)
+        self.assertNotIsInstance(cm.exception, common.NoScreenings)
 
     def test_rows_in_a_format_the_parser_misses_are_a_failure(self):
         """A year printed after the month, `Ti 15.09.2026`, does not match `SHOW_RE`. The
@@ -174,11 +175,13 @@ class EmptyAndBrokenTest(unittest.TestCase):
                 card("a", "A", ["Ti 15.09.2026   klo 18:40", "Ke 16.09.2026   klo 15:00"]),
                 card("b", "B", ["Pe 18.09.2026   klo 20:45"])), today=TODAY)
         self.assertNotIsInstance(cm.exception, common.EmptyProgramme)
+        self.assertNotIsInstance(cm.exception, common.NoScreenings)
 
     def test_a_page_without_a_card_is_a_failure(self):
         with self.assertRaises(RuntimeError) as cm:
             vaakuna.parse("<html><body><p>Tervetuloa</p></body></html>", today=TODAY)
         self.assertNotIsInstance(cm.exception, common.EmptyProgramme)
+        self.assertNotIsInstance(cm.exception, common.NoScreenings)
 
 
 class SiteTest(unittest.TestCase):

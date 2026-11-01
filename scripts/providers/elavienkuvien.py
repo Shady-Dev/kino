@@ -238,7 +238,7 @@ def fetch_site(site, sleep=1.2):
             time.sleep(sleep)
         shows += shows_of(site, film, get(film["url"]), report)
     if not shows:
-        raise NoScreenings(
+        raise RuntimeError(
             f"{listing_url}: {len(listed)} film(s) listed and no screening on any of "
             f"them, which is a template change rather than a cinema with nothing on")
     shows.sort(key=lambda s: s["start"])

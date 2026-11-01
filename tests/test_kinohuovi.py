@@ -369,6 +369,21 @@ class RunnerTest(unittest.TestCase):
                       log)
         self.assertIn("[run] unread: 2 item(s) at 1 site(s): kinohuovi 2", log)
 
+    def test_a_card_whose_dates_and_weekdays_disagree_fails_and_keeps_the_file(self):
+        """A card the parser cannot read is a row error, so zero rows fails the site."""
+        kept = {"generated": "2026-09-20T00:00:00+00:00", "dates": ["2026-09-20"],
+                "horizon": "2026-09-20",
+                "shows": [{"title": "Yesterday", "start": "2026-09-20T17:00:00+03:00"}]}
+        (run.OUT / f"area-{VENUE}.json").write_text(json.dumps(kept), encoding="utf-8")
+        self.serve({LISTING: page(card(desc="X 25.-28.9. MA, TI, KE ja TO klo 18.00 "
+                                            "Liput 12&euro;."))})
+        code, log = self.main()
+        self.assertEqual(code, 1, log)
+        self.assertIn("FAILED", log)
+        self.assertNotIn("no screenings:", log)
+        self.assertEqual(json.loads((run.OUT / f"area-{VENUE}.json").read_text(
+            encoding="utf-8")), kept)
+
     def test_a_page_with_no_dated_card_keeps_the_previous_file_without_failing(self):
         """No sentence on this site says the programme is empty, so a zero-row parse is a
         broken read rather than evidence of one."""

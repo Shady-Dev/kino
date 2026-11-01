@@ -218,6 +218,7 @@ class EmptyAndBrokenTest(unittest.TestCase):
         with self.assertRaises(RuntimeError) as cm:
             kirkkonummi.parse(page(body), today=TODAY)
         self.assertNotIsInstance(cm.exception, common.EmptyProgramme)
+        self.assertNotIsInstance(cm.exception, common.NoScreenings)
 
     def test_films_with_no_screening_row_is_a_failure(self):
         """No empty state is recorded for this site, and a page listing films is not one,
@@ -228,11 +229,13 @@ class EmptyAndBrokenTest(unittest.TestCase):
                                    item("Andrew Scott, Brendan Fraser, Kerry Condon"),
                                    twice=False), today=TODAY)
         self.assertNotIsInstance(cm.exception, common.EmptyProgramme)
+        self.assertNotIsInstance(cm.exception, common.NoScreenings)
 
     def test_a_page_without_an_icon_list_is_a_failure(self):
         with self.assertRaises(RuntimeError) as cm:
             kirkkonummi.parse("<html><body><p>Tervetuloa</p></body></html>", today=TODAY)
         self.assertNotIsInstance(cm.exception, common.EmptyProgramme)
+        self.assertNotIsInstance(cm.exception, common.NoScreenings)
 
     def test_the_failure_states_what_was_served(self):
         """This site failed that way on 2026-09-16 and served its real programme, icon

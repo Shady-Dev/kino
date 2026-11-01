@@ -267,7 +267,7 @@ def fetch_site(site, today=None, sleep=1.5):
     if not shows:
         elsewhere = TIMES_RE.search(TAGS_RE.sub(" ", body(page)))
         titles = [card["title"] for card in cards(page, site["base"])]
-        raise NoScreenings(
+        raise (RuntimeError if elsewhere else NoScreenings)(
             f"{url}: no card prints a screening"
             + (" and the page prints a date or time elsewhere" if elsewhere else "")
             + f" ({served(page)}). Film cards: {', '.join(titles) or 'none'}. The previous "

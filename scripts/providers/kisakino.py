@@ -119,7 +119,7 @@ def fetch_site(site, sleep=1.5):
             "soldOut": False, "price": price, "provider": pid, "venue": venue["id"],
         } for s in starts]
     if not shows:
-        raise NoScreenings(f"{front_url}: {len(listed)} film page(s) and no screening line "
+        raise RuntimeError(f"{front_url}: {len(listed)} film page(s) and no screening line "
                            f"on any; the previous files stand")
     shows.sort(key=lambda s: (s["start"], s["title"]))
     per_venue = {venue["id"]: shows}

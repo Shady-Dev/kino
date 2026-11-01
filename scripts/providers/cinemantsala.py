@@ -86,7 +86,7 @@ import sys
 import time
 from zoneinfo import ZoneInfo
 
-from common import NoScreenings, EmptyProgramme, budget_or_raise, fetch
+from common import EmptyProgramme, budget_or_raise, fetch
 from gilda import FORMATS, LANG
 
 BASE = "https://mantsala.cine.fi"
@@ -321,7 +321,7 @@ def fetch_site(site=SITES[0], sleep=1.5):
     per_venue = parse(rows, site)
     shows = per_venue[VENUE["id"]]
     if not shows:
-        raise NoScreenings(
+        raise RuntimeError(
             f"{site['base']} lists {len(dates)} show date(s) but no window returned a "
             f"screening. The date list is derived from the screenings, so this is a "
             f"shape or fetch failure rather than a cinema with nothing on, and failing "

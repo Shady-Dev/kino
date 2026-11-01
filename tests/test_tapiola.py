@@ -348,21 +348,22 @@ class RunnerTest(unittest.TestCase):
         self.assertIn("Kino Tapiola: 6 showtimes, 4 dates", log)
         self.assertIn("0 failures", log)
 
-    def test_a_listing_with_no_readable_screening_keeps_the_previous_file_without_failing(self):
-        """An empty list and listed films the parser cannot read end the same way: the
-        site fails and the old screenings stay, never an empty file published fresh."""
+    def test_a_listing_with_no_readable_screening_keeps_the_previous_file(self):
+        """The old screenings stay either way, never an empty file published fresh. An
+        empty list is no screenings and does not fail (2026-11-02). Listed rows the parser
+        cannot read are a template change and still fail the site."""
         self.assertFalse(hasattr(tapiola, "EMPTY_VENUES_CONFIRMED"))
         prev = {"generated": "2026-09-01T00:00:00+00:00", "dates": ["2026-09-01"],
                 "horizon": "2026-09-01", "shows": [{"title": "Old", "start": "2026-09-01T12:00:00+03:00"}]}
-        for name, page in (("empty list", EMPTY), ("undated", UNDATED)):
+        for name, page, code_, line in (("empty list", EMPTY, 0, "no screenings:"),
+                                        ("undated", UNDATED, 1, "FAILED")):
             with self.subTest(name):
                 (run.OUT / "area-tapiola-espoo.json").write_text(json.dumps(prev))
                 self.calls = []
                 self.serve({tapiola.LISTING: page})
                 code, log = self.main()
-                self.assertEqual(code, 0, log)
-                self.assertIn("no screenings:", log)
-                self.assertNotIn("FAILED", log)
+                self.assertEqual(code, code_, log)
+                self.assertIn(line, log)
                 self.assertEqual(json.loads((run.OUT / "area-tapiola-espoo.json").read_text()), prev)
                 self.assertFalse((run.OUT / "venues-tapiola.json").exists())
                 self.assertEqual(self.calls, [tapiola.LISTING])

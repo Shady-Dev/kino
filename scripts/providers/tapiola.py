@@ -151,7 +151,7 @@ def parse(page):
             "venue": VENUE["id"],
         })
     if not shows:
-        raise NoScreenings(f"no screening read from the programme list "
+        raise (RuntimeError if ROW_RE.search(page) else NoScreenings)(f"no screening read from the programme list "
                            f"({len(ROW_RE.findall(page))} row(s) matched): a changed template "
                            f"or an empty programme, and no empty state of this site is known")
     shows.sort(key=lambda s: s["start"])

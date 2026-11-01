@@ -199,7 +199,7 @@ def parse(page):
     if not shows:
         halls = page.count('<div class="showtable-container">')
         anchors = len(re.findall(r"/leffasivu\.php\?id=", page))
-        raise NoScreenings(
+        raise (RuntimeError if days or halls or anchors else NoScreenings)(
             f"{BASE}: the show table holds {len(days)} day heading(s), {halls} hall(s) "
             f"and {anchors} film anchor(s), and not one screening parsed. No empty state "
             f"of this page is known, so this is a parse or template failure rather than a "

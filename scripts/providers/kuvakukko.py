@@ -339,7 +339,7 @@ def parse(page, site=None, today=None, prices=None):
         print(f"[kuvakukko] {len(untitled)} screening line(s) with no title, skipped: "
               f"{', '.join(untitled[:5])}")
     if not any(per_venue.values()):
-        raise NoScreenings(
+        raise (RuntimeError if dated or unplaced or untitled else NoScreenings)(
             f"{LISTING} has its headings but no screening under them. No empty programme "
             f"has been seen here, so there is no evidence of one to read this as")
     for v in VENUES:

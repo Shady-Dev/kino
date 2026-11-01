@@ -166,6 +166,7 @@ class EmptyAndBrokenTest(unittest.TestCase):
         with self.assertRaises(RuntimeError) as cm:
             julia.parse(page(film("a", "A", []), film("b", "B", [])))
         self.assertNotIsInstance(cm.exception, common.EmptyProgramme)
+        self.assertNotIsInstance(cm.exception, common.NoScreenings)
 
     def test_rows_in_a_format_the_parser_misses_are_a_failure(self):
         """A four-digit year, `15.09.2026`, does not match `SHOW_RE`. The page still lists
@@ -175,11 +176,13 @@ class EmptyAndBrokenTest(unittest.TestCase):
                 film("a", "A", ["15.09.2026 klo 18:00, 1. sali", "16.09.2026 klo 18:00, 1. sali"]),
                 film("b", "B", ["15.09.2026 klo 18:30, 2. sali"])))
         self.assertNotIsInstance(cm.exception, common.EmptyProgramme)
+        self.assertNotIsInstance(cm.exception, common.NoScreenings)
 
     def test_a_page_without_a_film_block_is_a_failure(self):
         with self.assertRaises(RuntimeError) as cm:
             julia.parse("<html><body><p>Tervetuloa</p></body></html>")
         self.assertNotIsInstance(cm.exception, common.EmptyProgramme)
+        self.assertNotIsInstance(cm.exception, common.NoScreenings)
 
 
 class SiteTest(unittest.TestCase):

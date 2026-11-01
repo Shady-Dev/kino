@@ -54,7 +54,7 @@ from urllib.parse import urljoin, urlsplit
 from zoneinfo import ZoneInfo
 
 import synmerge
-from common import (NoScreenings, EmptyProgramme, bot_check, capped, fetch, get_text, resolve_year,
+from common import (EmptyProgramme, bot_check, capped, fetch, get_text, resolve_year,
                     served)
 from strands import split as split_strand
 
@@ -402,7 +402,7 @@ def parse(page, site, today=None):
     if not rows:
         days = parse_days(page)
         if films or days:
-            raise NoScreenings(
+            raise RuntimeError(
                 f"no screening row parsed while the page offers {len(days)} day(s) and "
                 f"{len(films)} film(s) ({served(page)}): a page that lists films and "
                 f"yields no screening is the broken case, whatever produced it")
@@ -410,7 +410,7 @@ def parse(page, site, today=None):
                              f"programme lists no film")
     shows = normalise(rows, films, site, today)
     if not shows:
-        raise NoScreenings(f"{len(rows)} screening row(s) and none parsed "
+        raise RuntimeError(f"{len(rows)} screening row(s) and none parsed "
                            f"({served(page)}): the rows are there and their shape is not")
     return shows
 

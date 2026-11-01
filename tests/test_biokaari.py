@@ -159,6 +159,7 @@ class EmptyAndBrokenTest(unittest.TestCase):
         with self.assertRaises(RuntimeError) as cm:
             biokaari.parse(page(day("15092026"), day("16092026")))
         self.assertNotIsInstance(cm.exception, common.EmptyProgramme)
+        self.assertNotIsInstance(cm.exception, common.NoScreenings)
 
     def test_films_whose_screening_rows_the_parser_cannot_read_fail_the_site(self):
         """Two days, two films, every time in a format SHOW_RE misses: the page is full of
@@ -172,12 +173,14 @@ class EmptyAndBrokenTest(unittest.TestCase):
                     item("31671", "Hetki ennen valoa", "2026", [("klo 17", "984058")]),
                     hidden=True)))
         self.assertNotIsInstance(cm.exception, common.EmptyProgramme)
+        self.assertNotIsInstance(cm.exception, common.NoScreenings)
         self.assertIn("3 film item", str(cm.exception))
 
     def test_a_page_without_a_day_container_is_a_failure(self):
         with self.assertRaises(RuntimeError) as cm:
             biokaari.parse("<html><body><p>Tervetuloa</p></body></html>")
         self.assertNotIsInstance(cm.exception, common.EmptyProgramme)
+        self.assertNotIsInstance(cm.exception, common.NoScreenings)
 
     def test_an_impossible_date_does_not_abort_the_page(self):
         out = biokaari.parse(page(

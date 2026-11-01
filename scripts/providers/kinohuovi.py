@@ -252,7 +252,7 @@ def fetch_site(site, today=None):
     for kind, item in report["unread"]:
         unread(kind, item)
     if not shows:
-        raise NoScreenings(
+        raise (RuntimeError if report["mismatch"] or report["unreadable"] or report["untitled"] else NoScreenings)(
             f"{url}: no programme card with a screening. This site publishes no sentence "
             f"saying there are none, so there is no evidence of an empty programme to read "
             f"this as and the previous files stand")

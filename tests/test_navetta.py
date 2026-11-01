@@ -272,7 +272,7 @@ class RunnerTest(unittest.TestCase):
         self.assertNotIn("no programme at the moment", log)
         self.assertEqual(json.loads(self.file.read_text()), self.PREV)
 
-    def test_times_the_cards_do_not_carry_keep_the_previous_file_without_failing(self):
+    def test_times_the_cards_do_not_carry_fail_and_keep_the_previous_file(self):
         """The box above the cards prints a clock while no card prints a screening. That is
         a screening the parser missed, and the weekend is not confirmed empty."""
         for name, box in (("a clock in the box", "<h2>Tänään</h2><p>A klo 17:00</p>"),
@@ -281,8 +281,7 @@ class RunnerTest(unittest.TestCase):
                 self.file.write_text(json.dumps(self.PREV))
                 self.serve(page(card("A"), card("B", film="2"), box=box))
                 code, log = self.main()
-                self.assertEqual(code, 0, log)
-                self.assertIn("no screenings:", log)
+                self.assertEqual(code, 1, log)
                 self.assertIn("prints a date or time elsewhere", log)
                 self.assertNotIn("no programme at the moment", log)
                 self.assertEqual(json.loads(self.file.read_text()), self.PREV)
