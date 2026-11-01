@@ -762,15 +762,16 @@ def main() -> int:
         return 1
     # Seven dates answered and not one listed a screening. Seventeen venues over a week is
     # never empty, so this is the response changing under the parser (a renamed
-    # `showtimes` reads as a quiet week), and CLAUDE.md's rule applies: a provider that
-    # parses zero showtimes fails the run. Checked before anything is written, so the
+    # `showtimes` reads as a quiet week). Checked before anything is written, so the
     # venues keep their files and `areas.json` keeps its age. Finnkino has no
-    # `EmptyProgramme` case: no empty listing has ever been seen from OCAPI.
+    # `EmptyProgramme` case: no empty listing has ever been seen from OCAPI. Since
+    # 2026-11-02 this exits 0, by the maintainer's decision that no screenings never fails
+    # a run, and check_runs.py reports the `no screenings` line instead.
     if not any(per_site.values()):
-        print(f"ERROR: 7 dates answered and no showtime parsed for any of {len(sites)} "
-              f"venues; publishing nothing, every venue keeps the schedule it has",
-              file=sys.stderr)
-        return 1
+        print(f"[finnkino] no screenings: 7 dates answered and no showtime parsed for any "
+              f"of {len(sites)} venues; publishing nothing, every venue keeps the schedule "
+              f"it has", file=sys.stderr)
+        return 0
 
     tmdb_token = os.environ.get("TMDB_TOKEN", "").strip()
     if tmdb_token:

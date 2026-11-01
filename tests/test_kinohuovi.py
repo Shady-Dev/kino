@@ -369,7 +369,7 @@ class RunnerTest(unittest.TestCase):
                       log)
         self.assertIn("[run] unread: 2 item(s) at 1 site(s): kinohuovi 2", log)
 
-    def test_a_page_with_no_dated_card_fails_and_keeps_the_previous_file(self):
+    def test_a_page_with_no_dated_card_keeps_the_previous_file_without_failing(self):
         """No sentence on this site says the programme is empty, so a zero-row parse is a
         broken read rather than evidence of one."""
         kept = {"generated": "2026-09-20T00:00:00+00:00", "dates": ["2026-09-20"],
@@ -378,7 +378,8 @@ class RunnerTest(unittest.TestCase):
         (run.OUT / f"area-{VENUE}.json").write_text(json.dumps(kept), encoding="utf-8")
         self.serve({LISTING: page(card(desc="PRESIDENTIN KYYDITYS Tulossa pian."))})
         code, log = self.main()
-        self.assertNotEqual(code, 0)
+        self.assertEqual(code, 0, log)
+        self.assertIn("no screenings:", log)
         self.assertIn("no programme card", log)
         item = "PRESIDENTIN KYYDITYS Tulossa pian."
         self.assertIn(f"[kinohuovi] unread date {common.unread_id('date', item)}: {item}", log)

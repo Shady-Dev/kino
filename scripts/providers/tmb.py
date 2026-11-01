@@ -112,7 +112,7 @@ import sys
 import time
 from zoneinfo import ZoneInfo
 
-from common import bot_check, capped, fetch, get_text, served
+from common import NoScreenings, bot_check, capped, fetch, get_text, served
 
 FI = ZoneInfo("Europe/Helsinki")
 
@@ -231,7 +231,7 @@ def parse(page, site, venue):
         print(f"[tmb] {site['provider']}: {wrong_day} row(s) whose weekday contradicts "
               f"their date, skipped")
     if not shows:
-        raise RuntimeError(
+        raise NoScreenings(
             f"{site['base']}/?lista=1: no screening row parsed from "
             f"{len(FILM_LINK_RE.findall(page))} film link(s) ({served(page)}). No empty "
             f"state is known for this template, so this is a parse or template failure")

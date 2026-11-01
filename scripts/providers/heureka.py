@@ -198,7 +198,7 @@ def calendar_arrays(page):
     if not events:
         # The array holds every kind of programme item; none at all means the section
         # did not render.
-        raise RuntimeError(f"{BASE}{CALENDAR}: eventCalendarData is empty")
+        raise common.NoScreenings(f"{BASE}{CALENDAR}: eventCalendarData is empty")
     exceptions = js_array(page, "eventExceptionsData") or []
     holidays = [h for h in (js_array(page, "disabledHolidays") or []) if h]
     return events, exceptions, holidays
@@ -302,7 +302,7 @@ def parse_calendar(page, today=None, days=DAYS):
                            f"next {days} days and none could be read (clock format changed?)")
     if not shows:
         if not films:
-            raise RuntimeError(f"{BASE}{CALENDAR}: {len(events)} calendar item(s) and none "
+            raise common.NoScreenings(f"{BASE}{CALENDAR}: {len(events)} calendar item(s) and none "
                                f"a timed {CATEGORY!r} item (category renamed?)")
         names = {ev.get("nimi") for ev in films}
         scheds = [ev.get("ajat") for ev in films] + [

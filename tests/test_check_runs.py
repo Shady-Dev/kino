@@ -304,3 +304,36 @@ class UnreadHistoryTest(unittest.TestCase):
         self.commit("[biopallas] 19 showtimes\nexit=0\n")
         _, out = self.report()
         self.assertNotIn("unread", out)
+
+
+class NoScreeningsReportTest(unittest.TestCase):
+    """A site that parsed no screening is listed new or carried and never turns the check
+    red, by the maintainer's decision of 2026-11-02."""
+
+    setUp = FailingSiteHistoryTest.setUp
+    commit = FailingSiteHistoryTest.commit
+    report = UnreadHistoryTest.report
+    LINE = "[kinohuovi] no screenings: https://www.kinohuovi.fi/: no programme card\n"
+
+    def test_a_site_first_seen_is_new_and_the_check_stays_green(self):
+        self.commit("[kinohuovi] 6 showtimes\nexit=0\n")
+        self.commit(self.LINE + "exit=0\n")
+        code, out = self.report()
+        self.assertEqual(code, 0, out)
+        self.assertIn("[check] no screenings: 1 site(s) in 1 log(s), 1 new, previous files "
+                      "kept", out)
+        self.assertIn("    run-mod.log: [kinohuovi] https://www.kinohuovi.fi/: no programme "
+                      "card: new", out)
+
+    def test_a_site_in_earlier_runs_is_carried(self):
+        self.commit("exit=0\n")
+        self.commit(self.LINE + "exit=0\n")
+        self.commit(self.LINE + "[x] later\nexit=0\n")
+        _, out = self.report()
+        self.assertIn("no programme card: carried since 2026-09-12 (2 runs)", out)
+        self.assertIn("0 new", out)
+
+    def test_a_log_without_one_prints_no_line(self):
+        self.commit("[kinohuovi] 6 showtimes\nexit=0\n")
+        _, out = self.report()
+        self.assertNotIn("no screenings", out)

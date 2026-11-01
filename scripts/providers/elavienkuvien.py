@@ -51,7 +51,7 @@ import time
 from urllib.parse import urljoin
 from zoneinfo import ZoneInfo
 
-from common import budget_or_raise, check_shows, fetch, get_text
+from common import NoScreenings, budget_or_raise, check_shows, fetch, get_text
 from synmerge import norm
 
 FI = ZoneInfo("Europe/Helsinki")
@@ -226,7 +226,7 @@ def fetch_site(site, sleep=1.2):
     listing_url = site["base"].rstrip("/") + site["listing"]
     listed = films(get(listing_url), site["base"])
     if not listed:
-        raise RuntimeError(
+        raise NoScreenings(
             f"{listing_url}: the programme container holds no film. This site publishes "
             f"no empty-state text, so there is no evidence of an empty programme to read "
             f"this as and the previous files stand")
@@ -238,7 +238,7 @@ def fetch_site(site, sleep=1.2):
             time.sleep(sleep)
         shows += shows_of(site, film, get(film["url"]), report)
     if not shows:
-        raise RuntimeError(
+        raise NoScreenings(
             f"{listing_url}: {len(listed)} film(s) listed and no screening on any of "
             f"them, which is a template change rather than a cinema with nothing on")
     shows.sort(key=lambda s: s["start"])

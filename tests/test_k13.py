@@ -322,14 +322,15 @@ class RunnerTest(unittest.TestCase):
         self.assertEqual(sorted({s["title"] for s in shows}), ["KUORIPOJAT", "LUVATTU MAA"])
         self.assertIn("with no clock", log)
 
-    def test_a_section_with_no_timed_row_fails_and_keeps_the_previous_file(self):
+    def test_a_section_with_no_timed_row_keeps_the_previous_file_without_failing(self):
         kept = {"generated": "2026-09-20T00:00:00+00:00", "dates": ["2026-09-20"],
                 "horizon": "2026-09-20",
                 "shows": [{"title": "Yesterday", "start": "2026-09-20T17:00:00+03:00"}]}
         (run.OUT / f"area-{VENUE}.json").write_text(json.dumps(kept), encoding="utf-8")
         self.serve({LISTING: page(KINOKKA, KINOKKA_BODY)})
         code, log = self.main()
-        self.assertNotEqual(code, 0)
+        self.assertEqual(code, 0, log)
+        self.assertIn("no screenings:", log)
         self.assertIn("no screening line", log)
         after = json.loads((run.OUT / f"area-{VENUE}.json").read_text(encoding="utf-8"))
         self.assertEqual(after["shows"][0]["title"], "Yesterday")

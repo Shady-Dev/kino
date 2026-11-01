@@ -151,10 +151,13 @@ CI's drift check regenerates and requires a clean tree.
 - Each fetcher writes its exit code to its **own** committed log rather than aborting, so
   one dead provider never blocks the rest. The committed logs under `logs/` are the
   authoritative record; the Actions logs are not, and are not read.
-- A provider that parses zero showtimes fails the run, which catches an empty parse that
-  would otherwise leave old data ageing with no signal. The one exception is an adapter
-  raising `common.EmptyProgramme` after positive evidence of an empty listing. That site's
-  venues are published empty and `pending`, so screenings the cinema withdrew leave the page.
+- A provider that parses zero showtimes keeps its previous files and does not fail the
+  run, by the maintainer's decision of 2026-11-02. The adapter raises `common.NoScreenings`,
+  or every venue comes back empty unconfirmed, and the run log names the site under `no
+  screenings` for `check_runs.py` to list as new or carried. An adapter raising
+  `common.EmptyProgramme` after positive evidence of an empty listing is different: that
+  site's venues are published empty and `pending`, so screenings the cinema withdrew leave
+  the page.
 - A failed venue writes no file, keeping the previous data, and is named `stale` in its
   provider file, while that file still has a day ahead. One whose every day has passed is
   published empty and named `unverified`, so a spent file cannot freeze a stamp. `oldest` is the provider's weakest venue, which is what the app's health

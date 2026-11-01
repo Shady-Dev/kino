@@ -2963,3 +2963,19 @@ Record: [docs/archive/2026-09-pipeline.md](2026-09-pipeline.md).
 
 Closed 2026-11-01. The rollout to Bio Pallas, Kino-Huovi and eTiketti was released to main
 at 41449c3841. Extending it to other adapters is a new open item in `IDEAS.md`.
+
+### No screenings no longer fails a run (2026-11-02)
+The maintainer decided that a provider parsing zero showtimes is not to fail the run,
+because a failed run raises an alert, and asked for the tracking to live elsewhere. 45
+zero-row raises across 38 adapters now raise `common.NoScreenings`, and `run.Tally` treats
+that, and a site whose venues all came back empty unconfirmed, as `no screenings`. The
+site keeps its previous files, the health line ages on them, and the run log carries
+`[site] no screenings:` and a closing `[run] no screenings:` line. `check_runs.py` lists
+each such site as new or carried without changing its verdict. Finnkino's
+`fetch_data.py` prints the same line and exits 0. A fetch error, a bot check, Engel's HTTP
+500 and a row the parser cannot read still fail. `EmptyProgramme` is unchanged and remains
+the only way to publish a venue empty without confirming it per venue. Navettakino's
+unseen empty state, confirmed earlier that day only to avoid a failing run, now raises
+`NoScreenings` and keeps the saved screening, which settles the review's finding without an
+alert. Seven mutations red, and 39 tests that expected a failure now expect the `no
+screenings` line.

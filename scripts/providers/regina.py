@@ -64,7 +64,7 @@ import time
 from zoneinfo import ZoneInfo
 
 import prices
-from common import capped, fetch, get_text
+from common import NoScreenings, capped, fetch, get_text
 from etiketti import lang_codes
 
 BASE = "https://kinoregina.fi"
@@ -497,7 +497,7 @@ def fetch_site(site=SITES[0], price_sleep=1.0, prices_path=None, now=None, today
     """
     shows = parse_schedule("".join(fetch_schedule(today)))
     if not shows:
-        raise RuntimeError("schedule answered twice with no screenings; nothing the site "
+        raise NoScreenings("schedule answered twice with no screenings; nothing the site "
                            "publishes can confirm an empty programme, so the previous "
                            "file is kept")
     enrich(shows)

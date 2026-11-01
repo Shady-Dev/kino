@@ -219,7 +219,7 @@ class RunnerTest(unittest.TestCase):
         self.assertEqual(sorted({s["title"] for s in shows}),
                          ["Myrskyn ikkuna", "Presidentin kyyditys"])
 
-    def test_a_page_with_no_film_block_fails_and_keeps_the_previous_file(self):
+    def test_a_page_with_no_film_block_keeps_the_previous_file_without_failing(self):
         """No sentence on this site says the programme is empty, so a zero-block parse is
         a broken read rather than evidence of one."""
         kept = {"generated": "2026-09-19T00:00:00+00:00", "dates": ["2026-09-19"],
@@ -228,7 +228,8 @@ class RunnerTest(unittest.TestCase):
         (run.OUT / f"area-{VENUE}.json").write_text(json.dumps(kept), encoding="utf-8")
         self.serve({LISTING: "<html><body><div id='content'></div></body></html>"})
         code, log = self.main()
-        self.assertNotEqual(code, 0)
+        self.assertEqual(code, 0, log)
+        self.assertIn("no screenings:", log)
         self.assertIn("no film block", log)
         after = json.loads((run.OUT / f"area-{VENUE}.json").read_text(encoding="utf-8"))
         self.assertEqual(after["shows"][0]["title"], "Yesterday")

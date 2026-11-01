@@ -68,11 +68,11 @@ class EmptyProgrammeTest(unittest.TestCase):
         code = self.run_mod(Mod(common.EmptyProgramme("listing lists no films")))
         self.assertEqual(code, 0)
 
-    def test_a_listing_with_films_and_no_showtimes_still_fails(self):
-        """The case the rule exists for. An adapter that parsed a full listing into
-        nothing is broken, and must not be able to hide behind the same silence."""
+    def test_a_listing_with_films_and_no_showtimes_is_no_screenings_and_does_not_fail(self):
+        """The maintainer's decision of 2026-11-02: no screenings never fails the run, and
+        the site is named under `no screenings` for check_runs.py instead."""
         code = self.run_mod(Mod({"fc-a": []}))
-        self.assertEqual(code, 1)
+        self.assertEqual(code, 0)
 
     def test_a_fetch_error_still_fails(self):
         code = self.run_mod(Mod(RuntimeError("connection reset")))
@@ -107,9 +107,10 @@ class EmptyProgrammeTest(unittest.TestCase):
         venues = json.loads((run.OUT / "venues-fakechain.json").read_text(encoding="utf-8"))
         self.assertEqual((venues["status"], venues["pending"]), ("ok", ["fc-a"]))
 
-    def test_a_confirming_module_that_reports_no_venue_still_fails(self):
+    def test_a_confirming_module_that_reports_no_venue_keeps_the_previous_file(self):
         """The flag is not enough on its own: an empty answer that names no venue is
-        unexplained, and stays a failure with the previous file untouched."""
+        unexplained, and the previous file stays untouched. Since 2026-11-02 it does not
+        fail the run."""
         (run.OUT).mkdir(exist_ok=True)
         # A day ahead of the real clock: a kept file whose every day has passed is
         # published empty, and this is about one still worth keeping.
@@ -120,7 +121,7 @@ class EmptyProgrammeTest(unittest.TestCase):
         (run.OUT / "area-fc-a.json").write_text(json.dumps(prev), encoding="utf-8")
         mod = Mod({})
         mod.EMPTY_VENUES_CONFIRMED = True
-        self.assertEqual(self.run_mod(mod), 1)
+        self.assertEqual(self.run_mod(mod), 0)
         self.assertEqual(json.loads((run.OUT / "area-fc-a.json").read_text(encoding="utf-8")), prev)
         doc = json.loads((run.OUT / "venues-fakechain.json").read_text(encoding="utf-8"))
         self.assertEqual((doc["status"], doc["stale"], doc["pending"]), ("partial", ["fc-a"], []))

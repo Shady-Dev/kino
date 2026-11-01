@@ -450,7 +450,7 @@ class RunnerTest(unittest.TestCase):
         self.assertNotIn("FAILED", log)
         self.assertEqual([c for c in self.calls if "getShowTimesDays" in c], [])
 
-    def test_dates_listed_with_no_screening_fails_instead_of_publishing_nothing(self):
+    def test_dates_listed_with_no_screening_keeps_the_previous_file_without_failing(self):
         """The date list is derived from the screenings, so dates beside an empty parse
         is the contradiction CLAUDE.md calls the broken case."""
         prev = {"generated": "2026-09-01T00:00:00+00:00", "dates": [], "horizon": "",
@@ -460,8 +460,9 @@ class RunnerTest(unittest.TestCase):
                     window_url("2026-09-15"): times_doc(),
                     window_url("2026-09-22"): times_doc()})
         code, log = self.main()
-        self.assertEqual(code, 1)
-        self.assertIn("FAILED", log)
+        self.assertEqual(code, 0, log)
+        self.assertIn("no screenings:", log)
+        self.assertNotIn("FAILED", log)
         self.assertEqual(json.loads((run.OUT / "area-cm-mantsala.json").read_text()), prev)
         self.assertFalse((run.OUT / "venues-cinemantsala.json").exists())
 

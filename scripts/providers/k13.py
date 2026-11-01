@@ -58,7 +58,7 @@ import time
 from urllib.parse import urlsplit
 from zoneinfo import ZoneInfo
 
-from common import budget_or_raise, check_shows, get_text, resolve_year, weekday_index
+from common import NoScreenings, budget_or_raise, check_shows, get_text, resolve_year, weekday_index
 
 FI = ZoneInfo("Europe/Helsinki")
 
@@ -335,7 +335,7 @@ def fetch_site(site, today=None, sleep=1.2):
                                f"it") from e
     shows, report = rows(site, page, today, linked)
     if not shows:
-        raise RuntimeError(
+        raise NoScreenings(
             f"{url}: no screening line with a weekday, a date and a clock, and no dated "
             f"entry that a linked page settles. This site publishes no sentence saying "
             f"there are none, and a parse with no rows is no evidence of an empty "

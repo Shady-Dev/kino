@@ -70,7 +70,7 @@ import sys
 import time
 from zoneinfo import ZoneInfo
 
-from common import capped, check_shows, fetch, get_text, served
+from common import NoScreenings, capped, check_shows, fetch, get_text, served
 from etiketti import lang_codes
 from synmerge import norm
 
@@ -297,7 +297,7 @@ def fetch_site(site):
             print(f"[{pid}] {venue['name']}: the programme module says 'Ei tulevia "
                   f"näytösaikoja', so the venue is confirmed empty")
             return {venue["id"]: []}
-        raise RuntimeError(
+        raise NoScreenings(
             f"{url}: no screening block, and the page does not say it has nothing on "
             f"({served(page)}). Treating it as a fetch or template failure rather than a "
             f"cinema between programmes, so the previous files stand")

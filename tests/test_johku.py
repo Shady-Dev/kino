@@ -1271,7 +1271,7 @@ class RunnerTest(unittest.TestCase):
         self.assertEqual(code, 0, log)
         self.assertEqual([s["title"] for s in self.shows("biomarilyn-lapua")], ["A", "B"])
 
-    def test_entries_with_no_screening_still_to_come_fail_and_keep_the_file(self):
+    def test_entries_with_no_screening_still_to_come_keep_the_file_without_failing(self):
         """Coming-soon entries and a screening that has started are not an empty
         programme: the page still lists films."""
         prev = self.keep("vihdinkino-vihti")
@@ -1281,7 +1281,8 @@ class RunnerTest(unittest.TestCase):
         self.serve(self.all_sites(**{"https://vihdinkino.fi/": front(
             (1, [soon, started]), shop="vihdinkino")}))
         code, log = self.main()
-        self.assertEqual(code, 1, log)
+        self.assertEqual(code, 0, log)
+        self.assertIn("no screenings:", log)
         self.assertIn("2 schedule entries and none a timed screening still to come", log)
         self.assertEqual(json.loads((run.OUT / "area-vihdinkino-vihti.json").read_text()),
                          prev)
@@ -1396,7 +1397,7 @@ class RunnerTest(unittest.TestCase):
         self.main()
         self.assertEqual(waits.count(J.LISTING_WAIT), J.LISTING_TRIES - 1)
 
-    def test_a_schedule_of_nothing_but_hall_hire_fails_that_site(self):
+    def test_a_schedule_of_nothing_but_hall_hire_is_no_screenings_for_that_site(self):
         self.serve(self.all_sites(**{"https://bioforum.fi/": front((1, [
             entry("1", "Salivaraus", "2026-10-09 17:30", loc="Bio Forum", product="94",
                   path="/fi_FI/products/94-sali", host="https://bioforum.fi"),
@@ -1404,7 +1405,8 @@ class RunnerTest(unittest.TestCase):
                   path="/fi_FI/products/95-sali", host="https://bioforum.fi")]),
             shop="bioforum")}))
         code, log = self.main()
-        self.assertEqual(code, 1, log)
+        self.assertEqual(code, 0, log)
+        self.assertIn("no screenings:", log)
         self.assertIn("template failure", log)
         self.assertFalse((run.OUT / "area-bioforum-tammisaari.json").exists())
         self.assertTrue((run.OUT / "area-vihdinkino-vihti.json").exists())

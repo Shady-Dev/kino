@@ -168,11 +168,12 @@ class RunnerTest(unittest.TestCase):
                          ["LAPIN SOTA", "PIKKULI"])
         self.assertIn("1 post(s) with no screening list", log)
 
-    def test_posts_with_no_screening_fail_and_keep_the_previous_file(self):
+    def test_posts_with_no_screening_keep_the_previous_file_without_failing(self):
         self.kept()
         self.serve(json.dumps([EVENT]))
         code, log = self.main()
-        self.assertNotEqual(code, 0)
+        self.assertEqual(code, 0, log)
+        self.assertIn("no screenings:", log)
         self.assertIn("no screening read", log)
         self.assertEqual(self.after()["shows"][0]["title"], "Yesterday")
 

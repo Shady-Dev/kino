@@ -265,7 +265,7 @@ class RunnerTest(unittest.TestCase):
         self.assertEqual(sorted({s["title"] for s in shows}),
                          ["Heart of the Beast", "Resident Evil (2026)"])
 
-    def test_an_empty_search_fails_and_keeps_the_previous_file(self):
+    def test_an_empty_search_keeps_the_previous_file_without_failing(self):
         """A reindex and an empty programme look the same from here, so this reader has no
         positive evidence of one and does not raise common.EmptyProgramme."""
         kept = {"generated": "2026-09-20T00:00:00+00:00", "dates": ["2026-09-20"],
@@ -274,7 +274,8 @@ class RunnerTest(unittest.TestCase):
         (run.OUT / f"area-{VENUE}.json").write_text(json.dumps(kept), encoding="utf-8")
         self.serve({SEARCH: {"pages": [], "sort": "score", "count": 0}})
         code, log = self.main()
-        self.assertNotEqual(code, 0)
+        self.assertEqual(code, 0, log)
+        self.assertIn("no screenings:", log)
         self.assertIn("no dated screening", log)
         after = json.loads((run.OUT / f"area-{VENUE}.json").read_text(encoding="utf-8"))
         self.assertEqual(after["shows"][0]["title"], "Yesterday")

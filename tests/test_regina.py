@@ -485,12 +485,13 @@ class RunnerTest(unittest.TestCase):
         self.assertIn("has no screenings: ", log)
         self.assertIn("asking once more", log)
 
-    def test_an_empty_schedule_twice_fails_the_site_and_keeps_the_previous_file(self):
+    def test_an_empty_schedule_twice_keeps_the_previous_file_without_failing(self):
         (run.OUT / "area-regina-helsinki.json").write_text(json.dumps(self.PREV))
         self.serve_sequence([WINDOW_EMPTY, WINDOW_EMPTY], {})
         code, log = self.main()
-        self.assertEqual(code, 1)
-        self.assertIn("FAILED", log)
+        self.assertEqual(code, 0, log)
+        self.assertIn("no screenings:", log)
+        self.assertNotIn("FAILED", log)
         self.assertIn("answered twice with no screenings", log)
         self.assertEqual(json.loads((run.OUT / "area-regina-helsinki.json").read_text()), self.PREV)
         self.assertFalse((run.OUT / "venues-regina.json").exists())

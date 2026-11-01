@@ -91,7 +91,7 @@ import re
 import sys
 from zoneinfo import ZoneInfo
 
-from common import check_shows, fetch, get_text, resolve_year, served, unread, weekday_index
+from common import NoScreenings, check_shows, fetch, get_text, resolve_year, served, unread, weekday_index
 from synmerge import norm
 
 FI = ZoneInfo("Europe/Helsinki")
@@ -364,7 +364,7 @@ def fetch_site(site, today=None):
     for item in report["unread"]:
         unread("line", item)
     if not shows:
-        raise RuntimeError(
+        raise NoScreenings(
             f"{url}: no screening line on the programme page ({served(page)}). This site "
             f"has never been seen with an empty programme, only with a single day closed, "
             f"so there is no evidence of one to read this as and the previous files stand")

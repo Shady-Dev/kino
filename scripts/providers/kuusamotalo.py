@@ -53,7 +53,7 @@ import re
 import sys
 from zoneinfo import ZoneInfo
 
-from common import check_shows, get_text, resolve_year, syn_language, weekday_index
+from common import NoScreenings, check_shows, get_text, resolve_year, syn_language, weekday_index
 
 FI = ZoneInfo("Europe/Helsinki")
 
@@ -212,7 +212,7 @@ def fetch_site(site, today=None):
                            f"not a list of posts")
     shows, report = rows(site, payload, today)
     if not shows:
-        raise RuntimeError(
+        raise NoScreenings(
             f"{url}: no post carries a placed screening line. This site publishes no "
             f"sentence saying there are none, so there is no evidence of an empty "
             f"programme to read this as and the previous files stand")

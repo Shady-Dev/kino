@@ -37,7 +37,7 @@ import re
 import sys
 from zoneinfo import ZoneInfo
 
-from common import fetch, get_text, resolve_year, weekday_index
+from common import NoScreenings, fetch, get_text, resolve_year, weekday_index
 
 BASE = "https://www.kinovaakuna.fi"
 LISTING = BASE + "/etusivu.html"
@@ -150,7 +150,7 @@ def parse(page, today=None):
         print(f"[vaakuna] {len(unplaced)} row(s) whose weekday matches no candidate year, "
               f"skipped: {', '.join(unplaced[:5])}")
     if not shows:
-        raise RuntimeError(
+        raise NoScreenings(
             f"{LISTING}: film cards with no screening row this parser places "
             f"({len(unplaced)} unplaced). No empty state is recorded for this site, so "
             f"this is a template or format change rather than a cinema with nothing on")

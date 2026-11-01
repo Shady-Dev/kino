@@ -35,9 +35,11 @@ A fetch, schema or parse failure never reaches that loop: the site fails as a wh
 every file it owns is left as it was. `common.EmptyProgramme` is not a failure: every venue
 is published empty and pending, and the site is logged as `no programme published`. The provider file carries `status`, `stale`,
 `unverified`, `pending` and `oldest`; the health line ages on `oldest`, so a provider is
-as fresh as its weakest venue with data. A site where every venue came back empty fails
-the run, unless every one was confirmed empty, in which case the file is written with
-them all pending (Heureka: one venue, and a paused programme must clear old screenings).
+as fresh as its weakest venue with data. A site where every venue came back empty, unless
+every one was confirmed empty, is logged as `no screenings` and does not fail the run,
+by the maintainer's decision of 2026-11-02. Neither does an adapter raising
+`common.NoScreenings`. A site whose every venue was confirmed empty is written with them
+all pending (Heureka: one venue, and a paused programme must clear old screenings).
 
 Sites on different hosts are fetched at the same time, sites on the same host one after
 the other. Pacing inside an adapter's fetch_site is what a cinema experiences and is
@@ -816,6 +818,7 @@ class Tally:
         self.empty = []         # sites whose listing loaded and had no films on it
         self.skipped = []       # modules with no sites for this half, which is not a problem
         self.unread = []        # (provider, distinct unread items)
+        self.noshow = []        # sites that parsed no screening, previous files kept
 
     def unusable(self, name, error):
         """A module that could not be imported, or that has no SITES."""
@@ -841,6 +844,12 @@ class Tally:
             print(f"[{label}] no programme published: {error}")
             self.empty.append(label)
             return
+        if isinstance(error, common.NoScreenings):
+            # Not a failure since 2026-11-02, by the maintainer's decision: the previous
+            # files stand and the closing line and check_runs.py name the site.
+            print(f"[{label}] no screenings: {error}")
+            self.noshow.append(label)
+            return
         if error is not None:
             print(f"[{label}] FAILED: {error}", file=sys.stderr)
             self.failures += 1
@@ -853,7 +862,9 @@ class Tally:
         if pending:
             self.pendings.append((label, pending))
         if not v and not confirmed_empty_site(site_of(mod, sites, label), pending):
-            self.failures += 1
+            print(f"[{label}] no screenings: every venue came back empty and nothing "
+                  f"confirms it")
+            self.noshow.append(label)
 
     def report(self, stats, throttle, hosts=()):
         """The closing lines, in the order a committed log carries them."""
@@ -906,6 +917,10 @@ class Tally:
                 print(f"[run] partial: {label} has {len(new_ids)} venue(s) that have "
                       f"never produced a showtime: {', '.join(new_ids)}")
 
+        if self.noshow:
+            print(f"[run] no screenings: {len(self.noshow)} site(s) kept their previous "
+                  f"files: {', '.join(self.noshow)}")
+
         # The items are named in each site's block. This line lists the sites and never
         # changes the exit code.
         if self.unread:
@@ -921,7 +936,7 @@ class Tally:
         say why is the case this whole check exists for. It stops being one only when every
         site said so itself -- an empty listing, every venue confirmed empty, or no sites on
         this half at all."""
-        return 1 if self.failures or (not self.venues and not self.empty
+        return 1 if self.failures or (not self.venues and not self.empty and not self.noshow
                                       and not self.pendings and not self.skipped) else 0
 
 

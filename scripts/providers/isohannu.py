@@ -51,7 +51,7 @@ import sys
 import time
 from zoneinfo import ZoneInfo
 
-from common import capped, fetch, get_text
+from common import NoScreenings, capped, fetch, get_text
 
 BASE = "https://www.isohannu.fi"
 FI = ZoneInfo("Europe/Helsinki")
@@ -199,7 +199,7 @@ def parse(page):
     if not shows:
         halls = page.count('<div class="showtable-container">')
         anchors = len(re.findall(r"/leffasivu\.php\?id=", page))
-        raise RuntimeError(
+        raise NoScreenings(
             f"{BASE}: the show table holds {len(days)} day heading(s), {halls} hall(s) "
             f"and {anchors} film anchor(s), and not one screening parsed. No empty state "
             f"of this page is known, so this is a parse or template failure rather than a "

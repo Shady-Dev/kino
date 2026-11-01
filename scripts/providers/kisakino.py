@@ -28,7 +28,7 @@ import sys
 import time
 from zoneinfo import ZoneInfo
 
-from common import bot_check, check_shows, get_text, served, weekday_index
+from common import NoScreenings, bot_check, check_shows, get_text, served, weekday_index
 
 FI = ZoneInfo("Europe/Helsinki")
 
@@ -99,7 +99,7 @@ def fetch_site(site, sleep=1.5):
     listed = films(front)
     if not listed:
         bot_check(front, front_url)
-        raise RuntimeError(
+        raise NoScreenings(
             f"{front_url}: no film link ({served(front)}). This site publishes no sentence "
             f"saying there are none, so there is no evidence of an empty programme to read "
             f"this as and the previous files stand")
@@ -119,7 +119,7 @@ def fetch_site(site, sleep=1.5):
             "soldOut": False, "price": price, "provider": pid, "venue": venue["id"],
         } for s in starts]
     if not shows:
-        raise RuntimeError(f"{front_url}: {len(listed)} film page(s) and no screening line "
+        raise NoScreenings(f"{front_url}: {len(listed)} film page(s) and no screening line "
                            f"on any; the previous files stand")
     shows.sort(key=lambda s: (s["start"], s["title"]))
     per_venue = {venue["id"]: shows}

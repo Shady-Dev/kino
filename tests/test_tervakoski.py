@@ -173,12 +173,13 @@ class RunnerTest(unittest.TestCase):
                          ["Lapin sota", "Pirjo i Sverige"])
         self.assertIn("1 slot(s) with no film link", log)
 
-    def test_a_programme_with_no_film_slot_fails_and_keeps_the_previous_file(self):
+    def test_a_programme_with_no_film_slot_keeps_the_previous_file_without_failing(self):
         self.kept()
         self.serve(json.dumps({"content": {"rendered": content(
             self.day(1), p("Klo 17.00 &#8211; Yksityistilaisuus"))}}))
         code, log = self.main()
-        self.assertNotEqual(code, 0)
+        self.assertEqual(code, 0, log)
+        self.assertIn("no screenings:", log)
         self.assertIn("no film slot", log)
         self.assertEqual(self.after()["shows"][0]["title"], "Yesterday")
 

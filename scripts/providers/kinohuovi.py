@@ -54,7 +54,7 @@ import sys
 from urllib.parse import quote
 from zoneinfo import ZoneInfo
 
-from common import check_shows, get_text, resolve_year, unread, weekday_index
+from common import NoScreenings, check_shows, get_text, resolve_year, unread, weekday_index
 
 FI = ZoneInfo("Europe/Helsinki")
 
@@ -252,7 +252,7 @@ def fetch_site(site, today=None):
     for kind, item in report["unread"]:
         unread(kind, item)
     if not shows:
-        raise RuntimeError(
+        raise NoScreenings(
             f"{url}: no programme card with a screening. This site publishes no sentence "
             f"saying there are none, so there is no evidence of an empty programme to read "
             f"this as and the previous files stand")

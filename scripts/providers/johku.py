@@ -127,7 +127,7 @@ from decimal import Decimal
 from urllib.parse import urlsplit
 from zoneinfo import ZoneInfo
 
-from common import EmptyProgramme, capped, check_shows, fetch, make_opener, syn_language
+from common import NoScreenings, EmptyProgramme, capped, check_shows, fetch, make_opener, syn_language
 from etiketti import lang_codes, strict_codes
 
 FI = ZoneInfo("Europe/Helsinki")
@@ -990,7 +990,7 @@ def fetch_site(site, sleep=1.2):
     when = now()
     listed, _ = rows(site, blocks, when)
     if not listed:
-        raise RuntimeError(
+        raise NoScreenings(
             f"{listing_url}: {entries} schedule entries and none a timed screening still to "
             f"come. A schedule with entries is not an empty programme, so the previous "
             f"files stand")
@@ -1042,7 +1042,7 @@ def fetch_site(site, sleep=1.2):
         print(f"[{pid}] {len(report['unplaced'])} synopsis/synopses withheld, no language "
               f"settled: {', '.join(sorted(report['unplaced'])[:8])}")
     if not any(per_venue.values()):
-        raise RuntimeError(
+        raise NoScreenings(
             f"{listing_url} holds {len(listed)} screening(s) in its schedule and none "
             f"published. That is a template failure rather than a cinema with nothing on")
     for v in site["venues"]:

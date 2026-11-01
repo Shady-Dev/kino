@@ -135,11 +135,12 @@ class RunnerTest(unittest.TestCase):
         self.assertEqual(sorted({s["title"] for s in self.after()["shows"]}),
                          ["LAPIN SOTA", "PIKKU"])
 
-    def test_a_page_with_only_coming_films_fails_and_keeps_the_previous_file(self):
+    def test_a_page_with_only_coming_films_keeps_the_previous_file_without_failing(self):
         self.kept()
         self.serve(page(COMING, ADDRESS))
         code, log = self.main()
-        self.assertNotEqual(code, 0)
+        self.assertEqual(code, 0, log)
+        self.assertIn("no screenings:", log)
         self.assertIn("no film with a timed screening", log)
         self.assertEqual(self.after()["shows"][0]["title"], "Yesterday")
 

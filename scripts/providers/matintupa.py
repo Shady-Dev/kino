@@ -54,7 +54,7 @@ import re
 import sys
 from zoneinfo import ZoneInfo
 
-from common import bot_check, check_shows, get_text, resolve_year, served, weekday_index
+from common import NoScreenings, bot_check, check_shows, get_text, resolve_year, served, weekday_index
 
 FI = ZoneInfo("Europe/Helsinki")
 
@@ -205,7 +205,7 @@ def fetch_site(site, today=None):
     shows, report = rows(site, page, today)
     if not shows:
         bot_check(page, url)
-        raise RuntimeError(
+        raise NoScreenings(
             f"{url}: no film block with a screening line ({served(page)}). This site "
             f"publishes no sentence saying there are none, so there is no evidence of an "
             f"empty programme to read this as and the previous files stand")

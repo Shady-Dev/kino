@@ -361,14 +361,15 @@ class ServiceTest(unittest.TestCase):
         self.assertIn("collapsed event:espooevents:agqaw7ipcm (Lasten viikonloppu, "
                       "Elokuva: Flow. (K7)), same start as event:espooevents:agqaw5sf2u", log)
 
-    def test_zero_hits_fails_the_run_and_keeps_the_previous_file(self):
+    def test_zero_hits_keeps_the_previous_file_without_failing(self):
         self.keep_previous()
         self.serve([])
         with self.assertRaises(RuntimeError) as ctx:
             K.fetch_site(SITE)
         self.assertNotIsInstance(ctx.exception, common.EmptyProgramme)
         code, log = self.main()
-        self.assertNotEqual(code, 0, log)
+        self.assertEqual(code, 0, log)
+        self.assertIn("no screenings:", log)
         self.assertIn("no hit for place 21430", log)
         self.assertEqual(self.area()["shows"][0]["title"], "Earlier")
 

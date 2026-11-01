@@ -66,7 +66,7 @@ from zoneinfo import ZoneInfo
 
 import prices
 import riviera
-from common import capped, fetch, get_text, served
+from common import NoScreenings, capped, fetch, get_text, served
 
 BASE = "https://www.bio-kaari.fi"
 # The ticket pages' host, declared in `reads` because the price pass requests it.
@@ -177,7 +177,7 @@ def parse(page):
                     show["year"] = yr.group(1)
                 shows.append(show)
     if not shows:
-        raise RuntimeError(
+        raise NoScreenings(
             f"{BASE}: no screening parsed from {len(days)} day container(s) and "
             f"{len(ITEM_RE.findall(page))} film item(s) ({served(page)}). No empty state is "
             f"known for this site, so this is a parse or template failure")

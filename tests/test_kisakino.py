@@ -143,11 +143,12 @@ class RunnerTest(Stubbed):
         self.assertEqual(sorted({s["title"] for s in self.after()["shows"]}),
                          ["Lapin sota", "Pikkuli"])
 
-    def test_a_front_page_with_no_film_fails_and_keeps_the_previous_file(self):
+    def test_a_front_page_with_no_film_keeps_the_previous_file_without_failing(self):
         self.kept()
         self.serve({BASE + "/": "<html><body><p>Kesätauko</p></body></html>"})
         code, log = self.main()
-        self.assertNotEqual(code, 0)
+        self.assertEqual(code, 0, log)
+        self.assertIn("no screenings:", log)
         self.assertIn("no film link", log)
         self.assertEqual(self.after()["shows"][0]["title"], "Yesterday")
 

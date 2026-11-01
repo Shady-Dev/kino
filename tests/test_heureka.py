@@ -506,7 +506,7 @@ class RunnerTest(unittest.TestCase):
         self.assertIn("0 failures", log)
         self.assertEqual(self.calls, [self.h.CALENDAR])
 
-    def test_a_calendar_whose_filter_matches_nothing_fails_and_keeps_the_previous_file(self):
+    def test_a_calendar_whose_filter_matches_nothing_keeps_the_previous_file_without_failing(self):
         prev = {"generated": "2026-09-01T00:00:00+00:00", "dates": ["2026-09-01"],
                 "horizon": "2026-09-01", "shows": [{"title": "Old", "start": "2026-09-01T12:00:00+03:00"}]}
         (run.OUT / "area-hk-vantaa.json").write_text(json.dumps(prev))
@@ -515,8 +515,9 @@ class RunnerTest(unittest.TestCase):
         self.h.fetch_site.__defaults__ = (self.h.SITES[0], 0, TODAY)
         self.addCleanup(lambda: setattr(self.h.fetch_site, "__defaults__", (self.h.SITES[0], 1.2, None)))
         code, log = self.main()
-        self.assertEqual(code, 1, log)
-        self.assertIn("FAILED", log)
+        self.assertEqual(code, 0, log)
+        self.assertIn("no screenings:", log)
+        self.assertNotIn("FAILED", log)
         self.assertEqual(json.loads((run.OUT / "area-hk-vantaa.json").read_text()), prev)
 
     def test_a_refused_calendar_fails_the_site_and_keeps_the_previous_file(self):

@@ -26,11 +26,9 @@ clears withdrawn screenings".
   listing paragraphs, so the new date-or-clock check does not fire on a populated page.
 - **Navettakino**, front page, live, 2026-11-01: the site moved to a PHP page that day and
   the sentence about when times appear is gone. The page renders "Seuraavat näytökset"
-  over one card per film. Its empty state has not been seen. The adapter still confirms an
-  empty programme when no card and no other text prints a date or clock, by the
-  maintainer's decision of 2026-11-02, so a run with no screening raises no alert. Each film
-  card on such a page is logged as an unread row for `check_runs.py` to report. See the
-  2026-11-01 section in [ticketing-platforms.md](ticketing-platforms.md).
+  over one card per film. Its empty state has not been seen, so since 2026-11-02 a read with
+  no screening raises `NoScreenings`, keeps the saved screening and names the film cards.
+  See the 2026-11-01 section in [ticketing-platforms.md](ticketing-platforms.md).
 - **Tähti Kino** (tribe.py), the events route with its film category, live, 2026-09-24:
   HTTP 200, a JSON object with `events` `[]`, `total` 0 and `total_pages` 0. That list is
   what the adapter now requires before the category check may confirm the venue empty.
@@ -49,9 +47,9 @@ clears withdrawn screenings".
 
 ## Inferences
 
-- A site whose empty state has never been seen fails the run on a genuinely empty week.
-  That is the intended direction: red with old data kept, rather than green with real
-  screenings deleted.
+- A site whose empty state has never been seen keeps its old data on a genuinely empty
+  week and is named under `no screenings`. Since 2026-11-02 that does not fail the run.
+  The direction still holds: old data kept rather than real screenings deleted.
 - Toholampi's absence reads as the town having nothing on because the page is the
   operator's whole programme. A heading typed another way would read the same, which is
   why no empty town is confirmed while a line sits under a heading no town owns.
@@ -64,6 +62,7 @@ clears withdrawn screenings".
 
 ## Implementation status
 
-Each site above raises `RuntimeError` on zero rows. Next step: when a run fails on one with
-the cinema's own page showing nothing on, read that page as a visitor, record the empty
-state here with its date, and let the adapter raise `EmptyProgramme` on it.
+Each site above raises `common.NoScreenings` on zero rows, which keeps its files without
+failing the run. Next step: when `check_runs.py` lists one under `no screenings` with the
+cinema's own page showing nothing on, read that page as a visitor, record the empty state
+here with its date, and let the adapter raise `EmptyProgramme` on it.

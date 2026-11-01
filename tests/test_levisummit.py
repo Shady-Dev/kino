@@ -183,11 +183,12 @@ class RunnerTest(unittest.TestCase):
         self.assertEqual(sorted({s["title"] for s in self.after()["shows"]}),
                          ["Unohdettu saari", "Verityn varjo"])
 
-    def test_an_empty_calendar_fails_and_keeps_the_previous_file(self):
+    def test_an_empty_calendar_keeps_the_previous_file_without_failing(self):
         self.kept()
         self.serve(page())
         code, log = self.main()
-        self.assertNotEqual(code, 0)
+        self.assertEqual(code, 0, log)
+        self.assertIn("no screenings:", log)
         self.assertIn("no screening in the calendar", log)
         self.assertEqual(self.after()["shows"][0]["title"], "Yesterday")
 

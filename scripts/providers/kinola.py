@@ -176,7 +176,7 @@ import time
 from urllib.parse import urljoin
 from zoneinfo import ZoneInfo
 
-from common import (EmptyProgramme, budget_or_raise, fetch, get_text, resolve_year,
+from common import (NoScreenings, EmptyProgramme, budget_or_raise, fetch, get_text, resolve_year,
                     syn_language, weekday_index)
 from gilda import LANG
 from synmerge import is_note
@@ -946,7 +946,7 @@ def fetch_site(site, sleep=1.2):
     if not rows:
         why = empty_programme_evidence(listing)
         if why:
-            raise RuntimeError(
+            raise NoScreenings(
                 f"{listing_url}: no screening block, and no evidence of an empty "
                 f"programme -- {why}. Zero parsed rows is not evidence on its own, so "
                 f"this fails and the previous files stand")
@@ -989,7 +989,7 @@ def fetch_site(site, sleep=1.2):
         print(f"[{pid}] {len(om['lang_unread'])} film(s) with a language name not read, "
               f"that part left blank: {'; '.join(sorted(om['lang_unread'])[:8])}")
     if not shows:
-        raise RuntimeError(
+        raise NoScreenings(
             f"{listing_url} lists {len(rows)} screening(s) and none "
             f"published. The listing is not empty, so this is a template or "
             f"classification failure rather than a cinema with nothing on")

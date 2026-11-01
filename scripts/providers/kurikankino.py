@@ -29,7 +29,7 @@ import re
 import sys
 from zoneinfo import ZoneInfo
 
-from common import bot_check, check_shows, get_text, served, weekday_index
+from common import NoScreenings, bot_check, check_shows, get_text, served, weekday_index
 
 FI = ZoneInfo("Europe/Helsinki")
 
@@ -149,7 +149,7 @@ def fetch_site(site):
     shows, report = rows(site, page)
     if not shows:
         bot_check(page, url)
-        raise RuntimeError(
+        raise NoScreenings(
             f"{url}: no film card with a screening time ({served(page)}). This site "
             f"publishes no sentence saying there are none, so there is no evidence of an "
             f"empty programme to read this as and the previous files stand")

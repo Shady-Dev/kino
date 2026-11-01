@@ -597,9 +597,9 @@ def check_shows(per_venue, label, venue_ids=()):
 class EmptyProgramme(Exception):
     """An adapter reached a site, read its listing, and there were no films on it.
 
-    A whole site parsing zero showtimes fails the run, and that has to stay true: it is
-    the only thing that catches a parse which broke silently and would otherwise leave
-    old data ageing with no signal. But some cinemas genuinely publish nothing for a
+    A whole site parsing zero showtimes keeps its previous files and is named under `no
+    screenings` (`NoScreenings` below), which is what catches a parse that broke silently.
+    Until 2026-11-02 it failed the run. But some cinemas genuinely publish nothing for a
     week. Eight sites here are a single small venue -- K-Kino runs 3 showtimes, Kino
     Saimaa 2 -- so "empty" stopped being hypothetical the day the eTiketti sweep landed.
 
@@ -607,20 +607,32 @@ class EmptyProgramme(Exception):
     Raise this only on **positive evidence that the upstream said it has nothing on** --
     an empty-state element the template renders in place of its films, a payload that
     answered in the expected schema with an empty collection. A listing that still lists
-    films while the parse yields no showtimes is the broken case and must keep failing,
-    and an unreachable listing raises its own error long before this.
+    films while the parse yields no showtimes is the broken case and raises
+    `NoScreenings`, and an unreachable listing raises its own error long before this.
 
     **"My parser found nothing" is not that evidence**, and reading it as such is the
     trap this class creates. Zero matches proves only that one regex or one key lookup
     came back empty, which is exactly what a markup or schema change upstream produces --
-    while the page is still full of films. Inferring emptiness from it converts a parser
-    regression into a soft ageing signal: exit 0, stale data preserved, nothing red, and
-    the first symptom hours later on the health line. Every adapter raising this must
-    therefore check something it did *not* use to find the films.
+    while the page is still full of films. Inferring emptiness from it publishes every
+    venue empty and clears screenings the cinema still lists, where `NoScreenings` would
+    have kept them. Every adapter raising this must therefore check something it did *not*
+    use to find the films.
 
     Nothing is muted by configuration on purpose: a per-site "allow empty" flag would
     switch the check off permanently for the one site most likely to need it, which is
     the hole this is meant to avoid rather than open.
+    """
+
+
+class NoScreenings(RuntimeError):
+    """An adapter read its listing and parsed no screening, with no evidence of an empty
+    programme.
+
+    The maintainer decided on 2026-11-02 that this does not fail the run, because a failed
+    run raises an alert. The site's previous files stand, its health line ages on them, and
+    the run log names the site under `no screenings`, which `check_runs.py` reports as new
+    or carried without failing. A fetch error, a bot check or a row the parser cannot read
+    still fails the site.
     """
 
 

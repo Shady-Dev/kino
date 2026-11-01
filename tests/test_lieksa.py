@@ -255,13 +255,14 @@ class RunnerTest(unittest.TestCase):
         self.assertEqual({s["price"] for s in shows}, {"12€", "13€"})
         self.assertIn("0 failures", log)
 
-    def test_a_programme_section_with_no_line_fails_and_keeps_the_previous_file(self):
+    def test_a_programme_section_with_no_line_keeps_the_previous_file_without_failing(self):
         """No emptied programme has been seen on this template, so zero rows may not read
         as one."""
         (run.OUT / "area-lieksankino-lieksa.json").write_text(json.dumps(self.PREV))
         self.serve(page(article("LOPPUNUT", [])))
         code, log = self.main()
-        self.assertEqual(code, 1, log)
+        self.assertEqual(code, 0, log)
+        self.assertIn("no screenings:", log)
         self.assertIn("no evidence", log)
         self.assertNotIn("no programme at the moment", log)
         self.assertEqual(json.loads(

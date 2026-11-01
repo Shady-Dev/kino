@@ -56,7 +56,7 @@ import sys
 import time
 from zoneinfo import ZoneInfo
 
-from common import capped, fetch, resolve_year, served
+from common import NoScreenings, capped, fetch, resolve_year, served
 
 BASE = "https://www.biosavoy.ax"
 LISTING = "/spelschema"
@@ -176,7 +176,7 @@ def parse(page, today=None):
                 "venue": VENUE["id"],
             })
     if not shows:
-        raise RuntimeError(
+        raise NoScreenings(
             f"{BASE}{LISTING}: schedule section present but no screening row found "
             f"({served(page)}). No empty state is known for this site, so this is a parse "
             f"or template failure")

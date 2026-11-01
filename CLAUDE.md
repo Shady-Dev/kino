@@ -187,12 +187,14 @@ written instruction that names `DESIGN.md`, in one commit with the dated IDEAS e
   only the verdict; the schedule, the file location and the recipient live in the
   out-of-repo wrapper. Its threshold is `STALE_H` from `index.html`, and a test fails if
   the two drift apart.
-- A provider that parses zero showtimes fails the run, which catches an empty parse that
-  would otherwise leave old data ageing with no signal. The one exception is an adapter
-  raising `common.EmptyProgramme`, allowed **only** after fetching and parsing a listing
-  that contained no films at all. A listing that lists films while the parse yields
-  nothing is the broken case and must keep failing. Never add a per-site "allow empty"
-  flag: it would switch the check off permanently for the site most likely to need it.
+- **A provider that parses zero showtimes does not fail the run.** The maintainer decided
+  on 2026-11-02 that a failed run raises an alert, and tracking belongs elsewhere. Such a
+  site keeps its previous files, its health line ages on them, the run log names it under
+  `no screenings`, and `scripts/check_runs.py` lists it as new or carried without failing.
+  An adapter whose parse finds nothing raises `common.NoScreenings`, never a plain error.
+  A fetch error, a bot check or a row the parser cannot read still fails the site.
+  `common.EmptyProgramme` stays for positive evidence of an empty listing, and only that
+  publishes the venues empty. Never add a per-site "allow empty" flag.
 
 ## Adding a provider
 

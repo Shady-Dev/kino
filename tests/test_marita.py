@@ -323,11 +323,12 @@ class RunnerTest(unittest.TestCase):
         self.assertEqual(body["shows"], [])
         self.assertNotEqual(body["generated"], self.PREV["generated"])
 
-    def test_zero_rows_without_the_sentence_fails_and_keeps_the_previous_file(self):
+    def test_zero_rows_without_the_sentence_keeps_the_previous_file_without_failing(self):
         (run.OUT / "area-marita-outokumpu.json").write_text(json.dumps(self.PREV))
         self.serve(page(tail=True))
         code, log = self.main()
-        self.assertEqual(code, 1, log)
+        self.assertEqual(code, 0, log)
+        self.assertIn("no screenings:", log)
         self.assertIn("does not say it has nothing on", log)
         self.assertEqual(json.loads(
             (run.OUT / "area-marita-outokumpu.json").read_text()), self.PREV)

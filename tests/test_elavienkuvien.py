@@ -231,24 +231,26 @@ class RunnerTest(unittest.TestCase):
         for nav in ("erikoisnaytokset", "esityskalenteri", "mykkaelokuvafestivaalit"):
             self.assertEqual([c for c in self.calls if nav in c], [], nav)
 
-    def test_a_listing_with_no_film_fails_and_keeps_the_previous_file(self):
+    def test_a_listing_with_no_film_keeps_the_previous_file_without_failing(self):
         prev = {"generated": "2026-09-01T00:00:00+00:00", "dates": ["2026-09-01"],
                 "horizon": "2026-09-01", "shows": [{"title": "Old"}]}
         (run.OUT / "area-ekt-forssa.json").write_text(json.dumps(prev), encoding="utf-8")
         self.serve({f"{BASE}/ohjelmisto/": listing()})
         code, log = self.main()
-        self.assertEqual(code, 1, log)
+        self.assertEqual(code, 0, log)
+        self.assertIn("no screenings:", log)
         self.assertEqual(json.loads(
             (run.OUT / "area-ekt-forssa.json").read_text(encoding="utf-8")), prev)
 
-    def test_films_listed_with_no_screening_at_all_fails(self):
+    def test_films_listed_with_no_screening_at_all_keeps_the_previous_file(self):
         """Twelve films and no screening on any of them is a template change, not a
         cinema with nothing on: this site publishes no empty-state text."""
         self.serve(self.pages(**{
             f"{BASE}/ohjelmisto/a/": film_page(title="A", rows=()),
             f"{BASE}/ohjelmisto/b/": film_page(title="B", rows=())}))
         code, log = self.main()
-        self.assertEqual(code, 1, log)
+        self.assertEqual(code, 0, log)
+        self.assertIn("no screenings:", log)
         self.assertIn("template change", log)
 
 

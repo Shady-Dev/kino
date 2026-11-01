@@ -62,7 +62,7 @@ import time
 from zoneinfo import ZoneInfo
 
 import synmerge
-from common import capped, fetch, get_text, resolve_year, weekday_index
+from common import NoScreenings, capped, fetch, get_text, resolve_year, weekday_index
 from etiketti import strict_codes
 
 BASE = "https://www.kuvakukko.fi"
@@ -339,7 +339,7 @@ def parse(page, site=None, today=None, prices=None):
         print(f"[kuvakukko] {len(untitled)} screening line(s) with no title, skipped: "
               f"{', '.join(untitled[:5])}")
     if not any(per_venue.values()):
-        raise RuntimeError(
+        raise NoScreenings(
             f"{LISTING} has its headings but no screening under them. No empty programme "
             f"has been seen here, so there is no evidence of one to read this as")
     for v in VENUES:

@@ -176,6 +176,37 @@ def unread_report(logs):
                      for name, (site, kind, digest), shown, mark in rows]
 
 
+# A site that parsed no screening and kept its previous files, from run.py's Tally. Not a
+# failure since 2026-11-02, by the maintainer's decision; this report is where it shows.
+NOSHOW_RE = re.compile(r"^\[([^\]]+)\] no screenings: (.*?)[ \t]*$", re.M)
+
+
+def noshow_sites(text):
+    """-> {site: the reason the log gives} in the order the log names them."""
+    return dict(NOSHOW_RE.findall(text))
+
+
+def noshow_report(logs):
+    """The sites that parsed no screening, each marked new or carried. -> [line]. A site
+    here never fails the check."""
+    rows = []
+    for path in logs:
+        text = path.read_text(encoding="utf-8", errors="replace")
+        sites = noshow_sites(text)
+        if not sites:
+            continue
+        versions, complete = history(path)
+        for site, why in sites.items():
+            mark = _standing(lambda t, s=site: s in noshow_sites(t), text, versions, complete)
+            rows.append((path.name, site, why, mark))
+    if not rows:
+        return []
+    new = sum(mark.startswith("new") for *_, mark in rows)
+    head = (f"[check] no screenings: {len(rows)} site(s) in {len({r[0] for r in rows})} "
+            f"log(s), {new} new, previous files kept")
+    return [head] + [f"    {name}: [{site}] {why}: {mark}" for name, site, why, mark in rows]
+
+
 def strays(repo=REPO):
     """Run logs still sitting at the repo root. -> [Path], empty when the move is clean.
 
@@ -224,7 +255,7 @@ def main(argv):
         for site in failing(text) or ["(log)"]:
             print(f"    {site}: {standing(site, text, versions, complete)}", file=sys.stderr)
 
-    for line in unread_report(logs):
+    for line in unread_report(logs) + noshow_report(logs):
         print(line)
 
     print(f"[check] {len(logs)} run log(s), {len(bad)} failed")

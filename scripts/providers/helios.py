@@ -84,7 +84,7 @@ import time
 from urllib.parse import urlencode, urlsplit
 from zoneinfo import ZoneInfo
 
-from common import UA, check_shows, fetch, get_text, syn_language
+from common import NoScreenings, UA, check_shows, fetch, get_text, syn_language
 from etiketti import strict_codes
 
 FI = ZoneInfo("Europe/Helsinki")
@@ -305,7 +305,7 @@ def fetch_site(site, today=None):
             if report[key]:
                 print(f"[{pid}] {venue['name']}: {report[key]} {note}")
     if not any(per_venue.values()):
-        raise RuntimeError(
+        raise NoScreenings(
             f"{site['base']}{site['path']}: no cinema row among {total} event(s) at "
             f"{len(site['places'])} houses. The API answers the whole house, so an empty "
             f"result is as consistent with a renamed strand as with a dark fortnight and the "

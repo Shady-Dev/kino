@@ -387,13 +387,14 @@ class RunnerTest(unittest.TestCase):
         self.assertEqual({s["price"] for s in shows}, {"10€"})
         self.assertIn("0 failures", log)
 
-    def test_a_page_with_no_screening_fails_and_keeps_the_previous_file(self):
+    def test_a_page_with_no_screening_keeps_the_previous_file_without_failing(self):
         """The site publishes no sentence saying there are none, so zero rows may not read
         as a confirmed empty programme."""
         (run.OUT / "area-huvimylly-raahe.json").write_text(json.dumps(self.PREV))
         self.serve(payload("Tulossa  Lastenelokuva päivät", "29.5  ja 30.5"))
         code, log = self.main()
-        self.assertEqual(code, 1, log)
+        self.assertEqual(code, 0, log)
+        self.assertIn("no screenings:", log)
         self.assertIn("no evidence", log)
         self.assertNotIn("no programme at the moment", log)
         self.assertEqual(json.loads(

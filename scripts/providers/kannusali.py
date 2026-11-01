@@ -22,7 +22,7 @@ import time
 from urllib.parse import urlsplit
 from zoneinfo import ZoneInfo
 
-from common import UA, capped, check_shows, fetch, get_text
+from common import NoScreenings, UA, capped, check_shows, fetch, get_text
 from etiketti import strict_codes
 
 FI = ZoneInfo("Europe/Helsinki")
@@ -348,10 +348,10 @@ def fetch_site(site):
     hits, total = read_all(site)
     # Zero hits cannot be told from a broken server-side filter, so it is never empty.
     if not hits:
-        raise RuntimeError(f"{site['base']}{site['path']}: no hit for place {site['tpr']}")
+        raise NoScreenings(f"{site['base']}{site['path']}: no hit for place {site['tpr']}")
     shows, report = rows(site, hits)
     if not shows:
-        raise RuntimeError(f"{site['base']}{site['path']}: {total} hit(s) and no screening "
+        raise NoScreenings(f"{site['base']}{site['path']}: {total} hit(s) and no screening "
                            f"among them")
     films = [s for s in shows if not s.get("nonFilm")]
     languages(site, films)

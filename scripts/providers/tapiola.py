@@ -37,7 +37,7 @@ import time
 from zoneinfo import ZoneInfo
 
 import synmerge
-from common import capped, fetch, get_text
+from common import NoScreenings, capped, fetch, get_text
 from etiketti import lang_codes
 
 BASE = "https://www.kinotapiola.fi"
@@ -151,7 +151,7 @@ def parse(page):
             "venue": VENUE["id"],
         })
     if not shows:
-        raise RuntimeError(f"no screening read from the programme list "
+        raise NoScreenings(f"no screening read from the programme list "
                            f"({len(ROW_RE.findall(page))} row(s) matched): a changed template "
                            f"or an empty programme, and no empty state of this site is known")
     shows.sort(key=lambda s: s["start"])

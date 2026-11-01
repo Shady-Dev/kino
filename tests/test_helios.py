@@ -332,14 +332,15 @@ class RunnerTest(unittest.TestCase):
         self.assertEqual(len(self.calls), H.MAX_PAGES)
         self.assertEqual(self.published()[0]["title"], "Yesterday")
 
-    def test_a_payload_with_no_row_of_this_cinema_fails_and_keeps_the_previous_file(self):
+    def test_a_payload_with_no_row_of_this_cinema_keeps_the_previous_file_without_failing(self):
         """The API answers the whole house, so this is not evidence of a dark week."""
         self.keep()
         self.serve(self.page([event(name="Joululomaleffa: Tuhkimo (S)"),
                               event(name="Yleisön suosikit: Sydäntalvi")]),
                    self.page([]), self.page([]))
         code, log = self.main()
-        self.assertNotEqual(code, 0)
+        self.assertEqual(code, 0, log)
+        self.assertIn("no screenings:", log)
         self.assertIn("no cinema row", log)
         self.assertEqual(self.published()[0]["title"], "Yesterday")
 

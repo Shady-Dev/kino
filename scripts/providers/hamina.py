@@ -50,7 +50,7 @@ import re
 import sys
 from zoneinfo import ZoneInfo
 
-from common import check_shows, fetch, get_text, resolve_year, weekday_index
+from common import NoScreenings, check_shows, fetch, get_text, resolve_year, weekday_index
 from synmerge import norm
 
 FI = ZoneInfo("Europe/Helsinki")
@@ -216,7 +216,7 @@ def fetch_site(site, today=None):
     url = site["base"].rstrip("/") + site["listing"]
     shows, report = rows(site, get(url), today)
     if not shows:
-        raise RuntimeError(
+        raise NoScreenings(
             f"{url}: no screening line on the page. No emptied programme has been seen "
             f"here, so there is no evidence of one to read this as, and the previous "
             f"files stand")

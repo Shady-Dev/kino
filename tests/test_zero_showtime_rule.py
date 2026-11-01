@@ -1,7 +1,9 @@
-"""A provider that parses zero showtimes fails the run, for every half of the pipeline.
+"""A provider that parses zero showtimes keeps its previous files and is named under `no
+screenings`, for every half of the pipeline. Until 2026-11-02 it failed the run, and the
+maintainer decided that day that it does not, because a failed run raises an alert.
 
-CLAUDE.md states the rule and `run.Tally.site` holds the run-level backstop: a site with no
-live venue that its adapter did not confirm empty counts as a failure. A mutation turning
+`run.Tally.site` holds the run-level backstop: a site with no live venue that its adapter
+did not confirm empty is named rather than passed over. A mutation turning
 that line off survived the whole suite on 2026-09-25 (audit Q), because every test that
 reached it had a second reason to fail. Two sites here, one live, so the run's own "no
 venue at all" check cannot stand in for it. The Finnkino pass in `fetch_data.py` had no
@@ -66,9 +68,30 @@ class RunTest(unittest.TestCase):
             code = run.main([mod.__name__, "--half", "all"])
         return code, out.getvalue()
 
-    def test_a_site_with_no_live_venue_fails_the_run_beside_a_live_one(self):
+    def test_a_site_with_no_live_venue_is_named_beside_a_live_one_without_failing(self):
         code, log = self.main(module("zz_zero_a", {"zzlive": 1, "zzdead": {}}))
+        self.assertEqual(code, 0, log)
+        self.assertIn("[zzdead] no screenings: every venue came back empty", log)
+        self.assertIn("[run] no screenings: 1 site(s) kept their previous files: zzdead", log)
+        self.assertIn("0 failures", log)
+
+    def test_an_adapter_raising_no_screenings_keeps_its_files_without_failing(self):
+        prev = {"generated": "2026-09-01T00:00:00+00:00", "dates": ["2027-01-09"],
+                "horizon": "2027-01-09",
+                "shows": [{"title": "Old", "start": "2027-01-09T18:00:00+02:00"}]}
+        (run.OUT / "area-zzdead-v.json").write_text(json.dumps(prev))
+        code, log = self.main(module("zz_zero_d", {
+            "zzlive": 1, "zzdead": common.NoScreenings("no programme card")}))
+        self.assertEqual(code, 0, log)
+        self.assertIn("[zzdead] no screenings: no programme card", log)
+        self.assertNotIn("FAILED", log)
+        self.assertEqual(json.loads((run.OUT / "area-zzdead-v.json").read_text()), prev)
+
+    def test_a_fetch_error_still_fails_the_run(self):
+        code, log = self.main(module("zz_zero_e", {"zzlive": 1,
+                                                   "zzdead": RuntimeError("HTTP Error 503")}))
         self.assertEqual(code, 1, log)
+        self.assertIn("[zzdead] FAILED: HTTP Error 503", log)
 
     def test_the_same_site_confirmed_empty_by_its_adapter_does_not(self):
         code, log = self.main(module("zz_zero_b", {"zzlive": 1, "zzdead": {"zzdead-v": []}},
@@ -88,7 +111,7 @@ class FinnkinoTest(unittest.TestCase):
     stub = tfp.SevenDayPublishTest.stub
     seed_previous = tfp.SevenDayPublishTest.seed_previous
 
-    def test_seven_answered_days_with_no_showtime_publish_nothing_and_fail(self):
+    def test_seven_answered_days_with_no_showtime_publish_nothing_without_failing(self):
         """OCAPI renames `showtimes`: every date answers, none lists a screening."""
         before = self.seed_previous()
         orig = tfp.showtimes_for
@@ -100,10 +123,10 @@ class FinnkinoTest(unittest.TestCase):
         tfp.showtimes_for = renamed
         self.addCleanup(lambda: setattr(tfp, "showtimes_for", orig))
         self.stub()
-        self.assertEqual(fetch_data.main(), 1)
+        self.assertEqual(fetch_data.main(), 0)
         after = {p.name: p.read_bytes() for p in sorted((self.root / "data").glob("*.json"))}
         self.assertEqual(before, after)
-        self.assertIn("no showtime", self.err.getvalue())
+        self.assertIn("[finnkino] no screenings: 7 dates answered", self.err.getvalue())
 
     def test_a_normal_week_still_publishes(self):
         self.seed_previous()

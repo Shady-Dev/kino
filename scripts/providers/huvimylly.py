@@ -101,7 +101,7 @@ import re
 import sys
 from zoneinfo import ZoneInfo
 
-from common import check_shows, fetch, get_text, resolve_year, served, weekday_index
+from common import NoScreenings, check_shows, fetch, get_text, resolve_year, served, weekday_index
 from synmerge import norm
 
 FI = ZoneInfo("Europe/Helsinki")
@@ -372,7 +372,7 @@ def fetch_site(site, today=None):
     url = site["base"].rstrip("/") + site["listing"]
     shows, report = rows(site, items(get(url)), today)
     if not shows:
-        raise RuntimeError(
+        raise NoScreenings(
             f"{url}: no screening line in the page's own content. This site publishes no "
             f"sentence saying there are none, so there is no evidence of an empty "
             f"programme to read this as and the previous files stand")

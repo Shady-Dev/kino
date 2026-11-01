@@ -60,7 +60,7 @@ import re
 import sys
 from zoneinfo import ZoneInfo
 
-from common import check_shows, fetch, get_text, syn_language
+from common import NoScreenings, check_shows, fetch, get_text, syn_language
 from etiketti import lang_codes
 
 FI = ZoneInfo("Europe/Helsinki")
@@ -246,7 +246,7 @@ def fetch_site(site, today=None):
     url = search_url(site)
     shows, report = rows(site, get_json(url), today)
     if not shows:
-        raise RuntimeError(
+        raise NoScreenings(
             f"{url}: no dated screening among {report['pages']} page(s). An empty search "
             f"is as consistent with a reindex as with an empty programme and this reader "
             f"cannot tell those apart, so the previous files stand")

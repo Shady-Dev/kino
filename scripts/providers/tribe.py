@@ -73,7 +73,7 @@ import sys
 import time
 from zoneinfo import ZoneInfo
 
-from common import check_shows, fetch, syn_language
+from common import NoScreenings, check_shows, fetch, syn_language
 from etiketti import strict_codes
 from synmerge import is_note
 
@@ -373,7 +373,7 @@ def fetch_site(site, sleep=1.2, today=None):
     posters = sum(1 for s in shows if s["img"])
     print(f"[{pid}] {posters} of {len(shows)} screening(s) carry a portrait poster")
     if not shows:
-        raise RuntimeError(
+        raise NoScreenings(
             f"{site['base']}: {len(events)} event(s) in the film category and none "
             f"published, which is a shape change rather than a cinema with nothing on")
     days = sorted({s["start"][:10] for s in shows})

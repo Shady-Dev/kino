@@ -975,7 +975,8 @@ class ZeroShowsTest(Stubbed):
                        "/elokuvat/63/the-dog-stars": FOREIGN_FILM})
         self.assertEqual(e.fetch_site(site("niagara"), sleep=0), {})
 
-    def test_that_failure_fails_the_run_and_keeps_the_previous_data(self):
+    def test_that_case_keeps_the_previous_data_without_failing(self):
+        """No screenings never fails the run since 2026-11-02, by the maintainer's decision."""
         import run
         tmp = tempfile.TemporaryDirectory()
         self.addCleanup(tmp.cleanup)
@@ -998,7 +999,7 @@ class ZeroShowsTest(Stubbed):
                              "fetch_site": staticmethod(e.fetch_site)})
         importlib.import_module = lambda n: mod if n == "fakemod" else realimp(n)
         self.addCleanup(lambda: setattr(importlib, "import_module", realimp))
-        self.assertEqual(run.main(["fakemod", "--half", "all"]), 1)
+        self.assertEqual(run.main(["fakemod", "--half", "all"]), 0)
         after = json.loads((run.OUT / "area-cn-tampere.json").read_text(encoding="utf-8"))
         self.assertEqual(after, prev)
 
