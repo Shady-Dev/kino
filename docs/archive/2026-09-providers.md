@@ -4484,3 +4484,19 @@ page. "Mama - esitys äitiydestä" is a dance-theatre piece and has a `-` alias,
 title search matched the 2013 horror film. Released at 9482d085c7. Cloud run 41026539942
 read the host (52 screenings, `exit=0`) and `check_runs.py` passed on 7177f5b52f. Seven
 mutations red. Research: [ticketing-platforms.md](../research/ticketing-platforms.md).
+
+### Kuva-Tähti's two cinemas need the Johku widget flow
+
+Kauttuan Kuva (Eura) and Kuvala (Uusikaupunki), one merchant on Johku's **client-rendered**
+storefront, which `johku.py` cannot read: read 2026-09-21, five surfaces render no film, date
+or time. The rows arrive through `/api/auth/widget-session` and an `X-ApiKey`, the flow
+declined for Kino Engel on 2026-09-20; no key was copied or recorded. Evidence:
+[docs/research/ticketing-platforms.md](../research/ticketing-platforms.md).
+**Next action:** re-read for a server-rendered template or a feed, each a `SITES` entry.
+
+Closed 2026-11-01. Issue #20 reported that the venue pages fetch an anonymous
+`showschedule.json` with no key and no widget session. Reading as a visitor on 2026-10-31
+verified that anonymous access on all six venue pages of Kuva-Tähti and the Sun Kino group,
+and the maintainer lifted the block on 2026-11-01. The six cinemas are not implemented.
+Their integration is a separate open item in `IDEAS.md`. Research:
+[ticketing-platforms.md](../research/ticketing-platforms.md).

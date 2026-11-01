@@ -31,12 +31,21 @@ contract change is explained here, never in `docs/research/`.
 Check for an existing platform first. Every candidate assessed, with its evidence, is in
 [docs/research/ticketing-platforms.md](docs/research/ticketing-platforms.md).
 
-- **Sun Kino:** `allproducts.json` closed (403, session required); another source untested.
-  **Eventio:** closed 2026-09-19. Its one known tenant is Kino Regina, already built.
+- **Eventio:** closed 2026-09-19. Its one known tenant is Kino Regina, already built.
 - **Complete:** eTiketti (twenty-one), Nexxo (eight), Kinola (five), Johku (seven),
   Cinemahouse (three), TMB (four), MyCloudCinema's two, Vista's one, the parser-shaped.
 - **Next action:** decide what to publish for Kino K13's Serbian film days, 6.-8.11.2026.
   The festival's page gives five slots one clock each, and three slots list two films.
+
+### Sun Kino group and Kuva-Tähti as Johku sites
+
+Kino Kyntäjä, Y-Kino, Sun Kino and Alareksi on `elokuviin.info`, and Kuvala and Kauttuan Kuva on
+`www.kuvatahti.fi`, fetch an anonymous `showschedule.json` on their venue pages. This was read
+on 2026-10-31 after issue #20, and the maintainer lifted the block on 2026-11-01. Send one request per
+venue with `resourcepool`, as the pages do, through `johku.py`'s parser and pacing. Leave out
+entries whose title begins `YKSITYISNÄYTÖS!` after case and whitespace folding, count them as
+intentional exclusions and filter no other title word. Runner access is unverified. Research:
+[ticketing-platforms.md](docs/research/ticketing-platforms.md). **Next action:** build on order.
 
 ### Heureka's own posters still wait for written permission
 
@@ -153,15 +162,6 @@ clock, answering "did a run happen", which `check_runs.py` cannot. Its threshold
 **Next action:** the external ping that calls it. The schedule, the file location and the
 recipient are machine-specific and live in the wrapper outside this repo, so this item
 cannot close here.
-
-### Kuva-Tähti's two cinemas need the Johku widget flow
-
-Kauttuan Kuva (Eura) and Kuvala (Uusikaupunki), one merchant on Johku's **client-rendered**
-storefront, which `johku.py` cannot read: read 2026-09-21, five surfaces render no film, date
-or time. The rows arrive through `/api/auth/widget-session` and an `X-ApiKey`, the flow
-declined for Kino Engel on 2026-09-20; no key was copied or recorded. Evidence:
-[docs/research/ticketing-platforms.md](docs/research/ticketing-platforms.md).
-**Next action:** re-read for a server-rendered template or a feed, each a `SITES` entry.
 
 ### Rekolan Kino and Juvan Kino wait for a programme
 

@@ -292,7 +292,8 @@ The sweep of the four known sites, read 2026-09-05:
   autumn 2026.
 - **KuvaTähti** (Kuvala, Kauttuan Kuva): the storefront sits behind Cloudflare and loads
   showtimes client-side through `/api/auth/widget-session` and `X-ApiKey`, the route
-  declined above. Both venues listed nothing during a maintenance break.
+  declined above. Both venues listed nothing during a maintenance break. The reading of
+  2026-10-31 supersedes this access conclusion, see "Sun Kino and Kuva-Tähti, 2026-10-31".
 - **Virtasali** (Kalajoki): WordPress, a municipal culture hall with 0 of 12 events in
   `category-elokuvat`. Dropped, and **that was wrong**: re-read 2026-09-20, every ticket
   button on the page points at `kinovirta.johku.com`, a Johku storefront serving the
@@ -334,6 +335,7 @@ Kino Tapiola got its own parser on 2026-09-05 (`scripts/providers/tapiola.py`). 
 is read from its front page and keeps `price` and `aud` empty; the headless-render option
 was deferred by the maintainer the same day, with no more polling on the local half for
 now. KuvaTähti stays unread, and Kulttuurimylly is read from 2026-10-13. Next step: none open.
+KuvaTähti's block was lifted on 2026-11-01, see "Sun Kino and Kuva-Tähti, 2026-10-31".
 
 ---
 
@@ -802,6 +804,9 @@ the Engel investigation separately found that `allproducts.json` carries only th
 per product even when it does answer, which would not be a programme anyway. "This endpoint
 is closed" is not "there is no public source".
 
+The reading of 2026-10-31 found that public source, and it supersedes the blocking
+conclusion above. See "Sun Kino and Kuva-Tähti, 2026-10-31".
+
 ### Cine Mäntsälä, mantsala.cine.fi: implementable, through its own page's request
 
 **Established 2026-09-15 by reading the page's own code**, not by guessing a Gilda
@@ -891,7 +896,8 @@ which is worse for a reader than everything else here. Worth a decision before a
 
 **Status and next step**
 
-Sun Kino is blocked on the Johku key. Bio Savoy was the highest-value of the three, for a
+Sun Kino is blocked on the Johku key. That block was lifted on 2026-11-01, see "Sun Kino and
+Kuva-Tähti, 2026-10-31". Bio Savoy was the highest-value of the three, for a
 new autonomous region, a source that needs no date inference and Swedish-language content
 for an interface that already has a Swedish mode; it was added on 2026-09-15 in `aec9ff4d`.
 
@@ -967,7 +973,8 @@ Row shape, inside a day group:
 Live as `scripts/providers/johku.py`, four providers, four venues, cloud half, published
 2026-09-18 and verified on the runner in the dispatch that committed `ca17dc58`. No next
 step. `kuvatahti.fi` runs the same storefront and renders no `data-showtime`; why is not
-established.
+established. The 2026-10-31 reading found the cause. The schedule is on the venue pages and
+the browser fetches it, see "Sun Kino and Kuva-Tähti, 2026-10-31".
 
 ---
 
@@ -1063,7 +1070,8 @@ agent, kinokulma.fi in the built-in browser, and the storefront's JavaScript bun
 2026-10-10; the decisions are in
 [docs/archive/2026-09-providers.md](../archive/2026-09-providers.md). A live parse that
 day matched each cinema's rendered page. No next step for the six. Kuva-Tähti's
-`/fi_FI/naytosajat` was not read for a `showtimes` block.
+`/fi_FI/naytosajat` was not read for a `showtimes` block. Its venue pages were read on
+2026-10-31, see "Sun Kino and Kuva-Tähti, 2026-10-31".
 
 ---
 
@@ -1882,6 +1890,54 @@ recorded; the token-shaped string in the page is deliberately not written down.
 **What would change it:** this merchant moving to the server-rendered storefront template,
 the cinemas publishing a feed, or the maintainer separately approving the widget flow.
 The first two make both cinemas an ordinary `johku.py` `SITES` entry.
+
+The reading of 2026-10-31 below supersedes the access conclusion of this section. The
+observations above stand as what was read on 2026-09-21.
+
+### Sun Kino and Kuva-Tähti, 2026-10-31
+
+GitHub issue #20, opened 2026-10-30, reported that both merchants answer Johku's anonymous
+`showschedule.json`. The claim was re-read as a visitor with the `Leffavuoro/1.0` user
+agent on 2026-10-31, 21:44 to 21:51 UTC.
+
+**Findings**
+
+- Each of the six venue pages, `/fi_FI/naytosajat/{venue}` on `elokuviin.info` and
+  `www.kuvatahti.fi`, requests
+  `/api/{shop}/fi_FI/showschedule.json?details=true&storefront=true&version=fi_FI&from={date}&category=2&resourcepool={n}`
+  after loading. The request carries no `X-ApiKey` and no `Authorization` header, and it
+  answers 200. No page requested `/api/auth/widget-session`. This was observed in headless
+  Chromium over 13 page loads.
+- The pool comes from the page's own `linkedcontent/{product}.json` as
+  `showtimeresourcepool_id`. In shop `elokuviin` Sun Kino is 2, Kino Kyntäjä 3, Y-Kino 4
+  and Alareksi 5. In shop `kuvatahti` Kuvala is 2 and Kauttuan Kuva 3.
+- `__NUXT_DATA__` on both venue pages has an empty `apiKey` and `isWidget` false. The
+  storefront's entry script sets `X-ApiKey` only when the store's `apiKey` is set, and it
+  holds no `widget-session` string.
+- Without `resourcepool` the same request returned the shop's whole programme, 57 entries
+  for `elokuviin` and 21 for `kuvatahti`. Those were identical, field for field, to the six
+  per-venue answers together. The member shop `sunkino` answered `{"data":[]}`.
+- 13 of the 57 `elokuviin` entries had titles beginning `YKSITYISNÄYTÖS!`, a private
+  screening. The venue pages draw them like other screenings.
+- `storefronturl` leads to the film's public page, which lists the screening with its date,
+  time, hall and price. Kuva-Tähti's links are on `kuvatahti.johku.com`.
+- `robots.txt` on both hosts disallows neither path. No response carried `CF-Ray`. Both
+  hosts resolve to the same two addresses as `kinokulma.fi` and `www.biomarilyn.com`, two of
+  the built Johku storefronts, and neither address is in Cloudflare's published ranges.
+
+**Inferences**
+
+- These readings supersede the conclusion that the rows arrive only through
+  `/api/auth/widget-session` and `X-ApiKey`. The earlier observations stand as dated
+  readings. Whether the storefront changed after 2026-09-21 cannot be told from here.
+- The 403 on `allproducts.json` recorded under the Sun Kino group was not re-tested and is
+  not affected.
+
+**Status and next step**
+
+On 2026-11-01 the maintainer lifted the block for both merchants. The request shape and the
+rule for private screenings are recorded with the open item in `IDEAS.md`. Nothing is
+implemented, and whether a runner can read either host is unverified until a cloud run does.
 
 ### Rekolan Kino, Vantaa, has no upcoming screening
 
