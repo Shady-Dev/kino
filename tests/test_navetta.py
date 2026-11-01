@@ -15,6 +15,7 @@ import types
 import unittest
 
 import _ctx                                                # noqa: F401
+import common
 import navetta as N
 import registry
 import run
@@ -261,6 +262,8 @@ class RunnerTest(unittest.TestCase):
         self.assertIn("0 failures", log)
 
     def test_an_empty_programme_writes_a_fresh_empty_file(self):
+        """The maintainer's decision of 2026-11-02: no failing run. Each dateless card is
+        recorded as unread, which the run-log check reports without failing."""
         self.file.write_text(json.dumps(self.PREV))
         self.serve(page(card("A"), card("B", film="2"), box=""))
         code, log = self.main()
@@ -269,6 +272,11 @@ class RunnerTest(unittest.TestCase):
         body = json.loads(self.file.read_text())
         self.assertEqual(body["shows"], [])
         self.assertNotEqual(body["generated"], self.PREV["generated"])
+        for title in ("A", "B"):
+            item = f"{title}: a film card with no screening on a page confirmed empty"
+            self.assertIn(f"[navettakino] unread row {common.unread_id('row', item)}: {item}",
+                          log)
+        self.assertIn("[run] unread: 2 item(s) at 1 site(s): navettakino 2", log)
 
     def test_times_the_cards_do_not_carry_fail_and_keep_the_previous_file(self):
         """The box above the cards prints a clock while no card prints a screening. That is

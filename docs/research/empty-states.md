@@ -26,8 +26,11 @@ clears withdrawn screenings".
   listing paragraphs, so the new date-or-clock check does not fire on a populated page.
 - **Navettakino**, front page, live, 2026-11-01: the site moved to a PHP page that day and
   the sentence about when times appear is gone. The page renders "Seuraavat näytökset"
-  over one card per film. Its empty state has not been seen. See the 2026-11-01 section
-  in [ticketing-platforms.md](ticketing-platforms.md).
+  over one card per film. Its empty state has not been seen. The adapter still confirms an
+  empty programme when no card and no other text prints a date or clock, by the
+  maintainer's decision of 2026-11-02, so a run with no screening raises no alert. Each film
+  card on such a page is logged as an unread row for `check_runs.py` to report. See the
+  2026-11-01 section in [ticketing-platforms.md](ticketing-platforms.md).
 - **Tähti Kino** (tribe.py), the events route with its film category, live, 2026-09-24:
   HTTP 200, a JSON object with `events` `[]`, `total` 0 and `total_pages` 0. That list is
   what the adapter now requires before the category check may confirm the venue empty.

@@ -38,7 +38,11 @@ What shapes the parser:
 words that times appear only when there are screenings, and the new one has no such
 sentence. So an empty programme is confirmed only when the page renders the "Seuraavat
 näytökset" heading, no card prints a screening, and no date or clock appears anywhere in
-the body. A page without the heading raises and the previous files stand.
+the body. A page without the heading raises and the previous files stand. The maintainer
+kept this on 2026-11-02 after a review showed two dateless film cards clear a saved
+screening: a run that finds no screening is not to fail and raise an alert. Each film card
+on such a page is recorded as unread instead, which the run-log check reports without
+failing.
 """
 import datetime
 import html as html_mod
@@ -49,7 +53,7 @@ from urllib.parse import urljoin
 from zoneinfo import ZoneInfo
 
 from common import (bot_check, capped, check_shows, fetch, get_text, resolve_year,
-                    served, weekday_index)
+                    served, unread, weekday_index)
 from synmerge import norm
 
 FI = ZoneInfo("Europe/Helsinki")
@@ -93,8 +97,8 @@ LABEL_RE = re.compile(r"^\s*<b>[^<]*:\s*</b>", re.I)
 SYN_MIN = 120
 TAGS_RE = re.compile(r"<[^>]+>")
 
-# Set on the evidence in the docstring: the heading rendered, no card printing a screening,
-# and no date or clock anywhere in the body. A page without the heading never reaches it.
+# Set on the evidence in the docstring and the maintainer's decision of 2026-11-02, which
+# accepts an unseen empty state over a failing run. A page without the heading never reaches it.
 EMPTY_VENUES_CONFIRMED = True
 
 
@@ -276,6 +280,9 @@ def fetch_site(site, today=None, sleep=1.5):
         print(f"[{pid}] {venue['name']}: the page renders its screenings heading, no card "
               f"prints a screening and no date or time appears on the page. The venue is "
               f"confirmed empty")
+        for card in cards(page, site["base"]):
+            unread("row", f"{card['title']}: a film card with no screening on a page "
+                          f"confirmed empty")
         return {venue["id"]: []}
     syn = synopses(sorted({s["_film"] for s in shows if s["_film"]}), pid, sleep)
     for s in shows:

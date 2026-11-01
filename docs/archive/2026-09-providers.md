@@ -4535,3 +4535,14 @@ title and hall, and all 50 rows the film pages drew matched on price. Accents `#
 `#003F63`, light, `#87A2D8` and `#5A99BD`, dark, with no other chain in the six towns or
 their regions. Ten mutations red. Research:
 [ticketing-platforms.md](../research/ticketing-platforms.md).
+
+### Navettakino keeps its empty confirmation on the new page (2026-11-02)
+The weekly review of 2026-11-02 showed that the PHP page's empty rule clears a saved
+screening when the heading renders over film cards that print no date. The page's empty
+state has not been seen, and the review asked for such a read to fail with the previous
+files kept. The maintainer decided the same day that a run finding no screening is not to
+fail, because a failed run raises an alert. The rule stays as released: the heading, no card
+printing a screening and no date or clock elsewhere confirm the venue empty, and a date or
+clock elsewhere still fails the site. Tracking moved out of the run's exit status: each film
+card on a page confirmed empty is recorded as an unread row, which `check_runs.py` reports as
+new without failing. Two mutations red. Research: [empty-states.md](../research/empty-states.md).
