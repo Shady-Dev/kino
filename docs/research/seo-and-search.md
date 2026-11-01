@@ -115,11 +115,16 @@ and all of them are under `/teatteri/`.
 - `bio-pallas-karjaa/` and `kino-akustiikka-ylivieska/`
 
 **Measurement.** The baseline is the 28 complete days before the release, 2026-10-04 to
-2026-10-31, from a Search Console export the maintainer makes. Each pair is compared over the
-same calendar weeks, starting after the pilot page's recrawl. The review is at T+56,
-2026-12-27. A pair whose pilot page has not been recrawled by then is reported as
-unevaluated and does not count as a zero result. Results are directional or inconclusive.
-Accuracy, usefulness and clutter are judged separately when deciding whether to extend it.
+2026-10-31, read from Search Console and from Bing for all 20 pages. The maintainer makes
+both exports. A pair's window starts on the first Monday after a Google crawl of its pilot
+page after the release and ends on the Sunday of T+56, 2026-12-27. The pilot and its control
+are always measured over the same calendar dates. Pairs can therefore have windows of
+different length, and a pooled figure adds up pairs that were each measured on matching
+dates. It never compares a pilot and a control read over different dates. The crawl dates of
+both pages in every pair are recorded weekly. The review is at T+56, 2026-12-27. A pair
+whose pilot page has not been crawled by then is reported as unevaluated and does not count
+as a zero result. Results are directional or inconclusive. Accuracy, usefulness and clutter
+are judged separately when deciding whether to extend it.
 
 **Status and next step.** The pilot was released on 2026-11-01 with the scope and groups
 above. The next step is to read the pairs weekly and review the pilot on 2026-12-27.
