@@ -12,6 +12,9 @@ and are not inventoried; see "Access and ethics" in `CLAUDE.md`.
 Each topic separates what was observed from what was concluded, because several
 conclusions here were wrong the first time and the observations were not.
 
+The 2026-10-24 search for public APIs behind the cinemas read as pages, with Kino
+Kirkkonummi and Kino Tapiola as candidates, is in [public-apis.md](public-apis.md).
+
 ---
 
 ## BioRex
