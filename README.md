@@ -3,7 +3,7 @@
 Leffavuoro collects Finnish cinema showtimes into one web app that you can install on a
 phone or a computer: **https://leffavuoro.fi**
 
-It has showtimes for 154 venues in 110 cities across 97 providers. The full list is in
+It has showtimes for 160 venues in 116 cities across 99 providers. The full list is in
 [Cinemas](#cinemas).
 
 ## What it does
@@ -15,7 +15,7 @@ It has showtimes for 154 venues in 110 cities across 97 providers. The full list
   shop because the screening is included in a general admission ticket.
 - Cities with more than one venue get a combined view that shows the same film from
   different chains as one card. The same goes for 15 regions, and the picker switches between
-  its 110 cities and those regions. Pääkaupunkiseutu, for example, is one row in the picker
+  its 116 cities and those regions. Pääkaupunkiseutu, for example, is one row in the picker
   instead of four cities. A region groups towns that are close enough for a cinema in one
   to replace a cinema in another.
 - The picker search ignores diacritics. "jarvela" finds Järvelä and "capital region"
@@ -102,8 +102,8 @@ schedule and its pages always land in the same commit.
     /teatteri/{slug}/   one venue      /sv/teatteri/{slug}/   /en/theatre/{slug}/
     /kaupunki/{slug}/   a whole city   /sv/kaupunki/{slug}/   /en/city/{slug}/
 
-Each language has 172 pages, one for each of the 154 venues and the 18 cities with more than one venue.
-Together with the front page the sitemap has 517 URLs. Regions do not get pages because
+Each language has 178 pages, one for each of the 160 venues and the 18 cities with more than one venue.
+Together with the front page the sitemap has 535 URLs. Regions do not get pages because
 they would compete with the city and venue pages they are made of. A city with only one
 venue does not get a page either. Its venue page has the city in its title and address.
 
@@ -302,7 +302,7 @@ totals.
 | Bio Savoy | own site | 1 | cloud |
 | Cine Mäntsälä | MyCloudCinema | 1 | cloud |
 | Kino Kilta, Kino Laika, Kino Myyri, Cinema Sheryl, Kino Konepaja | Kinola | 5 | cloud; local: Cinema Sheryl |
-| Bio Marilyn, Vihdin Kino, Bio Forum, Kinokulma, Kino Hannikainen, Kino Virta, Kino Kulttuurimylly | Johku storefront | 7 | cloud |
+| Bio Marilyn, Vihdin Kino, Bio Forum, Kinokulma, Kino Hannikainen, Kino Virta, Kino Kulttuurimylly, Elokuviin.info, Kuva-Tähti | Johku storefront | 13 | cloud |
 | Ritz Vaasa, Tähti Kino | The Events Calendar | 2 | cloud |
 | Kino Hamina | own site | 1 | cloud |
 | Kinotour | own site | 3 | cloud |
@@ -332,7 +332,7 @@ totals.
 
 ## Data sources and access
 
-Schedule data belongs to the cinemas, the 97 providers listed under [Cinemas](#cinemas).
+Schedule data belongs to the cinemas, the 99 providers listed under [Cinemas](#cinemas).
 Ratings, trailers and fallback synopses and posters come from TMDB. Every showtime links to
 the cinema's own page, and the footer credits the source of the schedule on screen.
 
