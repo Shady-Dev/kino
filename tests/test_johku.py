@@ -1,4 +1,5 @@
-"""The Johku storefront reader: seven cinemas, one front page each.
+"""The Johku storefront reader: seven cinemas with one front page each, and two chains that
+share a storefront and are read one venue schedule at a time.
 
 The fixtures are the front page as the storefronts sent it on 2026-10-09, cut to the
 smallest shape that still exercises a rule: the markup draws every programme block as a
@@ -35,6 +36,8 @@ import run
 
 
 MARILYN = next(s for s in J.SITES if s["provider"] == "biomarilyn")
+ELOKUVIIN = next(s for s in J.SITES if s["provider"] == "elokuviin")
+KUVATAHTI = next(s for s in J.SITES if s["provider"] == "kuvatahti")
 FORUM = next(s for s in J.SITES if s["provider"] == "bioforum")
 NOW = datetime.datetime(2026, 10, 9, 12, 0, tzinfo=J.FI)
 
@@ -1042,6 +1045,71 @@ class ParseTest(unittest.TestCase):
         self.assertEqual(s["original"], "Hetki ennen valoa")
 
 
+def pool_url(site, venue, day="2026-10-09"):
+    return (f"{site['base']}/api/{site['shop']}/fi_FI/showschedule.json?details=true"
+            f"&storefront=true&version=fi_FI&from={day}&category=2"
+            f"&resourcepool={venue['pool']}")
+
+
+class PoolTest(unittest.TestCase):
+    """Elokuviin.info and Kuva-Tähti, read as their venue pages read them on 2026-10-31."""
+
+    def test_each_hall_files_under_its_venue_with_its_hall_name(self):
+        blocks = [[entry("1", "Lapin sota", "2026-10-09 18:00", loc="Sun Kino (ÄHTÄRI)",
+                         host=ELOKUVIIN["base"])],
+                  [entry("2", "Clayface", "2026-10-09 18:30",
+                         loc="Kino Kyntäjä, sali 1 (ALAVUS)", product="2",
+                         host=ELOKUVIIN["base"]),
+                   entry("3", "Yön lapsi", "2026-10-10 18:30",
+                         loc="Kino Kyntäjä, sali 2 (ALAVUS)", product="3",
+                         host=ELOKUVIIN["base"])]]
+        listed, _ = J.rows(ELOKUVIIN, blocks, NOW)
+        self.assertEqual([(r["venue"], r["aud"]) for r in listed],
+                         [("elokuviin-ahtari", ""), ("elokuviin-alavus", "Sali 1"),
+                          ("elokuviin-alavus", "Sali 2")])
+        shows, _ = J.parse(ELOKUVIIN, blocks, {}, NOW)
+        self.assertEqual([s["aud"] for s in shows["elokuviin-alavus"]], ["Sali 1", "Sali 2"])
+
+    def test_a_hall_the_chain_does_not_list_fails_the_site(self):
+        blocks = [[entry("1", "X", "2026-10-09 18:00", loc="Kuva-Tähti (VEHMAA)",
+                         host=KUVATAHTI["base"])]]
+        with self.assertRaises(J.ListingRowError):
+            J.rows(KUVATAHTI, blocks, NOW)
+
+    def test_a_private_screening_is_left_out_and_counted(self):
+        titles = ("YKSITYISNÄYTÖS! Lapin sota", " yksityisnäytös!Lapin sota",
+                  "Yksityis näytös! Lapin sota", "ERIKOISNÄYTÖS! Lapin sota",
+                  "Lapin sota: YKSITYISNÄYTÖS!", "HUI KAUHAVA! Clayface")
+        blocks = [[entry(str(n), t, f"2026-10-{10 + n} 18:00", loc="Y-Kino (KAUHAVA)",
+                         host=ELOKUVIIN["base"], slug=f"f{n}")
+                   for n, t in enumerate(titles)]]
+        listed, report = J.rows(ELOKUVIIN, blocks, NOW)
+        self.assertEqual(report["private"], 3)
+        self.assertEqual([r["title"] for r in listed],
+                         ["ERIKOISNÄYTÖS! Lapin sota", "Lapin sota: YKSITYISNÄYTÖS!",
+                          "HUI KAUHAVA! Clayface"])
+
+    def test_with_no_description_in_the_schedule_the_film_page_states_the_price(self):
+        """Y-Kino's AIJJOOS screening, 2026-11-01: the venue schedule carries no description,
+        sells one "Elokuvalippu 8€", and the film page gives 8 € to pensioners only."""
+        def blocks():
+            return [[entry("1", "AIJJOOS-NÄYTÖS! Hetki ennen valoa", "2026-10-09 13:00",
+                           loc="Y-Kino (KAUHAVA)", host=ELOKUVIIN["base"], scheme="9",
+                           price="8", description=""),
+                     entry("2", "Lapin sota", "2026-10-09 18:00", product="2",
+                           loc="Y-Kino (KAUHAVA)", host=ELOKUVIIN["base"], scheme="9",
+                           price="8", description="")]]
+        tickets = {"9": [("Elokuvalippu 8€", "8", "1")]}
+        aijjoos = film(syn="Lippu on eläkeläisille tässä näytöksessä vain 8€. " + SYN_FI)
+        cases = (({"1038": aijjoos, "2": film()}, ["", "8€"]),
+                 ({"2": film()}, ["", "8€"]),
+                 ({"1038": film(), "2": film()}, ["8€", "8€"]))
+        for pages, prices in cases:
+            with self.subTest(pages=sorted(pages)):
+                shows, _ = J.parse(ELOKUVIIN, blocks(), pages, NOW, tickets)
+                self.assertEqual([s["price"] for s in shows["elokuviin-kauhava"]], prices)
+
+
 class RunnerTest(unittest.TestCase):
     def setUp(self):
         self.tmp = tempfile.TemporaryDirectory()
@@ -1089,6 +1157,13 @@ class RunnerTest(unittest.TestCase):
         pages = {}
         for site in J.SITES:
             base = site["base"]
+            if site.get("shop"):
+                for n, v in enumerate(site["venues"]):
+                    pages[pool_url(site, v)] = json.dumps(
+                        {"data": [] if n else self.entries(site, "A", "B")})
+                pages[base + "/fi_FI/a"] = film()
+                pages[base + "/fi_FI/b"] = film(syn=SYN_SV)
+                continue
             category = int(site.get("categories", ("1",))[0])
             pages[base + "/"] = front((category, self.entries(site, "A", "B")),
                                       shop=site["provider"])
@@ -1116,6 +1191,25 @@ class RunnerTest(unittest.TestCase):
             self.assertEqual([s["title"] for s in shows], ["A", "B"], site["provider"])
             self.assertEqual({s["price"] for s in shows}, {""})
         self.assertIn("0 failures", log)
+
+    def test_a_shared_storefront_sends_one_schedule_request_per_venue(self):
+        self.serve(self.all_sites())
+        code, log = self.main()
+        self.assertEqual(code, 0, log)
+        for site in (ELOKUVIIN, KUVATAHTI):
+            sent = [u for u in self.calls if "/showschedule.json" in u and site["base"] in u]
+            self.assertEqual(sent, [pool_url(site, v) for v in site["venues"]])
+            self.assertFalse([u for u in self.calls if u == site["base"] + "/"])
+
+    def test_a_schedule_answer_with_no_data_list_keeps_the_previous_files(self):
+        venue = ELOKUVIIN["venues"][1]
+        prev = self.keep(ELOKUVIIN["venues"][0]["id"])
+        self.serve(self.all_sites(**{pool_url(ELOKUVIIN, venue): json.dumps({"error": 1})}))
+        code, log = self.main()
+        self.assertNotEqual(code, 0)
+        self.assertIn("holds no `data` list", log)
+        self.assertEqual(json.loads((run.OUT / f"area-elokuviin-ahtari.json").read_text()),
+                         prev)
 
     def marilyn(self, **kw):
         """Bio Marilyn's two blocks, a screening on each of two days."""
@@ -1354,9 +1448,9 @@ class RunnerTest(unittest.TestCase):
     def test_one_film_page_per_distinct_product(self):
         self.serve(self.all_sites())
         self.assertEqual(self.main()[0], 0)
-        films = [c for c in self.calls if "/fi_FI/" in c]
+        films = [c for c in self.calls if "/fi_FI/" in c and "/api/" not in c]
         self.assertEqual(sorted(films), sorted(set(films)))
-        self.assertEqual(len(films), 14)      # seven storefronts, two films each
+        self.assertEqual(len(films), 18)      # nine storefronts, two films each
 
     def with_mylly(self, categories):
         sites = J.SITES
@@ -1489,8 +1583,9 @@ class RegistryTest(unittest.TestCase):
 
     def test_the_venue_name_matches_the_chain_label(self):
         """`build_pages.label_of` concatenates the two when the venue name does not start
-        with the chain word, which put the town in the page slug twice."""
-        for site in J.SITES:
+        with the chain word, which put the town in the page slug twice. A shared storefront
+        names several cinemas, and its label stands in front of each as Leffabuumi's does."""
+        for site in (s for s in J.SITES if not s.get("shop")):
             with self.subTest(provider=site["provider"]):
                 label = registry.by_id(site["provider"])["label"]
                 self.assertTrue(site["venues"][0]["name"].startswith(label))
@@ -1508,8 +1603,9 @@ class RegistryTest(unittest.TestCase):
                           "https://bioforum.fi", "https://kinokulma.fi",
                           "https://www.kinohannikainen.net",
                           "https://kinovirta.johku.com",
-                          "https://kulttuurimylly.johku.com"])
-        self.assertEqual(len(run.host_groups(J.SITES)), 7)
+                          "https://kulttuurimylly.johku.com", "https://elokuviin.info",
+                          "https://www.kuvatahti.fi"])
+        self.assertEqual(len(run.host_groups(J.SITES)), 9)
 
     def test_kino_engel_and_kino_tapiola_stay_on_their_own_modules(self):
         """The widget is not the storefront; those two keep their own parsers."""

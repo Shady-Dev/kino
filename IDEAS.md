@@ -37,16 +37,6 @@ Check for an existing platform first. Every candidate assessed, with its evidenc
 - **Next action:** decide what to publish for Kino K13's Serbian film days, 6.-8.11.2026.
   The festival's page gives five slots one clock each, and three slots list two films.
 
-### Sun Kino group and Kuva-Tähti as Johku sites
-
-Kino Kyntäjä, Y-Kino, Sun Kino and Alareksi on `elokuviin.info`, and Kuvala and Kauttuan Kuva on
-`www.kuvatahti.fi`, fetch an anonymous `showschedule.json` on their venue pages. This was read
-on 2026-10-31 after issue #20, and the maintainer lifted the block on 2026-11-01. Send one request per
-venue with `resourcepool`, as the pages do, through `johku.py`'s parser and pacing. Leave out
-entries whose title begins `YKSITYISNÄYTÖS!` after case and whitespace folding, count them as
-intentional exclusions and filter no other title word. Runner access is unverified. Research:
-[ticketing-platforms.md](docs/research/ticketing-platforms.md). **Next action:** build on order.
-
 ### Heureka's own posters still wait for written permission
 
 The initials tiles are gone. Three planetarium films draw Leffavuoro's own title cards as

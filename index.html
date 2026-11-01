@@ -2381,9 +2381,10 @@
   // value and the ?area= links on the generated pages are keyed by the Finnish name, so
   // translating the key would break every deep link. Cities with no established Swedish
   // name keep the Finnish one. Municipalities from Kotus's list of 29.12.2022; Ekenäs and
-  // Karis, both parts of Raseborg, from Svenska ortnamn i Finland. Read 2026-09-23.
+  // Karis, both parts of Raseborg, from Svenska ortnamn i Finland. Read 2026-09-23. Alavo,
+  // Etseri and Nystad from Swedish Wikipedia's list of Finland's municipalities, 2026-11-01.
   const CITY_SV = {
-    Akaa:'Ackas', Espoo:'Esbo', Hamina:'Fredrikshamn', Hanko:'Hangö',
+    Akaa:'Ackas', Alavus:'Alavo', Espoo:'Esbo', Hamina:'Fredrikshamn', Hanko:'Hangö',
     Helsinki:'Helsingfors', Huittinen:'Vittis', Hyvinkää:'Hyvinge',
     Hämeenlinna:'Tavastehus', Iisalmi:'Idensalmi', Järvenpää:'Träskända',
     Kaarina:'S:t Karins', Kajaani:'Kajana', Karjaa:'Karis', Karkkila:'Högfors',
@@ -2392,8 +2393,8 @@
     Lapua:'Lappo', Lieto:'Lundo', Lohja:'Lojo', Loviisa:'Lovisa', Mikkeli:'S:t Michel',
     Naantali:'Nådendal', Oulu:'Uleåborg', Pietarsaari:'Jakobstad', Pori:'Björneborg',
     Porvoo:'Borgå', Raahe:'Brahestad', Raisio:'Reso', Rauma:'Raumo', Savonlinna:'Nyslott',
-    Sipoo:'Sibbo', Tammisaari:'Ekenäs', Tampere:'Tammerfors', Tornio:'Torneå', Turku:'Åbo',
-    Vaasa:'Vasa', Vantaa:'Vanda', Vihti:'Vichtis'
+    Sipoo:'Sibbo', Tammisaari:'Ekenäs', Tampere:'Tammerfors', Tornio:'Torneå', Turku:'Åbo', Uusikaupunki:'Nystad',
+    Vaasa:'Vasa', Vantaa:'Vanda', Vihti:'Vichtis', Ähtäri:'Etseri'
   };
   const cityLabel = c => (state.lang === 'sv' && CITY_SV[c]) || c;
 
@@ -2518,7 +2519,9 @@
     { id:'helios',             label:'Helsingin kulttuurikeskukset', host:'hel.fi',                   accent:'#FE17EA', accentDark:'#FEA0C7', book:'buy' },
     { id:'kinokonepaja',       label:'Kino Konepaja',                host:'kinokonepaja.fi',          accent:'#4D3900', accentDark:'#EDC200', book:'buy' },
     { id:'kulttuurimylly',     label:'Kino Kulttuurimylly',          host:'kulttuurimylly.johku.com', accent:'#326592', accentDark:'#2698FE', book:'buy' },
-    { id:'kannusali',          label:'Kannusali',                    host:'espoo.fi',                 accent:'#00A192', accentDark:'#81D7B6', book:'list' }
+    { id:'kannusali',          label:'Kannusali',                    host:'espoo.fi',                 accent:'#00A192', accentDark:'#81D7B6', book:'list' },
+    { id:'elokuviin',          label:'Elokuviin.info',               host:'elokuviin.info',           accent:'#0000CF', accentDark:'#87A2D8', book:'buy' },
+    { id:'kuvatahti',          label:'Kuva-Tähti',                   host:'www.kuvatahti.fi',         accent:'#003F63', accentDark:'#5A99BD', book:'buy' }
     /* providers:end */
   ];
   let PROVIDERS = [];

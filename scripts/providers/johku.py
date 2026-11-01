@@ -1,7 +1,9 @@
-"""Seven cinemas whose whole site is a Johku storefront. Stdlib only.
+"""Thirteen cinemas whose whole site is a Johku storefront. Stdlib only.
 
 Bio Marilyn (Lapua), Vihdin Kino (Vihti), Bio Forum (Tammisaari), Kinokulma (Oulainen),
-Kino Hannikainen (Nurmes), Kino Virta (Kalajoki) and Kino Kulttuurimylly (Helsinki).
+Kino Hannikainen (Nurmes), Kino Virta (Kalajoki) and Kino Kulttuurimylly (Helsinki), one
+storefront each. Elokuviin.info's four (Sun Kino, Kino Kyntäjä, Y-Kino, Alareksi) and
+Kuva-Tähti's two (Kuvala, Kauttuan Kuva) share a storefront per chain.
 
 **Not Kino Engel or Kino Tapiola.** Those are the cinema's own site with a Johku widget
 embedded in it, and the widget's show list needs its API key, which is the line "Access and
@@ -90,6 +92,20 @@ and a local association's evening as products with canonical paths, so the hall-
 cannot see them, and they drew as screenings with initials tiles. Only the exact paths a
 site lists are left out, before any page is read, and they are counted in the log.
 
+**A shared storefront is read per venue.** Elokuviin.info and Kuva-Tähti draw no schedule
+on the front page. Each venue page sends the platform's `showschedule.json` itself, from
+the visitor's browser, anonymously, with no `X-ApiKey` and no widget session, and filters
+it with the venue's `resourcepool`. Read 2026-10-31 for issue #20, and the maintainer
+lifted the access block on 2026-11-01. The site entry names its `shop` and each venue its
+`pool`, and one request per venue is sent as the pages send it. The answer has to be an
+object holding a `data` list, or the site fails. A venue with several halls maps each
+`resource_name` to its hall in `locs`.
+
+**A private screening is left out.** An entry whose title begins `YKSITYISNÄYTÖS!` after
+case and whitespace folding is a booked private show, 13 of Elokuviin.info's 57 entries on
+2026-10-31. The venue page draws it, and it is left out and counted all the same, on the
+maintainer's decision of 2026-11-01. No other title word is read.
+
 **Thin metadata never withholds a screening.** A film page that answers nothing, or
 carries no director and no genre, costs the row its synopsis and its genres and nothing
 else. The maintainer's instruction of 2026-09-18: a small film that publishes little about
@@ -165,6 +181,30 @@ SITES = [
      "venues": [{"id": "kulttuurimylly-helsinki", "name": "Kino Kulttuurimylly",
                  "short": "Kino Kulttuurimylly", "city": "Helsinki",
                  "loc": "Feeniks-sali (Kino Kulttuurimylly)"}]},
+    # Added 2026-11-01. Pools and hall names as the six venue pages requested and drew them
+    # on 2026-10-31.
+    {"provider": "elokuviin", "label": "Elokuviin.info",
+     "base": "https://elokuviin.info", "shop": "elokuviin",
+     "venues": [{"id": "elokuviin-ahtari", "name": "Sun Kino", "short": "Sun Kino",
+                 "city": "Ähtäri", "pool": "2", "loc": "Sun Kino (ÄHTÄRI)"},
+                {"id": "elokuviin-alavus", "name": "Kino Kyntäjä", "short": "Kino Kyntäjä",
+                 "city": "Alavus", "pool": "3",
+                 "locs": {"Kino Kyntäjä, sali 1 (ALAVUS)": "Sali 1",
+                          "Kino Kyntäjä, sali 2 (ALAVUS)": "Sali 2"}},
+                {"id": "elokuviin-kauhava", "name": "Y-Kino", "short": "Y-Kino",
+                 "city": "Kauhava", "pool": "4", "loc": "Y-Kino (KAUHAVA)"},
+                {"id": "elokuviin-alajarvi", "name": "Alareksi", "short": "Alareksi",
+                 "city": "Alajärvi", "pool": "5", "loc": "Alareksi (ALAJÄRVI)"}]},
+    {"provider": "kuvatahti", "label": "Kuva-Tähti",
+     "base": "https://www.kuvatahti.fi", "shop": "kuvatahti",
+     # The schedule's film links, and so the film pages read, are on the platform's host.
+     "reads": ("kuvatahti.johku.com",),
+     "venues": [{"id": "kuvatahti-uusikaupunki", "name": "Kuvala", "short": "Kuvala",
+                 "city": "Uusikaupunki", "pool": "2", "loc": "Kuvala (UUSIKAUPUNKI)"},
+                {"id": "kuvatahti-eura", "name": "Kauttuan Kuva", "short": "Kauttuan Kuva",
+                 "city": "Eura", "pool": "3",
+                 "locs": {"Kauttuan Kuva sali 1 (EURA)": "Sali 1",
+                          "Kauttuan Kuva sali 2 (EURA)": "Sali 2"}}]},
 ]
 
 LOCALE = "fi_FI"
@@ -198,6 +238,10 @@ PRODUCT_PATH = "/fi_FI/products/"
 # The film page's own request for a product's screenings and their ticket rows, read in
 # the storefront on 2026-10-16. Without the two flags the rows are not in the answer.
 SHOWS_PATH = "/api/{shop}/" + LOCALE + "/products/{product}/shows.json?details=true&storefront=true"
+# The venue page's own request, category 2 being the storefronts' shared "Ohjelmisto".
+POOL_PATH = ("/api/{shop}/" + LOCALE + "/showschedule.json?details=true&storefront=true"
+             "&version=" + LOCALE + "&from={day}&category=2&resourcepool={pool}")
+PRIVATE_RE = re.compile(r"yksityisn\u00e4yt\u00f6s!")
 SHOP_RE = re.compile(r"[a-z0-9_-]{1,40}")
 AMOUNT_RE = re.compile(r"\d{1,3}(?:\.\d{1,2})?")
 
@@ -473,6 +517,28 @@ def read_listing(url, categories=None):
         f"previous files stand")
 
 
+def read_pools(site, day, sleep):
+    """-> [[entry]], one list per venue, from the venue pages' own schedule requests."""
+    blocks = []
+    for n, v in enumerate(site["venues"]):
+        if n:
+            time.sleep(sleep)
+        url = site["base"].rstrip("/") + POOL_PATH.format(shop=site["shop"], day=day,
+                                                          pool=v["pool"])
+        answer = json.loads(get(url))
+        if not isinstance(answer, dict) or not isinstance(answer.get("data"), list):
+            raise RuntimeError(f"{url}: the schedule answer holds no `data` list, so the "
+                               f"previous files stand")
+        blocks.append(answer["data"])
+    return blocks
+
+
+def _halls(site):
+    """{resource_name: (venue, aud)} over every venue's `loc` or `locs`."""
+    return {name: (v, aud) for v in site["venues"]
+            for name, aud in (v.get("locs") or {v["loc"]: ""}).items()}
+
+
 def _clean(text):
     if not isinstance(text, str):
         return ""
@@ -524,9 +590,9 @@ def rows(site, blocks, now):
     the counts `past` and `unlisted` of entries the page does not draw, and `repeated` of
     screenings it draws in a second block.
     """
-    venues = {v["loc"]: v for v in site["venues"]}
+    venues = _halls(site)
     out, seen = [], set()
-    report = {"skipped": [], "past": 0, "unlisted": 0, "repeated": 0}
+    report = {"skipped": [], "past": 0, "unlisted": 0, "repeated": 0, "private": 0}
     n = 0
     for block in blocks:
         for entry in block:
@@ -558,6 +624,9 @@ def rows(site, blocks, now):
                 report["repeated"] += 1
                 continue
             seen.add(key)
+            if PRIVATE_RE.match(re.sub(r"\s+", "", title).casefold()):
+                report["private"] += 1
+                continue
             loc = _clean(entry.get("resource_name"))
             if loc not in venues:
                 raise ListingRowError(
@@ -569,7 +638,8 @@ def rows(site, blocks, now):
             out.append({
                 "product": str(product["id"]),
                 "title": title,
-                "venue": venues[loc]["id"],
+                "venue": venues[loc][0]["id"],
+                "aud": venues[loc][1],
                 "start": start.isoformat(),
                 "url": _film_url(site, n, title, entry.get("storefronturl")),
                 "rating": RATINGS.get(entry.get("agelimit"), "")
@@ -578,6 +648,7 @@ def rows(site, blocks, now):
                 "scheme": str(entry.get("pricing_id") or ""),
                 "amount": str(entry.get("price") or ""),
                 "shop": str(entry.get("shopId") or ""),
+                "described": bool(_clean(product.get("description"))),
                 "stated": stated_admission(product.get("description")),
                 "groups": group_prices(product.get("description")),
             })
@@ -847,6 +918,14 @@ def parse(site, blocks, pages, now, tickets=None):
         f = facts.get(r["product"]) or {"len": "", "genres": "", "original": "", "syn": "",
                                         "lang": ""}
         venue = next(v for v in site["venues"] if v["id"] == r["venue"])
+        stated, groups = r["stated"], r["groups"]
+        unread = site.get("shop") and not r["described"]
+        if unread:
+            # A venue's schedule carries no description, so the film page's is read for the
+            # price statements, and an unread page leaves the price unsettled.
+            body = DESC_RE.search(pages.get(r["product"], ""))
+            stated = stated_admission(body.group(1)) if body else ""
+            groups = group_prices(body.group(1)) if body else ()
         show = {
             "eventId": r["product"],
             "title": r["title"],
@@ -856,14 +935,14 @@ def parse(site, blocks, pages, now, tickets=None):
             "genres": f["genres"],
             "method": "",
             "theatre": venue["name"],
-            "aud": "",
+            "aud": r["aud"],
             "start": r["start"],
             "url": r["url"],
             "img": "",
             "lang": f["lang"],
             "soldOut": False,
-            "price": ordinary_price(r["amount"], (tickets or {}).get(r["scheme"]), r["stated"],
-                                    r["groups"]),
+            "price": ordinary_price(r["amount"], (tickets or {}).get(r["scheme"]), stated, groups)
+            if not unread or r["product"] in pages else "",
             "provider": site["provider"],
             "venue": r["venue"],
         }
@@ -892,12 +971,17 @@ def now():
 
 
 def fetch_site(site, sleep=1.2):
-    """Runner contract: the front page, then one film page per distinct product."""
+    """Runner contract: the front page, or each venue's schedule on a shared storefront,
+    then one film page per distinct product."""
     pid = site["provider"]
-    listing_url = site["base"].rstrip("/") + site["listing"]
-    blocks, reads = read_listing(listing_url, site.get("categories"))
-    if reads > 1:
-        print(f"[{pid}] the schedule was complete on read {reads} of {LISTING_TRIES}")
+    if site.get("shop"):
+        listing_url = site["base"]
+        blocks = read_pools(site, now().date().isoformat(), sleep)
+    else:
+        listing_url = site["base"].rstrip("/") + site["listing"]
+        blocks, reads = read_listing(listing_url, site.get("categories"))
+        if reads > 1:
+            print(f"[{pid}] the schedule was complete on read {reads} of {LISTING_TRIES}")
     entries = sum(len(b) for b in blocks)
     if not entries:
         raise EmptyProgramme(
@@ -938,6 +1022,8 @@ def fetch_site(site, sleep=1.2):
     if report["skipped"]:
         print(f"[{pid}] {len(report['skipped'])} coming-soon entry/entries with no time, "
               f"left out: {', '.join(sorted(set(report['skipped']))[:8])}")
+    if report["private"]:
+        print(f"[{pid}] {report['private']} private screening(s) (YKSITYISNÄYTÖS!) left out")
     if report["repeated"]:
         print(f"[{pid}] {report['repeated']} screening(s) listed in a second block, "
               f"published once")

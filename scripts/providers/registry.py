@@ -755,6 +755,12 @@ PROVIDERS = [
     # Added 2026-10-13. www.espoo.fi answered a non-residential fetcher that day.
     dict(id="kannusali", label="Kannusali", host="espoo.fi", accent="#00A192",
          accentDark="#81D7B6", book="list", module="kannusali", where="cloud"),
+    # Added 2026-11-01. elokuviin.info and www.kuvatahti.fi answered their schedule request
+    # to a non-residential fetcher that day.
+    dict(id="elokuviin", label="Elokuviin.info", host="elokuviin.info", accent="#0000CF",
+         accentDark="#87A2D8", book="buy", module="johku", where="cloud"),
+    dict(id="kuvatahti", label="Kuva-Tähti", host="www.kuvatahti.fi", accent="#003F63",
+         accentDark="#5A99BD", book="buy", module="johku", where="cloud"),
 ]
 
 FRONTEND_KEYS = ("id", "label", "host", "accent", "accentDark", "book")

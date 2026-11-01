@@ -776,6 +776,22 @@
    "accent": "#00A192",
    "accentDark": "#81D7B6",
    "book": "list"
+  },
+  {
+   "id": "elokuviin",
+   "label": "Elokuviin.info",
+   "host": "elokuviin.info",
+   "accent": "#0000CF",
+   "accentDark": "#87A2D8",
+   "book": "buy"
+  },
+  {
+   "id": "kuvatahti",
+   "label": "Kuva-Tähti",
+   "host": "www.kuvatahti.fi",
+   "accent": "#003F63",
+   "accentDark": "#5A99BD",
+   "book": "buy"
   }
  ]
 }

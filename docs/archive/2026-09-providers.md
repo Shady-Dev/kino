@@ -4518,3 +4518,20 @@ verified that anonymous access on all six venue pages of Kuva-Tähti and the Sun
 and the maintainer lifted the block on 2026-11-01. The six cinemas are not implemented.
 Their integration is a separate open item in `IDEAS.md`. Research:
 [ticketing-platforms.md](../research/ticketing-platforms.md).
+
+### Elokuviin.info and Kuva-Tähti join the Johku adapter (2026-11-01)
+The six cinemas the 2026-10-31 reading cleared are `johku.py` sites. Elokuviin.info holds
+Sun Kino (Ähtäri), Kino Kyntäjä (Alavus), Y-Kino (Kauhava) and Alareksi (Alajärvi), and
+Kuva-Tähti holds Kuvala (Uusikaupunki) and Kauttuan Kuva (Eura). Each venue is read with its
+page's own anonymous `showschedule.json` request and `resourcepool`, one request per venue,
+and Kino Kyntäjä and Kauttuan Kuva publish their two halls as `Sali 1` and `Sali 2`. Titles
+beginning `YKSITYISNÄYTÖS!` after case and whitespace folding are left out and counted, 13
+on the first read. The venue schedule carries no product description, so the price
+statements are read from the film page, and an unread page leaves the price empty. That
+kept Y-Kino's AIJJOOS screening unpriced, whose one 8 € ticket the film page gives to
+pensioners. Both hosts answered a non-residential fetcher on 2026-11-01 and are cloud
+sites. All 58 and 11 screenings matched the six venue pages drawn in Chromium on date, time,
+title and hall, and all 50 rows the film pages drew matched on price. Accents `#0000CF` and
+`#003F63`, light, `#87A2D8` and `#5A99BD`, dark, with no other chain in the six towns or
+their regions. Ten mutations red. Research:
+[ticketing-platforms.md](../research/ticketing-platforms.md).

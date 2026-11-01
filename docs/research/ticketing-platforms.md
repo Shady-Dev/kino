@@ -1972,11 +1972,22 @@ agent on 2026-10-31, 21:44 to 21:51 UTC.
 - The 403 on `allproducts.json` recorded under the Sun Kino group was not re-tested and is
   not affected.
 
+**Read again 2026-11-01**
+
+- Both hosts answered the per-venue request to a non-residential fetcher, 13 entries for
+  Sun Kino and 5 for Kuvala.
+- The per-venue answer carries no product description. None of Y-Kino's 24 entries had one.
+  The film page carries it, and Y-Kino's "AIJJOOS-NÄYTÖS! Hetki ennen valoa" said "Lippu on
+  eläkeläisille tässä näytöksessä vain 8€" beside a scheme selling one "Elokuvalippu 8€".
+- Kuva-Tähti's footer names a third cinema, "Elokuvateatteri Kuva-Tähti Vehmaa". No venue
+  page for it was linked and no schedule entry named it.
+
 **Status and next step**
 
-On 2026-11-01 the maintainer lifted the block for both merchants. The request shape and the
-rule for private screenings are recorded with the open item in `IDEAS.md`. Nothing is
-implemented, and whether a runner can read either host is unverified until a cloud run does.
+On 2026-11-01 the maintainer lifted the block for both merchants, and the six cinemas were
+built into `johku.py` the same day, read per venue and with private screenings left out.
+The record is in [2026-09-providers.md](../archive/2026-09-providers.md). The first cloud
+run is the runner's own read of both hosts, and its `logs/run-johku.log` settles it.
 
 ### Rekolan Kino, Vantaa, has no upcoming screening
 
