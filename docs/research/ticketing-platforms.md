@@ -1869,7 +1869,7 @@ without both, a zero reads as an answer when it is a failure to ask.
 | Kinoma | Hyvinkää | 225 | none reachable | **no published programme** |
 
 The four that were built have a section each in
-[docs/archive/2026-09-providers.md](docs/archive/2026-09-providers.md). Seat counts are the
+[docs/archive/2026-09-providers.md](../archive/2026-09-providers.md). Seat counts are the
 maintainer's brief and were not independently measured, except Kino Hannikainen's 250,
 which the storefront's own `og:description` states, and Kino Kuusamotalo's 520, which
 kuusamotalo.fi states.
