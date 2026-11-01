@@ -1,7 +1,7 @@
 [kotkanleffat] Kinopalatsi Kotka: 40 showtimes, 19 dates
 [kotkanleffat] Trio 123: 46 showtimes, 5 dates
 [kotkanleffat] synopses merged: 0
-[savonkinot] Tapio Joensuu: 103 showtimes, 25 dates
+[savonkinot] Tapio Joensuu: 101 showtimes, 24 dates
 [savonkinot] Killa Savonlinna: 12 showtimes, 6 dates
 [savonkinot] Kuvalinna Savonlinna: 12 showtimes, 9 dates
 [savonkinot] Kuvalipas Iisalmi: 28 showtimes, 9 dates
@@ -16,7 +16,7 @@
 [studio123jarvenpaa] synopses merged: 0
 [studio123kouvola] Studio 123 Kouvola: 45 showtimes, 21 dates
 [studio123kouvola] synopses merged: 0
-[ihmekompleksi] Ihme Kompleksi: 19 showtimes, 10 dates
+[ihmekompleksi] Ihme Kompleksi: 18 showtimes, 9 dates
 [ihmekompleksi] synopses merged: 0
 [ihmekompleksi] screening-note sentences left out of synopses: 1
 [kino123] Kino 123: 41 showtimes, 6 dates
@@ -35,7 +35,7 @@
 [haapamaki] Haapamäen Elokuvat: 16 showtimes, 14 dates
 [haapamaki] synopses merged: 0
 [run] venuelists-local.json rewritten
-[run] http: 0 revalidated (304), 277 full, 277 not stored (origin said no-store), 0 cache entries written
+[run] http: 0 revalidated (304), 274 full, 274 not stored (origin said no-store), 0 cache entries written
 [run] hosts: 12 attempted -- biogrand.fi, haapamaenelokuvat.fi, ihmekompleksi.fi, kiertue.cine.fi, kino.joutsa.fi, kino123.fi, kotkanleffat.fi, leffabuumi.fi, lippu.elokuvateatteristar.fi, studio123.fi, studiot123.com, www.savonkinot.fi
-[run] etiketti: 21 venues, 627 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
+[run] etiketti: 21 venues, 624 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
 exit=0
