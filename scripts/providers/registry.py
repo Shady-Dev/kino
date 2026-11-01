@@ -506,14 +506,15 @@ PROVIDERS = [
          accent="#2A5A9C", accentDark="#2467C6", book="door", module="lieksa", where="cloud"),
     # Navettakino, 2026-09-19. A cinema in a cowshed, weekends only and irregular, which
     # is why its adapter confirms an empty weekend instead of ageing the last one.
-    # `book="door"`: "Lippukassa avataan 30 minuuttia ennen ensimmäistä näytöstä."
+    # `book="reserve"` since 2026-11-01, when the new page gave each screening a "Varaa"
+    # link. Before that it was `door`.
     # Konnevesi holds no other chain and sits in no REGIONS area. Fitted to the row a
     # Keski-Suomi extension would create, where its neighbours are Kino Hirvi, Kino Metso,
     # Kino Aurora and Finnkino: 16.4 dE00 on the weakest model against that set. A purer
     # magenta measured 18.9 there and was passed over for this one at saturation 0.60,
     # which costs 2.5 dE00 against the set and nothing against the floor.
     dict(id="navettakino", label="Navettakino", host="navettakino.fi",
-         accent="#E35BBF", accentDark="#E45CC0", book="door", module="navetta", where="cloud"),
+         accent="#E35BBF", accentDark="#E45CC0", book="reserve", module="navetta", where="cloud"),
     # Pyhäsalmen VPK, 2026-09-19. A volunteer fire brigade's cinema, read through the My
     # Calendar plugin's public REST route. `book="door"`: tickets at the door, reservations
     # by telephone, and the plugin's own event pages carry permalinks this endpoint does

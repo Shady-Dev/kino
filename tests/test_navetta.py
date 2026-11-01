@@ -1,15 +1,9 @@
-"""Navettakino: a weekend list in prose, and a shelf of film blocks under it.
+"""Navettakino: one card per film on the front page, and a page of its own per film.
 
-The fixtures are the markup as read on 2026-09-19. What they exist to prove:
-
-- **The list is the schedule, the blocks are metadata.** The page carried three blocks and
-  two screenings, so a block without a screening publishes nothing and a screening without
-  a block publishes anyway, which is the rule that keeps a thinly described film.
-- **A film title is the paragraph a figure follows**, because the editor's `<strong>` is
-  not reliable: the live page closes one early, "Presidentin kyydity</strong>s".
-- **An empty weekend is confirmed, a missing heading is not.** The first is what this
-  cinema does most weeks; the second is a template change and raises. So does an empty
-  listing on a page that prints a date or time elsewhere: the listing missed it.
+The fixtures follow the markup read on 2026-11-01, the day the site moved to its PHP page.
+The cards are the schedule. The ticket link is the card's own `Varaa` href, copied as it
+stands. The synopsis comes from the film page. An empty programme is confirmed only when
+the heading renders and no date or clock appears anywhere, and a missing heading fails.
 """
 import contextlib
 import datetime
@@ -17,6 +11,7 @@ import io
 import json
 import pathlib
 import tempfile
+import types
 import unittest
 
 import _ctx                                                # noqa: F401
@@ -26,299 +21,194 @@ import run
 
 
 SITE = N.SITES[0]
-PAGE_URL = "https://www.navettakino.fi/"
-TODAY = datetime.date(2026, 9, 19)          # a Saturday
-INTRO = ("Tervetuloa elokuviin Navettakinoon! Meillä on näytöksiä pääsääntöisesti vain "
-         "viikonloppuisin, mutta toiminta on hieman epäsäännöllistä. Esitysajat "
-         "ilmestyvät tälle sivulle aina alkuviikosta, mikäli viikonlopulle on näytöksiä "
-         "tulossa.")
-POSTER = ('<img fetchpriority="high" decoding="async" width="719" height="1024" '
-          'src="https://www.navettakino.fi/wp-content/uploads/2026/09/juliste-719x1024.jpg" '
-          'alt="" class="wp-image-292" />')
-LANDSCAPE = ('<img decoding="async" width="1200" height="800" '
-             'src="https://www.navettakino.fi/wp-content/uploads/2026/09/banner.jpg" />')
+BASE = "https://www.navettakino.fi/"
+TODAY = datetime.date(2026, 10, 31)          # a Saturday
+SYN = ("Elokuvan tapahtumat sijoittuvat Lappiin syksyllä 1944, Suomen ja Saksan väliseen "
+       "konfliktiin toisen maailmansodan loppuvaiheessa.")
+SYN2 = ("Nuori sotamies Heikki taistelee Karjalan kannaksella ystävänsä Paulin kanssa, ja "
+        "komppaniaan liittyy vankilasta vapautunut Arvo.")
 
 
-def p(text):
-    return f'<p class="wp-block-paragraph">{text}</p>'
+def card(title, *lines, meta="K16, kesto 158 min, liput 11 €", film="100004470",
+         img=True):
+    """`lines` are (text, href). An href of None prints the line without a link."""
+    shows = "".join(f"<p>{text} - <a href='{href}'>Varaa</a></p>" if href else
+                    f"<p>{text}</p>" for text, href in lines)
+    pic = f"<img src=kuvat/jul_{film}.jpg alt='Juliste' style='width:100%'>" if img else ""
+    link = f"<a href='leffa?id={film}'>{pic}</a>" if film else pic
+    return ("<div class='w3-auto w3-padding-16 w3-col s12 m6 l4'>"
+            "<div class='w3-auto w3-card w3-container' style='width:300px;max-width:100%'>"
+            f"{link}<h2>{title}</h2><p>{meta}</p>"
+            "<div class='w3-container w3-margin'><h4>Näytökset</h4>"
+            f"{shows}</div></div></div>\n")
 
 
-def figure(img=POSTER, caption=""):
-    cap = f'<figcaption class="wp-element-caption">{caption}</figcaption>' if caption else ""
-    return (f'<figure class="wp-block-image size-large is-resized"><a href="#">{img}</a>'
-            f'{cap}</figure>')
+def page(*cards, heading=True, box="<h2>Tänään</h2><p>Lapin sota klo 17:00</p>"):
+    head = (f"<div class='w3-container w3-auto'><h2>Seuraavat näytökset</h2>"
+            f"<div class='w3-container w3-auto'><div class='w3-border w3-light-gray'>{box}"
+            f"</div></div></div>" if heading else "")
+    return ('<!DOCTYPE html><html lang="fi"><meta charset="UTF-8"><title>Navettakino</title>'
+            '<body><a href="index.php"><img src="logo.png" alt="Navettakino"></a>'
+            '<div class="w3-auto w3-bar w3-navetta">'
+            '<a href="tulevaa.php" class="w3-bar-item w3-button">Tuleva ohjelmisto</a></div>'
+            + head + "\n<!-- Leffakontit -->\n<div class='w3-row-padding w3-auto'>\n"
+            + "".join(cards) + "<!-- End of LEFFAKONTIT -->\n</div>\n"
+            '<footer class="w3-container w3-navetta w3-auto">'
+            "<p>Navettakino, Pyhälahdentie 972, Konnevesi</p><p>(c) 2026 Navettakino</p>"
+            "</footer></body></html>")
 
 
-def block(title, meta="K7, 87 min, liput 10 €", syn="Klaus Härön uutuuselokuva kertoo.",
-          img=POSTER, bold=True, caption=""):
-    """`bold="early"` closes the `<strong>` before the title's last letter, which is what
-    the live page does to Presidentin kyyditys."""
-    if bold == "early":
-        head = f"<strong>{title[:-1]}</strong>{title[-1]}"
-    else:
-        head = f"<strong>{title}</strong>" if bold else title
-    out = p(head) + (figure(img, caption) if img else "")
-    if syn:
-        out += p(syn)
-    if meta:
-        out += p(meta)
-    return out
+def film_page(title, syn=SYN + "\n\n" + SYN2 + "\n\nElokuvateattereissa 23.10.",
+              trailer=True, cast="Peter Franzén, Sannah Nedergård"):
+    video = ("<iframe width='560' height='315' src='https://www.youtube.com/embed/x'"
+             "title='Youtube' allowfullscreen></iframe>" if trailer else "")
+    text = f"<p>{syn}</p>" if syn else ""
+    return ('<html><body><div class="w3-auto w3-container">'
+            f"<h2>{title}</h2>{video}{text}"
+            f"<p><b>Pääosissa:</b> {cast}</p>"
+            "<p><b>Ikäraja:</b> 16</p><p><b>Kesto:</b> 158 min</p>"
+            "<h3>Näytösajat:</h3><p>Sunnuntai 01.11 klo 17:00 - "
+            "<a href='varaa.php?id=80'>Varaa</a></p></div>"
+            "<footer><p>(c) 2026 Navettakino</p></footer></body></html>")
 
 
-def screening(title, *lines):
-    return p(title + "<br>" + "<br>".join(lines))
-
-
-def page(listed=(), shelf=(), heading=True, intro=True, blank=True):
-    body = (p(INTRO) if intro else "") + p("Navettakinossa onnistuu tilausnäytökset.") + p("<br>")
-    if heading:
-        body += p("<strong>Tulevan viikolopun näytökset</strong>")
-    body += "".join(listed) + (p("<br><br>") if blank else "") + "".join(shelf)
-    return ('<html><body><article><header class="entry-header">'
-            "<h1 class=\"entry-title\"><span>Elokuvat</span></h1></header>"
-            '<div class="entry-content is-layout-constrained has-global-padding">'
-            + body + "</div></article></body></html>")
-
-
-TWO = page(
-    listed=[screening("Hetki ennen valoa", "su 20.9 klo 15:00"),
-            screening("Presidentin kyyditys", "su 20.9 klo 17:00")],
-    shelf=[block("Hetki ennen valoa"),
-           block("Presidentin kyyditys", bold="early",
-                 meta="Kesto 1 h 27 min, K12, liput 10 €", syn="Tositapahtumien inspiroima."),
-           block("Ryhmä Hau: Dinoelokuva", meta="Kesto 1 h 29 min, K7, liput 10 €")])
+TWO = page(card("Lapin sota", ("la 31.10 klo 17:00", "varaa.php?id=79"),
+                ("su 01.11 klo 17:00", "varaa.php?id=80")),
+           card("Angry Birds -elokuva 3", ("la 31.10 klo 13:00", "varaa.php?id=81"),
+                ("su 01.11 klo 13:00", None),
+                meta="K7, kesto 1 h 37 min, liput 8 €", film="100004471"))
 
 
 class RowsTest(unittest.TestCase):
-    def rows(self, html, today=None):
-        return N.rows(SITE, html, today or TODAY)
+    def rows(self, html, today=TODAY):
+        return N.rows(SITE, html, today)[0]
 
-    def test_the_weekday_places_a_line_that_prints_no_year(self):
-        shows, _ = self.rows(TWO)
-        self.assertEqual([s["start"] for s in shows],
-                         ["2026-09-20T15:00:00+03:00", "2026-09-20T17:00:00+03:00"])
+    def test_two_films_publish_with_their_facts(self):
+        out = self.rows(TWO)
+        self.assertEqual([(s["title"], s["start"]) for s in out], [
+            ("Angry Birds -elokuva 3", "2026-10-31T13:00:00+02:00"),
+            ("Lapin sota", "2026-10-31T17:00:00+02:00"),
+            ("Angry Birds -elokuva 3", "2026-11-01T13:00:00+02:00"),
+            ("Lapin sota", "2026-11-01T17:00:00+02:00")])
+        lapin = [s for s in out if s["title"] == "Lapin sota"][0]
+        birds = [s for s in out if s["title"] != "Lapin sota"][0]
+        self.assertEqual((lapin["price"], lapin["len"], lapin["rating"]), ("11€", "158", "K-16"))
+        self.assertEqual((birds["price"], birds["len"], birds["rating"]), ("8€", "97", "K-7"))
+        self.assertEqual(lapin["img"], BASE + "kuvat/jul_100004470.jpg")
+        self.assertEqual(birds["img"], BASE + "kuvat/jul_100004471.jpg")
 
-    def test_a_block_without_a_screening_publishes_nothing(self):
-        shows, _ = self.rows(TWO)
-        self.assertEqual([s["title"] for s in shows],
-                         ["Hetki ennen valoa", "Presidentin kyyditys"])
+    def test_the_ticket_link_is_the_cards_own_href(self):
+        urls = {s["start"][:16] + s["title"][:5]: s["url"] for s in self.rows(TWO)}
+        self.assertEqual(urls["2026-10-31T17:00Lapin"], BASE + "varaa.php?id=79")
+        self.assertEqual(urls["2026-11-01T17:00Lapin"], BASE + "varaa.php?id=80")
+        self.assertEqual(urls["2026-10-31T13:00Angry"], BASE + "varaa.php?id=81")
 
-    def test_a_screening_without_a_block_publishes_anyway(self):
-        shows, report = self.rows(page(
-            listed=[screening("Hetki ennen valoa", "su 20.9 klo 15:00"),
-                    screening("Tuntematon elokuva", "su 20.9 klo 19:00")],
-            shelf=[block("Hetki ennen valoa")]))
-        self.assertEqual([s["title"] for s in shows],
-                         ["Hetki ennen valoa", "Tuntematon elokuva"])
-        self.assertEqual([(s["rating"], s["len"], s["price"], s["img"]) for s in shows][1],
-                         ("", "", "", ""))
-        self.assertEqual(report["no_facts"], {"Tuntematon elokuva"})
+    def test_a_line_without_a_link_opens_the_film_page(self):
+        birds = [s for s in self.rows(TWO) if s["start"].startswith("2026-11-01T13")][0]
+        self.assertEqual(birds["url"], BASE + "leffa?id=100004471")
+        self.assertEqual(N.rows(SITE, TWO, TODAY)[1]["no_ticket"], {"Angry Birds -elokuva 3"})
 
-    def test_the_title_is_the_whole_paragraph_not_the_bold_run(self):
-        """The live page closes one `<strong>` before the title's last letter."""
-        shows, _ = self.rows(TWO)
-        s = next(x for x in shows if x["title"] == "Presidentin kyyditys")
-        self.assertEqual((s["rating"], s["len"]), ("K-12", "87"))
-
-    def test_one_paragraph_can_carry_several_screenings(self):
-        shows, _ = self.rows(page(
-            listed=[screening("Hetki ennen valoa", "la 19.9 klo 15:00", "su 20.9 klo 17:00")],
-            shelf=[block("Hetki ennen valoa")]))
-        self.assertEqual([s["start"][:16] for s in shows],
-                         ["2026-09-19T15:00", "2026-09-20T17:00"])
-
-    OCT = datetime.date(2026, 10, 9)
-    SHELF_OCT = [block("Pirjo i Sverige", syn="", meta="S, 88 min, liput 10 €"),
-                 block("Hetki ennen valoa"), block("Presidentin kyyditys")]
-
-    def oct_page(self, *listed):
-        """The shape read on 2026-10-10: the first screening shares the heading's paragraph
-        and no blank paragraph comes before the film blocks."""
-        head = p("<strong>Tulevan viikonlopun näytökset</strong><br>Hetki ennen valoa"
-                 "<br>la 10.10 klo 16:00")
-        return page(listed=[head, *listed], shelf=self.SHELF_OCT, heading=False, blank=False)
-
-    def test_the_list_ends_at_the_first_film_block_and_starts_in_the_headings_paragraph(self):
-        shows, _ = self.rows(self.oct_page(
-            screening("Pirjo i Sverige", "la 10.10 klo 18:00", "su 11.10 klo 17:00")),
-            today=self.OCT)
-        self.assertEqual([(s["title"], s["start"][:16]) for s in shows], [
-            ("Hetki ennen valoa", "2026-10-10T16:00"),
-            ("Pirjo i Sverige", "2026-10-10T18:00"),
-            ("Pirjo i Sverige", "2026-10-11T17:00")])
-        self.assertEqual((shows[1]["rating"], shows[1]["len"], shows[1]["price"]),
-                         ("S", "88", "10€"))
-
-    def test_a_title_and_its_date_on_one_line_over_a_block_that_prints_its_date(self):
-        """The shape read 2026-10-13: each screening on one line, and Pirjo's block printing
-        its date between its title and its poster. The block has no synopsis, so the next
-        block's title must not become one."""
-        pirjo = (p("Pirjo i Sverige") + p("la 17.10 klo 15:00") + figure()
-                 + p("S, 88 min, liput 10 €"))
-        shows, _ = self.rows(page(
-            listed=[p("Pirjo i Sverige la 17.10 klo 15:00"),
-                    p("Hetki ennen valoa su 18.10 klo 17:00")],
-            shelf=[pirjo, block("Hetki ennen valoa")], blank=False),
-            today=datetime.date(2026, 10, 13))
-        self.assertEqual([(s["title"], s["start"][:16]) for s in shows], [
-            ("Pirjo i Sverige", "2026-10-17T15:00"),
-            ("Hetki ennen valoa", "2026-10-18T17:00")])
-        self.assertEqual((shows[0]["rating"], shows[0]["len"], shows[0]["price"]),
-                         ("S", "88", "10€"))
-        self.assertTrue(shows[0]["img"].endswith("juliste-719x1024.jpg"))
-        self.assertNotIn("_syn", shows[0])
-        self.assertEqual(shows[1]["_syn"], "Klaus Härön uutuuselokuva kertoo.")
-
-    def test_a_date_before_the_title_on_each_line(self):
-        """The shape read 2026-10-20: one paragraph, each line a date, a time and a title, over
-        a block that prints no metadata line."""
-        shows, report = self.rows(page(
-            listed=[p("pe 23.10 klo 18:30 Lapin sota<br>la 24.10 klo 15:00 Lapin sota")],
-            shelf=[block("Lapin sota", meta="", syn="Elokuvan tapahtumat sijoittuvat Lappiin.")]),
-            today=datetime.date(2026, 10, 20))
-        self.assertEqual([(s["title"], s["start"][:16]) for s in shows], [
-            ("Lapin sota", "2026-10-23T18:30"), ("Lapin sota", "2026-10-24T15:00")])
-        self.assertTrue(all(s["img"].endswith("juliste-719x1024.jpg") for s in shows))
-        self.assertEqual(shows[0]["_syn"], "Elokuvan tapahtumat sijoittuvat Lappiin.")
-        self.assertEqual(report["no_facts"], set())
-
-    def test_each_date_first_line_keeps_its_own_title(self):
-        shows, _ = self.rows(page(
-            listed=[p("pe 23.10 klo 18:30 Lapin sota<br>la 24.10 klo 15:00 Hetki ennen valoa")],
-            shelf=[block("Lapin sota"), block("Hetki ennen valoa")]),
-            today=datetime.date(2026, 10, 20))
-        self.assertEqual([(s["title"], s["start"][:16]) for s in shows], [
-            ("Lapin sota", "2026-10-23T18:30"), ("Hetki ennen valoa", "2026-10-24T15:00")])
-
-    def test_a_title_before_the_date_on_each_line(self):
-        """The shape read 2026-10-29: one paragraph, each line a title, a date and a time."""
-        shows, report = self.rows(page(
-            listed=[p("Lapin sota la 31.10 klo 17:00<br>Lapin sota su 01.11 klo 17:00")],
-            shelf=[block("Lapin sota")]),
-            today=datetime.date(2026, 10, 29))
-        self.assertEqual([(s["title"], s["start"][:16]) for s in shows], [
-            ("Lapin sota", "2026-10-31T17:00"), ("Lapin sota", "2026-11-01T17:00")])
-        self.assertEqual(report["no_facts"], set())
-
-    def test_each_title_first_line_keeps_its_own_title(self):
-        shows, _ = self.rows(page(
-            listed=[p("Lapin sota la 31.10 klo 17:00<br>Hetki ennen valoa su 01.11 klo 15:00")],
-            shelf=[block("Lapin sota"), block("Hetki ennen valoa")]),
-            today=datetime.date(2026, 10, 29))
-        self.assertEqual([(s["title"], s["start"][:16]) for s in shows], [
-            ("Lapin sota", "2026-10-31T17:00"), ("Hetki ennen valoa", "2026-11-01T15:00")])
-
-    def test_a_title_first_line_beside_another_shape_still_fails(self):
-        with self.assertRaises(N.ListingError):
-            self.rows(page(listed=[p("Lapin sota la 31.10 klo 17:00<br>sunnuntaina illalla")],
-                           shelf=[block("Lapin sota")]),
-                      today=datetime.date(2026, 10, 29))
-
-    def test_a_date_first_line_beside_another_shape_still_fails(self):
-        with self.assertRaises(N.ListingError):
-            self.rows(page(listed=[p("pe 23.10 klo 18:30 Lapin sota<br>lauantaina illalla")],
-                           shelf=[block("Lapin sota")]),
-                      today=datetime.date(2026, 10, 20))
-
-    def test_the_metadata_line_in_the_posters_caption(self):
-        """The shape read 2026-10-20: the rating, runtime and price in the poster's caption
-        above a credit line, and only prose after the figure."""
-        caption = ("K16, kesto 2 h 38 min, liput 11 \u20ac<br>Lapin sota elokuvateattereissa "
-                   "23.10.2026, ohjaus Aku Louhimies.")
-        shows, report = self.rows(page(
-            listed=[p("pe 23.10 klo 18:30 Lapin sota<br>la 24.10 klo 15:00 Lapin sota")],
-            shelf=[block("Lapin sota", meta="", caption=caption,
-                         syn="Elokuvan tapahtumat sijoittuvat Lappiin.")]),
-            today=datetime.date(2026, 10, 20))
-        self.assertEqual({(s["rating"], s["len"], s["price"]) for s in shows},
-                         {("K-16", "158", "11\u20ac")})
-        self.assertEqual(shows[0]["_syn"], "Elokuvan tapahtumat sijoittuvat Lappiin.")
-        self.assertEqual(report["no_price"], set())
-
-    def test_a_caption_without_a_metadata_line_leaves_it_to_the_prose(self):
-        shows, _ = self.rows(page(
-            listed=[screening("Hetki ennen valoa", "su 20.9 klo 15:00")],
-            shelf=[block("Hetki ennen valoa", caption="Elokuvateattereissa 19.9.2026.")]))
-        self.assertEqual((shows[0]["rating"], shows[0]["len"], shows[0]["price"]),
-                         ("K-7", "87", "10\u20ac"))
-
-    def test_an_unreadable_line_still_fails_when_a_film_block_ends_the_list(self):
-        with self.assertRaises(N.ListingError):
-            self.rows(self.oct_page(screening("Pirjo i Sverige", "lauantaina illalla")),
-                      today=self.OCT)
-
-    def test_the_metadata_line_is_read_by_pattern(self):
-        for meta, want in (("K7, 87 min, liput 10 €", ("K-7", "87", "10€")),
-                           ("Kesto 1 h 29 min, K12, liput 10 €", ("K-12", "89", "10€")),
-                           ("Kesto 95 min, S, liput 8 €", ("S", "95", "8€")),
-                           ("liput 10 €", ("", "", "10€"))):
-            with self.subTest(meta=meta):
-                shows, _ = self.rows(page(
-                    listed=[screening("A", "su 20.9 klo 15:00")],
-                    shelf=[block("A", meta=meta)]))
-                s = shows[0]
-                self.assertEqual((s["rating"], s["len"], s["price"]), want)
+    def test_a_card_without_a_film_link_opens_the_front_page(self):
+        html = page(card("A", ("la 31.10 klo 17:00", None), film=""),
+                    card("B", ("su 01.11 klo 17:00", None), film=""))
+        self.assertEqual([s["url"] for s in self.rows(html)], [BASE, BASE])
 
     def test_a_ticket_figure_that_is_not_one_amount_settles_nothing(self):
-        shows, report = self.rows(page(
-            listed=[screening("A", "su 20.9 klo 15:00"),
-                    screening("B", "su 20.9 klo 17:00")],
-            shelf=[block("A", meta="K7, 87 min, liput 10/8 €"),
-                   block("B", meta="K7, 87 min, liput alk. 8 €")]))
-        self.assertEqual([s["price"] for s in shows], ["", ""])
-        self.assertEqual(report["no_price"], {"A", "B"})
-
-    def test_the_portrait_poster_publishes_and_a_landscape_image_does_not(self):
-        shows, _ = self.rows(page(
-            listed=[screening("A", "su 20.9 klo 15:00"), screening("B", "su 20.9 klo 17:00")],
-            shelf=[block("A"), block("B", img=LANDSCAPE)]))
-        self.assertTrue(shows[0]["img"].endswith("juliste-719x1024.jpg"))
-        self.assertEqual(shows[1]["img"], "")
-
-    def test_the_synopsis_is_the_blocks_prose_and_never_its_metadata_line(self):
-        shows, _ = self.rows(TWO)
-        self.assertEqual(shows[0]["_syn"], "Klaus Härön uutuuselokuva kertoo.")
-        self.assertNotIn("liput", shows[0]["_syn"])
+        html = page(card("A", ("la 31.10 klo 17:00", None), meta="K7, liput 8 € / 6 €"),
+                    card("B", ("su 01.11 klo 17:00", None), meta="K7, 90 min"))
+        self.assertEqual([s["price"] for s in self.rows(html)], ["", ""])
+        self.assertEqual(N.rows(SITE, html, TODAY)[1]["no_price"], {"A", "B"})
 
     def test_a_line_that_is_no_date_fails_the_site(self):
-        with self.assertRaises(N.ListingError):
-            self.rows(page(listed=[screening("A", "su 20.9 klo 15:00"),
-                                   screening("B", "sunnuntaina iltapäivällä")],
-                           shelf=[block("A"), block("B")]))
-
-    def test_a_paragraph_with_no_date_line_fails_the_site(self):
-        with self.assertRaises(N.ListingError):
-            self.rows(page(listed=[screening("A", "su 20.9 klo 15:00"), p("Hetki ennen valoa")],
-                           shelf=[block("A")]))
-
-    def test_a_weekday_no_candidate_year_carries_fails_the_site(self):
-        with self.assertRaises(N.ListingError):
-            self.rows(page(listed=[screening("A", "ma 20.9 klo 15:00")], shelf=[block("A")]))
+        html = page(card("A", ("la 31.10 klo 17:00", None), ("sunnuntaina klo 17", None)))
+        with self.assertRaisesRegex(N.ListingError, "sunnuntaina klo 17"):
+            self.rows(html)
 
     def test_an_impossible_date_fails_the_site(self):
-        with self.assertRaises(N.ListingError):
-            self.rows(page(listed=[screening("A", "su 20.9 klo 15:00"),
-                                   screening("B", "la 31.2 klo 17:00")],
-                           shelf=[block("A"), block("B")]))
+        html = page(card("A", ("la 31.10 klo 17:00", None), ("ma 31.11 klo 17:00", None)))
+        with self.assertRaisesRegex(N.ListingError, "impossible date|no candidate year"):
+            self.rows(html)
+
+    def test_a_weekday_no_candidate_year_carries_fails_the_site(self):
+        html = page(card("A", ("la 31.10 klo 17:00", None), ("ma 01.11 klo 17:00", None)))
+        with self.assertRaisesRegex(N.ListingError, "no candidate year"):
+            self.rows(html)
 
     def test_a_page_with_no_heading_fails_the_site(self):
-        with self.assertRaises(N.ListingError):
-            self.rows(page(listed=[], shelf=[block("A")], heading=False))
+        html = page(card("A", ("la 31.10 klo 17:00", None)), heading=False)
+        with self.assertRaisesRegex(N.ListingError, "Seuraavat näytökset"):
+            self.rows(html)
 
-    def test_an_empty_weekend_parses_to_nothing_without_raising(self):
-        shows, _ = self.rows(page(listed=[], shelf=[block("A")]))
-        self.assertEqual(shows, [])
+    def test_cards_without_screenings_parse_to_nothing(self):
+        self.assertEqual(self.rows(page(card("A"), card("B", film="2"))), [])
 
     def test_the_show_shape(self):
-        shows, _ = self.rows(TWO)
-        s = shows[0]
-        self.assertEqual((s["provider"], s["venue"], s["theatre"], s["aud"]),
-                         ("navettakino", "navettakino-konnevesi", "Navettakino", ""))
-        self.assertEqual((s["original"], s["method"], s["genres"], s["lang"], s["soldOut"]),
-                         ("", "", "", "", False))
-        self.assertEqual(s["url"], PAGE_URL)
-        self.assertEqual(s["eventId"], "hetki ennen valoa")
-        self.assertEqual(registry.by_id("navettakino")["book"], "door")
+        s = self.rows(TWO)[0]
+        self.assertEqual(set(s), {"eventId", "title", "original", "len", "rating", "genres",
+                                  "method", "theatre", "aud", "start", "url", "img", "lang",
+                                  "soldOut", "price", "provider", "venue", "_film"})
+        self.assertEqual((s["provider"], s["venue"], s["theatre"]),
+                         ("navettakino", "navettakino-konnevesi", "Navettakino"))
+
+
+class SynopsisTest(unittest.TestCase):
+    def test_the_paragraphs_join_and_the_release_note_is_dropped(self):
+        self.assertEqual(N.synopsis(film_page("Lapin sota")), SYN + " " + SYN2)
+
+    def test_a_page_without_a_trailer_reads_the_same(self):
+        self.assertEqual(N.synopsis(film_page("Lapin sota", trailer=False)), SYN + " " + SYN2)
+
+    def test_a_labelled_paragraph_is_never_the_synopsis(self):
+        cast = ", ".join(["Peter Franzén", "Sannah Nedergård", "Volker Bruch"] * 5)
+        self.assertEqual(N.synopsis(film_page("Lapin sota", syn="", cast=cast)), "")
+
+    def test_paragraphs_split_by_line_breaks_join_too(self):
+        html = film_page("A", syn=SYN + "<br><br>" + SYN2)
+        self.assertEqual(N.synopsis(html), SYN + " " + SYN2)
+
+
+class FetchSiteTest(unittest.TestCase):
+    def setUp(self):
+        self._fetch, self._time = N.fetch, N.time
+        self.addCleanup(lambda: (setattr(N, "fetch", self._fetch),
+                                 setattr(N, "time", self._time)))
+        self.sleeps, self.asked = [], []
+        N.time = types.SimpleNamespace(sleep=self.sleeps.append)
+
+    def serve(self, pages):
+        def fetch(url, **kw):
+            self.asked.append(url)
+            body = pages[url]
+            if isinstance(body, Exception):
+                raise body
+            return body.encode("utf-8")
+        N.fetch = fetch
+
+    def site(self):
+        err = io.StringIO()
+        with contextlib.redirect_stdout(io.StringIO()), contextlib.redirect_stderr(err):
+            shows = N.fetch_site(SITE, TODAY)["navettakino-konnevesi"]
+        return shows, err.getvalue()
+
+    def test_each_film_page_is_read_once_paced_and_the_ticket_page_never(self):
+        self.serve({BASE: TWO, BASE + "leffa?id=100004470": film_page("Lapin sota"),
+                    BASE + "leffa?id=100004471": film_page("Angry Birds", syn=SYN2)})
+        shows, _ = self.site()
+        self.assertEqual(sorted(self.asked), [BASE, BASE + "leffa?id=100004470",
+                                              BASE + "leffa?id=100004471"])
+        self.assertEqual(self.sleeps, [1.5])
+        syn = {s["title"]: s.get("_syn") for s in shows}
+        self.assertEqual(syn, {"Lapin sota": SYN + " " + SYN2, "Angry Birds -elokuva 3": SYN2})
+        self.assertFalse(any("_film" in s for s in shows))
+
+    def test_a_failing_film_page_keeps_the_screenings(self):
+        self.serve({BASE: TWO, BASE + "leffa?id=100004470": RuntimeError("HTTP Error 500"),
+                    BASE + "leffa?id=100004471": film_page("Angry Birds", syn=SYN2)})
+        shows, err = self.site()
+        self.assertEqual(len(shows), 4)
+        self.assertEqual({s["title"]: s.get("_syn") for s in shows},
+                         {"Lapin sota": None, "Angry Birds -elokuva 3": SYN2})
+        self.assertIn("leffa?id=100004470: RuntimeError: HTTP Error 500", err)
 
 
 class RunnerTest(unittest.TestCase):
@@ -332,11 +222,15 @@ class RunnerTest(unittest.TestCase):
         self._out = run.OUT
         run.OUT = pathlib.Path(self.tmp.name)
         self.addCleanup(lambda: setattr(run, "OUT", self._out))
-        self._fetch = N.fetch
-        self.addCleanup(lambda: setattr(N, "fetch", self._fetch))
+        self._fetch, self._time = N.fetch, N.time
+        self.addCleanup(lambda: (setattr(N, "fetch", self._fetch),
+                                 setattr(N, "time", self._time)))
+        N.time = types.SimpleNamespace(sleep=lambda s: None)
+        self.file = run.OUT / "area-navettakino-konnevesi.json"
 
-    def serve(self, body):
+    def serve(self, front, films=None):
         def fetch(url, **kw):
+            body = front if url == BASE else (films or {}).get(url, "")
             if isinstance(body, Exception):
                 raise body
             return body.encode("utf-8")
@@ -348,89 +242,61 @@ class RunnerTest(unittest.TestCase):
             code = run.main(["navetta"])
         return code, out.getvalue() + err.getvalue()
 
-    def soon(self, days):
-        return datetime.datetime.now(N.FI).date() + datetime.timedelta(days=days)
-
-    def live_page(self):
-        def row(d, clock):
-            wd = ("ma", "ti", "ke", "to", "pe", "la", "su")[d.weekday()]
-            return f"{wd} {d.day}.{d.month} klo {clock}"
-        return page(listed=[screening("A", row(self.soon(1), "15:00")),
-                            screening("B", row(self.soon(2), "17:00"))],
-                    shelf=[block("A"), block("B", meta="Kesto 1 h 29 min, K12, liput 8 €")])
+    def line(self, days, clock):
+        d = datetime.datetime.now(N.FI).date() + datetime.timedelta(days=days)
+        wd = ("ma", "ti", "ke", "to", "pe", "la", "su")[d.weekday()]
+        return f"{wd} {d.day:02d}.{d.month:02d} klo {clock}"
 
     def test_the_site_publishes(self):
-        self.serve(self.live_page())
+        self.serve(page(card("A", (self.line(1, "15:00"), "varaa.php?id=1"),
+                             (self.line(2, "15:00"), "varaa.php?id=2"), film="1"),
+                        card("B", (self.line(1, "17:00"), None),
+                             (self.line(2, "17:00"), None), film="2",
+                             meta="K12, kesto 90 min, liput 8 €")),
+                   {BASE + "leffa?id=1": film_page("A"), BASE + "leffa?id=2": film_page("B")})
         code, log = self.main()
         self.assertEqual(code, 0, log)
-        shows = json.loads(
-            (run.OUT / "area-navettakino-konnevesi.json").read_text())["shows"]
-        self.assertEqual(len(shows), 2)
-        self.assertEqual([s["price"] for s in shows], ["10€", "8€"])
+        shows = json.loads(self.file.read_text())["shows"]
+        self.assertEqual(sorted(s["price"] for s in shows), ["11€", "11€", "8€", "8€"])
         self.assertIn("0 failures", log)
 
-    def test_an_empty_weekend_writes_a_fresh_empty_file(self):
-        (run.OUT / "area-navettakino-konnevesi.json").write_text(json.dumps(self.PREV))
-        self.serve(page(listed=[], shelf=[block("A")]))
+    def test_an_empty_programme_writes_a_fresh_empty_file(self):
+        self.file.write_text(json.dumps(self.PREV))
+        self.serve(page(card("A"), card("B", film="2"), box=""))
         code, log = self.main()
         self.assertEqual(code, 0, log)
         self.assertIn("no programme at the moment", log)
-        body = json.loads((run.OUT / "area-navettakino-konnevesi.json").read_text())
+        body = json.loads(self.file.read_text())
         self.assertEqual(body["shows"], [])
         self.assertNotEqual(body["generated"], self.PREV["generated"])
 
-    def test_an_empty_weekend_without_the_pages_own_sentence_fails(self):
-        (run.OUT / "area-navettakino-konnevesi.json").write_text(json.dumps(self.PREV))
-        self.serve(page(listed=[], shelf=[block("A")], intro=False))
-        code, log = self.main()
-        self.assertEqual(code, 1, log)
-        self.assertIn("does not carry its own", log)
-        self.assertEqual(json.loads(
-            (run.OUT / "area-navettakino-konnevesi.json").read_text()), self.PREV)
-
-    def test_times_the_listing_misses_fail_and_keep_the_previous_file(self):
-        """The heading, then screenings the listing never reaches: a blank line left under
-        the heading, or the weekend typed as a list block. The page prints times, so zero
-        rows is the parser missing them, not a quiet weekend. The list blocks print a date
-        without a clock and a clock without a short weekday, one each."""
-        shelf = [block("Hetki ennen valoa"), block("Presidentin kyyditys")]
-        for name, listed in (
-                ("blank under the heading",
-                 [p("<br>"), screening("Hetki ennen valoa", "su 20.9 klo 15:00"),
-                  screening("Presidentin kyyditys", "su 20.9 klo 17:00")]),
-                ("a list block, date only",
-                 ['<ul class="wp-block-list"><li>Hetki ennen valoa<br>su 20.9 15.00</li>'
-                  '<li>Presidentin kyyditys<br>su 20.9 17.00</li></ul>']),
-                ("a list block, clock only",
-                 ['<ul class="wp-block-list"><li>Hetki ennen valoa<br>sunnuntaina klo 15:00</li>'
-                  '<li>Presidentin kyyditys<br>sunnuntaina klo 17:00</li></ul>'])):
+    def test_times_the_cards_do_not_carry_fail_and_keep_the_previous_file(self):
+        """The box above the cards prints a clock while no card prints a screening. That is
+        a screening the parser missed, and the weekend is not confirmed empty."""
+        for name, box in (("a clock in the box", "<h2>Tänään</h2><p>A klo 17:00</p>"),
+                          ("a date in the box", "<h2>Huomenna</h2><p>A su 01.11</p>")):
             with self.subTest(name):
-                html = page(listed=listed, shelf=shelf)
-                self.assertEqual(N.rows(SITE, html, TODAY)[0], [])
-                (run.OUT / "area-navettakino-konnevesi.json").write_text(json.dumps(self.PREV))
-                self.serve(html)
+                self.file.write_text(json.dumps(self.PREV))
+                self.serve(page(card("A"), card("B", film="2"), box=box))
                 code, log = self.main()
                 self.assertEqual(code, 1, log)
                 self.assertIn("prints a date or time elsewhere", log)
                 self.assertNotIn("no programme at the moment", log)
-                self.assertEqual(json.loads(
-                    (run.OUT / "area-navettakino-konnevesi.json").read_text()), self.PREV)
+                self.assertEqual(json.loads(self.file.read_text()), self.PREV)
 
     def test_a_page_with_no_heading_fails_and_keeps_the_previous_file(self):
-        (run.OUT / "area-navettakino-konnevesi.json").write_text(json.dumps(self.PREV))
-        self.serve(page(listed=[], shelf=[block("A")], heading=False))
+        self.file.write_text(json.dumps(self.PREV))
+        self.serve(page(card("A"), heading=False))
         code, log = self.main()
         self.assertEqual(code, 1, log)
-        self.assertEqual(json.loads(
-            (run.OUT / "area-navettakino-konnevesi.json").read_text()), self.PREV)
+        self.assertEqual(json.loads(self.file.read_text()), self.PREV)
 
     def test_a_refused_page_keeps_the_previous_file(self):
-        (run.OUT / "area-navettakino-konnevesi.json").write_text(json.dumps(self.PREV))
+        self.file.write_text(json.dumps(self.PREV))
         self.serve(RuntimeError("HTTP Error 503"))
         code, log = self.main()
         self.assertEqual(code, 1, log)
-        self.assertEqual(json.loads(
-            (run.OUT / "area-navettakino-konnevesi.json").read_text()), self.PREV)
+        self.assertEqual(json.loads(self.file.read_text()), self.PREV)
 
 
 class RegistryTest(unittest.TestCase):
@@ -438,7 +304,7 @@ class RegistryTest(unittest.TestCase):
         prov = registry.by_id("navettakino")
         self.assertEqual((prov["label"], prov["host"], prov["book"], prov["module"],
                           prov["where"]),
-                         ("Navettakino", "navettakino.fi", "door", "navetta", "cloud"))
+                         ("Navettakino", "navettakino.fi", "reserve", "navetta", "cloud"))
         self.assertEqual(sum(1 for q in registry.PROVIDERS
                              if q["accent"] == prov["accent"]), 1)
 

@@ -24,6 +24,10 @@ clears withdrawn screenings".
   näytökset", no longer the "viikolopun" the adapter's comment records. Two films with
   screenings on la 26.9 and su 27.9; every date and clock on the page is inside the
   listing paragraphs, so the new date-or-clock check does not fire on a populated page.
+- **Navettakino**, front page, live, 2026-11-01: the site moved to a PHP page that day and
+  the sentence about when times appear is gone. The page renders "Seuraavat näytökset"
+  over one card per film. Its empty state has not been seen. See the 2026-11-01 section
+  in [ticketing-platforms.md](ticketing-platforms.md).
 - **Tähti Kino** (tribe.py), the events route with its film category, live, 2026-09-24:
   HTTP 200, a JSON object with `events` `[]`, `total` 0 and `total_pages` 0. That list is
   what the adapter now requires before the category check may confirm the venue empty.

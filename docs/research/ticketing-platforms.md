@@ -1620,6 +1620,40 @@ reads `exit=0`, and the 2 showtimes in the committed data, su 20.9. at 15:00 and
 10 € each, are the two the site lists, both with a poster and a ticket link. No next
 step.
 
+### The PHP page (2026-11-01)
+
+**Findings** (navettakino.fi read as a visitor on 2026-11-01)
+
+The cloud run at 09:31 UTC read the WordPress page and the one at 12:19 UTC got a 1.9 KB
+page with no WordPress heading. The site is now hand-written PHP with W3.CSS. `/` and
+`/index.php` serve the same page:
+
+    <h2>Seuraavat näytökset</h2> ... <h2>Tänään</h2><p>Lapin sota klo 17:00 - <a href='varaa.php?id=80'>Varaa liput</a></p>
+    <div class='w3-auto w3-card w3-container'>
+      <a href='leffa?id=100004470'><img src=kuvat/jul_100004470.jpg alt='Juliste'></a>
+      <h2>Lapin sota</h2><p>K16, kesto 158 min, liput 11 €</p>
+      <h4>Näytökset</h4><p>su 01.11 klo 17:00 - <a href='varaa.php?id=80'>Varaa</a></p>
+
+- Each screening now links a reservation page, `varaa.php?id=N`. It was not requested.
+- The film page, `leffa?id=N`, answered 200. It has the title, a YouTube trailer, the
+  synopsis in one paragraph with blank lines between its parts and a closing
+  "Elokuvateattereissa 23.10.", then `<b>Pääosissa:</b>`, `<b>Ikäraja:</b>` and
+  `<b>Kesto:</b>` paragraphs and the screening times again.
+- `tulevaa.php` lists coming films by month without dates.
+- `robots.txt` answers 404. The intro sentence about times appearing early in the week is
+  gone.
+
+**Inferences and open questions**
+
+- The page with no screenings has not been seen. The adapter confirms an empty programme
+  only when the heading renders and no date or clock appears anywhere on the page.
+
+**Status and next step**
+
+`navetta.py` reads the cards, copies each `Varaa` href and takes the synopsis from the
+film page. The registry's `book` moved from `door` to `reserve`. Next step: read the
+first cloud run after the release in `logs/run-navetta.log`.
+
 
 ## Pyhäsalmen VPK, and the My Calendar plugin (2026-09-19)
 

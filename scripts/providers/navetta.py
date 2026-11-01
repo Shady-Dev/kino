@@ -1,76 +1,55 @@
 """Navettakino, a cinema in a cowshed in Pyhälahti, Konnevesi. Stdlib only.
 
-One request. The front page is a WordPress block page, and the programme is prose in it:
+On 2026-11-01, between 09:28 and 12:19 UTC, the site moved from a WordPress page with the
+programme in prose to a hand-written PHP page. This reads the new page. The front page
+carries a "Seuraavat näytökset" box and below it one card per film:
 
-    <p class="wp-block-paragraph"><strong>Tulevan viikolopun näytökset</strong></p>
-    <p class="wp-block-paragraph">Hetki ennen valoa<br>su 20.9 klo 15:00</p>
-    <p class="wp-block-paragraph">Presidentin kyyditys<br>su 20.9 klo 17:00</p>
-    <p class="wp-block-paragraph"><br><br></p>
-    <p class="wp-block-paragraph"><strong>Hetki ennen valoa</strong></p>
-    <figure class="wp-block-image ..."><img width="719" height="1024" src="...juliste...">
-    <p class="wp-block-paragraph">Klaus Härön uutuuselokuva kertoo ...</p>
-    <p class="wp-block-paragraph">K7, 87 min, liput 10 €</p>
+    <div class='w3-auto w3-card w3-container' ...>
+      <a href='leffa?id=100004470'><img src=kuvat/jul_100004470.jpg alt='Juliste' ...></a>
+      <h2>Lapin sota</h2><p>K16, kesto 158 min, liput 11 €</p>
+      <div class='w3-container w3-margin'><h4>Näytökset</h4>
+        <p>su 01.11 klo 17:00 - <a href='varaa.php?id=80'>Varaa</a></p></div></div>
 
 What shapes the parser:
 
-- **The list is the schedule and the blocks below are a shelf.** On the day read the page
-  carried three film blocks and two screenings, Ryhmä Hau having a block and no showing.
-  So the blocks supply the poster, the synopsis, the rating, the runtime and the price,
-  joined to a screening on the normalised title, and a screening whose title has no block
-  publishes anyway with those fields empty. A film is not omitted for being thinly
-  described.
-- **A film title is the paragraph a figure follows.** Nothing else marks one: the heading
-  is a `<strong>` the editor sometimes closes early, "Presidentin kyydity</strong>s" on the
-  day read, so the paragraph's whole text is the title and the `<strong>` is not read.
-  Read 2026-10-13, one block put its own date paragraph between the title and the figure,
-  so date paragraphs there are passed over.
-- **The screening list ends at the first blank paragraph or the first film block.** Every
-  paragraph between the heading and that point is a screening: a title line and one date
-  line per showing. A line inside that block the parser cannot read raises, because the
-  block is where the cinema states its whole weekend. Read 2026-10-10, the page put the
-  first screening in the heading's own paragraph and left no blank before the film blocks,
-  so lines after the heading count as the first screening. Read 2026-10-13, a title and its
-  date shared one line, `Pirjo i Sverige la 17.10 klo 15:00`. Read 2026-10-20, each line put
-  the date before the title, `pe 23.10 klo 18:30 Lapin sota`, and a paragraph whose every
-  line has that shape is read as one screening per line. Read 2026-10-29, one paragraph
-  held `Lapin sota la 31.10 klo 17:00` and `Lapin sota su 01.11 klo 17:00`, the title before
-  the date on each line, and is read the same way.
-- **The date prints no year** and no dot after the month, `su 20.9 klo 15:00`, so the
-  weekday selects the year through `common.resolve_year`.
-- **The metadata line is read by pattern, not by position.** The three films read gave
-  `K7, 87 min, liput 10 €`, `Kesto 1 h 27 min, K12, liput 10 €` and `Kesto 1 h 29 min,
-  K7, liput 10 €`. A `liput` figure that is not one amount settles nothing. Read 2026-10-20,
-  the line sat in the poster's caption, `K16, kesto 2 h 38 min, liput 11 €`, and the caption
-  is read for it before the prose.
-- **No ticket host exists and none is invented.** The contact page's own words:
-  "Lippukassa avataan 30 minuuttia ennen ensimmäistä näytöstä." So `book="door"` and a
-  showtime opens this page.
-- The poster is the block's own figure, portrait with the dimensions in the tag,
-  700x1000 to 719x1024 on the three films read, so a landscape image is left out.
+- **The cards are the schedule.** Each card's `Näytökset` lines carry the date and the
+  time. The box above them prints "Tänään" with a clock and no date, and it is not read.
+  A line under `Näytökset` that this parser cannot read fails the site, because skipping
+  it would publish the weekend one screening short with nothing in the log.
+- **The date prints no year**, `su 01.11 klo 17:00`, so the weekday selects the year
+  through `common.resolve_year`.
+- **The metadata line is read by pattern.** `K16, kesto 158 min, liput 11 €` on the one
+  card read. A `liput` figure that is not one amount settles nothing.
+- **The ticket link is the card's own `Varaa` href, copied and never requested.** A
+  screening without one opens the film's page, `leffa?id=N`, which answered 200 on the
+  day read. Before the move the page linked no ticket host and the registry said `door`.
+  It says `reserve` since the move.
+- **The synopsis is on the film page**, in the first paragraph after the title that
+  carries no bold label. The cast, the rating and the runtime each open with one
+  (`<b>Pääosissa:</b>`). The paragraph separates its own paragraphs with blank lines,
+  which a browser shows as spaces. A part shorter than `SYN_MIN` is a release note
+  ("Elokuvateattereissa 23.10.") and is dropped, the rule johku.py and kinola.py use.
+  One request per film, paced and capped. A film page that fails costs that film its
+  synopsis and nothing else.
+- **The poster is the card's image.** The tag carries no dimensions to check its shape.
 - No language and no genre is published, so both stay empty.
 
-**An empty weekend is the ordinary case here, and the page says so in its own words:**
-"Meillä on näytöksiä pääsääntöisesti vain viikonloppuisin, mutta toiminta on hieman
-epäsäännöllistä. Esitysajat ilmestyvät tälle sivulle aina alkuviikosta, mikäli
-viikonlopulle on näytöksiä tulossa." So the evidence for an empty programme is that
-sentence, the screening heading rendered with nothing listed under it, and no date or
-clock printed anywhere in the content. The last is read without the listing parser: the
-sentence says times appear only when there are screenings, so a time the listing did not
-reach (a blank line under the heading, the weekend typed as a list block) fails the site.
-`EMPTY_VENUES_CONFIRMED` then publishes a fresh empty file rather than ageing the last
-weekend for a month. The Wayback captures of this domain stop in 2024 on an older
-template and the two 2026 ones are the host's challenge page, so what the page looks like
-with the heading removed is **not** known: that case raises, which keeps the previous
-files and names it in the log.
+**An empty programme has not been seen on the new page.** The old page said in its own
+words that times appear only when there are screenings, and the new one has no such
+sentence. So an empty programme is confirmed only when the page renders the "Seuraavat
+näytökset" heading, no card prints a screening, and no date or clock appears anywhere in
+the body. A page without the heading raises and the previous files stand.
 """
 import datetime
 import html as html_mod
 import re
 import sys
+import time
+from urllib.parse import urljoin
 from zoneinfo import ZoneInfo
 
-from common import (bot_check, check_shows, fetch, get_text, resolve_year, served,
-                    weekday_index)
+from common import (bot_check, capped, check_shows, fetch, get_text, resolve_year,
+                    served, weekday_index)
 from synmerge import norm
 
 FI = ZoneInfo("Europe/Helsinki")
@@ -87,49 +66,40 @@ SITES = [
 # further, so 120 is headroom rather than a fit.
 WINDOW = (30, 120)
 
-CONTENT_RE = re.compile(r'<div class="entry-content.*?(?=</article>|\Z)', re.S | re.I)
-BLOCK_RE = re.compile(r"<(p|figure)\b[^>]*>(.*?)</\1>", re.S | re.I)
-# The site's own spelling, "viikolopun", is a typo for viikonlopun. Matched loosely enough
-# to survive its correction and tightly enough not to match the intro paragraph.
-HEADING_RE = re.compile(r"tulevan\s+viiko\w*\s+näytökset", re.I)
-# The intro sentence that says the times appear only when there are screenings. It is what
-# proves an empty page is this page rather than an error page.
-INTRO_RE = re.compile(r"esitysajat\s+ilmestyvät\s+tälle\s+sivulle", re.I)
-# A weekday and a date, or a clock, anywhere in the content. Loose on purpose: it is
-# checked only when the listing yielded nothing, and a hit there fails the site.
+BODY_RE = re.compile(r"<body\b[^>]*>(.*?)(?=<footer\b|</body>|\Z)", re.S | re.I)
+HEADING_RE = re.compile(r"<h2[^>]*>\s*seuraavat\s+näytökset\s*</h2>", re.I)
+CARD_RE = re.compile(r"<div[^>]*\bw3-card\b[^>]*>(.*?)(?=<div[^>]*\bw3-card\b|\Z)",
+                     re.S | re.I)
+TITLE_RE = re.compile(r"<h2[^>]*>(.*?)</h2>", re.S | re.I)
+META_RE = re.compile(r"</h2>\s*<p[^>]*>(.*?)</p>", re.S | re.I)
+SHOWS_RE = re.compile(r"<h4[^>]*>\s*näytökset\s*</h4>(.*)", re.S | re.I)
+P_RE = re.compile(r"<p[^>]*>(.*?)</p>", re.S | re.I)
+FILM_RE = re.compile(r"""<a[^>]*\bhref=['"]?(leffa\?id=\d+)""", re.I)
+IMG_RE = re.compile(r"""<img[^>]*\bsrc=(?:'([^']+)'|"([^"]+)"|([^\s>]+))""", re.I)
+HREF_RE = re.compile(r"""<a[^>]*\bhref=(?:'([^']+)'|"([^"]+)"|([^\s>]+))""", re.I)
+# A weekday and a date, or a clock, anywhere in the body. Checked only when the cards
+# yielded nothing, and a hit there fails the site.
 TIMES_RE = re.compile(r"\b(?:ma|ti|ke|to|pe|la|su)\s+\d{1,2}\.\d{1,2}\b"
                       r"|\bklo\s*\d{1,2}[:.]\d{2}", re.I)
 SHOW_RE = re.compile(r"^(ma|ti|ke|to|pe|la|su)\s+(\d{1,2})\.(\d{1,2})\.?\s*klo\s*"
-                     r"(\d{1,2})[:.](\d{2})$", re.I)
-TITLED_RE = re.compile(r"^(.+?)\s+((?:ma|ti|ke|to|pe|la|su)\s+\d{1,2}\.\d{1,2}\.?\s*klo\s*"
-                       r"\d{1,2}[:.]\d{2})$", re.I)
-DATED_RE = re.compile(r"^((?:ma|ti|ke|to|pe|la|su)\s+\d{1,2}\.\d{1,2}\.?\s*klo\s*"
-                      r"\d{1,2}[:.]\d{2})\s+(\S.*)$", re.I)
-IMG_RE = re.compile(r'<img[^>]*?width="(\d+)"[^>]*?height="(\d+)"[^>]*?src="([^"]+)"', re.I)
+                     r"(\d{1,2})[:.](\d{2})(?:\s*-.*)?$", re.I)
 RATING_RE = re.compile(r"\bK[-\s]?(\d{1,2})\b")
 S_RATING_RE = re.compile(r"(?:^|[\s,(])S(?=[\s,)]|$)")
 MIN_RE = re.compile(r"(?:(\d{1,2})\s*h\s*)?(\d{1,3})\s*min", re.I)
 PRICE_RE = re.compile(r"liput\s+([^,;]+?)\s*(?:$|,|;)", re.I)
 AMOUNT_RE = re.compile(r"^(\d{1,3}(?:[.,]\d{1,2})?)\s*€$")
+FILM_PAGE_RE = re.compile(r"</h2>(.*?)(?=<h3\b|\Z)", re.S | re.I)
+LABEL_RE = re.compile(r"^\s*<b>[^<]*:\s*</b>", re.I)
+SYN_MIN = 120
 TAGS_RE = re.compile(r"<[^>]+>")
-CAPTION_RE = re.compile(r"<figcaption[^>]*>(.*?)</figcaption>", re.S | re.I)
 
-POSTER_MIN_RATIO = 1.2
-POSTER_MIN_WIDTH = 300
-
-# Set on the evidence in the docstring: the intro sentence, the screening heading with
-# nothing listed under it, and no date or clock anywhere in the content. A heading the page
-# does not render never reaches this: it raises, because that is a template change and not
-# a quiet weekend.
+# Set on the evidence in the docstring: the heading rendered, no card printing a screening,
+# and no date or clock anywhere in the body. A page without the heading never reaches it.
 EMPTY_VENUES_CONFIRMED = True
 
 
 class ListingError(RuntimeError):
-    """The programme block is there and this parser could not read it.
-
-    Skipping a line would publish a weekend one screening short with nothing in the log
-    to say so, so it fails the site and the previous files stand.
-    """
+    """The cards are there and this parser could not read them."""
 
 
 def _txt(s):
@@ -139,18 +109,14 @@ def _txt(s):
     return "\n".join(re.sub(r"[ \t]+", " ", line).strip() for line in s.split("\n")).strip()
 
 
-def content(page):
-    """The page's `entry-content`, or "" when it does not render one."""
-    m = CONTENT_RE.search(page or "")
-    return m.group(0) if m else ""
+def body(page):
+    """The page between `<body>` and the footer, or "" when there is none."""
+    m = BODY_RE.search(page or "")
+    return m.group(1) if m else ""
 
 
-def blocks(page):
-    """[(kind, text or raw)] for the content's paragraphs and figures, in document order."""
-    out = []
-    for tag, inner in BLOCK_RE.findall(content(page)):
-        out.append(("figure", inner) if tag.lower() == "figure" else ("p", _txt(inner)))
-    return out
+def _attr(m):
+    return html_mod.unescape(next(g for g in m.groups() if g is not None)).strip()
 
 
 def _minutes(text):
@@ -168,7 +134,7 @@ def _rating(text):
 
 
 def _price(text):
-    """`liput 10 €` -> "10€". A figure that is not one amount settles nothing."""
+    """`liput 11 €` -> "11€". A figure that is not one amount settles nothing."""
     m = PRICE_RE.search(text or "")
     if not m:
         return ""
@@ -176,152 +142,57 @@ def _price(text):
     return f"{a.group(1)}€" if a else ""
 
 
-def _poster(figure):
-    m = IMG_RE.search(figure or "")
-    if not m:
-        return ""
-    w, h, url = int(m.group(1)), int(m.group(2)), html_mod.unescape(m.group(3))
-    if w < POSTER_MIN_WIDTH or h < w * POSTER_MIN_RATIO:
-        return ""
-    return url
+def cards(page, base):
+    """[card] for every film card on the page, in page order. -> list.
 
-
-def _read_meta(facts, text):
-    """Fill in what a metadata line states and the block has not stated already."""
-    facts["len"] = facts["len"] or _minutes(text)
-    facts["rating"] = facts["rating"] or _rating(text)
-    facts["price"] = facts["price"] or _price(text)
-
-
-def _is_meta(text):
-    """A short line stating a rating, a runtime or a ticket price rather than prose."""
-    if len(text) > 120:
-        return False
-    return bool(PRICE_RE.search(text) or MIN_RE.search(text) or RATING_RE.search(text))
-
-
-def _dates_only(text):
-    """True for a paragraph whose every line is a date and a time."""
-    lines = [line.strip() for line in (text or "").split("\n") if line.strip()]
-    return bool(lines) and all(SHOW_RE.match(line) for line in lines)
-
-
-def film_figure(bl, i):
-    """The index of the block's figure when paragraph i is a film title, else None."""
-    kind, text = bl[i]
-    if kind != "p" or not text or _dates_only(text):
-        return None
-    j = i + 1
-    while j < len(bl) and bl[j][0] == "p" and _dates_only(bl[j][1]):
-        j += 1
-    return j if j < len(bl) and bl[j][0] == "figure" else None
-
-
-def films(page):
-    """{norm(title): facts} for every block on the page. -> dict.
-
-    A film block is a title paragraph and its figure. What comes after the figure and
-    before the next block's title is that film's own prose: the longest of those paragraphs
-    is the synopsis and the metadata line is whichever one states a rating, a runtime or a
-    price. The figure's caption can carry the metadata line too, and it is read first.
+    A card is {title, film, img, len, rating, price, lines}, where `lines` holds
+    (text, ticket href or "") for each paragraph under `Näytökset`.
     """
-    bl = blocks(page)
-    out = {}
-    for i, (kind, value) in enumerate(bl):
-        f = film_figure(bl, i)
-        if f is None:
-            continue
-        facts = {"img": _poster(bl[f][1]), "syn": "", "len": "", "rating": "",
-                 "price": ""}
-        cap = CAPTION_RE.search(bl[f][1])
-        for line in (_txt(cap.group(1)).split("\n") if cap else []):
-            if _is_meta(line):
-                _read_meta(facts, line)
-        for k in range(f + 1, len(bl)):
-            kind2, text = bl[k]
-            if kind2 == "figure" or film_figure(bl, k) is not None:
-                break
-            if not text or _dates_only(text):
-                continue
-            if _is_meta(text):
-                _read_meta(facts, text)
-            elif len(text) > len(facts["syn"]):
-                facts["syn"] = text
-        out.setdefault(norm(value), facts)
-    return out
-
-
-def listing(page):
-    """The screening paragraphs under the heading. -> list or None.
-
-    The list ends at the first blank paragraph or the first film block's title. Lines
-    after the heading inside its own paragraph are the first screening. None means the page did not render the heading at all, which is a template
-    change rather than a quiet weekend.
-    """
-    bl = blocks(page)
-    for i, (kind, text) in enumerate(bl):
-        m = HEADING_RE.search(text or "") if kind == "p" else None
-        if m:
-            rest = text[m.end():].lstrip(" :").strip()
-            out = [rest] if rest else []
-            for j in range(i + 1, len(bl)):
-                kind2, text2 = bl[j]
-                if kind2 != "p" or not text2 or film_figure(bl, j) is not None:
-                    break
-                out.append(text2)
-            return out
-    return None
-
-
-def title_first(listed):
-    """Each paragraph whose every line holds a title and a date, in either order, as one
-    title-first paragraph per line. Any other paragraph is returned as it was."""
     out = []
-    for para in listed:
-        lines = [line.strip() for line in para.split("\n") if line.strip()]
-        dated = [DATED_RE.match(line) for line in lines]
-        titled = [TITLED_RE.match(line) for line in lines]
-        if lines and all(dated):
-            out += [f"{m.group(2)}\n{m.group(1)}" for m in dated]
-        elif lines and all(titled):
-            out += [f"{m.group(1)}\n{m.group(2)}" for m in titled]
-        else:
-            out.append(para)
+    for raw in CARD_RE.findall(body(page)):
+        t = TITLE_RE.search(raw)
+        if not t or not _txt(t.group(1)):
+            continue
+        meta = META_RE.search(raw)
+        meta = _txt(meta.group(1)) if meta else ""
+        film = FILM_RE.search(raw)
+        img = IMG_RE.search(raw)
+        shows = SHOWS_RE.search(raw)
+        lines = []
+        for inner in P_RE.findall(shows.group(1) if shows else ""):
+            text = _txt(inner)
+            if not text:
+                continue
+            href = HREF_RE.search(inner)
+            lines.append((text, urljoin(base, _attr(href)) if href else ""))
+        out.append({"title": _txt(t.group(1)),
+                    "film": urljoin(base, html_mod.unescape(film.group(1))) if film else "",
+                    "img": urljoin(base, _attr(img)) if img else "",
+                    "len": _minutes(meta), "rating": _rating(meta), "price": _price(meta),
+                    "lines": lines})
     return out
 
 
 def rows(site, page, today=None):
-    """-> ([show], report). One row per screening line the weekend block prints."""
+    """-> ([show], report). One row per line a card prints under `Näytökset`."""
     today = today or datetime.datetime.now(FI).date()
     venue = site["venues"][0]
+    base = site["base"].rstrip("/") + "/"
     url = site["base"].rstrip("/") + site["listing"]
-    listed = listing(page)
-    if listed is None:
+    if not HEADING_RE.search(body(page)):
         bot_check(page, url)
         raise ListingError(f"{site['provider']}: the page renders no "
-                           f"'Tulevan viikonlopun näytökset' heading ({served(page)})")
-    shelf = films(page)
-    out, report = [], {"no_facts": set(), "no_price": set()}
-    for para in title_first(listed):
-        lines = [l for l in para.split("\n") if l.strip()]
-        joined = TITLED_RE.match(lines[0].strip()) if lines else None
-        if joined:
-            lines = [joined.group(1), joined.group(2)] + lines[1:]
-        if len(lines) < 2:
-            raise ListingError(f"{site['provider']}: the screening paragraph {para!r} "
-                               f"carries no date line")
-        title = lines[0].strip()
-        facts = shelf.get(norm(title))
-        if facts is None:
-            report["no_facts"].add(title)
-            facts = {"img": "", "syn": "", "len": "", "rating": "", "price": ""}
-        if not facts["price"]:
+                           f"'Seuraavat näytökset' heading ({served(page)})")
+    out, report = [], {"no_price": set(), "no_ticket": set()}
+    for card in cards(page, base):
+        title = card["title"]
+        if card["lines"] and not card["price"]:
             report["no_price"].add(title)
-        for line in lines[1:]:
-            m = SHOW_RE.match(line.strip())
+        for text, ticket in card["lines"]:
+            m = SHOW_RE.match(text)
             if not m:
                 raise ListingError(f"{site['provider']}: {title!r} prints the line "
-                                   f"{line!r}, which is no date and time this parser reads")
+                                   f"{text!r}, which is no date and time this parser reads")
             wd, day, month, hh, mm = m.groups()
             year = resolve_year(int(day), int(month), today, weekday_index(wd), WINDOW)
             if year is None:
@@ -335,30 +206,41 @@ def rows(site, page, today=None):
             except ValueError as e:
                 raise ListingError(f"{site['provider']}: {title!r} prints the impossible "
                                    f"date {day}.{month}.{year}") from e
-            row = {
+            if not ticket:
+                report["no_ticket"].add(title)
+            out.append({
                 "eventId": norm(title),
                 "title": title,
                 "original": "",
-                "len": facts["len"],
-                "rating": facts["rating"],
+                "len": card["len"],
+                "rating": card["rating"],
                 "genres": "",
                 "method": "",
                 "theatre": venue["name"],
                 "aud": "",
                 "start": start.isoformat(),
-                "url": url,
-                "img": facts["img"],
+                "url": ticket or card["film"] or url,
+                "img": card["img"],
                 "lang": "",
                 "soldOut": False,
-                "price": facts["price"],
+                "price": card["price"],
                 "provider": site["provider"],
                 "venue": venue["id"],
-            }
-            if facts["syn"]:
-                row["_syn"] = facts["syn"]
-            out.append(row)
+                "_film": card["film"],
+            })
     out.sort(key=lambda s: s["start"])
     return out, report
+
+
+def synopsis(page):
+    """The film page's first unlabelled paragraph, without its release note. -> str."""
+    m = FILM_PAGE_RE.search(body(page))
+    for inner in P_RE.findall(m.group(1) if m else ""):
+        if LABEL_RE.match(inner):
+            continue
+        parts = [" ".join(part.split()) for part in re.split(r"\n\s*\n", _txt(inner))]
+        return " ".join(part for part in parts if len(part) >= SYN_MIN)
+    return ""
 
 
 def get(url, tries=3, timeout=30):
@@ -366,38 +248,52 @@ def get(url, tries=3, timeout=30):
     return get_text(url, fetcher=fetch, tries=tries, timeout=timeout)
 
 
-def fetch_site(site, today=None):
+def synopses(urls, pid, sleep=1.5):
+    """{film page url: synopsis} for every film page that answered. -> dict."""
+    out = {}
+    for n, u in enumerate(capped(urls, pid)):
+        if n:
+            time.sleep(sleep)
+        try:
+            out[u] = synopsis(get(u))
+        except Exception as e:
+            print(f"[{pid}] film page {u}: {type(e).__name__}: {e}", file=sys.stderr)
+    return out
+
+
+def fetch_site(site, today=None, sleep=1.5):
     pid = site["provider"]
     venue = site["venues"][0]
     url = site["base"].rstrip("/") + site["listing"]
     page = get(url)
     shows, report = rows(site, page, today)
     if not shows:
-        if TIMES_RE.search(TAGS_RE.sub(" ", content(page))):
+        if TIMES_RE.search(TAGS_RE.sub(" ", body(page))):
             raise RuntimeError(
-                f"{url}: the weekend block is empty and the page prints a date or time "
-                f"elsewhere ({served(page)}). Treating it as screenings the listing missed "
-                f"rather than a quiet weekend, so the previous files stand")
-        if INTRO_RE.search(content(page)):
-            print(f"[{pid}] {venue['name']}: the weekend block is empty and the page says "
-                  f"the times appear only when there are screenings, so the venue is "
-                  f"confirmed empty")
-            return {venue["id"]: []}
-        raise RuntimeError(
-            f"{url}: the weekend block is empty and the page does not carry its own "
-            f"sentence about when times appear ({served(page)}). Treating it as a fetch "
-            f"or template failure rather than a quiet weekend, so the previous files stand")
+                f"{url}: no card prints a screening and the page prints a date or time "
+                f"elsewhere ({served(page)}). Treating it as screenings the parser missed, "
+                f"and the previous files stand")
+        print(f"[{pid}] {venue['name']}: the page renders its screenings heading, no card "
+              f"prints a screening and no date or time appears on the page. The venue is "
+              f"confirmed empty")
+        return {venue["id"]: []}
+    syn = synopses(sorted({s["_film"] for s in shows if s["_film"]}), pid, sleep)
+    for s in shows:
+        if syn.get(s["_film"]):
+            s["_syn"] = syn[s["_film"]]
+        del s["_film"]
     per_venue = {venue["id"]: shows}
     check_shows(per_venue, pid, {venue["id"]})
     days = sorted({s["start"][:10] for s in shows})
     print(f"[{pid}] {venue['name']}, {venue['city']}: {len(shows)} showtimes, "
-          f"{len(days)} dates, {len({s['eventId'] for s in shows})} film(s)")
-    if report["no_facts"]:
-        print(f"[{pid}] {len(report['no_facts'])} screening(s) whose film has no block on "
-              f"the page, published without metadata: "
-              f"{', '.join(sorted(report['no_facts'])[:6])}")
+          f"{len(days)} dates, {len({s['eventId'] for s in shows})} film(s), "
+          f"{sum(1 for s in shows if s.get('_syn'))} with a synopsis")
+    if report["no_ticket"]:
+        print(f"[{pid}] {len(report['no_ticket'])} film(s) with a screening that links no "
+              f"reservation and opens the film page: "
+              f"{', '.join(sorted(report['no_ticket'])[:6])}")
     if report["no_price"]:
-        print(f"[{pid}] {len(report['no_price'])} film(s) whose block settles no price: "
+        print(f"[{pid}] {len(report['no_price'])} film(s) whose card settles no price: "
               f"{', '.join(sorted(report['no_price'])[:6])}")
     return per_venue
 
@@ -408,5 +304,5 @@ if __name__ == "__main__":
         for s in shows:
             print(f"   {s['start'][:16]}  {s['title'][:30]:32} {s['rating']:5} "
                   f"{s['len']:4} {s['price']:6} img={'y' if s['img'] else '-'} "
-                  f"syn={len(s.get('_syn', ''))}")
+                  f"syn={len(s.get('_syn', ''))} {s['url']}")
     sys.exit(0)
