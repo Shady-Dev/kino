@@ -353,6 +353,22 @@ class AudioMarkerTest(unittest.TestCase):
             with self.subTest(title=title):
                 self.assertEqual(enrich_tmdb.clean(title), title)
 
+    def test_elokuviin_infos_screening_banners_come_off(self):
+        """Y-Kino and Kino Kyntäjä published these on 2026-11-01 beside the plain titles.
+        Only the listed banners, only first, and the interval only last."""
+        for published, plain in (("AIJJOOS-NÄYTÖS! Hetki ennen valoa", "Hetki ennen valoa"),
+                                 ("ERIKOISNÄYTÖS! Lapin sota", "Lapin sota"),
+                                 ("HUI KAUHAVA! Clayface", "Clayface"),
+                                 ("hui kauhava!  Yön lapsi", "Yön lapsi"),
+                                 ("Lapin sota: VÄLIAIKA!", "Lapin sota"),
+                                 ("Lapin sota : väliaika", "Lapin sota")):
+            with self.subTest(published=published):
+                self.assertEqual(enrich_tmdb.clean(published), plain)
+        for title in ("MAMMA MIA! Here We Go Again", "HUI KAUHAVA!", "Väliaika: Lapin sota",
+                      "Clayface HUI KAUHAVA!", "Lapin sota: väliaikainen"):
+            with self.subTest(title=title):
+                self.assertEqual(enrich_tmdb.clean(title), title)
+
     def test_a_dashed_puhumme_suomea_comes_off(self):
         """Kino Olympia published "Pikku Kummitus Lapanen keppostelee - puhumme suomea" on
         2026-10-12; the plain title matched. Only after a dash, and only last."""

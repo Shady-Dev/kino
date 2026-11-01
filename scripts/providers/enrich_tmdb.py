@@ -204,6 +204,12 @@ PAREN_STRAND = re.compile(r"\(\s*([^()]{1,40}?)\s*!?\s*\)\s*$")
 # Kannusali's "Elokuva: Flow. (K7)" (2026-10-13). Kept out of strands.EVENT_PREFIXES,
 # which run.py also splits off the published title.
 SEARCH_PREFIXES = ("elokuva",)
+# A screening's own banner before the title, with "!" and no colon. Elokuviin.info's Y-Kino
+# published "AIJJOOS-NÄYTÖS! Hetki ennen valoa", "ERIKOISNÄYTÖS! Lapin sota" and "HUI
+# KAUHAVA! Clayface" on 2026-11-01 beside the plain titles. Only these exact words.
+SHOUT_PREFIXES = ("aijjoos-n\u00e4yt\u00f6s!", "erikoisn\u00e4yt\u00f6s!", "hui kauhava!")
+# The same chain's "Lapin sota: VÄLIAIKA!", the screening with an interval. Last only.
+TRAIL_INTERVAL = re.compile(r"\s*:\s*v\u00e4liaika!?\s*$", re.I)
 TRAIL_RATING = re.compile(r"(?<=\S)\s*\(\s*(?:k\s*-?\s*(?:7|12|16|18)|s)\s*\)\s*$", re.I)
 
 
@@ -220,6 +226,11 @@ def clean(title):
         if low.startswith(pre + ":"):
             t = t[len(pre) + 1:].strip()
             break
+    for pre in SHOUT_PREFIXES:
+        if t.lower().startswith(pre) and t[len(pre):].strip():
+            t = t[len(pre):].strip()
+            break
+    t = TRAIL_INTERVAL.sub(" ", t)
     m = PAREN_STRAND.search(t)
     if m and m.group(1).lower() in EVENT_PREFIXES and t[:m.start()].strip():
         t = t[:m.start()].strip()
