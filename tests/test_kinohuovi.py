@@ -249,13 +249,11 @@ class CardTest(unittest.TestCase):
         self.assertEqual(s["theatre"], "Kino-Huovi")
         self.assertEqual((s["len"], s["price"]), ("90", "12€"))
 
-    def test_the_card_image_is_published_as_the_poster(self):
-        s = self.rows(card())[0][0]
-        self.assertEqual(s["img"], f"{CDN}/PRESIDENTIN+KYYDITYS-1920w.jpg")
-
-    def test_a_card_with_no_image_still_publishes(self):
-        shows, _ = self.rows(card(img=""))
-        self.assertEqual((len(shows), shows[0]["img"]), (1, ""))
+    def test_the_card_image_is_never_published_and_tmdb_supplies_the_poster(self):
+        for img in (f"{CDN}/PRESIDENTIN+KYYDITYS-1920w.jpg", ""):
+            with self.subTest(img=img):
+                shows, _ = self.rows(card(img=img))
+                self.assertEqual((len(shows), shows[0]["img"]), (1, ""))
 
 
 class FieldTest(unittest.TestCase):

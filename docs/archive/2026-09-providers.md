@@ -4485,6 +4485,14 @@ with a time count that differs from its day count is still refused. The live pag
 2026-11-01 gives 8 rows from 5 cards, up from 6, and every row matches its card's text.
 Five mutations red.
 
+### Kino-Huovi publishes no poster of its own (2026-11-01)
+On 2026-11-01 the YÖN LAPSI card carried an iStock photo, 342x222 once mirrored, and it was
+published as the poster although TMDB matched the film to 964849. The cinema's image always
+wins over TMDB's, and Duda's `-1920w.jpg` name gives no shape to check. The maintainer
+decided the same day that the adapter publishes no card image and the TMDB pass supplies
+every poster, as Johku and Kurikan Kino already do. A film TMDB does not hold now shows an
+initials tile instead of the cinema's picture. One mutation red.
+
 ### Kino Marilyn moves from Nexxo to eTiketti (2026-10-30)
 The Nexxo endpoint had answered 404 since 2026-10-24, and www.kinomarilyn.fi now serves
 eTiketti. The entry moved with the same provider and venue ids, label, host and accents.

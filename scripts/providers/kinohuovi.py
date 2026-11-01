@@ -31,11 +31,11 @@ What shapes the parser, measured on the live page 2026-09-21:
 - **The runtime is the card's own `Kestoaika`**, written `n.1t30min.` and `n. 1t 40min.`.
   The cinema qualifies it as approximate and that is the figure it publishes; nothing here
   computes one.
-- **The poster is the card's `data-background-image`, and its shape cannot be checked from
-  the URL.** Duda's CDN names the file `-1920w.jpg` and serves a resized variant, 224x320
-  and 225x320 for the two live cards read on 2026-09-21, so both are portrait. This is the
-  one field here whose shape the parser cannot verify, unlike `matintupa.py` where the
-  resizer writes the dimensions into the filename.
+- **No poster is published from this site.** The card's `data-background-image` was a
+  portrait poster on 2026-09-21, and on 2026-11-01 YÖN LAPSI carried a landscape stock
+  photo (342x222 once mirrored). Duda's `-1920w.jpg` name gives no shape to check, so
+  `img` stays empty and the TMDB pass supplies the poster, the maintainer's decision of
+  2026-11-01.
 - **No rating is printed on a card**, so `rating` stays empty and the shared KAVI pass may
   supply one.
 
@@ -76,7 +76,6 @@ TITLE_RE = re.compile(r'<div[^>]*\bclass="[^"]*\bpostTitle\b[^"]*"[^>]*>\s*<h3[^
                       r'<a[^>]+href="([^"]*)"[^>]*>(.*?)</a>', re.S | re.I)
 DESC_RE = re.compile(r'<div[^>]*\bclass="[^"]*\bpostDescription\b[^"]*"[^>]*>(.*?)</div>',
                      re.S | re.I)
-IMG_RE = re.compile(r'data-background-image="([^"]+)"', re.I)
 TIME_RE = re.compile(r'\bklo\s*(\d{1,2})[.:](\d{2})', re.I)
 # `25.-28.9.` and `21.9.`, the two forms the cards use. The times are blanked before this
 # runs, so `18.00` cannot be read as a day and a month.
@@ -219,7 +218,6 @@ def rows(site, page, today=None):
         price = price_of(body)
         if not price:
             count("no_price", title)
-        img = html_mod.unescape(IMG_RE.search(card).group(1)) if IMG_RE.search(card) else ""
         url, length, key = absolute(t.group(1), base), minutes_of(body), slug_of(title)
         for day, (hour, minute) in screenings:
             out.append({
@@ -235,7 +233,7 @@ def rows(site, page, today=None):
                 "start": datetime.datetime(day.year, day.month, day.day, hour, minute,
                                            tzinfo=FI).isoformat(),
                 "url": url,
-                "img": img,
+                "img": "",
                 "lang": "",
                 "soldOut": False,
                 "price": price,
@@ -284,6 +282,5 @@ if __name__ == "__main__":
     else:
         shows = fetch_site(SITES[0])[SITES[0]["venues"][0]["id"]]
     for s in shows:
-        print(f"   {s['start'][:16]}  {s['title'][:34]:36} {s['price']:7} "
-              f"{s['len']:4} {s['img'][-30:]}")
+        print(f"   {s['start'][:16]}  {s['title'][:34]:36} {s['price']:7} {s['len']:4}")
     sys.exit(0)
