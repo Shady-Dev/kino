@@ -23,8 +23,9 @@ What shapes the parser, measured on the live page 2026-09-21:
 - **No date carries a year.** `common.resolve_year` places each one from the weekday, so a
   page left up past its week selects a year the window then refuses.
 - **One `klo` applies to every date of its clause.** A clause with as many times as dates
-  pairs them in order. Any other count, or a time before the first date, leaves the whole
-  card out.
+  pairs them in order. One date with several times joined only by `ja` or a comma
+  (`3.11. TI klo 15.00 ja klo 18.00`, 2026-10-29) is a screening at each. Any other count,
+  or a time before the first date, leaves the whole card out.
 - **The price is published only when the ticket line is one bare amount.** `Liput 12€.` is
   that; anything further on the line states a condition this cannot settle.
 - **The runtime is the card's own `Kestoaika`**, written `n.1t30min.` and `n. 1t 40min.`.
@@ -80,6 +81,8 @@ TIME_RE = re.compile(r'\bklo\s*(\d{1,2})[.:](\d{2})', re.I)
 # `25.-28.9.` and `21.9.`, the two forms the cards use. The times are blanked before this
 # runs, so `18.00` cannot be read as a day and a month.
 DATE_RE = re.compile(r'\b(\d{1,2})\.(?:\s*[-–]\s*(\d{1,2})\.)?(\d{1,2})\.')
+# What may stand between two times of one date: nothing but `ja` or a comma.
+TIME_JOIN_RE = re.compile(r"\s*(?:,|\bja\b)?\s*", re.I)
 WEEKDAY_RE = re.compile(r'\b(ma|ti|ke|to|pe|la|su)\b', re.I)
 KESTO_RE = re.compile(r'Kestoaika\s*n?\.?\s*(?:(\d{1,2})\s*(?:t|h)\s*)?(\d{1,3})\s*min',
                       re.I)
@@ -168,9 +171,14 @@ def screenings_of(body, blanked, today):
         days, reason = dates_of(blanked[a:b], today)
         if reason:
             return [], reason
-        times = [(int(h), int(mi)) for h, mi in TIME_RE.findall(body[a:b])]
+        found = list(TIME_RE.finditer(body[a:b]))
+        times = [(int(m.group(1)), int(m.group(2))) for m in found]
         if len(times) == 1:
             times = times * len(days)
+        elif len(days) == 1 and times and all(
+                TIME_JOIN_RE.fullmatch(body[a:b][x.end():y.start()])
+                for x, y in zip(found, found[1:])):
+            days = days * len(times)
         elif len(times) != len(days):
             return [], "mismatch"
         out += zip(days, times)

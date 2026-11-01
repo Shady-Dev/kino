@@ -1329,6 +1329,8 @@ Source list: the Finnish Wikipedia article "Luettelo Suomen elokuvateattereista"
   On the front page read 2026-10-29 at 18:52 and 19:26 UTC, one card names two dates with
   their own weekday and time ("LAPIN SOTA 1.11. SU klo 18.00 2.11. MA klo 15.00", 15 €).
   Its link `/kopio-seuraavasta-lentaevae-kuolema` answered 200 at 19:29 UTC.
+  On the front page read 2026-11-01, one card names one date with two times
+  ("KERRO KAIKILLE 3.11. TI klo 15.00 ja klo 18.00", 12 €).
 - **Kino Akustiikka**, Ylivieska: town event system renders client-side.
 - **Kino Kuusamotalo**: front page names one film, one post per film. **Off this
   list 2026-09-20**: the posts carry `Esitysajat:` with dated lines, and

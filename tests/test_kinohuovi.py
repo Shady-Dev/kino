@@ -142,9 +142,25 @@ class CardTest(unittest.TestCase):
         self.assertEqual([s["start"] for s in shows], ["2026-09-25T18:00:00+03:00"])
         self.assertEqual(report["no_weekday"], 1)
 
-    def test_a_card_with_more_times_than_dates_settles_nothing(self):
+    def test_one_date_with_times_joined_by_ja_is_a_screening_at_each(self):
+        for desc, clocks in (("X 25.9. PE klo 18.00 ja klo 20.15 Liput 12&euro;.",
+                              ["18:00", "20:15"]),
+                             ("X 25.9. PE klo 15.00, klo 18.00 ja klo 20.15 Liput 12&euro;.",
+                              ["15:00", "18:00", "20:15"])):
+            with self.subTest(desc=desc):
+                shows, report = self.rows(card(desc=desc))
+                self.assertEqual(report["mismatch"], 0)
+                self.assertEqual([s["start"] for s in shows],
+                                 [f"2026-09-25T{c}:00+03:00" for c in clocks])
+
+    def test_two_times_of_one_date_with_words_between_settle_nothing(self):
         shows, report = self.rows(card(
-            desc="X 25.9. PE klo 18.00 ja klo 20.15 Liput 12&euro;."))
+            desc="X 25.9. PE ovet klo 17.30, elokuva klo 18.00 Liput 12&euro;."))
+        self.assertEqual((shows, report["mismatch"]), ([], 1))
+
+    def test_a_range_with_more_times_than_dates_settles_nothing(self):
+        shows, report = self.rows(card(
+            desc="X 25.-26.9. PE ja LA klo 15.00, klo 18.00 ja klo 20.15 Liput 12&euro;."))
         self.assertEqual((shows, report["mismatch"]), ([], 1))
 
     def test_as_many_times_as_dates_pairs_them_in_order(self):
@@ -178,14 +194,13 @@ class CardTest(unittest.TestCase):
     def test_a_date_or_time_left_unpaired_leaves_out_the_whole_card(self):
         for desc in ("X 1.11. SU 2.11. MA klo 15.00 Liput 15&euro;.",
                      "X klo 12.00 1.11. SU klo 18.00 2.11. MA klo 15.00 Liput 15&euro;.",
-                     "X 1.11. SU klo 15.00 ja klo 18.00 2.11. MA klo 15.00 Liput 15&euro;."):
+                     "X 1.11. SU klo 15.00 elokuva klo 18.00 2.11. MA klo 15.00 Liput 15&euro;."):
             with self.subTest(desc=desc):
                 shows, report = self.rows(card(desc=desc))
                 self.assertEqual((shows, report["mismatch"]), ([], 1))
 
     def test_the_programme_of_2026_10_29(self):
-        """The four cards as read 2026-10-29. KERRO KAIKILLE has two times for one date and
-        is left out."""
+        """The four cards as read 2026-10-29. KERRO KAIKILLE has two times for one date."""
         shows, report = self.rows(
             card(alias="kopio-seuraavasta-lentaevae-kuolema", title="LAPIN SOTA",
                  desc="LAPIN SOTA 1.11. SU klo 18.00 2.11. MA klo 15.00 "
@@ -200,7 +215,7 @@ class CardTest(unittest.TestCase):
                  desc="LATE LAMMAS-elokuva : HÄMÄRÄPUUHISSA 1.11. SU klo 16.00 "
                       "Kestoaika n. 1t 20min. Liput 10&euro;."),
             today=datetime.date(2026, 10, 29))
-        self.assertEqual((report["cards"], report["mismatch"]), (4, 1))
+        self.assertEqual((report["cards"], report["mismatch"]), (4, 0))
         self.assertEqual([(s["start"], s["title"], s["price"], s["url"]) for s in shows], [
             ("2026-10-30T18:00:00+02:00", "MATKA PIEMONTEEN", "12€",
              f"{BASE}/matka%20piemonteen"),
@@ -212,6 +227,8 @@ class CardTest(unittest.TestCase):
              f"{BASE}/kopio-seuraavasta-lentaevae-kuolema"),
             ("2026-11-02T15:00:00+02:00", "LAPIN SOTA", "15€",
              f"{BASE}/kopio-seuraavasta-lentaevae-kuolema"),
+            ("2026-11-03T15:00:00+02:00", "KERRO KAIKILLE", "12€", f"{BASE}/kero%20kaikille"),
+            ("2026-11-03T18:00:00+02:00", "KERRO KAIKILLE", "12€", f"{BASE}/kero%20kaikille"),
         ])
 
     def test_the_title_keys_the_row_and_is_published_verbatim(self):
@@ -334,11 +351,11 @@ class RunnerTest(unittest.TestCase):
 
     def test_every_card_left_out_is_named_in_the_log(self):
         d = datetime.datetime.now(K.FI).date() + datetime.timedelta(days=3)
-        wd = ("MA", "TI", "KE", "TO", "PE", "LA", "SU")[d.weekday()]
+        wd = ("MA", "TI", "KE", "TO", "PE", "LA", "SU")[(d.weekday() + 1) % 7]
         self.serve({LISTING: page(
             self.dated("PRESIDENTIN KYYDITYS", "uusi-elokuva", 1, ""),
             card(alias="kero kaikille", title="KERRO KAIKILLE",
-                 desc=f"KERRO KAIKILLE {d.day}.{d.month}. {wd} klo 15.00 ja klo 18.00 "
+                 desc=f"KERRO KAIKILLE {d.day}.{d.month}. {wd} klo 18.00 "
                       f"Liput 12&euro;."),
             card(title="", desc="Tulossa."))})
         code, log = self.main()
@@ -346,7 +363,7 @@ class RunnerTest(unittest.TestCase):
         self.assertIn("[kinohuovi] 1 card(s) whose dates, weekdays and times disagree: "
                       "KERRO KAIKILLE", log)
         self.assertIn("[kinohuovi] 1 card(s) with no title or no description, not read", log)
-        kerro = f"KERRO KAIKILLE {d.day}.{d.month}. {wd} klo 15.00 ja klo 18.00 Liput 12€."
+        kerro = f"KERRO KAIKILLE {d.day}.{d.month}. {wd} klo 18.00 Liput 12€."
         self.assertIn(f"[kinohuovi] unread date {common.unread_id('date', kerro)}: {kerro}\n",
                       log)
         tulossa = "3. helmikuuta 2026 Tulossa."

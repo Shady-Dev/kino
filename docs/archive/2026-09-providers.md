@@ -4475,6 +4475,16 @@ The run log now names every card left out, and counts cards with no title or des
 The saved page of 2026-10-29 logs `1 card(s) whose dates, weekdays and times disagree:
 KERRO KAIKILLE`. Two mutations red.
 
+### Kino-Huovi reads one date with several times (2026-11-01)
+The KERRO KAIKILLE card read `3.11. TI klo 15.00 ja klo 18.00` and was left out as a
+mismatch from 2026-10-29. The 2026-10-29 record kept one date with two times refused and
+gave no reason. At the maintainer's request a single date now gives a screening at each of
+its times when nothing but `ja` or a comma stands between them. Anything else between two
+times still leaves the card out, because a doors time would read as a screening. A range
+with a time count that differs from its day count is still refused. The live page read on
+2026-11-01 gives 8 rows from 5 cards, up from 6, and every row matches its card's text.
+Five mutations red.
+
 ### Kino Marilyn moves from Nexxo to eTiketti (2026-10-30)
 The Nexxo endpoint had answered 404 since 2026-10-24, and www.kinomarilyn.fi now serves
 eTiketti. The entry moved with the same provider and venue ids, label, host and accents.
