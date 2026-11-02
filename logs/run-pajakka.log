@@ -1,9 +1,9 @@
-[pajakkakino] Pajakkakino, Kuhmo: 24 showtimes, 18 dates, 10 film post(s) of 11
+[pajakkakino] Pajakkakino, Kuhmo: 24 showtimes, 18 dates, 11 film post(s) of 12
 [pajakkakino] 1 post(s) with no screening list or no runtime, not read
 [pajakkakino] Pajakkakino: 24 showtimes, 18 dates
 [pajakkakino] synopses merged: 0
 [run] http: 0 revalidated (304), 1 full, 0 not stored (origin said no-store), 0 cache entries written
 [run] hosts: 1 attempted -- www.pajakkakino.fi
 [run] pajakka: 1 venues, 24 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
-[run] timing: 1 site(s), 1.4s of fetching added up across workers that overlap, longest site 1.4s, longest queue wait 181.6s, 1.4s wall from this module's first fetch starting to its last ending
+[run] timing: 1 site(s), 1.0s of fetching added up across workers that overlap, longest site 1.0s, longest queue wait 155.6s, 1.0s wall from this module's first fetch starting to its last ending
 exit=0

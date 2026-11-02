@@ -6,7 +6,7 @@
 [kinokilta] Kino Kilta: 50 showtimes, 28 dates
 [kinokilta] strand prefix split off 4 showtimes
 [kinokilta] Kino Kilta: 50 showtimes, 28 dates
-[kinokilta] synopses merged: 4
+[kinokilta] synopses merged: 0
 [kinolaika] 40 screening(s) listed, 17 film page(s) read
 [kinolaika] omitted 0 confirmed non-film(s) by evidence-backed exclusion over 0 screening(s), and 6 unresolved over 6
 [kinolaika] unresolved: Antti Autio, Dave Lindholm & Pepe Ahlqvist: WALKIN' BLUES -kiertue, Garden Folly, Kino Iglu: Moskiittorannikko, Knipi - Sivellinvetoja, Livemusavisa
@@ -27,18 +27,18 @@
 [kinomyyri] Kino Myyri: 17 showtimes, 10 dates
 [kinomyyri] Kino Myyri: 17 showtimes, 10 dates
 [kinomyyri] synopses merged: 0
-[kinokonepaja] 70 screening(s) listed, 22 film page(s) read
+[kinokonepaja] 69 screening(s) listed, 22 film page(s) read
 [kinokonepaja] omitted 0 confirmed non-film(s) by evidence-backed exclusion over 0 screening(s), and 3 unresolved over 3
 [kinokonepaja] unresolved: Cold November, Reel Rock Film Tour 20, The BritRock Film Tour 2026
 [kinokonepaja] override edward-scissorhands: evidence-unavailable
 [kinokonepaja] override gremlins: evidence-unavailable
 [kinokonepaja] override nightmare-on-elm-street: evidence-unavailable
 [kinokonepaja] 4 film(s) with a language name not read, that part left blank: A shelter Among the Clouds (albania); Dua (albania, serbia); Helena Ranta – Sodan viimeinen sana (serbia, albania); Shame and Money (albania)
-[kinokonepaja] Kino Konepaja: 67 showtimes, 33 dates
-[kinokonepaja] Kino Konepaja: 67 showtimes, 33 dates
+[kinokonepaja] Kino Konepaja: 66 showtimes, 32 dates
+[kinokonepaja] Kino Konepaja: 66 showtimes, 32 dates
 [kinokonepaja] synopses merged: 0
-[run] http: 0 revalidated (304), 99 full, 20 not stored (origin said no-store), 39 cache entries written
+[run] http: 38 revalidated (304), 61 full, 20 not stored (origin said no-store), 1 cache entries written
 [run] hosts: 4 attempted -- kinokonepaja.fi, kinomyyri.fi, www.kinokilta.fi, www.kinolaika.fi
-[run] kinola: 4 venues, 168 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
-[run] timing: 4 site(s), 213.3s of fetching added up across workers that overlap, longest site 80.4s, longest queue wait 118.8s, 80.4s wall from this module's first fetch starting to its last ending
+[run] kinola: 4 venues, 167 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
+[run] timing: 4 site(s), 184.9s of fetching added up across workers that overlap, longest site 61.7s, longest queue wait 98.4s, 61.7s wall from this module's first fetch starting to its last ending
 exit=0

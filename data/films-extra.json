@@ -4161,6 +4161,19 @@
    },
    "tr": ""
   },
+  "late lammas elokuva hämärähommissa": {
+   "id": 1477104,
+   "img": "data/posters/0d3865389792d3a5.jpg",
+   "r": 7.4,
+   "s": {
+    "en": "On Halloween Eve at Mossy Bottom Farm, excitement turns to dismay when the clumsy Farmer ruins the pumpkin patch. Shaun tries fixing it with science experiments, but things go awry when a wild beast appears in the woods.",
+    "fi": ""
+   },
+   "tr": "https://www.youtube.com/watch?v=daZMq0AyOMc",
+   "ts": [
+    "en"
+   ]
+  },
   "late lammas elokuva hämäräpuuhissa": {
    "id": 1477104,
    "img": "data/posters/93eda5fa30b7d70c.jpg",
@@ -4223,6 +4236,7 @@
     "studio123jarvenpaa",
     "studio123kouvola",
     "tapiola",
+    "vaakuna",
     "vihdinkino",
     "virtainpirtti"
    ],
@@ -6379,8 +6393,7 @@
     "pajakkakino",
     "savonkinot",
     "star",
-    "studio123jarvenpaa",
-    "vaakuna"
+    "studio123jarvenpaa"
    ],
    "r": 0,
    "s": {
@@ -7852,6 +7865,7 @@
     "studio123jarvenpaa",
     "studio123kouvola",
     "tapiola",
+    "vaakuna",
     "vihdinkino",
     "virtainpirtti"
    ],
