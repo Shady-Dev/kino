@@ -264,16 +264,18 @@ class TheCommittedPages(unittest.TestCase):
     """The guarantee stated on what is published, not on the helpers."""
 
     def test_no_city_page_shows_one_film_twice_on_one_day(self):
-        dupes = []
+        dupes, read = [], 0
         for p in sorted((ROOT / "kaupunki").glob("*/index.html")):
             page = p.read_text(encoding="utf-8")
             for chunk in re.split(r'<h2 class="day">', page)[1:]:
                 day = re.match(r"([^<]*)", chunk).group(1)
                 seen = {}
-                for raw in re.findall(r"<h3>([^<]*)</h3>", chunk):
+                for raw in re.findall(r"<h3>(?:<a [^>]*>)?([^<]*)(?:</a>)?</h3>", chunk):
                     title = re.sub(r"\s*\(\d{4}\)$", "", html.unescape(raw))
                     seen.setdefault(bp.merge_key(title), []).append(title)
+                    read += 1
                 dupes += [(p.parent.name, day, v) for v in seen.values() if len(v) > 1]
+        self.assertGreater(read, 0)
         self.assertEqual(dupes, [])
 
 

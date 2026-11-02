@@ -540,6 +540,41 @@ class GeneratedPagesTest(unittest.TestCase):
             self.assertTrue(href.startswith("/?area="), href)
             self.assertIn("&lang=", href)
 
+    # -- the film link (2026-11-03) ---------------------------------------------------------
+
+    def test_a_city_heading_opens_the_films_sheet_in_this_city_and_language(self):
+        """The CTA's link plus `#m=` and the day the heading is listed under. A film listed
+        on both days names one group on both."""
+        cities = 0
+        for k, text in self.canonical.items():
+            if "/kaupunki/" not in k and "/city/" not in k:
+                continue
+            cta = html.unescape(CTA_RE.search(text).group(1))
+            t, keys = bp.L[self.lang_of(k)], {}
+            with self.subTest(path=k):
+                for chunk in re.split(r'<h2 class="day">', text)[1:]:
+                    label = html.unescape(re.match(r"([^<]*)", chunk).group(1))
+                    heads = re.findall(r'<h3><a href="([^"]+)">(.*?)</a></h3>', chunk)
+                    self.assertEqual(len(heads), chunk.count("<h3>"), label)
+                    for href, title in heads:
+                        link, frag = html.unescape(href).split("#", 1)
+                        self.assertEqual(link, cta)
+                        q = bp.urllib.parse.parse_qs(frag)
+                        self.assertEqual(sorted(q), ["d", "m"])
+                        self.assertEqual(bp.day_label(q["d"][0], t), label)
+                        self.assertEqual(keys.setdefault(title, q["m"]), q["m"], title)
+                self.assertEqual(text.count(bp.SHEET_LINK_CSS), 1 if keys else 0)
+            cities += bool(keys)
+        self.assertGreater(cities, 5)
+
+    def test_a_theatre_page_heading_is_not_a_link(self):
+        """Theatre pages, the pilot and its controls among them, are left as they were."""
+        for k, text in self.canonical.items():
+            if "/teatteri/" in k or "/theatre/" in k:
+                with self.subTest(path=k):
+                    self.assertNotIn("<h3><a ", text)
+                    self.assertNotIn(bp.SHEET_LINK_CSS, text)
+
     # -- the showtime label ----------------------------------------------------------------
 
     def test_a_theatre_page_never_repeats_its_own_cinema_in_a_showtime(self):
@@ -1040,6 +1075,45 @@ class DescriptionCopyTest(unittest.TestCase):
             self.assertNotIn(raw, both[0])
         self.assertIn("&quot;A&quot;", both[0])
         self.assertIn("&lt;b&gt;", both[0])
+
+
+class CityLinkTest(unittest.TestCase):
+    """The film a city heading links to, over a window built here (2026-11-03). The author
+    visit is the same film by its TMDB id and lists only on the second day."""
+
+    @staticmethod
+    def show(title, day, clock, tmdb=0):
+        return {"title": title, "start": f"2026-09-{day}T{clock}:00+03:00", "tmdbId": tmdb,
+                "url": "https://example.invalid/t", "aud": "Sali 1", "venueLabel": "Kino A"}
+
+    def build(self, kind):
+        shows = [self.show("Minä ja Riikka Purra", 14, "13:30", 900),
+                 self.show("Minä ja Riikka Purra (+tekijävierailu)", 15, "18:30", 900),
+                 self.show('Tom & Jerry "Elokuva"', 14, "16:00")]
+        days = bp.group_by_day(shows, date(2026, 9, 14), bp.CITY_DAYS, merge=True)
+        return bp.page(
+            lang="sv", paths={"fi": "/kaupunki/kitee/", "sv": "/sv/kaupunki/kitee/",
+                              "en": "/en/city/kitee/"},
+            title="T", desc="D", h1="H", sub="S", intro="I", days=days,
+            today=date(2026, 9, 14), t=bp.L["sv"], extra={}, gmap={}, city="Kitee",
+            with_venue=kind == "city", legend="", also="", og_image="/icon-512.png",
+            app_href="/?area=city%3AKitee&lang=sv", area="city:Kitee", chain_css="", kind=kind)
+
+    def test_a_film_on_both_days_links_one_group_named_as_the_client_names_it(self):
+        text = self.build("city")
+        app = "/?area=city%3AKitee&amp;lang=sv#m="
+        self.assertEqual(re.findall(r'<h3><a href="([^"]+)">', text), [
+            app + "min%C3%A4%20ja%20riikka%20purra&amp;d=2026-09-14",
+            app + "tom%20jerry%20elokuva&amp;d=2026-09-14",
+            app + "min%C3%A4%20ja%20riikka%20purra&amp;d=2026-09-15"])
+        self.assertIn(">Tom &amp; Jerry &quot;Elokuva&quot;</a></h3>", text)
+        self.assertEqual(text.count(bp.SHEET_LINK_CSS), 1)
+
+    def test_a_theatre_page_links_no_heading(self):
+        text = self.build("theatre")
+        self.assertEqual(text.count("<h3>"), 3)
+        self.assertNotIn("<h3><a ", text)
+        self.assertNotIn(bp.SHEET_LINK_CSS, text)
 
 
 class StubShapeTest(unittest.TestCase):

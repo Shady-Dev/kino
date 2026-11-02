@@ -103,11 +103,13 @@ the review are in [docs/research/seo-and-search.md](docs/research/seo-and-search
 
 ### A way to read a generated page's full synopsis
 
-The pages print 200 characters, three lines on a phone, and nothing opens the rest; the
-app's film sheet has it. Proposal: a "Koko kuvaus" link under the text to the app's deep
-link `/?area=<venue>&lang=<l>#m=<film id>`, which opened that sheet for 8 films in Chromium
-and WebKit on 2026-10-04; on a phone a tap leaves the page and Back returns. A `<details>`
-with the full text would repeat it on every page. **Unblocks when:** the maintainer picks.
+A theatre page prints 200 characters, three lines on a phone, and nothing opens the rest;
+the app's film sheet has it, and since 2026-11-03 a city page's film heading opens that
+sheet ([docs/archive/2026-09-app.md](docs/archive/2026-09-app.md)). Proposal: a "Koko
+kuvaus" link under the text to the app's deep link `/?area=<venue>&lang=<l>#m=<film id>`,
+which opened that sheet for 8 films in Chromium and WebKit on 2026-10-04; on a phone a tap
+leaves the page and Back returns. A `<details>` with the full text would repeat it on every
+page. **Unblocks when:** the maintainer picks.
 
 ### A runtime to break a same-year TMDB tie
 

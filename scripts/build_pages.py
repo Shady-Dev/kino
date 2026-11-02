@@ -912,6 +912,11 @@ def group_key(s):
     return "tapahtuma:" + k if s.get("nonFilm") else k
 
 
+def sheet_key(shows):
+    """The id the client's `mergeIds` names a group by: its sorted-first title key."""
+    return min(group_key(s) for s in shows)
+
+
 def merge_roots(shows):
     """{merge_key: root} after unioning each title key with its films' TMDB ids.
 
@@ -1351,7 +1356,7 @@ def sources_line(t, syn_src):
 
 
 def film_block(title, shows, extra, gmap, lang, t, with_venue, syn_seen, current_year,
-               native=None, syn_src=None):
+               native=None, syn_src=None, sheet_href=""):
     rating, length = first(shows, "rating"), first(shows, "len")
     genres = genre_names(first(shows, "gids"), first(shows, "genres"), gmap, lang)
     tmdb = first(shows, "tmdb")
@@ -1422,8 +1427,11 @@ def film_block(title, shows, extra, gmap, lang, t, with_venue, syn_seen, current
     # The app's combined view stacks time over place in a grid; its single-venue view
     # keeps the row stub. A city page is the combined view, a theatre page is not.
     grid = " grid" if with_venue else ""
+    heading = esc(film_title(title, shows, current_year))
+    if sheet_href:
+        heading = f'<a href="{esc(sheet_href)}">{heading}</a>'
     return (f'<article class="film">{poster}<div class="info">'
-            f'<h3>{esc(film_title(title, shows, current_year))}</h3>'
+            f'<h3>{heading}</h3>'
             + (f'<div class="meta1">{"".join(meta1)}</div>' if meta1 else "")
             + (f'<div class="meta2">{"".join(meta2)}</div>' if meta2 else "")
             + (f'<p class="syn">{esc(syn)}</p>' if syn else "")
@@ -1584,6 +1592,11 @@ PILOT_CSS = (".later{position:relative;z-index:2;background:var(--bg)}"
              ".later .lt li{padding:4px 0}"
              ".later .lf,.later .price{color:var(--muted);margin-left:6px}")
 
+# The app's `.tlink` on a city page's linked headings, so the others stay byte-identical.
+SHEET_LINK_CSS = (".film h3 a{text-decoration:none;border-radius:3px}"
+                  ".film h3 a:hover{text-decoration:underline;text-decoration-thickness:1px;"
+                  "text-decoration-color:var(--muted);text-underline-offset:3px}")
+
 # Only on a page that carries the warning, so the others stay byte-identical.
 LATE_CSS = (".late{color:var(--ink)}"
             ".late a{color:var(--accent-text);font-weight:700;text-decoration:none}"
@@ -1610,14 +1623,25 @@ def page(*, lang, paths, title, desc, h1, sub, intro, days, today, t,
         body.append(f'<p class="intro"><span data-nosnippet>{esc(line)}</span></p>')
     elif late:
         body.append(late)
+    # A city heading opens the film's sheet, keyed over the whole window so both days agree.
+    # `sheetId` opens a group from any member's key, so a wider group in the app still opens.
+    sheet_keys = {}
+    if kind == "city":
+        window = {}
+        for films in days.values():
+            for key, shows in films.items():
+                window.setdefault(key, []).extend(shows)
+        sheet_keys = {key: sheet_key(shows) for key, shows in window.items()}
     for iso in sorted(days):
         body.append(f'<h2 class="day">{esc(day_label(iso, t))}</h2>')
-        for (title_, _), shows in sorted(days[iso].items(),
-                                         key=lambda kv: (kv[1][0].get("start") or "", kv[0])):
-            body.append(film_block(title_, shows, extra, gmap, lang, t,
+        for key, shows in sorted(days[iso].items(),
+                                 key=lambda kv: (kv[1][0].get("start") or "", kv[0])):
+            href = (f"{app_href}#m={urllib.parse.quote(sheet_keys[key], safe='')}&d={iso}"
+                    if key in sheet_keys else "")
+            body.append(film_block(key[0], shows, extra, gmap, lang, t,
                                    with_venue=with_venue, syn_seen=syn_seen,
                                    current_year=today.year, native=native,
-                                   syn_src=syn_src))
+                                   syn_src=syn_src, sheet_href=href))
     if later:
         body.append(later)
     self_path = paths[lang]
@@ -1655,7 +1679,7 @@ def page(*, lang, paths, title, desc, h1, sub, intro, days, today, t,
 <link rel="icon" href="/icon-192.png">
 <link rel="preload" href="/fonts/archivo-latin.woff2" as="font" type="font/woff2" crossorigin>
 <style>{CSS}
-{chain_css}{LATE_CSS if late else ''}{PILOT_CSS if later else ''}</style>
+{chain_css}{SHEET_LINK_CSS if sheet_keys else ''}{LATE_CSS if late else ''}{PILOT_CSS if later else ''}</style>
 <script type="application/ld+json">{ld_json(days, today, city, extra)}</script>
 </head>
 <body>

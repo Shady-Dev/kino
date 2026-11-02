@@ -17,10 +17,16 @@ import subprocess
 import unittest
 
 import _ctx
+import build_pages as bp
 
 
 HARNESS = pathlib.Path(__file__).resolve().parent / "merge_ids_harness.js"
 ACME, MUTINY = "kojootti vs acme", "mutiny"
+# The harness's shows as the titles a provider publishes, by its `n`.
+TITLES = {"1": ("Kojootti vs. ACME (englanniksi)", 1204680),
+          "2": ("Kojootti vs. ACME, suomeksi", 1204680), "3": ("Kojootti vs. ACME", 0),
+          "4": ("Mutiny - Lavastettu syylliseksi", 7), "5": ("Mutiny", 7),
+          "6": ("Autofiktio", 0)}
 
 
 @unittest.skipIf(shutil.which("node") is None, "node not installed")
@@ -64,6 +70,18 @@ class MergeIdsTest(unittest.TestCase):
     def test_a_link_naming_nothing_is_left_as_it_came(self):
         self.assertEqual(self.r["resolve"]["ei tätä elokuvaa"], "ei tätä elokuvaa")
         self.assertEqual(self.r["resolve"][""], "")
+
+    def test_a_city_page_names_each_group_as_the_client_does(self):
+        """The `#m=` a city page's heading links to (2026-11-03)."""
+        shows = [{"n": n, "title": t, "tmdbId": i} for n, (t, i) in TITLES.items()]
+        self.assertEqual({s["n"]: bp.group_key(s) for s in shows},
+                         self.r["orders"]["given"]["own"])
+        roots = bp.merge_roots(shows)
+        groups = {}
+        for s in shows:
+            groups.setdefault(roots[bp.group_key(s)], []).append(s)
+        self.assertEqual({s["n"]: bp.sheet_key(groups[roots[bp.group_key(s)]]) for s in shows},
+                         self.r["orders"]["given"]["ids"])
 
 
 class ShowSheetResolvesTest(unittest.TestCase):
