@@ -126,12 +126,14 @@
    "tr": ""
   },
   "aijjoos näytös hetki ennen valoa": {
+   "id": 1015881,
+   "img": "data/posters/ec99ecd6b2aa4dcc.jpg",
    "r": 0,
    "s": {
     "en": "",
     "fi": "Klaus Härön uutuuselokuva kertoo kahden naisen kohtaamisesta keskellä hoitoalan kriisiä. Erikoissairaanhoitaja Inka (Laura Birn) tekee työtään suurella sydämellä vaativien työolosuhteiden ja oman perhe-elämänsä ristipaineessa. Lenin (Oona Airola) ja Karin (Jussi Vatanen) onni rakoilee, kun heidän vastasyntynyt vauvansa kiidätetään äkillisesti tehohoitoon. Sairaanhoitajat suunnittelevat lakkoa parempien työolosuhteiden puolesta, ja epävarmuuden hetkellä hämmentynyt Leni löytää tukea ja toivoa Inkasta. Inka on kuitenkin vaikeiden päätösten äärellä. Molemmat naiset toimivat rakkaudesta ja velvollisuudesta – mutta miten tehdä oikea valinta, kun vaakalaudalla ovat oma ja toisten elämä?"
    },
-   "tr": ""
+   "tr": "https://www.youtube.com/watch?v=bOD_fRxNT4Q"
   },
   "akaan elokuvajuhla 2026 muodonmuutoksia": {
    "r": 0,
@@ -265,19 +267,6 @@
     "sv": "Bästa damer, herrar och alla som älskar humor – André Wickström har uppträtt med stand up i 30 år! Det är längre än många förhållanden och dessutom mycket roligare. I den här jubileumsshowen återvänder André till scenen klokare än någonsin (eller åtminstone mer medelålders), och bjuder på godbitar från tre decennier samt helt nytt material, för det är bara i politiken man återvinner gamla skämt. Under kvällen får vi bland annat veta varför den sansade finlandssvensken inte alls är lik en översaltad surströmming. Det blir en kväll fylld av nostalgi, överraskningar och framför allt skratt – för även om världen förändras, finns det en sak som består: André Wickström får oss fortfarande att skratta, mer än vårt eget liv gör. Välkommen att fira 30 år av komik och livsvisdom (som inskaffats den hårda vägen)! Föreställningens längd: ca 2 timmar inklusive paus."
    },
    "tr": ""
-  },
-  "angel s egg": {
-   "id": 15916,
-   "img": "data/posters/5f27483c89b48bd6.jpg",
-   "r": 7.7,
-   "s": {
-    "en": "",
-    "fi": "Nuori neito hoivaa mystistä enkelin munaa karussa ja unenomaisessa kaupungissa. Sotaisa nuorukainen saapuu kaupunkiin jahtaamaan unelmiaan. Heidän välilleen syntyy hauras ystävyys."
-   },
-   "tr": "https://www.youtube.com/watch?v=SqyVGzaQFpQ",
-   "ts": [
-    "fi"
-   ]
   },
   "anni tahtoo äidin ja kala": {
    "id": 599152,
@@ -532,13 +521,12 @@
   },
   "back to the beginning ozzy s final bow": {
    "id": 1515139,
-   "img": "data/posters/10a5b5a96bd42dfd.jpg",
    "r": 0,
    "s": {
     "en": "OZZY & BLACK SABBATH: BACK TO THE BEGINNING documents a landmark moment in music history: Ozzy Osbourne’s historic final farewell performance for his fans at Villa Park stadium in his Birmingham hometown – captured just 17 days before his untimely passing. The film highlights the historic day with performances from Ozzy, Black Sabbath, and some of the most influential names in rock, along with personal reflections from the superstar musicians they inspired and a behind-the-scenes look at the day itself. This is an historic and intimate farewell to Ozzy and the band that changed music forever.",
     "fi": ""
    },
-   "tr": "https://www.youtube.com/watch?v=REqdAeNUIho"
+   "tr": ""
   },
   "backrooms everything must go": {
    "r": 0,
@@ -1048,7 +1036,6 @@
    "krs": [
     "biorex",
     "biosalo",
-    "gilda",
     "orion",
     "savonkinot"
    ],
@@ -1121,6 +1108,19 @@
     "fi": "Mitä tapahtuu, kun nuori ja utelias elokuvantekijä haastaa luovuuttaan tekoälyn rajattomilla mahdollisuuksilla? Radu Juden viimeisin elokuva on provokatiivinen ja kuriton kudelma entis- ja nykyaikaan sijoittuvia variaatioita Draculan alkuperäismyytistä: vampyyrijahti, zombit ja lakkoilua häiritsevä Dracula, tieteisvisio Vlad Seivästäjän paluusta, sovitus ensimmäisestä romanialaisesta vampyyrinovellista, traaginen romanssi, rivo kansantarina, tekoälyn synnyttämä kitsch-fantasia… ja paljon muuta."
    },
    "tr": "https://www.youtube.com/watch?v=n58Zr82ZC_Q"
+  },
+  "drive my car": {
+   "id": 758866,
+   "img": "data/posters/8f030b63048ae2d6.jpg",
+   "r": 7.4,
+   "s": {
+    "en": "",
+    "fi": "Yusuke Kafuku, teatteriohjaaja ja näyttelijä, ei ole vielä kahden vuodenkaan jälkeen saanut käsiteltyä vaimonsa kuolemaa. Hän suostuu ohjaamaan Vanja-enon Hiroshiman teatterifestivaalille ja tapaa siellä Misakin, nuoren introvertin naisen, joka on palkattu ohjaajan autonkuljettajaksi. Punainen Saab 900 on keskeinen näyttämö, kun tähän asti vaietut salaisuudet vähitellen raottuvat."
+   },
+   "tr": "https://www.youtube.com/watch?v=YyDSxD51WRE",
+   "ts": [
+    "fi"
+   ]
   },
   "dua": {
    "id": 1472825,
@@ -1205,6 +1205,19 @@
    "tr": "https://www.youtube.com/watch?v=l_Ozo1xUgbU",
    "ts": [
     "en"
+   ]
+  },
+  "ei koskaan yksin": {
+   "id": 563470,
+   "img": "data/posters/fca3c0fdd06e29be.jpg",
+   "r": 0,
+   "s": {
+    "en": "",
+    "fi": "Vuosi 1942. Suomen valtio on muodostanut liittouman Natsi-Saksan kanssa. Yksi vanha mies yrittää yksin pysäyttää Suomen valtiollisen poliisin salaisen yrityksen luovuttaa juutalaiset pakolaiset suoraan Gestapon käsiin."
+   },
+   "tr": "https://www.youtube.com/watch?v=8TVtHnDUvUI",
+   "ts": [
+    "fi"
    ]
   },
   "ekakertaleffassa näytös pikku kummitus lapanen": {
@@ -1293,6 +1306,8 @@
    "tr": ""
   },
   "erikoisnäytös lapin sota": {
+   "id": 1450460,
+   "img": "data/posters/c15d678a31ae397e.jpg",
    "r": 0,
    "s": {
     "en": "",
@@ -2021,20 +2036,40 @@
    ]
   },
   "hui kauhava clayface": {
-   "r": 0,
+   "id": 1400940,
+   "img": "data/posters/3e36688a9a6ac7d2.jpg",
+   "r": 7.4,
    "s": {
-    "en": "",
+    "en": "Matt Hagen's meteoric rise from Gotham street kid to Hollywood leading man is tragically cut short when a local crime boss's actions leave him horribly disfigured. Abandoned by his team and with nothing left, Matt seeks out a cutting edge treatment that miraculously returns him to his former self… but also unexpectedly affects his grip on reality, spiraling him down a destructive path of all-consuming revenge.",
     "fi": "DC Studiosin Clayface on ohjaaja James Watkinsin kauhutrilleri, jonka nimiosassa Gotham Cityn vihollisgallerian suosikkiroistona nähdään Tom Rhys Harries. Clayface kuvaa yhden miehen kauhistuttavaa luisumista nousevasta Hollywood-tähdestä epämuodostuneeksi, kostoa janoavaksi uhriksi. Tarina tutkii ihmisyyden katoamista sekä kaiken läpäisevän pakkomielteen aiheuttamaa tuhoa. Muissa rooleissa esiintyvät Naomi Ackie, David Dencik, Max Minghella ja Eddie Marsan sekä Nancy Carroll ja Joshua James. James Watkinsin ohjaus perustuu Mike Flanaganin ja Hossein Aminin käsikirjoitukseen ja Flanaganin alkuperäistarinaan sekä DC:n hahmoihin. Elokuvan ovat tuottaneet Matt Reeves, Lynn Harris, James Gunn ja Peter Safran sekä vastaavina tuottajina Michael E. Uslan, Chantal Nong Vo, Lars P. Winther, Rafi Crohn ja Paul Ritchie Watkinsin työryhmään lukeutuvat elokuvaaja Rob Hardy, lavastussuunnittelija James Price, leikkaaja Jon Harris ja pukusuunnittelija Keith Madden. Musiikista vastaa Volker Bertelmann. DC Studios esittää 6th & Idaho -tuotannon, James Watkinsin elokuvan “Clayface”. Elokuvan levittää Warner Bros. Pictures, ja se saa ensi-iltansa elokuvateattereissa 23. lokakuuta 2026."
    },
-   "tr": ""
+   "tr": "https://www.youtube.com/watch?v=f7jlCqdtwdM",
+   "ts": [
+    "en"
+   ]
+  },
+  "hui kauhava leviticus": {
+   "id": 1564614,
+   "img": "data/posters/bcc43fe8ab925846.jpg",
+   "r": 6.8,
+   "s": {
+    "en": "Two teenage boys must escape a violent entity that takes the form of the person they desire most:  each other.",
+    "fi": ""
+   },
+   "tr": "https://www.youtube.com/watch?v=WXuK0vlFxII",
+   "ts": [
+    "en"
+   ]
   },
   "hui kauhava yön lapsi": {
-   "r": 0,
+   "id": 964849,
+   "img": "data/posters/d0630be5ff40e993.jpg",
+   "r": 6.0,
    "s": {
     "en": "",
     "fi": "Lapsista haaveilevat suomalainen Saga (Seidi Haarla) ja britti Jon (Rupert Grint) muuttavat suomalaisen metsän keskelle taloon, jossa Saga on viettänyt lapsuuden kesät. Pian he saavat terveen pojan, mutta pikkuhiljaa Sagan valtaa pelottava tunne, että vaativassa vauvassa on jotain outoa. Tuoreiden vanhempien kokemukset saavat modernin kansantarun mittasuhteet."
    },
-   "tr": ""
+   "tr": "https://www.youtube.com/watch?v=dWePsu_Kd9c"
   },
   "humiseva harju": {
    "id": 1316092,
@@ -2440,7 +2475,7 @@
   "järki ja tunteet": {
    "id": 1503762,
    "img": "data/posters/056008305739a764.jpg",
-   "r": 7.2,
+   "r": 7.3,
    "s": {
     "en": "After the death of their father leaves their family facing financial uncertainty, sisters Elinor and Marianne Dashwood are forced to leave their home and start anew in the countryside. As they navigate the rigid expectations of Regency society, the sisters find themselves caught between love, heartbreak and social convention – Elinor guided by restraint, Marianne by passion. Georgia Oakley’s fresh adaptation of Jane Austen’s classic explores the enduring tensions between reason and feeling, and the complicated paths women must take to find love and independence. An irresistible new take on Jane Austen’s iconic Sense and Sensibility: a charming, witty, and deeply relatable story of love and sisterhood starring Daisy Edgar-Jones and Esmé Creed-Miles.",
     "fi": "Uusi, vastustamaton tulkinta Jane Austenin ikonisesta Järki ja tunteet -teoksesta: hurmaava, nokkela ja syvästi samaistuttava tarina rakkaudesta ja sisaruudesta. Pääosissa loistavat Daisy Edgar-Jones ja Esmé Creed-Miles"
@@ -2658,6 +2693,7 @@
    "krs": [
     "biogrand",
     "biomarilyn",
+    "biopallas",
     "biorex",
     "biorexkokkola",
     "biosade",
@@ -2666,6 +2702,7 @@
     "biovuoksi",
     "cine",
     "cinemantsala",
+    "elokuviin",
     "engel",
     "gilda",
     "haapamaki",
@@ -2702,10 +2739,10 @@
     "kotkanleffat",
     "kurikankino",
     "kuvakukko",
+    "kuvatahti",
     "laitilankino",
     "leffabuumi",
     "niagara",
-    "orion",
     "pajakkakino",
     "regina",
     "savonkinot",
@@ -3112,13 +3149,12 @@
   },
   "kohtalon avain": {
    "id": 303,
-   "img": "data/posters/3d9069341a0d98cd.jpg",
-   "r": 7.7,
+   "r": 0,
    "s": {
     "en": "",
     "fi": "Alfred Hitchcockin tyylitajua huokuva vakoojatrilleri yhdistää romantiikan ja kylmän sodan jännitteet. Ingrid Bergmanin Alicia on haavoittuva mutta päättäväinen nainen, joka ajautuu kaksoisrooliin natsien verkostoon Brasiliaan. Vaarallinen peitetehtävä joutuu romantiikan vuoksi koetukselle Hitchcockin hienoimpiin teoksiin lukeutuvassa jännityselokuvassa."
    },
-   "tr": "https://www.youtube.com/watch?v=H8f4UOtLf5Q"
+   "tr": ""
   },
   "kojootti vs acme": {
    "id": 1204680,
@@ -3560,6 +3596,19 @@
     "fi"
    ]
   },
+  "kunnian miehiä": {
+   "id": 881,
+   "img": "data/posters/38ba988421793a9c.jpg",
+   "r": 7.6,
+   "s": {
+    "en": "",
+    "fi": "Amerikkalaisessa laivastotukikohdassa sattuu epäilyttävä kuolemantapaus - sotamies Santiago kuolee mitä ilmeisemmän simputusteon uhrina. Päämaja alkaa tutkia tapausta ja kaksi merisotilasta saa murhasyytteen. Tapaus haluttaisiin kuitenkin haudata kaikessa hiljaisuudessa. Nuori lakimies Danny Kaffee joka on aina hoitanut oikeusjuttunsa sopimalla saa ryhtyä miesten puolustajaksi. Yliluutnantti Joanne Gallowayn mielestä asia on vietävä oikeuteen Totuuden löytäminen on kuitenkin työn takana, koska tukukohdan komentaja eversti Jessep kiistää simputussyytteet. Epäilyt salailusta vahvistuvat, kun everstiluutnantti Markinson katoaa..."
+   },
+   "tr": "https://www.youtube.com/watch?v=2T2pyqrr8UM",
+   "ts": [
+    "fi"
+   ]
+  },
   "kuolemaantuomittu": {
    "id": 687,
    "img": "data/posters/02a1a395deeafd74.jpg",
@@ -3812,19 +3861,6 @@
     "en"
    ]
   },
-  "laatusarja the testament of ann lee": {
-   "id": 1401281,
-   "img": "data/posters/c2fa9e625324e2dc.jpg",
-   "r": 6.3,
-   "s": {
-    "en": "The extraordinary true legend of Ann Lee, founder of the devotional sect known as the Shakers, who preached gender and social equality and was revered by her followers as the female Christ.",
-    "fi": ""
-   },
-   "tr": "https://www.youtube.com/watch?v=Rb0ZhiDD9J0",
-   "ts": [
-    "en"
-   ]
-  },
   "lahden videokuvaajat 70v neljä lyhytelokuvaa": {
    "r": 0,
    "s": {
@@ -3899,6 +3935,8 @@
    ]
   },
   "lapin sota väliaika": {
+   "id": 1450460,
+   "img": "data/posters/c15d678a31ae397e.jpg",
    "r": 0,
    "s": {
     "en": "",
@@ -3924,19 +3962,6 @@
    },
    "tr": ""
   },
-  "late lammas elokuva hämärähommissa": {
-   "id": 1477104,
-   "img": "data/posters/0d3865389792d3a5.jpg",
-   "r": 7.4,
-   "s": {
-    "en": "On Halloween Eve at Mossy Bottom Farm, excitement turns to dismay when the clumsy Farmer ruins the pumpkin patch. Shaun tries fixing it with science experiments, but things go awry when a wild beast appears in the woods.",
-    "fi": ""
-   },
-   "tr": "https://www.youtube.com/watch?v=daZMq0AyOMc",
-   "ts": [
-    "en"
-   ]
-  },
   "late lammas elokuva hämäräpuuhissa": {
    "id": 1477104,
    "img": "data/posters/93eda5fa30b7d70c.jpg",
@@ -3947,23 +3972,22 @@
     "biokaari",
     "biomarilyn",
     "biomarlon",
+    "biopallas",
     "biorex",
-    "biosade",
     "biosalo",
     "biosavoy",
     "biostara",
     "cine",
     "cinemantsala",
     "elavienkuvien",
+    "elokuviin",
     "engel",
     "ihmekompleksi",
     "isohannu",
-    "jarvelankino",
     "joutsankino",
     "kino123",
     "kinoaurora",
     "kinoelo",
-    "kinohirvi",
     "kinojuha",
     "kinokuva",
     "kinolaika",
@@ -3971,7 +3995,6 @@
     "kinomania",
     "kinomarilyn",
     "kinometso",
-    "kinoolympia",
     "kinopiispanristi",
     "kinopirtti",
     "kinosampo",
@@ -3983,13 +4006,15 @@
     "kkino",
     "korjaamo",
     "kotkanleffat",
+    "kurikankino",
+    "kuvatahti",
     "leffabuumi",
     "levisummit",
+    "matintupa",
     "savonkinot",
     "star",
     "studio123jarvenpaa",
     "studio123kouvola",
-    "vaakuna",
     "virtainpirtti"
    ],
    "r": 7.4,
@@ -4004,16 +4029,12 @@
   },
   "late lammas elokuva hämäräpuuhissa elokuva on tekstitetty": {
    "id": 1477104,
-   "img": "data/posters/0d3865389792d3a5.jpg",
-   "r": 7.4,
+   "r": 0,
    "s": {
-    "en": "On Halloween Eve at Mossy Bottom Farm, excitement turns to dismay when the clumsy Farmer ruins the pumpkin patch. Shaun tries fixing it with science experiments, but things go awry when a wild beast appears in the woods.",
+    "en": "",
     "fi": "Rakastettu Late Lammas palaa valkokankaille uudessa, riemastuttavassa ja kutkuttavan hauskassa seikkailussa. Farmin asukkaat odottavat innolla Halloweenia, kunnes heidän rakkaudella kasvattamansa kurpitsaviljelmä tuhoutuu juhlan kynnyksellä. Late ei jää toimettomaksi, vaan päättää ryhtyä “hulluksi tiedemieheksi” korjatakseen tilanteen – ja pian tapahtumat karkaavatkin täysin käsistä. Kun tilan maajussi katoaa ja outo villi peto herättää kauhua kyläläisissä, ovat kaikki ainekset kasassa hirviömäisen hauskalle seikkailulle kaiken ikäisille. Kananlento ja Wallace & Gromit -elokuvien tekijöiden uusi seikkailu Late Lammas: Hämäräpuuhissa saapuu elokuvateattereihin 30. lokakuuta."
    },
-   "tr": "https://www.youtube.com/watch?v=daZMq0AyOMc",
-   "ts": [
-    "en"
-   ]
+   "tr": ""
   },
   "late lammas elokuva hämäräpuuhissa ennakkonäytös": {
    "id": 1477104,
@@ -4635,6 +4656,19 @@
    },
    "tr": ""
   },
+  "milano calibro 9": {
+   "id": 40022,
+   "img": "data/posters/1f65760ef00e9aaa.jpg",
+   "r": 7.5,
+   "s": {
+    "en": "Just out of prison, ex-con Ugo Piazza meets his former employer, a psychopathic gangster Rocco who enjoys sick violence and torture. Both the gangsters and the police believe Ugo has hidden $300,000 that should have gone to an American drug syndicate boss.",
+    "fi": ""
+   },
+   "tr": "https://www.youtube.com/watch?v=9Nw_eRFafqs",
+   "ts": [
+    "en"
+   ]
+  },
   "milanon ihme": {
    "id": 43379,
    "img": "data/posters/b365bb1e601c0aa4.jpg",
@@ -4912,17 +4946,6 @@
   "naza": {
    "id": 1755291,
    "img": "data/posters/60552918c00e4422.jpg",
-   "kr": "K-12",
-   "krs": [
-    "bioforum",
-    "engel",
-    "gilda",
-    "kinokilta",
-    "kinokonepaja",
-    "niagara",
-    "orion",
-    "studio123kouvola"
-   ],
    "r": 8.1,
    "s": {
     "en": "Filmed at night from Tel Aviv rooftops, the film reveals in detail the systems behind the systematic destruction of Palestinian civilians by the Israeli military in Gaza. It is directed by Rachel Szor and Yuval Abraham, known for the Oscar-winning documentary No Other Land. The screening begins with a 26-minute short film about Gaza and is followed by a discussion. Details regarding the speakers will be announced later. The screening is organized in collaboration with B-plan Distribution and the Refugee Film Festival.",
@@ -5011,13 +5034,12 @@
   },
   "noidat": {
    "id": 6069,
-   "img": "data/posters/f5d2e28070cc471e.jpg",
-   "r": 6.5,
+   "r": 0,
    "s": {
     "en": "",
     "fi": "John Updiken romaanin adaptaatio on herkullisen liioitteleva ja kasaritehosteilla yliampuva kauhukomedia, jossa Jack Nicholson esittää itseoikeutetusti paholaista. Susan Sarandon loistaa roolissaan yhtenä kolmesta miehenkipeästä ja tylsistyneestä naisesta, jotka manaavat viettelevän vihtahousun esiin kätketyillä noitavoimillaan."
    },
-   "tr": "https://www.youtube.com/watch?v=mLs1y_KSTKk"
+   "tr": ""
   },
   "noiduttu": {
    "id": 4174,
@@ -5197,13 +5219,12 @@
   },
   "obsession": {
    "id": 1339713,
-   "img": "data/posters/b087e78e6e9510ef.jpg",
-   "r": 8.2,
+   "r": 0,
    "s": {
     "en": "",
     "fi": "Kun toivoton romantikko katkaisee salaperäisen “toivepajun” saadakseen ihastuksena rakastumaan itseensä, hän tajuaa saaneensa juuri sen, mitä toivoikin. Mutta pian hänelle valkenee, että joistakin toiveista joutuu maksamaan synkän hinnan."
    },
-   "tr": "https://www.youtube.com/watch?v=gMC8kkwbIQQ"
+   "tr": ""
   },
   "ohukainen ja paksukainen 1 täystuhon filosofia": {
    "r": 0,
@@ -5320,6 +5341,19 @@
     "fi": "Tuhoutuneen Detroitin ja eksoottisen Tangerin romanttisissa maisemissa elävät vuosisatoja vanhat vampyyrit Adam ja Eve. Pariskunta on pitänyt yhtä jo ikuisuuden, eläen niin yhdessä kuin erilläänkin, mutta aina toisiaan ikävöiden ja rakastaen. Eve kuulee Adamin masennuksesta ja matkustaa Detroitiin tapaamaan rakastettuaan. Noiden kahden idyllin sekoittaa pian Even nuorempi sisar Ava, jonka harkitsemattomien tekojen vuoksi kaikkien kolmen on pian paettava."
    },
    "tr": ""
+  },
+  "onnen hetket": {
+   "id": 53023,
+   "img": "data/posters/e53a395f167733ed.jpg",
+   "r": 7.5,
+   "s": {
+    "en": "Though married to the good-natured, beautiful Thérèse, young husband and father François finds himself falling unquestioningly into an affair with an attractive postal worker.",
+    "fi": ""
+   },
+   "tr": "https://www.youtube.com/watch?v=H_apt9n4y88",
+   "ts": [
+    "en"
+   ]
   },
   "ooppera die fledermaus": {
    "r": 0,
@@ -5635,6 +5669,33 @@
    },
    "tr": ""
   },
+  "pedon sydän": {
+   "id": 1263337,
+   "img": "data/posters/980bb19ce751c44c.jpg",
+   "kr": "K-12",
+   "krs": [
+    "biorex",
+    "biorexkokkola",
+    "kinohamina",
+    "kinohirvi",
+    "kinolumo",
+    "kinopiispanristi",
+    "kotkanleffat",
+    "savonkinot",
+    "star",
+    "studio123jarvenpaa",
+    "studio123kouvola"
+   ],
+   "r": 7.3,
+   "s": {
+    "en": "After a harrowing plane crash, Special Forces officer James Belmont and his combat dog, Odin, find themselves stranded deep in the Alaskan wilderness. Together, they are forced into a brutal fight for survival against the elements.",
+    "fi": ""
+   },
+   "tr": "https://www.youtube.com/watch?v=UkMuGKqAux4",
+   "ts": [
+    "en"
+   ]
+  },
   "pelastakaa sotamies ryan": {
    "id": 857,
    "img": "data/posters/a4147683eb09a1fc.jpg",
@@ -5809,16 +5870,12 @@
   },
   "pikku kummitus lapanen keppostelee dub": {
    "id": 1781923,
-   "img": "data/posters/8a9129f55b1b3d43.jpg",
    "r": 0,
    "s": {
-    "en": "Laban the Little Ghost is back with a new collection of cozy and just-spooky-enough adventures at the Good Morning Sun Castle. Together with his little sister Labolina and his best friend, the Little Prince, their days are filled with everything from trick-or-treating, birthday celebrations, and lost Christmas presents to unexpected guests and many other fun experiences.",
+    "en": "",
     "fi": "Pikku Kummitus Lapanen palaa uusien seikkailujen pariin Hyvänhuomenen linnassa. Yhdessä Lapaniinan, Pikkuprinssin ja ystäviensä kanssa hän joutuu hauskoihin, jännittäviin ja välillä hieman pelottaviinkin tilanteisiin, joissa ystävyys, rohkeus ja mielikuvitus ovat aina keskiössä. Lämmin ja humoristinen elokuvaelämys perheen pienimmille elokuvissakävijöille. Elokuva on saanut Euroopan unionin Luova Eurooppa -ohjelman tuen."
    },
-   "tr": "",
-   "ts": [
-    "en"
-   ]
+   "tr": ""
   },
   "pikku kummitus lapanen keppostelee ennakkonäytös n 10": {
    "r": 0,
@@ -5835,18 +5892,16 @@
    "krs": [
     "biorex",
     "biorexkokkola",
-    "biosalo",
     "biosavoy",
-    "biostara",
     "cinemantsala",
+    "elokuviin",
     "ihmekompleksi",
     "isohannu",
     "kinotervakoski",
     "kotkanleffat",
     "kulttuurimylly",
     "savonkinot",
-    "studio123jarvenpaa",
-    "vaakuna"
+    "studio123jarvenpaa"
    ],
    "r": 0,
    "s": {
@@ -5879,21 +5934,15 @@
     "alatalo",
     "biograni",
     "biomarilyn",
-    "biopallas",
     "biorex",
     "biorexkokkola",
-    "biosade",
-    "biosalo",
-    "biosavoy",
     "cinemantsala",
+    "elokuviin",
     "helios",
-    "huvimylly",
     "isohannu",
     "joutsankino",
-    "julia",
     "kino123",
     "kinohannikainen",
-    "kinohirvi",
     "kinokulma",
     "kinokuva",
     "kinometso",
@@ -5903,6 +5952,7 @@
     "korjaamo",
     "kotkanleffat",
     "kulttuurimylly",
+    "kuvatahti",
     "leffabuumi",
     "savonkinot",
     "star",
@@ -5970,21 +6020,15 @@
     "alatalo",
     "biograni",
     "biomarilyn",
-    "biopallas",
     "biorex",
     "biorexkokkola",
-    "biosade",
-    "biosalo",
-    "biosavoy",
     "cinemantsala",
+    "elokuviin",
     "helios",
-    "huvimylly",
     "isohannu",
     "joutsankino",
-    "julia",
     "kino123",
     "kinohannikainen",
-    "kinohirvi",
     "kinokulma",
     "kinokuva",
     "kinometso",
@@ -5994,6 +6038,7 @@
     "korjaamo",
     "kotkanleffat",
     "kulttuurimylly",
+    "kuvatahti",
     "leffabuumi",
     "savonkinot",
     "star",
@@ -6011,17 +6056,13 @@
   },
   "pikkuli och himmelshinden": {
    "id": 1403476,
-   "img": "data/posters/e4e4be88f3bfae06.jpg",
    "r": 0,
    "s": {
     "en": "",
-    "fi": "Pikkuli sekä muu Aurinkonummen metsän väki on valmistautumassa jouluun, mutta aikuiset alkavat riidellä ja peruvat koko joulun. Pikkuli ystävineen päättää pelastaa tilanteen ja lähtee lumiseen metsään löytääkseen avuksi tarujen Tähtipeuran. Revontulien loimutessa sinnikäs retkue kohtaa monia seikkailuja, tavoitteenaan pelastaa kaikkien joulu.",
+    "fi": "",
     "sv": "Pikkuli och de andra invånarna i Solbackens skog förbereder sig som bäst för julfirandet. Men när de vuxna i skogen börjar gräla, bestämmer de sig plötsligt för att ställa in och avboka hela julen..."
    },
-   "tr": "",
-   "ts": [
-    "fi"
-   ]
+   "tr": ""
   },
   "pimeyden armeija": {
    "id": 766,
@@ -6045,6 +6086,7 @@
     "biosalo",
     "biostara",
     "cinemantsala",
+    "elokuviin",
     "helios",
     "ihmekompleksi",
     "isohannu",
@@ -6058,6 +6100,7 @@
     "kinopirtti",
     "kinotour",
     "kotkanleffat",
+    "kuvatahti",
     "laitilankino",
     "leffabuumi",
     "lieksankino",
@@ -7290,19 +7333,6 @@
    },
    "tr": ""
   },
-  "römppäviikot lapin sota": {
-   "id": 1450460,
-   "img": "data/posters/c15d678a31ae397e.jpg",
-   "r": 0,
-   "s": {
-    "en": "",
-    "fi": "Nuori sotamies Heikki taistelee Karjalan kannaksella ystävänsä Paulin kanssa. Komppaniaan liittyy vankilasta vapautunut Arvo, jonka maailmankuva haastaa muiden käsitykset sodasta ja velvollisuudesta. Aselepo herättää toivon kotiinpaluusta, mutta pian selviää, että Suomen on käännyttävä entisiä saksalaisia liittolaisiaan vastaan Lapissa. Samaan aikaan Rovaniemellä saksalaisten tulkkina työskentelevä Saara joutuu valitsemaan tulevaisuutensa: jäädä Suomeen vai paeta Saksaan rakastettunsa, majuri Duisbergin, kanssa."
-   },
-   "tr": "",
-   "ts": [
-    "fi"
-   ]
-  },
   "saapasjalkakissa": {
    "id": 58704,
    "r": 0,
@@ -7435,6 +7465,19 @@
     "fi": ""
    },
    "tr": "",
+   "ts": [
+    "en"
+   ]
+  },
+  "shaun the sheep the beast of mossy bottom": {
+   "id": 1477104,
+   "img": "data/posters/0d3865389792d3a5.jpg",
+   "r": 7.4,
+   "s": {
+    "en": "On Halloween Eve at Mossy Bottom Farm, excitement turns to dismay when the clumsy Farmer ruins the pumpkin patch. Shaun tries fixing it with science experiments, but things go awry when a wild beast appears in the woods.",
+    "fi": ""
+   },
+   "tr": "https://www.youtube.com/watch?v=daZMq0AyOMc",
    "ts": [
     "en"
    ]
@@ -7732,6 +7775,19 @@
     "fi": "Ingrid Bergmanin rohkeassa neorealistisessa irtiotossa Hollywoodista nuori pakolainen muuttaa syrjäiselle tulivuorisaarelle, jonka karu luonto ja kyläyhteisön ankaruus pakottavat kohtaamaan omat pelot. Draama sodanjälkeisestä selviytymisestä yhdistää dokumentaarisen ympäristön ja sisäisen kriisin intensiiviseksi kokemukseksi. Bergmanin paljas ja voimakas roolityö aloitti näyttelijän menestyksekkään italialaiskauden."
    },
    "tr": "https://www.youtube.com/watch?v=n1cWuVFEtsU",
+   "ts": [
+    "en"
+   ]
+  },
+  "suburbia kadun kapinalliset": {
+   "id": 28054,
+   "img": "data/posters/a5895d276ee9ce98.jpg",
+   "r": 6.7,
+   "s": {
+    "en": "When household tensions and a sense of worthlessness overcome Evan, he finds escape when he clings with the orphans of a throw-away society. The runaways hold on to each other like a family until a tragedy tears them apart.",
+    "fi": ""
+   },
+   "tr": "https://www.youtube.com/watch?v=zWaPUqDxcQ0",
    "ts": [
     "en"
    ]
@@ -8133,15 +8189,6 @@
   "the devils": {
    "id": 31767,
    "img": "data/posters/1f8ec30de3187d84.jpg",
-   "kr": "K-16",
-   "krs": [
-    "biorexkokkola",
-    "engel",
-    "gilda",
-    "kinoaurora",
-    "kinolaika",
-    "regina"
-   ],
    "r": 7.5,
    "s": {
     "en": "Assembled from the original camera negative, this new 4K restoration presents Ken Russell’s definitive vision of THE DEVILS by referencing the edit he privately constructed in 2004. THE DEVILS is the uncut and unfiltered theatrical experience that Russell always envisioned – and the first time the film will be presented restored and in 4K",
@@ -8156,7 +8203,6 @@
    "krs": [
     "biorexkokkola",
     "engel",
-    "gilda",
     "kinoaurora",
     "kinolaika",
     "regina"
@@ -9287,7 +9333,6 @@
    "krs": [
     "biorex",
     "isohannu",
-    "kinohirvi",
     "kinolumo",
     "kinoolympia",
     "kinopirtti",
@@ -9488,6 +9533,7 @@
    "kr": "K-16",
    "krs": [
     "bioforum",
+    "biopallas",
     "cine",
     "cinemantsala",
     "helios",
@@ -9497,6 +9543,7 @@
     "kinokilta",
     "kinokonepaja",
     "kinotervakoski",
+    "kurikankino",
     "tapiola"
    ],
    "r": 0,
@@ -9629,12 +9676,16 @@
    "krs": [
     "bioforum",
     "cinemantsala",
+    "elokuviin",
     "ihmekompleksi",
     "kinoaurora",
     "kinohannikainen",
     "kinokulma",
+    "kurikankino",
     "leffabuumi",
+    "matintupa",
     "orion",
+    "pajakkakino",
     "tapiola"
    ],
    "r": 6.0,
@@ -9674,5 +9725,5 @@
    "tr": ""
   }
  },
- "generated": "2026-11-01"
+ "generated": "2026-11-02"
 }
