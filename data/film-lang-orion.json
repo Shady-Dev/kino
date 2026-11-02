@@ -13,7 +13,7 @@
  },
  "heikki-katajisto-in-memoriam": {
   "price": "",
-  "at": "2026-10-31T12:16:39+00:00",
+  "at": "2026-11-02T18:16:49+00:00",
   "fields": {
    "lang": "FI-A",
    "rating": "K-12",
@@ -34,7 +34,7 @@
  },
  "hirtettyjen-kettujen-metsa": {
   "price": "",
-  "at": "2026-10-31T15:48:35+00:00",
+  "at": "2026-11-02T18:16:49+00:00",
   "fields": {
    "lang": "FI-A",
    "len": "93",
@@ -45,7 +45,7 @@
  },
  "jarki-ja-tunteet": {
   "price": "",
-  "at": "2026-10-31T12:16:39+00:00",
+  "at": "2026-11-02T18:16:49+00:00",
   "fields": {
    "lang": "EN-A, FI-S, SV-S",
    "len": "131",
@@ -57,7 +57,7 @@
  },
  "kaunarikuume": {
   "price": "",
-  "at": "2026-10-31T12:16:39+00:00",
+  "at": "2026-11-02T18:16:49+00:00",
   "fields": {
    "lang": "FI-A, EN-S",
    "len": "78",
@@ -69,7 +69,7 @@
  },
  "kinokonsertti-moana-auringon-poika": {
   "price": "",
-  "at": "2026-10-31T15:48:35+00:00",
+  "at": "2026-11-02T18:16:49+00:00",
   "fields": {
    "lang": "EN-A, EN-S",
    "len": "78",
@@ -81,7 +81,7 @@
  },
  "lapin-sota": {
   "price": "",
-  "at": "2026-10-31T15:48:35+00:00",
+  "at": "2026-11-02T18:16:49+00:00",
   "fields": {
    "lang": "FI-A, FI-S, SV-S",
    "len": "158",
@@ -92,18 +92,18 @@
  },
  "mannerlaatta": {
   "price": "",
-  "at": "2026-10-31T15:48:35+00:00",
+  "at": "2026-11-02T18:16:49+00:00",
   "fields": {
+   "lang": "FI-A",
    "len": "74",
    "rating": "S",
    "year": "2016",
-   "syn_fi": "Mannerlaatta on täyspitkä lettristinen elokuva lentopelosta, turvatarkastuksista ja aikavyöhykkeistä. Kokonaan ilman kameraa tehty teos pohjautuu runoilija Harry Salmenniemen alkuperäistekstiin. Elokuvan musiikin on säveltänyt Mika Vainio. ” Mannerlaatan materiaali resonoi ihmeellisesti keskenään. Visuaalisuus, runous, rosoiset foley -äänet, Olli Huhtasen koko kaarta kuljettava äänisuunnittelu ja Mika Vainion musiikki muodostavat kokonaisuuden jolle ei voi kuin antautua.” – Sanna Salmenkallio",
-   "syn_en": "Äänen alkemistit is a special screening series dedicated to film sound and film music. The films in the series have been selected by leading professionals in music and cinematic sound. Composer and violinist Sanna Salmenkallio chose Mannerlaatta, an experimental film work by Mika Taanila, for the series. Mannerlaatta is a feature-length lettrist film about fear of flying, security checks and time zones. Made entirely without a camera, the work is based on an original text by Harry Salmenniemi. The film’s music was composed by Mika Vainio."
+   "syn_fi": "Mannerlaatta on täyspitkä lettristinen elokuva lentopelosta, turvatarkastuksista ja aikavyöhykkeistä. Kokonaan ilman kameraa tehty teos pohjautuu runoilija Harry Salmenniemen alkuperäistekstiin. Elokuvan musiikin on säveltänyt Mika Vainio. ” Mannerlaatan materiaali resonoi ihmeellisesti keskenään. Visuaalisuus, runous, rosoiset foley -äänet, Olli Huhtasen koko kaarta kuljettava äänisuunnittelu ja Mika Vainion musiikki muodostavat kokonaisuuden jolle ei voi kuin antautua.” – Sanna Salmenkallio Näytöksessä ovat vieraina Sanna Salmenkallio, Mika Taanila ja äänisuunnittelija Olli Huhtanen."
   }
  },
  "naza": {
   "price": "",
-  "at": "2026-10-31T15:48:35+00:00",
+  "at": "2026-11-02T18:16:49+00:00",
   "fields": {
    "lang": "HE-A, EN-A, EN-S",
    "len": "80",
@@ -116,7 +116,7 @@
  },
  "spider-man-brand-new-day": {
   "price": "",
-  "at": "2026-10-31T15:48:35+00:00",
+  "at": "2026-11-02T18:16:49+00:00",
   "fields": {
    "lang": "EN-A, FI-S, SV-S",
    "len": "145",
@@ -139,7 +139,7 @@
  },
  "talvitarina": {
   "price": "",
-  "at": "2026-10-31T15:48:35+00:00",
+  "at": "2026-11-02T18:16:49+00:00",
   "fields": {
    "lang": "FR-A, EN-S",
    "len": "115",
@@ -152,7 +152,7 @@
  },
  "ulvova-myllari": {
   "price": "",
-  "at": "2026-10-31T15:48:35+00:00",
+  "at": "2026-11-02T18:16:49+00:00",
   "fields": {
    "lang": "FI-A",
    "len": "95",
@@ -198,7 +198,7 @@
  },
  "yon-lapsi": {
   "price": "",
-  "at": "2026-10-31T12:16:39+00:00",
+  "at": "2026-11-02T18:16:49+00:00",
   "fields": {
    "lang": "EN-A, FI-S, SV-S",
    "len": "92",

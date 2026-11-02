@@ -361,7 +361,8 @@
    "img": "data/posters/64d23f46b5356d6f.jpg",
    "kr": "K-12",
    "krs": [
-    "engel"
+    "engel",
+    "tapiola"
    ],
    "r": 6.2,
    "s": {
@@ -672,10 +673,20 @@
    "tr": ""
   },
   "boléro matinea": {
-   "r": 0,
+   "id": 1004348,
+   "img": "data/posters/e2fb4797a1c9451b.jpg",
+   "r": 6.2,
    "s": {
     "en": "With the support of the Creative Europe Programme – MEDIA",
     "fi": "Ohjaaja Anne Fontaine (Coco ennen Chanelia, Viattomat) kuvaa musiikillisessa elämäkerrassa Ravelin intohimoista elämää. Keskipisteessä ovat Boléron työstön aikana tapahtuneet vastoinkäymiset ja komplikaatiot. Säveltäjän maailmankuulu balettimusiikki kirjoitettiin Ida Rubinsteinille, joka oli tanssija, tuottaja ja ohjaaja Ranskan belle époquen aikaan."
+   },
+   "tr": ""
+  },
+  "bon iver 22 a million 10th anniversary": {
+   "r": 0,
+   "s": {
+    "en": "",
+    "fi": "Uppoudu Bon Iverin klassikkoon Pitchblack Playbackin pimeässä kuuntelusessiossa, juhlistaessamme ’22, A Million’ -albumin 10. juhlavuotta. Kuule tämä pysäyttävä teos järisyttävällä äänentoistojärjestelmällämme, pakkaamattomana ja kovalla äänenvoimakkuudella. Ei häiriötekijöitä – vain sinä ja musiikki."
    },
    "tr": ""
   },
@@ -707,6 +718,14 @@
    "s": {
     "en": "",
     "fi": "Köyhästä samuraista ja rikkaasta liikemiehestä tulee epätodennäköiset ystävät go-lautapelin kautta. Isännätön samurai Yanagida on menettänyt asemansa väärien syytösten vuoksi, mutta ei ole luopunut suoraselkäisyydestään. Genbei on huonomaineinen panttilainaaja, joka oppii Yanagidalta rehellisyyden arvon. Myös Yanagidan tytär ja Genbein kasvattipoika alkavat lähentyä keskenään. Eräänä juhlayönä Yanagida kuitenkin saa järkyttävän viestin, joka kutsuu hänet etsimään kostoa. Samana yönä Genbeiltä katoaa suuri summa rahaa, ja syylliseksi epäillään Yanagidaa. Bushido on visuaalisesti vaikuttava moderni samuraielokuva, joka on samanaikaisesti kunnianosoitus historiallisen jidaigeki-genren perinteille, mutta myös uudistaa genreä rähjäisempään ja vähemmän romantisoituun suuntaan. Se on tarina kunniasta, kostosta, ylpeydestä – ja ystävyydestä."
+   },
+   "tr": ""
+  },
+  "busho hungarian short films": {
+   "r": 0,
+   "s": {
+    "en": "Best of 20th Budapest Short Film Festival! With English subtitles. Julia Tudisco: CHILDREN OF THE BIRD (A madár gyermekei) 11’30” | Animation | Hungary Kálmán Nagy: THE OTHER END OF THE STREET (Az utca másik vége) 21’53” | Fiction | Austria/Hungary Péter Karácsony: THE LOW AND MIGHTY (A kis hatalmasok) 17’0” | Fiction | Hungary Luca Tóth: VEGAN MAYO 2’30” | Animation | Hungary Shabaaz Sayyad Mahammad: HASSAN 15’40” | Fiction | Hungary Anita Kühnel Szabó: YOUR DAD (Apád) 16’1” | Animation | Hungary Annabella Schnabel: THE TRIPTYCH OF THE KEEPER (Egy kisember triptichonja) 4’0” | Experimental | Hungary Marcell Belső, Airon Csihar: SATAN (Sátán) 28’0” | Fiction | Hungary",
+    "fi": ""
    },
    "tr": ""
   },
@@ -1055,6 +1074,7 @@
     "biorex",
     "biosalo",
     "gilda",
+    "kinovirta",
     "orion",
     "savonkinot"
    ],
@@ -1100,6 +1120,19 @@
     "fi": "Wojciech Smarzowski on elokuva- ja teatteriohjaaja, käsikirjoittaja sekä kuvaaja. Hän on valmistunut elokuvatutkimuksen alalta Jagellon yliopistosta sekä Łódźin elokuvakoulun elokuvauksen osastolta. Hän on arvostettu elokuvantekijä, joka on voittanut lukuisia elokuvapalkintoja sekä Puolassa että kansainvälisesti."
    },
    "tr": ""
+  },
+  "don giovanni": {
+   "id": 286085,
+   "img": "data/posters/4ff6c6ce7a210c8b.jpg",
+   "r": 0,
+   "s": {
+    "en": "Live 2001 production from the Zurich Opera House of the classic Mozart/Da Ponte opera, with Nikolaus Harnoncourt conducting and directed for television and video by Brian Large.",
+    "fi": ""
+   },
+   "tr": "",
+   "ts": [
+    "en"
+   ]
   },
   "don giovanni vicenza festivaali mozart": {
    "r": 0,
@@ -1505,6 +1538,16 @@
    },
    "tr": ""
   },
+  "frankenstein junior": {
+   "id": 3034,
+   "img": "data/posters/9b7eeffd894738e7.jpg",
+   "r": 7.9,
+   "s": {
+    "en": "",
+    "fi": "Kesäkuun 28. päivä sata vuotta täyttäneen – ja yhä porskuttavan – Mel Brooksin ura jakanee mielipiteitä komedian ystävien kesken puoleen jos toiseen. Melvin Kaminskyna Brooklynissa syntyneen koomikon 11 pitkän elokuvan mittainen tie parodiaohjaajana on käsitellyt monesti vähemmän hienovaraisen slapstickin keinoin niin mykkäelokuvaa, historiallista eeposta, Hitchcockia kuin tieteisfilmiä. Brooksin huumorin eräs kyseenalainen kulmakivi lieneekin Villiä hurjemmessa lännessä esiintyvät lehmipoikien ilmavaivat. Frankenstein Junioria – johon sekä kriitikot että teatterien yleisö suhtautuivat suopeudella – voisi sanoa ohjaajansa parhaaksi ja aikuismaisimmaksi elokuvaksi. Se on suurella sydämellä ja pilke silmäkulmassa tehty kunnianosoitus vanhoille kauhuelokuville, etunenässään Universalin Frankenstein-sarja – joskin Brooksin tuotannosta laajemmin kirjoittanut Maurice Yacowar on löytänyt siitä myös yhtymäkohtia muiden muassa RKO:n King Kongiin ja Hammerin Frankensteinin kostoon. Keinotekoisen elämän synnyttämistä tutkinut ja kokeidensa hirviömäisellä lopputuloksella julkisuuteen noussut Victor Frankenstein on maannut arkussaan jo hyvän tovin. Hänen neurokirurgiaa opettava pojanpoikansa Frederick yrittää pyristellä irti vaarinsa maineesta, mutta kohtalo on toista mieltä, tiedemiehen saadessa kutsun sukulinnaansa Transylvaniaan. Veri on vettä sakeampaa, ja pian myös Frederick on kätyreineen metsästämässä sopivaa pääkopan sisustaa kaapin kokoiselle luomukselle, jonka kohdalla mikään ei voi mennä vikaan. Toisaalta, olihan myös Titanic uppoamaton... Brooksin yhdessä nimikkoroolissa nähtävän Gene Wilderin kanssa kirjoittaman tarinan voima on siinä, että Wilder toppuutti kumppaniaan tekemästä toista Villiä hurjempaa länttä, Brooksin toimiessa samalla vastavoimana sille, ettei lopputulos olisi ”taidefilmi, jonka näkee vain 14 ihmistä”. Verbaalisesta vitsitykityksestä (jonka suomenkieliset alatekstit antoivat nimensä Eppu Normaalille) löytyvä huumori puree etenkin, mikäli alkuperäisgenren klassikot ovat katsojalle tuttuja, sillä moni vitsi viittaa suoraan esikuviinsa. Lisänsä parodiaan tuovat Gerald Hirschfeldin upea mustavalkokuvaus, John Morrisin 1930- lukua varioivat sävellykset ja John C. Howardin leikkaus, jonka kuvasta toiseen liukuvat siirtymät sopivat elokuvaan kuin aivot formaldehydiin."
+   },
+   "tr": "https://www.youtube.com/watch?v=jAyNV6UZqOg"
+  },
   "franz": {
    "id": 1157322,
    "r": 0,
@@ -1568,10 +1611,17 @@
    "img": "data/posters/ab35e373af42f3c1.jpg",
    "kr": "S",
    "krs": [
+    "biomarilyn",
+    "biorexkokkola",
     "cinemantsala",
     "haapamaki",
+    "kino123",
     "kinokonepaja",
-    "kinokulma"
+    "kinokulma",
+    "kinopirtti",
+    "kotkanleffat",
+    "leffabuumi",
+    "vihdinkino"
    ],
    "r": 0,
    "s": {
@@ -1876,6 +1926,16 @@
     "fi": "Drive-elokuvan ohjaajan Nicolas Winding Refnin uusi elokuva Her Private Hell kohautti tämän vuoden Cannesin elokuvajuhlilla. Scifi-rikostarina sijoittuu dystooppiseen tulevaisuuteen, jonka tarinan näyttämönä toimii omalaatuinen pilvenpiirtäjähotelli. Nuoret näyttelijättäret joutuvat sarjamurhaajan uhreiksi, samalla kun kostoa janoava amerikkalaissotilas etsii kadonnutta tytärtään. Tanskalaisohjaajan hypnoottinen ja äärimmäisen väkivaltainen elokuva vie katsojan surrealistiseen, neonvaloissa kylpevään suurkaupunkiin. Her Private Hell on tyylittelyn taidonnäyte. Pääosissa nähdään Sophie Thatcher (Heretic) ja Charles Melton (May December, Warfare). Musiikin elokuvaan on säveltänyt useiden kulttiteosten säveltäjä Pino Donaggio, jonka tunnelmalliset sävellykset luovat tunteellisen pohjan kylmääville tapahtumille."
    },
    "tr": ""
+  },
+  "herrat pitävät vaaleaveriköistä": {
+   "id": 759,
+   "img": "data/posters/3d40cbf6534e7301.jpg",
+   "r": 7.3,
+   "s": {
+    "en": "",
+    "fi": "Suurempaa elokuvatähteä kuin traagisesti jo vuonna 1962 menehtynyt Marilyn (pelkkä etunimikin riittäisi kertomaan kenestä on kyse) Monroe ei ole, ole ollut tai tule olemaan. Silti ylisanat eivät tunnu riittävän. Vaikka Marilyn on suurin, on hän vielä mainettaan suurempi, parempi ja monipuolisempi. Vaikka elokuvia on melko vähän — päärooleja vain päälle tusina ja niistäkin osa tusinarooleja — ovat täysosumat sitäkin tarkempia. Eräs täysosumista on Herrat pitävät vaaleaveriköistä (1953), joka näyttää meille itseironisen, briljantisti säkenöivän komedienne-Marilynin uransa kovimmassa vedossa. Hänen aisaparinaan nähtävä toinen armoitettu komedienne Jane Russell ei paljoa kalpene rinnallaan heiluvalle supertähdelle. Kameran takana on yhtä lailla ylisanoja ansaitseva Howard Hawks, jonka sanotaan tehneen parhaan elokuvan jokaisessa vanhan Hollywoodin genressä. Tällä kertaa vuorossa on musikaali. Tarinassa parivaljakko matkustaa kohti Eurooppaa (samalla laivalla kuin Helsingin olympialaisiin suuntaava himbojen voimistelujoukkue!) suunnitelmissaan löytää rikkaat, rakkaat ja yksinäiset miehet itselleen. Technicolor-väreissä hehkuvan, ylpeän keinotekoisen ja yllättävän suorapuheisen poptaideteoksen uskontunnustuksena soi Marilynin esittämä hittikappale Diamonds are a Girl’s Best Friend. Jos et tykkää tästä elokuvasta, niin suosittelen jonkun toisen harrastuksen aloittamista. Vaikkapa sijoittaminen tai salametsästys voisi sopia sinulle paremmin."
+   },
+   "tr": "https://www.youtube.com/watch?v=TOqfJEPB8rI"
   },
   "hetki ennen valoa": {
    "id": 1015881,
@@ -2752,6 +2812,19 @@
     "en"
    ]
   },
+  "kenraali": {
+   "id": 961,
+   "img": "data/posters/7b61b03169190e07.jpg",
+   "r": 7.9,
+   "s": {
+    "en": "During America’s Civil War, Union spies steal engineer Johnnie Gray's beloved locomotive, 'The General'—with Johnnie's lady love aboard an attached boxcar—and he single-handedly must do all in his power to both get The General back and to rescue Annabelle.",
+    "fi": "Turun elokuvakerhon syyssarjan aloittaa 100-vuotispäiviään juhlistava mykkäelokuvaklassikko Kenraali (1926). Samana vuonna Buster Keaton juhli myös toisen elokuvan Rakkaus ja romahdus ensi-iltaa ja Kenraali sijoittuukin keskelle mykkäelokuvan kultakautta. Äänielokuvat antoivat vielä odottaa itseään ja elokuvat kukoistivat täynnä kekseliästä kuvakerrontaa ja sulavaa liikettä, jotka hävisivät elokuvallisesta ilmaisusta vuosiksi äänikaluston raskauden mukana. Laiva-Kalle nuorempi (1928) ja Kameramies (1928) seurasivat Kenraalia, mutta sisällissotaan sijoittuva komedia on Keatonin filmografiastaan se, joka erityisesti nostetaan hänen elokuvistaan esille. Johnny Grayn (Buster Keaton) elämässä on kaksi rakkautta: Kenraali niminen höyryjuna koneistoineen ja Annabelle (Marion Mack). Sisällissodan syttyessä ei junainsinöörin anneta listautua muiden miesten mukana, mutta selitykset eivät kelpaa Annabellelle, joka epäilee miestä pelkuriksi. Kohtalokkaalla junamatkalla Johnnyn kummatkin rakkaudet kidnapataan ja niin alkaa yli vihollislinjojen kulkeva takaa-ajo. Johnnyn pyyhältäessä epäröimättä läpi sotatantereiden, nousee vakavan historian ja sen läpi rämpivän pienen yksilön ristiriita koomisiin mittasuhteisiin. Sodan hulluus on hieman absurdi tausta, johon Johnnyllä ei ole aikaa perehtyä. Hän onnistuu elokuvassa toimimaan rintamalinjojen takana liki puolueettomana miehenä, joka on valmis rakkauden takia tekemään mitä vain, jotta saa rakkaansa turvallisesti kotiin. Tapahtumat pohjautuvat todelliseen junaryöstöön vuonna 1862, milloin pohjoisvaltioiden joukot ryöstivät etelävaltioiden Kenraali-junan. Suurena junaintoilijana tunnettu Keaton pyrki mahdollisimman lähelle tapahtumien todellisuutta kuvatessaan elokuvan mittavia junastuntteja, jotka huipentuvat yksiin mykkäelokuvahistorian kalleimmista minuuteista. Kenraali on täynnä tinkimätöntä epookkia, kunnianhimoisia stuntteja ja huimia takaa-ajokohtauksia. Kivikasvoinen Buster Keaton pääsee näyttämään akrobaattista lahjakkuuttaan ja uskomatonta koomista ajoitustaan vaarallisissa stunteissa. Aikalaisyleisöt ottivat elokuvan vakavan aiheensa takia ristiriitaisesti vastaan, mutta sen humoristisen otteen arvostajat ovat löytäneet elokuvan ja nostaneet sen klassikkojen joukkoon."
+   },
+   "tr": "https://www.youtube.com/watch?v=eEVWb9NcSuY",
+   "ts": [
+    "en"
+   ]
+  },
   "kerro kaikille": {
    "id": 1304530,
    "img": "data/posters/133d5c0758982817.jpg",
@@ -3366,12 +3439,16 @@
   },
   "kokuho kabukin mestari": {
    "id": 1379266,
-   "r": 0,
+   "img": "data/posters/2ea2dd1507dbc2dc.jpg",
+   "r": 7.9,
    "s": {
-    "en": "",
+    "en": "Nagasaki, 1964: Following the death of his Yakuza father, 15-year-old Kikuo is taken under the wings of a famous Kabuki actor. Alongside Shunsuke, the actor’s only son, he decides to dedicate himself to this traditional form of theatre. For decades, the two young men grow and evolve together – and one will become the greatest Japanese master of the art of Kabuki.",
     "fi": "Nagasaki, 1964. Nuori Kikuo näkee isänsä kuoleman yakuza-klaanien välienselvittelyssä. Aikansa suurin kabuki-tähti Hanjiro II ottaa Kikuon suojatikseen ja pelastaa näin pojan hengen. Kikuo omistaa elämänsä kabuki-teatterille yhdessä Hanjiron pojan Shunsuken kanssa. Vuosikymmenien omistautuminen tuottaa tulosta. Myrskyisä ura on täynnä veljeyttä ja petoksia, kunnianosoituksia ja skandaaleja. Kikuosta tulee tähti, vaikka yakuza-tausta nousee rasitteeksi vahvasti suljetuissa kabuki-piireissä. Kikuo pääsee kabukin mestariluokkaan, kansallisaarteeksi. Japanissa ällistyttävät 13 miljoonaa katsojaa elokuvateattereihin kerännyt Kokuho - kabukin mestari on visuaalista runoutta. Sofia El Fanin (Adelen elämä) kuvaus saa Kumiko Ogawan puvut ja vahvasti meikatut tähdet säkenöimään. Nuorukaiset esiintyvät kabuki-teatterissa onnagata-tradition mukaan: he pukeutuvat näissä traagisissa tarinoissa kuvankauniiksi neitokaisiksi. Kokuho – kabukin mestari oli Japanin virallinen Oscar-kandidaatti, ja sai ehdokkuuden parhaasta maskeerauksesta."
    },
-   "tr": ""
+   "tr": "https://www.youtube.com/watch?v=p6k9Y-irvOE",
+   "ts": [
+    "en"
+   ]
   },
   "kolahtaako calle málaga muistojeni katu": {
    "r": 0,
@@ -3593,6 +3670,19 @@
    },
    "tr": ""
   },
+  "koomikkojen kuningas": {
+   "id": 262,
+   "img": "data/posters/54ac2a824a6081bb.jpg",
+   "r": 7.8,
+   "s": {
+    "en": "Aspiring comic Rupert Pupkin attempts to achieve success in show business by stalking his idol, a late night talk-show host who craves his own privacy.",
+    "fi": "Turun elokuvakerhon syyssarjassa päästään komedian kuninkuuspelin pariin versiota itsestään esittävän Jerry Lewisin (1926–2017) johdolla. Martin Scorsesen aikanaan vähemmälle huomiolle jääneessä mestarillisessa elokuvassa Koomikkojen kuningas (The King of Comedy, 1982) ollaan menestyksen tavoittelijan kuvitelmien väkivaltaisen purkautumisen ytimessä. Elokuva on inspiroinut vahvasti muun muassa Todd Phillipsin Jokeria (2019). Läpimurtoaan stand up -koomikkona tavoitteleva maaninen Rupert Pupkin (Robert De Niro) iskee silmänsä menestyneeseen TV-show isäntään Jerry Langfordiin (Jerry Lewis) saadakseen mahdollisuuden omaan läpimurtoonsa New Yorkin komediataivaalla. Kun sinnikäs suostuttelu ei ota onnistuakseen jää ainoaksi vaihtoehdoksi staran kidnappaus toisen epävakaan fanin Mashan (Sandra Bernhard) kanssa. Kuin raivo härän (Raging Bull, 1980) jälkeen voimansa yhdistäneet Scorsese ja De Niro tarttuivat Paul D. Zimmermanin käsikirjoitukseen, joka tutkii komedian ja fanikulttuurin pimeämpää puolta ultramodernin New Yorkin kaduilla. Langfordin rooliin valikoitui aikansa huomattava koomikko, ohjaaja ja Dean Martinin aisapari Lewis. Hän tuo omaa uraansa metatasolla kommentoivaan rooliin myös yllättävää dramaattista syvyyttä. Tyyliltään varhaisen elokuvan esikuviaan sekä televisioestetiikkaa hyödyntävä Koomikkojen kuningas tutkii postmodernin ihmismielen synkimpiä impulsseja. Taksikuskin (Taxi Driver, 1976) tragedian sijaan Koomikkojen kuninkaassa ollaan mustan komedian ja fantasian synnyttämien kiusallisten tilanteiden parissa. Tämän show’n lopulliselle sulkeumalle ei voikaan muuta kuin nauraa."
+   },
+   "tr": "https://www.youtube.com/watch?v=0wVhCCo02P4",
+   "ts": [
+    "en"
+   ]
+  },
   "kotiinpaluu": {
    "id": 952701,
    "img": "data/posters/0bfa6ae3f491e466.jpg",
@@ -3769,18 +3859,6 @@
    ]
   },
   "kuvi ristiinnaulitut rakastavaiset": {
-   "id": 1405469,
-   "r": 0,
-   "s": {
-    "en": "A boy searches for his lost dog in a forest. His suspicions of a tiger’s presence reveal an illegal hunter’s activities.",
-    "fi": ""
-   },
-   "tr": "",
-   "ts": [
-    "en"
-   ]
-  },
-  "kuvi zombie ja kummitusjuna": {
    "id": 1405469,
    "r": 0,
    "s": {
@@ -3974,6 +4052,14 @@
     "en"
    ]
   },
+  "laatusarja kappale kauneinta suomea the beauty of errors": {
+   "r": 0,
+   "s": {
+    "en": "",
+    "fi": "Koskettava tarina perheestä, rakkaudesta ja irtipäästämisen vaikeudesta. LYHYT SYNOPSIS Muutoksen tuulet puhaltavat Teron elämässä. Vanhemmat ikääntyvät ja paras ystävä Henri, oma poika, löytää rinnalleen tyttöystävän, ja pienessä mökissä ei ole enää tilaa neljälle. Isän ja koiran on muutettava omaan tupaan, josta manaajan on ensin karkoitettava pahat henget. Yksinäisyys ja etäisyys poikaansa saa Teron elämän horjumaan ja Henrin huolestumaan isänsä hyvinvoinnista. PITKÄ SYNOPSIS Muutoksen tuulet puhaltavat Teron elämässä. Paras ystävä Henri, oma poika, löytää rinnalleen tyttöystävän, ja pienessä mökissä ei ole enää tilaa neljälle. Isän ja koiran on muutettava omaan tupaan, josta manaajan on karkoitettava pahat henget. Yksinäisyys ja etäisyys poikaansa saa Teron elämän horjumaan ja Henrin huolestumaan isänsä hyvinvoinnista. The Beauty of Errors kertoo perheen sisäisistä riippuvuussuhteista, miten ne muuttuvat ja mikä merkitys perheellä on. Muutos heijastuu erityisesti Teroon, joka joutuu pohtimaan ehkä jopa itsestäänselvyytenä pitämiään asioita. Isovanhemmat ovat aina huolehtineet pojistaan Terosta ja Henristä. Heikki-papan lonkkavaivat ja Pirjo-mummin ikääntyminen kääntävät asetelman päälaelleen. Samalla Tero joutuu kohtaamaan kipeän todellisuuden: Henri ei ole enää lapsi. Teron on opittava päästämään irti ja kohdattava maailma yksin."
+   },
+   "tr": ""
+  },
   "lahden videokuvaajat 70v neljä lyhytelokuvaa": {
    "r": 0,
    "s": {
@@ -4087,9 +4173,11 @@
     "biomarlon",
     "biopallas",
     "biorex",
+    "biorexkokkola",
     "biosalo",
     "biosavoy",
     "biostara",
+    "biovuoksi",
     "cine",
     "cinemantsala",
     "elavienkuvien",
@@ -4100,6 +4188,7 @@
     "jarvelankino",
     "joutsankino",
     "kino123",
+    "kinoakseli",
     "kinoaurora",
     "kinoelo",
     "kinojuha",
@@ -4117,10 +4206,12 @@
     "kinotar",
     "kinotervakoski",
     "kinotoijala",
+    "kinovirta",
     "kirkkonummi",
     "kkino",
     "korjaamo",
     "kotkanleffat",
+    "kulttuurimylly",
     "kurikankino",
     "kuvatahti",
     "laitilankino",
@@ -4131,6 +4222,8 @@
     "star",
     "studio123jarvenpaa",
     "studio123kouvola",
+    "tapiola",
+    "vihdinkino",
     "virtainpirtti"
    ],
    "r": 7.4,
@@ -4180,12 +4273,16 @@
   },
   "late lammas hämärä puuhissa": {
    "id": 1477104,
-   "r": 0,
+   "img": "data/posters/93eda5fa30b7d70c.jpg",
+   "r": 7.3,
    "s": {
-    "en": "",
+    "en": "On Halloween Eve at Mossy Bottom Farm, excitement turns to dismay when the clumsy Farmer ruins the pumpkin patch. Shaun tries fixing it with science experiments, but things go awry when a wild beast appears in the woods.",
     "fi": "Rakastettu Late Lammas palaa valkokankaille uudessa, riemastuttavassa ja kutkuttavan hauskassa seikkailussa. Farmin asukkaat odottavat innolla Halloweenia, kunnes heidän rakkaudella kasvattamansa kurpitsaviljelmä tuhoutuu juhlan kynnyksellä. Late ei jää toimettomaksi, vaan päättää ryhtyä “hulluksi tiedemieheksi” korjatakseen tilanteen – ja pian tapahtumat karkaavatkin täysin käsistä. Kun tilan maajussi katoaa ja outo villi peto herättää kauhua kyläläisissä, ovat kaikki ainekset kasassa hirviömäisen hauskalle seikkailulle kaiken ikäisille."
    },
-   "tr": ""
+   "tr": "https://www.youtube.com/watch?v=daZMq0AyOMc",
+   "ts": [
+    "en"
+   ]
   },
   "late lammas hämäräpuuhissa": {
    "id": 1477104,
@@ -5100,6 +5197,19 @@
    },
    "tr": ""
   },
+  "nina roza": {
+   "id": 1527449,
+   "img": "data/posters/0569b13c4ffcc11c.jpg",
+   "r": 0,
+   "s": {
+    "en": "A viral video of an 8-year-old Bulgarian artist catches the eye of a major art collector, and Mihail is sent there, 30 years after leaving his home country, to assess the value of the girl's work and confront ghosts from his past.",
+    "fi": ""
+   },
+   "tr": "https://www.youtube.com/watch?v=75kM_nd1g-U",
+   "ts": [
+    "en"
+   ]
+  },
   "nine to five dolly parton in memoriam juhlanäytös": {
    "id": 19494,
    "r": 0,
@@ -5263,6 +5373,7 @@
    "img": "data/posters/cad95ad93c0d2c85.jpg",
    "kr": "K-12",
    "krs": [
+    "biorexkokkola",
     "cinemantsala",
     "gilda",
     "haapamaki",
@@ -5806,13 +5917,13 @@
    "krs": [
     "biorex",
     "biorexkokkola",
+    "biosalo",
     "kinohamina",
     "kinohirvi",
     "kinolumo",
     "kinopiispanristi",
     "kotkanleffat",
     "savonkinot",
-    "star",
     "studio123jarvenpaa",
     "studio123kouvola"
    ],
@@ -5978,12 +6089,17 @@
    ]
   },
   "pikku kummitus lapanen": {
+   "id": 1781923,
+   "img": "data/posters/8a9129f55b1b3d43.jpg",
    "r": 0,
    "s": {
-    "en": "",
+    "en": "Laban the Little Ghost is back with a new collection of cozy and just-spooky-enough adventures at the Good Morning Sun Castle. Together with his little sister Labolina and his best friend, the Little Prince, their days are filled with everything from trick-or-treating, birthday celebrations, and lost Christmas presents to unexpected guests and many other fun experiences.",
     "fi": "Pikku kummitus Lapanen on palannut uusien seikkailujen pariin Hyvänhuomenen linnassa. Lapanen ei ole kuin muut kummitukset, sillä hän pelkää pimeää. Lapanen haluaisi olla pelottava, mutta kuinka paljon hän yrittääkään, hän onnistuu vain pelästyttämään itsensä. Linnan kellarissa asuvat Lapasen lisäksi Äiti ja Isä Kummitus sekä hänen uhkarohkea pikkusiskonsa Lapaniina, joka osaa matkia kaikkia maailman ääniä. Linnassa asuu myös ihmisiä: Kuningas ja Kuningatar, Prinsessa ja Pikkuprinssi, jotka ovat Lapasen parhaat ystävät.\n\nElokuva on suomeksi puhuttu."
    },
-   "tr": ""
+   "tr": "",
+   "ts": [
+    "en"
+   ]
   },
   "pikku kummitus lapanen keppostelee": {
    "id": 1781923,
@@ -6000,12 +6116,16 @@
   },
   "pikku kummitus lapanen keppostelee dub": {
    "id": 1781923,
+   "img": "data/posters/8a9129f55b1b3d43.jpg",
    "r": 0,
    "s": {
-    "en": "",
+    "en": "Laban the Little Ghost is back with a new collection of cozy and just-spooky-enough adventures at the Good Morning Sun Castle. Together with his little sister Labolina and his best friend, the Little Prince, their days are filled with everything from trick-or-treating, birthday celebrations, and lost Christmas presents to unexpected guests and many other fun experiences.",
     "fi": "Pikku Kummitus Lapanen palaa uusien seikkailujen pariin Hyvänhuomenen linnassa. Yhdessä Lapaniinan, Pikkuprinssin ja ystäviensä kanssa hän joutuu hauskoihin, jännittäviin ja välillä hieman pelottaviinkin tilanteisiin, joissa ystävyys, rohkeus ja mielikuvitus ovat aina keskiössä. Lämmin ja humoristinen elokuvaelämys perheen pienimmille elokuvissakävijöille. Elokuva on saanut Euroopan unionin Luova Eurooppa -ohjelman tuen."
    },
-   "tr": ""
+   "tr": "",
+   "ts": [
+    "en"
+   ]
   },
   "pikku kummitus lapanen keppostelee ennakkonäytös n 10": {
    "r": 0,
@@ -6022,16 +6142,21 @@
    "krs": [
     "biorex",
     "biorexkokkola",
+    "biosalo",
     "biosavoy",
+    "biostara",
     "cinemantsala",
     "elokuviin",
-    "ihmekompleksi",
     "isohannu",
+    "kinojuha",
+    "kinolumo",
     "kinopiispanristi",
+    "kinopirtti",
     "kinotervakoski",
+    "kinovirta",
     "kotkanleffat",
     "kulttuurimylly",
-    "savonkinot",
+    "kuvatahti",
     "studio123jarvenpaa"
    ],
    "r": 0,
@@ -6067,20 +6192,26 @@
     "biomarilyn",
     "biorex",
     "biorexkokkola",
+    "biosalo",
+    "biostara",
+    "biovuoksi",
     "cinemantsala",
     "elokuviin",
     "helios",
+    "ihmekompleksi",
     "isohannu",
     "joutsankino",
     "kino123",
     "kinohannikainen",
     "kinokulma",
     "kinokuva",
+    "kinolumo",
     "kinometso",
     "kinopiispanristi",
     "kinopirtti",
     "kinotar",
     "kinotervakoski",
+    "kinovirta",
     "korjaamo",
     "kotkanleffat",
     "kulttuurimylly",
@@ -6154,20 +6285,26 @@
     "biomarilyn",
     "biorex",
     "biorexkokkola",
+    "biosalo",
+    "biostara",
+    "biovuoksi",
     "cinemantsala",
     "elokuviin",
     "helios",
+    "ihmekompleksi",
     "isohannu",
     "joutsankino",
     "kino123",
     "kinohannikainen",
     "kinokulma",
     "kinokuva",
+    "kinolumo",
     "kinometso",
     "kinopiispanristi",
     "kinopirtti",
     "kinotar",
     "kinotervakoski",
+    "kinovirta",
     "korjaamo",
     "kotkanleffat",
     "kulttuurimylly",
@@ -6214,10 +6351,12 @@
    "krs": [
     "biograni",
     "biokaari",
+    "biomarlon",
     "biorex",
     "biorexkokkola",
     "biosalo",
     "biostara",
+    "biovuoksi",
     "cinemantsala",
     "elokuviin",
     "helios",
@@ -6482,6 +6621,19 @@
     "en"
    ]
   },
+  "primetime": {
+   "id": 1375441,
+   "img": "data/posters/b51c5ae56c687e43.jpg",
+   "r": 6.8,
+   "s": {
+    "en": "In 2006, To Catch a Predator host Chris Hansen sets out to make television history. When a high stakes operation goes fatally wrong, his veneered dream of fame curdles into a nightmare of performative justice.",
+    "fi": ""
+   },
+   "tr": "https://www.youtube.com/watch?v=C0NZa01qTRU",
+   "ts": [
+    "en"
+   ]
+  },
   "prinsessa mononoke": {
    "id": 128,
    "r": 0,
@@ -6571,6 +6723,12 @@
   "punaista lunta": {
    "id": 1015887,
    "img": "data/posters/b5fe432085346d64.jpg",
+   "kr": "K-16",
+   "krs": [
+    "biorexkokkola",
+    "kinokilta",
+    "kinokulma"
+   ],
    "r": 0,
    "s": {
     "en": "",
@@ -6818,6 +6976,19 @@
     "fi": "Kaksi toisilleen tuntematonta, hieman eksyksissä olevaa ihmistä kohtaavat ystäviensä häissä. Touko tuntee välitöntä vetoa Eevikseen. Paikalla on myös Toukon puoliso, menestynyt laulajatähti Leena, joka aistii kasvavan vetovoiman näiden kahden välillä. Yhden kesäillan aikana Kreikan rantakallioilla jutellaan rehellisesti rakkaudesta, eroista, nähdyksi tulemisen kaipuusta ja haluista – samalla kun juhlitaan ikimuistoisia häitä. Dome Karukosken romanttinen draamaelokuva RAKKAUTTA JA VIRTAHEPOJA perustuu kirjailija Emmi Liia Sjöholmin menestysromaaniin Virtahevot. Karukoski ja Sjöholm ovat käsikirjoittaneet elokuvan yhdessä. Pääosissa Pihla Viitala (Eevi), Aku Sipola (Touko) ja Jenni Vartiainen (Leena)."
    },
    "tr": ""
+  },
+  "ramayana rise of a legend": {
+   "id": 656908,
+   "img": "data/posters/3f0ffbd92d279be2.jpg",
+   "r": 0,
+   "s": {
+    "en": "An ancient epic follows a young prince and princess whose marriage and subsequent exile mark the beginning of a legendary journey. Their story of love, duty and destiny sets the stage for greater challenges ahead.",
+    "fi": ""
+   },
+   "tr": "https://www.youtube.com/watch?v=AYkPRN874m8",
+   "ts": [
+    "en"
+   ]
   },
   "rammstein live in mexico city": {
    "id": 1753205,
@@ -7631,9 +7802,11 @@
     "biomarlon",
     "biopallas",
     "biorex",
+    "biorexkokkola",
     "biosalo",
     "biosavoy",
     "biostara",
+    "biovuoksi",
     "cine",
     "cinemantsala",
     "elavienkuvien",
@@ -7644,6 +7817,7 @@
     "jarvelankino",
     "joutsankino",
     "kino123",
+    "kinoakseli",
     "kinoaurora",
     "kinoelo",
     "kinojuha",
@@ -7661,10 +7835,12 @@
     "kinotar",
     "kinotervakoski",
     "kinotoijala",
+    "kinovirta",
     "kirkkonummi",
     "kkino",
     "korjaamo",
     "kotkanleffat",
+    "kulttuurimylly",
     "kurikankino",
     "kuvatahti",
     "laitilankino",
@@ -7675,6 +7851,8 @@
     "star",
     "studio123jarvenpaa",
     "studio123kouvola",
+    "tapiola",
+    "vihdinkino",
     "virtainpirtti"
    ],
    "r": 7.4,
@@ -7988,16 +8166,12 @@
   },
   "suden hetki": {
    "id": 18333,
-   "img": "data/posters/7f2abc42bba9939a.jpg",
-   "r": 7.4,
+   "r": 0,
    "s": {
-    "en": "While vacationing on a remote German island with his younger pregnant wife, an artist has an emotional breakdown while confronting his repressed desires.",
+    "en": "",
     "fi": "Johan elää Alman kanssa, mutta hänen useita vuosia sitten Veronica Vogleria kohtaan tuntemansa intohimo ajaa häntä yhä takaa – juuri se vie hänet painajaisten alentavaan maailmaan.\" Jospa kärsivällisesti piirtäisin kuvasi yhä uudelleen joka päivä \", hän sanoo Almalle. Mutta sismmässään hän ei välitä vaimostaan, hän hakee toisenlaisia kuvia, kuvia elämää kohtaan tuntemastaan pimeänpelosta. Hän hakee pelkoa, jonka luo on mentävä, mutta jota hän ei lopulta pysty hallitsemaan. Bergman on tehnyt useita muunnelmia tästä kauhun pimeästä huoneesta. Elokuvan Kuin kuvastimessa eräässä kohtauksessa se muunnettiin metafyysisiksi termeiksi. Nyt hän puhuu siitä peittelemättä, mutta ei esitä sitä kuvin - ja kuitenkin koko elokuva tuntuu tämän kertomuksen uudelleenkirjoitetulta versiolta."
    },
-   "tr": "https://www.youtube.com/watch?v=DXk6VXs6jh4",
-   "ts": [
-    "en"
-   ]
+   "tr": ""
   },
   "sunday at six": {
    "id": 226136,
@@ -9740,7 +9914,9 @@
    "img": "data/posters/aca6e1cdaad07a60.jpg",
    "kr": "K-12",
    "krs": [
-    "kinokonepaja"
+    "ihmekompleksi",
+    "kinokonepaja",
+    "tapiola"
    ],
    "r": 0,
    "s": {
@@ -9758,19 +9934,28 @@
    "kr": "K-16",
    "krs": [
     "bioforum",
+    "biogrand",
+    "biomarlon",
     "biopallas",
+    "biorexkokkola",
     "cine",
     "cinemantsala",
     "gilda",
     "helios",
     "ihmekompleksi",
     "isohannu",
+    "kino123",
     "kinoaurora",
+    "kinojuha",
     "kinokilta",
     "kinokonepaja",
+    "kinolumo",
     "kinopiispanristi",
+    "kinopirtti",
     "kinotervakoski",
+    "kotkanleffat",
     "kurikankino",
+    "leffabuumi",
     "tapiola"
    ],
    "r": 0,
@@ -9902,22 +10087,36 @@
    "kr": "K-16",
    "krs": [
     "bioforum",
+    "biogrand",
+    "biomarlon",
+    "biorexkokkola",
+    "biosalo",
+    "biostara",
     "cinemantsala",
     "elokuviin",
     "gilda",
     "ihmekompleksi",
+    "isohannu",
+    "kino123",
+    "kinoakseli",
     "kinoaurora",
     "kinohannikainen",
     "kinokulma",
+    "kinolumo",
     "kinopiispanristi",
+    "kinopirtti",
+    "kinovirta",
+    "kotkanleffat",
     "kurikankino",
     "laitilankino",
     "leffabuumi",
     "matintupa",
     "orion",
     "pajakkakino",
+    "studio123jarvenpaa",
     "tapiola",
-    "vaakuna"
+    "vaakuna",
+    "vihdinkino"
    ],
    "r": 6.0,
    "s": {
