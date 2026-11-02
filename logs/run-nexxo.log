@@ -14,11 +14,11 @@
 [biosade] Bio Säde (Mänttä): 4 showtimes
 [biosade] Bio Säde: 4 showtimes, 2 dates
 [biosade] synopses merged: 0
-[kinoolympia] Kino Olympia (Hanko): 4 showtimes
-[kinoolympia] Kino Olympia: 4 showtimes, 2 dates
-[kinoolympia] synopses merged: 0
-[jarvelankino] Järvelän Kino (Järvelä): 4 showtimes
-[jarvelankino] Järvelän Kino: 4 showtimes, 4 dates
+[kinoolympia] Kino Olympia (Hanko): 16 showtimes
+[kinoolympia] Kino Olympia: 16 showtimes, 10 dates
+[kinoolympia] synopses merged: 1
+[jarvelankino] Järvelän Kino (Järvelä): 5 showtimes
+[jarvelankino] Järvelän Kino: 5 showtimes, 5 dates
 [jarvelankino] synopses merged: 0
 [kinometso] Muurame (Muurame): 9 showtimes
 [kinometso] Petäjävesi (Petäjävesi): 5 showtimes
@@ -46,6 +46,6 @@
 [run] http: 0 revalidated (304), 11 full, 11 not stored (origin said no-store), 0 cache entries written
 [run] hosts: 6 attempted -- biosalo.fi, jarvelankino.fi, kino-olympia.fi, kinoaurora.fi, kinohirvi.fi, kinoset.fi
 [run] pending: kinometso has 3 venue(s) with no programme yet: km-tikkakoski, km-vaajakoski, km-laukaa
-[run] nexxo: 15 venues, 110 showtimes, 0 stale, 0 unverified, 3 pending, 0 with no programme, 0 failures
-[run] timing: 9 site(s), 39.8s of fetching added up across workers that overlap, longest site 10.0s, longest queue wait 0.0s, 10.0s wall from this module's first fetch starting to its last ending
+[run] nexxo: 15 venues, 123 showtimes, 0 stale, 0 unverified, 3 pending, 0 with no programme, 0 failures
+[run] timing: 9 site(s), 38.8s of fetching added up across workers that overlap, longest site 10.3s, longest queue wait 0.0s, 10.3s wall from this module's first fetch starting to its last ending
 exit=0

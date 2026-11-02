@@ -519,6 +519,16 @@
    },
    "tr": ""
   },
+  "babybio järki ja tunteet sense and sensibility": {
+   "id": 1503762,
+   "img": "data/posters/056008305739a764.jpg",
+   "r": 7.3,
+   "s": {
+    "en": "",
+    "fi": "Uusi, vastustamaton tulkinta Jane Austenin ikonisesta Järki ja tunteet -teoksesta: hurmaava, nokkela ja syvästi samaistuttava tarina rakkaudesta ja sisaruudesta. Pääosissa loistavat Daisy Edgar-Jones ja Esmé Creed-Miles."
+   },
+   "tr": "https://www.youtube.com/watch?v=OFLyW0lxFU0"
+  },
   "back to the beginning ozzy s final bow": {
    "id": 1515139,
    "r": 0,
@@ -1036,6 +1046,7 @@
    "krs": [
     "biorex",
     "biosalo",
+    "gilda",
     "orion",
     "savonkinot"
    ],
@@ -1547,6 +1558,13 @@
   "george michael the faith tour": {
    "id": 1649403,
    "img": "data/posters/ab35e373af42f3c1.jpg",
+   "kr": "S",
+   "krs": [
+    "cinemantsala",
+    "haapamaki",
+    "kinokonepaja",
+    "kinokulma"
+   ],
    "r": 0,
    "s": {
     "en": "A stunning delve into George Michael's 1988 Faith Tour, as shot live at the famous Palais Omnisports de Paris-Bercy. This exclusive footage, assembled from a 14-camera shoot captured on 35mm over two nights (30–31 May 1988), features the 24-year-old pop star at the height of his powers.",
@@ -1688,6 +1706,14 @@
    "ts": [
     "fi"
    ]
+  },
+  "hangon elokuvajuhlat varaa liput www hangonelokuvajuhlat fi": {
+   "r": 0,
+   "s": {
+    "en": "",
+    "fi": "18:00-19:25 Meeri Koutaniemi & Otso Tiainen, Jori Tapio Kalliola – Ongelmajätettä vai museokelpoista taidetta? (28 min) + Jesper Jargil Per Kirkeby – Vinterbillede (48 min) 20:00-22:00 Lasse Hallström, Hilma (119 min) 11:00-12:30 Andrii Lysetskyi, Ivan’s Land (70 min) 13:00-14:00 Kanerva Cederström, Kolmannen valtakunnan unia (elokuvaluonnos, n. 30 min) Paikalla ohjaaja Kanerva Cederström kertomassa keskeneräisestä elokuvaprojektistaan."
+   },
+   "tr": ""
   },
   "hanuman ansh": {
    "id": 1709391,
@@ -2736,6 +2762,7 @@
     "kirkkonummi",
     "kisakino",
     "kkino",
+    "korjaamo",
     "kotkanleffat",
     "kurikankino",
     "kuvakukko",
@@ -3032,6 +3059,29 @@
    },
    "tr": ""
   },
+  "kirjastokino järki ja tunteet 2026": {
+   "id": 1503762,
+   "img": "data/posters/056008305739a764.jpg",
+   "r": 7.3,
+   "s": {
+    "en": "",
+    "fi": "Uusi, vastustamaton tulkinta Jane Austenin ikonisesta Järki ja tunteet -teoksesta: hurmaava, nokkela ja syvästi samaistuttava tarina rakkaudesta ja sisaruudesta. Pääosissa loistavat Daisy Edgar-Jones ja Esmé Creed-Miles."
+   },
+   "tr": "https://www.youtube.com/watch?v=OFLyW0lxFU0"
+  },
+  "kirjastokino kerro kaikille": {
+   "id": 1304530,
+   "img": "data/posters/133d5c0758982817.jpg",
+   "r": 0,
+   "s": {
+    "en": "",
+    "fi": "Amanda Aaltonen kieltäytyy alistumasta hänelle varattuun köyhän naisen ankeaan kohtaloon ja etsii huimapäisesti onneaan maailmalta. Rangaistukseksi sääntöjen rikkomisesta yhteiskunta anastaa häneltä kaikkein tärkeimmän, vapauden, ja sulkee hänet Seilin saarelle."
+   },
+   "tr": "https://www.youtube.com/watch?v=iUpszeSB7k4",
+   "ts": [
+    "fi"
+   ]
+  },
   "kirjastokino linnaisten vihreä kamari": {
    "id": 438815,
    "r": 0,
@@ -3159,6 +3209,10 @@
   "kojootti vs acme": {
    "id": 1204680,
    "img": "data/posters/e1a7880d02ca0644.jpg",
+   "kr": "K-7",
+   "krs": [
+    "kinopiispanristi"
+   ],
    "r": 8.0,
    "s": {
     "en": "After Acme products fail him one too many times in his dogged pursuit of the Roadrunner, Wile E. Coyote decides to hire a billboard lawyer to sue the Acme Corporation.",
@@ -3250,12 +3304,16 @@
   },
   "kojootti vs acme suomeksi": {
    "id": 1204680,
-   "r": 0,
+   "img": "data/posters/9bcb7891e3c4c53a.jpg",
+   "r": 7.5,
    "s": {
-    "en": "",
+    "en": "After Acme products fail him one too many times in his dogged pursuit of the Roadrunner, Wile E. Coyote decides to hire a billboard lawyer to sue the Acme Corporation.",
     "fi": "Vuosikymmenten ajan pommien räjäyttämä, dynamiitin murskaama, magneettien runtelema, siirtolohkareiden litistämä, junien tallaama, tunneleiden huijaama, jousien sinkoama, höyryjyrien yliajama, viallisten laitteiden pettämä, benjiköysien kiusaama, rakettien riepottelema, lepakkoasujen selkäänpuukottama, rakettiluistinten paiskoma, yksipyöräisten kumoama, maanjäristyspillereiden tärisyttämä, villiintyneiden kuminauhojen venyttämä ja lounaisten Yhdysvaltojen jokaiselta jyrkänteeltä syösty Kelju K. Kojootti saa viimein tarpeekseen ja päättää iskeä takaisin. Mainostauluonnettomuuksiin erikoistuneen asianajajan Kevin Averyn (Will Forte) kanssa liittoutuessaan hän haastaa oikeuteen ACME Inc.:n – ahneuttaan tavoittelevan jättiyhtiön, jonka tuotteet ovat olleet jokaisen Kojoottia kohdanneen katastrofin taustalla – sekä yhtiötä edustavan lipevän yritysjuristin Buddy Cranen (John Cena)."
    },
-   "tr": ""
+   "tr": "https://www.youtube.com/watch?v=kMsiD1Nky5I",
+   "ts": [
+    "en"
+   ]
   },
   "koko perheen jazz suomi 100 juhlakonsertti": {
    "r": 0,
@@ -3721,12 +3779,16 @@
   },
   "kätyrit ja monsterit suomeksi": {
    "id": 1315772,
-   "r": 0,
+   "img": "data/posters/67059865db3405c0.jpg",
+   "r": 7.6,
    "s": {
-    "en": "",
+    "en": "This is the rambunctious, ridiculous and totally true story of how the Minions conquered Hollywood, became movie stars, lost everything, unleashed monsters onto the world and then banded together to try and save the planet from the mayhem they had just created.",
     "fi": "Suosithan paikkavarausta! Illumination johdattaa meidät jälleen hulvattomaan animaatiomaailmaansa uudella elokuvallaan Kätyrit & Monsterit, joka tuo maailman suosituimpaan animaatio-franchiseen kokonaan uusia hahmoja. Hillitön, riehakas ja täysin tositapahtumiin perustuva elokuva kertoo, miten Kätyrit valloittavat Hollywoodin ja nousevat elokuvatähdiksi, menettävät kaiken, tulevat päästäneeksi hirviöitä maailmaan ja lopulta yhdistävät … voimansa pelastaakseen planeetan itse aiheuttamaltaan kaaokselta. Alkuperäisissä äänirooleissa kuullaan muun muassa Oscar®-voittaja Allison Janney, kaksinkertainen Oscar®-voittaja Christoph Waltz, Oscar®-voittaja Jeff Bridges, kaksinkertainen Oscar®-ehdokas Jesse Eisenberg, Zoey Deutch (Nouvelle Vague) sekä Oscar®-ehdokas Trey Parker, joka tunnetaan myös yhtenä South Parkin luojista. Näyttelijäkaartia täydentävät myös entinen Saturday Night Live -tähti Bobby Moynihan ja Phil LaMarr (Futurama, Kukkulan kuningas). Kätyrit & Monsterit -elokuvan on ohjannut Oscar-ehdokkuuden saanut Pierre Coffin, jonka ohjaustöihin lukeutuvat myös kolme ensimmäistä Itse ilkimys -elokuvaa ja ensimmäinen Kätyrit-elokuva. Coffin on myös ääninäytellyt itse Kätyreitä niiden elokuvadebyytistä 2010 alkaen. Elokuvan käsikirjoittajat ovat Brian Lynch (Kätyrit, Lemmikkien salainen elämä -elokuvat) ja Pierre Coffin. Elokuvan ovat tuottaneet myös Oscar-ehdokkuuden saanut Illuminationin perustaja ja pääjohtaja Chris Meledandri sekä Bill Ryan (The Super Mario Bros. Movie -elokuvan vastaava tuottaja ). Kätyrit & Monsterit -elokuvan vastaava tuottaja on Brian Lynch. Yli 15 vuotta on kulunut Kätyreiden luomisesta, ja niistä on tullut sukupolvensa ikonisimpia animaatiohahmoja. Kaikenikäisten fanien rakastamat Kätyrit ovat siivittäneet Illuminationin Itse ilkimys- ja Kätyrit-elokuvatuotannot yli 5,6 miljardia dollaria tuottaneiksi maailmanlaajuisiksi jymymenestyksiksi."
    },
-   "tr": ""
+   "tr": "https://www.youtube.com/watch?v=V-O-uBaHk3c",
+   "ts": [
+    "en"
+   ]
   },
   "kätyrit monsterit": {
    "id": 1315772,
@@ -3841,6 +3903,17 @@
   "la grazia": {
    "id": 1397364,
    "img": "data/posters/6c8d0779f3581c89.jpg",
+   "kr": "K-7",
+   "krs": [
+    "engel",
+    "gilda",
+    "joutsankino",
+    "kinohannikainen",
+    "kinomyyri",
+    "korjaamo",
+    "kuvakukko",
+    "niagara"
+   ],
    "r": 7.3,
    "s": {
     "en": "Toni Servillo plays the widowed Italian President Mariano De Santis, who struggles with moral dilemmas and grieves whilst clinging to the memory of his wife. A judge specialising in criminal law, he would prefer not to convict anyone, even as his colleagues and political players at the pinnacle of power seek to pressure the President into doing their bidding. As the President’s term draws to its inevitable close, he seeks support from his daughter Dorotea (Anna Ferzetti). The President’s close friend Coco Valori (Milvia Marigliano) is a long-standing socialite who still finds the energy to criticise everyone and everything. LA GRAZIA, the opening film of the Venice Film Festival, marks the return to the top of Paolo Sorrentino, director of The Great Beauty. Sorrentino tackles big questions: what is the meaning of a life lived? Toni Servillo was awarded the prize for Best Actor in Venice.",
@@ -3984,6 +4057,7 @@
     "engel",
     "ihmekompleksi",
     "isohannu",
+    "jarvelankino",
     "joutsankino",
     "kino123",
     "kinoaurora",
@@ -3995,6 +4069,7 @@
     "kinomania",
     "kinomarilyn",
     "kinometso",
+    "kinoolympia",
     "kinopiispanristi",
     "kinopirtti",
     "kinosampo",
@@ -4008,6 +4083,7 @@
     "kotkanleffat",
     "kurikankino",
     "kuvatahti",
+    "laitilankino",
     "leffabuumi",
     "levisummit",
     "matintupa",
@@ -4029,12 +4105,16 @@
   },
   "late lammas elokuva hämäräpuuhissa elokuva on tekstitetty": {
    "id": 1477104,
-   "r": 0,
+   "img": "data/posters/0d3865389792d3a5.jpg",
+   "r": 7.4,
    "s": {
-    "en": "",
+    "en": "On Halloween Eve at Mossy Bottom Farm, excitement turns to dismay when the clumsy Farmer ruins the pumpkin patch. Shaun tries fixing it with science experiments, but things go awry when a wild beast appears in the woods.",
     "fi": "Rakastettu Late Lammas palaa valkokankaille uudessa, riemastuttavassa ja kutkuttavan hauskassa seikkailussa. Farmin asukkaat odottavat innolla Halloweenia, kunnes heidän rakkaudella kasvattamansa kurpitsaviljelmä tuhoutuu juhlan kynnyksellä. Late ei jää toimettomaksi, vaan päättää ryhtyä “hulluksi tiedemieheksi” korjatakseen tilanteen – ja pian tapahtumat karkaavatkin täysin käsistä. Kun tilan maajussi katoaa ja outo villi peto herättää kauhua kyläläisissä, ovat kaikki ainekset kasassa hirviömäisen hauskalle seikkailulle kaiken ikäisille. Kananlento ja Wallace & Gromit -elokuvien tekijöiden uusi seikkailu Late Lammas: Hämäräpuuhissa saapuu elokuvateattereihin 30. lokakuuta."
    },
-   "tr": ""
+   "tr": "https://www.youtube.com/watch?v=daZMq0AyOMc",
+   "ts": [
+    "en"
+   ]
   },
   "late lammas elokuva hämäräpuuhissa ennakkonäytös": {
    "id": 1477104,
@@ -4305,6 +4385,16 @@
     "fi": ""
    },
    "tr": ""
+  },
+  "lyhyt elokuva rakkaudesta": {
+   "id": 31056,
+   "img": "data/posters/8e7cf41c8fd1d1ce.jpg",
+   "r": 7.8,
+   "s": {
+    "en": "",
+    "fi": "Krzysztof Kieślowskin klassikko uusintaensi-illassa! Nuori, introvertti Tomek (Olaf Lubaszenko) työskentelee varsovalaisessa postitoimistossa ja tarkkailee iltaisin kaukoputkella kaunista naapuriaan Magdaa (Grażyna Szapołowska). Molemmat ovat yksinäisiä omalla tavallaan. Polut risteävät, ja nainen nöyryyttää herkkää väijyjäänsä. Hän ymmärtää sittemmin virheensä, ja alkuperäinen asetelma kääntyy päälaelleen."
+   },
+   "tr": "https://www.youtube.com/watch?v=-iovDnkgGFI"
   },
   "lyhyt rakkaustarina": {
    "id": 1299382,
@@ -5897,6 +5987,7 @@
     "elokuviin",
     "ihmekompleksi",
     "isohannu",
+    "kinopiispanristi",
     "kinotervakoski",
     "kotkanleffat",
     "kulttuurimylly",
@@ -5946,6 +6037,7 @@
     "kinokulma",
     "kinokuva",
     "kinometso",
+    "kinopiispanristi",
     "kinopirtti",
     "kinotar",
     "kinotervakoski",
@@ -6032,6 +6124,7 @@
     "kinokulma",
     "kinokuva",
     "kinometso",
+    "kinopiispanristi",
     "kinopirtti",
     "kinotar",
     "kinotervakoski",
@@ -7316,12 +7409,16 @@
   },
   "ryhmä hau dinoelokuva suomeksi": {
    "id": 1185806,
-   "r": 0,
+   "img": "data/posters/b7775ab25a7de6bc.jpg",
+   "r": 8.2,
    "s": {
-    "en": "",
+    "en": "The Paw Patrol lands on a mysterious dinosaur island after a storm, where they meet Rex, a stranded pup. When Humdinger's reckless mining triggers a volcano, the team faces their biggest rescue mission yet to save the island.",
     "fi": "Ryhmä Haun laiva joutuu mystisen myrskyn kouriin ja haaksirikkoutuu trooppiselle saarelle, joka kuhisee dinosauruksia. He tapaavat Rexin – pennun, joka on jo vuosia ollut saarella jumissa ja josta on kehkeytynyt melkoinen dinosaurusekspertti. Kun Ryhmä Haun arkkivihollinen, Pormestari Hanttinen, aloittaa valtavat kaivuutyöt voidakseen hyödyntää saaren luonnonvaroja, hän saa vahingossa valtavan nukuksissa olleen tulivuoren purkautumaan. Pennut tempautuvat mukaan riskialttiiseen, dinon kokoiseen, kaikkien aikojen suurimpaan pelastusoperaatioonsa tavoitteenaan pysäyttää Hanttinen ennen kuin kaikki saarella katoaa ikiajoiksi."
    },
-   "tr": ""
+   "tr": "https://www.youtube.com/watch?v=xgI5iYmOf5Q",
+   "ts": [
+    "en"
+   ]
   },
   "rölli ja metsänhenki": {
    "id": 64029,
@@ -7504,6 +7601,7 @@
     "engel",
     "ihmekompleksi",
     "isohannu",
+    "jarvelankino",
     "joutsankino",
     "kino123",
     "kinoaurora",
@@ -7515,6 +7613,7 @@
     "kinomania",
     "kinomarilyn",
     "kinometso",
+    "kinoolympia",
     "kinopiispanristi",
     "kinopirtti",
     "kinosampo",
@@ -7528,6 +7627,7 @@
     "kotkanleffat",
     "kurikankino",
     "kuvatahti",
+    "laitilankino",
     "leffabuumi",
     "levisummit",
     "matintupa",
@@ -7977,6 +8077,19 @@
    },
    "tr": ""
   },
+  "så länge hjärtat slår": {
+   "id": 1292041,
+   "img": "data/posters/c0160c5958b1fc2f.jpg",
+   "r": 0,
+   "s": {
+    "en": "In the spring of 2020, when the Coronavirus pandemic paralyzed all of Sweden, employees at a nursing home are forced to experience how the infection finds its way in, and the situation becomes increasingly desperate. Care assistant Hanne finds herself in a difficult dilemma.",
+    "fi": "Hanne työskentelee vanhusten hoivakodissa, kun etäisyydestä, epävarmuudesta ja kasvomaskeista tulee kaikkien arkipäivää maaliskuussa 2020. Kun puutteelliset turvallisuuskäytännöt ja kotitekoiset visiirit johtavat potilaiden hengenvaaraan, Hanne asettuu vastakkain ongelmat maton alle lakaisevan johdon kanssa. Hän tietää vaarantavansa työnsä, ystävyyssuhteensa ja muiden luottamuksen, mutta päättää viedä asian julkisuuteen. Edessä on vaikea valinta: vaieta tai lähteä."
+   },
+   "tr": "",
+   "ts": [
+    "en"
+   ]
+  },
   "tabu": {
    "id": 977,
    "img": "data/posters/05d1718af2345046.jpg",
@@ -8257,6 +8370,7 @@
    "krs": [
     "biorexkokkola",
     "engel",
+    "gilda",
     "kinoaurora",
     "kinolaika",
     "regina"
@@ -8888,6 +9002,7 @@
     "jarvelankino",
     "kinoaurora",
     "kinomarilyn",
+    "kinoolympia",
     "tapiola"
    ],
    "r": 7.5,
@@ -9386,10 +9501,12 @@
    "kr": "K-12",
    "krs": [
     "biorex",
+    "gilda",
     "isohannu",
     "kinolumo",
     "kinoolympia",
     "kinopirtti",
+    "kirkkonummi",
     "kotkanleffat",
     "levisummit",
     "star",
@@ -9423,6 +9540,19 @@
    },
    "tr": ""
   },
+  "vi är bäst": {
+   "id": 191294,
+   "img": "data/posters/75dd5ef9272601ad.jpg",
+   "r": 7.0,
+   "s": {
+    "en": "Lukas Moodysson’s (KIMPASSA, LILJA 4-EVER, FUCKING ÅMÅL) coming-of-age film WE’RE THE BEST! is set in Stockholm in 1982. It’s a film about Bobo, Klara, and Hedvig: three 13-year-old girls who hang out on the streets and chat. They’re strong and brave, tough and vulnerable, confused and strange. They have to fend for themselves far too early. Who have to heat up fish sticks in the toaster while their mom is at the bar. Who start a punk band even though they don’t have any instruments—and even though everyone says punk is dead. It’s a movie with lots of music, plenty of humor, and a whole lot of life lessons.",
+    "fi": "Me Ollaan Parhaita! sijoittuu vuoden 1982 Tukholmaan. Se on elokuva Bobosta, Klarasta ja Hedvigistä: kolmesta 13-vuotiaasta tytöstä, jotka vetelehtivät kaduilla ja höpöttävät. Jotka ovat vahvoja ja rohkeita, kovia ja heikkoja ja sekaisin sekä outoja. Joiden täytyy pärjätä itsekseen aivan liian aikaisin. Joiden täytyy lämmittää kalapuikkoja leivänpaahtimessa, kun äiti on baarissa. Jotka perustavat punk-bändin, vaikkei heillä ole soittimia - ja vaikka kaikki sanovat että punk on kuollut. Se on elokuva, jossa on paljon musiikkia, runsaasti huumoria ja roppakaupalla elämäntotuuksia."
+   },
+   "tr": "https://www.youtube.com/watch?v=TfPytPjV1xc",
+   "ts": [
+    "fi"
+   ]
+  },
   "vi är bäst me ollaan parhaita": {
    "r": 0,
    "s": {
@@ -9454,6 +9584,7 @@
   },
   "vinski 2": {
    "id": 964311,
+   "img": "data/posters/d452b6c5bc61e717.jpg",
    "r": 0,
    "s": {
     "en": "",
@@ -9590,12 +9721,14 @@
     "biopallas",
     "cine",
     "cinemantsala",
+    "gilda",
     "helios",
     "ihmekompleksi",
     "isohannu",
     "kinoaurora",
     "kinokilta",
     "kinokonepaja",
+    "kinopiispanristi",
     "kinotervakoski",
     "kurikankino",
     "tapiola"
@@ -9636,9 +9769,9 @@
   "wildwood sysimetsä": {
    "id": 791523,
    "img": "data/posters/3243e3129f13e25d.jpg",
-   "r": 8.8,
+   "r": 8.7,
    "s": {
-    "en": "Prue and her classmate Curtis are drawn into a magical forest filled with enchanted creatures, loyal allies, and formidable adversaries as they embark on a desperate quest to rescue Prue's abducted baby brother from a murder of crows led by a mysterious woman named Alexandra.",
+    "en": "After her baby brother is abducted by a murder of crows, headstrong teenager Prue McKeel launches a desperate rescue mission into the Impassable Wilderness, an enchanted forest hidden just beyond Portland, Oregon. Joined by her hapless but loyal classmate Curtis Mehlberg, Prue navigates a world of talking animals, bandits, and powerful figures driven by grief and ambition. As the pair is drawn into a conflict threatening the balance of the forest itself, Prue must discover the strength and belief she never knew she possessed.",
     "fi": "Kun omapäisen teinitytön Prue McKeelin pikkuveli joutuu varisparven sieppaamaksi, Prue lähtee epätoivoiselle pelastusretkelle Tiettömään korpeen – lumottuun metsään, joka kätkeytyy aivan Oregonin Portlandin kupeeseen. Seurakseen Prue saa kömpelön mutta uskollisen luokkatoverinsa Curtis Mehlbergin. Tiettömässä korvessa kaksikko kohtaa puhuvia eläimiä, rosvoja ja mahtihahmoja, joiden tekoja ohjaavat suru ja kunnianhimo. Kun Prue ja Curtis tempautuvat keskelle konfliktia, joka uhkaa koko metsän tasapainoa, Pruen on löydettävä itsestään voimaa ja uskoa, joita hän ei tiennyt omaavansa. Pelastaakseen veljensä ja suojellakseen Sysimetsän haurasta tulevaisuutta Pruen on oltava valmis panemaan kaikki peliin. Oscar®-ehdokkuuden saaneen ja BAFTA®-palkitun LAIKA -studion Sysimetsä ( Wildwood ) on suuri seikkailutarina rakkaudesta, uhrauksista ja taikuudesta, joka paljastuu, kun uskallamme katsoa tutun maailman tuolle puolen."
    },
    "tr": "https://www.youtube.com/watch?v=bJQGtSeLPII",
@@ -9731,16 +9864,20 @@
     "bioforum",
     "cinemantsala",
     "elokuviin",
+    "gilda",
     "ihmekompleksi",
     "kinoaurora",
     "kinohannikainen",
     "kinokulma",
+    "kinopiispanristi",
     "kurikankino",
+    "laitilankino",
     "leffabuumi",
     "matintupa",
     "orion",
     "pajakkakino",
-    "tapiola"
+    "tapiola",
+    "vaakuna"
    ],
    "r": 6.0,
    "s": {

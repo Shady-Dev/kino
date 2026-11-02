@@ -18,14 +18,14 @@
 [kinolaika] Kino Laika: 18 showtimes, 7 dates
 [kinolaika] Kino Laika: 18 showtimes, 7 dates
 [kinolaika] synopses merged: 0
-[kinomyyri] 21 screening(s) listed, 17 film page(s) read
+[kinomyyri] 22 screening(s) listed, 18 film page(s) read
 [kinomyyri] omitted 0 confirmed non-film(s) by evidence-backed exclusion over 0 screening(s), and 2 unresolved over 3
 [kinomyyri] unresolved: Boléro, Minä ja Riikka Purra
 [kinomyyri] override kojootti-vs-acme-dub: evidence-unavailable
 [kinomyyri] override must-pori-nakku: active
 [kinomyyri] 3 film(s) with a language name not read, that part left blank: Berliinin sankari (saksan); Lapin sota (saami); Vasenkätinen tyttö (mandariini)
-[kinomyyri] Kino Myyri: 18 showtimes, 9 dates
-[kinomyyri] Kino Myyri: 18 showtimes, 9 dates
+[kinomyyri] Kino Myyri: 19 showtimes, 10 dates
+[kinomyyri] Kino Myyri: 19 showtimes, 10 dates
 [kinomyyri] synopses merged: 0
 [kinokonepaja] 71 screening(s) listed, 22 film page(s) read
 [kinokonepaja] omitted 0 confirmed non-film(s) by evidence-backed exclusion over 0 screening(s), and 3 unresolved over 3
@@ -37,8 +37,8 @@
 [kinokonepaja] Kino Konepaja: 68 showtimes, 33 dates
 [kinokonepaja] Kino Konepaja: 68 showtimes, 33 dates
 [kinokonepaja] synopses merged: 0
-[run] http: 35 revalidated (304), 58 full, 19 not stored (origin said no-store), 1 cache entries written
+[run] http: 35 revalidated (304), 59 full, 20 not stored (origin said no-store), 1 cache entries written
 [run] hosts: 4 attempted -- kinokonepaja.fi, kinomyyri.fi, www.kinokilta.fi, www.kinolaika.fi
-[run] kinola: 4 venues, 149 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
-[run] timing: 4 site(s), 167.2s of fetching added up across workers that overlap, longest site 55.8s, longest queue wait 88.1s, 62.3s wall from this module's first fetch starting to its last ending
+[run] kinola: 4 venues, 150 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
+[run] timing: 4 site(s), 173.9s of fetching added up across workers that overlap, longest site 59.1s, longest queue wait 92.4s, 64.0s wall from this module's first fetch starting to its last ending
 exit=0
