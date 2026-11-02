@@ -4809,13 +4809,15 @@
    "tr": ""
   },
   "me ollaan parhaita vi är bäst": {
-   "r": 0,
+   "id": 191294,
+   "img": "data/posters/75dd5ef9272601ad.jpg",
+   "r": 7.0,
    "s": {
     "en": "",
     "fi": "Tukholma vuonna 1982. 13-vuotiaat Bobo, Klara ja Hedvig eivät oikein sopeudu koulutovereidensa joukkoon. Perhesuhteiden ja alkavan teini-iän kiemurat aiheuttavat lisäksi omat kuprunsa kasvukipuihin. Eräänä iltana nuorisotalolla epäreilusta kohtelusta sisuunnuttuaan nuoret päättävät perustaa punkbändin, eikä soittotaidon tai instrumenttien puute ole este. Eikä punk todellakaan ole kuollut! Me ollaan parhaita! on sympaattisen anarkistinen tarina oman äänen löytämisestä ja rohkeudesta kulkea omaa polkuaan. Huippuohjaaja Moodyssonin käsissä syntynyt lämpimän humoristinen ja ajaton musiikkielokuva rokkaa tiensä niin nuoren kuin vanhemman katsojan sydämeen.",
     "sv": "Stockholm 1982. 13-åringarna Bobo, Klara och Hedvig passar inte riktigt in med deras skolkamrater. Familjeförhållanden och utmaningarna med tonårskänslorna påverkar dem också. En kväll på ungdomsgården bestämmer sig tjejerna spontant att starta ett punkbänd, trots att de inte har några instrument eller musikkunskaper. Vi är bäst! är en sympatisk, anarkistisk film om att hitta sin egen röst och att våga gå sin egen väg. Moodyssons kärleksfulla och tidlösa film passar för alla åldrar, från unga till äldre åskådare. Punken är verkligen inte död!"
    },
-   "tr": ""
+   "tr": "https://www.youtube.com/watch?v=TfPytPjV1xc"
   },
   "meanders": {
    "id": 179370,
@@ -9771,6 +9773,11 @@
   "vi är bäst": {
    "id": 191294,
    "img": "data/posters/75dd5ef9272601ad.jpg",
+   "kr": "K-7",
+   "krs": [
+    "kinoiiris",
+    "niagara"
+   ],
    "r": 7.0,
    "s": {
     "en": "Lukas Moodysson’s (KIMPASSA, LILJA 4-EVER, FUCKING ÅMÅL) coming-of-age film WE’RE THE BEST! is set in Stockholm in 1982. It’s a film about Bobo, Klara, and Hedvig: three 13-year-old girls who hang out on the streets and chat. They’re strong and brave, tough and vulnerable, confused and strange. They have to fend for themselves far too early. Who have to heat up fish sticks in the toaster while their mom is at the bar. Who start a punk band even though they don’t have any instruments—and even though everyone says punk is dead. It’s a movie with lots of music, plenty of humor, and a whole lot of life lessons.",
@@ -9782,12 +9789,14 @@
    ]
   },
   "vi är bäst me ollaan parhaita": {
-   "r": 0,
+   "id": 191294,
+   "img": "data/posters/75dd5ef9272601ad.jpg",
+   "r": 7.0,
    "s": {
     "en": "",
     "fi": "Tukholma vuonna 1982. 13-vuotiaat Bobo, Klara ja Hedvig eivät oikein sopeudu koulutovereidensa joukkoon. Perhesuhteiden ja alkavan teini-iän kiemurat aiheuttavat lisäksi omat kuprunsa kasvukipuihin. Eräänä iltana nuorisotalolla epäreilusta kohtelusta sisuunnuttuaan nuoret päättävät perustaa punkbändin, eikä soittotaidon tai instrumenttien puute ole este. Eikä punk todellakaan ole kuollut! Me ollaan parhaita! on sympaattisen anarkistinen tarina oman äänen löytämisestä ja rohkeudesta kulkea omaa polkuaan. Huippuohjaaja Moodyssonin käsissä syntynyt lämpimän humoristinen ja ajaton musiikkielokuva rokkaa tiensä niin nuoren kuin vanhemman katsojan sydämeen."
    },
-   "tr": ""
+   "tr": "https://www.youtube.com/watch?v=TfPytPjV1xc"
   },
   "vi är orchestre de paris me olemme pariisin orkesteri": {
    "r": 0,
