@@ -1,11 +1,8 @@
-[kinohuovi] Kino-Huovi, Harjavalta: 6 showtimes, 5 dates, 5 card(s)
-[kinohuovi] 1 card(s) whose dates, weekdays and times disagree: KERRO KAIKILLE
-[kinohuovi] unread date 8723c25277a2: KERRO KAIKILLE 3.11. TI klo 15.00 ja klo 18.00 Kestoaika n. 1t50min. Liput 12€.
-[kinohuovi] Kino-Huovi: 6 showtimes, 5 dates
+[kinohuovi] Kino-Huovi, Harjavalta: 8 showtimes, 6 dates, 5 card(s)
+[kinohuovi] Kino-Huovi: 8 showtimes, 6 dates
 [kinohuovi] synopses merged: 0
 [run] venuelists-local.json rewritten
 [run] http: 0 revalidated (304), 1 full, 1 not stored (origin said no-store), 0 cache entries written
 [run] hosts: 1 attempted -- www.kinohuovi.fi
-[run] unread: 1 item(s) at 1 site(s): kinohuovi 1
-[run] kinohuovi: 1 venues, 6 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
+[run] kinohuovi: 1 venues, 8 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
 exit=0
