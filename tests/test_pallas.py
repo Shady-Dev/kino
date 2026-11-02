@@ -219,6 +219,46 @@ class RowsTest(unittest.TestCase):
         for code in ("FI-A", "SV-A"):
             self.assertRegex(code, LANG_CONTRACT, "the form the client and the pages read")
 
+    def test_the_naza_wordings_publish_english_subtitles_and_no_audio(self):
+        """Naza, 7.11 and 12.11, read 2026-11-02. Each wording alone settles it."""
+        fi, sv_en = "Tekstitys vain englanniksi", "Textning på engelska Subtitles only in English"
+        shows, report = self.rows(page(
+            heading(SAT),
+            row(SAT, "14.00", "Naza", meta="1h 20min -K7-", notes=(fi, sv_en)),
+            row(SAT, "16.00", "Naza", meta="1h 20min -K7-", notes=(fi,)),
+            row(SAT, "18.00", "Naza", meta="1h 20min -K7-", notes=(sv_en,)),
+            row(SAT, "20.00", "Naza", meta="1h 20min -K7-")))
+        self.assertEqual([s["lang"] for s in shows], ["EN-S", "EN-S", "EN-S", ""])
+        self.assertEqual(report["unread"], [])
+        self.assertRegex("EN-S", LANG_CONTRACT)
+
+    def test_an_audio_language_the_row_names_survives_beside_the_subtitles(self):
+        shows, _ = self.rows(page(
+            heading(SAT),
+            row(SAT, "18.00", "Naza", marker="SUOMEKSI",
+                notes=("Tekstitys vain englanniksi",)),
+            row(SAT, "20.00", "Naza", marker="PÅ SVENSKA",
+                notes=("Textning på engelska Subtitles only in English",))))
+        self.assertEqual([s["lang"] for s in shows], ["FI-A, EN-S", "SV-A, EN-S"])
+
+    def test_the_shaun_notes_and_other_subtitle_wordings_stay_unread(self):
+        """A joke about English, and English subtitles in words not on the list, publish
+        nothing and are named in the log."""
+        shaun = ("Puhumme lammasta ja vähän englantia",
+                 "Vi pratar fårskalliga och lite engelska", "We speak sheep and a little English")
+        shows, report = self.rows(page(
+            heading(SAT),
+            row(SAT, "14.00", "Shaun the Sheep: The Beast of Mossy Bottom",
+                meta="1h 21min -K7-", notes=shaun),
+            row(SAT, "19.00", "Naza", meta="1h 20min -K7-",
+                notes=("Tekstitys englanniksi", "Subtitles in English"))))
+        self.assertEqual([s["lang"] for s in shows], ["", ""])
+        self.assertEqual(report["unread"],
+                         [f"Shaun the Sheep: The Beast of Mossy Bottom, La/Lö 19.9 Klo 14.00: {n}"
+                          for n in shaun]
+                         + ["Naza, La/Lö 19.9 Klo 19.00: Tekstitys englanniksi",
+                            "Naza, La/Lö 19.9 Klo 19.00: Subtitles in English"])
+
     def test_a_screening_type_on_the_list_publishes_in_method(self):
         """The 5.11 row, read 2026-10-29. Notes about the evening are not published, and a
         type not on the list publishes nothing."""

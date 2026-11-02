@@ -66,7 +66,9 @@ What shapes the parser:
   `SUOMEKSI`, `PÅ SVENSKA`,
   `ORIGINAL version with subtitles FI/SV` and `Huom! Ilman suomenkielistä tekstitystä`
   across captures. The first two name the audio; the others describe subtitles or name two
-  languages at once and settle nothing, so they publish nothing.
+  languages at once and settle nothing, so they publish nothing. A subtitle language is
+  published only from the exact wordings in `SUBS`, beside whatever audio language the row
+  names, and never implies one.
 - **A screening type goes into `method` only from an exact list** (`KINDS`). The title
   block's other lines are free text per event, and notes like `Puolivalot päällä` are not read.
 - **Every other line of a row is named in the log** through `common.unread`. `NOT_READ`
@@ -137,6 +139,10 @@ PRICE_PART = re.compile(r"(\d{1,3}(?:[.,]\d{1,2})?)(?=\s*(?:[/\u2013-]\s*\d|€)
 # `original ... FI/SV` names two, so neither is here. The value is the show contract's
 # `FI-A` form: a bare `fi` matched nothing the client or the pages read (2026-10-04).
 LANGS = {"suomeksi": "FI-A", "på svenska": "SV-A", "pa svenska": "SV-A"}
+# Subtitle statements naming one language, compared like `KINDS`. Read 2026-11-02 on Naza,
+# 7.11 and 12.11: both lines say the subtitles are in English only and name no audio.
+SUBS = {"tekstitys vain englanniksi": "EN-S",
+        "textning på engelska subtitles only in english": "EN-S"}
 # Read 2026-10-29 on Järki ja tunteet, 5.11 at 17.00. Either spelling, the Finnish label.
 KINDS = {"neulontanäytös": "Neulontanäytös", "stikningvisning": "Neulontanäytös"}
 # Row lines reviewed and left unpublished, compared like `KINDS`.
@@ -232,12 +238,12 @@ def _meta(paragraphs):
 
 
 def _lang(paragraphs):
-    """An audio language the row names outright, or ""."""
-    for p in paragraphs:
-        got = LANGS.get(p.strip().lower().rstrip("!"))
-        if got:
-            return got
-    return ""
+    """The audio language the row names outright, then any subtitle language from `SUBS`,
+    in the show contract's `FI-A, EN-S` form, or ""."""
+    keys = [p.strip().lower().rstrip("!") for p in paragraphs]
+    audio = next((LANGS[k] for k in keys if k in LANGS), "")
+    subs = dict.fromkeys(SUBS[k] for k in keys if k in SUBS)
+    return ", ".join(([audio] if audio else []) + list(subs))
 
 
 def _method(paragraphs):
@@ -312,7 +318,8 @@ def rows(site, page, today=None):
                                f"date {day}.{month}.{year} {tm.group(0)}") from e
         for p in title_block[1:] + value[2:]:
             key = p.strip().lower().rstrip("!")
-            if not (META_RE.search(p) or key in LANGS or key in KINDS or key in NOT_READ):
+            if not (META_RE.search(p) or key in LANGS or key in SUBS or key in KINDS
+                    or key in NOT_READ):
                 report["unread"].append(f"{title}, {value[0]} {value[1]}: {p}")
         length, rating = _meta(title_block[1:])
         price = _price(price_block)
