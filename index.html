@@ -4428,6 +4428,15 @@
   const stubTags = (tags, aud) => tags.filter(t =>
     t && !/^2d$/i.test(t) && !(aud || '').toLowerCase().includes(t.toLowerCase()));
   // --- end stubTags ---
+  // --- ticketTags: pure, extracted verbatim by tests/ticket_tags_harness.js ---
+  // Card and sheet alike: a head pill only for a tag every screening shares, the rest on its ticket.
+  const tagsOf = s => (s.method || '').split(' · ').filter(Boolean);
+  const sharedTags = (shows, isGlyph) => {
+    const sets = shows.map(s => new Set(tagsOf(s)));
+    return [...(sets[0] || [])].filter(f => !isGlyph(f) && sets.every(set => set.has(f)));
+  };
+  const ownTags = (s, shared) => stubTags(tagsOf(s).filter(f => !shared.includes(f)), s.aud);
+  // --- end ticketTags ---
   const glyphRow = html => html ? `<span class="glyphs">${html}</span>` : '';
   // A ticket with no room, format or language gets no details compartment: an empty one
   // still drew its padding as a gap after the time. The generated pages already omit it.
@@ -4604,13 +4613,11 @@
       // method is per showtime, so a film-level pill claimed something about every
       // screening (47 film/day combinations mix an Anniskelu screening with normal ones).
       // Tags every showtime shares stay on the card; the rest move onto their stub, so
-      // one IMAX screening among 2D ones still says so.
-      const tagsOf = t => (t.method || '').split(' · ').filter(Boolean);
-      const tagSets = m.times.map(t => new Set(tagsOf(t)));
-      // A tag drawn as a glyph (Anniskelu) stays on every stub even when all of them
-      // share it: the A is where a reader looks for it, and folding it onto the card
-      // made it vanish the moment the Anniskelu filter left only such screenings.
-      const common = [...(tagSets[0] || [])].filter(f => !glyphOf(f) && tagSets.every(set => set.has(f)));
+      // one IMAX screening among 2D ones still says so. A tag drawn as a glyph
+      // (Anniskelu) stays on every stub even when all of them share it: the A is where a
+      // reader looks for it, and folding it onto the card made it vanish the moment the
+      // Anniskelu filter left only such screenings.
+      const common = sharedTags(m.times, glyphOf);
       // Past times are hidden behind a compact stub rather than a global toggle: it costs
       // no header space and only appears on the cards that have any. If *every* time has
       // passed they stay visible, since an empty card would read as a bug.
@@ -4624,9 +4631,9 @@
         const past = t.start < now;
         const cls = past ? ' past' : (t.soldOut ? ' sold' : '');
         const where = venueName(t);
-        const ownTags = stubTags(tagsOf(t).filter(f => !common.includes(f)), t.aud);
-        const own = ownTags.filter(f => !glyphOf(f));
-        const glyphs = ownTags.map(glyphOf).join('') + ageGlyph(t);
+        const mine = ownTags(t, common);
+        const own = mine.filter(f => !glyphOf(f));
+        const glyphs = mine.map(glyphOf).join('') + ageGlyph(t);
         const facts = [multiTheatre ? where : '', t.aud, ...own,
                        t.soldOut && !past ? L[state.lang].soldout : ''].filter(Boolean);
         const tint = tintedList && t.provider ? ` chain-${esc(t.provider)}` : '';
@@ -4818,8 +4825,8 @@
     const shownTitle = filmTitle(title, sample.oyear, fiYear());
     const picked = synPick(f.s, lang);
     const syn = picked.text;
-    const fmts = (sample.method || '').split(' · ').filter(Boolean)
-      .map(x => `<span class="fmt">${esc(x)}</span>`).join('');
+    const shared = sharedTags(all, glyphOf);
+    const fmts = shared.map(x => `<span class="fmt">${esc(x)}</span>`).join('');
     // No folded price here either: each stub below carries its own.
     const meta1 = [
       scoreRing(sample),
@@ -4848,14 +4855,15 @@
         const clock = fiTime(s.start);
         const cls = past ? ' past' : (s.soldOut ? ' sold' : '');
         const where = venueName(s);
-        const facts = [multi ? where : '', s.aud].filter(Boolean);
+        const mine = ownTags(s, shared);
+        const facts = [multi ? where : '', s.aud, ...mine.filter(f => !glyphOf(f))].filter(Boolean);
         const tint = multi && s.provider ? ` chain-${esc(s.provider)}` : '';
         const own_price = priceLabel([s]);
         // The menu button sits beside the ticket, outside the anchor; a past screening
         // has nothing to share or add and gets none.
         const more = past ? '' : `<button class="more" type="button" data-i="${s._i}" aria-label="${esc(L[lang].aActions)}" aria-haspopup="menu" aria-expanded="false">${DOTS}</button>`;
         return `<div class="tk"><a class="stub${cls}${tint}" ${ticketHref(s.url)} data-prov="${esc(s.provider || '')}" data-i="${s._i}" title="${esc([...facts, ageOf(s)].filter(Boolean).join(', '))}">
-                  <span class="time">${clock}</span>${audHtml(facts, (s.method||'').split(' · ').map(glyphOf).join('') + ageGlyph(s), s.lang, !multi)}<span class="price">${esc(own_price)}</span></a>${more}</div>`;
+                  <span class="time">${clock}</span>${audHtml(facts, mine.map(glyphOf).join('') + ageGlyph(s), s.lang, !multi)}<span class="price">${esc(own_price)}</span></a>${more}</div>`;
     };
     sheetCtx = { all, title, fid };
     closeStubMenu(false);

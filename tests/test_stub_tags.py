@@ -72,9 +72,12 @@ class TagPlacementSourceTest(unittest.TestCase):
         self.assertIn("...langParts(s.lang, !pre.length)", src)
 
     def test_a_glyph_tag_never_folds_onto_the_card(self):
+        """The fold moved into sharedTags on 2026-11-02; tests/test_ticket_tags.py runs it."""
         common = re.search(r"const common = (.*?);\n", HTML).group(1)
-        self.assertIn("!glyphOf(f)", common)
-        self.assertIn("tagSets.every(set => set.has(f))", common)
+        self.assertEqual(common, "sharedTags(m.times, glyphOf)")
+        shared = re.search(r"const sharedTags = .*?\n  \};\n", HTML, re.S).group(0)
+        self.assertIn("!isGlyph(f)", shared)
+        self.assertIn("sets.every(set => set.has(f))", shared)
 
 
 if __name__ == "__main__":
