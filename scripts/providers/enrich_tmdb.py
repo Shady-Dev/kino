@@ -122,6 +122,10 @@ TRAIL_SPEAK = re.compile(r"\s+[-\u2013]\s*puhumme\s+suomea!?\s*$", re.I)
 # out of real names. Kino Myyri lists its English version as "Ryhmä Hau: Dinoelokuva
 # (org)" (2026-10-05). It got no match while the plain title matched 1185806.
 TRAIL_VERSION = re.compile(r"\s*\(\s*(?:eng|sub|org)\s*\)\s*$", re.I)
+# Ritz Vaasa's "Shaun the Sheep: The Beast of Mossy Bottom [Eng Audio]" (2026-11-02) names
+# the English audio its event page states, 81 min like the plain title's 1477104, which
+# every other chain matched. Square brackets, that marker only, and last on the line.
+TRAIL_AUDIO = re.compile(r"\s*\[\s*eng(?:lish)?\s+audio\s*\]\s*$", re.I)
 
 # A calendar names events, not films. Tähti Kino's three rows on 2026-09-19 read
 # "Hetki ennen valoa -elokuvanäytös", "Presidentin kyyditys -elokuvan näytös" and
@@ -242,6 +246,7 @@ def clean(title):
     t = TRAIL_FORMAT.sub(" ", t)
     t = TRAIL_DUB.sub(" ", t)
     t = TRAIL_SPEAK.sub(" ", t)
+    t = TRAIL_AUDIO.sub(" ", t)
     t = TRAIL_NOISE.sub(" ", PAREN_NOISE.sub(" ", TRAIL_VERSION.sub(" ", t)))
     return re.sub(r"\s{2,}", " ", t).strip(" -–:,")
 

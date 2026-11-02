@@ -353,6 +353,21 @@ class AudioMarkerTest(unittest.TestCase):
             with self.subTest(title=title):
                 self.assertEqual(enrich_tmdb.clean(title), title)
 
+    def test_ritz_vaasas_english_audio_bracket_comes_off(self):
+        """Ritz Vaasa published "... [Eng Audio]" on 2026-11-02; the plain title matched.
+        Only that marker, only in square brackets and only last."""
+        for published in ("Shaun the Sheep: The Beast of Mossy Bottom [Eng Audio]",
+                          "Shaun the Sheep: The Beast of Mossy Bottom [ENG AUDIO] ",
+                          "Shaun the Sheep: The Beast of Mossy Bottom [English Audio]"):
+            with self.subTest(published=published):
+                self.assertEqual(enrich_tmdb.clean(published),
+                                 "Shaun the Sheep: The Beast of Mossy Bottom")
+        for title in ("Batman [Director's Cut]", "[Eng Audio] Shaun the Sheep",
+                      "Shaun the Sheep [Eng Audio] Live", "Shaun the Sheep (Eng Audio)",
+                      "Shaun the Sheep Eng Audio"):
+            with self.subTest(title=title):
+                self.assertEqual(enrich_tmdb.clean(title), title)
+
     def test_elokuviin_infos_screening_banners_come_off(self):
         """Y-Kino and Kino Kyntäjä published these on 2026-11-01 beside the plain titles.
         Only the listed banners, only first, and the interval only last."""
