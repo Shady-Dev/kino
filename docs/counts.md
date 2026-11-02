@@ -43,5 +43,5 @@ Earlier hand-measured passes, and what each of them measured, are in
 | generated pages per language | 178 |
 | sitemap URLs | 535 |
 | off-origin poster references | 0 |
-| `sw.js` CACHE | `leffavuoro-v311` |
+| `sw.js` CACHE | `leffavuoro-v312` |
 <!-- counts:end -->
