@@ -74,6 +74,29 @@
   .langseg button:last-child{border-right:0}
   .langseg button[aria-pressed="true"]{background:var(--ink);color:var(--bg);font-weight:600}
   #themeToggle{min-height:34px;min-width:34px;font-size:15px;color:var(--muted)}
+  /* The cinema ghost, the app's (2026-11-02): one handler with #themeToggle, the same
+     frames, timing and sizes. It shares a box with the wordmark, so a wrapped header keeps
+     it beside the wordmark. */
+  .brand{display:flex;align-items:center}
+  #ghost{--gw:50px;position:relative;flex:0 0 auto;width:var(--gw);height:calc(var(--gw)*.7);
+    margin:0 0 0 8px;padding:0;border:0;border-radius:0;cursor:pointer;
+    background:url(/ghost.png) 0 0/calc(var(--gw)*22) 100% no-repeat;image-rendering:pixelated;
+    animation:ghost-loop 8.48s step-end infinite}
+  #ghost.react{animation:ghost-react 1.2s step-end}
+  @keyframes ghost-loop{0%{background-position-x:calc(var(--gw)*-0)}12.972%{background-position-x:calc(var(--gw)*-1)}17.099%{background-position-x:calc(var(--gw)*-2)}22.406%{background-position-x:calc(var(--gw)*-3)}24.528%{background-position-x:calc(var(--gw)*-4)}28.42%{background-position-x:calc(var(--gw)*-5)}30.542%{background-position-x:calc(var(--gw)*-6)}34.552%{background-position-x:calc(var(--gw)*-7)}38.443%{background-position-x:calc(var(--gw)*-8)}47.877%{background-position-x:calc(var(--gw)*-9)}50.354%{background-position-x:calc(var(--gw)*-10)}53.892%{background-position-x:calc(var(--gw)*-11)}56.722%{background-position-x:calc(var(--gw)*-12)}61.675%{background-position-x:calc(var(--gw)*-13)}78.184%{background-position-x:calc(var(--gw)*-14)}91.156%,100%{background-position-x:calc(var(--gw)*-15)}}
+  @keyframes ghost-react{0%{background-position-x:calc(var(--gw)*-16)}15%{background-position-x:calc(var(--gw)*-17)}44.167%{background-position-x:calc(var(--gw)*-18)}53.75%{background-position-x:calc(var(--gw)*-19)}72.083%{background-position-x:calc(var(--gw)*-20)}81.667%,100%{background-position-x:calc(var(--gw)*-21)}}
+  @media (max-width:560px){
+    #ghost{--gw:40px;margin-left:6px}
+    #ghost::after{content:"";position:absolute;left:calc(var(--gw) - 42px);right:-2px;
+      top:calc(var(--gw)*.35 - 22px);bottom:calc(var(--gw)*.35 - 22px)}
+  }
+  @media (max-width:340px),(min-width:361px) and (max-width:370px){#ghost{--gw:30px}}
+  @media (max-width:329px){#ghost{--gw:20px}}
+  /* Where the ghost would push the tools onto a second row, it is left out (the maintainer's
+     choice, 2026-11-02). Per language, from the back link's width, with 2 px to spare. */
+  @media (min-width:419px) and (max-width:466px){html[lang=en] #ghost{display:none}}
+  @media (min-width:425px) and (max-width:472px){html[lang=fi] #ghost{display:none}}
+  @media (min-width:445px) and (max-width:492px){html[lang=sv] #ghost{display:none}}
 
   .layout{max-width:880px;margin:30px auto 0;padding:0 28px}
   .eyebrow{text-transform:uppercase;font-size:11px;letter-spacing:1.8px;color:var(--muted);margin-bottom:12px}
@@ -162,7 +185,10 @@
 </head>
 <body>
 <header class="site-header">
-  <a class="wordmark" href="/" id="homeLink">Leffavuoro<span>.</span></a>
+  <div class="brand">
+    <a class="wordmark" href="/" id="homeLink">Leffavuoro<span>.</span></a>
+    <button id="ghost" type="button" aria-label="Vaihda vaalean ja tumman teeman välillä"></button>
+  </div>
   <div class="head-tools">
     <a class="back" href="/" id="backLink">← Näytösaikoihin</a>
     <div class="langseg" id="langSeg" role="group"></div>
@@ -258,7 +284,7 @@
     fi: {
       title:'Palvelun tila', intro:'Näytösaikojen päivitykset ja tietojen ajantasaisuus.',
       back:'← Näytösaikoihin', backScreening:'← Takaisin tähän näytökseen',
-      theme:'Vaihda teemaa', langGroup:'Kieli', footNav:'Lisätietoja',
+      theme:'Vaihda teemaa', ghostDark:'Vaihda tummaan teemaan', ghostLight:'Vaihda vaaleaan teemaan', langGroup:'Kieli', footNav:'Lisätietoja',
       sources:'Tietolähteet', sourceCount:'{n} tietolähdettä', sourceCount1:'1 tietolähde',
       checked:'Tilanne tarkistettu {when}', checkFailed:'Tarkistus ei onnistunut',
       tz:'Ajat Suomen aikaa',
@@ -312,7 +338,7 @@
     sv: {
       title:'Tjänstens status', intro:'Uppdateringar av visningstiderna och hur aktuella uppgifterna är.',
       back:'← Till visningstiderna', backScreening:'← Tillbaka till visningen',
-      theme:'Byt tema', langGroup:'Språk', footNav:'Mer information',
+      theme:'Byt tema', ghostDark:'Byt till mörkt tema', ghostLight:'Byt till ljust tema', langGroup:'Språk', footNav:'Mer information',
       sources:'Datakällor', sourceCount:'{n} datakällor', sourceCount1:'1 datakälla',
       checked:'Kontrollerat {when}', checkFailed:'Kontrollen misslyckades',
       tz:'Tider i finsk tid',
@@ -366,7 +392,7 @@
     en: {
       title:'Service status', intro:'Showtime updates and how current the data is.',
       back:'← To showtimes', backScreening:'← Back to this screening',
-      theme:'Switch theme', langGroup:'Language', footNav:'More information',
+      theme:'Switch theme', ghostDark:'Switch to dark theme', ghostLight:'Switch to light theme', langGroup:'Language', footNav:'More information',
       sources:'Data sources', sourceCount:'{n} data sources', sourceCount1:'1 data source',
       checked:'Checked {when}', checkFailed:'The check did not succeed',
       tz:'Times in Finnish time',
@@ -429,10 +455,28 @@
       .getPropertyValue('--bg').trim() || '#0D0E12';
   };
   applyTheme(store.k || (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'));
-  $('themeToggle').onclick = () => {
+  // The ghost names the theme it switches to. Called once `lang` is set.
+  const ghost = $('ghost');
+  const ghostLabel = () => ghost.setAttribute('aria-label', L[lang][
+    document.documentElement.getAttribute('data-theme') === 'dark' ? 'ghostLight' : 'ghostDark']);
+  // Restarted on every toggle; skipped under reduced motion, where no animation runs.
+  const ghostReact = () => {
+    if(matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    ghost.classList.remove('react');
+    void ghost.offsetWidth;
+    ghost.classList.add('react');
+  };
+  ghost.addEventListener('animationend', e => {
+    if(e.animationName === 'ghost-react') ghost.classList.remove('react');
+  });
+  // One handler for both controls, as in the app.
+  const toggleTheme = () => {
     const next = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
     applyTheme(next); store.k = next;
+    ghostLabel(); ghostReact();
   };
+  $('themeToggle').onclick = toggleTheme;
+  ghost.onclick = toggleTheme;
 
   /* ---------- language and the way back ----------
      `area` is read and passed on, never written: arriving here from a cinema and going
@@ -938,6 +982,7 @@
     $('homeLink').href = homeHref();
     $('themeToggle').title = T.theme;
     $('themeToggle').setAttribute('aria-label', T.theme);
+    ghostLabel();
     $('langSeg').setAttribute('aria-label', T.langGroup);
     $('sourcesTitle').textContent = T.sources;
     $('helpTitle').textContent = T.helpTitle;

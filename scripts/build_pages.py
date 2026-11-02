@@ -173,6 +173,7 @@ L = {
         "city_link": "Kaikki teatterit \u2013 {city}",
         "subs": "tekstitys: {}", "no_subs": "ei tekstityst\u00e4", "lang_nav": "Kieli",
         "theme": "Vaihda teemaa", "a_theme": "Vaihda vaalean ja tumman teeman v\u00e4lill\u00e4",
+        "a_ghost_dark": "Vaihda tummaan teemaan", "a_ghost_light": "Vaihda vaaleaan teemaan",
         "from": "alkaen", "free": "Vapaa p\u00e4\u00e4sy", "votes": "\u00e4\u00e4nt\u00e4", "rtg": "TMDB-arvio {v}/10",
         "rtgN": "TMDB-arvio {v}/10, {n} \u00e4\u00e4nt\u00e4", "rtg1": "TMDB-arvio {v}/10, 1 \u00e4\u00e4ni",
         "dec": ",",
@@ -237,6 +238,7 @@ L = {
         "subs": "textning: {}", "subs_lead": "Textning: {}", "no_subs": "ingen textning",
         "no_subs_lead": "Ingen textning", "lang_nav": "Spr\u00e5k",
         "theme": "Byt tema", "a_theme": "Byt mellan ljust och m\u00f6rkt tema",
+        "a_ghost_dark": "Byt till m\u00f6rkt tema", "a_ghost_light": "Byt till ljust tema",
         "from": "fr\u00e5n", "free": "Fritt intr\u00e4de", "votes": "r\u00f6ster", "rtg": "TMDB-betyg {v}/10",
         "rtgN": "TMDB-betyg {v}/10, {n} r\u00f6ster", "rtg1": "TMDB-betyg {v}/10, 1 r\u00f6st",
         "dec": ",",
@@ -297,6 +299,7 @@ L = {
         "city_link": "All cinemas \u2013 {city}",
         "subs": "{} subtitles", "no_subs": "no subtitles", "lang_nav": "Language",
         "theme": "Switch theme", "a_theme": "Switch between light and dark theme",
+        "a_ghost_dark": "Switch to dark theme", "a_ghost_light": "Switch to light theme",
         "from": "from", "free": "Free", "votes": "votes", "rtg": "TMDB rating {v}/10",
         "rtgN": "TMDB rating {v}/10 from {n} votes", "rtg1": "TMDB rating {v}/10 from 1 vote",
         "dec": ".",
@@ -547,17 +550,43 @@ THEME_HEAD_JS = (
 )
 # The toggle: the app's own handler, and theme-color follows the applied --bg so a
 # translucent status bar draws the clock in the right colour. Both metas are rewritten
-# because the no-script page carries one per scheme.
+# because the no-script page carries one per scheme. The ghost shares the handler, as in
+# the app: either control toggles once and replays the ghost's reaction, which is skipped
+# under reduced motion. Its label names the theme it switches to, from its data attributes.
 THEME_BODY_JS = (
     "(function(){var b=document.getElementById('themeToggle');if(!b)return;"
-    "function paint(){var c=getComputedStyle(document.documentElement).getPropertyValue('--bg').trim()||'#0D0E12';"
+    "var r=document.documentElement,g=document.getElementById('ghost');"
+    "function paint(){var c=getComputedStyle(r).getPropertyValue('--bg').trim()||'#0D0E12';"
     "var m=document.querySelectorAll('meta[name=\\'theme-color\\']');"
-    "for(var i=0;i<m.length;i++){m[i].removeAttribute('media');m[i].setAttribute('content',c)}}"
+    "for(var i=0;i<m.length;i++){m[i].removeAttribute('media');m[i].setAttribute('content',c)}"
+    "if(g)g.setAttribute('aria-label',g.getAttribute(r.getAttribute('data-theme')==='dark'?'data-light':'data-dark'))}"
     "paint();"
-    "b.onclick=function(){var next=document.documentElement.getAttribute('data-theme')==='dark'?'light':'dark';"
-    "document.documentElement.setAttribute('data-theme',next);"
-    "try{localStorage.setItem('kino-theme',next)}catch(e){}paint()}})();"
+    "function react(){if(!g||matchMedia('(prefers-reduced-motion: reduce)').matches)return;"
+    "g.classList.remove('react');void g.offsetWidth;g.classList.add('react')}"
+    "function toggle(){var next=r.getAttribute('data-theme')==='dark'?'light':'dark';"
+    "r.setAttribute('data-theme',next);"
+    "try{localStorage.setItem('kino-theme',next)}catch(e){}paint();react()}"
+    "b.onclick=toggle;if(!g)return;g.onclick=toggle;"
+    "g.addEventListener('animationend',function(e){if(e.animationName==='ghost-react')g.classList.remove('react')})})();"
 )
+
+# The cinema ghost beside the wordmark, the app's (index.html, 2026-11-02): ghost.png steps
+# through 16 ambient frames, then 6 reaction frames, each `--gw` wide. Each pair is a
+# keyframe's percentage and the frame it shows, from the supplied timing files. The sizes
+# and bands are the app's. Its right margin cancels the gap after it and the language links
+# take the auto margin, so the ghost only takes free space. Below 561 px the links are the
+# app's width, which is what makes room for it (the maintainer's choice, 2026-11-02).
+GHOST_LOOP = [(0, 0), (12.972, 1), (17.099, 2), (22.406, 3), (24.528, 4), (28.42, 5),
+              (30.542, 6), (34.552, 7), (38.443, 8), (47.877, 9), (50.354, 10), (53.892, 11),
+              (56.722, 12), (61.675, 13), (78.184, 14), (91.156, 15)]
+GHOST_REACT = [(0, 16), (15, 17), (44.167, 18), (53.75, 19), (72.083, 20), (81.667, 21)]
+
+
+def ghost_keyframes(name, frames):
+    steps = [f"{pct:g}%{{background-position-x:calc(var(--gw)*-{n})}}" for pct, n in frames]
+    steps[-1] = steps[-1].replace("%{", "%,100%{", 1)
+    return f"@keyframes {name}{{{''.join(steps)}}}"
+
 
 # The app's own tokens, both themes: a stored choice through `data-theme` first, the OS
 # through `prefers-color-scheme` otherwise. Same Archivo files, same two unicode-range
@@ -579,7 +608,12 @@ a{color:inherit}
 a:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
 .wrap{max-width:52rem;margin:0 auto;padding:0 20px 32px}
 .bar{display:flex;align-items:center;gap:12px;padding:8px 0;border-bottom:1px solid var(--line)}
-.bar .logo{margin-right:auto}
+#ghost{--gw:50px;position:relative;flex:0 0 auto;width:var(--gw);height:calc(var(--gw)*.7);margin:0 -12px 0 -4px;padding:0;border:0;border-radius:0;cursor:pointer;background:url(/ghost.png) 0 0/calc(var(--gw)*22) 100% no-repeat;image-rendering:pixelated;animation:ghost-loop 8.48s step-end infinite}
+#ghost.react{animation:ghost-react 1.2s step-end}
+#ghost:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+html:not([data-theme]) #ghost{visibility:hidden}
+.bar .langseg{margin-left:auto}
+@@GHOST_KEYFRAMES@@
 #themeToggle{border:1px solid var(--line);background:var(--surface);color:var(--ink);flex:0 0 44px;width:44px;height:44px;border-radius:50%;cursor:pointer;font-size:1rem;line-height:1;display:grid;place-items:center;transition:border-color .15s,transform .15s}
 #themeToggle:hover{border-color:var(--accent);transform:rotate(15deg)}
 #themeToggle:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
@@ -657,10 +691,12 @@ footer a{color:inherit}
 footer .statuslink a{color:var(--accent-text);font-weight:700;text-decoration:none;display:inline-block;padding:6px 0;min-height:34px}
 footer .statuslink a:hover{text-decoration:underline}
 @media(min-width:561px){.cta{width:fit-content;padding:0 18px}}
-@media(max-width:560px){.wrap{padding:0 14px 28px}.logo{font-size:.82rem;letter-spacing:.08em}h1{font-size:1.3rem}.film{display:block}.poster{float:left;margin-right:18px;width:72px;height:104px}.evimg{width:100%;margin:0 0 12px}.times{clear:both}.times>li{flex:1 0 100%}.times.grid{grid-template-columns:1fr}.stub .price{margin-left:auto}h3{font-size:1.02rem}.syn{clear:both;display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:3;line-clamp:3;overflow:hidden}}
-@media(max-width:360px){.bar{gap:8px}.logo{font-size:.6rem;letter-spacing:.02em}}
+@media(max-width:560px){.wrap{padding:0 14px 28px}.logo{font-size:.82rem;letter-spacing:.08em}.langseg a,.langseg span{min-width:0;padding:0 8px;font-size:.72rem;letter-spacing:.03em}#ghost{--gw:40px;margin-left:-6px}#ghost::after{content:"";position:absolute;left:calc(var(--gw) - 42px);right:-2px;top:calc(var(--gw)*.35 - 22px);bottom:calc(var(--gw)*.35 - 22px)}h1{font-size:1.3rem}.film{display:block}.poster{float:left;margin-right:18px;width:72px;height:104px}.evimg{width:100%;margin:0 0 12px}.times{clear:both}.times>li{flex:1 0 100%}.times.grid{grid-template-columns:1fr}.stub .price{margin-left:auto}h3{font-size:1.02rem}.syn{clear:both;display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:3;line-clamp:3;overflow:hidden}}
+@media(max-width:360px){.bar{gap:8px}.logo{font-size:.6rem;letter-spacing:.02em}#ghost{margin:0 -8px 0 -2px}}
+@media(max-width:340px),(min-width:361px) and (max-width:370px){#ghost{--gw:30px}}
+@media(max-width:329px){#ghost{--gw:20px}}
 @media(prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
-""".strip()
+""".strip().replace("@@GHOST_KEYFRAMES@@", ghost_keyframes("ghost-loop", GHOST_LOOP) + ghost_keyframes("ghost-react", GHOST_REACT))
 
 
 # ---------------------------------------------------------------- helpers
@@ -1624,7 +1660,7 @@ def page(*, lang, paths, title, desc, h1, sub, intro, days, today, t,
 </head>
 <body>
 <div class="wrap">
-<header><div class="bar" data-nosnippet><a class="logo" href="/?lang={lang}">Leffavuoro<span>.</span></a>{lang_switch(lang, paths, t)}<button id="themeToggle" type="button" title="{esc(t['theme'])}" aria-label="{esc(t['a_theme'])}">\u25d0</button></div></header>
+<header><div class="bar" data-nosnippet><a class="logo" href="/?lang={lang}">Leffavuoro<span>.</span></a><button id="ghost" type="button" aria-label="{esc(t['a_theme'])}" data-dark="{esc(t['a_ghost_dark'])}" data-light="{esc(t['a_ghost_light'])}"></button>{lang_switch(lang, paths, t)}<button id="themeToggle" type="button" title="{esc(t['theme'])}" aria-label="{esc(t['a_theme'])}">\u25d0</button></div></header>
 <main>
 <h1>{esc(h1)}</h1>
 <p class="sub">{sub_html(sub)}</p>
