@@ -2764,13 +2764,12 @@
   },
   "keltaiset kirjeet": {
    "id": 1315657,
-   "img": "data/posters/39786b34eaf050e5.jpg",
-   "r": 7.2,
+   "r": 0,
    "s": {
     "en": "",
     "fi": "Derya on Ankaran suurimman teatterin tähti: hän näyttelee pääosaa puolisonsa Azizin ohjaamassa näytelmässä. Uutuus on menestys. Vapauden tuulet puhaltavat, levottomuudet vyöryvät myös yliopistolle. Elämä alkaa hajota käsiin. Irtisanomisia merkitseviä keltaisia kirjeitä satelee kaikille. Aziz heitetään ulos yliopistosta epämääräisillä perusteilla. Näytelmän esitykset perutaan. KELTAISET KIRJEET on monitasoinen kuvaus elämästä ja perhesuhteista autoritäärisen yhteiskunnan puristuksissa. Mestarillisen Opettajainhuoneen ohjaaja Ilker Catak ei ole Turkin vallanpitäjien suosiossa, joten Berliini ja Hampuri saavat esittää tarinassa Ankaraa ja Istanbulia. Vaikutelma on vakuuttava. Keltaiset kirjeet voitti Berliinin elokuvajuhlien pääpalkinnon Kultaisen karhun."
    },
-   "tr": "https://www.youtube.com/watch?v=N_pQLLsSOWk"
+   "tr": ""
   },
   "keltaiset kirjeet matinea": {
    "id": 1315657,
@@ -3410,7 +3409,7 @@
   "kojootti vs acme suomeksi": {
    "id": 1204680,
    "img": "data/posters/9bcb7891e3c4c53a.jpg",
-   "r": 7.5,
+   "r": 8.2,
    "s": {
     "en": "After Acme products fail him one too many times in his dogged pursuit of the Roadrunner, Wile E. Coyote decides to hire a billboard lawyer to sue the Acme Corporation.",
     "fi": "Vuosikymmenten ajan pommien räjäyttämä, dynamiitin murskaama, magneettien runtelema, siirtolohkareiden litistämä, junien tallaama, tunneleiden huijaama, jousien sinkoama, höyryjyrien yliajama, viallisten laitteiden pettämä, benjiköysien kiusaama, rakettien riepottelema, lepakkoasujen selkäänpuukottama, rakettiluistinten paiskoma, yksipyöräisten kumoama, maanjäristyspillereiden tärisyttämä, villiintyneiden kuminauhojen venyttämä ja lounaisten Yhdysvaltojen jokaiselta jyrkänteeltä syösty Kelju K. Kojootti saa viimein tarpeekseen ja päättää iskeä takaisin. Mainostauluonnettomuuksiin erikoistuneen asianajajan Kevin Averyn (Will Forte) kanssa liittoutuessaan hän haastaa oikeuteen ACME Inc.:n – ahneuttaan tavoittelevan jättiyhtiön, jonka tuotteet ovat olleet jokaisen Kojoottia kohdanneen katastrofin taustalla – sekä yhtiötä edustavan lipevän yritysjuristin Buddy Cranen (John Cena)."
@@ -10123,6 +10122,7 @@
     "kinolumo",
     "kinopiispanristi",
     "kinopirtti",
+    "kinoset",
     "kinovirta",
     "kotkanleffat",
     "kurikankino",
