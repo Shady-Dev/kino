@@ -11,32 +11,32 @@
 [leffabuumi] Kinolinna: 77 showtimes, 12 dates
 [leffabuumi] Kino Ritz: 26 showtimes, 21 dates
 [leffabuumi] Kino Saimaa: 6 showtimes, 4 dates
-[leffabuumi] synopses merged: 0
+[leffabuumi] synopses merged: 1
+[leffabuumi] synopses by language: en 1
 [studio123jarvenpaa] Studio 123 Järvenpää: 80 showtimes, 18 dates
-[studio123jarvenpaa] synopses merged: 3
+[studio123jarvenpaa] synopses merged: 0
 [studio123kouvola] Studio 123 Kouvola: 75 showtimes, 26 dates
 [studio123kouvola] synopses merged: 0
-[ihmekompleksi] Ihme Kompleksi: 32 showtimes, 16 dates
-[ihmekompleksi] synopses merged: 1
+[ihmekompleksi] Ihme Kompleksi: 33 showtimes, 17 dates
+[ihmekompleksi] synopses merged: 0
 [ihmekompleksi] screening-note sentences left out of synopses: 1
 [kino123] Kino 123: 80 showtimes, 10 dates
 [kino123] synopses merged: 0
 [biogrand] Bio Grand: 32 showtimes, 10 dates
-[biogrand] synopses merged: 2
-[biogrand] synopses by language: en 1, fi 1
+[biogrand] synopses merged: 0
 [joutsankino] Joutsan Kino: 8 showtimes, 6 dates
 [joutsankino] synopses merged: 0
 [cine] Cine Keuda-Talo: 7 showtimes, 2 dates
 [cine] Cine Nikkilä: 6 showtimes, 2 dates
 [cine] synopses merged: 0
-[star] strand prefix split off 3 showtimes
-[star] Elokuvateatteri Star: 55 showtimes, 8 dates
+[star] strand prefix split off 6 showtimes
+[star] Elokuvateatteri Star: 161 showtimes, 10 dates
 [star] synopses merged: 0
 [star] screening-note sentences left out of synopses: 1
 [haapamaki] Haapamäen Elokuvat: 14 showtimes, 13 dates
 [haapamaki] synopses merged: 0
 [run] venuelists-local.json rewritten
-[run] http: 0 revalidated (304), 290 full, 290 not stored (origin said no-store), 0 cache entries written
+[run] http: 0 revalidated (304), 301 full, 301 not stored (origin said no-store), 0 cache entries written
 [run] hosts: 12 attempted -- biogrand.fi, haapamaenelokuvat.fi, ihmekompleksi.fi, kiertue.cine.fi, kino.joutsa.fi, kino123.fi, kotkanleffat.fi, leffabuumi.fi, lippu.elokuvateatteristar.fi, studio123.fi, studiot123.com, www.savonkinot.fi
-[run] etiketti: 21 venues, 769 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
+[run] etiketti: 21 venues, 876 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
 exit=0
