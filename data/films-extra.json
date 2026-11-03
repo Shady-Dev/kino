@@ -553,6 +553,19 @@
     "en"
    ]
   },
+  "bamse ja meren salaisuus": {
+   "id": 1275785,
+   "img": "data/posters/aed5ff66e478c590.jpg",
+   "r": 0,
+   "s": {
+    "en": "",
+    "fi": "Bamse, Pomppi ja Kilpinen ovat jälleen uuden seikkailun keskellä! Bamse, Pomppi ja Kilpinen lähtevät kohti suurta meriseikkailua ja sukeltavat keskelle merimysteeriä – pian alkaa koko perheen seikkailu, täynnä ystävyyttä, yllätyksiä ja huikeita hetkiä."
+   },
+   "tr": "https://www.youtube.com/watch?v=Vh9Tp3JXbQM",
+   "ts": [
+    "fi"
+   ]
+  },
   "beau travail": {
    "id": 14626,
    "img": "data/posters/326524066da4f856.jpg",
@@ -1217,6 +1230,10 @@
   "ebenezer saiturin joulu": {
    "id": 1567605,
    "img": "data/posters/445a6b495360d819.jpg",
+   "kr": "K-12",
+   "krs": [
+    "kinomarilyn"
+   ],
    "r": 0,
    "s": {
     "en": "An elderly miser embarks on a supernatural journey after visits from the ghost of his former business partner and the Spirits of Christmas Past, Present, and Yet to Come force him to confront his past and fight for a second chance at happiness.",
@@ -1230,6 +1247,10 @@
   "ebenezer saiturin joulu ikäraja ei viellä tiedossa": {
    "id": 1567605,
    "img": "data/posters/445a6b495360d819.jpg",
+   "kr": "K-12",
+   "krs": [
+    "kinomarilyn"
+   ],
    "r": 0,
    "s": {
     "en": "An elderly miser embarks on a supernatural journey after visits from the ghost of his former business partner and the Spirits of Christmas Past, Present, and Yet to Come force him to confront his past and fight for a second chance at happiness.",
@@ -1593,16 +1614,19 @@
    "kr": "S",
    "krs": [
     "biomarilyn",
+    "biorex",
     "biorexkokkola",
     "cinemantsala",
     "haapamaki",
     "kino123",
     "kinokonepaja",
     "kinokulma",
+    "kinomarilyn",
     "kinopirtti",
     "kinotar",
     "kotkanleffat",
     "leffabuumi",
+    "savonkinot",
     "star",
     "vihdinkino"
    ],
@@ -2102,6 +2126,10 @@
   "how to rob a bank": {
    "id": 1437511,
    "img": "data/posters/8b1166ae143c79d4.jpg",
+   "kr": "K-16",
+   "krs": [
+    "kinomarilyn"
+   ],
    "r": 0,
    "s": {
     "en": "A crew of social media-savvy bank robbers broadcasts their daring heists, unaware that their growing viral fame has put them in the crosshairs of a veteran FBI agent and a brilliant software engineer. Despite the unlikely duo closing in, the crime ring pushes past their limits, putting everything on the line for their most ambitious heist yet.",
@@ -2255,18 +2283,22 @@
    },
    "tr": ""
   },
-  "ihmistenmetsästäjät": {
-   "id": 833462,
-   "img": "data/posters/de4551874efdd7fe.jpg",
+  "ihmismetsästäjät": {
    "r": 0,
    "s": {
-    "en": "1945. Home Army soldier who hides in the village must decide if he wants to engage into dangerous situation to help group of Jewish runaways.",
+    "en": "",
+    "fi": "Itä-Puola, toisen maailmansodan viimeinen talvi. Osa viimeisellä kuljetuksella olevista juutalaisista onnistuu pakenemaan lumisiin metsiin. Natsit järjestävät metsästyksen. Kammottavan verilöylyn ympärille kääriytyvä pikku teos on ankarimpia holokaustia kuvaavia elokuvia. Ewa ja Czesław Petelski , avio- ja työpari, ohjasivat kommunistisessa Puolassa pitkälti toistakymmentä elokuvaa. Heidän elokuvansa keräsivät roppakaupalla aikalaisten tunnustusta, kansantasavallan kunniamerkkejä ja Moskovan elokuvajuhlien hopeamerkkejä, mutta ovat nykyään liki tyystin unohdettuja. Ihmismetsästäjät on teos keskeltä sekä pariskunnan tuotteliainta kautta että Puolan uuden aallon muutaman vuoden kestänyttä luovuuden purkausta. Vastarintaliikkeessä sodan aikana natseja pakoilleiden Petelskejen teokset ovat yksinkertaisia ja vakavia, aatteellisia, mutta rehellisiä. Kuten Ewa Petelski tiivisti tuotantonsa punaisena kulkevan langan: \" Minulla täytyy olla sisäinen vakaumus siitä, että se, mitä teen, on välttämätöntä, ja teen sen parhaani mukaan. Vaikka se ei onnistuisikaan, yksi asia pysyy: rehellisyyteni. \""
+   },
+   "tr": ""
+  },
+  "ihmistenmetsästäjät": {
+   "id": 833462,
+   "r": 0,
+   "s": {
+    "en": "",
     "fi": "Ewa ja Czesław Petelski , avio- ja työpari, ohjasivat kommunistisessa Puolassa pitkälti toistakymmentä elokuvaa. Heidän elokuvansa keräsivät roppakaupalla aikalaisten tunnustusta, kansantasavallan kunniamerkkejä ja Moskovan elokuvajuhlien hopeamerkkejä, mutta ovat nykyään liki tyystin unohdettuja. Ihmismetsästäjät on teos keskeltä sekä pariskunnan tuotteliainta kautta että Puolan uuden aallon muutaman vuoden kestänyttä luovuuden purkausta. Vastarintaliikkeessä sodan aikana natseja pakoilleiden Petelskejen teokset ovat yksinkertaisia ja vakavia, aatteellisia, mutta rehellisiä. Kuten Ewa Petelski tiivisti tuotantonsa punaisena kulkevan langan: \" Minulla täytyy olla sisäinen vakaumus siitä, että se, mitä teen, on välttämätöntä, ja teen sen parhaani mukaan. Vaikka se ei onnistuisikaan, yksi asia pysyy: rehellisyyteni. \""
    },
-   "tr": "",
-   "ts": [
-    "en"
-   ]
+   "tr": ""
   },
   "il volo at the valley of the temples": {
    "r": 0,
@@ -2295,13 +2327,17 @@
   },
   "insidious out of the further": {
    "id": 1291595,
-   "r": 0,
+   "img": "data/posters/f1fadcf01e5f6329.jpg",
+   "r": 7.7,
    "s": {
-    "en": "",
+    "en": "Gemma, a young mother raising her daughter in the house she grew up in, discovers she can travel into The Further, where she possesses an ability to bring what lives there back to the real world.",
     "fi": "Nuori äiti Gemma kasvattaa tytärtään talossa, jossa hän itse kasvoi, ja hän huomaa voivansa matkustaa The Furtheriin, missä hänellä on kyky tuoda siellä elävät olennot takaisin todelliseen maailmaan.",
     "sv": "I filmen Insidious: Out of the Further (den sjätte delen i skräckserien) följer vi den ensamstående mamman Gemma. Hon upptäcker att hon kan resa in i \"The Further\" – den parallella, mörka världen av förlorade själar. Hon får förmågan att föra dess varelser tillbaka till vår värld, vilket släpper lös ondskefulla krafter.I rollerna ser vi bland annat Amelia Eve som Gemma och Lin Shaye som återvänder i rollen som Elise Rainier."
    },
-   "tr": ""
+   "tr": "https://www.youtube.com/watch?v=gXjurDkYnEM",
+   "ts": [
+    "en"
+   ]
   },
   "intermezzo": {
    "id": 125891,
@@ -2391,6 +2427,15 @@
    "ts": [
     "en"
    ]
+  },
+  "jakten på jultomtens verkstad på svenska": {
+   "r": 0,
+   "s": {
+    "en": "",
+    "fi": "Yhdeksänvuotias Mari herää keskellä yötä ja huomaa jonkun käyneen huoneessaan. Ainoa johtolanka öisestä vierailijasta on huoneeseen unohtunut tontun lapanen. Mari, isoäiti ja hyvin epäileväinen isä päätyvät yhdessä seikkailuntäyteiselle matkalle etsimään joulupukkia, mutta lapasen omistaja tekee kaikkensa pysäyttääkseen heidät. Joulupukin salainen paja ei saa paljastua – se olisi katastrofi!",
+    "sv": "Mari är övertygad om att jultomten finns och ger sig av, tillsammans med sin motvilliga pappa och sin äventyrslystna farmor, för att hitta honom. Men en panikslagen tomtenisse är fast besluten att stoppa dem innan de hittar jultomtens hemliga verkstad och gör kaos med hela julen."
+   },
+   "tr": ""
   },
   "jazz suomi 100 vuotta lyhytelokuvanäytös": {
    "r": 0,
@@ -3610,6 +3655,16 @@
    },
    "tr": ""
   },
+  "kolme väriä punainen": {
+   "id": 110,
+   "img": "data/posters/df3d6c8d8163be92.jpg",
+   "r": 7.9,
+   "s": {
+    "en": "",
+    "fi": "Kolme väriä: Punainen on Krzysztof Kieślowskin väritrilogian kolmas osa. Krzysztof Kieślowskin (1941–1996) uran kruununa pidetty Punainen toimii myös ohjaajan elokuvallisena testamenttina. Elokuva syventää trilogian läpi kulkevaa emotionaalista teemaa: rakastettuaan kaukaa kaipaava valokuvamalli Valentine kohtaa tuomarin, jonka katkeruus ja vääristyneet tunteet piilottavat tulevaisuuden näkymät. Valentinesta huokuvan rakkauden voima murtaa tuomarin kivettyneen kuoren ja muuttaa muutamalla liikkeellä nuoren naisen elämän. Kieślowski muistuttaa, ettei rakkaus tunne vapautta, veljeyttä eikä tasa-arvoa — mutta ilman sitä mikään ei ole mahdollista."
+   },
+   "tr": "https://www.youtube.com/watch?v=1fQQBbcfL5E"
+  },
   "kolme väriä sininen": {
    "id": 108,
    "r": 0,
@@ -4025,7 +4080,6 @@
     "kinohannikainen",
     "kinomyyri",
     "korjaamo",
-    "kuvakukko",
     "niagara"
    ],
    "r": 7.3,
@@ -4885,6 +4939,14 @@
     "fi"
    ]
   },
+  "miehenpuolet": {
+   "r": 0,
+   "s": {
+    "en": "",
+    "fi": "Joulu 1983. Jälleen yhden rajun riidan jälkeen seitsemänvuotiaan Andrevin äiti paljastaa hänelle salaisuuden: hänen isänsä ei todellisuudessa olekaan hänen isänsä. Sen sijaan että Andrev järkyttyisi, hän innostuu paljastuksen avaamista mahdollisuuksista. Lapsen sitkeydellä hän luovii läpi elämän ja äitinsä enemmän tai vähemmän tuhoisien miessuhteiden. Andrevin äiti vetää miehiä puoleensa vastustamattomalla voimalla, mutta edes hän ei pysty hallitsemaan heidän käytöstään. Miehet ovat kuin taikureita tai taiteilijoita, murhaajia tai varkaita, ja aivan kuten kasvukivut, he ilmaantuvat pyytämättä ja katoavat varoittamatta. ' Elokuva perustuu Andrev Waldenin romaaniin Jävla Karlar."
+   },
+   "tr": ""
+  },
   "miekkailija": {
    "id": 322488,
    "img": "data/posters/fb74c9427056a7d3.jpg",
@@ -5402,6 +5464,7 @@
     "ihmekompleksi",
     "kinojuha",
     "kinokulma",
+    "kinomarilyn",
     "kinopirtti",
     "kisakino",
     "levisummit",
@@ -5482,12 +5545,13 @@
   },
   "obsession": {
    "id": 1339713,
-   "r": 0,
+   "img": "data/posters/b087e78e6e9510ef.jpg",
+   "r": 8.2,
    "s": {
     "en": "",
     "fi": "Kun toivoton romantikko katkaisee salaperäisen “toivepajun” saadakseen ihastuksena rakastumaan itseensä, hän tajuaa saaneensa juuri sen, mitä toivoikin. Mutta pian hänelle valkenee, että joistakin toiveista joutuu maksamaan synkän hinnan."
    },
-   "tr": ""
+   "tr": "https://www.youtube.com/watch?v=gMC8kkwbIQQ"
   },
   "ohukainen ja paksukainen 1 täystuhon filosofia": {
    "r": 0,
@@ -6180,6 +6244,7 @@
     "kotkanleffat",
     "kulttuurimylly",
     "kuvatahti",
+    "savonkinot",
     "star",
     "studio123jarvenpaa"
    ],
@@ -7001,10 +7066,6 @@
   "ramayana rise of a legend": {
    "id": 656908,
    "img": "data/posters/3f0ffbd92d279be2.jpg",
-   "kr": "K-12",
-   "krs": [
-    "leffabuumi"
-   ],
    "r": 0,
    "s": {
     "en": "Based on the celebrated ancient epic known to billions, Namit Malhotra's Ramayana: Rise of a Legend tells the story of Rama, a prince bound by sacrifice; Ravana, an immortal king driven by vengeance; and the prophecy that binds their fates together. It stars Ranbir Kapoor, Yash and Sai Pallavi. The film is produced by acclaimed filmmaker Namit Malhotra, whose Academy Award®-winning visual effects company DNEG has worked on films including The Odyssey, Dune, Interstellar, and Inception; directed by Nitesh Tiwari, whose film Dangal remains the highest-grossing Indian film worldwide; and scored by Academy Award® winners Hans Zimmer and A.R. Rahman. Namit Malhotra's Ramayana: Rise of a Legend will be released globally in theaters in time for Diwali in November.",
@@ -8599,6 +8660,7 @@
     "engel",
     "gilda",
     "kinoaurora",
+    "kinokilta",
     "kinolaika",
     "niagara",
     "regina"
@@ -8619,6 +8681,7 @@
     "engel",
     "gilda",
     "kinoaurora",
+    "kinokilta",
     "kinolaika",
     "niagara",
     "regina"
@@ -8694,6 +8757,10 @@
   "the invite": {
    "id": 950028,
    "img": "data/posters/2755bb2be0a0c120.jpg",
+   "kr": "K-12",
+   "krs": [
+    "engel"
+   ],
    "r": 7.2,
    "s": {
     "en": "",
@@ -9527,12 +9594,16 @@
   },
   "unohdettu saari englanniksi": {
    "id": 1465063,
-   "r": 0,
+   "img": "data/posters/9bcaf7ef167a0f8f.jpg",
+   "r": 8.0,
    "s": {
-    "en": "",
+    "en": "While celebrating their last night together, high school graduates and best friends Jo and Raissa stumble upon a mysterious portal that transports them to the fantastical island of Nakali. When they discover that the memories of their entire friendship are the price for returning home, Jo and Raissa must race to find a way to leave the island before they forget each other forever.",
     "fi": "Englanninkielinen versio, tekstitetty suomeksi ja ruotsiksi. Parhaan ystävyyden puolesta kannattaa taistella. DreamWorks Animation on aiemmin tuonut katsojille tarinoita unohtumattomista siteistä pojan ja lohikäärmeen välillä Näin koulutat lohikäärmeesi -elokuvissa, jätin ja aasin välillä Shrek-elokuvissa sekä robotin ja hanhenpoikasen välillä elokuvassa Villi robotti. Nyt luvassa on huikean tunteikas tarina kahdesta parhaasta ystävyksestä, joiden täytyy yhdistää voimansa eron uhatessa elokuvassa Unohdettu saari. Uuden alkuperäistarinan on käsikirjoittanut ja ohjannut Oscar-ehdokas Joel Crawford ja Januel Mercado. Tuottajana toimii Oscar-ehdokas Mark Swift. Sama tiimi on myös ollut tekemässä elokuvaa Saapasjalkakissa: Viimeinen toivomus. Grammy- ja Oscar-palkittu supertähti H.E.R. ja Liza Soberano (Lisa Frankenstein, Alone/Together) ovat Jo ja Raissa, high schoolista valmistunut parivaljakko. He ovat olleet parhaita ystäviä ala-asteelta asti, mutta nyt elämä uhkaa erottaa ystävykset. Juhliessaan viimeistä yhteistä iltaansa Jo ja Raissa törmäävät salaperäiseen portaaliin, joka kuljettaa heidät Nakalin mielikuvitukselliselle saarelle. Saari on täynnä maagisia ja myyttisiä olentoja, joista ystävysten filippiiniläisperheet ovat kertoneet tarinoita. Uusista tuttavuuksista paljastuu niin ystäviä kuin vihollisiakin. Apunaan hyvää tarkoittava mutta melko avuton ihmiskoira Raww (Dave Franco) sekä pieni mutta pippurinen joukko muita kamuja Jo ja Raissa ottavat mittaa karmeasta Manananggalista (Tony-palkittu ikoni Lea Salonga), saaren pelätyimmästä olennosta. Kun parille paljastuu, että hinta kotiinpaluusta on kaikkien yhteisten muistojen menettäminen, Jon ja Raissan täytyy keksiä keino päästä pois saarelta unohtamatta toisiaan."
    },
-   "tr": ""
+   "tr": "https://www.youtube.com/watch?v=PhgY8cOJiQA",
+   "ts": [
+    "en"
+   ]
   },
   "unohdettu saari fi dub": {
    "id": 1465063,
@@ -9545,16 +9616,12 @@
   },
   "unohdettu saari orig": {
    "id": 1465063,
-   "img": "data/posters/9bcaf7ef167a0f8f.jpg",
-   "r": 7.7,
+   "r": 0,
    "s": {
-    "en": "While celebrating their last night together, high school graduates and best friends Jo and Raissa stumble upon a mysterious portal that transports them to the fantastical island of Nakali. When they discover that the memories of their entire friendship are the price for returning home, Jo and Raissa must race to find a way to leave the island before they forget each other forever.",
+    "en": "",
     "fi": "Tämä elokuva sisältää välkkyviä valoja, jotka voivat aiheuttaa oireita henkilöille, joilla on valoherkkä epilepsia tai muu valoherkkyys. Parhaan ystävyyden puolesta kannattaa taistella. DreamWorks Animation on aiemmin tuonut katsojille tarinoita unohtumattomista siteistä pojan ja lohikäärmeen välillä Näin koulutat lohikäärmeesi -elokuvissa, jätin ja aasin välillä Shrek-elokuvissa sekä robotin ja hanhenpoikasen välillä elokuvassa Villi robotti. Nyt luvassa on huikean tunteikas tarina kahdesta parhaasta ystävyksestä, joiden täytyy yhdistää voimansa eron uhatessa elokuvassa Unohdettu saari. Uuden alkuperäistarinan on käsikirjoittanut ja ohjannut Oscar-ehdokas Joel Crawford ja Januel Mercado. Tuottajana toimii Oscar-ehdokas Mark Swift. Sama tiimi on myös ollut tekemässä elokuvaa Saapasjalkakissa: Viimeinen toivomus. Grammy- ja Oscar-palkittu supertähti H.E.R. ja Liza Soberano (Lisa Frankenstein, Alone/Together) ovat Jo ja Raissa, high schoolista valmistunut parivaljakko. He ovat olleet parhaita ystäviä ala-asteelta asti, mutta nyt elämä uhkaa erottaa ystävykset. Juhliessaan viimeistä yhteistä iltaansa Jo ja Raissa törmäävät salaperäiseen portaaliin, joka kuljettaa heidät Nakalin mielikuvitukselliselle saarelle. Saari on täynnä maagisia ja myyttisiä olentoja, joista ystävysten filippiiniläisperheet ovat kertoneet tarinoita. Uusista tuttavuuksista paljastuu niin ystäviä kuin vihollisiakin. Apunaan hyvää tarkoittava mutta melko avuton ihmiskoira Raww (Dave Franco) sekä pieni mutta pippurinen joukko muita kamuja Jo ja Raissa ottavat mittaa karmeasta Manananggalista (Tony-palkittu ikoni Lea Salonga), saaren pelätyimmästä olennosta. Kun parille paljastuu, että hinta kotiinpaluusta on kaikkien yhteisten muistojen menettäminen, Jon ja Raissan täytyy keksiä keino päästä pois saarelta unohtamatta toisiaan."
    },
-   "tr": "https://www.youtube.com/watch?v=PhgY8cOJiQA",
-   "ts": [
-    "en"
-   ]
+   "tr": ""
   },
   "unohdettu saari på svenska": {
    "id": 1465063,
@@ -9756,6 +9823,7 @@
     "kirkkonummi",
     "kotkanleffat",
     "levisummit",
+    "savonkinot",
     "star",
     "studio123jarvenpaa"
    ],
@@ -9954,11 +10022,14 @@
    "img": "data/posters/aca6e1cdaad07a60.jpg",
    "kr": "K-12",
    "krs": [
+    "gilda",
     "ihmekompleksi",
+    "kinokilta",
     "kinokonepaja",
+    "kinomarilyn",
     "tapiola"
    ],
-   "r": 0,
+   "r": 7.5,
    "s": {
     "en": "On the outskirts of a village by the sea, lives a Fisherwoman; smelly, single and perpetually ridiculed. One day, fed up with her stuffy, small-minded neighbours, she commissions herself a husband to be made from wicker. In an otherwise conservative town, this unconventional romance sparks outrage, jealousy and chaos.",
     "fi": "Omaperäinen ja sykähdyttävä elokuva Wicker – intohimosta punottu on Oscar-voittaja Olivia Colmanin ja Alexander Skarsgårdin tähdittämä komedia avioliitosta ja yhteiskunnan normien absurdiudesta. Naimaton kalastajanainen (Olivia Colman) saa tarpeekseen kyläläisten ahdasmielisyydestä ja päättää tilata paikalliselta korinpunojalta (Peter Dinklage) itselleen aviomiehen – pajusta. Pajusta punotussa miehessä (Alexander Skarsgård) on aviomiesainesta enemmän kuin nainen olisi osannut odottaa. Yllättävä puoliso herättää naisessa uudenlaisia tunteita ja käynnistää ihastuksen, kateuden, ja mullistusten aallon, joka uhkaa järkyttää koko kyläyhteisöä. Teräväkielinen, humoristinen ja normeja uskaliaasti rikkova komedia haastaa pohtimaan rakkautta ja avioliittoa täysin uudesta näkökulmasta. Elokuvan maailmanensi-ilta oli Sundance-elokuvajuhlilla vuonna 2026."
@@ -9992,6 +10063,7 @@
     "kinokilta",
     "kinokonepaja",
     "kinolumo",
+    "kinomarilyn",
     "kinopiispanristi",
     "kinopirtti",
     "kinotervakoski",
@@ -10000,6 +10072,7 @@
     "leffabuumi",
     "niagara",
     "orion",
+    "savonkinot",
     "star",
     "tapiola"
    ],
@@ -10094,7 +10167,7 @@
   "you can see everything": {
    "id": 1765072,
    "img": "data/posters/650c789b1581e9b9.jpg",
-   "r": 9.1,
+   "r": 8.9,
    "s": {
     "en": "Thirty-four days before she’s sent to prison, notorious Silicon Valley founder Elizabeth Holmes invites a skeptical film crew to document her every move. What begins as an intimate portrait of an enigmatic felon becomes a mind-bending three-year journey into the abyss. From boundary-pushing directors Nathan Fielder and Lance Oppenheim comes You Can See Everything.",
     "fi": "Kolmekymmentäneljä päivää ennen vankilaan joutumistaan pahamaineinen Piilaakson yritysperustaja Elizabeth Holmes kutsuu skeptisen kuvausryhmän dokumentoimaan jokaista liikettään. Arvoituksellisen rikollisen intiimistä muotokuvasta alkaa vähitellen muotoutua tajunnanräjäyttävä, kolme vuotta kestävä matka syvyyksiin. Rajoja rikkovien ohjaajien Nathan Fielderin ja Lance Oppenheimin käsialaa oleva YOU CAN SEE EVERYTHING vie katsojan matkalle, jolla mikään ei ole sitä, miltä näyttää."
@@ -10145,8 +10218,10 @@
     "kinoaurora",
     "kinohannikainen",
     "kinoiiris",
+    "kinokilta",
     "kinokulma",
     "kinolumo",
+    "kinomarilyn",
     "kinopiispanristi",
     "kinopirtti",
     "kinoset",
@@ -10160,6 +10235,7 @@
     "niagara",
     "orion",
     "pajakkakino",
+    "savonkinot",
     "star",
     "studio123jarvenpaa",
     "tapiola",
