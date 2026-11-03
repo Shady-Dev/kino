@@ -8,10 +8,8 @@
 [schedule] 2026-11-08: 80 showtimes
 [schedule] 2026-11-09: 89 showtimes
 [tmdb] no TMDB match (2): Lapin sota (väliajalla) | Me olemme Pariisin orkesteri
-[tmdb] weak match, no exact title (6): Godzilla Minus Zero -> ゴジラ-0.0 | Leviticus -> Leviticus | NT LIVE: Les Liaisons Dangereuses -> National Theatre Live: Les Liaisons Dangereuses | Ramayana: Rise of a Legend -> रामायणम् | Rose -> Rose | Two Seasons, Two Strangers -> 旅と日々
-[tmdb] rating held back, under 25 votes (6): Godzilla Minus Zero (9.9 / 4 votes) | Hetki ennen valoa (7.0 / 1 votes) | NT LIVE: Les Liaisons Dangereuses (6.0 / 6 votes) | Ramayana: Rise of a Legend (10.0 / 1 votes) | Two Seasons, Two Strangers (7.1 / 16 votes) | Wild Horse Nine (8.9 / 11 votes)
-[tmdb] rating refresh: 12 scheduled, 12 re-read, 0 failed and still due, 0 deferred (budget 12)
-[tmdb] 12 new lookups, 24 re-checks, cache 139, 112 mergeable by id
+[tmdb] weak candidate kept, not searched until 2026-11-04 (6): Godzilla Minus Zero -> ゴジラ-0.0 | Leviticus -> Leviticus | NT LIVE: Les Liaisons Dangereuses -> National Theatre Live: Les Liaisons Dangereuses | Ramayana: Rise of a Legend -> रामायणम् | Rose -> Rose | Two Seasons, Two Strangers -> 旅と日々
+[tmdb] 0 new lookups, 0 re-checks, cache 139, 112 mergeable by id
 [films] 56 film entries
 [attrs] dropped, neither format nor language (9): Klassikko | Maxim | OCAP | Pkseutu | SEVERAL | TKU & R | Tampere | Tekijöitä | Varaus20
 [schedule] 17 venue files written, 0 kept as-is
