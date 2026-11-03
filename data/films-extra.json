@@ -1600,6 +1600,7 @@
     "kinokonepaja",
     "kinokulma",
     "kinopirtti",
+    "kinotar",
     "kotkanleffat",
     "leffabuumi",
     "star",
@@ -6992,10 +6993,14 @@
   "ramayana rise of a legend": {
    "id": 656908,
    "img": "data/posters/3f0ffbd92d279be2.jpg",
+   "kr": "K-12",
+   "krs": [
+    "leffabuumi"
+   ],
    "r": 0,
    "s": {
     "en": "Based on the celebrated ancient epic known to billions, Namit Malhotra's Ramayana: Rise of a Legend tells the story of Rama, a prince bound by sacrifice; Ravana, an immortal king driven by vengeance; and the prophecy that binds their fates together. It stars Ranbir Kapoor, Yash and Sai Pallavi. The film is produced by acclaimed filmmaker Namit Malhotra, whose Academy Award®-winning visual effects company DNEG has worked on films including The Odyssey, Dune, Interstellar, and Inception; directed by Nitesh Tiwari, whose film Dangal remains the highest-grossing Indian film worldwide; and scored by Academy Award® winners Hans Zimmer and A.R. Rahman. Namit Malhotra's Ramayana: Rise of a Legend will be released globally in theaters in time for Diwali in November.",
-    "fi": ""
+    "fi": "An ancient epic follows a young prince and princess whose marriage and subsequent exile mark the beginning of a legendary journey. Their story of love, duty and destiny sets the stage for greater challenges ahead."
    },
    "tr": "https://www.youtube.com/watch?v=AYkPRN874m8"
   },
@@ -7492,7 +7497,7 @@
   "romería toivon jäljillä": {
    "id": 1182861,
    "img": "data/posters/b759279e7555b481.jpg",
-   "r": 6.5,
+   "r": 6.6,
    "s": {
     "en": "",
     "fi": "Cannesin elokuvajuhlilla ensi-iltansa saanut espanjalaisohjaaja Carla Simónin kolmas pitkä elokuva Romería on haikeankaunis ja vangitseva perhedraama nuoresta naisesta, joka lähtee etsimään totuutta isänsä varhaisesta kuolemasta. Romería kertoo 18-vuotiaasta Marinasta, joka saapuu Espanjan rannikolle tapaamaan biologisen isänsä sukua – ihmisiä, joita hän ei ole koskaan tavannut. Hän kohtaa joukon uusia tätejä, setiä ja serkkuja, tietämättä, ottavatko he hänet avosylin vastaan vai suhtautuvatko varauksella. Kohtaamiset nostavat pintaan syvälle haudattuja muistoja, herättävät tunteita ja paljastavat menneisyyteen vaiettuja perhesalaisuuksia. Hajanaisista kertomuksista Marinalle alkaa vähitellen muodostua kuva vanhemmistaan, ja etsintämatkasta tulee mieleenpainuva kokemus, joka tuo hänet lähemmäs itseään ja omia juuriaan. Ohjaaja Carla Simón on tunnettu elokuvastaan Tämä maa (Alcarràs), josta hän voitti Kultaisen karhun Berliinin kansainvälisillä elokuvajuhlilla. Autofiktiivinen elokuva pohjautuu ohjaajan omiin teinivuosien kokemuksiin."
@@ -7520,7 +7525,7 @@
   "rose": {
    "id": 1176962,
    "img": "data/posters/7de845a87ecfdd03.jpg",
-   "r": 7.7,
+   "r": 7.6,
    "s": {
     "en": "In the early 17th century, a soldier arrives at an isolated Protestant village in Germany claiming to be the heir to an abandoned farmstead. Even though he proves to be a good man, the villagers’ suspicions about his identity grow and they force a reckoning.",
     "fi": "Salaperäinen sotilas (Sandra Hüller) ilmaantuu syrjäiseen protestanttiseen kylään Saksassa kolmikymmenvuotisen sodan riehuessa. Muukalainen, jonka kasvot ovat ampumahaavan ruhjomat, kertoo olevansa hylätyn tilan perijä ja todistaa tämän asiakirjalla. Markus Schleinzerin tositapahtumiin perustuva ankara elokuva kertoo naisesta, joka otti miehen roolin ja ansaitsi kyläläisten luottamuksen työteliäisyydellään ja teoillaan. Sandra Hüller voitti parhaan pääosanäyttelijän Hopeisen karhun tämänvuotisilla Berliinin elokuvajuhlilla."
@@ -8580,6 +8585,16 @@
   "the devils": {
    "id": 31767,
    "img": "data/posters/1f8ec30de3187d84.jpg",
+   "kr": "K-16",
+   "krs": [
+    "biorexkokkola",
+    "engel",
+    "gilda",
+    "kinoaurora",
+    "kinolaika",
+    "niagara",
+    "regina"
+   ],
    "r": 7.5,
    "s": {
     "en": "Assembled from the original camera negative, this new 4K restoration presents Ken Russell’s definitive vision of THE DEVILS by referencing the edit he privately constructed in 2004. THE DEVILS is the uncut and unfiltered theatrical experience that Russell always envisioned – and the first time the film will be presented restored and in 4K",
@@ -8597,6 +8612,7 @@
     "gilda",
     "kinoaurora",
     "kinolaika",
+    "niagara",
     "regina"
    ],
    "r": 7.5,
@@ -9229,7 +9245,7 @@
     "kinoolympia",
     "tapiola"
    ],
-   "r": 7.5,
+   "r": 7.4,
    "s": {
     "en": "Tony follows 19-year-old Anthony Bourdain at a turning point in his life in 1970s Provincetown, Massachusetts. Restless and uncertain about his future, Tony takes a job in a restaurant kitchen and becomes immersed in the intense and chaotic world of professional cooking. Amid friendships, romance, drugs, and the pressures of kitchen life, he begins to discover discipline and a passion for food. The film captures a pivotal period in which a directionless young man begins to find his own voice and passion, setting him on the path to becoming a world-famous chef.",
     "fi": "19-vuotias Anthony Bourdain matkustaa Provincetowniin ja ajautuu sattumalta ravintolakeittiön kaoottiseen maailmaan. Edessä on kesä, joka mullistaa hänen elämänsä suunnan."
@@ -9953,6 +9969,7 @@
     "biogrand",
     "biomarlon",
     "biopallas",
+    "biorex",
     "biorexkokkola",
     "cine",
     "cinemantsala",
@@ -9962,6 +9979,7 @@
     "isohannu",
     "kino123",
     "kinoaurora",
+    "kinoiiris",
     "kinojuha",
     "kinokilta",
     "kinokonepaja",
@@ -9972,18 +9990,17 @@
     "kotkanleffat",
     "kurikankino",
     "leffabuumi",
+    "niagara",
+    "orion",
     "star",
     "tapiola"
    ],
    "r": 0,
    "s": {
-    "en": "Shortly before the 1973 Chilean coup, CIA agents Chris and Lee are dispatched from Santiago to Easter Island by their bureau chief, MJ. Amongst the Island's iconic statues, and as the longtime partners wrestle with their dark pasts and present conspiracies, Chris's newfound bond with a pair of rebellious students threatens to send everyone’s trip to this remote paradise sideways.",
+    "en": "Shortly before the 1973 Chilean coup, CIA agents Chris (John Malkovich) and Lee (Sam Rockwell) are sent from Santiago to Easter Island by their superior, MJ (Steve Buscemi). Amid the island’s iconic statues, the longtime colleagues are forced to confront their dark past and a web of present-day conspiracies. Meanwhile, Chris’s new friendship with two rebellious students (Mariana di Girolamo and Ailín Salas) threatens to derail everyone’s journey to this remote paradise.",
     "fi": "Pian Chilen vuoden 1973 vallankaappauksen jälkeen CIA:n agentit Chris (John Malkovich) ja Lee (Sam Rockwell) lähetetään Santiagosta Pääsiäissaarelle hoitamaan viraston johtajan MJ:n (Steve Buscemi) määräämää tehtävää. Pitkäaikaiset työtoverit joutuvat kamppailemaan saaren ikonisten patsaiden varjoissa niin menneisyyden haamujen kuin paraikaa valloillaan olevien salaliittojen kanssa. Kun Chris sitten sattuu tapaamaan kaksi vallankumouksellista opiskelijaa (Mariana di Girolamo ja Ailín Salas), seuraukset uhkaavat suistaa raiteiltaan heidän kaikkien reissunsa tähän syrjäiseen paratiisiin."
    },
-   "tr": "https://www.youtube.com/watch?v=kqxuamKxRTo",
-   "ts": [
-    "en"
-   ]
+   "tr": "https://www.youtube.com/watch?v=kqxuamKxRTo"
   },
   "wild style": {
    "id": 14243,
@@ -10106,6 +10123,7 @@
     "bioforum",
     "biogrand",
     "biomarlon",
+    "biorex",
     "biorexkokkola",
     "biosalo",
     "biostara",
@@ -10118,17 +10136,20 @@
     "kinoakseli",
     "kinoaurora",
     "kinohannikainen",
+    "kinoiiris",
     "kinokulma",
     "kinolumo",
     "kinopiispanristi",
     "kinopirtti",
     "kinoset",
+    "kinotar",
     "kinovirta",
     "kotkanleffat",
     "kurikankino",
     "laitilankino",
     "leffabuumi",
     "matintupa",
+    "niagara",
     "orion",
     "pajakkakino",
     "star",

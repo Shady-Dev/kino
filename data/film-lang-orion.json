@@ -1,4 +1,16 @@
 {
+ "berliinin-sankari": {
+  "price": "",
+  "at": "2026-11-03T09:47:53+00:00",
+  "fields": {
+   "lang": "DE-A, FI-S, SV-S",
+   "len": "112",
+   "rating": "K-7",
+   "original": "Der Held vom Bahnhof Friedrichstraße",
+   "year": "2025",
+   "syn_fi": "Berliiniläinen videovuokraamon omistaja Micha Hartung (Charly Hübner) on ajautumassa konkurssiin, kun hänestä tulee tahtomattaan sankari yhdessä yössä. Berliinin muurin murtumisen 30-vuotispäivänä kunnianhimoinen toimittaja Alexander Landmann (Leon Ulrich) esittää Michan nerona, joka oli vastuussa Itä-Saksan historian suurimmasta joukkopaosta. Michasta tulee huijari vasten tahtoaan, ja hän ajautuu julkisuuden valokeilaan. Huomiolla on kuitenkin hyvätkin puolensa, sillä hän tapaa unelmiensa naisen Paulan (Christiane Paul). Tämä orastava rakkaustarina uhkaa kuitenkin kaatua väärinkäsitysten ja valheiden myllerrykseen. Berliinin sankari on Suomessakin menestyneestä Goodbye Leninistä tutun Wolfgang Beckerin viimeiseksi jäänyt ohjaustyö."
+  }
+ },
  "digger": {
   "price": "",
   "at": "2026-11-01T16:52:36+00:00",
@@ -90,6 +102,18 @@
    "syn_fi": "Elokuvan tapahtumat sijoittuvat Lappiin syksyllä 1944, Suomen ja Saksan väliseen konfliktiin toisen maailmansodan loppuvaiheessa. Nuori sotamies Heikki taistelee Karjalan kannaksella ystävänsä Paulin kanssa. Komppaniaan liittyy vankilasta vapautunut Arvo, jonka maailmankuva haastaa muiden käsitykset sodasta ja velvollisuudesta. Aselepo herättää toivon kotiinpaluusta, mutta pian selviää, että Suomen on käännyttävä entisiä saksalaisia liittolaisiaan vastaan Lapissa. Samaan aikaan Rovaniemellä saksalaisten tulkkina työskentelevä Saara joutuu valitsemaan tulevaisuutensa: jäädä Suomeen vai paeta Saksaan rakastettunsa, majuri Duisbergin, kanssa. Lapin sota on vahvasti hahmojensa inhimillisiin kokemuksiin nojaava kertomus ihmisistä, jotka ajautuvat historiallisten mullistusten keskelle. Sodan kauheuksien keskeltä he etsivät merkitystä, inhimillisyyttä ja anteeksiantoa – ja kysyvät, miten armottomassa ympäristössä voidaan löytää armollisuutta."
   }
  },
+ "lyhyt-elokuva-rakkaudesta": {
+  "price": "",
+  "at": "2026-11-03T09:47:53+00:00",
+  "fields": {
+   "lang": "PL-A, FI-S",
+   "len": "84",
+   "rating": "K-12",
+   "original": "Krótki film o milosci",
+   "year": "1988",
+   "syn_fi": "Krzysztof Kieślowskin klassikko uusintaensi-illassa! Nuori, introvertti Tomek (Olaf Lubaszenko) työskentelee varsovalaisessa postitoimistossa ja tarkkailee iltaisin kaukoputkella kaunista naapuriaan Magdaa (Grażyna Szapołowska). Molemmat ovat yksinäisiä omalla tavallaan. Polut risteävät, ja nainen nöyryyttää herkkää väijyjäänsä. Hän ymmärtää sittemmin virheensä, ja alkuperäinen asetelma kääntyy päälaelleen. Sodankylän elokuvajuhlien vuoden 1989 päävieras Krzysztof Kieślowski oli juuri tässä kohtaa taiteellisen uransa huipulla. Käytössä ovat kaikki dokumentaristina opitut taidot, mutta myöhäiskauden hivenen itsetietoisen art house -vaiheen ylitaiteellinen, ellei peräti tekotaiteellinen, kikkailu loistaa vielä poissaolollaan, vaikka Punaisen (1994) värikoodit ovatkin jo vahvasti oraallaan. Rakkaus on aiheena – sekä elämässä että elokuvassa – vaikein mahdollinen, mutta kliinisen toteava, suuret tunteensa bressonilaisen viileästi sisuksiinsa kätkevä, arkinen antimelodraama iskee syvälle jokaisen kaipuun täyttymättömiä hetkiä koskaan kokeneen sieluun. Ohjaaja havainnoi, tarkkailee ja vangitsee psykologisesti kompleksisen, jatkuvassa muutostilassa elävän sommitelmansa käsittämättömän vaivattomasti. Mukana ei ole mitään turhaa tai ylimääräistä. Vartaloiden erittämät nesteet virtaavat traagisesti, ikkunoiden valot syttyvät ja sammuvat lähiön yössä, ja kaksi ihmistä kohtaa toisensa – tavalla tai toisella. Kieślovskin Lyhyt elokuva rakkaudesta (1988) saapuu uusintaensi-iltaan Elävän kuvan keskus ELKE:n ja Sodankylän elokuvajuhlien yhteistyönä syksyllä 2026 osana Archive Film Festival Networkin toimintaa. Lisätietoja: www.affn.eu"
+  }
+ },
  "mannerlaatta": {
   "price": "",
   "at": "2026-11-02T18:16:49+00:00",
@@ -99,6 +123,28 @@
    "rating": "S",
    "year": "2016",
    "syn_fi": "Mannerlaatta on täyspitkä lettristinen elokuva lentopelosta, turvatarkastuksista ja aikavyöhykkeistä. Kokonaan ilman kameraa tehty teos pohjautuu runoilija Harry Salmenniemen alkuperäistekstiin. Elokuvan musiikin on säveltänyt Mika Vainio. ” Mannerlaatan materiaali resonoi ihmeellisesti keskenään. Visuaalisuus, runous, rosoiset foley -äänet, Olli Huhtasen koko kaarta kuljettava äänisuunnittelu ja Mika Vainion musiikki muodostavat kokonaisuuden jolle ei voi kuin antautua.” – Sanna Salmenkallio Näytöksessä ovat vieraina Sanna Salmenkallio, Mika Taanila ja äänisuunnittelija Olli Huhtanen."
+  }
+ },
+ "me-olemme-pariisin-orkesteri": {
+  "price": "",
+  "at": "2026-11-03T09:47:53+00:00",
+  "fields": {
+   "lang": "FR-A, FI-S, SV-S",
+   "len": "90",
+   "rating": "S",
+   "year": "2026",
+   "syn_fi": "Ohjaaja Philippe Beziat on loihtinut elokuvallisen sukelluksen musiikin luomisen ytimeen. Elokuva vie yleisön orkesterin sisään, kokemaan musiikin 90 mikrofonin avulla eri kulmista, eri muusikoiden kokemana. 120 muusikon yhteinen soittamisen tahto kannattelee elämystä. Orkesterin häikäisevä kotisali Grande Salle Pierre Boulez on Pritzker-palkitun Jean Nouvelin suunnittelema. Elokuva vie katsojat mukaansa myös Pariisin orkesterin kiertueelle. Stravinskyn ja Mahlerin klassikoita soitetaan kuin hurmiossa. Huikeaa kansainvälistä uraa tehnyt, vasta kolmekymppinen kapellimestari Klaus Mäkelä sai Pariisin sinfoniaorkesterin kapellimestarin puikon syksyllä 2021. Pariisin kausi huipentuu nyt. Mäkelä on saanut Pariisin orkesterin hurjaan lentoon. Vuonna 2027 Klaus Mäkelä siirtyy Chicagon sinfoniaorkesterin johtoon."
+  }
+ },
+ "mina-ja-riikka-purra": {
+  "price": "",
+  "at": "2026-11-03T09:47:53+00:00",
+  "fields": {
+   "lang": "FI-A, SV-S",
+   "len": "93",
+   "rating": "S",
+   "year": "2026",
+   "syn_fi": "YLLÄTYSELOKUVA RIIKKA PURRASTA Perjantaina 30.10.2026 saapuu teattereihin Liisa Akimofin pienelokuva Riikka Purrasta ja persuista: Minä ja Riikka Purra. Tätä elokuvaa ei ole odotettu. ”Motiivini Minä ja Riikka Purra -dokkarin tekemiseen oli uteliaisuus”, muusikkona ja tuottajana tunnetuksi tullut käsikirjoittaja-ohjaaja kertoo. ”Tajusin, etten tunne yhtäkään persua enkä ymmärrä heidän järjenjuoksuaan. Halusin ottaa selvää!” Akimof hommasi kameran ja pyöri Purran ja persujen maailmassa puoli vuotta elokuusta 2025 alkaen. Lopputuloksena syntyi vauhdikas, jopa hauska DIY-dokkari, jossa idealistinen vihervassari hämmästelee politiikan tekemisen arkea ampumaradalla, eduskunnassa, Brysselissä, turuilla ja toreilla. Elokuva syöksyy kriisistä toiseen ja kuulee myös antifasisteja, vassareita ja yksinäistä sivistysporvaria. Median graindaamiselle annetaan kasvot."
   }
  },
  "naza": {
@@ -183,6 +229,18 @@
    "year": "2027",
    "syn_fi": "Cannesin elokuvajuhlien Kultaisen palmun voittanut Vuono on tiivistunnelmainen draama kahdesta perheestä, joiden ystävyyttä alkaa varjostaa epäilys. Kun Gheorghiun perhe muuttaa norjalaiseen vuonokylään, he löytävät nopeasti paikkansa paikallisessa yhteisössä ja ystävystyvät uusien naapuriensa kanssa. Perheen vanhempien (Renate Reinsve, Sebastian Stan) kasvatusmetodeihin alkaa kuitenkin pian kohdistua epäilyjä, jotka kiinnittävät viranomaisten huomion ja lopulta vievät parin paikallisen oikeusjärjestelmän eteen. Mestariohjaaja Cristian Mungiun taidokkaasti punottu ja piinaavan jännitteinen Vuono haastaa katsojan arvioimaan kerta toisensa jälkeen, kuka toimii oikein ja kuka väärin.",
    "syn_en": "Winner of the Palme d’Or at the Cannes Film Festival, The Fjord is an intense drama about two families whose friendship is increasingly overshadowed by suspicion. When the Gheorghiu family moves to a Norwegian fjord village they quickly find their place in the local community and befriend their new neighbours. But suspicions soon arise over the parenting methods of the couple (Renate Reinsve and Sebastian Stan), attracting the attention of the authorities and ultimately bringing them before the local justice system. Master filmmaker Cristian Mungiu’s The Fjord is a masterfully woven, tautly suspenseful drama that challenges viewers to continually reassess who is in the right and who is in the wrong."
+  }
+ },
+ "wild-horse-nine": {
+  "price": "",
+  "at": "2026-11-03T09:47:53+00:00",
+  "fields": {
+   "lang": "EN-A, FI-S, SV-S",
+   "len": "118",
+   "rating": "K-16",
+   "year": "2026",
+   "syn_fi": "Vähän ennen vuoden 1973 Chilen vallankaappausta CIA-agentit Chris (John Malkovich) ja Lee (Sam Rockwell) lähetetään Santiagosta Pääsiäissaarelle heidän esimiehensä MJ:n (Steve Buscemi) toimesta. Saaren ikonisten patsaiden keskellä pitkäaikaiset työtoverit joutuvat painiskelemaan synkän menneisyytensä ja nykyisten salaliittojen kanssa. Samaan aikaan Chrisin uusi ystävyys kahden kapinallisen opiskelijan (Mariana di Girolamo ja Ailín Salas) kanssa uhkaa suistaa kaikkien matkan tähän syrjäiseen paratiisiin raiteiltaan.",
+   "syn_en": "Shortly before the 1973 Chilean coup, CIA agents Chris (John Malkovich) and Lee (Sam Rockwell) are sent from Santiago to Easter Island by their superior, MJ (Steve Buscemi). Amid the island’s iconic statues, the longtime colleagues are forced to confront their dark past and a web of present-day conspiracies. Meanwhile, Chris’s new friendship with two rebellious students (Mariana di Girolamo and Ailín Salas) threatens to derail everyone’s journey to this remote paradise."
   }
  },
  "yon-lapsi": {
