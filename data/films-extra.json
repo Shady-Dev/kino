@@ -2890,6 +2890,7 @@
     "ihmekompleksi",
     "isohannu",
     "kino123",
+    "kinoakseli",
     "kinoaurora",
     "kinoelo",
     "kinohamina",
@@ -6248,6 +6249,7 @@
     "biostara",
     "cinemantsala",
     "elokuviin",
+    "engel",
     "isohannu",
     "kinojuha",
     "kinolumo",
@@ -6300,6 +6302,7 @@
     "biovuoksi",
     "cinemantsala",
     "elokuviin",
+    "engel",
     "helios",
     "ihmekompleksi",
     "isohannu",
@@ -6394,6 +6397,7 @@
     "biovuoksi",
     "cinemantsala",
     "elokuviin",
+    "engel",
     "helios",
     "ihmekompleksi",
     "isohannu",
@@ -6431,13 +6435,17 @@
   },
   "pikkuli och himmelshinden": {
    "id": 1403476,
+   "img": "data/posters/e4e4be88f3bfae06.jpg",
    "r": 0,
    "s": {
     "en": "",
-    "fi": "",
+    "fi": "Pikkuli sekä muu Aurinkonummen metsän väki on valmistautumassa jouluun, mutta aikuiset alkavat riidellä ja peruvat koko joulun. Pikkuli ystävineen päättää pelastaa tilanteen ja lähtee lumiseen metsään löytääkseen avuksi tarujen Tähtipeuran. Revontulien loimutessa sinnikäs retkue kohtaa monia seikkailuja, tavoitteenaan pelastaa kaikkien joulu.",
     "sv": "Pikkuli och de andra invånarna i Solbackens skog förbereder sig som bäst för julfirandet. Men när de vuxna i skogen börjar gräla, bestämmer de sig plötsligt för att ställa in och avboka hela julen..."
    },
-   "tr": ""
+   "tr": "",
+   "ts": [
+    "fi"
+   ]
   },
   "pimeyden armeija": {
    "id": 766,
@@ -8770,10 +8778,7 @@
     "en": "",
     "fi": "Nälkäpeli: Elonkorjuun sarastus sijoittuu tapahtumiin 24 vuotta ennen kuin Katniss Everdeen ilmoittautui vapaaehtoiseksi tribuutiksi, jolloin hänen tuleva ohjaajansa Haymitch Abernathy joutuu osallistumaan Nälkäpeliin. Juhlavuoden kunniaksi peliin valitaan kaksinkertainen määrä tribuutteja ja 50. Nälkäpeli voi alkaa."
    },
-   "tr": "https://www.youtube.com/watch?v=Dr060OLTodE",
-   "ts": [
-    "fi"
-   ]
+   "tr": "https://www.youtube.com/watch?v=Dr060OLTodE"
   },
   "the ice tower": {
    "id": 1143440,
@@ -9851,7 +9856,6 @@
     "kinoolympia",
     "kinopirtti",
     "kirkkonummi",
-    "kotkanleffat",
     "levisummit",
     "savonkinot",
     "star",
@@ -9989,10 +9993,7 @@
    "img": "data/posters/b06de03c5de0cf45.jpg",
    "kr": "K-16",
    "krs": [
-    "biorex",
-    "ihmekompleksi",
-    "kinopiispanristi",
-    "savonkinot"
+    "biorex"
    ],
    "r": 6.6,
    "s": {
