@@ -156,25 +156,6 @@
     "en"
    ]
   },
-  "aleksi salmenperä isänpäivä": {
-   "id": 1262748,
-   "img": "data/posters/65c60ab63113da26.jpg",
-   "kr": "K-7",
-   "krs": [
-    "kannusali",
-    "kinolaika",
-    "kinomyyri"
-   ],
-   "r": 0,
-   "s": {
-    "en": "",
-    "fi": "Terveytensä juonut Tinke asuu palveluyksikössä, jossa elämää pitää kasassa sen nurjasta puolesta kumpuava huumori ja arjessa auttava ystävä Veikko. Kun takavuosilta hämärästi tutun Saimin teini-ikäiset kaksoset päättävät ottaa selvää isästään, etsintä johtaa heidät Tinken jäljille. Saimi aikoo kaikin keinoin estää kaksosia tapaamasta Tinkeä, mutta sotkun keskelle tempautunut Veikko on eri mieltä."
-   },
-   "tr": "",
-   "ts": [
-    "fi"
-   ]
-  },
   "alligator": {
    "id": 33518,
    "img": "data/posters/6ee55325769ac81c.jpg",
@@ -1621,6 +1602,7 @@
     "kinopirtti",
     "kotkanleffat",
     "leffabuumi",
+    "star",
     "vihdinkino"
    ],
    "r": 0,
@@ -3172,6 +3154,16 @@
    },
    "tr": ""
   },
+  "kirjastokino into the wild": {
+   "id": 5915,
+   "img": "data/posters/fa239cd7b2cf46ed.jpg",
+   "r": 7.8,
+   "s": {
+    "en": "",
+    "fi": "KIRJASTOKINO ESITTÄÄ: Into the Wild / 2007\n\nSean Pennin ohjaama, eksistentiaalinen ja visuaalisesti häikäisevä kuvaus amerikkalaisen materialismin hylkäämisestä ja radikaalista vapaudenkaipuusta. Elokuva ei ole pelkkä selviytymistarina, vaan syväluotaava tutkielma romantiikan ajan filosofiasta, ihmisen ja luonnon välisestä primäärisestä suhteesta sekä nuoruuden ehdottomuudesta."
+   },
+   "tr": "https://www.youtube.com/watch?v=g7ArZ7VD-QQ"
+  },
   "kirjastokino järki ja tunteet 2026": {
    "id": 1503762,
    "img": "data/posters/056008305739a764.jpg",
@@ -3923,12 +3915,16 @@
   },
   "kätyrit monsterit dub": {
    "id": 1315772,
-   "r": 0,
+   "img": "data/posters/67059865db3405c0.jpg",
+   "r": 7.6,
    "s": {
-    "en": "",
+    "en": "This is the rambunctious, ridiculous and totally true story of how the Minions conquered Hollywood, became movie stars, lost everything, unleashed monsters onto the world and then banded together to try and save the planet from the mayhem they had just created.",
     "fi": "Illumination johdattaa meidät jälleen hulvattomaan animaatiomaailmaansa uudella elokuvallaan Kätyrit & Monsterit, joka tuo maailman suosituimpaan animaatio-franchiseen kokonaan uusia hahmoja. Hillitön, riehakas ja täysin tositapahtumiin perustuva elokuva kertoo, miten Kätyrit valloittavat Hollywoodin ja nousevat elokuvatähdiksi, menettävät kaiken, tulevat päästäneeksi hirviöitä maailmaan ja lopulta yhdistävät voimansa pelastaakseen planeetan itse aiheuttamaltaan kaaokselta. Alkuperäisissä äänirooleissa kuullaan muun muassa Oscar®-voittaja Allison Janney, kaksinkertainen Oscar®-voittaja Christoph Waltz, Oscar®-voittaja Jeff Bridges, kaksinkertainen Oscar®-ehdokas Jesse Eisenberg, Zoey Deutch (Nouvelle Vague) sekä Oscar®-ehdokas Trey Parker, joka tunnetaan myös yhtenä South Parkin luojista. Näyttelijäkaartia täydentävät myös entinen Saturday Night Live -tähti Bobby Moynihan ja Phil LaMarr (Futurama, Kukkulan kuningas). Kätyrit & Monsterit -elokuvan on ohjannut Oscar-ehdokkuuden saanut Pierre Coffin, jonka ohjaustöihin lukeutuvat myös kolme ensimmäistä Itse ilkimys -elokuvaa ja ensimmäinen Kätyrit-elokuva. Coffin on myös ääninäytellyt itse Kätyreitä niiden elokuvadebyytistä 2010 alkaen. Elokuvan käsikirjoittajat ovat Brian Lynch (Kätyrit, Lemmikkien salainen elämä -elokuvat) ja Pierre Coffin. Elokuvan ovat tuottaneet myös Oscar-ehdokkuuden saanut Illuminationin perustaja ja pääjohtaja Chris Meledandri sekä Bill Ryan (The Super Mario Bros. Movie -elokuvan vastaava tuottaja ). Kätyrit & Monsterit -elokuvan vastaava tuottaja on Brian Lynch. Yli 15 vuotta on kulunut Kätyreiden luomisesta, ja niistä on tullut sukupolvensa ikonisimpia animaatiohahmoja. Kaikenikäisten fanien rakastamat Kätyrit ovat siivittäneet Illuminationin Itse ilkimys- ja Kätyrit-elokuvatuotannot yli 5,6 miljardia dollaria tuottaneiksi maailmanlaajuisiksi jymymenestyksiksi."
    },
-   "tr": ""
+   "tr": "https://www.youtube.com/watch?v=V-O-uBaHk3c",
+   "ts": [
+    "en"
+   ]
   },
   "kätyrit monsterit dub 5": {
    "id": 1315772,
@@ -5144,6 +5140,8 @@
    "tr": ""
   },
   "naiskäsityöläinen elämä ehjäksi kutoen keskustelutilaisuus": {
+   "id": 1815343,
+   "img": "data/posters/f3ccb1e827fefeca.jpg",
    "r": 0,
    "s": {
     "en": "",
@@ -5940,6 +5938,7 @@
     "kinopiispanristi",
     "kotkanleffat",
     "savonkinot",
+    "star",
     "studio123jarvenpaa",
     "studio123kouvola"
    ],
@@ -6173,6 +6172,7 @@
     "kotkanleffat",
     "kulttuurimylly",
     "kuvatahti",
+    "star",
     "studio123jarvenpaa"
    ],
    "r": 0,
@@ -6371,7 +6371,6 @@
     "biorex",
     "biorexkokkola",
     "biosalo",
-    "biostara",
     "biovuoksi",
     "cinemantsala",
     "elokuviin",
@@ -6708,7 +6707,6 @@
   },
   "punainen peto": {
    "id": 1453659,
-   "img": "data/posters/5b0d09708fa61a5d.jpg",
    "r": 0,
    "s": {
     "en": "",
@@ -9431,7 +9429,6 @@
   },
   "ulvova mylläri": {
    "id": 320293,
-   "img": "data/posters/53e7fcee3f5342a2.jpg",
    "r": 0,
    "s": {
     "en": "",
@@ -9976,6 +9973,7 @@
     "kotkanleffat",
     "kurikankino",
     "leffabuumi",
+    "star",
     "tapiola"
    ],
    "r": 0,
@@ -10133,6 +10131,7 @@
     "matintupa",
     "orion",
     "pajakkakino",
+    "star",
     "studio123jarvenpaa",
     "tapiola",
     "vaakuna",
@@ -10175,5 +10174,5 @@
    "tr": ""
   }
  },
- "generated": "2026-11-02"
+ "generated": "2026-11-03"
 }

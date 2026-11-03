@@ -37,15 +37,15 @@
 [kinometso] Toivakka: 5 showtimes, 1 dates
 [kinometso] Hankasalmi: 5 showtimes, 1 dates
 [kinometso] synopses merged: 0
-[biosalo] Bio-Salo (Salo): 59 showtimes
-[biosalo] Bio-Salo: 59 showtimes, 11 dates
+[biosalo] Bio-Salo (Salo): 55 showtimes
+[biosalo] Bio-Salo: 55 showtimes, 10 dates
 [biosalo] synopses merged: 0
-[biostara] Bio Stara (Paimio): 24 showtimes
-[biostara] Bio Stara: 24 showtimes, 8 dates
+[biostara] Bio Stara (Paimio): 22 showtimes
+[biostara] Bio Stara: 22 showtimes, 7 dates
 [biostara] synopses merged: 0
 [run] http: 0 revalidated (304), 11 full, 11 not stored (origin said no-store), 0 cache entries written
 [run] hosts: 6 attempted -- biosalo.fi, jarvelankino.fi, kino-olympia.fi, kinoaurora.fi, kinohirvi.fi, kinoset.fi
 [run] pending: kinometso has 3 venue(s) with no programme yet: km-tikkakoski, km-vaajakoski, km-laukaa
-[run] nexxo: 15 venues, 182 showtimes, 0 stale, 0 unverified, 3 pending, 0 with no programme, 0 failures
-[run] timing: 9 site(s), 41.0s of fetching added up across workers that overlap, longest site 10.1s, longest queue wait 0.0s, 10.1s wall from this module's first fetch starting to its last ending
+[run] nexxo: 15 venues, 176 showtimes, 0 stale, 0 unverified, 3 pending, 0 with no programme, 0 failures
+[run] timing: 9 site(s), 40.2s of fetching added up across workers that overlap, longest site 10.3s, longest queue wait 0.0s, 10.3s wall from this module's first fetch starting to its last ending
 exit=0
