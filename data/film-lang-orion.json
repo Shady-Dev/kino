@@ -13,7 +13,7 @@
  },
  "digger": {
   "price": "",
-  "at": "2026-11-01T16:52:36+00:00",
+  "at": "2026-11-03T17:58:56+00:00",
   "fields": {
    "lang": "EN-A, FI-S, SV-S",
    "len": "128",
@@ -173,7 +173,7 @@
  },
  "taksikuski": {
   "price": "",
-  "at": "2026-11-01T16:52:36+00:00",
+  "at": "2026-11-03T17:58:56+00:00",
   "fields": {
    "lang": "EN-A, FI-S, SV-S",
    "len": "114",
@@ -198,10 +198,11 @@
  },
  "unesta-tehty-mies": {
   "price": "",
-  "at": "2026-11-01T16:52:36+00:00",
+  "at": "2026-11-03T17:58:56+00:00",
   "fields": {
    "lang": "FI-A",
    "len": "94",
+   "rating": "K-7",
    "year": "2026",
    "syn_fi": "Sinemaattisessa dokumenttielokuvassa Emil ja Artur Sallinen nivoavat yhteen isoisänsä, säveltäjä Aulis Sallisen (s. 1935) elämää ja hänen läpimurtoteoksensa, Ratsumies -oopperan tarinaa. Dokumentti kasvaa henkilökuvasta tutkielmaksi Suomen kansasta ja sen henkisestä ytimestä. Mikä on ikuinen suomalainen tarinamme – ja voiko se muuttua? Kuvitus koostuu otteista Kansallisoopperan kevään 2025 Ratsumies -produktiosta, Sallisen eri elämänvaiheiden filmatisoinneista sekä arkistokuvista ja haastatteluista. Ohjaajat, kaksosveljekset Emil ja Artur Sallinen kertovat elokuvasta: ”Säveltäjä Aulis Sallisen lapsenlapsina meille on tarjoutunut ainutlaatuinen mahdollisuus tutustua isoisäämme hänen musiikkinsa kautta. Lapsista saakka olemme aistineet Auliksessa suljetun alueen johon muilla ei ole pääsyä. Hän on kertonut useasti, kuinka ei kokenut pelkoa sodan aikana vaikka hän Karjalan evakkona pakeni pommituksia. Syventyessämme Auliksen elämään haastatteluiden kautta meille ilmeni, että Aulis ammentaa musiikkinsa unestaan ja alitajunnastaan. Yhtäkkiä oivalsimme, että Auliksen tummia sävyjä sisältävä musiikki on portti hänen suljetulle alueelleen. Ehkä Auliksen kokemukset sodasta ovat paljon synkempiä, kun hänen tietoisuutensa on antanut meidän ymmärtää? Traumasta, sodasta ja historiastamme kertova Ratsumies -ooppera (säv. Aulis Sallinen, libr. Paavo Haavikko) tarjosi mahdollisuuden tutkia Auliksen suljettua aluetta paremmin. Ensi-iltansa jälkeen vuonna 1975 Ratsumies sai valtavan kansallisen suosion. Se oli aidosti suomalainen tarina, joka ei vain koskettanut. Se auttoi tätä metsäkansaa ymmärtämään keitä me olemme, ja miksi. Sodasta palannut ratsumies Antti ei pääse kiinni elämäänsä, vaan toteaakin oopperan lopussa ennen kuolemaansa; “Se olen minä, unesta tehty mies.” Dokumenttielokuvan ansiosta olemme saaneet selville, kuka isoisämme on.”"
   }
