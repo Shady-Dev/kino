@@ -342,6 +342,8 @@ DUR_RE = re.compile(r"Kesto:?\s*</span>\s*(?:(\d+)\s*h)?\s*(?:(\d+)\s*min)?", re
 LANGV_RE = re.compile(r"Kieli:?\s*</span>\s*([^<]+)", re.I)
 SUBS_RE = re.compile(r"Tekstitys:?\s*</span>\s*([^<]+)", re.I)
 POSTER_RE = re.compile(r'<img class="poster-img" src="([^"]+)"')
+# Star's film 2718 printed `/images/poster_placeholder.webp` (2026-11-03): no poster.
+POSTER_PLACEHOLDER_RE = re.compile(r"/poster_placeholder\.\w+$", re.I)
 GENRES_RE = re.compile(r'<span class="movie-genre">([^<]+)</span>')
 # Niagara lists its genres under a detail label that literally reads "genre".
 GENRES2_RE = re.compile(r'<span class="label">\s*genre\s*</span>\s*([^<]+)', re.I)
@@ -590,6 +592,7 @@ def parse_movie(page, site, movie_url):
         minutes = str(int(dur.group(1) or 0) * 60 + int(dur.group(2) or 0))
     poster = POSTER_RE.search(page)
     img = poster.group(1).split("?")[0] if poster and site.get("posters", True) else ""
+    img = "" if POSTER_PLACEHOLDER_RE.search(img) else img
     lang = _lang(page, no_subs=site["provider"] not in NO_SUBS_UNREAD)
     genre_hits = GENRES_RE.findall(page)
     if not genre_hits:

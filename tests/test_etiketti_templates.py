@@ -739,6 +739,13 @@ class NiagaraTemplateTest(Stubbed):
         self.assertFalse(show["soldOut"])
         self.assertEqual(show["img"], "")
 
+    def test_the_platform_placeholder_is_no_poster(self):
+        page = niagara_page(niagara_item("6.9.2026", "10.00", 7), twice=False).replace(
+            "https://cdn.example/niagara/poster/the-invite_1.webp?w=250",
+            "/images/poster_placeholder.webp")
+        self.assertEqual(self.rows(page)[1]["img"], "")
+        self.assertEqual(self.fetch(page)["cn-tampere"][0]["img"], "")
+
     def test_an_item_without_a_time_is_skipped_not_invented(self):
         item = niagara_item("6.9.2026", "10.00", 7).replace("<span>10.00</span>", "")
         rows, _ = self.rows(niagara_page(item, twice=False))
