@@ -1231,6 +1231,7 @@
    "img": "data/posters/445a6b495360d819.jpg",
    "kr": "K-12",
    "krs": [
+    "ihmekompleksi",
     "kinomarilyn"
    ],
    "r": 0,
@@ -1248,6 +1249,7 @@
    "img": "data/posters/445a6b495360d819.jpg",
    "kr": "K-12",
    "krs": [
+    "ihmekompleksi",
     "kinomarilyn"
    ],
    "r": 0,
@@ -2125,6 +2127,7 @@
    "img": "data/posters/8b1166ae143c79d4.jpg",
    "kr": "K-16",
    "krs": [
+    "ihmekompleksi",
     "kinomarilyn"
    ],
    "r": 0,
@@ -2294,6 +2297,14 @@
    "s": {
     "en": "",
     "fi": "Ewa ja Czesław Petelski , avio- ja työpari, ohjasivat kommunistisessa Puolassa pitkälti toistakymmentä elokuvaa. Heidän elokuvansa keräsivät roppakaupalla aikalaisten tunnustusta, kansantasavallan kunniamerkkejä ja Moskovan elokuvajuhlien hopeamerkkejä, mutta ovat nykyään liki tyystin unohdettuja. Ihmismetsästäjät on teos keskeltä sekä pariskunnan tuotteliainta kautta että Puolan uuden aallon muutaman vuoden kestänyttä luovuuden purkausta. Vastarintaliikkeessä sodan aikana natseja pakoilleiden Petelskejen teokset ovat yksinkertaisia ja vakavia, aatteellisia, mutta rehellisiä. Kuten Ewa Petelski tiivisti tuotantonsa punaisena kulkevan langan: \" Minulla täytyy olla sisäinen vakaumus siitä, että se, mitä teen, on välttämätöntä, ja teen sen parhaani mukaan. Vaikka se ei onnistuisikaan, yksi asia pysyy: rehellisyyteni. \""
+   },
+   "tr": ""
+  },
+  "ikiomat 6": {
+   "r": 0,
+   "s": {
+    "en": "",
+    "fi": "20-vuotisjuhlanäytöksessä nähdään yhdistyksen tekemiä yhteisanimaatioita sen alkutaipaleelta tähän päivään asti. Mukana on myös jo historiallinen Turun Anikistit - dokumentti joka avaa animaation tekijöiden näkökulmaa aivan yhdistyksen alkuajoilta. Lisäksi mukaan on poimittu muutamia yhdistyksen jäsenten omia helmiä lähivuosilta. Yhdistyksen tuorein, juuri valmistunut yhteisanimaatioteos esitetään viimeisenä. Näytöksen loppuun on varattu aikaa esittää kysymyksiä animaatioiden ohjaajille. Näytös on ilmainen ja ainutkertainen. Varaa paikkasi etukäteen, mutta estyessäsi peruutathan varauksen ajoissa jotta mahdollisimman moni pääsisi nauttimaan näytöksestä. Turun Anikistit ry Kolmen animaatio-ohjaajan käsikirjoituspiiristä alkunsa saanut yhdistys perustettiin virallisesti vuonna 2006 Turussa. Sen päätehtävänä on edistää taloudellisesti riippumatonta animaatiotaidetta Varsinais-Suomessa. Yhdistyksen 22 jäsentä ovat tuottajaa lukuun ottamatta Turun taideakatemian animaatiolinjan kasvatteja. Yhdistys tarjoaa jäsenilleen mahdollisuuden yhteistyöhön sekä tukee jäsentensä omaa taiteellista työskentelyä. Animaatioiden lisäksi yhdistys on toteuttanut myös mm. muita taiteellisia yhteisprojekteja, näyttelyitä, elokuvanäytöksiä, animaatioleirejä ja työpajoja."
    },
    "tr": ""
   },
@@ -2867,7 +2878,6 @@
    "kr": "K-12",
    "krs": [
     "biogrand",
-    "biomarilyn",
     "biopallas",
     "biorex",
     "biorexkokkola",
@@ -3276,6 +3286,15 @@
    "tr": ""
   },
   "kirjastokino sense and sensibility": {
+   "id": 4584,
+   "r": 0,
+   "s": {
+    "en": "",
+    "fi": "KIRJASTOKINO ESITTÄÄ: Sense and Sensibility / 1995\n\nSense and Sensibility ei ole pelkkä pukudraama, vaan Ang Leen ohjaama, psykologisesti tarkka tutkielma yhteiskunnallisista rooleista ja tukahdutetuista tunteista. Emma Thompsonin Oscar-palkittu käsikirjoitus herättää Jane Austenin tekstin eloon purevalla älykkyydellä ja hienovaraisella ironialla, joka purkaa luokkayhteiskunnan tekopyhyyttä. Se on ajaton mestariteos järjen ja tunteen ikuisesta kamppailusta, jonka näyttelijätyö – erityisesti Thompsonin, Kate Winsletin ja Alan Rickmanin välillä – hipoo täydellisyyttä."
+   },
+   "tr": ""
+  },
+  "kirjastokino sense and sensibility 1995": {
    "id": 4584,
    "img": "data/posters/90645b198527b148.jpg",
    "r": 7.4,
@@ -6935,19 +6954,6 @@
    },
    "tr": ""
   },
-  "päiväkaffileffa näytös kerro kaikille": {
-   "id": 1304530,
-   "img": "data/posters/133d5c0758982817.jpg",
-   "r": 0,
-   "s": {
-    "en": "",
-    "fi": "Amanda Aaltonen kieltäytyy alistumasta hänelle varattuun köyhän naisen ankeaan kohtaloon ja etsii huimapäisesti onneaan maailmalta. Rangaistukseksi sääntöjen rikkomisesta yhteiskunta anastaa häneltä kaikkein tärkeimmän, vapauden, ja sulkee hänet Seilin saarelle."
-   },
-   "tr": "https://www.youtube.com/watch?v=iUpszeSB7k4",
-   "ts": [
-    "fi"
-   ]
-  },
   "päämies": {
    "id": 10731,
    "img": "data/posters/8daf0f93d91e99e6.jpg",
@@ -7711,16 +7717,12 @@
   },
   "ryhmä hau dinoelokuva dub": {
    "id": 1185806,
-   "img": "data/posters/b7775ab25a7de6bc.jpg",
-   "r": 8.2,
+   "r": 0,
    "s": {
-    "en": "The Paw Patrol lands on a mysterious dinosaur island after a storm, where they meet Rex, a stranded pup. When Humdinger's reckless mining triggers a volcano, the team faces their biggest rescue mission yet to save the island.",
+    "en": "",
     "fi": "Ryhmä Haun laiva joutuu mystisen myrskyn kouriin ja haaksirikkoutuu trooppiselle saarelle, joka kuhisee dinosauruksia. He tapaavat Rexin – pennun, joka on jo vuosia ollut saarella jumissa ja josta on kehkeytynyt melkoinen dinosaurusekspertti. Kun Ryhmä Haun arkkivihollinen, Pormestari Hanttinen, aloittaa valtavat kaivuutyöt voidakseen hyödyntää saaren luonnonvaroja, hän saa vahingossa valtavan nukuksissa olleen tulivuoren purkautumaan. Pennut tempautuvat mukaan riskialttiiseen, dinon kokoiseen, kaikkien aikojen suurimpaan pelastusoperaatioonsa tavoitteenaan pysäyttää Hanttinen ennen kuin kaikki saarella katoaa ikiajoiksi."
    },
-   "tr": "https://www.youtube.com/watch?v=xgI5iYmOf5Q",
-   "ts": [
-    "en"
-   ]
+   "tr": ""
   },
   "ryhmä hau dinoelokuva org": {
    "id": 1185806,
