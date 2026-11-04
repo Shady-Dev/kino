@@ -1,16 +1,18 @@
 [token] using FINNKINO_TOKEN from the environment
 [sites] 17 cinemas
-[schedule] 2026-11-03: 73 showtimes
-[schedule] 2026-11-04: 402 showtimes
+[schedule] 2026-11-04: 306 showtimes
 [schedule] 2026-11-05: 405 showtimes
 [schedule] 2026-11-06: 420 showtimes
 [schedule] 2026-11-07: 423 showtimes
 [schedule] 2026-11-08: 428 showtimes
 [schedule] 2026-11-09: 393 showtimes
-[tmdb] no TMDB match (2): Lapin sota (väliajalla) | Me olemme Pariisin orkesteri
-[tmdb] weak candidate kept, not searched until 2026-11-04 (6): Godzilla Minus Zero -> ゴジラ-0.0 | Leviticus -> Leviticus | NT LIVE: Les Liaisons Dangereuses -> National Theatre Live: Les Liaisons Dangereuses | Ramayana: Rise of a Legend -> रामायणम् | Rose -> Rose | Two Seasons, Two Strangers -> 旅と日々
-[tmdb] 0 new lookups, 0 re-checks, cache 139, 112 mergeable by id
-[films] 61 film entries
+[schedule] 2026-11-10: 389 showtimes
+[tmdb] no TMDB match (1): Me olemme Pariisin orkesteri
+[tmdb] weak match, no exact title (6): Godzilla Minus Zero -> ゴジラ-0.0 | Leviticus -> Leviticus | NT LIVE: Les Liaisons Dangereuses -> National Theatre Live: Les Liaisons Dangereuses | Ramayana: Rise of a Legend -> रामायणम् | Rose -> Rose | Two Seasons, Two Strangers -> 旅と日々
+[tmdb] rating held back, under 25 votes (6): Godzilla Minus Zero (8.8 / 13 votes) | Kerro kaikille (7.5 / 2 votes) | Lapin sota (väliajalla) (3.0 / 1 votes) | NT LIVE: Les Liaisons Dangereuses (6.0 / 6 votes) | Ramayana: Rise of a Legend (5.7 / 3 votes) | Two Seasons, Two Strangers (7.1 / 16 votes)
+[tmdb] rating refresh: 2 scheduled, 2 re-read, 0 failed and still due, 0 deferred (budget 12)
+[tmdb] 7 new lookups, 16 re-checks, cache 140, 114 mergeable by id
+[films] 62 film entries
 [attrs] dropped, neither format nor language (8): Klassikko | Maxim | OCAP | Pkseutu | SEVERAL | TKU & R | Tampere | Varaus20
 [schedule] 17 venue files written, 0 kept as-is
 done
