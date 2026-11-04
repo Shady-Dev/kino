@@ -171,6 +171,11 @@ class SubtitledMarkerTest(unittest.TestCase):
         self.assertEqual(enrich_tmdb.norm("Kerro kaikille (suomeksi tekstitetty)"),
                          "kerro kaikille suomeksi tekstitetty")
 
+    def test_the_spelled_out_language_comes_off_too(self):
+        # Tapio Joensuu, 2026-11-04, beside a plain "Lapin sota" that matched.
+        self.assertEqual(enrich_tmdb.clean("Lapin sota (englanninkielinen tekstitys)"),
+                         "Lapin sota")
+
 
 class LastWeekMarkerTest(unittest.TestCase):
     """Bio Marilyn's "(Poistuu ohjelmistosta)" is a programme note, as "(Neulekino)" is a

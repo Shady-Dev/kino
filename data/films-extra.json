@@ -4147,6 +4147,8 @@
    "tr": ""
   },
   "lapin sota englanninkielinen tekstitys": {
+   "id": 1450460,
+   "img": "data/posters/c15d678a31ae397e.jpg",
    "r": 0,
    "s": {
     "en": "",
@@ -6616,7 +6618,7 @@
   "practical magic lumotut sisaret": {
    "id": 1302904,
    "img": "data/posters/1b75e3e44aca4810.jpg",
-   "r": 7.1,
+   "r": 7.2,
    "s": {
     "en": "The Owens sisters must confront the dark curse that threatens to unravel their family once and for all.",
     "fi": "Sandra Bullockin ja Nicole Kidmanin tähdittämä PRACTICAL MAGIC: LUMOTUT SISARET vie kuutamon valaisemien kepposten ja esiäitien taikuuden sävyttämään maailmaan, jossa Owensin sisarten on kohdattava synkkä kirous, joka uhkaa repiä heidän perheensä lopullisesti hajalle. Luvassa on lumottu elokuva täynnä komediaa ja taikaa."
@@ -8980,11 +8982,12 @@
    "r": 7.4,
    "s": {
     "en": "After getting a flat tire in the middle of nowhere, newly engaged couple Brad and Janet encounter the eerie mansion of the flamboyant, seductive Dr Frank-N-Furter and a variety of eccentric characters. Through elaborate dance and rock music, the mad scientist unveils his latest creation: a perfect, muscular man.",
-    "fi": ""
+    "fi": "Kaikkien aikojen kulttielokuva, kauhuelokuvia parodioiva musiikkikomedia nuoresta pariskunnasta, joka myrsky-yönä osuu hullun tiedemiehen synkkään ja kummalliseen kartanoon."
    },
    "tr": "https://www.youtube.com/watch?v=4plqh6obZW4",
    "ts": [
-    "en"
+    "en",
+    "fi"
    ]
   },
   "the rocky horror picture show dress along": {
