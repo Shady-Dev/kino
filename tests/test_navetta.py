@@ -43,8 +43,9 @@ def card(title, *lines, meta="K16, kesto 158 min, liput 11 €", film="100004470
             f"{shows}</div></div></div>\n")
 
 
-def page(*cards, heading=True, box="<h2>Tänään</h2><p>Lapin sota klo 17:00</p>"):
-    head = (f"<div class='w3-container w3-auto'><h2>Seuraavat näytökset</h2>"
+def page(*cards, heading="Seuraavat näytökset",
+         box="<h2>Tänään</h2><p>Lapin sota klo 17:00</p>"):
+    head = (f"<div class='w3-container w3-auto'><h2>{heading}</h2>"
             f"<div class='w3-container w3-auto'><div class='w3-border w3-light-gray'>{box}"
             f"</div></div></div>" if heading else "")
     return ('<!DOCTYPE html><html lang="fi"><meta charset="UTF-8"><title>Navettakino</title>'
@@ -136,7 +137,20 @@ class RowsTest(unittest.TestCase):
 
     def test_a_page_with_no_heading_fails_the_site(self):
         html = page(card("A", ("la 31.10 klo 17:00", None)), heading=False)
-        with self.assertRaisesRegex(N.ListingError, "Seuraavat näytökset"):
+        with self.assertRaisesRegex(N.ListingError, "Tulevan viikonlopun näytökset"):
+            self.rows(html)
+
+    def test_the_weekend_heading_reads_like_the_old_one(self):
+        box = ("<div class='w3-border w3-light-gray'><h3>Lauantaina</h3><p>Lapin sota klo "
+               "16:00 - <a href='varaa.php?id=90'>Varaa liput</a></p><hr></div>")
+        html = page(card("Lapin sota", ("la 07.11 klo 16:00", "varaa.php?id=90")),
+                    heading="Tulevan viikonlopun näytökset", box=box)
+        self.assertEqual([(s["start"], s["url"]) for s in self.rows(html)],
+                         [("2026-11-07T16:00:00+02:00", BASE + "varaa.php?id=90")])
+
+    def test_another_heading_still_fails_the_site(self):
+        html = page(card("A", ("la 31.10 klo 17:00", None)), heading="Tulevat elokuvat")
+        with self.assertRaises(N.ListingError):
             self.rows(html)
 
     def test_cards_without_screenings_parse_to_nothing(self):

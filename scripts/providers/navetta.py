@@ -2,7 +2,8 @@
 
 On 2026-11-01, between 09:28 and 12:19 UTC, the site moved from a WordPress page with the
 programme in prose to a hand-written PHP page. This reads the new page. The front page
-carries a "Seuraavat näytökset" box and below it one card per film:
+carries a box headed "Seuraavat näytökset", or "Tulevan viikonlopun näytökset" since
+2026-11-04, and below it one card per film:
 
     <div class='w3-auto w3-card w3-container' ...>
       <a href='leffa?id=100004470'><img src=kuvat/jul_100004470.jpg alt='Juliste' ...></a>
@@ -67,7 +68,8 @@ SITES = [
 WINDOW = (30, 120)
 
 BODY_RE = re.compile(r"<body\b[^>]*>(.*?)(?=<footer\b|</body>|\Z)", re.S | re.I)
-HEADING_RE = re.compile(r"<h2[^>]*>\s*seuraavat\s+näytökset\s*</h2>", re.I)
+HEADING_RE = re.compile(r"<h2[^>]*>\s*(?:seuraavat|tulevan\s+viikonlopun)\s+näytökset\s*</h2>",
+                        re.I)
 CARD_RE = re.compile(r"<div[^>]*\bw3-card\b[^>]*>(.*?)(?=<div[^>]*\bw3-card\b|\Z)",
                      re.S | re.I)
 TITLE_RE = re.compile(r"<h2[^>]*>(.*?)</h2>", re.S | re.I)
@@ -178,8 +180,9 @@ def rows(site, page, today=None):
     url = site["base"].rstrip("/") + site["listing"]
     if not HEADING_RE.search(body(page)):
         bot_check(page, url)
-        raise ListingError(f"{site['provider']}: the page renders no "
-                           f"'Seuraavat näytökset' heading ({served(page)})")
+        raise ListingError(f"{site['provider']}: the page renders no 'Seuraavat "
+                           f"näytökset' or 'Tulevan viikonlopun näytökset' heading "
+                           f"({served(page)})")
     out, report = [], {"no_price": set(), "no_ticket": set()}
     for card in cards(page, base):
         title = card["title"]
