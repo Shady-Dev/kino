@@ -1,16 +1,16 @@
-[biorexkokkola] Bio Rex Kokkola: 51 showtimes, 16 dates
+[biorexkokkola] Bio Rex Kokkola: 52 showtimes, 17 dates
 [biorexkokkola] synopses merged: 0
 [kinopirtti] Kinopirtti: 106 showtimes, 22 dates
 [kinopirtti] synopses merged: 0
 [kinotar] Kinotar 123: 49 showtimes, 21 dates
 [kinotar] synopses merged: 0
-[kinojuha] Kino Juha: 12 showtimes, 9 dates
+[kinojuha] Kino Juha: 13 showtimes, 9 dates
 [kinojuha] VIP-Sali: 14 showtimes, 12 dates
 [kinojuha] synopses merged: 0
 [biovuoksi] Bio Vuoksi: 28 showtimes, 10 dates
 [biovuoksi] synopses merged: 0
 [kinoiiris] strand prefix split off 1 showtimes
-[kinoiiris] Kino Iiris: 49 showtimes, 24 dates
+[kinoiiris] Kino Iiris: 48 showtimes, 24 dates
 [kinoiiris] synopses merged: 0
 [kinoiiris] screening-note sentences left out of synopses: 1
 [kkino] K-Kino: 6 showtimes, 2 dates
@@ -21,10 +21,10 @@
 [niagara] synopses merged: 0
 [kinokaustinen] Kino Kaustinen: 3 showtimes, 3 dates
 [kinokaustinen] synopses merged: 0
-[kinomarilyn] Kino Marilyn: 79 showtimes, 27 dates
+[kinomarilyn] Kino Marilyn: 78 showtimes, 27 dates
 [kinomarilyn] synopses merged: 0
-[run] http: 0 revalidated (304), 202 full, 202 not stored (origin said no-store), 0 cache entries written
+[run] http: 0 revalidated (304), 203 full, 203 not stored (origin said no-store), 0 cache entries written
 [run] hosts: 11 attempted -- biograni.fi, biovuoksi.fi, cinemaniagara.fi, jamsankinotar.fi, k-kino.fi, kinoiiris.com, kinojuha.fi, kinokaustinen.fi, kinopirtti.fi, www.biorex.org, www.kinomarilyn.fi
 [run] etiketti: 12 venues, 464 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
-[run] timing: 11 site(s), 368.8s of fetching added up across workers that overlap, longest site 67.6s, longest queue wait 42.0s, 102.5s wall from this module's first fetch starting to its last ending
+[run] timing: 11 site(s), 375.6s of fetching added up across workers that overlap, longest site 66.1s, longest queue wait 41.4s, 98.3s wall from this module's first fetch starting to its last ending
 exit=0

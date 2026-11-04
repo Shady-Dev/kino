@@ -1,11 +1,11 @@
-[kinokilta] 64 screening(s) listed, 41 film page(s) read
+[kinokilta] 63 screening(s) listed, 41 film page(s) read
 [kinokilta] omitted 0 confirmed non-film(s) by evidence-backed exclusion over 0 screening(s), and 0 unresolved over 0
 [kinokilta] override retkikino-2026: active
 [kinokilta] 2 synopsis/synopses withheld, no language settled: Combat Shock, RetkiKino 2026
 [kinokilta] 7 film(s) with a language name not read, that part left blank: Alligator (Ei teksitystä); Combat Shock (Ei teksitystä); Joysticks (Ei teksitystä); Kuzma (ukraina, Ei teksitystä); Prom Night (Ei teksitystä); Savage Dawn (Ei teksitystä); The Devils (Ei teksitystä)
-[kinokilta] Kino Kilta: 64 showtimes, 30 dates
+[kinokilta] Kino Kilta: 63 showtimes, 30 dates
 [kinokilta] strand prefix split off 4 showtimes
-[kinokilta] Kino Kilta: 64 showtimes, 30 dates
+[kinokilta] Kino Kilta: 63 showtimes, 30 dates
 [kinokilta] synopses merged: 0
 [kinolaika] 40 screening(s) listed, 17 film page(s) read
 [kinolaika] omitted 0 confirmed non-film(s) by evidence-backed exclusion over 0 screening(s), and 6 unresolved over 6
@@ -39,6 +39,6 @@
 [kinokonepaja] synopses merged: 0
 [run] http: 41 revalidated (304), 66 full, 25 not stored (origin said no-store), 1 cache entries written
 [run] hosts: 4 attempted -- kinokonepaja.fi, kinomyyri.fi, www.kinokilta.fi, www.kinolaika.fi
-[run] kinola: 4 venues, 195 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
-[run] timing: 4 site(s), 196.1s of fetching added up across workers that overlap, longest site 68.3s, longest queue wait 106.2s, 68.3s wall from this module's first fetch starting to its last ending
+[run] kinola: 4 venues, 194 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
+[run] timing: 4 site(s), 205.6s of fetching added up across workers that overlap, longest site 68.3s, longest queue wait 110.4s, 68.3s wall from this module's first fetch starting to its last ending
 exit=0

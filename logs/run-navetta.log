@@ -1,7 +1,6 @@
-[navettakino] no screenings: https://www.navettakino.fi/: no card prints a screening (1235 B served, titled "Navettakino", Server: Apache). Film cards: none. The previous files stand
+[navettakino] FAILED: navettakino: the page renders no 'Seuraavat näytökset' heading (1966 B served, titled "Navettakino", Server: Apache)
 [run] http: 0 revalidated (304), 1 full, 0 not stored (origin said no-store), 0 cache entries written
 [run] hosts: 1 attempted -- www.navettakino.fi
-[run] no screenings: 1 site(s) kept their previous files: navettakino
-[run] navetta: 0 venues, 0 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
-[run] timing: 1 site(s), 0.7s of fetching added up across workers that overlap, longest site 0.7s, longest queue wait 158.4s, 0.7s wall from this module's first fetch starting to its last ending
-exit=0
+[run] navetta: 0 venues, 0 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 1 failures
+[run] timing: 1 site(s), 0.7s of fetching added up across workers that overlap, longest site 0.7s, longest queue wait 168.1s, 0.7s wall from this module's first fetch starting to its last ending
+exit=1

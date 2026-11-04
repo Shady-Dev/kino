@@ -883,7 +883,7 @@
   "clayface": {
    "id": 1400940,
    "img": "data/posters/ea1d6efb7cdae5e2.jpg",
-   "r": 7.5,
+   "r": 7.4,
    "s": {
     "en": "DC Studios’ first-ever foray into the genre, “Clayface” is a horror thriller from director James Watkins, starring Tom Rhys Harries in the title role of the Gotham City villain. Written by Mike Flanagan (The Haunting of Hill house)",
     "fi": "Katso kauhua päin naamaa. DC Studiosin Clayface on ohjaaja James Watkinsin kauhutrilleri, jonka nimiosassa Gotham Cityn vihollisgallerian suosikkiroistona nähdään Tom Rhys Harries. Matt Hagenin huima nousu Gothamin kaduilta Hollywoodin johtavaksi tähdeksi päättyy traagisesti, kun paikallisen rikollispomon kosto jättää hänet pahoin epämuodostuneeksi. Tiiminsä hylkäämänä ja kaiken menettäneenä Matt hakeutuu uraauurtavaan hoitoon, joka ihmeenomaisesti palauttaa hänet entiselleen. Hoidolla on kuitenkin odottamattomia vaikutuksia hänen todellisuudentajuunsa, ja hän ajautuu tuhoisalle polulle, jota hallitsee kaiken nielevä kostonhimo. Elokuvassa nähdään myös Naomi Ackie, David Dencik, Max Minghella ja Eddie Marsan sekä Nancy Carroll ja Joshua James. Elokuvan ohjaa James Watkins käsikirjoituksesta, jonka ovat kirjoittaneet Mike Flanagan ja Hossein Amini. Tarinan on luonut Flanagan, ja se perustuu DC:n hahmoihin. Tuottajina toimivat Matt Reeves, Lynn Harris, James Gunn ja Peter Safran. Vastaavina tuottajina ovat Michael E. Uslan, Chantal Nong Vo, Lars P. Winther, Paul Ritchie, Rafi Crohn ja Trevor Macy. Watkinsin luovaan työryhmään kuuluvat kuvaaja Rob Hardy, lavastussuunnittelija James Price, leikkaaja Jon Harris ja pukusuunnittelija Keith Madden. Musiikista vastaa Volker Bertelmann. DC Studios esittää: 6th & Idaho Productionin tuotanto, James Watkinsin elokuva \"Clayface\". Elokuvan levittää Warner Bros. Pictures, ja se saa ensi-iltansa elokuvateattereissa 23. lokakuuta 2026.",
@@ -1066,7 +1066,6 @@
    "kr": "K-12",
    "krs": [
     "biorex",
-    "biosalo",
     "gilda",
     "kinovirta",
     "orion",
@@ -1478,17 +1477,13 @@
   },
   "flaggan": {
    "id": 1719725,
-   "img": "data/posters/34716b5c9dbdbc09.jpg",
    "r": 0,
    "s": {
-    "en": "On election night 2010, two young Sweden Democrats — the charming but unserious Ville and his cousin Tobias — are given the task of hanging a huge Swedish flag in Rinkeby square, but end up drawn into a chaotic night full of crazy encounters with drug dealers, activists, and Finnish bikers.",
+    "en": "",
     "fi": "On vaaliyö vuonna 2010, ja ruotsidemokraatit ovat juuri saaneet ensimmäiset paikkansa valtiopäiviltä. Serkukset Ville ja Tobias saavat tehtäväkseen ripustaa valtavan Ruotsin lipun Rinkebyn torille puolueen voiton kunniaksi. Kuulostaa helpolta – kunnes kaikki alkaa mennä pieleen.",
     "sv": "Under valnatten 2010 får två unga Sverigedemokrater, den charmige men oseriöse Ville och hans kusin Tobias, i uppdrag att hänga en enorm svensk flagga på Rinkeby torg, men blir indragna i en stökig natt fylld av galna möten med langare, aktivister och finska bikers."
    },
-   "tr": "https://www.youtube.com/watch?v=Syq9tr4hiGA",
-   "ts": [
-    "en"
-   ]
+   "tr": ""
   },
   "flow": {
    "id": 823219,
@@ -4259,6 +4254,7 @@
     "biopallas",
     "biorex",
     "biorexkokkola",
+    "biosade",
     "biosalo",
     "biosavoy",
     "biostara",
@@ -4276,6 +4272,7 @@
     "kinoakseli",
     "kinoaurora",
     "kinoelo",
+    "kinohirvi",
     "kinojuha",
     "kinokuva",
     "kinolaika",
@@ -5045,7 +5042,6 @@
   },
   "minä ja riikka purra tekijävierailu": {
    "id": 1789735,
-   "img": "data/posters/00ba33a99fa0e923.jpg",
    "r": 0,
    "s": {
     "en": "",
@@ -5232,7 +5228,7 @@
     "en": "",
     "fi": "Lahtelainen Mervi Pasanen on yksi dokumentin päähenkilöistä. Mervi on mukana Kino Iiriksen näytöksessä ja vastaa yleisön kysymyksiin. Naiskäsityöläinen: Elämä ehjäksi kutoen on intiimi, ”kehollinen” dokumenttielokuva, joka tarjoaa vastapainon nopeatempoiselle maailmalle. Elokuva siirtää huomion lopputuotteesta itse tekemisen parantavaan prosessiin. Kuuden kuukauden ajan kuvattu projekti seuraa neljää suomalaista naiskäsityöläistä, jotka löytävät merkityksen perinteisistä kädentaidoista. Elokuva kutsuu katsojaa siirtymään analyyttisestä mielestä kehon aistimuksiin. Suomen vuodenaikojen vaihtuessa neljä naista löytää eheyden esivanhempien käsitöistä. Nykypäivän loppuunpalamisen ja irrallisuuden keskellä elokuva tarjoaa tarinoita keskinäisestä yhteydestä. Ohjaaja painottaa prosessin merkitystä: tavoitteena on taltioida aitoja tarinoita kiireettömästi ja luottamusta rakentaen, jotta yleisö voisi siirtää huomionsa älyllisestä pohdinnasta omaan kehoonsa ja sydämeensä. Ohjaajan sana (Madison McClintock) Työni tutkii ihmisten ja ympäristön välistä yhteyttä ja riippuvuutta. Yhdysvaltalaisena tekstiilitaiteilijana ja elokuvantekijänä, jolla on pohjoismaiset juuret, minua kiinnostaa se, mitä menetämme, kun siteemme kulttuuriperintöömme katkeaa. Koen itse syvintä yhteyttä menneisiin sukupolviin työskennellessäni käsilläni. Elokuvan idea syntyi vuonna 2021 New Mexicossa, kun tapasin suomalaisen mestarikutoja Hannele Köngäksen. Hänen intohimonsa kestäviin menetelmiin, historiallisiin tekniikoihin ja kainuunharmaan villaan teki minuun syvän vaikutuksen. Hannelen opastuksella tutustuin naiskäsityöläisiin ympäri Suomea. Fulbright Finlandin apurahan ja Suomen käsityön museon tuella pystyin lopulta viettämään kuusi kuukautta Suomessa tätä elokuvaa tehden. Naiskäsityöläinen: Elämä ehjäksi kutoen / Craftswoman: Weaving Life Whole Ohjaus: Madison McClintock Kesto: 83 min Valmistumisvuosi: 2026 Kieli: suomi ja englanti, englanninkieliset tekstitykset craftswomanfilm.com"
    },
-   "tr": ""
+   "tr": "https://www.youtube.com/watch?v=7d3-peJCU9U"
   },
   "nalle naavatassu kalassa": {
    "r": 0,
@@ -6020,6 +6016,7 @@
     "biorex",
     "biorexkokkola",
     "biosalo",
+    "cinemantsala",
     "kinohamina",
     "kinohirvi",
     "kinolumo",
@@ -6297,6 +6294,7 @@
     "biomarilyn",
     "biorex",
     "biorexkokkola",
+    "biosade",
     "biosalo",
     "biostara",
     "biovuoksi",
@@ -6309,8 +6307,8 @@
     "joutsankino",
     "kino123",
     "kinohannikainen",
+    "kinohirvi",
     "kinokulma",
-    "kinokuva",
     "kinolumo",
     "kinometso",
     "kinomyyri",
@@ -6392,6 +6390,7 @@
     "biomarilyn",
     "biorex",
     "biorexkokkola",
+    "biosade",
     "biosalo",
     "biostara",
     "biovuoksi",
@@ -6404,8 +6403,8 @@
     "joutsankino",
     "kino123",
     "kinohannikainen",
+    "kinohirvi",
     "kinokulma",
-    "kinokuva",
     "kinolumo",
     "kinometso",
     "kinomyyri",
@@ -6479,7 +6478,6 @@
     "kinoiiris",
     "kinojuha",
     "kinolumo",
-    "kinometso",
     "kinopiispanristi",
     "kinopirtti",
     "kinotour",
@@ -7910,6 +7908,7 @@
     "biopallas",
     "biorex",
     "biorexkokkola",
+    "biosade",
     "biosalo",
     "biosavoy",
     "biostara",
@@ -7927,6 +7926,7 @@
     "kinoakseli",
     "kinoaurora",
     "kinoelo",
+    "kinohirvi",
     "kinojuha",
     "kinokuva",
     "kinolaika",
@@ -10252,6 +10252,7 @@
     "kinoakseli",
     "kinoaurora",
     "kinohannikainen",
+    "kinohirvi",
     "kinoiiris",
     "kinokilta",
     "kinokulma",
@@ -10263,9 +10264,9 @@
     "kinoset",
     "kinotar",
     "kinovirta",
+    "korjaamo",
     "kotkanleffat",
     "kurikankino",
-    "laitilankino",
     "leffabuumi",
     "matintupa",
     "niagara",
@@ -10316,5 +10317,5 @@
    "tr": ""
   }
  },
- "generated": "2026-11-03"
+ "generated": "2026-11-04"
 }
