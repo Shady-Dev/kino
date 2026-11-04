@@ -527,6 +527,22 @@ class KotkaTemplateTest(Stubbed):
         self.assertFalse(show["soldOut"])
         self.assertTrue(out["kl-kinopalatsi"][0]["soldOut"])
 
+    def test_an_amount_inside_a_tag_stays_in_the_price(self):
+        # Kino Juha's tag "Päivänäytös 12€", read in the committed data on 2026-11-04.
+        tagged = ('<div class="item kotka date-5.9.2026"> <div> <p> <strong><span>LA 5.9. klo '
+                  '13.00</span></strong> <div class="movie-specs"> <span class="tag">Viimeinen '
+                  'näytös</span> <span class="tag">Päivänäytös 12&euro;</span> </div> </p> <p> '
+                  'TRIO 123 | SALI 2<br /> Lippu 12,00&euro;<br /> Vapaat paikat 30/35 </p> '
+                  '</div> <div> <a class="button-screening" href="/salikartta?id=56108"> Osta '
+                  'tai varaa </a> </div> </div>\n')
+        page = KOTKA_FILM.replace('<div class="item kotka date-4.9.2026">',
+                                  tagged + '<div class="item kotka date-4.9.2026">')
+        e = self.stub({"/elokuvat/ohjelmistossa": listing("/elokuvat/3268/insidious"),
+                       "/elokuvat/3268/insidious": page})
+        day = e.fetch_site(site("kotkanleffat"), sleep=0)["kl-trio123"][1]
+        self.assertEqual((day["method"], day["price"]),
+                         ("Viimeinen näytös \u00b7 Päivänäytös", "12€"))
+
 
 # --- template 2 ---------------------------------------------------------------------------
 

@@ -333,6 +333,8 @@ SEATS_RE = re.compile(r"(?:Vapaat paikat|Paikkoja vapaana):?\s*(\d+)\s*/\s*(\d+)
 BOOK_RE = re.compile(r'href="(/salikartta\?id=\d+)"')
 # Per-screening labels: Niagara's "Seniorikino" and "Q&amp;A", Kotka's "Erikoisnäytös".
 TAG_RE = re.compile(r'<span class="tag"[^>]*>(.*?)</span>', re.S)
+# Kino Juha's "Päivänäytös 12€" (2026-11-03). The amount is dropped: `price` carries it.
+TAG_AMOUNT_RE = re.compile(r"\s*\d{1,3}(?:[.,]\d{1,2})?\s*\u20ac\s*$")
 # All ages is `fi-sallittu.svg` on 20 of the 22 hosts read 2026-10-22. None printed `fi-s.svg`.
 AGE_RE = re.compile(r"ikarajat/fi-(\d+|s|sallittu)\.svg", re.I)
 # Kotka: `Kesto:</span> 1 h 46 min`. Niagara: `Kesto </span> 1 h 48 min`, no colon.
@@ -632,7 +634,7 @@ def parse_movie(page, site, movie_url):
         price = PRICE_RE.search(block)
         seats = SEATS_RE.search(block)
         book = BOOK_RE.search(block)
-        tags = [_txt(t) for t in TAG_RE.findall(block)]
+        tags = [TAG_AMOUNT_RE.sub("", _txt(t)) for t in TAG_RE.findall(block)]
         out.append({
             "theatre_raw": theatre, "aud": room,
             "unplaced": (f"data-locations {html_mod.unescape(declared.group(1))}"
