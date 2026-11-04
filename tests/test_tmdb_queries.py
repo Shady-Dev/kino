@@ -176,6 +176,17 @@ class SubtitledMarkerTest(unittest.TestCase):
         self.assertEqual(enrich_tmdb.clean("Lapin sota (englanninkielinen tekstitys)"),
                          "Lapin sota")
 
+    def test_an_intermission_comes_off_too(self):
+        # Finnkino, 2026-11-04, at 14 cinemas.
+        self.assertEqual(enrich_tmdb.clean("Lapin sota (väliajalla)"), "Lapin sota")
+
+    def test_a_discussion_after_the_film_comes_off(self):
+        # Kino Aurora, 2026-11-04.
+        self.assertEqual(enrich_tmdb.clean("Naiskäsityöläinen: Elämä ehjäksi kutoen (+keskustelu)"),
+                         "Naiskäsityöläinen: Elämä ehjäksi kutoen")
+        self.assertEqual(enrich_tmdb.clean("Rokumentti: Hacking Hate + paneelikeskustelu"),
+                         "Rokumentti: Hacking Hate + paneelikeskustelu")
+
 
 class LastWeekMarkerTest(unittest.TestCase):
     """Bio Marilyn's "(Poistuu ohjelmistosta)" is a programme note, as "(Neulekino)" is a

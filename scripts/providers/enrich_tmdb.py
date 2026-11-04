@@ -83,10 +83,11 @@ from strands import EVENT_PREFIXES  # noqa: E402
 # 2026-09-24: Kino Aurora's "Unohdettu saari (EN dub)" drew no poster while the plain
 # title matched; a language code before `dub` names the dub, not the film.
 # 2026-10-13: Kino Ritz's "Kerro kaikille (suomeksi tekstitetty)" names the subtitles.
-# 2026-11-04: Tapio Joensuu's "Lapin sota (englanninkielinen tekstitys)" does the same.
+# 2026-11-04: Tapio Joensuu's "Lapin sota (englanninkielinen tekstitys)" does the same, and
+# Finnkino's "Lapin sota (väliajalla)" names an intermission, at 14 cinemas.
 PAREN_NOISE = re.compile(
     r"\(\s*(?:(?:19|20)\d{2}|suomeksi(?:\s+puhuttu|\s+tekstitetty)?|englanniksi|p[åa]\s+svenska"
-    r"|(?:suomen|englannin|ruotsin)kielinen\s+tekstitys"
+    r"|(?:suomen|englannin|ruotsin)kielinen\s+tekstitys|v[äa]liajalla"
     r"|puhumme\s+suomea!?|dubattu|(?:(?:en|eng|fi|sv)\s+)?dub\.?|orig\.?|re-?release"
     r"|uudelleenjulkaisu|uusi\s+kopio|live\s?action|liveaction|2d|3d|imax|4k"
     # A screening, not the film: Elokuvateatteri Star publishes its knitting screening as
@@ -167,6 +168,8 @@ TRAIL_FORMAT = re.compile(r"(?<=\w)(?:\s+(?:2d|3d|imax|4k)\b)+\s*$", re.I)
 # "ohjaajavierailu", the director's visit, added 2026-10-03: Kino Aurora's "Ortotopologian
 # loputtomat alkeet (+ohjaajavierailu)" and "The Secret Reading Club of Kabul
 # (+ohjaajavierailu)", whose bare titles match 1753057 and 1635591 elsewhere.
+# "keskustelu" added 2026-11-04: Kino Aurora's "Naiskäsityöläinen: Elämä ehjäksi kutoen
+# (+keskustelu)" beside a plain title that matched. "+ paneelikeskustelu" is not covered.
 #
 # Each noun is named and the whole thing is anchored to the end, because "+" belongs to
 # real titles and a rule that ate everything after one would destroy them: "Romeo +
@@ -182,7 +185,7 @@ TRAIL_FORMAT = re.compile(r"(?<=\w)(?:\s+(?:2d|3d|imax|4k)\b)+\s*$", re.I)
 # where the answer does not change.
 TRAIL_EVENT = re.compile(
     r"\s*\(?\s*\+\s*(?:tekij[\u00e4a]vierailu|ohjaajavierailu|leffalukupiiri"
-    r"|keskustelutilaisuus)\s*\)?\s*$",
+    r"|keskustelutilaisuus|keskustelu)\s*\)?\s*$",
     re.I)
 # The same visit as a bare last word, no "+": Kino Lumo's and Kino Piispanristi's "Pirjo i
 # Sverige TEKIJ\u00c4VIERAILULLA" (2026-09-29) drew an initials tile while every other
