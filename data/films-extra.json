@@ -1232,6 +1232,7 @@
    "kr": "K-12",
    "krs": [
     "ihmekompleksi",
+    "kinohamina",
     "kinomarilyn"
    ],
    "r": 0,
@@ -1250,6 +1251,7 @@
    "kr": "K-12",
    "krs": [
     "ihmekompleksi",
+    "kinohamina",
     "kinomarilyn"
    ],
    "r": 0,
@@ -1617,6 +1619,7 @@
     "cinemantsala",
     "haapamaki",
     "kino123",
+    "kinohamina",
     "kinokonepaja",
     "kinokulma",
     "kinomarilyn",
@@ -2631,12 +2634,13 @@
   },
   "järki ja tunteet sense and sensibility": {
    "id": 1503762,
-   "r": 0,
+   "img": "data/posters/056008305739a764.jpg",
+   "r": 7.3,
    "s": {
     "en": "",
     "fi": "Uusi, vastustamaton tulkinta Jane Austenin ikonisesta Järki ja tunteet -teoksesta: hurmaava, nokkela ja syvästi samaistuttava tarina rakkaudesta ja sisaruudesta. Pääosissa loistavat Daisy Edgar-Jones ja Esmé Creed-Miles."
    },
-   "tr": ""
+   "tr": "https://www.youtube.com/watch?v=OFLyW0lxFU0"
   },
   "järven ääni": {
    "r": 0,
@@ -2898,7 +2902,6 @@
     "kinoakseli",
     "kinoaurora",
     "kinoelo",
-    "kinohamina",
     "kinohirvi",
     "kinoiiris",
     "kinojuha",
@@ -2924,7 +2927,6 @@
     "kkino",
     "korjaamo",
     "kotkanleffat",
-    "kurikankino",
     "kuvakukko",
     "kuvatahti",
     "laitilankino",
@@ -2965,6 +2967,16 @@
    },
    "tr": ""
   },
+  "kerro kaikille tekijävierailunäytös": {
+   "id": 1304530,
+   "img": "data/posters/133d5c0758982817.jpg",
+   "r": 0,
+   "s": {
+    "en": "",
+    "fi": "Keskiviikkona 18.11. klo 17.15 Kinolle saapuu vieraaksi elokuvan ohjaaja Alli Haapasalo. Kerro kaikille on voimaelokuva Amanda Aaltosesta, joka kieltäytyy alistumasta hänelle varattuun köyhän naisen ankeaan kohtaloon ja etsii huimapäisesti onneaan maailmalta. Rangaistukseksi sääntöjen rikkomisesta yhteiskunta anastaa häneltä kaikkein tärkeimmän, vapauden, ja sulkee hänet Seilin saarelle."
+   },
+   "tr": "https://www.youtube.com/watch?v=iUpszeSB7k4"
+  },
   "keskustelussa naza elokuvan tuottaja harry davies": {
    "r": 0,
    "s": {
@@ -2972,19 +2984,6 @@
     "fi": "Arvostetun NAZA -dokumenttielokuvan tuottaja ja The Guardian -lehden tutkiva toimittaja Harry Davies kertoo elokuvan tekemisestä, palkitusta journalistisesta työstään sekä tutkivan journalismin keskeisestä roolista yhteiskunnallisten epäkohtien paljastamisessa. Keskustelutilaisuus on avoin kaikille riippumatta siitä, onko NAZA -elokuvan jo nähnyt vai tutustuuko siihen vasta ensimmäistä kertaa. Keskustelun vetää tutkija ja elokuvantekijä, tohtori Nitin Sawhney. Keskustelu käydään englanniksi. Paikat täytetään saapumisjärjestyksessä. Tilaisuuden järjestävät Refugee Film Festival ja B-Plan Distribution ja sitä tukee Helsingin Sanomain Säätiö. Oscar-palkittujen Rachel Szorin ja Yuval Abrahamin (No Other Land) ohjaama, öisin Tel Avivin katoilla kuvattu NAZA paljastaa yksityiskohtia järjestelmistä, jotka ovat Israelin suunnitelmallisen palestiinalaissiviilien joukkotuhon taustalla Gazassa. Cinema Orionin NAZA -näytökset näet täältä. Keskustelutilaisuus järjestetään SU 25.10. KLO 15:00-16:00."
    },
    "tr": ""
-  },
-  "kevlarsjäl": {
-   "id": 1414081,
-   "img": "data/posters/6ea29f409289d6d4.jpg",
-   "r": 0,
-   "s": {
-    "en": "",
-    "fi": "Alex ja Robin ovat veljeksiä, jotka ovat menettäneet uskonsa aikuisiin ja oppineet selviytymään vain toistensa varassa. Heidän välilleen on kasvanut poikkeuksellisen vahva side, jota mikään ei tunnu voivan rikkoa. Mutta kun Alex rakastuu, maailma alkaa horjua. Robin kokee tulleensa hylätyksi ja syöksyy hallitsemattomaan vapaapudotukseen, josta isoveli yrittää epätoivoisesti tavoittaa hänet takaisin. Alex kantaa syyllisyyttä, rakkautta ja velvollisuutta rinnassaan – mutta voiko ketään pelastaa, jos tämä ei halua tulla pelastetuksi?"
-   },
-   "tr": "https://www.youtube.com/watch?v=Cf2WFI71MJM",
-   "ts": [
-    "fi"
-   ]
   },
   "kinojuhlat avioliiton ilveilyä": {
    "r": 0,
@@ -5448,12 +5447,9 @@
    "r": 7.2,
    "s": {
     "en": "",
-    "fi": "Cahiers du Cinema -lehden toimituksessa oli vauhtia. Toimittajista Claude Chabrol oli jo ohjannut kaksi leffaa. Francois Truffaut oli lähdössä Cannesin elokuvajuhlille esittelemään esikoistaan 400 kepposta. Godard kähvelsi lehden kassasta matkarahat ja painui mukaan. Kaikki tiesivät, että nyt tapahtuu jotain uutta. Godardin oli päästävä ohjaamaan. Se on helppoa: huijataan tuottaja mukaan, puhutaan Jean Seberg hehkumaan naispääosaan, ja Jean-Paul Belmondo on kuin luotu konnan rooliin. Aamuisin keksitään pätkä käsikirjoitusta kahvilassa, kuvataan tunti tai koko päivä. Kyllä tästä leffa tulee. Sivuosissa vilahtelee Robert Bressonin, Jean-Pierre Melvillen ja Roberto Rossellinin kaltaisia hahmoja. Kaikki tämä on historiallisesti akkuraattia ja samanaikaisesti keksittyä."
+    "fi": "Richard Linklaterin oodi elokuvan ilolle sukeltaa Jean-Luc Godardin legendaarisen Viimeiseen hengenvetoon -elokuvan tuotannon hilpeisiin käänteisiin.\n\nCahiers du Cinema -lehden toimituksessa oli vauhtia. Toimittajista Claude Chabrol oli jo ohjannut kaksi leffaa. Francois Truffaut oli lähdössä Cannesin elokuvajuhlille esittelemään esikoistaan 400 kepposta. Godard kähvelsi lehden kassasta matkarahat ja painui mukaan. Kaikki tiesivät, että nyt tapahtuu jotain uutta.\n\nGodardin oli päästävä ohjaamaan. Se on helppoa: huijataan tuottaja mukaan, puhutaan Jean Seberg (Zoey Deutch) hehkumaan naispääosaan, ja Jean-Paul Belmondo (aubry Dullin) on kuin luotu konnan rooliin. Aamuisin keksitään pätkä käsikirjoitusta kahvilassa, kuvataan tunti tai koko päivä. Kyllä tästä leffa tulee. Sivuosissa vilahtelee Robert Bressonin, Jean-Pierre Melvillen ja Roberto Rossellinin kaltaisia hahmoja.\n\nKaikki tämä on historiallisesti akkuraattia ja samanaikaisesti keksittyä. Uransa huipulla oleva Richard Linklater (Rakkautta ennen -trilogia, Boyhood) tavoittaa sen välittömyyden, joka kuvauksissa vallitsi yhtä lailla kameran edessä ja takana. Sekä etenkin kuvaustauoilla, joita oli paljon."
    },
-   "tr": "https://www.youtube.com/watch?v=sRqWbsdACzg",
-   "ts": [
-    "fi"
-   ]
+   "tr": "https://www.youtube.com/watch?v=sRqWbsdACzg"
   },
   "nuorena äidiksi": {
    "r": 0,
@@ -6041,7 +6037,6 @@
    "kr": "K-12",
    "krs": [
     "biorex",
-    "biorexkokkola",
     "biosalo",
     "cinemantsala",
     "kinohamina",
@@ -6488,7 +6483,6 @@
    "img": "data/posters/a8cdd21dca604433.jpg",
    "kr": "S",
    "krs": [
-    "biograni",
     "biokaari",
     "biomarlon",
     "biorex",
@@ -9814,12 +9808,6 @@
   "vasenkätinen tyttö": {
    "id": 999075,
    "img": "data/posters/99a2c3bb145ea6bf.jpg",
-   "kr": "K-12",
-   "krs": [
-    "biogrand",
-    "k13",
-    "kinokilta"
-   ],
    "r": 7.3,
    "s": {
     "en": "",
@@ -9865,7 +9853,6 @@
     "isohannu",
     "kinolumo",
     "kinoolympia",
-    "kinopirtti",
     "kirkkonummi",
     "levisummit",
     "savonkinot",
