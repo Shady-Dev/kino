@@ -27,18 +27,18 @@
 [kinomyyri] Kino Myyri: 28 showtimes, 12 dates
 [kinomyyri] Kino Myyri: 28 showtimes, 12 dates
 [kinomyyri] synopses merged: 0
-[kinokonepaja] 65 screening(s) listed, 22 film page(s) read
+[kinokonepaja] 69 screening(s) listed, 24 film page(s) read
 [kinokonepaja] omitted 0 confirmed non-film(s) by evidence-backed exclusion over 0 screening(s), and 3 unresolved over 3
 [kinokonepaja] unresolved: Cold November, Reel Rock Film Tour 20, The BritRock Film Tour 2026
 [kinokonepaja] override edward-scissorhands: evidence-unavailable
 [kinokonepaja] override gremlins: evidence-unavailable
 [kinokonepaja] override nightmare-on-elm-street: evidence-unavailable
 [kinokonepaja] 4 film(s) with a language name not read, that part left blank: A shelter Among the Clouds (albania); Dua (albania, serbia); Helena Ranta – Sodan viimeinen sana (serbia, albania); Shame and Money (albania)
-[kinokonepaja] Kino Konepaja: 62 showtimes, 30 dates
-[kinokonepaja] Kino Konepaja: 62 showtimes, 30 dates
+[kinokonepaja] Kino Konepaja: 66 showtimes, 30 dates
+[kinokonepaja] Kino Konepaja: 66 showtimes, 30 dates
 [kinokonepaja] synopses merged: 0
-[run] http: 41 revalidated (304), 64 full, 24 not stored (origin said no-store), 1 cache entries written
+[run] http: 6 revalidated (304), 101 full, 24 not stored (origin said no-store), 36 cache entries written
 [run] hosts: 4 attempted -- kinokonepaja.fi, kinomyyri.fi, www.kinokilta.fi, www.kinolaika.fi
-[run] kinola: 4 venues, 181 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
-[run] timing: 4 site(s), 209.3s of fetching added up across workers that overlap, longest site 70.6s, longest queue wait 107.6s, 72.8s wall from this module's first fetch starting to its last ending
+[run] kinola: 4 venues, 185 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
+[run] timing: 4 site(s), 224.9s of fetching added up across workers that overlap, longest site 83.8s, longest queue wait 126.5s, 83.8s wall from this module's first fetch starting to its last ending
 exit=0

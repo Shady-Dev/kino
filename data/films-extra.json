@@ -340,11 +340,6 @@
   "autofiktio": {
    "id": 1088548,
    "img": "data/posters/64d23f46b5356d6f.jpg",
-   "kr": "K-12",
-   "krs": [
-    "engel",
-    "tapiola"
-   ],
    "r": 6.2,
    "s": {
     "en": "During a long December holiday weekend, a woman, whose mother has recently died, throws herself into work as a form of escape. Her relentless pace is interrupted when a panic attack forces her to take a break.",
@@ -1068,8 +1063,7 @@
     "biorex",
     "gilda",
     "kinovirta",
-    "orion",
-    "savonkinot"
+    "orion"
    ],
    "r": 7.5,
    "s": {
@@ -1231,33 +1225,16 @@
    "img": "data/posters/445a6b495360d819.jpg",
    "kr": "K-12",
    "krs": [
+    "elavienkuvien",
     "ihmekompleksi",
     "kinohamina",
-    "kinomarilyn"
+    "kinomarilyn",
+    "kinotervakoski"
    ],
    "r": 0,
    "s": {
     "en": "An elderly miser embarks on a supernatural journey after visits from the ghost of his former business partner and the Spirits of Christmas Past, Present, and Yet to Come force him to confront his past and fight for a second chance at happiness.",
     "fi": "Johnny Depp on Ebenezer Scrooge. Nimi on tuttu, tarina ei. Ti Westin ohjaamaa elokuvaa tähdittävät myös Rupert Grint, Andrea Riseborough, Sam Claflin, Daisy Ridley, Arthur Conti, Ellie Bamber, Henry Lloyd-Hughes, Charlie Murphy sekä Tramell Tillman ja Ian McKellen."
-   },
-   "tr": "https://www.youtube.com/watch?v=l_Ozo1xUgbU",
-   "ts": [
-    "en"
-   ]
-  },
-  "ebenezer saiturin joulu ikäraja ei viellä tiedossa": {
-   "id": 1567605,
-   "img": "data/posters/445a6b495360d819.jpg",
-   "kr": "K-12",
-   "krs": [
-    "ihmekompleksi",
-    "kinohamina",
-    "kinomarilyn"
-   ],
-   "r": 0,
-   "s": {
-    "en": "An elderly miser embarks on a supernatural journey after visits from the ghost of his former business partner and the Spirits of Christmas Past, Present, and Yet to Come force him to confront his past and fight for a second chance at happiness.",
-    "fi": ""
    },
    "tr": "https://www.youtube.com/watch?v=l_Ozo1xUgbU",
    "ts": [
@@ -4294,7 +4271,6 @@
     "kinoelo",
     "kinohirvi",
     "kinojuha",
-    "kinokuva",
     "kinolaika",
     "kinolumo",
     "kinomania",
@@ -5503,7 +5479,8 @@
     "kinopirtti",
     "kisakino",
     "levisummit",
-    "sheryl"
+    "sheryl",
+    "star"
    ],
    "r": 0,
    "s": {
@@ -5960,6 +5937,10 @@
   "paper tiger": {
    "id": 1381273,
    "img": "data/posters/bae2625b256de906.jpg",
+   "kr": "K-16",
+   "krs": [
+    "kinokonepaja"
+   ],
    "r": 0,
    "s": {
     "en": "Two brothers become entangled in a scheme that turns out to be too good to be true. As they try to navigate their way through the dangerous world of the Russian mafia, family bonds begin to fray with life-altering consequences.",
@@ -7149,6 +7130,10 @@
   "rental family": {
    "id": 1208348,
    "img": "data/posters/723f088c29806ee4.jpg",
+   "kr": "S",
+   "krs": [
+    "cinemantsala"
+   ],
    "r": 7.7,
    "s": {
     "en": "",
@@ -7932,7 +7917,6 @@
     "kinoelo",
     "kinohirvi",
     "kinojuha",
-    "kinokuva",
     "kinolaika",
     "kinolumo",
     "kinomania",
@@ -9354,7 +9338,6 @@
    "krs": [
     "biorex",
     "gilda",
-    "jarvelankino",
     "kinoaurora",
     "kinomarilyn",
     "kinoolympia",
@@ -9674,16 +9657,12 @@
   },
   "unohdettu saari suomeksi": {
    "id": 1465063,
-   "img": "data/posters/9bcaf7ef167a0f8f.jpg",
-   "r": 7.7,
+   "r": 0,
    "s": {
-    "en": "While celebrating their last night together, high school graduates and best friends Jo and Raissa stumble upon a mysterious portal that transports them to the fantastical island of Nakali. When they discover that the memories of their entire friendship are the price for returning home, Jo and Raissa must race to find a way to leave the island before they forget each other forever.",
+    "en": "",
     "fi": "Parhaan ystävyyden puolesta kannattaa taistella. DreamWorks Animation on aiemmin tuonut katsojille tarinoita unohtumattomista siteistä pojan ja lohikäärmeen välillä Näin koulutat lohikäärmeesi -elokuvissa, jätin ja aasin välillä Shrek-elokuvissa sekä robotin ja hanhenpoikasen välillä elokuvassa Villi robotti. Nyt luvassa on huikean tunteikas tarina kahdesta parhaasta ystävyksestä, joiden täytyy yhdistää voimansa eron uhatessa elokuvassa Unohdettu saari. Uuden alkuperäistarinan on käsikirjoittanut ja ohjannut Oscar-ehdokas Joel Crawford ja Januel Mercado. Tuottajana toimii Oscar-ehdokas Mark Swift. Sama tiimi on myös ollut tekemässä elokuvaa Saapasjalkakissa: Viimeinen toivomus. Grammy- ja Oscar-palkittu supertähti H.E.R. ja Liza Soberano (Lisa Frankenstein, Alone/Together) ovat Jo ja Raissa, high schoolista valmistunut parivaljakko. He ovat olleet parhaita ystäviä ala-asteelta asti, mutta nyt elämä uhkaa erottaa ystävykset. Juhliessaan viimeistä yhteistä iltaansa Jo ja Raissa törmäävät salaperäiseen portaaliin, joka kuljettaa heidät Nakalin mielikuvitukselliselle saarelle. Saari on täynnä maagisia ja myyttisiä olentoja, joista ystävysten filippiiniläisperheet ovat kertoneet tarinoita. Uusista tuttavuuksista paljastuu niin ystäviä kuin vihollisiakin. Apunaan hyvää tarkoittava mutta melko avuton ihmiskoira Raww (Dave Franco) sekä pieni mutta pippurinen joukko muita kamuja Jo ja Raissa ottavat mittaa karmeasta Manananggalista (Tony-palkittu ikoni Lea Salonga), saaren pelätyimmästä olennosta. Kun parille paljastuu, että hinta kotiinpaluusta on kaikkien yhteisten muistojen menettäminen, Jon ja Raissan täytyy keksiä keino päästä pois saarelta unohtamatta toisiaan. Elokuvan ääninäyttelijöiden tähtisikermää täydentävät Emmy-ehdokas Jenny Slate (Marcell the Shell with Shoes On, Dying for Sex), Manny Jacinto (The Good Place, Top Gun: Maverick), BAFTA-ehdokas Dolly de Leon (Triangle of Sadness, Ghostlight), komedian supertähti Jo Koy (Haunted Mansion, Jo Koy: Live from B"
    },
-   "tr": "https://www.youtube.com/watch?v=PhgY8cOJiQA",
-   "ts": [
-    "en"
-   ]
+   "tr": ""
   },
   "unohdettu saari suomeksi puhuttu": {
    "id": 1465063,
@@ -9817,13 +9796,12 @@
   },
   "vasenkätinen tyttö matinea": {
    "id": 999075,
-   "img": "data/posters/99a2c3bb145ea6bf.jpg",
-   "r": 7.3,
+   "r": 0,
    "s": {
     "en": "",
     "fi": "Äiti ja kaksi tytärtä muuttavat väkeä kuhisevaan Taipeihin. Sisukas kolmikko ryhtyy pitämään nuudelikojua vilkkaalla yötorilla. Koju ei ehkä ole suurmenestys, mutta kolmikko pitää yhtä. Suurkaupungin vauhti ja vilinä lumoaa kolmikon nuorimmaisen. Isoisä moittii tyttöä vasemman käden käyttämisestä, se kun on vanhojen uskomusten mukaan ´paholaisen käsi´. Tyttö uskoo isoisää kirjaimellisesti. Perheen pitkään vaietut salaisuudet alkavat paljastua. Vasenkätisen tytön tuottaja, leikkaaja ja toinen käsikirjoittaja Sean Baker muistetaan Oscar –magneetti Anoran ohjauksesta. Tuottajana (mm. Florida Project) mainetta niittäneen Shih-Ching Tsoun esikoisohjaus tavoittaa Taipein neonvalojen kaleidoskoopin, elämän sirkuksen ja seikkailun. Vuonna 2016 syntynyt nuori tähti Nina Ye on vuoden hurmaavin läpimurto valkokankailla."
    },
-   "tr": "https://www.youtube.com/watch?v=0rXnpfzpk8s"
+   "tr": ""
   },
   "vasenkätinen tyttö pennittömät": {
    "r": 0,
@@ -9852,7 +9830,6 @@
     "gilda",
     "isohannu",
     "kinolumo",
-    "kinoolympia",
     "kirkkonummi",
     "levisummit",
     "savonkinot",
@@ -10050,8 +10027,10 @@
    "img": "data/posters/aca6e1cdaad07a60.jpg",
    "kr": "K-12",
    "krs": [
+    "elavienkuvien",
     "gilda",
     "ihmekompleksi",
+    "joutsankino",
     "kinokilta",
     "kinokonepaja",
     "kinomarilyn",
@@ -10315,5 +10294,5 @@
    "tr": ""
   }
  },
- "generated": "2026-11-04"
+ "generated": "2026-11-05"
 }
