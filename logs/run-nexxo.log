@@ -1,11 +1,10 @@
-[kinoset] locationid 1 FAILED: <urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: Hostname mismatch, certificate is not valid for 'kinoset.fi'. (_ssl.c:1081)>
-[kinoset] locationid 2 FAILED: <urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: Hostname mismatch, certificate is not valid for 'kinoset.fi'. (_ssl.c:1081)>
-[kinoset] locationid 3 FAILED: <urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: Hostname mismatch, certificate is not valid for 'kinoset.fi'. (_ssl.c:1081)>
-[kinoset] Kino 1-2: no showtimes, keeping previous data from 2026-11-05T09:41:36+00:00
-[kinoset] Kinema: no showtimes, keeping previous data from 2026-11-05T09:41:36+00:00
-[kinoset] Bio: no showtimes, keeping previous data from 2026-11-05T09:41:36+00:00
+[kinoset] Kino 1-2 (Huittinen): 14 showtimes
+[kinoset] Kinema (Loimaa): 11 showtimes
+[kinoset] Bio (Sastamala): 11 showtimes
+[kinoset] Kino 1-2: 14 showtimes, 5 dates
+[kinoset] Kinema: 11 showtimes, 6 dates
+[kinoset] Bio: 11 showtimes, 6 dates
 [kinoset] synopses merged: 0
-[kinoset] no screenings: every venue came back empty and nothing confirms it
 [kinoaurora] Kino Aurora (Jyväskylä): 13 showtimes
 [kinoaurora] Kino Aurora: 13 showtimes, 4 dates
 [kinoaurora] synopses merged: 0
@@ -18,9 +17,9 @@
 [kinoolympia] Kino Olympia (Hanko): 14 showtimes
 [kinoolympia] Kino Olympia: 14 showtimes, 9 dates
 [kinoolympia] synopses merged: 0
-[jarvelankino] Järvelän Kino (Järvelä): 4 showtimes
-[jarvelankino] Järvelän Kino: 4 showtimes, 4 dates
-[jarvelankino] synopses merged: 0
+[jarvelankino] Järvelän Kino (Järvelä): 7 showtimes
+[jarvelankino] Järvelän Kino: 7 showtimes, 6 dates
+[jarvelankino] synopses merged: 1
 [kinometso] Muurame (Muurame): 9 showtimes
 [kinometso] Petäjävesi (Petäjävesi): 7 showtimes
 [kinometso] Tikkakoski (Jyväskylä): 0 showtimes
@@ -44,11 +43,9 @@
 [biostara] Bio Stara (Paimio): 17 showtimes
 [biostara] Bio Stara: 17 showtimes, 5 dates
 [biostara] synopses merged: 0
-[run] http: 0 revalidated (304), 8 full, 8 not stored (origin said no-store), 0 cache entries written
+[run] http: 0 revalidated (304), 11 full, 11 not stored (origin said no-store), 0 cache entries written
 [run] hosts: 6 attempted -- biosalo.fi, jarvelankino.fi, kino-olympia.fi, kinoaurora.fi, kinohirvi.fi, kinoset.fi
 [run] pending: kinometso has 3 venue(s) with no programme yet: km-tikkakoski, km-vaajakoski, km-laukaa
-[run] partial: kinoset kept previous data for 3 venue(s): ks-huittinen, ks-loimaa, ks-sastamala
-[run] no screenings: 1 site(s) kept their previous files: kinoset
-[run] nexxo: 12 venues, 166 showtimes, 3 stale, 0 unverified, 3 pending, 0 with no programme, 0 failures
-[run] timing: 9 site(s), 95.0s of fetching added up across workers that overlap, longest site 64.9s, longest queue wait 0.0s, 64.9s wall from this module's first fetch starting to its last ending
+[run] nexxo: 15 venues, 205 showtimes, 0 stale, 0 unverified, 3 pending, 0 with no programme, 0 failures
+[run] timing: 9 site(s), 92.0s of fetching added up across workers that overlap, longest site 46.3s, longest queue wait 0.0s, 52.2s wall from this module's first fetch starting to its last ending
 exit=0
