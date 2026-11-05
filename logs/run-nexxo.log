@@ -19,7 +19,7 @@
 [kinoolympia] synopses merged: 0
 [jarvelankino] Järvelän Kino (Järvelä): 7 showtimes
 [jarvelankino] Järvelän Kino: 7 showtimes, 6 dates
-[jarvelankino] synopses merged: 1
+[jarvelankino] synopses merged: 0
 [kinometso] Muurame (Muurame): 9 showtimes
 [kinometso] Petäjävesi (Petäjävesi): 7 showtimes
 [kinometso] Tikkakoski (Jyväskylä): 0 showtimes
@@ -47,5 +47,5 @@
 [run] hosts: 6 attempted -- biosalo.fi, jarvelankino.fi, kino-olympia.fi, kinoaurora.fi, kinohirvi.fi, kinoset.fi
 [run] pending: kinometso has 3 venue(s) with no programme yet: km-tikkakoski, km-vaajakoski, km-laukaa
 [run] nexxo: 15 venues, 205 showtimes, 0 stale, 0 unverified, 3 pending, 0 with no programme, 0 failures
-[run] timing: 9 site(s), 92.0s of fetching added up across workers that overlap, longest site 46.3s, longest queue wait 0.0s, 52.2s wall from this module's first fetch starting to its last ending
+[run] timing: 9 site(s), 42.3s of fetching added up across workers that overlap, longest site 11.4s, longest queue wait 0.0s, 11.4s wall from this module's first fetch starting to its last ending
 exit=0

@@ -2940,7 +2940,6 @@
     "helios",
     "ihmekompleksi",
     "isohannu",
-    "kino123",
     "kinoakseli",
     "kinoaurora",
     "kinoelo",
@@ -2968,7 +2967,6 @@
     "kisakino",
     "kkino",
     "korjaamo",
-    "kotkanleffat",
     "kuvakukko",
     "kuvatahti",
     "laitilankino",
@@ -6091,11 +6089,9 @@
     "kinohirvi",
     "kinolumo",
     "kinopiispanristi",
-    "kotkanleffat",
     "savonkinot",
     "star",
-    "studio123jarvenpaa",
-    "studio123kouvola"
+    "studio123jarvenpaa"
    ],
    "r": 7.3,
    "s": {
@@ -8940,8 +8936,7 @@
    "kr": "K-16",
    "krs": [
     "isohannu",
-    "levisummit",
-    "savonkinot"
+    "levisummit"
    ],
    "r": 8.0,
    "s": {
@@ -9883,8 +9878,7 @@
     "kirkkonummi",
     "levisummit",
     "savonkinot",
-    "star",
-    "studio123jarvenpaa"
+    "star"
    ],
    "r": 6.6,
    "s": {
