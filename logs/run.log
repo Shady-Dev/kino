@@ -1,6 +1,6 @@
 [token] using FINNKINO_TOKEN from the environment
 [sites] 17 cinemas
-[schedule] 2026-11-05: 407 showtimes
+[schedule] 2026-11-05: 305 showtimes
 [schedule] 2026-11-06: 420 showtimes
 [schedule] 2026-11-07: 423 showtimes
 [schedule] 2026-11-08: 428 showtimes
@@ -8,11 +8,9 @@
 [schedule] 2026-11-10: 389 showtimes
 [schedule] 2026-11-11: 378 showtimes
 [tmdb] no TMDB match (13): Me olemme Pariisin orkesteri | NV26: Adult Supervision - Arkipelag | NV26: Avajaiselokuva: Sanguine - Species | NV26: Blaise | NV26: Bruton | NV26: Buffet Infinity | NV26: Crawlers | NV26: Dernsie: The Amazing Life of Bruce Dern | NV26: Enju | NV26: Oddities | NV26: Onslaught | NV26: The Best Summer | NV26: The Peril at Pincer Point
-[tmdb] weak match, no exact title (6): Godzilla Minus Zero -> ゴジラ-0.0 | Leviticus -> Leviticus | NT LIVE: Les Liaisons Dangereuses -> National Theatre Live: Les Liaisons Dangereuses | Ramayana: Rise of a Legend -> रामायणम् | Rose -> Rose | Two Seasons, Two Strangers -> 旅と日々
-[tmdb] rating held back, under 25 votes (3): NT LIVE: Les Liaisons Dangereuses (6.0 / 6 votes) | Ramayana: Rise of a Legend (5.7 / 3 votes) | Two Seasons, Two Strangers (7.1 / 16 votes)
-[tmdb] rating refresh: 1 scheduled, 1 re-read, 0 failed and still due, 0 deferred (budget 12)
-[tmdb] 19 new lookups, 15 re-checks, cache 153, 115 mergeable by id
-[films] 75 film entries
+[tmdb] weak candidate kept, not searched until 2026-11-06 (6): Godzilla Minus Zero -> ゴジラ-0.0 | Leviticus -> Leviticus | NT LIVE: Les Liaisons Dangereuses -> National Theatre Live: Les Liaisons Dangereuses | Ramayana: Rise of a Legend -> रामायणम् | Rose -> Rose | Two Seasons, Two Strangers -> 旅と日々
+[tmdb] 0 new lookups, 0 re-checks, cache 153, 115 mergeable by id
+[films] 74 film entries
 [attrs] dropped, neither format nor language (9): Klassikko | Maxim | NV | OCAP | Pkseutu | SEVERAL | TKU & R | Tampere | Varaus20
 [schedule] 17 venue files written, 0 kept as-is
 done
