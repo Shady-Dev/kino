@@ -20,23 +20,23 @@
 [jarvelankino] Järvelän Kino (Järvelä): 4 showtimes
 [jarvelankino] Järvelän Kino: 4 showtimes, 4 dates
 [jarvelankino] synopses merged: 0
-[kinometso] Muurame (Muurame): 7 showtimes
-[kinometso] Petäjävesi (Petäjävesi): 5 showtimes
+[kinometso] Muurame (Muurame): 9 showtimes
+[kinometso] Petäjävesi (Petäjävesi): 7 showtimes
 [kinometso] Tikkakoski (Jyväskylä): 0 showtimes
 [kinometso] Vaajakoski (Jyväskylä): 0 showtimes
 [kinometso] Laukaa (Laukaa): 0 showtimes
 [kinometso] Viitasaari (Viitasaari): 5 showtimes
 [kinometso] Toivakka (Toivakka): 5 showtimes
 [kinometso] Hankasalmi (Hankasalmi): 5 showtimes
-[kinometso] Muurame: 7 showtimes, 4 dates
-[kinometso] Petäjävesi: 5 showtimes, 3 dates
+[kinometso] Muurame: 9 showtimes, 6 dates
+[kinometso] Petäjävesi: 7 showtimes, 5 dates
 [kinometso] Tikkakoski: no programme at the moment (adapter confirmed the venue empty); publishing an empty file
 [kinometso] Vaajakoski: no programme at the moment (adapter confirmed the venue empty); publishing an empty file
 [kinometso] Laukaa: no programme at the moment (adapter confirmed the venue empty); publishing an empty file
 [kinometso] Viitasaari: 5 showtimes, 1 dates
 [kinometso] Toivakka: 5 showtimes, 1 dates
 [kinometso] Hankasalmi: 5 showtimes, 1 dates
-[kinometso] synopses merged: 0
+[kinometso] synopses merged: 1
 [biosalo] Bio-Salo (Salo): 46 showtimes
 [biosalo] Bio-Salo: 46 showtimes, 8 dates
 [biosalo] synopses merged: 0
@@ -46,6 +46,6 @@
 [run] http: 0 revalidated (304), 11 full, 11 not stored (origin said no-store), 0 cache entries written
 [run] hosts: 6 attempted -- biosalo.fi, jarvelankino.fi, kino-olympia.fi, kinoaurora.fi, kinohirvi.fi, kinoset.fi
 [run] pending: kinometso has 3 venue(s) with no programme yet: km-tikkakoski, km-vaajakoski, km-laukaa
-[run] nexxo: 15 venues, 198 showtimes, 0 stale, 0 unverified, 3 pending, 0 with no programme, 0 failures
-[run] timing: 9 site(s), 41.6s of fetching added up across workers that overlap, longest site 11.2s, longest queue wait 0.0s, 11.2s wall from this module's first fetch starting to its last ending
+[run] nexxo: 15 venues, 202 showtimes, 0 stale, 0 unverified, 3 pending, 0 with no programme, 0 failures
+[run] timing: 9 site(s), 41.4s of fetching added up across workers that overlap, longest site 10.2s, longest queue wait 0.0s, 10.2s wall from this module's first fetch starting to its last ending
 exit=0

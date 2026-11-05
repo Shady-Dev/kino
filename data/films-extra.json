@@ -2498,6 +2498,14 @@
    },
    "tr": ""
   },
+  "joulupukin salainen paja suomeksi puhuttu": {
+   "r": 0,
+   "s": {
+    "en": "",
+    "fi": "Yhdeksänvuotias Mari herää keskellä yötä ja huomaa jonkun käyneen huoneessaan. Ainoa johtolanka öisestä vierailijasta on huoneeseen unohtunut tontun lapanen."
+   },
+   "tr": ""
+  },
   "joulutarina": {
    "id": 21501,
    "img": "data/posters/e1d133e1143a30e5.jpg",
@@ -3934,6 +3942,15 @@
    "s": {
     "en": "SPECIAL UKRAINIAN FILM NIGHT AT KINO TÖÖLÖ! For the First Time on the Big Screen in Finland: Documentary About Kuzma Skryabin. \n\nThe biographical documentary \"Kuzma: Fearlessly Cheerful\", dedicated to the legendary Ukrainian musician Andriy Kuzmenko (Kuzma Skryabin), will screen in a special Ukrainian film night at Kino Töölö on Ocotober 29, 2026. \n\nCreated by the team behind the acclaimed documentary Yaremchuk: The Incomparable World of Beauty, the film is built entirely around unique archival footage, most of which has never been made public before.\n\nThis is the story of Andriy Kuzmenko, the frontman of the iconic Ukrainian band Skryabin—a man loved by millions, yet truly known by only a few. Through exclusive, previously unseen archival materials, the film reveals his personal evolution, sharp sense of humor, self-irony, and a life lived at full speed—one whose energy continues to inspire audiences today.\n\nDirected by Artem Hryhorian, the documentary follows Kuzma's journey from a young boy in Novoyavorivsk to one of the defining figures of Ukrainian popular culture. It is a story about freedom, pain, and compassion—values reflected in everything he said and created. At the same time, the film explores Kuzma as a lasting cultural icon whose influence remains strong years after his passing.\n\n“This is definitely not a conventional documentary where everyone simply talks about the main character. Of course, there are interviews, but our goal was to let the audience spend time with Kuzma himself—to see him as he truly was. We all knew him as a national hero, yet very few knew the story of how he became one. Kuzma can no longer speak to us directly, but through these archives, he still can. The audience doesn't just hear about the past—they experience the journey of his life as it unfolds on screen,” says the film's producer, Maksym Serdiuk.",
     "fi": ""
+   },
+   "tr": ""
+  },
+  "kyllä isä osaa espanjassa": {
+   "id": 1767503,
+   "r": 0,
+   "s": {
+    "en": "",
+    "fi": "Perheen vastustuksesta huolimatta isä päättää toteuttaa unelmansa eläkepäivistä Espanjassa. Mutta miten Suomen tunnetuin perhe pärjää Espanjan auringon alla torakoiden, salsan ensiaskeleiden ja rantatuolien lomassa? Entä solmiiko isä kiinteistökaupoilla elämänsä diilin - vai menettääkö hän kaiken?"
    },
    "tr": ""
   },
@@ -6477,7 +6494,6 @@
     "isohannu",
     "kino123",
     "kinohirvi",
-    "kinoiiris",
     "kinojuha",
     "kinolumo",
     "kinopiispanristi",
@@ -7837,7 +7853,7 @@
   "sense and sensibility": {
    "id": 1503762,
    "img": "data/posters/056008305739a764.jpg",
-   "r": 7.4,
+   "r": 7.3,
    "s": {
     "en": "",
     "fi": "Isänsä kuoleman jälkeen sisarukset Elinor ja Marianne Dashwood joutuvat jättämään kotinsa ja aloittamaan uuden elämän maaseudulla. He navigoivat seurapiirien tiukkojen odotusten keskellä ja joutuvat samalla vastakkain rakkauden, sydänsurujen ja yhteiskunnallisten normien kanssa. Järjen ja tunteen välillä tasapainoilevat sisarukset etsivät kumpikin omaa tietään rakkauteen ja itsenäisyyteen.",
@@ -10106,7 +10122,7 @@
   "wildwood": {
    "id": 791523,
    "img": "data/posters/3243e3129f13e25d.jpg",
-   "r": 8.6,
+   "r": 8.5,
    "s": {
     "en": "Prue and her classmate Curtis are drawn into a magical forest filled with enchanted creatures, loyal allies, and formidable adversaries as they embark on a desperate quest to rescue Prue's abducted baby brother from a murder of crows led by a mysterious woman named Alexandra.",
     "fi": "",
