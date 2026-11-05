@@ -612,6 +612,14 @@
     "en"
    ]
   },
+  "billie maailmojen välissä": {
+   "r": 0,
+   "s": {
+    "en": "",
+    "fi": "Billie maailmojen välissä esittelee meille impulsiivisen ja omintakeisen teinitytön nimeltä Billie ja tämän ylisuojelevan äidin Alicen. Kun Billie saa yllättäen käyttöönsä salaisia taikavoimia, hän tempautuu saman tien kotoaan maagiseen Hexen valtakuntaan, missä häntä ovat vastaanottamassa Ms. Quill ja Elias Quire. Huikean matkansa edetessä Billie saa selville perhesalaisuuksia, jotka voivat mullistaa noitien taikamaailman ikiajoiksi. Puhuttu suomeksi!"
+   },
+   "tr": ""
+  },
   "black magic rites": {
    "id": 59912,
    "r": 0,
@@ -1160,6 +1168,14 @@
    "ts": [
     "fi"
    ]
+  },
+  "dry leaf": {
+   "r": 0,
+   "s": {
+    "en": "“A rebuke to the excessive sharpness and sterility of high-definition video and the maximalism of so much contemporary cinema.” Imogen Sara Smith, Film Comment",
+    "fi": "Keski-ikäinen mies, Irakli, lähtee etsimään kadonnutta valokuvaajatytärtään Lisaa näkymättömän ystävän kanssa. Heidän ainoa johtolankansa on kierrellä syrjäseutujen jalkapallokenttiä, joita tytär on kuvannut."
+   },
+   "tr": ""
   },
   "dua": {
    "id": 1472825,
@@ -2703,6 +2719,19 @@
    "s": {
     "en": "Assigned his toughest mission yet, the Cat must cheer up siblings Gabby and Sebastian as they adjust to life in a new town. Known for pushing boundaries, this agent of chaos must prove himself or risk losing his magical hat forever.",
     "fi": "Luvassa on aivan uudenlainen Katti Hatussa! Dr. Seussin vinkeiden perinteiden tyyliin temmeltävä Katti saapuu valkokankaalle ensi kertaa animaatioversiona uudessa huikeassa seikkailussa, jossa on sielukasta särmää, kun Katin koiruudet, taikuus ja vauhti pääsevät valloilleen. Hattukatti—alkuperäisäänenä Bill Hader—on mestari tuomaan iloa lapsille hilpeällä, omintakeisella ja anarkistisella meiningillään kiidättäen heidät ja yleisön mielikuvitukselliselle matkalle halki ennennäkemättömän maailman. I.I.I.I. (Imaginaation ja inspiraation instituution instituutti Oy) heittää sankarimme eteen toistaiseksi hankalimman haasteen: hän saa tehtäväkseen piristää sisaruksia nimeltä Gabby ja Sebastian, jotka eivät oikein tahdo sopeutua uuteen kotikaupunkiinsa. Katti, tuo ylilyönneistään tunnettu kaaoksen kätyri, saa puolestaan kenties viimeisen tilaisuuden näyttää kyntensä… tai hän on vaarassa menettää taikahattunsa! Haderin lisäksi näyttelijäkaartissa mukana ovat Xochitl Gomez, Matt Berry, Quinta Brunson ja Paula Pell sekä Tiago Martinez, Giancarlo Esposito, America Ferrera, Bowen Yang ja Tituss Burgess."
+   },
+   "tr": "https://www.youtube.com/watch?v=tkZpcypT8Z4",
+   "ts": [
+    "en"
+   ]
+  },
+  "katti hatussa suomeksi puhuttu": {
+   "id": 1117898,
+   "img": "data/posters/0a4381fbfe4b427a.jpg",
+   "r": 0,
+   "s": {
+    "en": "Assigned his toughest mission yet, the Cat must cheer up siblings Gabby and Sebastian as they adjust to life in a new town. Known for pushing boundaries, this agent of chaos must prove himself or risk losing his magical hat forever.",
+    "fi": ""
    },
    "tr": "https://www.youtube.com/watch?v=tkZpcypT8Z4",
    "ts": [
@@ -4405,7 +4434,6 @@
   },
   "laula minulle arja": {
    "id": 1713056,
-   "img": "data/posters/614615622fcfd9d8.jpg",
    "r": 0,
    "s": {
     "en": "",
@@ -6494,7 +6522,6 @@
     "isohannu",
     "kino123",
     "kinohirvi",
-    "kinojuha",
     "kinolumo",
     "kinopiispanristi",
     "kinopirtti",
@@ -6503,7 +6530,6 @@
     "kuvatahti",
     "laitilankino",
     "leffabuumi",
-    "lieksankino",
     "pajakkakino",
     "savonkinot",
     "star",
@@ -6850,7 +6876,8 @@
    "krs": [
     "biorexkokkola",
     "kinokilta",
-    "kinokulma"
+    "kinokulma",
+    "kinomarilyn"
    ],
    "r": 0,
    "s": {
