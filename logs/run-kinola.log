@@ -7,7 +7,7 @@
 [kinokilta] strand prefix split off 4 showtimes
 [kinokilta] Kino Kilta: 68 showtimes, 31 dates
 [kinokilta] synopses merged: 0
-[kinolaika] 51 screening(s) listed, 21 film page(s) read
+[kinolaika] 50 screening(s) listed, 21 film page(s) read
 [kinolaika] omitted 0 confirmed non-film(s) by evidence-backed exclusion over 0 screening(s), and 6 unresolved over 6
 [kinolaika] unresolved: Antti Autio, Dave Lindholm & Pepe Ahlqvist: WALKIN' BLUES -kiertue, Garden Folly, Kino Iglu: Moskiittorannikko, Knipi - Sivellinvetoja, Livemusavisa
 [kinolaika] override a-fox-under-a-pink-moon: evidence-unavailable
@@ -15,8 +15,8 @@
 [kinolaika] override naza: evidence-unavailable
 [kinolaika] override pikku-kummitus-lapanen-keppostelee: evidence-unavailable
 [kinolaika] override two-seasons-two-strangers: active
-[kinolaika] Kino Laika: 45 showtimes, 15 dates
-[kinolaika] Kino Laika: 45 showtimes, 15 dates
+[kinolaika] Kino Laika: 44 showtimes, 15 dates
+[kinolaika] Kino Laika: 44 showtimes, 15 dates
 [kinolaika] synopses merged: 0
 [kinolaika] synopses skipped as screening notes: 1
 [kinomyyri] 29 screening(s) listed, 21 film page(s) read
@@ -38,8 +38,8 @@
 [kinokonepaja] Kino Konepaja: 64 showtimes, 29 dates
 [kinokonepaja] Kino Konepaja: 64 showtimes, 29 dates
 [kinokonepaja] synopses merged: 0
-[run] http: 52 revalidated (304), 69 full, 23 not stored (origin said no-store), 2 cache entries written
+[run] http: 52 revalidated (304), 69 full, 23 not stored (origin said no-store), 1 cache entries written
 [run] hosts: 4 attempted -- kinokonepaja.fi, kinomyyri.fi, www.kinokilta.fi, www.kinolaika.fi
-[run] kinola: 4 venues, 202 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
-[run] timing: 4 site(s), 226.3s of fetching added up across workers that overlap, longest site 85.5s, longest queue wait 105.0s, 85.5s wall from this module's first fetch starting to its last ending
+[run] kinola: 4 venues, 201 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
+[run] timing: 4 site(s), 245.5s of fetching added up across workers that overlap, longest site 90.8s, longest queue wait 116.3s, 90.8s wall from this module's first fetch starting to its last ending
 exit=0

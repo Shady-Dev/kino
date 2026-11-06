@@ -4156,13 +4156,14 @@
   },
   "la bola negra": {
    "id": 1422041,
-   "img": "data/posters/08d7f18267b447dd.jpg",
+   "img": "data/posters/a916af8ace1a0515.jpg",
    "kr": "K-16",
    "krs": [
     "biorex",
+    "kinoaurora",
     "tapiola"
    ],
-   "r": 8.0,
+   "r": 8.1,
    "s": {
     "en": "The intertwined lives of three men in three different eras, three lives intimately linked by sexuality and desire, pain, and legacy.",
     "fi": "Cannesin pääkilpasarjan parhaan ohjauksen palkinnon voittanut La bola negra on kansainvälisen lehdistön mukaan ”vaikuttava”, ”tyrmäävä”, ”kautta aikojen tärkein historiallinen queer-kuvaelma”. Elokuvan taustalla on Espanjan sisällissodassa teloitetun runoilijan Federico García Lorcan hahmo ja hänen keskeneräiseksi jäänyt romaaninsa. Tarinassa kuvataan kolmen homoseksuaalin kohtaloita vuosina 1932, 1937 ja 2017. Yhteen nivoutuvat sota, kielletty halu, suru, syyllisyys ja vaietut perhesalaisuudet. Javier Calvon ja Javier Ambrossin ohjaaman elokuvan rooleissa vakuuttavat sekä nuoret gay-näyttelijät (mm. laulaja Guitarricadelafuente) että veteraanitähdet Lola Dueñas, Glenn Close ja Pénelope Cruz."
@@ -5267,16 +5268,12 @@
   },
   "myrskyn ikkuna": {
    "id": 1318413,
-   "img": "data/posters/fd7538dd607d13aa.jpg",
-   "r": 7.7,
+   "r": 0,
    "s": {
-    "en": "In the tense 72 hours before D-Day, and the fate of the free world hanging in the balance, General Dwight D. Eisenhower and Captain James Stagg face an impossible choice—launch the largest and most dangerous seaborne invasion in history or risk losing the war altogether.",
+    "en": "",
     "fi": "Tositapahtumiin perustuva Myrskyn ikkuna kuvaa jännittäviä 72 tuntia ennen h-hetkeä, jolloin vapaan maailman kohtalo on vaakalaudalla. Kenraali Dwight D. Eisenhower (Brendan Fraser) ja kapteeni James Stagg (Andrew Scott) joutuvat mahdottoman valinnan eteen: käynnistääkö historian suurin ja vaarallisin mereltä tehtävä maihinnousu Normandiaan – vai riskeerata koko sodan häviäminen."
    },
-   "tr": "https://www.youtube.com/watch?v=jjdOSchcobk",
-   "ts": [
-    "en"
-   ]
+   "tr": ""
   },
   "myrskyn ikkuna ennakkonäytös": {
    "r": 0,
@@ -5784,17 +5781,13 @@
   },
   "one night only": {
    "id": 1433367,
-   "img": "data/posters/52cffec04262ec09.jpg",
-   "r": 6.5,
+   "r": 0,
    "s": {
-    "en": "Two love-starved strangers crash into each other on the one night of the year when single people are allowed to have sex.",
+    "en": "",
     "fi": "Mitä jos yksi sekava ilta onkin parasta, mitä sinulle on koskaan tapahtunut? Will Gluck, elokuvien Anyone But You ja Easy A käsikirjoittaja ja ohjaaja, tuo tänä kesänä valkokankaalle romanttisen komedian juhlaa hurmaavassa elokuvassa, joka kertoo rakkauden etsimisestä vuoden epäromanttisimpana iltana. Oscar-ehdokas Monica Barbaro (A Complete Unknown, Top Gun: Maverick) ja BAFTA-ehdokas Callum Turner (Masters of the Air, Fantastic Beasts -elokuvat) ovat rakkaudennälkäiset Allie ja Owen, jotka törmäävät toisiinsa jossain määrin kuvitteellisessa New Yorkissa vuoden ainoana iltana, jona seksin harrastaminen on sallittua sinkuille. Hiljattain jätetty Owen ja toivoton romantikko Allie ovat ehkä kaupungin ainoat sinkut, jotka etsivät muutakin kuin pikaista kohtaamista. Kumpikin tuntee tapaamisessa kipinää, mutta harha-askeleet ja sivupolut mutkistavat iltaa ja pitävät heitä erillään. Lähentyessään ja etääntyessään toisistaan eri puolilla kaupunkia he saattavat huomata, että toiveiden täyttymys on lähempänä kuin luulisikaan.",
     "sv": "Den nyligen dumpade Owen och den förhoppningsfulla romantikern Allie kan vara de enda två singlarna i stan som letar efter något mer än bara ett kort möte. Båda känner en gnista när de träffas, men en serie felsteg och sidouppdrag komplicerar kvällen, och håller dem isär. Medan de skyndar både emot och ifrån varandra över hela stan, är det möjligt att de upptäcker att det de mest längtar efter finns närmare än de tror."
    },
-   "tr": "https://www.youtube.com/watch?v=lDsAVq9lo9g",
-   "ts": [
-    "en"
-   ]
+   "tr": ""
   },
   "only lovers left alive": {
    "id": 152603,
@@ -6945,6 +6938,7 @@
    "kr": "K-16",
    "krs": [
     "biorexkokkola",
+    "kinoaurora",
     "kinokilta",
     "kinokulma",
     "kinolaika",
@@ -10024,7 +10018,6 @@
    "img": "data/posters/75dd5ef9272601ad.jpg",
    "kr": "K-7",
    "krs": [
-    "kinoiiris",
     "niagara"
    ],
    "r": 7.0,
@@ -10039,13 +10032,12 @@
   },
   "vi är bäst me ollaan parhaita": {
    "id": 191294,
-   "img": "data/posters/75dd5ef9272601ad.jpg",
-   "r": 7.0,
+   "r": 0,
    "s": {
     "en": "",
     "fi": "Tukholma vuonna 1982. 13-vuotiaat Bobo, Klara ja Hedvig eivät oikein sopeudu koulutovereidensa joukkoon. Perhesuhteiden ja alkavan teini-iän kiemurat aiheuttavat lisäksi omat kuprunsa kasvukipuihin. Eräänä iltana nuorisotalolla epäreilusta kohtelusta sisuunnuttuaan nuoret päättävät perustaa punkbändin, eikä soittotaidon tai instrumenttien puute ole este. Eikä punk todellakaan ole kuollut! Me ollaan parhaita! on sympaattisen anarkistinen tarina oman äänen löytämisestä ja rohkeudesta kulkea omaa polkuaan. Huippuohjaaja Moodyssonin käsissä syntynyt lämpimän humoristinen ja ajaton musiikkielokuva rokkaa tiensä niin nuoren kuin vanhemman katsojan sydämeen."
    },
-   "tr": "https://www.youtube.com/watch?v=TfPytPjV1xc"
+   "tr": ""
   },
   "vi är orchestre de paris me olemme pariisin orkesteri": {
    "r": 0,
