@@ -1122,8 +1122,7 @@
    "krs": [
     "biorex",
     "gilda",
-    "kinovirta",
-    "orion"
+    "kinovirta"
    ],
    "r": 7.5,
    "s": {
@@ -2846,13 +2845,12 @@
   },
   "kaunarikuume": {
    "id": 1648660,
-   "img": "data/posters/dd4838ffb804cc50.jpg",
    "r": 0,
    "s": {
     "en": "In 1990s Finland, people watched The Bold and the Beautiful and the news side by side on television. One offered an escape from reality, while the other presented a bleak picture of the recession gripping society. When the clock struck five on a weekday afternoon, more than a million Finns would gather around their screens to follow the relationship dramas of an American fashion dynasty. At the same time as people queued for bread and took to the streets to protest, unprecedented crowds turned out to see the American stars brought to Finland – the legendary Ridge and Eric. In Kaunarikuume (Soap Fever), director Inka Achté dives into this captivating fan phenomenon. As she gets to know the show’s devoted fans, she is forced to confront her own painful memories of the recession years, but also discovers what may be the Finns’ greatest superpower.",
     "fi": "Ysäri-Suomessa telkkarista seurattiin rinta rinnan Kauniita ja rohkeita sekä uutisia. Toinen tarjosi pakoa todellisuudesta, toinen masentavaa lamakuvastoa ympäröivästä yhteiskunnasta. Kun kello löi arki-iltapäivänä 17, jopa yli miljoona suomalaista kerääntyi amerikkalaisen muotitalon suhdesotkujen äärelle. Samaan aikaan kun jonotettiin leipää ja keräännyttiin osoittamaan mieltä, muodostui ennennäkemättömät yleisömassat katsomaan maahamme lennätettyjä Ameriikan ihmeitä, Ridgeä ja Ericiä. Ohjaaja Inka Achté sukeltaa Kaunarikuumeessa tarkastelemaan tätä valloittavaa fani-ilmiötä. Tutustuessaan sarjan faneihin hän joutuu kohtaamaan oman kipeän lama-ajan menneisyytensä, mutta oppii myös, mikä on suomalaisten supervoima."
    },
-   "tr": "https://www.youtube.com/watch?v=zL4AAcxBX_0"
+   "tr": ""
   },
   "ke kino la grazia": {
    "r": 0,
@@ -6599,7 +6597,6 @@
     "kinopirtti",
     "kinotour",
     "kotkanleffat",
-    "kuusamotalo",
     "kuvatahti",
     "laitilankino",
     "leffabuumi",
@@ -10189,13 +10186,14 @@
     "gilda",
     "ihmekompleksi",
     "joutsankino",
+    "kinoaurora",
     "kinokilta",
     "kinokonepaja",
     "kinomarilyn",
     "korjaamo",
     "tapiola"
    ],
-   "r": 7.5,
+   "r": 7.7,
    "s": {
     "en": "On the outskirts of a village by the sea, lives a Fisherwoman; smelly, single and perpetually ridiculed. One day, fed up with her stuffy, small-minded neighbours, she commissions herself a husband to be made from wicker. In an otherwise conservative town, this unconventional romance sparks outrage, jealousy and chaos.",
     "fi": "Omaperäinen ja sykähdyttävä elokuva Wicker – intohimosta punottu on Oscar-voittaja Olivia Colmanin ja Alexander Skarsgårdin tähdittämä komedia avioliitosta ja yhteiskunnan normien absurdiudesta. Naimaton kalastajanainen (Olivia Colman) saa tarpeekseen kyläläisten ahdasmielisyydestä ja päättää tilata paikalliselta korinpunojalta (Peter Dinklage) itselleen aviomiehen – pajusta. Pajusta punotussa miehessä (Alexander Skarsgård) on aviomiesainesta enemmän kuin nainen olisi osannut odottaa. Yllättävä puoliso herättää naisessa uudenlaisia tunteita ja käynnistää ihastuksen, kateuden, ja mullistusten aallon, joka uhkaa järkyttää koko kyläyhteisöä. Teräväkielinen, humoristinen ja normeja uskaliaasti rikkova komedia haastaa pohtimaan rakkautta ja avioliittoa täysin uudesta näkökulmasta. Elokuvan maailmanensi-ilta oli Sundance-elokuvajuhlilla vuonna 2026."
