@@ -6,8 +6,7 @@
 [kinokilta] Kino Kilta: 68 showtimes, 31 dates
 [kinokilta] strand prefix split off 4 showtimes
 [kinokilta] Kino Kilta: 68 showtimes, 31 dates
-[kinokilta] synopses merged: 6
-[kinokilta] synopses by language: en 6
+[kinokilta] synopses merged: 0
 [kinolaika] 51 screening(s) listed, 21 film page(s) read
 [kinolaika] omitted 0 confirmed non-film(s) by evidence-backed exclusion over 0 screening(s), and 6 unresolved over 6
 [kinolaika] unresolved: Antti Autio, Dave Lindholm & Pepe Ahlqvist: WALKIN' BLUES -kiertue, Garden Folly, Kino Iglu: Moskiittorannikko, Knipi - Sivellinvetoja, Livemusavisa
@@ -39,8 +38,8 @@
 [kinokonepaja] Kino Konepaja: 64 showtimes, 29 dates
 [kinokonepaja] Kino Konepaja: 64 showtimes, 29 dates
 [kinokonepaja] synopses merged: 0
-[run] http: 0 revalidated (304), 121 full, 23 not stored (origin said no-store), 53 cache entries written
+[run] http: 52 revalidated (304), 69 full, 23 not stored (origin said no-store), 2 cache entries written
 [run] hosts: 4 attempted -- kinokonepaja.fi, kinomyyri.fi, www.kinokilta.fi, www.kinolaika.fi
 [run] kinola: 4 venues, 202 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
-[run] timing: 4 site(s), 249.1s of fetching added up across workers that overlap, longest site 104.1s, longest queue wait 100.5s, 104.1s wall from this module's first fetch starting to its last ending
+[run] timing: 4 site(s), 235.3s of fetching added up across workers that overlap, longest site 91.6s, longest queue wait 109.6s, 91.6s wall from this module's first fetch starting to its last ending
 exit=0
