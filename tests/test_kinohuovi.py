@@ -185,6 +185,25 @@ class CardTest(unittest.TestCase):
             ("LAPIN SOTA", "2026-11-02T15:00:00+02:00", "15€"),
         ])
 
+    def test_dates_joined_by_ja_share_the_weekdays_and_the_time_after_them(self):
+        """Kino-Huovi's card of 2026-11-05. 13.11.2026 is a Friday, 15.11. a Sunday."""
+        shows, report = self.rows(card(
+            title="EBENEZER : SAITURIN JOULU",
+            desc="EBENEZER : SAITURIN JOULU 13.11. ja 15.11. PE ja SU klo 18.00 "
+                 "Kestoaika n. 1t 55min. Liput 12&euro;."), today=datetime.date(2026, 11, 6))
+        self.assertEqual(report["mismatch"], 0)
+        self.assertEqual([(s["start"], s["len"], s["price"]) for s in shows], [
+            ("2026-11-13T18:00:00+02:00", "115", "12€"),
+            ("2026-11-15T18:00:00+02:00", "115", "12€")])
+
+    def test_joined_dates_whose_weekdays_disagree_publish_nothing(self):
+        for desc in ("X 13.11. ja 15.11. PE ja LA klo 18.00 Liput 12&euro;.",
+                     "X 13.11. ja 15.11. PE klo 18.00 Liput 12&euro;.",
+                     "X 13.-14.11. ja 15.11. PE, LA ja SU klo 18.00 Liput 12&euro;."):
+            with self.subTest(desc=desc):
+                shows, report = self.rows(card(desc=desc), today=datetime.date(2026, 11, 6))
+                self.assertEqual(shows, [])
+
     def test_a_clause_whose_weekday_contradicts_its_date_leaves_out_the_whole_card(self):
         """2.11.2026 is a Monday."""
         shows, report = self.rows(card(

@@ -19,7 +19,9 @@ What shapes the parser, measured on the live page 2026-09-21:
   weekdays and the expanded dates agree one for one; a card where they disagree is counted
   and left out rather than published on a guess. A card that names several dates
   (`1.11. SU klo 18.00 2.11. MA klo 15.00`, 2026-10-29) is split at each date, and each
-  date gets only the weekdays and times written after it.
+  date gets only the weekdays and times written after it. Dates joined only by `ja` or a
+  comma (`13.11. ja 15.11. PE ja SU klo 18.00`, 2026-11-05) are one clause, read like a
+  range: one weekday per date.
 - **No date carries a year.** `common.resolve_year` places each one from the weekday, so a
   page left up past its week selects a year the window then refuses.
 - **One `klo` applies to every date of its clause.** A clause with as many times as dates
@@ -136,17 +138,21 @@ def dates_of(body, today):
     otherwise, so the caller can count the card rather than guess at it.
     """
     weekdays = [w.lower() for w in WEEKDAY_RE.findall(body)]
-    m = DATE_RE.search(body)
-    if not m:
+    found = list(DATE_RE.finditer(body))
+    if not found:
         return [], "undated"
-    first, last, month = int(m.group(1)), int(m.group(2) or m.group(1)), int(m.group(3))
-    if not (1 <= month <= 12) or not (1 <= first <= 31) or last < first:
+    if len(found) > 1 and any(m.group(2) for m in found):
         return [], "unreadable"
-    days = list(range(first, last + 1))
+    days = []
+    for m in found:
+        first, last, month = int(m.group(1)), int(m.group(2) or m.group(1)), int(m.group(3))
+        if not (1 <= month <= 12) or not (1 <= first <= 31) or last < first:
+            return [], "unreadable"
+        days += [(day, month) for day in range(first, last + 1)]
     if weekdays and len(weekdays) != len(days):
         return [], "mismatch"
     out = []
-    for i, day in enumerate(days):
+    for i, (day, month) in enumerate(days):
         wd = weekday_index(weekdays[i]) if weekdays else None
         year = resolve_year(day, month, today, wd, WINDOW)
         if year is None:
@@ -158,7 +164,10 @@ def dates_of(body, today):
 def screenings_of(body, blanked, today):
     """The card text, and the same text with its times blanked in place ->
     ([(date, (hour, minute)), ...], reason)."""
-    starts = [m.start() for m in DATE_RE.finditer(blanked)]
+    found = list(DATE_RE.finditer(blanked))
+    # A date followed by nothing but `ja` or a comma before the next one shares its clause.
+    starts = [m.start() for i, m in enumerate(found)
+              if not i or not TIME_JOIN_RE.fullmatch(blanked[found[i - 1].end():m.start()])]
     if len(starts) > 1:
         if TIME_RE.search(body[:starts[0]]) or WEEKDAY_RE.search(blanked[:starts[0]]):
             return [], "mismatch"
