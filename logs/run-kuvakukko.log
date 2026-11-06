@@ -8,5 +8,5 @@
 [run] http: 0 revalidated (304), 11 full, 0 not stored (origin said no-store), 11 cache entries written
 [run] hosts: 1 attempted -- www.kuvakukko.fi
 [run] kuvakukko: 2 venues, 34 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
-[run] timing: 1 site(s), 30.1s of fetching added up across workers that overlap, longest site 30.1s, longest queue wait 92.6s, 30.1s wall from this module's first fetch starting to its last ending
+[run] timing: 1 site(s), 26.3s of fetching added up across workers that overlap, longest site 26.3s, longest queue wait 89.4s, 26.3s wall from this module's first fetch starting to its last ending
 exit=0

@@ -7,7 +7,7 @@
 [kinokilta] strand prefix split off 4 showtimes
 [kinokilta] Kino Kilta: 66 showtimes, 31 dates
 [kinokilta] synopses merged: 0
-[kinolaika] 48 screening(s) listed, 21 film page(s) read
+[kinolaika] 47 screening(s) listed, 21 film page(s) read
 [kinolaika] omitted 0 confirmed non-film(s) by evidence-backed exclusion over 0 screening(s), and 6 unresolved over 6
 [kinolaika] unresolved: Antti Autio, Dave Lindholm & Pepe Ahlqvist: WALKIN' BLUES -kiertue, Garden Folly, Kino Iglu: Moskiittorannikko, Knipi - Sivellinvetoja, Livemusavisa
 [kinolaika] override a-fox-under-a-pink-moon: evidence-unavailable
@@ -15,31 +15,31 @@
 [kinolaika] override naza: evidence-unavailable
 [kinolaika] override pikku-kummitus-lapanen-keppostelee: evidence-unavailable
 [kinolaika] override two-seasons-two-strangers: active
-[kinolaika] Kino Laika: 42 showtimes, 15 dates
-[kinolaika] Kino Laika: 42 showtimes, 15 dates
+[kinolaika] Kino Laika: 41 showtimes, 14 dates
+[kinolaika] Kino Laika: 41 showtimes, 14 dates
 [kinolaika] synopses merged: 0
 [kinolaika] synopses skipped as screening notes: 1
-[kinomyyri] 27 screening(s) listed, 21 film page(s) read
+[kinomyyri] 26 screening(s) listed, 20 film page(s) read
 [kinomyyri] omitted 0 confirmed non-film(s) by evidence-backed exclusion over 0 screening(s), and 3 unresolved over 4
 [kinomyyri] unresolved: Boléro, Minä ja Riikka Purra, Scene
 [kinomyyri] override kojootti-vs-acme-dub: evidence-unavailable
 [kinomyyri] override must-pori-nakku: evidence-unavailable
 [kinomyyri] 4 film(s) with a language name not read, that part left blank: Berliinin sankari (saksan); Lapin sota (saami); Naza (heprealainen); Nina Roza (ranskan, bulgarialainen)
-[kinomyyri] Kino Myyri: 23 showtimes, 11 dates
-[kinomyyri] Kino Myyri: 23 showtimes, 11 dates
+[kinomyyri] Kino Myyri: 22 showtimes, 10 dates
+[kinomyyri] Kino Myyri: 22 showtimes, 10 dates
 [kinomyyri] synopses merged: 0
-[kinokonepaja] 65 screening(s) listed, 22 film page(s) read
+[kinokonepaja] 64 screening(s) listed, 21 film page(s) read
 [kinokonepaja] omitted 0 confirmed non-film(s) by evidence-backed exclusion over 0 screening(s), and 3 unresolved over 3
 [kinokonepaja] unresolved: Cold November, Reel Rock Film Tour 20, The BritRock Film Tour 2026
 [kinokonepaja] override edward-scissorhands: evidence-unavailable
 [kinokonepaja] override gremlins: evidence-unavailable
 [kinokonepaja] override nightmare-on-elm-street: evidence-unavailable
 [kinokonepaja] 4 film(s) with a language name not read, that part left blank: A shelter Among the Clouds (albania); Dua (albania, serbia); Helena Ranta – Sodan viimeinen sana (serbia, albania); Shame and Money (albania)
-[kinokonepaja] Kino Konepaja: 62 showtimes, 29 dates
-[kinokonepaja] Kino Konepaja: 62 showtimes, 29 dates
+[kinokonepaja] Kino Konepaja: 61 showtimes, 28 dates
+[kinokonepaja] Kino Konepaja: 61 showtimes, 28 dates
 [kinokonepaja] synopses merged: 0
-[run] http: 50 revalidated (304), 68 full, 23 not stored (origin said no-store), 1 cache entries written
+[run] http: 50 revalidated (304), 66 full, 22 not stored (origin said no-store), 1 cache entries written
 [run] hosts: 4 attempted -- kinokonepaja.fi, kinomyyri.fi, www.kinokilta.fi, www.kinolaika.fi
-[run] kinola: 4 venues, 193 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
-[run] timing: 4 site(s), 237.6s of fetching added up across workers that overlap, longest site 88.6s, longest queue wait 111.7s, 88.6s wall from this module's first fetch starting to its last ending
+[run] kinola: 4 venues, 190 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
+[run] timing: 4 site(s), 211.8s of fetching added up across workers that overlap, longest site 81.0s, longest queue wait 102.2s, 81.0s wall from this module's first fetch starting to its last ending
 exit=0
