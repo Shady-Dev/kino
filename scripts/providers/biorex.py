@@ -100,8 +100,9 @@ def _split_formats(fmts):
     return fmts, audio, subs
 
 
-# Japan's country code for Japanese: Two Seasons, Two Strangers came as JP on 2026-10-13.
-CODE = {"JP": "JA"}
+# Country codes for languages: Two Seasons, Two Strangers came as JP on 2026-10-13, and
+# Tripla's BTS live viewing as KR on 2026-11-06.
+CODE = {"JP": "JA", "KR": "KO"}
 
 
 def _lang_str(audio, subs):

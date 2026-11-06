@@ -137,6 +137,11 @@ class ParseTest(unittest.TestCase):
                               ["JP", "FI&SV"]), TRIPLA)[0]
         self.assertEqual(s["lang"], "JA-A, FI-S, SV-S")
 
+    def test_kr_is_read_as_korean(self):
+        s = B.parse(rich_item(5, "2026-11-07T14:00:00+02:00", TRIPLA["name"], "Sali 1",
+                              ["KR"]), TRIPLA)[0]
+        self.assertEqual(s["lang"], "KO-A")
+
     def test_a_door_limit_in_the_room_is_the_screenings_age_and_leaves_the_room(self):
         s = B.parse(rich_item(2, "2026-09-26T21:00:00+03:00", SEINAJOKI["name"],
                               "2 REX (K-18)", ["FI"]), SEINAJOKI)[0]
