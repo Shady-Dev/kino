@@ -2,13 +2,12 @@
  "films": {
   "100 litraa sahtia": {
    "id": 1204016,
-   "img": "data/posters/8d6bc7b6c6db1416.jpg",
-   "r": 6.9,
+   "r": 0,
    "s": {
     "en": "",
     "fi": "Tekijätorstaissa TEEMU NIKKI: \nklo 17:15 Sokea Mies Joka Ei Halunnut Nähdä Titanicia\nklo 19:00-20:00 Keskustelu: haastattelussa Nikki ja ystävä\nklo 20:15 Sata Litraa Sahtia\n\nOstamalla lipun jompaan kumpaan näytökseen, pääset mukaan keskusteluun. \nOstamalla Tekijätorstai Double Feature lipun, pääset mukaan molempiin elokuviin ja keskusteluun. \n\n100 litraa sahtia on maailman sahtipääkaupunki Sysmään sijoittuva komedia, jossa siskokset Pirkko (Elina Knihtilä) ja Taina (Pirjo Lonka) ovat jatkaneet sukunsa pitkää perinnettä sahdin valmistajina. Kylällä jokainen haluaa osansa maineikkaasta juomasta, vaikka maksukykyä ei aina löytyisikään. Yllättäen kotikonnuille tekee paluun sisarustrion kolmas - Päivi (Ria Kataja), ja tilaa siskoiltaan häihinsä ei enempää eikä vähempää kuin sata litraa sahtia. Pirkko ja Taina panevat tuumasta toimeen täydellisen satsin valmistamiseksi. Pelissä on sekä perhesuhteet että maine. Prosessiin kuuluva maistelu kuitenkin venähtää, ja Sysmän kulta hulahtaa kokonaisuudessaan itse panijoiden sekä kyläläisten kitusiin. Pian häihin on enää alle kaksi vuorokautta aikaa, ja siskosten on keksittävä keino miten toimittaa juhliin luvatut sahdit. Alkaa taistelu aikaa vastaan, ja tilanteen korjaamiseksi käytetään kaikki mahdolliset keinot."
    },
-   "tr": "https://www.youtube.com/watch?v=jRk52FiuGds"
+   "tr": ""
   },
   "12 dicembre": {
    "id": 48848,
@@ -107,6 +106,16 @@
     "fi": "Truman Capoten romaaniin perustuva ja Blake Edwardsin ohjaama romanttinen komedia Aamiainen Tiffanylla seuraa viehättävää ja omalaatuista Holly Golightlya (Audrey Hepburn), joka etsii New Yorkista unelmiensa miljonääriä aviomiehekseen. Hänen elämänsä mullistuu, kun taloon muuttaa nuori, varakkaan naisen elättämä kirjailija Paul Varjak (George Peppard). Aamiainen Tiffanylla muistetaan erityisesti Audrey Hepburnin tyylistä, nimikkokappaleesta ”Moon River” – ja tietysti elokuvahistorian ikonisimmasta kissahahmosta. Oranssin kisun esittäjäksi mainittu Orangey voitti elegantista roolisuorituksestaan parhaan eläinnäyttelijän PATSY-palkinnon. Todellisuudessa kuvauksissa käytettiin ainakin yhdeksää eri kissaa."
    },
    "tr": ""
+  },
+  "affection": {
+   "id": 1339210,
+   "img": "data/posters/fbf8eb7ad125f5fc.jpg",
+   "r": 5.5,
+   "s": {
+    "en": "Psykologista kauhutrilleriä tieteisteemoihin yhdistävä Affection käynnistyy kuin sähköshokilla: nainen havahtuu maantieltä, katsoo tyhjin silmin ympärilleen ja jää kohtikaahaavan auton lanaamaksi. Yliajon uhri (Jessica Rothe) herää kotoaan muistinsa menettäneenä. Nainen ei tunnista miestään ( Joseph Cross , Big Little Lies, Mank) tai pientä tytärtään ( Julianna Layne ). Kun mies kutsuu häntä Ellieksi, seuraa tempaisu hiilihangolla päin näköä. Nainen muistaa olevansa Sarah, jolla on täysin toisenlainen elämä. Rauhoituttuaan hän on valmis kuulemaan diagnoosinsa: muistot palautuvat ajan myötä, ja lääkäreiden sijaan toipuminen vaatii täydellistä eristäytymistä. Tunne lukittautumisesta väärään elämään ei kuitenkaan jätä naista rauhaan. Affectionin maltillisella liekillä tekeytyvä alkupuoli muistuttaa Andy Mittonin The Witch in the Window’n (2018) mestarillisesta tunnelmoinnista. Sitten vainoharhakuvaus tekee tilaa tieteiskäänteille, joita viritetään lopulta myös kehokauhun mausteilla. Käsityöläistehosteisiin nojaavissa scifi-aineksissa on häivähdys David Cronenbergiä, kokonaisuudessa tähän päivään tuodun The Twilight Zone -mysteerin viehkoa tuntua. Happy Death Day -elokuvilla tähtiluokkaan ponnistanut Jessica Rothe on esikoisohjaaja BT Mezan tärkein voimavara. Nainen ottaa pääosan laajan tunnerekisterin ja fyysiset vaatimukset suvereenisti haltuunsa. Kun ruuvit alkavat kiristyä ja kulissit murentua, vatsanpohjan kouristukset todella tuntuvat katsomossa asti. ”4/5 —A unique and memorable debut bolstered by strong performances and unexpected twists” – David Gelmini / Dread Central ”4/5 — The blend of horror, science fiction and drama is balanced neatly” – Darren Gaskell / Love Horror ”[Jessica] Rothe is an amazing physical performer” – Kim Newman / The Kim Newman Web Site ”Great use of practical effects in an engaging final act” – Aidan Kelley / Collider ”Affection is essentially a 90-minute showcase for why [Jessica] Rothe belongs in the upper echelon of genre royalty—and she absolutely delivers. Ellie (Rothe) wakes up surrounded by strangers claiming to be her husband (Joseph Cross) and young daughter (Julianna Layne). The face in the mirror? Not hers. The memories? Nonexistent. Her husband explains it’s all fallout from a terrible accident, but Ellie’s instincts are screaming that something’s fundamentally wrong. — The film plays its cards close for two-thirds of its runtime, feeling like those scrappy, genre-bending indie horrors from the early 2000s — Then it pivots into technology-meets-body-horror territory” – Staci Layne Wilson / Women in Horror",
+    "fi": ""
+   },
+   "tr": "https://www.youtube.com/watch?v=_3IZzygr-HA"
   },
   "affection night visions": {
    "r": 0,
@@ -563,13 +572,12 @@
   },
   "beau travail": {
    "id": 14626,
-   "img": "data/posters/326524066da4f856.jpg",
-   "r": 7.1,
+   "r": 0,
    "s": {
     "en": "",
     "fi": "Galoup muistelee elämäänsä. Hän johti muukalaislegioonajoukkojaan Djiboutin Tadjouranlahdella. Kun vastikään värvätty Sentain saapui, Galoupissa heräsi kummallinen mustasukkaisuus, joka muuttaisi kummankin elämän. Beau travail vakiinnutti elokuvantekijä Claire Denisin paikan huippujen joukossa. Elokuvaa pidetään yhtenä 90-luvun parhaista elokuvista."
    },
-   "tr": "https://www.youtube.com/watch?v=Hh4HzACZOOQ"
+   "tr": ""
   },
   "beginnings begyndelser": {
    "r": 0,
@@ -902,6 +910,19 @@
    },
    "tr": "https://www.youtube.com/watch?v=f7jlCqdtwdM"
   },
+  "colony": {
+   "id": 1375646,
+   "img": "data/posters/9b11b2efe821fb64.jpg",
+   "r": 8.2,
+   "s": {
+    "en": "Zombie-megahitti Train to Busanin ohjaaja Yeon Sang-ho tiristää infektioaiheesta vielä lisää verta ja adrenaliinia. Colonyn skenaario muistuttaa Dawn of the Deadiä, mutta toimintalataus on moninkertainen. Maailmanensi-iltansa uutuus sai arvokkaimmalla mahdollisella foorumilla, Cannesin festivaalin Midnight-sarjassa. Terrori-isku biotiedekonferenssiin Soulissa pakottaa viranomaiset eristämään pilvenpiirtäjän, kun muurahaisten ja limasienten tapaan yhdyskuntamaisesti käyttäytyvät ”zombiet” valtaavat käytävät. Tilanne pahenee jatkuvasti: tartunnan saaneiden kollektiivinen mieli oppii uutta. Konttaavat ja mainosten kimppuun käyvät raivohullut nousevat pian jaloilleen ja tunnistavat ihmisuhrinsa. Sisällä piilottelevat henkiinjääneet pyrkivät professori Kwonin (Gianna Jun, Kingdom) johdolla torjumaan sieni-ihmisten hyökkäyksiä tieteellisen ajattelun ja kauppakeskuksen myyntiartikkelien avulla. Haasteeksi muodostuu monenluonteisten ihmisten keskinäinen yhteistyö hermopaineen alla. Sienirihmaston tartuttamien pelottavat, spasmiset liikkeet ovat korealaisten huipputanssijoiden taidonnäyte. Sang-hon edellisestä zombieteoksesta Peninsulasta tuttu Koo Kyo-hwan nähdään myös Colonyssa pirullisena antagonistina. ”4/5 — A thrilling and gloriously violent ride from a master of the genre” – Joonatan Itkonen / Region Free ”4/5 — Develops classic tropes, further establishing [director] Yeon as the George A. Romero of today” – David Opie / Empire Magazine ”4/5 — Ceaseless kinetic quality — Hugely entertaining” – Tara Brady / The Irish Times ”Startling creature choreography is next level” – Stephen A. Russell / Time Out ”Michael Jackson’s Thriller video might have done it first but Colony does it better, more scarily and on an epic scale” – Laurence Phelan / The Guardian ”Mashing up the disaster movie, the Z-horror canon, the Borg episodes of Star Trek: The Next Generation and even some design elements from Aliens” – Jessica Kiang / Variety ”[Yeon Sang-ho’s] debut feature, Train to Busan, and its animated prequel, Seoul Station, and live-action sequel, Peninsula, established his reputation as a horror director. Now he’s returned to the genre with Colony, another zombie film but this time one detached from the Busan continuity. — Colony is almost like Resident Evil but stripped of all the excessively complicated mythology and extraneous supernatural elements. Yeon instead concentrates on the basic idea of evil scientists poking at the natural order just to see what happens. — While there are plentiful action sequences, endless suspenseful survival horror, and a lot of biting, Colony is that rare horror movie where the scientific method goes beyond a few pseudo-equations on a white board.” – Richard Whittaker / The Austin Chronicle",
+    "fi": "Soulissa sijaitsevassa pilvenpiirtäjässä järjestetään korkean profiilin bioteknologiafoorumi, johon osallistuu biologiaan erikoistunut professori Kwon Se-jeong. Tilaisuus muuttuu sekunneissa veriseksi painajaiseksi, kun katkeroitunut ja kostonhimoinen tutkija Seo Young-chul laskee ilmaan muokatun homeviruksen. Virus muuttaa tartunnan saaneet ihmiset silmittömän raivokkaiksi, zombimaisiksi olentoiksi. Viranomaiset reagoivat välittömästi eristämällä ja lukitsemalla koko suuren rakennuskompleksin ulkopuolelta estääkseen taudin leviämisen muualle kaupunkiin. Professori Se-jeong huomaa olevansa loukussa ilman pakotietä. Hän päätyy johtamaan pientä selviytyjien ryhmää ja he huomaavat, että tartunnan saaneet eivät ole aivottomia yksilöitä, vaan virus luo heidän välilleen parviälyn. Olennot kommunikoivat ja koordinoivat hyökkäyksiään järjestelmällisesti kuin muurahaisyhdyskunta. Eloonjääneet joutuvat kamppailemaan rakennuksen sisäisen hierarkian murenemista, epätoivoa ja toisiaan vastaan."
+   },
+   "tr": "https://www.youtube.com/watch?v=LW6dpj1uCK8",
+   "ts": [
+    "fi"
+   ]
+  },
   "combat shock": {
    "id": 26558,
    "img": "data/posters/320ea9a935cad0bf.jpg",
@@ -971,6 +992,29 @@
     "fi": "Vuosikymmenten ajan pommien räjäyttämä, dynamiitin murskaama, magneettien runtelema, siirtolohkareiden litistämä, junien tallaama, tunneleiden huijaama, jousien sinkoama, höyryjyrien yliajama, viallisten laitteiden pettämä, benjiköysien kiusaama, rakettien riepottelema, lepakkoasujen selkäänpuukottama, rakettiluistinten paiskoma, yksipyöräisten kumoama, maanjäristyspillereiden tärisyttämä, villiintyneiden kuminauhojen venyttämä ja lounaisten Yhdysvaltojen jokaiselta jyrkänteeltä syösty Kelju K. Kojootti saa viimein tarpeekseen ja päättää iskeä takaisin."
    },
    "tr": ""
+  },
+  "crawlers": {
+   "id": 1202188,
+   "img": "data/posters/0d21ddeb33a3ada4.jpg",
+   "r": 0,
+   "s": {
+    "en": "” Maailman jokaista ihmistä kohden on olemassa kolme miljoonaa hämähäkkiä ”, toteaa Crawlers rehvakkaasti jo alkuteksteissään. Kahdeksanjalkaisten muistutetaan myös olevan meistä jokaisen kotieläimiä, tahdoimme sitä tai emme. Sitten katsoja sysätään vatsanpohjaa tiuhaan kutkuttavalle vuoristorata-ajelulle, jonka vauhti kiihtyy suorastaan pelottavan sulavasti. The Substance -ohjaaja Coralie Fargeatin esikoisen Revengen (2017) pääosassa kyntensä näyttänyt Matilda Lutz on muusikon urasta haaveileva Serena, jonka elämä polkee paikallaan. Kalifornialaisen lääväkerrostalon kiinteistönhoitajaksi jumahtaneen naisen rutiinit nyrjähtävät, kun akateemikkonaapuri tuo tropiikista tappavan tuliaisen. Tartuntatautiviranomaiset määräävät talon asukkaineen paketoitavaksi. Karanteeniin vangituille valkenee pian, ettei tutkijaa suinkaan surmannut virus. Eivätkä kuolleen miehen ihon alle kätkeytyneistä munista kuoriutuneet hämähäkit aio tyytyä vain yhteen ihmisuhriin – vaan lisääntyvät tähtitieteellisellä nopeudella täyttääkseen maan. Stereotyypeillä oivaltavasti leikittelevästä henkilögalleriasta nousee esiin etenkin Serenan paras ystävä, suorapuheinen ammattidomina Lady Lash ( Melina Matthews ). Hänen vermeilleen on myös uudenlaista käyttöä, kun tilanne uhkaa räjähtää käsiin lopullisesti. Crawlers ei yritä keksiä pyörää uudelleen, mutta rullaa eteenpäin pirullisen taitavasti rasvattuna. Tekemisen energiassa on samaa aseistariisuvaa positiivisuutta kuin vaikkapa ensimmäisessä Ready or Notissa. Myös kaikki [Rec]-elokuvat kuvannut Pablo Rosso lataa kuvastoon taitavasti aitoa kauhun tuntua. ”On a purely visceral level, Crawlers is freaking terrifying. It’s ooky, nasty, skin-crawling stuff.” – Chad Collins / Dread Central ”Carefully builds the tension” – Anton Bitel / Projected Figures ”The work of an efficient storyteller — Hugely entertaining” – Rob Simpson / The Geek Show ”4/5 — A punchy script and imaginative visuals” – Bradley Hadcroft / The People’s Movies ”A fiendishly fun flick — Crawlers takes place in a California apartment complex, where a UCLA professor returns from an international trip and dies horrifically in his own kitchen. The cause of death is a large, ulcerating pustule on his shoulder that bursts open, unleashing a slimy torrent of deadly spiders. The arachnids creep into the air ducts, grow to the size of rats and breed like crazy, until the building is infested and has to be quarantined with all the residents still inside.” – William Bibbiani / The Wrap",
+    "fi": ""
+   },
+   "tr": ""
+  },
+  "cruising": {
+   "id": 27958,
+   "img": "data/posters/09d27e7873cdd74c.jpg",
+   "r": 6.6,
+   "s": {
+    "en": "When New York is caught in the grip of a sadistic serial killer who preys on patrons of the city's underground bars, rookie cop Steve Burns infiltrates the gay S&M subculture to try and lure him out of the shadows.",
+    "fi": ""
+   },
+   "tr": "https://www.youtube.com/watch?v=NAiaQ__zlFU",
+   "ts": [
+    "en"
+   ]
   },
   "dances with wolves": {
    "id": 581,
@@ -1604,7 +1648,7 @@
   "fåret shaun och monstret på bondgården": {
    "id": 1477104,
    "img": "data/posters/93eda5fa30b7d70c.jpg",
-   "r": 7.3,
+   "r": 7.4,
    "s": {
     "en": "On Halloween Eve at Mossy Bottom Farm, excitement turns to dismay when the clumsy Farmer ruins the pumpkin patch. Shaun tries fixing it with science experiments, but things go awry when a wild beast appears in the woods.",
     "fi": "",
@@ -1781,10 +1825,6 @@
   "hamnet": {
    "id": 858024,
    "img": "data/posters/84aa45b5d78814bd.jpg",
-   "kr": "K-12",
-   "krs": [
-    "cinemantsala"
-   ],
    "r": 7.7,
    "s": {
     "en": "",
@@ -1813,12 +1853,17 @@
    "tr": ""
   },
   "happy hour": {
+   "id": 346914,
+   "img": "data/posters/27d0952e4e738d07.jpg",
    "r": 0,
    "s": {
-    "en": "",
+    "en": "The middle-aged family man Hans-Christian (HC) left by his wife goes to Ireland for a short break with his old friends Wolfgang and Nic. He should win at Guinness bonfires and fishing trips distance to the chaos at home. HC has to learn to say no and need other women, his friends believe, to get rid of his loser habitus. In the already tense situation, old competition fights, outbursts of anger and self-pity quickly come up. And Nic and Wolfgang seem to have needed the time-out almost as much as HC.",
     "fi": "Neljää Kōben kaupungissa asuvaa 37-vuotiasta ystävätärtä seuraava viisituntinen Happy Hour oli Ryūsuke Hamaguchin ensimmäinen puhdas mestariteos. Kun yksi naisista yllättäen eroaa puolisostaan ja katoaa jäljettömiin, joutuvat muutkin kysymään itseltään, elävätkö halumaansa elämää. Amatöörinäyttelijöistä koostunut pääosanelikko palkittiin Locarnon elokuvajuhlilla."
    },
-   "tr": ""
+   "tr": "",
+   "ts": [
+    "en"
+   ]
   },
   "happy together": {
    "id": 18329,
@@ -2958,7 +3003,6 @@
     "kinopiispanristi",
     "kinopirtti",
     "kinosampo",
-    "kinoset",
     "kinotar",
     "kinotervakoski",
     "kinotoijala",
@@ -3268,13 +3312,12 @@
   },
   "kirjastokino järki ja tunteet 2026": {
    "id": 1503762,
-   "img": "data/posters/056008305739a764.jpg",
-   "r": 7.3,
+   "r": 0,
    "s": {
     "en": "",
     "fi": "Uusi, vastustamaton tulkinta Jane Austenin ikonisesta Järki ja tunteet -teoksesta: hurmaava, nokkela ja syvästi samaistuttava tarina rakkaudesta ja sisaruudesta. Pääosissa loistavat Daisy Edgar-Jones ja Esmé Creed-Miles."
    },
-   "tr": "https://www.youtube.com/watch?v=OFLyW0lxFU0"
+   "tr": ""
   },
   "kirjastokino kerro kaikille": {
    "id": 1304530,
@@ -4153,8 +4196,7 @@
     "gilda",
     "joutsankino",
     "kinohannikainen",
-    "kinomyyri",
-    "korjaamo"
+    "kinomyyri"
    ],
    "r": 7.3,
    "s": {
@@ -4424,7 +4466,7 @@
   "late lammas hämärä puuhissa": {
    "id": 1477104,
    "img": "data/posters/93eda5fa30b7d70c.jpg",
-   "r": 7.3,
+   "r": 7.4,
    "s": {
     "en": "On Halloween Eve at Mossy Bottom Farm, excitement turns to dismay when the clumsy Farmer ruins the pumpkin patch. Shaun tries fixing it with science experiments, but things go awry when a wild beast appears in the woods.",
     "fi": "Rakastettu Late Lammas palaa valkokankaille uudessa, riemastuttavassa ja kutkuttavan hauskassa seikkailussa. Farmin asukkaat odottavat innolla Halloweenia, kunnes heidän rakkaudella kasvattamansa kurpitsaviljelmä tuhoutuu juhlan kynnyksellä. Late ei jää toimettomaksi, vaan päättää ryhtyä “hulluksi tiedemieheksi” korjatakseen tilanteen – ja pian tapahtumat karkaavatkin täysin käsistä. Kun tilan maajussi katoaa ja outo villi peto herättää kauhua kyläläisissä, ovat kaikki ainekset kasassa hirviömäisen hauskalle seikkailulle kaiken ikäisille."
@@ -5275,17 +5317,12 @@
   },
   "naiskäsityöläinen elämä ehjäksi kutoen keskustelu": {
    "id": 1815343,
-   "img": "data/posters/f3ccb1e827fefeca.jpg",
-   "kr": "K-18",
-   "krs": [
-    "kinoiiris"
-   ],
    "r": 0,
    "s": {
     "en": "",
     "fi": "Kulttuurissa, jossa korostuvat yliajattelu ja jatkuva tuottaminen, Naiskäsityöläinen: Elämä ehjäksi kutoen tarjoaa toisenlaisen tien. Dokumenttielokuva kutsuu astumaan hetkeksi pois melusta, palaamaan omaan kehoon ja tutkimaan esi-isiltämme periytyvän käsityön parantavaa voimaa. Suomen vuodenaikojen rytmissä etenevä elokuva tarkastelee käsityötä paitsi tekniikkana myös kokemuksena. Kutominen, luonnonmateriaalien parissa työskentely, käsillä tekeminen ja perinteisten taitojen opettelu näyttäytyvät tapoina rakentaa yhteyttä omaan kulttuuriperintöön, ympäristöön ja itseen. Elokuvaa kuvatessa McClintock loi luottamuksellisen suhteen neljään suomalaiseen naiskäsityöläiseen, jotka löytävät merkitystä perinteisen käsityön rytmistä. Mervi Pasasen, Hanna Piipposen, Heli Karmakallion ja Hanna Noren tarinat yhdistävät menneisyyden ja tulevaisuuden ja kuvaavat erilaisia polkuja kohti eheyttä. Samalla ne tuovat esiin naiseuden moninaisuutta ja osoittavat, kuinka kulttuuriperintö voi juurtua osaksi nykyajan arkea. - Kun aloitin keskustelut elokuvassa esiintyvien käsityöläisten kanssa ja sukelsin syvemmälle suomalaisen käsityön maailmaan, minuun teki suurimman vaikutuksen se, kuinka elävältä kaikki tuntui. Kyse ei ollut jostakin menneisyyden jäänteestä, McClintock kertoo. - Junissa ja luokkahuoneissa näkee kaikenikäisiä ihmisiä neulomassa. Kyse ei ole vain siitä, että Suomessa on vahva yhteys muinaisiin käsityötekniikoihin, vaan siitä, että käsillä tekemistä arvostetaan laajasti osana tasapainoista ja hyvinvoivaa elämää. Kulttuuriperintöä eläväksi ja näkyväksi Madison McClintock tuli Suomeen alun perin etsimään yhteyttä omiin pohjoismaisiin sukujuuriinsa. Yhteyden katkeaminen omiin esi-isiin, kotiseutuun ja kulttuuriperintöön oli pohdituttanut McClintockia jo pitkään. McClintock halusi tarkastella myös sitä, miksi käsityötä usein vähätellään. Erityisesti Yhdysvalloissa käsityö yhdistetään hänen mukaansa helposti harrastamiseen ja ajanviettoon, vaikka taitojen taustalla on vuosien opiskelu, harjoittelu ja syvällinen asiantuntemus. - Koska käsityö yhdistetään niin usein naisiin, yhteiskunta myös vähättelee sitä ja olettaa sen olevan helppoa, vähäpätöistä tai vailla älyllistä ja teknistä syvyyttä. Elokuvassa esiintyvät käsityöläiset tarjoavat tähän näkökulmaan toisenlaisen vastauksen. Heidän tarinoissaan käsityö näyttäytyy osaamisena, tutkimisena, työnä, luovuutena ja elämänmittaisena oppimisena. Samalla tarinat kertovat erilaisista tavoista olla nainen. McClintock on matkustanut ympäri maailmaa dokumentoimassa sitä, kuinka erilaiset yhteisöt tuovat kulttuuriperintöään osaksi nykyelämää. Suomessa häntä puhutteli erityisesti se, kuinka kulttuuriperinnön säilyminen ei ole vain museoiden tai instituutioiden tehtävä, vaan tapahtuu myös ihmisten päivittäisen tekemisen kautta. McClintock näkee Suomessa kiinnostavan yhdistelmän henkilökohtaista vastuuta ja yhteiskunnan tukea. Kulttuuriperinnön arvostus näkyy hänen mukaansa museoissa, taiteilijoiden työskentelyapurahoissa ja siinä, että perinteisiä taitoja on mahdollista oppia monin eri tavoin. - Maailmassa, jossa niin paljon arvokasta kulttuuriperintöä menetetään sotien, liiallisen teknologiakeskeisyyden, yhteiskunnallisten ajattelutapojen muutosten tai rahoituksen puutteen vuoksi, Suomessa toimivan järjestelmän näkeminen antaa minulle valtavasti toivoa siitä, mikä on mahdollista. Madison McClintock Madison McClintock on yhdysvaltalainen elokuvantekijä ja tekstiilitaiteilija, jolla on yli kymmenen vuoden kokemus yhteisölähtöisestä ja eettisestä tarinankerronnasta. Hänen työnsä käsittelee keskinäisriippuvuuden tarinoita, joissa korostuu usein ihmisen ja paikan välinen läheinen suhde. Viimeksi Madison työskenteli National Geographicin Pristine Seas -hankkeen kenttätiimissä. Tällä hetkellä hän toimii tarinankertojana Mainessa sijaitsevassa Island Institutessa. Hän on entinen Fulbright-stipendiaatti Suomessa sekä Docs-in-Progress Impact Production Fellow. Nyt hän on saanut päätökseen ensimmäisen pitkän dokumenttielokuvansa Naiskäsityöläinen: Elämä ehjäksi kutoen. Ajatus dokumenttielokuvasta syntyi vuonna 2021, kun McClintock tapasi suomalaisen mestarikutojan Hannelle Köngäksen International Folk Art Market -tapahtumassa Santa Fessä, New Mexicossa. Köngäs kertoi hänelle suomalaisesta käsityöperinteestä, kestävistä materiaaleista ja historiallisista kudontatekniikoista sekä kainuunharmas-lampaan villan käytöstä. Kohtaaminen herätti McClintockin kiinnostuksen Suomea ja sen kulttuurisia arvoja kohtaan. Kaksi vuotta myöhemmin ajatus elokuvasta, sopiva rahoitusmahdollisuus ja uusi tapaaminen Köngäksen kanssa johtivat projektin käynnistymiseen. Köngäksen tuella McClintock tutustui käsityöläisiin eri puolilla Suomea. Hän haki Fulbright Finlandin Mid-Career Professional Project Grant -apurahaa, jossa Suomen käsityön museo toimi hänen isäntäorganisaationaan. Apurahan ja yhteistyökumppaneiden tuella McClintock vietti Suomessa kuusi kuukautta elokuvan tuotannon parissa vuonna 2025."
    },
-   "tr": "https://www.youtube.com/watch?v=7d3-peJCU9U"
+   "tr": ""
   },
   "naiskäsityöläinen elämä ehjäksi kutoen keskustelutilaisuus": {
    "id": 1815343,
@@ -5341,6 +5378,19 @@
     "fi": "Tel Avivin katoilla öisin kuvattu elokuva paljastaa yksityiskohtaisesti järjestelmät, jotka ovat Israelin Gazassa toteuttaman palestiinalaissiviilien suunnitelmallisen tuhoamisen taustalla. Elokuva sai Venetsian elokuvajuhlien ensi-iltayleisöltä festivaalin historian kaikkien aikojen pisimmät, 25 minuuttia kestäneet suosionosoitukset. Tekoälyn ja automaattivalvonnan käyttöä Israelin armeijan Palestiinaan kohdistamassa hyökkäyksessä käsittelevä elokuva on herättänyt ensiesityksensä jälkeen kansainvälisen kohun. Elokuva nimi viittaa Israelin armeijan käyttämään termiin siviiliuhrien lukumäärästä. Siinä haastatellaan 24 anonyyminä esiintyvää Israelin puolustusvoimien ja tiedustelupalvelun työntekijää, jotka kertovat muun muassa laskelmoiduista siviilien murhaamisista. Elokuvan on tuottanut brittilehti The Guardian osana uutismedian sitoutumista riippumattoman journalismin levittämiseen. Tuotannon taustalla ovat myös Oscar-palkitun The Zone of Interest -elokuvan (R&A 2023) ohjaaja Jonathan Glazer ja tuottaja James Wilson, jotka toimivat elokuvan vastaavina tuottajina."
    },
    "tr": "https://www.youtube.com/watch?v=40KW6knYMo4"
+  },
+  "never after dark": {
+   "id": 1629051,
+   "img": "data/posters/5c3f4ce8f8cf065b.jpg",
+   "r": 0,
+   "s": {
+    "en": "A traveling psychic who helps lost souls cross over encounters a powerful entity at a remote house. While investigating its origins, she uncovers dark secrets and faces a deadly threat from an unexpected source.",
+    "fi": ""
+   },
+   "tr": "https://www.youtube.com/watch?v=fu33xTw654A",
+   "ts": [
+    "en"
+   ]
   },
   "new year s show 2027 time machine säihkyvä aikamatka": {
    "r": 0,
@@ -5540,6 +5590,7 @@
     "ihmekompleksi",
     "kinojuha",
     "kinokulma",
+    "kinolaika",
     "kinomarilyn",
     "kinopirtti",
     "kisakino",
@@ -5629,6 +5680,16 @@
     "fi": "Kun toivoton romantikko katkaisee salaperäisen “toivepajun” saadakseen ihastuksena rakastumaan itseensä, hän tajuaa saaneensa juuri sen, mitä toivoikin. Mutta pian hänelle valkenee, että joistakin toiveista joutuu maksamaan synkän hinnan."
    },
    "tr": "https://www.youtube.com/watch?v=gMC8kkwbIQQ"
+  },
+  "oddities": {
+   "id": 1486256,
+   "img": "data/posters/1ba30c507c51ade8.jpg",
+   "r": 0,
+   "s": {
+    "en": "Oddities sai alkunsa lyhytelokuvana, jossa iäkäs antiikkikauppias ( Adrienne Barbeau ) näyttää närhen munat kahdelle liikkeeseensä erehtyvälle varkaalle. Täyspitkä versio rakentaa Barbeaun hahmon ympärille monisyisen mytologian. Lankakerä lähtee keriytymään, kun kaman viemät kaverukset Rose ( Lilimar ) ja Makenna ( Lovie Simone ) tappavat vahingossa diilerinsä ja pakenevat Kentuckyn yöhön vailla suunnitelmia. Varastetun pakoauton kontista löytyvä huumelasti mutkistaa tilannetta. Se on vasta alkua. Kun Rose ja Makenna hakevat suojaa syrjäisestä antiikkiliikkeestä, avautuu kaninkolo, jonka sisältö saisi H.P. Lovecraftin näyttämään peukaloa. Oddities käynnistyy rähjäisenä rikoselokuvana, mutta huumesäädön alta kuoriutuu pian täysiveristä kauhua. Ohjaaja-käsikirjoittaja Tyler Savage palmikoi lankoja sulavasti ja kuljettaa hahmoja juonteesta toiseen. Rosen ja Makennan addiktiot ylittävä ystävyys tuo suunnanmuutosten ja sekopäisen hahmogallerian keskelle uskottavan kiintopisteen. Tarinan todellinen kuningatar on kuitenkin 81-vuotias Barbeau, jonka vaarallisen mairean hymyn takana kytee vihainen liekki. Antiikkikaupan retroaarteet tarjoavat näyttävän miljöön itseään taitavasti kieputtavalle elokuvalle. Cody Carpenterin musiikin siivittämä omintakeinen genresekoitus ei kysy whodunnit vaan what the fuck is this all about? ”A playful, and on occasion nasty, genre contraption” – Kat Hughes / The Hollywood News ”[Adrienne] Barbeau oozes menace so effortlessly that it reminds you why she’s one of the all-time greats” – Chad Collins / Dread Central ”Well-lensed, thoughtfully considered and even better acted” – Rob Simpson / The Geek Show ”Adrienne Barbeau gets the wicked, substantial horror role she deserves” – Andrew Mack / Screen Anarchy ”On the run from their murky past, two gal pals take refuge in a remote antiques store. When their self-destructive streak gets the better of Mack (Lovie Simone), the pair are thrown from the frying pan into the fire. Said fire is lit by the shop’s owner, played by Adrienne Barbeau, in what proves to be a gratifyingly meaty role for the genre legend. It’s up to the (relatively) level-headed but rebellious Rose (Lilimar) to navigate their way out of a situation which is darker and, yes, more odd than either of them could have imagined.” – Joel Harley / Starburst Magazine",
+    "fi": ""
+   },
+   "tr": ""
   },
   "ohukainen ja paksukainen 1 täystuhon filosofia": {
    "r": 0,
@@ -6534,12 +6595,12 @@
     "ihmekompleksi",
     "isohannu",
     "kino123",
-    "kinohirvi",
     "kinolumo",
     "kinopiispanristi",
     "kinopirtti",
     "kinotour",
     "kotkanleffat",
+    "kuusamotalo",
     "kuvatahti",
     "laitilankino",
     "leffabuumi",
@@ -6890,6 +6951,7 @@
     "biorexkokkola",
     "kinokilta",
     "kinokulma",
+    "kinolaika",
     "kinomarilyn"
    ],
    "r": 0,
@@ -8052,7 +8114,6 @@
   },
   "siltalan pehtoori": {
    "id": 486935,
-   "img": "data/posters/aea2fb73563e8077.jpg",
    "r": 0,
    "s": {
     "en": "",
@@ -8633,13 +8694,12 @@
   },
   "tekijätorstai sokea mies joka ei halunnut nähdä titanicia": {
    "id": 716855,
-   "img": "data/posters/20d3225c6a83c12b.jpg",
-   "r": 7.1,
+   "r": 0,
    "s": {
     "en": "",
     "fi": "Tekijätorstaissa TEEMU NIKKI: \nklo 17:15 Sokea Mies Joka Ei Halunnut Nähdä Titanicia\nklo 19:00-20:00 Keskustelu: haastattelussa Nikki ja ystävä\nklo 20:15 Sata Litraa Sahtia\n\nOstamalla lipun jompaan kumpaan näytökseen, pääset mukaan keskusteluun. \nOstamalla Tekijätorstai Double Feature lipun, pääset mukaan molempiin elokuviin ja keskusteluun. \n\nTeemu Nikkin ohjaama ja käsikirjoittama, Venetsian elokuvajuhlilla yleisöpalkinnolla palkittu suomalainen menestyselokuva on poikkeuksellisen intensiivinen, mustalla huumorilla höystetty jännitysdraama.\nElokuva kertoo Jaakosta (Petri Poikolainen), joka on sokea ja pyörätuolissa. Jaakko rakastaa elokuvia, mutta ei ole suostunut katsomaan maailmanhistorian tunnetuinta romantiikan klassikkoa. Kun Jaakko päättää lähteä yksin junamatkalle tapaamaan puhelimitse löytämäänsä suurta rakkauttaan Sirpaa (Marjaana Maijala), hänen on luotettava viiden ventovieraan ihmisen apuun. Matkasta muodostuu henkeäsalpaava ja koskettava selviytymistarina, joka pakottaa katsojan kokemaan maailman poikkeuksellisen aistikkaasti ja läheltä – täysin päähenkilön omasta näkökulmasta."
    },
-   "tr": "https://www.youtube.com/watch?v=Z8KrFWXQOUo"
+   "tr": ""
   },
   "tekijätorstai tove": {
    "id": 608232,
@@ -8733,7 +8793,6 @@
     "biorexkokkola",
     "engel",
     "gilda",
-    "kinoaurora",
     "kinokilta",
     "kinolaika",
     "niagara",
@@ -8754,7 +8813,6 @@
     "biorexkokkola",
     "engel",
     "gilda",
-    "kinoaurora",
     "kinokilta",
     "kinolaika",
     "niagara",
@@ -8805,6 +8863,32 @@
     "fi": "Kun mystinen kosminen tapahtuma repäisee Oak Streetin irti lähiöstä ja siirtää koko naapuruston tuntemattomaan paikkaan, Plattin perhe huomaa pian, että heidän eloonjääntiinsä riippuu yhdessä pysymisestä tuntemattomaksi muuttuneessa ympäristössä. THE END OF OAK STREETIN pääosissa ovat Anne Hathaway ja Ewan McGregor, mukana myös Maisy Stella ja Christian Convery. Elokuvan on ohjannut David Robert Mitchell ja tuottanut J.J. Abrams, Hannah Minghella, Jon Cohen, David Robert Mitchell, Matt Jackson ja Tommy Harper. Vastaavina tuottajina toimivat Chris Bender, Jake Weiner, Joanne Lee and Leeann Stonebreaker. Mitchellin kuvausryhmässä toimivat pääkuvaaja Michael Gioulakis, tuotantosuunnitttelija Maya Shimoguchi, leikkaaja John Axelrad, säveltäjä Michael Giacchino ja pukusuunnittelija Erin Benach. Warner Bros. Pictures esittää A Bad Robot -tuotannon, A Jackson Pictures -tuotannon, David Robert Mitchellin elokuvan: THE END OF OAK STREET. Elokuvan levittää maailmanlaajuisesti Warner Bros. Pictures."
    },
    "tr": ""
+  },
+  "the hills have eyes": {
+   "id": 12262,
+   "img": "data/posters/2deec647b648238a.jpg",
+   "r": 6.2,
+   "s": {
+    "en": "",
+    "fi": "Perhe joutuu erämaaretkellä primitiivisten raakalaisten terrorin kohteeksi."
+   },
+   "tr": "https://www.youtube.com/watch?v=zFVpBiVymTU",
+   "ts": [
+    "fi"
+   ]
+  },
+  "the hunger": {
+   "id": 11654,
+   "img": "data/posters/9346d882bab3837a.jpg",
+   "r": 6.7,
+   "s": {
+    "en": "Five-thousand-year-old vampire Miriam promises her lovers the gift of eternal life. When John, her cellist companion for centuries, discovers that he has suddenly begun growing old, he attempts to seek out the help of Dr. Sarah Roberts, a researcher on the mechanisms of aging.",
+    "fi": ""
+   },
+   "tr": "https://www.youtube.com/watch?v=g7DzTgy6_Vk",
+   "ts": [
+    "en"
+   ]
   },
   "the hunger games sunrise on the reaping": {
    "id": 1300968,
@@ -9219,10 +9303,6 @@
   "the social reckoning": {
    "id": 1281331,
    "img": "data/posters/cc94b9de33574b5f.jpg",
-   "kr": "K-12",
-   "krs": [
-    "biorex"
-   ],
    "r": 7.0,
    "s": {
     "en": "Inspired by true events and the whistleblower who sparked the social media accountability debate we follow today, Aaron Sorkin’s original screenplay is a companion piece to the hit film The Social Network and a true David-and-Goliath story. Young Facebook engineer Frances Haugen (Mikey Madison) turns to The Wall Street Journal reporter Jeff Horwitz (Jeremy Allen White) for help. Together, they embark on a dangerous journey that ultimately leads to the exposure of the social network’s most closely guarded secrets.",
@@ -9291,6 +9371,19 @@
     "fi": ""
    },
    "tr": ""
+  },
+  "the warriors": {
+   "id": 11474,
+   "img": "data/posters/1ec177ea3950d403.jpg",
+   "r": 7.7,
+   "s": {
+    "en": "Got nowhere to run to baby, nowhere to hide... Mieletön taistelu on käynnissä neonvalojen loisteessa New Yorkin alamaailmassa. Yön armeijaan kuuluu 100.000 nuorta. Heitä on viisi kertaa enemmän kuin mitä suurkaupungin poliisivoimiin kuuluu. Ja juuri tänä yönä alamaailman koko armeija jäljittää The Warriors-jengiä, jota syytetään aiheettomasti kilpailevan jengijohtajan kuolemasta. The Warriors-jengin jäsenet taistelevat elämästään yrittäessään selviytyä hengissä läpi öisen New Yorkin, jossa vallitsevat viidakon lait aina Bronxista Coney Islandille saakka. New York City oli 1970-luvulla konkurssin partaalla ja lukuisista sosiaalisista ongelmista kärsivä raunioituva suurkaupunki, jossa jylläsivät rikollisuus ja huumeongelma. Tämä miljöö on ikuistettu lukuisiin elokuviin, mutta Walter Hillin visio tästä todellisuudesta on aivan omaa luokkaansa. Lähes kokonaan kaduilla kuvattu elokuva hylkää sosiaalisen realismin ja Hillin New York näyttäytyy miltei post-apokalyptisenä miehisen väkivaltabaletin näyttämönä katujengien välisessä sodassa. The Warriors on tarkkaan sommiteltu kokonaisuus, joka vahvasta tyylittelystä ja karrikoinnista huolimatta tarjoaa rosoisen ja karun vastineen West Side Storyn silotellulle romantiikalle. \"I enjoyed it immensely\" - Ronald Reagan \"The Warriors is like visual rock … The physical action is so stylized that it has a wild cartoon kick to it, like ‘Yojimbo’ and the best Kung-Fu movies. The fighting is so exhilaratingly visceral, and so contrapuntal in the Oriental-martial-art-dancing manner that you have no thought of pain or gore.” - Pauline Kael / The New Yorker",
+    "fi": "Mieletön taistelu on käynnissä neonvalojen loisteessa New Yorkin alamaailmassa. Yön armeijaan kuuluu 100 000 nuorta. Heitä on viisi kertaa enemmän kuin mitä suurkaupungin poliisivoimiin kuuluu. Ja juuri tänä yönä alamaailman koko armeija jäljittää The Warriors-jengiä. Sitä syytetään aiheettomasti kilpailevan jengijohtajan kuolemasta."
+   },
+   "tr": "https://www.youtube.com/watch?v=IAn_PrquNIY",
+   "ts": [
+    "fi"
+   ]
   },
   "thelma louise": {
    "id": 1541,
@@ -9398,8 +9491,7 @@
     "gilda",
     "kinoaurora",
     "kinomarilyn",
-    "kinoolympia",
-    "tapiola"
+    "kinoolympia"
    ],
    "r": 7.4,
    "s": {
@@ -9503,6 +9595,19 @@
     "fi": "Löydettyään vanhan haudatun kiväärin, nuori poika liittyy Neuvostoliiton vastarintaliikkeeseen taistellakseen Saksan armottomia joukkoja vastaan, joutuen kohtaamaan toisen maailmansodan hirveydet."
    },
    "tr": ""
+  },
+  "tumma kristalli the dark crystal": {
+   "id": 11639,
+   "img": "data/posters/6d3eb419126dda0b.jpg",
+   "r": 7.2,
+   "s": {
+    "en": "",
+    "fi": "Skekseiksi kutsuttujen liskomaisten olentojen rotu on tuhat vuotta aiemmin kaapannut vallan salaperäisen Tumman kristallin avulla. Skeksit ovat ajaneet rauhaa rakastavien mystisten klaanin maanpakoon, sekä tappaneet ihmismäiset gelflingit sukupuuton partaalle. Viimeisiin gelflingeihin lukeutuva Jen on kasvanut perheensä kuoleman jälkeen mystisten parissa. Taivaan kolme aurinkoa ovat kuitenkin jälleen yhdistymässä, joten Jenin on lähdettävä kylästään etsimään Kristallista kauan sitten irronnutta sirpaletta. Tämä on asetettava ajoissa skeksien linnassa olevaan Kristalliin. Jos Jen epäonnistuu, laskeutuu maailman ylle ikuinen pimeys."
+   },
+   "tr": "https://www.youtube.com/watch?v=P5Dj3jhy7xM",
+   "ts": [
+    "fi"
+   ]
   },
   "tuntematon mestari": {
    "id": 478502,
@@ -9728,6 +9833,16 @@
    "s": {
     "en": "",
     "fi": "Parhaan ystävyyden puolesta kannattaa taistella. DreamWorks Animation on aiemmin tuonut katsojille tarinoita unohtumattomista siteistä pojan ja lohikäärmeen välillä Näin koulutat lohikäärmeesi..."
+   },
+   "tr": ""
+  },
+  "upiro": {
+   "id": 1486020,
+   "img": "data/posters/ec5bcd1674bc8f55.jpg",
+   "r": 0,
+   "s": {
+    "en": "Upiron kulma ikiaikaiseen vampyyriteemaan on ilahduttavan tuore. Elena Muñozin käsikirjoitus ottaa myytin haltuun fokusoiden sinne, mistä se on lähtöisin: pimeään historiaan, uskonnolliseen hysteriaan ja kuolemanpelkoon. Tarina ammentaa Espanjan ensimmäisestä dokumentoidusta vampyyritapauksesta 1700-luvulta. Epookkimysteeri sekoittuu goottilaiseen kauhuun ja vanhan koulukunnan eurooppalaisen genre-elokuvan sävyihin. Ohjaaja Óscar Martín on maininnut vaikutteikseen muun muassa giallo-murhamysteerit ja italialaisohjaaja Pupi Avatin avainteokset. Vuoden 1755 valistuksen ajan Espanjassa vaikutusvaltaisen suvun nuori Ana (Pauline Brisy) pakotetaan syrjäiseen luostariin, jotta perhe väistää uhkaavan skandaalin. Perillä naiselle paljastuu, että useita noviiseja riivaa outo, levottomuutta herättävä verisairaus. Epätavallisia, päivänvaloa heikosti kestäviä menetelmiä suosiva fransiskaanipappi ryhtyy tutkimaan tapahtumia ja löytää itsensä vanhan vampyyrilegendan ääreltä. Visuaalinen ilme on vaikuttava, vaikka kuvasto on alkukantaisuudessaan kaukana puleeratuista 2000-luvun vampyyrifantasioista. Luostarin kiviseinistä, uskonnollisista rituaaleista, sairauden runtelemista kehoista ja pimeydestä hiipivästä verenhimosta rakentuu maailma, joka pyörii mielessä vielä pitkään lopputekstien päätyttyä. ”Rewrites the rules of vampirism” – Steve Prokopy / Third Coast Review ”A fresh and unique tale that truly feels like one of the more creative takes on the genre in years” – Bruce Payne / The Cinema Nook ”Has more in common with Ken Russell’s The Devils than with Bram Stoker’s Dracula” – Matthew Orozco / Macabre Daily ”Elena Muñoz’s script twists and turns in such a way that one minute you will be congratulating yourself for being so far ahead of the narrative, and the next you will not believe how lost you are” – Anton Bitel / Projected Figures ”A well-crafted piece of Gothic Horror reportedly based on an actual case recognized by the Catholic Church as vampirism. Writer Elena Muñoz and director Oscar Martin use this story to unpack a film that’s also about gender roles in religion and the Age of Enlightenment. This moody film cleverly plays with issues of sexuality within the vampire myth — Reaches an unexpected final act with one terrifying reveal that stands among the best in the vampire genre in years.” – Brian Tallerico / RogerEbert.com",
+    "fi": ""
    },
    "tr": ""
   },
@@ -10351,5 +10466,5 @@
    "tr": ""
   }
  },
- "generated": "2026-11-05"
+ "generated": "2026-11-06"
 }
