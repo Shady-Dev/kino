@@ -136,13 +136,12 @@
   },
   "aijjoos näytös hetki ennen valoa": {
    "id": 1015881,
-   "img": "data/posters/ec99ecd6b2aa4dcc.jpg",
    "r": 0,
    "s": {
     "en": "",
     "fi": "Klaus Härön uutuuselokuva kertoo kahden naisen kohtaamisesta keskellä hoitoalan kriisiä. Erikoissairaanhoitaja Inka (Laura Birn) tekee työtään suurella sydämellä vaativien työolosuhteiden ja oman perhe-elämänsä ristipaineessa. Lenin (Oona Airola) ja Karin (Jussi Vatanen) onni rakoilee, kun heidän vastasyntynyt vauvansa kiidätetään äkillisesti tehohoitoon. Sairaanhoitajat suunnittelevat lakkoa parempien työolosuhteiden puolesta, ja epävarmuuden hetkellä hämmentynyt Leni löytää tukea ja toivoa Inkasta. Inka on kuitenkin vaikeiden päätösten äärellä. Molemmat naiset toimivat rakkaudesta ja velvollisuudesta – mutta miten tehdä oikea valinta, kun vaakalaudalla ovat oma ja toisten elämä?"
    },
-   "tr": "https://www.youtube.com/watch?v=bOD_fRxNT4Q"
+   "tr": ""
   },
   "akaan elokuvajuhla 2026 muodonmuutoksia": {
    "r": 0,
@@ -2210,16 +2209,12 @@
   },
   "hui kauhava clayface": {
    "id": 1400940,
-   "img": "data/posters/3e36688a9a6ac7d2.jpg",
-   "r": 7.4,
+   "r": 0,
    "s": {
-    "en": "Matt Hagen's meteoric rise from Gotham street kid to Hollywood leading man is tragically cut short when a local crime boss's actions leave him horribly disfigured. Abandoned by his team and with nothing left, Matt seeks out a cutting edge treatment that miraculously returns him to his former self… but also unexpectedly affects his grip on reality, spiraling him down a destructive path of all-consuming revenge.",
+    "en": "",
     "fi": "DC Studiosin Clayface on ohjaaja James Watkinsin kauhutrilleri, jonka nimiosassa Gotham Cityn vihollisgallerian suosikkiroistona nähdään Tom Rhys Harries. Clayface kuvaa yhden miehen kauhistuttavaa luisumista nousevasta Hollywood-tähdestä epämuodostuneeksi, kostoa janoavaksi uhriksi. Tarina tutkii ihmisyyden katoamista sekä kaiken läpäisevän pakkomielteen aiheuttamaa tuhoa. Muissa rooleissa esiintyvät Naomi Ackie, David Dencik, Max Minghella ja Eddie Marsan sekä Nancy Carroll ja Joshua James. James Watkinsin ohjaus perustuu Mike Flanaganin ja Hossein Aminin käsikirjoitukseen ja Flanaganin alkuperäistarinaan sekä DC:n hahmoihin. Elokuvan ovat tuottaneet Matt Reeves, Lynn Harris, James Gunn ja Peter Safran sekä vastaavina tuottajina Michael E. Uslan, Chantal Nong Vo, Lars P. Winther, Rafi Crohn ja Paul Ritchie Watkinsin työryhmään lukeutuvat elokuvaaja Rob Hardy, lavastussuunnittelija James Price, leikkaaja Jon Harris ja pukusuunnittelija Keith Madden. Musiikista vastaa Volker Bertelmann. DC Studios esittää 6th & Idaho -tuotannon, James Watkinsin elokuvan “Clayface”. Elokuvan levittää Warner Bros. Pictures, ja se saa ensi-iltansa elokuvateattereissa 23. lokakuuta 2026."
    },
-   "tr": "https://www.youtube.com/watch?v=f7jlCqdtwdM",
-   "ts": [
-    "en"
-   ]
+   "tr": ""
   },
   "hui kauhava leviticus": {
    "id": 1564614,
@@ -3005,7 +3000,6 @@
     "kinotervakoski",
     "kinotoijala",
     "kinotour",
-    "kirkkonummi",
     "kisakino",
     "kkino",
     "korjaamo",
@@ -4414,8 +4408,7 @@
     "studio123kouvola",
     "tapiola",
     "vaakuna",
-    "vihdinkino",
-    "virtainpirtti"
+    "vihdinkino"
    ],
    "r": 7.4,
    "s": {
@@ -6366,7 +6359,6 @@
     "elokuviin",
     "engel",
     "isohannu",
-    "kinojuha",
     "kinolumo",
     "kinopiispanristi",
     "kinopirtti",
@@ -8054,8 +8046,7 @@
     "studio123kouvola",
     "tapiola",
     "vaakuna",
-    "vihdinkino",
-    "virtainpirtti"
+    "vihdinkino"
    ],
    "r": 7.4,
    "s": {
@@ -8551,13 +8542,12 @@
   },
   "talven valoa": {
    "id": 29455,
-   "img": "data/posters/bc0a17a955294909.jpg",
-   "r": 7.9,
+   "r": 0,
    "s": {
     "en": "",
     "fi": "Ruotsalaisen ohjaajamestari Ingmar Bergmanin ehkä bergmanilaisimmassa teoksessa pysähdytään kovien peruskysymysten äärelle talvisen auringon lakaistessa kivikirkon lattiaa. Talven valoa -elokuva (1963) on Bergmanin uralla selkeä vedenjakaja, siksikin että Jumalaa kaipaava papinpoika kertoo lopettaneensa rukoilemisen elokuvan kuvausten aikaan. Kuin kuvastimessa (1961) aloitti Bergmanin vavahduttavan Jumalan hiljaisuutta käsittelevän elokuvatrilogian, jonka Talven valoa huipentaa. Elokuvan vaikutusvaltaakaan ei sovi vähätellä: sille ovat velkaa sekä monet eksistentialistisen elokuvan helmet kuin vielä viime vuosienkin pappiskuvaukset, kuten esimerkiksi Paul Schraderin ohjaama First Reformed (2017)."
    },
-   "tr": "https://www.youtube.com/watch?v=S_ihGR6Wung"
+   "tr": ""
   },
   "talvitarina": {
    "id": 10241,
@@ -10413,7 +10403,6 @@
     "savonkinot",
     "star",
     "studio123jarvenpaa",
-    "tapiola",
     "vaakuna",
     "vihdinkino",
     "virtainpirtti"
