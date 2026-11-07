@@ -717,6 +717,19 @@
     "fi"
    ]
   },
+  "bts world tour arirang in jakarta live viewing": {
+   "id": 1820088,
+   "img": "data/posters/02e40f3cfd3f9707.jpg",
+   "r": 0,
+   "s": {
+    "en": "End the year with a spectacular finale: BTS LIVE in cinemas The record-breaking journey continues as BTS’s history-making tour across Asia makes its way to the big screen. Join BTS for the grand year-end finale in Jakarta in December and experience the breathtaking performances and electrifying energy of BTS’s stadium tour. Don't miss your chance to witness BTS WORLD TOUR 'ARIRANG' in all its glory in cinemas worldwide.",
+    "fi": ""
+   },
+   "tr": "",
+   "ts": [
+    "en"
+   ]
+  },
   "bts world tour arirang in kaohsiung jakarta live viewing": {
    "r": 0,
    "s": {
@@ -724,6 +737,19 @@
     "fi": "BTS WORLD TOUR ’ARIRANG’ IN KAOHSIUNG: LIVE-STRIIMAUS 21.11. klo 12:45. ja encore tallenne klo 17:00 BTS WORLD TOUR ’ARIRANG’ IN JAKARTA: LIVE STRIIMAUS 29.12. klo 13:45 Ennätyksiä rikkonut matka jatkuu, kun BTS:n historiaa tehnyt Aasian-kiertue saapuu valkokankaalle. Koe BTS:n stadionkiertueen henkeäsalpaavat esitykset ja sähköistävä energia 21. marraskuuta Kaohsiungissa kuultujen yleisön hurrausten ääniin ja 29. joulukuuta Jakartassa järjestettyyn upeaan vuodenpäätösfinaaliin asti. Älä missaa tilaisuutta nähdä BTS WORLD TOUR ‘ARIRANG’ koko loistossaan elokuvateattereissa ympäri maailmaa."
    },
    "tr": ""
+  },
+  "bts world tour arirang in kaohsiung live viewing": {
+   "id": 1820083,
+   "img": "data/posters/f3462e4c28cdabb7.jpg",
+   "r": 0,
+   "s": {
+    "en": "The record-breaking journey continues as BTS’s history-making tour across Asia makes its way to the big screen. Join the roar of the crowds in Kaohsiung in November and experience the breathtaking performances and electrifying energy of BTS’s stadium tour. Don't miss your chance to witness BTS WORLD TOUR 'ARIRANG' in all its glory in cinemas worldwide.",
+    "fi": ""
+   },
+   "tr": "",
+   "ts": [
+    "en"
+   ]
   },
   "bushido elokuvakerho pennittömät": {
    "r": 0,
@@ -1314,6 +1340,7 @@
     "elavienkuvien",
     "ihmekompleksi",
     "kinohamina",
+    "kinokulma",
     "kinomarilyn",
     "kinotervakoski"
    ],
@@ -1471,16 +1498,12 @@
   },
   "fantom": {
    "id": 28480,
-   "img": "data/posters/99adf4a565174980.jpg",
-   "r": 6.8,
+   "r": 0,
    "s": {
-    "en": "Lorenz Lubota is a city clerk with no direction in life. One day on his way to work he is run over by a woman driving a chariot and he is immediately infatuated with her.",
+    "en": "",
     "fi": "Kauhuun viittavasta nimestään huolimatta Fantom on ennemminkin painostava houreuni. Nuori runoilijanalku Lorenz ei saa mielestään häneen törmännyttä, hypnoottisesti vaikuttanutta Veronikaa. Elokuvan liikkuu sujuvasti ekspressionistisen toismaailmallisuuden ja niin kutsutun uuden objektiivisuuden rajamailla kuvatessaan saavuttamatonta haavekuvaa, josta on muodostua pakkomielle."
    },
-   "tr": "",
-   "ts": [
-    "en"
-   ]
+   "tr": ""
   },
   "father mother sister brother": {
    "id": 1159206,
@@ -2218,13 +2241,12 @@
   },
   "hui kauhava yön lapsi": {
    "id": 964849,
-   "img": "data/posters/d0630be5ff40e993.jpg",
-   "r": 6.0,
+   "r": 0,
    "s": {
     "en": "",
     "fi": "Lapsista haaveilevat suomalainen Saga (Seidi Haarla) ja britti Jon (Rupert Grint) muuttavat suomalaisen metsän keskelle taloon, jossa Saga on viettänyt lapsuuden kesät. Pian he saavat terveen pojan, mutta pikkuhiljaa Sagan valtaa pelottava tunne, että vaativassa vauvassa on jotain outoa. Tuoreiden vanhempien kokemukset saavat modernin kansantarun mittasuhteet."
    },
-   "tr": "https://www.youtube.com/watch?v=dWePsu_Kd9c"
+   "tr": ""
   },
   "humiseva harju": {
    "id": 1316092,
@@ -4344,7 +4366,6 @@
     "joutsankino",
     "kino123",
     "kinoakseli",
-    "kinoaurora",
     "kinoelo",
     "kinohirvi",
     "kinojuha",
@@ -4844,7 +4865,7 @@
   "marsupilami": {
    "id": 1145899,
    "img": "data/posters/d24763d2c244cd16.jpg",
-   "r": 6.2,
+   "r": 6.3,
    "s": {
     "en": "David is tasked to deliver a mysterious package from South America, only to find out he is carrying a baby Marsupilami!",
     "fi": "Perhelomaan tulee uusia käänteitä, kun perheenisä saa Etelä-Amerikasta yllättävän paketin. Seikkailu lähtee liikkeelle kun salaperäisestä laatikosta paljastuu keltainen, täplikäs ja hulvaton veijari – vauva Marsupilami, joka tuo vauhtia niin perheen kuin koko lomaristeilynkin menoon. Marsupilami sulattaa kovimmankin sydämen. Ihmeolento Marsupilami perustuu samannimiseen, André Franquinin luomaan suosittuun belgialaiseen sarjakuvasarjaan. Marsupilami selviää niin villissä viidakossa kuin kaupungissakin nopean älynsä, rajattoman mielikuvituksensa sekä voimakkaan häntänsä avulla.",
@@ -6545,7 +6566,6 @@
     "biovuoksi",
     "cinemantsala",
     "elokuviin",
-    "helios",
     "ihmekompleksi",
     "isohannu",
     "kino123",
@@ -6978,16 +6998,12 @@
   },
   "päivien lumo leffalukupiiri": {
    "id": 1563565,
-   "img": "data/posters/6bbde592472eb4e8.jpg",
    "r": 0,
    "s": {
-    "en": "Once a beloved playmate of her childhood, Markku had withdrawn into solitude, devoting his life to inner freedom and creativity rather than the expectations of society. Now his voice returns – sometimes playful, sometimes wounded, always searching – guiding Karin through his life’s work and opening space for an unusual collaboration between the living and the dead.",
+    "en": "",
     "fi": "Ohjaaja löytää erakoituneen taiteilijasetänsä kätketyn maailman ja ryhtyy tekemään siitä elokuvaa – omaksi yllätyksekseen setänsä kanssa. Syntyy erityislaatuinen vuoropuhelu, joka avaa näkymän intohimoiseen taiteen tekemiseen ja originelliin elämään. Päivien lumo kertoo luomisesta elämäntapana, monimutkaisista perhesuhteista, rakkaudesta ja kuoleman kosketuksesta. Samalla se on elokuva matkasta kohti itseä ja omien valintojensa hyväksymisestä. Nämä voi ehkä saavuttaa vasta kun onnistuu hyväksymään maailman ja itsen keskeneräisyyden. Ohjaaja Karin kertoo elokuvastaan näin: \"Minua on aina kiinnostanut marginaalissa tapahtuva. Setäni Markun pyrkimys elää omannäköistä elämää on inspiroinut minua. Hänen kohdallaan taidetta ja elämää ei voi eritellä. Markkua on ohjannut kunnianhimon sijaan intohimo. Prosessi on kiinnostanut häntä enemmän kuin lopputulos. Tämä Markun asenne saa minut pysähtymään, ajattelemaan omia tekemiseni motiiveja syvällisellä tasolla. Uskon, että meillä on paljon opittavaa Markun kaltaisilta ihmisiltä. Ja näkymättömiä markkuja on jokaisessa suvussa. Elokuvani sivuaa myös perisuomalaista kohtaamattomuutta. Kuka voi määritellä, mikä on merkityksellistä elämää?\""
    },
-   "tr": "",
-   "ts": [
-    "en"
-   ]
+   "tr": ""
   },
   "päivien lumo tekijävierailu": {
    "id": 1563565,
@@ -7982,7 +7998,6 @@
     "joutsankino",
     "kino123",
     "kinoakseli",
-    "kinoaurora",
     "kinoelo",
     "kinohirvi",
     "kinojuha",
@@ -8955,16 +8970,12 @@
   },
   "the music lovers": {
    "id": 72899,
-   "img": "data/posters/8b09d8df9d26d1c2.jpg",
-   "r": 6.5,
+   "r": 0,
    "s": {
-    "en": "Composer, conductor and teacher Peter Ilych Tchaikovsky struggles against his homosexual tendencies by marrying, but unfortunately, he chooses wacky nymphomaniac Nina, whom he is unable to satisfy.",
+    "en": "",
     "fi": "Ylistettyjä säveltäjämuotokuvia televisioon BBC:lle ohjannut Ken Russell pääsi uransa huipulla jatkamaan lempiaiheidensa parissa valkokankaalla. Pjotr Tšaikovskin (Richard Chamberlain) keskeisiin vuosiin 1874–76 sijoittuva pakahduttava melodraama etenee takaumien, painajaisten ja fantasiajaksojen kautta. Russell varmisti United Artistsin rahoituksen kuvailemalla elokuvan tarinaksi homoseksuaalista, joka rakastuu nymfomaaniin."
    },
-   "tr": "https://www.youtube.com/watch?v=ubvb4Oxy418",
-   "ts": [
-    "en"
-   ]
+   "tr": ""
   },
   "the odyssey": {
    "id": 1368337,
@@ -9056,10 +9067,6 @@
   "the rocky horror picture show 1975": {
    "id": 36685,
    "img": "data/posters/881ea0a1c032f51c.jpg",
-   "kr": "K-12",
-   "krs": [
-    "kinoaurora"
-   ],
    "r": 7.4,
    "s": {
     "en": "After getting a flat tire in the middle of nowhere, newly engaged couple Brad and Janet encounter the eerie mansion of the flamboyant, seductive Dr Frank-N-Furter and a variety of eccentric characters. Through elaborate dance and rock music, the mad scientist unveils his latest creation: a perfect, muscular man.",
@@ -9073,16 +9080,12 @@
   },
   "the rocky horror picture show dress along": {
    "id": 36685,
-   "img": "data/posters/881ea0a1c032f51c.jpg",
-   "r": 7.4,
+   "r": 0,
    "s": {
-    "en": "After getting a flat tire in the middle of nowhere, newly engaged couple Brad and Janet encounter the eerie mansion of the flamboyant, seductive Dr Frank-N-Furter and a variety of eccentric characters. Through elaborate dance and rock music, the mad scientist unveils his latest creation: a perfect, muscular man.",
+    "en": "",
     "fi": "Roimasti aikaansa edellä ollut 50-vuotias musikaaliklassikko aiheuttaa edelleen säännöllisiä vavahduksia ympäri maailman elokuvateattereita, niin hardcore-faneissaan kuin uusissa Rocky Horror -uskoon vihityissä, ansaiten kautta aikojen pisimpään teattereissa pyörineen limited release -elokuvan tittelin."
    },
-   "tr": "https://www.youtube.com/watch?v=4plqh6obZW4",
-   "ts": [
-    "en"
-   ]
+   "tr": ""
   },
   "the royal ballet alice s adventures in wonderland": {
    "r": 0,
@@ -10412,5 +10415,5 @@
    "tr": ""
   }
  },
- "generated": "2026-11-06"
+ "generated": "2026-11-07"
 }
