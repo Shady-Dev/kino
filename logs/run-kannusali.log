@@ -1,11 +1,11 @@
 [kannusali] languages read for 3 of 5 film(s)
-[kannusali] event pictures for 27 of 27 non-film event(s)
-[kannusali] Kannusali, Espoo: 35 showtimes, 8 of them films, 31 dates, from 36 hit(s) of a total of 36
+[kannusali] event pictures for 26 of 26 non-film event(s)
+[kannusali] Kannusali, Espoo: 34 showtimes, 8 of them films, 30 dates, from 35 hit(s) of a total of 35
 [kannusali] collapsed event:espooevents:agqaw7ipcm (Lasten viikonloppu, Elokuva: Flow. (K7)), same start as event:espooevents:agqaw5sf2u
-[kannusali] Kannusali: 35 showtimes, 31 dates
+[kannusali] Kannusali: 34 showtimes, 30 dates
 [kannusali] synopses merged: 0
 [run] http: 0 revalidated (304), 5 full, 5 not stored (origin said no-store), 0 cache entries written
 [run] hosts: 2 attempted -- api.espoo.fi, www.espoo.fi
-[run] kannusali: 1 venues, 35 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
-[run] timing: 1 site(s), 19.2s of fetching added up across workers that overlap, longest site 19.2s, longest queue wait 162.5s, 19.2s wall from this module's first fetch starting to its last ending
+[run] kannusali: 1 venues, 34 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
+[run] timing: 1 site(s), 18.0s of fetching added up across workers that overlap, longest site 18.0s, longest queue wait 155.1s, 18.0s wall from this module's first fetch starting to its last ending
 exit=0

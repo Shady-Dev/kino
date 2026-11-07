@@ -725,6 +725,19 @@
    },
    "tr": ""
   },
+  "bts world tour arirang in kaohsiung live viewing": {
+   "id": 1820083,
+   "img": "data/posters/f3462e4c28cdabb7.jpg",
+   "r": 0,
+   "s": {
+    "en": "The record-breaking journey continues as BTS’s history-making tour across Asia makes its way to the big screen. Join the roar of the crowds in Kaohsiung in November and experience the breathtaking performances and electrifying energy of BTS’s stadium tour. Don't miss your chance to witness BTS WORLD TOUR 'ARIRANG' in all its glory in cinemas worldwide.",
+    "fi": ""
+   },
+   "tr": "",
+   "ts": [
+    "en"
+   ]
+  },
   "bushido elokuvakerho pennittömät": {
    "r": 0,
    "s": {
@@ -1120,8 +1133,7 @@
    "kr": "K-12",
    "krs": [
     "biorex",
-    "gilda",
-    "kinovirta"
+    "gilda"
    ],
    "r": 7.5,
    "s": {
@@ -4307,6 +4319,7 @@
     "elavienkuvien",
     "elokuviin",
     "engel",
+    "haapamaki",
     "ihmekompleksi",
     "isohannu",
     "jarvelankino",
@@ -5069,6 +5082,21 @@
   "minä ja riikka purra": {
    "id": 1789735,
    "img": "data/posters/00ba33a99fa0e923.jpg",
+   "kr": "S",
+   "krs": [
+    "joutsankino",
+    "kinoiiris",
+    "kinokilta",
+    "kinokonepaja",
+    "kinolaika",
+    "kinolumo",
+    "kinomarilyn",
+    "kinopiispanristi",
+    "kinopirtti",
+    "niagara",
+    "orion",
+    "star"
+   ],
    "r": 0,
    "s": {
     "en": "",
@@ -5509,6 +5537,7 @@
    "krs": [
     "bioforum",
     "biorexkokkola",
+    "cinemantsala",
     "gilda",
     "haapamaki",
     "ihmekompleksi",
@@ -7926,6 +7955,7 @@
     "elavienkuvien",
     "elokuviin",
     "engel",
+    "haapamaki",
     "ihmekompleksi",
     "isohannu",
     "jarvelankino",
@@ -8427,19 +8457,6 @@
     "en"
    ]
   },
-  "taistelu lapinlahdesta": {
-   "id": 1612069,
-   "img": "data/posters/de11ececd88cb452.jpg",
-   "r": 0,
-   "s": {
-    "en": "The documentary follows how a former psychiatric hospital that had been abandoned is transformed into a thriving center for art, culture, and mental well-being with the arrival of new tenants. With limited resources, activists in Lapinlahti decide to continue the area's mental health work in a citizen-driven way, allowing the disadvantaged members of society to shine. The place fills up with entrepreneurs, therapists, artists, and associations, and the park area in the city center, closed to Helsinki residents for 170 years, comes to life with cafes, saunas, museums, and bakeries. The road is not easy. The city administration does not seem to recognize the value of the project, and the Lapinlahti community has to fight constantly for its existence. At the heart of the film is the threat of the area being sold to a large real estate investor, as plans are made to build a giant hotel in the park.",
-    "fi": ""
-   },
-   "tr": "",
-   "ts": [
-    "en"
-   ]
-  },
   "taksikuski": {
    "id": 103,
    "img": "data/posters/238e6650e84ba962.jpg",
@@ -8694,7 +8711,8 @@
     "kinokilta",
     "kinolaika",
     "niagara",
-    "regina"
+    "regina",
+    "sheryl"
    ],
    "r": 7.5,
    "s": {
@@ -8714,7 +8732,8 @@
     "kinokilta",
     "kinolaika",
     "niagara",
-    "regina"
+    "regina",
+    "sheryl"
    ],
    "r": 7.5,
    "s": {
