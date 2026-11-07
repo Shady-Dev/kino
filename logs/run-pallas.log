@@ -1,15 +1,15 @@
-[biopallas] Bio Pallas, Karjaa: 18 showtimes, 8 dates, 7 film(s)
+[biopallas] Bio Pallas, Karjaa: 14 showtimes, 6 dates, 6 film(s)
 [biopallas] unread line 7f7732320009: Shaun the Sheep: The Beast of Mossy Bottom, La/Lö 7.11 Klo 14.00: Puhumme lammasta ja vähän englantia
 [biopallas] unread line b7bd092825ff: Shaun the Sheep: The Beast of Mossy Bottom, La/Lö 7.11 Klo 14.00: Vi pratar fårskalliga och lite engelska
 [biopallas] unread line 4c3cb02ab3a1: Shaun the Sheep: The Beast of Mossy Bottom, La/Lö 7.11 Klo 14.00: We speak sheep and a little English
 [biopallas] unread line ac9e0c50d8dc: Shaun the Sheep: The Beast of Mossy Bottom, Su/Sö 8.11 Klo 14.00: Puhumme lammasta ja vähän englantia
 [biopallas] unread line 6f160cd3461c: Shaun the Sheep: The Beast of Mossy Bottom, Su/Sö 8.11 Klo 14.00: Vi pratar fårskalliga och lite engelska
 [biopallas] unread line 75c55620dfd4: Shaun the Sheep: The Beast of Mossy Bottom, Su/Sö 8.11 Klo 14.00: We speak sheep and a little English
-[biopallas] Bio Pallas: 18 showtimes, 8 dates
+[biopallas] Bio Pallas: 14 showtimes, 6 dates
 [biopallas] synopses merged: 0
-[run] http: 1 revalidated (304), 0 full, 0 not stored (origin said no-store), 0 cache entries written
+[run] http: 0 revalidated (304), 1 full, 0 not stored (origin said no-store), 1 cache entries written
 [run] hosts: 1 attempted -- www.biopallas.com
 [run] unread: 6 item(s) at 1 site(s): biopallas 6
-[run] pallas: 1 venues, 18 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
-[run] timing: 1 site(s), 0.2s of fetching added up across workers that overlap, longest site 0.2s, longest queue wait 149.9s, 0.2s wall from this module's first fetch starting to its last ending
+[run] pallas: 1 venues, 14 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
+[run] timing: 1 site(s), 1.4s of fetching added up across workers that overlap, longest site 1.4s, longest queue wait 176.7s, 1.4s wall from this module's first fetch starting to its last ending
 exit=0

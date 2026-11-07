@@ -1,10 +1,11 @@
-[riviera] prices: 64 ticket pages due, reading 40, 24 wait for the next run
-[riviera] prices: 104 screenings, 73 priced, 40 pages read, 40 reused, 7 without an ordinary ticket, 0 failed, 24 deferred, 75 with page fields
-[riviera] strand prefix split off 7 showtimes
-[riviera] Riviera Kallio: 39 showtimes, 24 dates
-[riviera] Riviera Punavuori: 72 showtimes, 27 dates
+[riviera] prices: 0 screenings, 0 priced, 0 pages read, 0 reused, 0 without an ordinary ticket, 0 failed, 0 deferred, 0 with page fields
+[riviera] Riviera Kallio: no showtimes, keeping previous data from 2026-11-07T06:15:40+00:00
+[riviera] Riviera Punavuori: no showtimes, keeping previous data from 2026-11-07T06:15:40+00:00
 [riviera] synopses merged: 0
-[run] hosts: 2 attempted -- tickets.rivieracinemas.fi, www.rivieracinemas.fi
-[run] riviera: 2 venues, 111 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
-[run] timing: 1 site(s), 59.2s of fetching added up across workers that overlap, longest site 59.2s, longest queue wait 0.0s, 59.2s wall from this module's first fetch starting to its last ending
+[riviera] no screenings: every venue came back empty and nothing confirms it
+[run] hosts: 1 attempted -- www.rivieracinemas.fi
+[run] partial: riviera kept previous data for 2 venue(s): rv-kallio, rv-punavuori
+[run] no screenings: 1 site(s) kept their previous files: riviera
+[run] riviera: 0 venues, 0 showtimes, 2 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
+[run] timing: 1 site(s), 47.6s of fetching added up across workers that overlap, longest site 47.6s, longest queue wait 0.0s, 47.6s wall from this module's first fetch starting to its last ending
 exit=0
