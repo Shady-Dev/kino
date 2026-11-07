@@ -1,14 +1,10 @@
-[kinotour] 2 screening(s) in 3 declared town(s), 2 priced
-[kinotour] Kurkisali, Kyrö: 0 showtimes, 0 dates
-[kinotour] Kristoffersali, Naantali: 2 showtimes, 1 dates
-[kinotour] Valtuustosali, Lieto: 0 showtimes, 0 dates
 [kinotour] Kurkisali: no programme at the moment (adapter confirmed the venue empty); publishing an empty file
-[kinotour] Kristoffersali: 2 showtimes, 1 dates
+[kinotour] Kristoffersali: no programme at the moment (adapter confirmed the venue empty); publishing an empty file
 [kinotour] Valtuustosali: no programme at the moment (adapter confirmed the venue empty); publishing an empty file
 [kinotour] synopses merged: 0
+[kinotour] no programme published: https://www.kinotour.fi/varaa-liput-elokuvatapahtumiin/: the page counts 0 screenings for every town and shows its own notice that nothing is coming up
 [run] http: 0 revalidated (304), 1 full, 0 not stored (origin said no-store), 0 cache entries written
 [run] hosts: 1 attempted -- www.kinotour.fi
-[run] pending: kinotour has 2 venue(s) with no programme yet: kinotour-kyro, kinotour-lieto
-[run] kinotour: 1 venues, 2 showtimes, 0 stale, 0 unverified, 2 pending, 0 with no programme, 0 failures
-[run] timing: 1 site(s), 1.2s of fetching added up across workers that overlap, longest site 1.2s, longest queue wait 162.6s, 1.2s wall from this module's first fetch starting to its last ending
+[run] kinotour: 0 venues, 0 showtimes, 0 stale, 0 unverified, 0 pending, 1 with no programme, 0 failures
+[run] timing: 1 site(s), 1.3s of fetching added up across workers that overlap, longest site 1.3s, longest queue wait 154.9s, 1.3s wall from this module's first fetch starting to its last ending
 exit=0
