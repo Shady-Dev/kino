@@ -8892,10 +8892,6 @@
   "the invite": {
    "id": 950028,
    "img": "data/posters/2755bb2be0a0c120.jpg",
-   "kr": "K-12",
-   "krs": [
-    "engel"
-   ],
    "r": 7.2,
    "s": {
     "en": "",
@@ -9946,7 +9942,7 @@
     "savonkinot",
     "star"
    ],
-   "r": 6.6,
+   "r": 7.0,
    "s": {
     "en": "Lowen Ashleigh, hired to ghostwrite for best-selling author Verity Crawford, uncovers Verity's autobiographical notes, and becomes involved in what may prove to be a lethal conspiracy.",
     "fi": "Colleen Hooverin menestysromaaniin perustuva viettelevä psykologinen trilleri seuraa menestyskirjailija Verity Crawfordia (Anne Hathaway) ja Lowen Ashleighia (Dakota Johnson), vaikeuksissa olevaa kirjailijaa, joka muuttaa syrjäiselle Crawfordin kartanolle kirjoittaakseen Verityn puolesta. Kun Lowen löytää jotakin, mikä vaikuttaa Verityn karmivilta omaelämäkerrallisilta muistiinpanoilta, hän joutuu kamppailemaan näiden häiritsevien ja kieroutuneiden tunnustusten kanssa, jotka koskevat Verityn aviomiestä Jeremyä (Josh Hartnett) – yrittäen erottaa fiktion todellisuudesta, manipuloinnin vetovoimasta ja tilaisuuden pakkomielteestä."
@@ -10354,6 +10350,7 @@
     "kinohirvi",
     "kinoiiris",
     "kinokilta",
+    "kinokonepaja",
     "kinokulma",
     "kinolumo",
     "kinomarilyn",
