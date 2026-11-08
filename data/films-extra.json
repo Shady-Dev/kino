@@ -1312,12 +1312,14 @@
    "krs": [
     "biokaari",
     "elavienkuvien",
+    "elokuviin",
     "ihmekompleksi",
     "isohannu",
     "kinohamina",
     "kinokulma",
     "kinomarilyn",
-    "kinotervakoski"
+    "kinotervakoski",
+    "lieksankino"
    ],
    "r": 0,
    "s": {
@@ -1652,16 +1654,12 @@
   },
   "fåret shaun och monstret på bondgården late lammas hämärapuuhissa": {
    "id": 1477104,
-   "img": "data/posters/93eda5fa30b7d70c.jpg",
-   "r": 7.4,
+   "r": 0,
    "s": {
-    "en": "On Halloween Eve at Mossy Bottom Farm, excitement turns to dismay when the clumsy Farmer ruins the pumpkin patch. Shaun tries fixing it with science experiments, but things go awry when a wild beast appears in the woods.",
+    "en": "",
     "fi": "Farmin asukkaat odottavat innolla Halloweenia, kunnes heidän rakkaudella kasvattamansa kurpitsaviljelmä tuhoutuu juhlan kynnyksellä. Late ei jää toimettomaksi, vaan päättää ryhtyä “hulluksi tiedemieheksi” korjatakseen tilanteen – ja pian tapahtumat karkaavatkin täysin käsistä. Kun tilan maajussi katoaa ja outo villi peto herättää kauhua kyläläisissä, ovat kaikki ainekset kasassa hirviömäisen hauskalle seikkailulle kaiken ikäisille."
    },
-   "tr": "https://www.youtube.com/watch?v=daZMq0AyOMc",
-   "ts": [
-    "en"
-   ]
+   "tr": ""
   },
   "george michael the faith tour": {
    "id": 1649403,
@@ -2939,16 +2937,12 @@
     "kinoolympia",
     "kinopiispanristi",
     "kinopirtti",
-    "kinosampo",
-    "kinotar",
     "kinotervakoski",
-    "kinotoijala",
     "kisakino",
     "kkino",
     "korjaamo",
     "kuvakukko",
     "kuvatahti",
-    "laitilankino",
     "leffabuumi",
     "niagara",
     "pajakkakino",
@@ -2958,7 +2952,8 @@
     "studio123jarvenpaa",
     "studio123kouvola",
     "tapiola",
-    "vaakuna"
+    "vaakuna",
+    "virtainpirtti"
    ],
    "r": 0,
    "s": {
@@ -4274,25 +4269,11 @@
    },
    "tr": ""
   },
-  "late lammas elokuva hämärähommissa": {
-   "id": 1477104,
-   "img": "data/posters/0d3865389792d3a5.jpg",
-   "r": 7.4,
-   "s": {
-    "en": "On Halloween Eve at Mossy Bottom Farm, excitement turns to dismay when the clumsy Farmer ruins the pumpkin patch. Shaun tries fixing it with science experiments, but things go awry when a wild beast appears in the woods.",
-    "fi": ""
-   },
-   "tr": "https://www.youtube.com/watch?v=daZMq0AyOMc",
-   "ts": [
-    "en"
-   ]
-  },
   "late lammas elokuva hämäräpuuhissa": {
    "id": 1477104,
    "img": "data/posters/93eda5fa30b7d70c.jpg",
    "kr": "K-7",
    "krs": [
-    "bioforum",
     "biogrand",
     "biokaari",
     "biomarilyn",
@@ -4340,8 +4321,7 @@
     "savonkinot",
     "star",
     "studio123jarvenpaa",
-    "studio123kouvola",
-    "vaakuna"
+    "studio123kouvola"
    ],
    "r": 7.4,
    "s": {
@@ -6289,10 +6269,10 @@
     "biosavoy",
     "biostara",
     "cinemantsala",
+    "elokuviin",
     "engel",
     "isohannu",
     "kinolumo",
-    "kinopiispanristi",
     "kotkanleffat",
     "kulttuurimylly",
     "kuvatahti",
@@ -6329,22 +6309,19 @@
    "kr": "S",
    "krs": [
     "alatalo",
+    "biograni",
     "biorex",
-    "biorexkokkola",
     "biosade",
     "biosalo",
     "biostara",
-    "elokuviin",
     "engel",
     "helios",
     "ihmekompleksi",
     "isohannu",
     "kino123",
-    "kinohannikainen",
     "kinohirvi",
     "kinokulma",
     "kinometso",
-    "kinomyyri",
     "kinopiispanristi",
     "kinopirtti",
     "kinotervakoski",
@@ -6390,6 +6367,7 @@
   },
   "pikkuli ja tähtipeura på svenska": {
    "id": 1403476,
+   "img": "data/posters/79b249e47f0870db.jpg",
    "r": 0,
    "s": {
     "en": "",
@@ -6413,22 +6391,19 @@
    "kr": "S",
    "krs": [
     "alatalo",
+    "biograni",
     "biorex",
-    "biorexkokkola",
     "biosade",
     "biosalo",
     "biostara",
-    "elokuviin",
     "engel",
     "helios",
     "ihmekompleksi",
     "isohannu",
     "kino123",
-    "kinohannikainen",
     "kinohirvi",
     "kinokulma",
     "kinometso",
-    "kinomyyri",
     "kinopiispanristi",
     "kinopirtti",
     "kinotervakoski",
@@ -7876,7 +7851,6 @@
    "img": "data/posters/0d3865389792d3a5.jpg",
    "kr": "K-7",
    "krs": [
-    "bioforum",
     "biogrand",
     "biokaari",
     "biomarilyn",
@@ -7924,8 +7898,7 @@
     "savonkinot",
     "star",
     "studio123jarvenpaa",
-    "studio123kouvola",
-    "vaakuna"
+    "studio123kouvola"
    ],
    "r": 7.4,
    "s": {
@@ -9964,6 +9937,7 @@
    "img": "data/posters/aca6e1cdaad07a60.jpg",
    "kr": "K-12",
    "krs": [
+    "biograni",
     "elavienkuvien",
     "gilda",
     "ihmekompleksi",
@@ -10005,6 +9979,7 @@
    "krs": [
     "bioforum",
     "biogrand",
+    "biograni",
     "biomarlon",
     "biopallas",
     "biorex",
@@ -10037,7 +10012,7 @@
     "star",
     "tapiola"
    ],
-   "r": 0,
+   "r": 8.1,
    "s": {
     "en": "Shortly before the 1973 Chilean coup, CIA agents Chris (John Malkovich) and Lee (Sam Rockwell) are sent from Santiago to Easter Island by their superior, MJ (Steve Buscemi). Amid the island’s iconic statues, the longtime colleagues are forced to confront their dark past and a web of present-day conspiracies. Meanwhile, Chris’s new friendship with two rebellious students (Mariana di Girolamo and Ailín Salas) threatens to derail everyone’s journey to this remote paradise.",
     "fi": "Pian Chilen vuoden 1973 vallankaappauksen jälkeen CIA:n agentit Chris (John Malkovich) ja Lee (Sam Rockwell) lähetetään Santiagosta Pääsiäissaarelle hoitamaan viraston johtajan MJ:n (Steve Buscemi) määräämää tehtävää. Pitkäaikaiset työtoverit joutuvat kamppailemaan saaren ikonisten patsaiden varjoissa niin menneisyyden haamujen kuin paraikaa valloillaan olevien salaliittojen kanssa. Kun Chris sitten sattuu tapaamaan kaksi vallankumouksellista opiskelijaa (Mariana di Girolamo ja Ailín Salas), seuraukset uhkaavat suistaa raiteiltaan heidän kaikkien reissunsa tähän syrjäiseen paratiisiin.",
@@ -10227,7 +10202,7 @@
   "yön lapsi nightborn": {
    "id": 964849,
    "img": "data/posters/d0630be5ff40e993.jpg",
-   "r": 6.0,
+   "r": 5.9,
    "s": {
     "en": "",
     "fi": "Yön lapsi on Hanna Bergholmin ja Ilja Rautsin yhdessä käsikirjoittama psykologinen trilleri, joka pureutuu vanhemmuuteen ja parisuhteeseen liittyviin tunteisiin ennennäkemättömällä tavalla."
