@@ -1,5 +1,5 @@
-[tmb] kinotoijala: 10 showtimes, 5 films, 7 dates, 0 priced, 9 timed, 10 with a genre, 10 with a synopsis
-[kinotoijala] Kino-Toijala: 10 showtimes, 7 dates
+[tmb] kinotoijala: 9 showtimes, 4 films, 6 dates, 0 priced, 9 timed, 9 with a genre, 9 with a synopsis
+[kinotoijala] Kino-Toijala: 9 showtimes, 6 dates
 [kinotoijala] synopses merged: 0
 [tmb] kinosampo: 9 showtimes, 4 films, 6 dates, 0 priced, 9 timed, 9 with a genre, 9 with a synopsis
 [kinosampo] Kino-Sampo: 9 showtimes, 6 dates
@@ -10,8 +10,8 @@
 [tmb] kinoelo: 14 showtimes, 6 films, 6 dates, 0 priced, 14 timed, 14 with a genre, 14 with a synopsis
 [kinoelo] Elokuvateatteri Elo: 14 showtimes, 6 dates
 [kinoelo] synopses merged: 0
-[run] http: 0 revalidated (304), 25 full, 25 not stored (origin said no-store), 0 cache entries written
+[run] http: 0 revalidated (304), 24 full, 24 not stored (origin said no-store), 0 cache entries written
 [run] hosts: 4 attempted -- elokuvat-elo.info, kino-mania.info, kinosampo.info, toijalan-kino.info
-[run] tmb: 4 venues, 49 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
-[run] timing: 4 site(s), 36.0s of fetching added up across workers that overlap, longest site 10.4s, longest queue wait 82.3s, 23.1s wall from this module's first fetch starting to its last ending
+[run] tmb: 4 venues, 48 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
+[run] timing: 4 site(s), 36.0s of fetching added up across workers that overlap, longest site 11.6s, longest queue wait 69.2s, 25.4s wall from this module's first fetch starting to its last ending
 exit=0

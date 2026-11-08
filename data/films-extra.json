@@ -4322,7 +4322,6 @@
     "haapamaki",
     "ihmekompleksi",
     "isohannu",
-    "jarvelankino",
     "joutsankino",
     "kino123",
     "kinoakseli",
@@ -5448,16 +5447,12 @@
   },
   "noiduttu": {
    "id": 4174,
-   "img": "data/posters/e6c61c126197fac2.jpg",
-   "r": 7.4,
+   "r": 0,
    "s": {
-    "en": "When Dr. Anthony Edwardes arrives at a Vermont mental hospital to replace the outgoing hospital director, Dr. Constance Peterson, a psychoanalyst, discovers Edwardes is actually an impostor. The man confesses that the real Dr. Edwardes is dead and fears he may have killed him, but cannot recall anything. Dr. Peterson, however is convinced his impostor is innocent of the man's murder, and joins him on a quest to unravel his amnesia through psychoanalysis.",
+    "en": "",
     "fi": "Alfred Hitchcockin psykologinen trilleri sukeltaa alitajunnan maisemiin ja pimeisiin labyrintteihin. Ingrid Bergman esittää psykoanalyytikkoa, joka yrittää paljastaa muistinsa menettäneen miehen salaisuuden. Matka alitajuntaan vie unien, symbolien ja epäilyksen läpi. Kuuluisaa surrealistista unijaksoa värvättiin kuvittamaan Salvador Dalí."
    },
-   "tr": "https://www.youtube.com/watch?v=HIBaGIUbXqI",
-   "ts": [
-    "en"
-   ]
+   "tr": ""
   },
   "norma rae": {
    "id": 40842,
@@ -7958,7 +7953,6 @@
     "haapamaki",
     "ihmekompleksi",
     "isohannu",
-    "jarvelankino",
     "joutsankino",
     "kino123",
     "kinoakseli",
@@ -8960,16 +8954,12 @@
   },
   "the punk rock movie": {
    "id": 134158,
-   "img": "data/posters/83f4af39e6c1d208.jpg",
    "r": 0,
    "s": {
-    "en": "Documentary on the London punk-rock scene, circa '78",
+    "en": "",
     "fi": "The Punk Rock Movie on todistusvoimainen dokumentti punkin varhaisista vaiheista. Elokuvassa ei ole kertojaa tai muita puhkiselittäviä elementtejä, vaan se antaa tilan itse pääasialle eli punkille ja sen tekijöille. Kuvauskohteina ovat muun muassa Generation X, The Slits, The Clash, Siouxsie & the Banshees, Johnny Thunders & the Heartbreakers sekä tietenkin Sex Pistols."
    },
-   "tr": "",
-   "ts": [
-    "en"
-   ]
+   "tr": ""
   },
   "the punk singer": {
    "id": 178290,
@@ -9009,20 +8999,6 @@
     "fi": "Kaikkien kulttielokuvien äiti on synnyttänyt ympärilleen yhteisöllisen ilmiön, joka elää ja voi hyvin vielä yli viisikymmentä vuotta ensi-iltansa jälkeen. B-scifiä ja kauhuelokuvia rakastavasti parodioiva ja pastissoiva teos juhlistaa vapauttavaa estottomuutta ja antoi kokonaiselle sukupolvelle luvan olla oma outo itsensä."
    },
    "tr": ""
-  },
-  "the rocky horror picture show 1975": {
-   "id": 36685,
-   "img": "data/posters/881ea0a1c032f51c.jpg",
-   "r": 7.4,
-   "s": {
-    "en": "After getting a flat tire in the middle of nowhere, newly engaged couple Brad and Janet encounter the eerie mansion of the flamboyant, seductive Dr Frank-N-Furter and a variety of eccentric characters. Through elaborate dance and rock music, the mad scientist unveils his latest creation: a perfect, muscular man.",
-    "fi": "Kaikkien aikojen kulttielokuva, kauhuelokuvia parodioiva musiikkikomedia nuoresta pariskunnasta, joka myrsky-yönä osuu hullun tiedemiehen synkkään ja kummalliseen kartanoon."
-   },
-   "tr": "https://www.youtube.com/watch?v=4plqh6obZW4",
-   "ts": [
-    "en",
-    "fi"
-   ]
   },
   "the rocky horror picture show dress along": {
    "id": 36685,
@@ -10350,8 +10326,7 @@
   },
   "äideistä parhain": {
    "id": 32990,
-   "img": "data/posters/238e3138603ad43a.jpg",
-   "r": 6.8,
+   "r": 0,
    "s": {
     "en": "",
     "fi": "Eero lähetetään sotalapsena Ruotsiin. Sopeutuminen uuteen perheeseen ei suju ongelmitta, mutta kun myöhemmin tulee aika palata Suomeen ja oikean äidin luo, ei sekään tunnu enää oikealta. Äideistä parhain kuvaa sotalapsien juurettomuutta ja lapsena koettua turvattomuutta uskottavasti ja tunteisiin vetoavasti."
@@ -10359,5 +10334,5 @@
    "tr": ""
   }
  },
- "generated": "2026-11-07"
+ "generated": "2026-11-08"
 }
