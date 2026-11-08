@@ -4352,7 +4352,6 @@
     "kinotar",
     "kinotervakoski",
     "kinotoijala",
-    "kinovirta",
     "kirkkonummi",
     "kkino",
     "korjaamo",
@@ -4417,16 +4416,12 @@
   },
   "late lammas hämärä puuhissa": {
    "id": 1477104,
-   "img": "data/posters/93eda5fa30b7d70c.jpg",
-   "r": 7.4,
+   "r": 0,
    "s": {
-    "en": "On Halloween Eve at Mossy Bottom Farm, excitement turns to dismay when the clumsy Farmer ruins the pumpkin patch. Shaun tries fixing it with science experiments, but things go awry when a wild beast appears in the woods.",
+    "en": "",
     "fi": "Rakastettu Late Lammas palaa valkokankaille uudessa, riemastuttavassa ja kutkuttavan hauskassa seikkailussa. Farmin asukkaat odottavat innolla Halloweenia, kunnes heidän rakkaudella kasvattamansa kurpitsaviljelmä tuhoutuu juhlan kynnyksellä. Late ei jää toimettomaksi, vaan päättää ryhtyä “hulluksi tiedemieheksi” korjatakseen tilanteen – ja pian tapahtumat karkaavatkin täysin käsistä. Kun tilan maajussi katoaa ja outo villi peto herättää kauhua kyläläisissä, ovat kaikki ainekset kasassa hirviömäisen hauskalle seikkailulle kaiken ikäisille."
    },
-   "tr": "https://www.youtube.com/watch?v=daZMq0AyOMc",
-   "ts": [
-    "en"
-   ]
+   "tr": ""
   },
   "late lammas hämäräpuuhissa": {
    "id": 1477104,
@@ -5184,16 +5179,12 @@
   },
   "muumipeikko ja pyrstötähti": {
    "id": 1589405,
-   "img": "data/posters/d6ef28b0116a468f.jpg",
    "r": 0,
    "s": {
-    "en": "A restored, updated and somewhat altered version of the 1992 animated film Comet in Moominland.",
+    "en": "",
     "fi": "Eräänä sateisena iltana Muumilaakson rauhaisaan idylliin saapuu filosofiksi esittäytyvä Piisamirotta ennustamaan koko maapalloa kohtaavaa katastrofia. Yhtäkkiä kesä ei olekaan enää niin kuin ennen. Muumipeikon, Nipsun ja Pikku Myyn on lähdettävä vaikeakulkuiseen seikkailuun tähtitornivuoren huipulle selvittämään, onko maailmanloppu todella tulossa. Elämän palaaminen uomiinsa edellyttää Muumilaakson väeltä ennennäkemätöntä sankaruutta. Matkalla kohdataan jännittäviä vaaroja, mutta myös luonnon ihmeitä ja uskomattomia aarteita – ja solmitaan korvaamattomia uusia ystävyyksiä. Tarinassa tavataan myös seikkailija Nuuskamuikkunen sekä viisas keksijä Niisku ja hänen siskonsa Niiskuneiti. Vahvistunein joukoin kotiin Muumilaaksoon palattuaan on ystävyksillä entistäkin paremmat eväät niin pyörremyrskyiltä kuin pyrstötähdiltä suojautumiseen ja koko Muumi-perheen pelastamiseen. Tarvitaan vain kekseliäisyyttä, yhteishenkeä ja valmiutta auttaa apua tarvitsevia, jotta kaikki pysyvät turvassa merkillisiltä luonnonilmiöiltä."
    },
-   "tr": "",
-   "ts": [
-    "en"
-   ]
+   "tr": ""
   },
   "muutoskollektiivi perfect days": {
    "id": 976893,
@@ -7980,7 +7971,6 @@
     "kinotar",
     "kinotervakoski",
     "kinotoijala",
-    "kinovirta",
     "kirkkonummi",
     "kkino",
     "korjaamo",
