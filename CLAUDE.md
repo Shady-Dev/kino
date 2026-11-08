@@ -265,8 +265,8 @@ provider missing from it loses its venues, not just its label.
   Grani and BioRex are 48.3 apart to a deuteranope and 32.0 to everyone else. Clear 14.4
   in every view a new shade enters, and never lower an existing regional minimum without
   recording why in `IDEAS.md`. Every shade reaches 3:1 contrast against the surfaces its
-  marker touches, `#FFFFFF` and `#F6F7F9` in the light theme and `#1C1F28`, `#16181F` and
-  `#0D0E12` in the dark one, and a new or moved shade sits inside `accent_check.WINDOW`.
+  marker touches, `#FFFFFF` and `#F6F7F9` in the light theme and `#1C1F28`, `#171A20` and
+  `#111318` in the dark one, and a new or moved shade sits inside `accent_check.WINDOW`.
   Colour stays supplementary: both views also print venue names and a chain legend.
 - **The one exception is the maintainer's, and scoped.** On 2026-10-13 the maintainer let
   pairs with Kino Konepaja, Kino Kulttuurimylly or Kannusali fall below 14.4 on a

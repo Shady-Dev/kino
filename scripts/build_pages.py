@@ -556,7 +556,7 @@ THEME_HEAD_JS = (
 THEME_BODY_JS = (
     "(function(){var b=document.getElementById('themeToggle');if(!b)return;"
     "var r=document.documentElement,g=document.getElementById('ghost');"
-    "function paint(){var c=getComputedStyle(r).getPropertyValue('--bg').trim()||'#0D0E12';"
+    "function paint(){var c=getComputedStyle(r).getPropertyValue('--bg').trim()||'#111318';"
     "var m=document.querySelectorAll('meta[name=\\'theme-color\\']');"
     "for(var i=0;i<m.length;i++){m[i].removeAttribute('media');m[i].setAttribute('content',c)}"
     "if(g)g.setAttribute('aria-label',g.getAttribute(r.getAttribute('data-theme')==='dark'?'data-light':'data-dark'))}"
@@ -597,8 +597,8 @@ CSS = """
 @font-face{font-family:'Archivo';font-style:normal;font-weight:100 900;font-stretch:62% 125%;font-display:swap;src:url(/fonts/archivo-latin-ext.woff2) format('woff2');unicode-range:U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF}
 @font-face{font-family:'Archivo';font-style:normal;font-weight:100 900;font-stretch:62% 125%;font-display:swap;src:url(/fonts/archivo-latin.woff2) format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
 :root{--bg:#F6F7F9;--surface:#FFFFFF;--ink:#16181D;--muted:#5C6470;--line:#E3E6EB;--accent:#B8860B;--accent-text:#8A6508;--chip-bg:#FFFFFF;--shadow:0 1px 3px rgba(22,24,29,.06)}
-:root[data-theme=dark]{--bg:#0D0E12;--surface:#16181F;--ink:#EDEDEA;--muted:#AEB5C2;--line:#262A33;--accent:#E8B84B;--accent-text:#E8B84B;--chip-bg:#1C1F28;--shadow:0 1px 3px rgba(0,0,0,.4)}
-@media(prefers-color-scheme:dark){:root:not([data-theme=light]){--bg:#0D0E12;--surface:#16181F;--ink:#EDEDEA;--muted:#AEB5C2;--line:#262A33;--accent:#E8B84B;--accent-text:#E8B84B;--chip-bg:#1C1F28;--shadow:0 1px 3px rgba(0,0,0,.4)}}
+:root[data-theme=dark]{--bg:#111318;--surface:#171A20;--ink:#D7D7D4;--muted:#B3B9C5;--line:#343842;--accent:#E8B84B;--accent-text:#E8B84B;--chip-bg:#1C1F28;--shadow:0 1px 3px rgba(0,0,0,.4)}
+@media(prefers-color-scheme:dark){:root:not([data-theme=light]){--bg:#111318;--surface:#171A20;--ink:#D7D7D4;--muted:#B3B9C5;--line:#343842;--accent:#E8B84B;--accent-text:#E8B84B;--chip-bg:#1C1F28;--shadow:0 1px 3px rgba(0,0,0,.4)}}
 *{box-sizing:border-box;margin:0;padding:0}
 html{color-scheme:light dark}
 html[data-theme=dark]{color-scheme:dark}
@@ -1665,7 +1665,7 @@ def page(*, lang, paths, title, desc, h1, sub, intro, days, today, t,
 <meta name="description" content="{esc(desc)}">
 <meta name="color-scheme" content="light dark">
 <meta name="theme-color" media="(prefers-color-scheme: light)" content="#F6F7F9">
-<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#0D0E12">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#111318">
 <script>{THEME_HEAD_JS}</script>
 <link rel="canonical" href="{SITE}{self_path}">
 {hreflangs}

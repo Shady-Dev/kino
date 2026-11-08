@@ -7,7 +7,7 @@
 <meta name="description" content="See upcoming films and showtimes at Kino Regina in Helsinki. Check the film details, then choose a showtime to buy tickets on the cinema’s website.">
 <meta name="color-scheme" content="light dark">
 <meta name="theme-color" media="(prefers-color-scheme: light)" content="#F6F7F9">
-<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#0D0E12">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#111318">
 <script>(function(){var k=null;try{k=localStorage.getItem('kino-theme')}catch(e){}var t=(k==='dark'||k==='light')?k:(matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light');document.documentElement.setAttribute('data-theme',t)})();</script>
 <link rel="canonical" href="https://leffavuoro.fi/en/theatre/kino-regina-helsinki/">
 <link rel="alternate" hreflang="fi" href="https://leffavuoro.fi/teatteri/kino-regina-helsinki/">
@@ -26,8 +26,8 @@
 <style>@font-face{font-family:'Archivo';font-style:normal;font-weight:100 900;font-stretch:62% 125%;font-display:swap;src:url(/fonts/archivo-latin-ext.woff2) format('woff2');unicode-range:U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF}
 @font-face{font-family:'Archivo';font-style:normal;font-weight:100 900;font-stretch:62% 125%;font-display:swap;src:url(/fonts/archivo-latin.woff2) format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
 :root{--bg:#F6F7F9;--surface:#FFFFFF;--ink:#16181D;--muted:#5C6470;--line:#E3E6EB;--accent:#B8860B;--accent-text:#8A6508;--chip-bg:#FFFFFF;--shadow:0 1px 3px rgba(22,24,29,.06)}
-:root[data-theme=dark]{--bg:#0D0E12;--surface:#16181F;--ink:#EDEDEA;--muted:#AEB5C2;--line:#262A33;--accent:#E8B84B;--accent-text:#E8B84B;--chip-bg:#1C1F28;--shadow:0 1px 3px rgba(0,0,0,.4)}
-@media(prefers-color-scheme:dark){:root:not([data-theme=light]){--bg:#0D0E12;--surface:#16181F;--ink:#EDEDEA;--muted:#AEB5C2;--line:#262A33;--accent:#E8B84B;--accent-text:#E8B84B;--chip-bg:#1C1F28;--shadow:0 1px 3px rgba(0,0,0,.4)}}
+:root[data-theme=dark]{--bg:#111318;--surface:#171A20;--ink:#D7D7D4;--muted:#B3B9C5;--line:#343842;--accent:#E8B84B;--accent-text:#E8B84B;--chip-bg:#1C1F28;--shadow:0 1px 3px rgba(0,0,0,.4)}
+@media(prefers-color-scheme:dark){:root:not([data-theme=light]){--bg:#111318;--surface:#171A20;--ink:#D7D7D4;--muted:#B3B9C5;--line:#343842;--accent:#E8B84B;--accent-text:#E8B84B;--chip-bg:#1C1F28;--shadow:0 1px 3px rgba(0,0,0,.4)}}
 *{box-sizing:border-box;margin:0;padding:0}
 html{color-scheme:light dark}
 html[data-theme=dark]{color-scheme:dark}
@@ -142,7 +142,7 @@ footer .statuslink a:hover{text-decoration:underline}
 </main>
 <footer><div data-nosnippet>Showtimes: each cinema&#x27;s own schedule. Ratings and descriptions: TMDB. A personal hobby project, unaffiliated with the cinemas.</div><div class="statuslink" data-nosnippet><a href="/status/?area=regina-helsinki&amp;lang=en">Service status and information ↗</a></div></footer>
 </div>
-<script>(function(){var b=document.getElementById('themeToggle');if(!b)return;var r=document.documentElement,g=document.getElementById('ghost');function paint(){var c=getComputedStyle(r).getPropertyValue('--bg').trim()||'#0D0E12';var m=document.querySelectorAll('meta[name=\'theme-color\']');for(var i=0;i<m.length;i++){m[i].removeAttribute('media');m[i].setAttribute('content',c)}if(g)g.setAttribute('aria-label',g.getAttribute(r.getAttribute('data-theme')==='dark'?'data-light':'data-dark'))}paint();function react(){if(!g||matchMedia('(prefers-reduced-motion: reduce)').matches)return;g.classList.remove('react');void g.offsetWidth;g.classList.add('react')}function toggle(){var next=r.getAttribute('data-theme')==='dark'?'light':'dark';r.setAttribute('data-theme',next);try{localStorage.setItem('kino-theme',next)}catch(e){}paint();react()}b.onclick=toggle;if(!g)return;g.onclick=toggle;g.addEventListener('animationend',function(e){if(e.animationName==='ghost-react')g.classList.remove('react')})})();</script>
+<script>(function(){var b=document.getElementById('themeToggle');if(!b)return;var r=document.documentElement,g=document.getElementById('ghost');function paint(){var c=getComputedStyle(r).getPropertyValue('--bg').trim()||'#111318';var m=document.querySelectorAll('meta[name=\'theme-color\']');for(var i=0;i<m.length;i++){m[i].removeAttribute('media');m[i].setAttribute('content',c)}if(g)g.setAttribute('aria-label',g.getAttribute(r.getAttribute('data-theme')==='dark'?'data-light':'data-dark'))}paint();function react(){if(!g||matchMedia('(prefers-reduced-motion: reduce)').matches)return;g.classList.remove('react');void g.offsetWidth;g.classList.add('react')}function toggle(){var next=r.getAttribute('data-theme')==='dark'?'light':'dark';r.setAttribute('data-theme',next);try{localStorage.setItem('kino-theme',next)}catch(e){}paint();react()}b.onclick=toggle;if(!g)return;g.onclick=toggle;g.addEventListener('animationend',function(e){if(e.animationName==='ghost-react')g.classList.remove('react')})})();</script>
 <script src="/pageview.js" data-category="generated_theatre" async></script>
 </body>
 </html>

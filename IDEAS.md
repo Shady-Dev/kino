@@ -99,6 +99,14 @@ dated D+4 to D+33, and ten matched control pages stay unchanged. The pairs, the 
 the review are in [docs/research/seo-and-search.md](docs/research/seo-and-search.md).
 **Next action:** read the pairs weekly and review the pilot on 2026-12-27.
 
+### The dark theme retune waits for the maintainer's look
+
+Body text measured 16.4:1 on 2026-11-08. A colour-only retune dims the ink to 12.9:1 and
+lifts the page, keeping the gold, the chain shades and the light theme. Faded states stay
+below 4.3:1 without opacity changes, proposed in
+[docs/research/dark-theme.md](docs/research/dark-theme.md).
+**Next action:** the maintainer's look and release decision, then the archive record.
+
 ## Blocked
 
 ### A way to read a generated page's full synopsis

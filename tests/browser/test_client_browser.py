@@ -1872,7 +1872,7 @@ class ThemeBeforeTheBody(Browser):
     def test_a_stored_dark_theme_is_on_screen_with_no_body_script(self):
         self.headless_page("dark", "light")
         self.assertEqual(self.theme(), "dark")
-        self.assertEqual(self.background(), "rgb(13, 14, 18)", "the dark --bg")
+        self.assertEqual(self.background(), "rgb(17, 19, 24)", "the dark --bg")
 
     def test_the_os_decides_when_nothing_valid_is_stored(self):
         self.headless_page("bogus", "dark")

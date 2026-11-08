@@ -108,7 +108,11 @@ it, and gives the edges to `--line` instead.
 
 ## The retune
 
-Same token names, same gold, same chain shades. Light theme untouched.
+On 2026-11-08 the maintainer added that the design must not change: only the colour values
+of the dark theme move, its tokens and the hard-coded dark colours that bypass them. No
+layout, size, opacity, typography or light value changes, and the gold and chain markers
+stay unless a measured target requires a dark shade to move. Same token names, same gold,
+same chain shades. Light theme untouched.
 
 | Token | Before | After | Why |
 |---|---|---|---|
@@ -119,33 +123,36 @@ Same token names, same gold, same chain shades. Light theme untouched.
 | `--muted` | `#AEB5C2` | `#B3B9C5` | Clears Lc 60 on `--accent-soft` and on tickets. |
 | `--line` | `#262A33` | `#343842` | 1.40 to 1.58:1 on all three surfaces. |
 | `--accent-on-ink` | `#8A6508` | `#523C05` | The gold label on the light chip reaches 7:1; same hue, darker. |
-| `--past` | `#4A4F5A` | `#B3B9C5` | A past time reads at the faded-ticket level. |
+| `--past` | `#4A4F5A` | `#B3B9C5` | The past time reads at the level of its own details. |
 | `--chip-hover-ink` | `#0D0E12` | `#111318` | Follows `--bg`, as before. Unused by any rule. |
 | `--accent`, `--accent-text`, `--accent-soft`, `--shadow` | | unchanged | |
 
-Five opacities became tokens, with light values equal to the literals they replace, so the
-light theme computes the same: `--fade-past` (.45, dark .7), `--fade-off` (.28, dark .65),
-`--fade-nav` (.3, dark .55), `--fade-count` (.75, dark 1) and `--fade-legend` (.5, dark
-.65). The dark block also sets `color-scheme:dark`. `theme-color` and the manifest follow
-the new page colour. The generated pages carry the same six colour changes in both of
-their dark blocks; they use none of the faded states.
+`theme-color`, its script fallback and the manifest are hard-coded copies of the dark page
+colour and follow it. The generated pages carry the same five token changes in both of
+their dark blocks; they have no `--accent-on-ink` or `--past`.
 
-### After, as computed from the tokens
+### After
+
+Measured on the page where the state was on screen, computed from the tokens and the
+unchanged opacities otherwise. Before values in brackets where a pair moved the wrong way
+or stayed below target.
 
 | Pair as drawn | WCAG | Lc | Target | |
 |---|---|---|---|---|
-| sold-out ticket time, `--ink` at .55 | 4.34 | 32.8 | disabled 4.3, Lc 30 | |
-| calendar arrow disabled, `--ink` at .55 | 4.38 | 33.9 | disabled 4.3, Lc 30 | |
-| calendar day out of range, `--muted` at .65 | 4.48 | 33.9 | disabled 4.3, Lc 30 | |
-| thin rating ring, `--ink` at .55 | 4.62 | 33.5 | disabled 4.3, Lc 30 | |
-| legend button off, `--muted` at .65 | 4.62 | 33.5 | disabled 4.3, Lc 30 | |
-| past ticket time and details, at .7 | 4.77 | 36.6 | disabled 4.3, Lc 30 | |
+| calendar day out of range, `--muted` at .28 | 1.87 (1.82) | 9.5 | disabled 4.3, Lc 30 | **miss** |
+| calendar arrow disabled, `--ink` at .3 | 2.22 (2.44) | 13.7 | disabled 4.3, Lc 30 | **miss** |
+| past ticket time, `--past` at .45 | 2.72 (1.28) | 18.5 | disabled 4.3, Lc 30 | **miss** |
+| past ticket details, `--muted` at .45 | 2.72 (2.59) | 18.5 | disabled 4.3, Lc 30 | **miss** |
+| legend button off, `--muted` at .5 | 3.23 (3.13) | 22.3 | disabled 4.3, Lc 30 | **miss** |
+| sold-out ticket time, `--ink` at .55 | 4.34 (5.07) | 32.8 | disabled 4.3, Lc 30 | |
+| thin rating ring, `--ink` at .55 | 4.62 (5.48) | 33.5 | disabled 4.3, Lc 30 | |
+| picker counts, `--muted` at .75 on `--bg` | 5.78 (5.66) | 41.7 | muted 7, Lc 60 | **miss** |
+| picker count pressed, `--bg` at .75 on `--ink` | 6.77 (8.08) | 69.2 | muted 7, Lc 60 | **miss** |
 | "Tänään", `--accent-on-ink` on `--ink` | 7.25 | 70.6 | label 7, Lc 60 | |
 | `--muted` on `--accent-soft` | 7.83 | 61.6 | muted 7, Lc 60 | |
 | `--muted` on `--chip-bg` | 8.36 | 62.4 | muted 7, Lc 60 | |
 | `--muted` on `--surface` | 8.85 | 63.1 | muted 7, Lc 60 | |
 | `--accent-text` on `--chip-bg` | 8.93 | 66.1 | link 7, Lc 60 | |
-| picker counts, `--muted` at 1 on `--bg` | 9.43 | 63.7 | muted 7, Lc 60 | |
 | `--muted` on `--bg` | 9.43 | 63.7 | muted 7, Lc 60 | |
 | `--accent-text` on `--bg` | 10.08 | 67.4 | link 7, Lc 60 | |
 | `--ink` on `--accent-soft` | 10.69 | 79.3 | body 9-13, Lc 75-90 | |
@@ -159,9 +166,17 @@ their dark blocks; they use none of the faded states.
 
 ### Where it deliberately misses the brief
 
+- **Faded states, 4.3:1.** Past tickets, calendar days out of range, the disabled calendar
+  arrow and an inactive legend button are drawn at opacity .28 to .5, and opacity is not
+  a colour value. At .45 even white would bring a past time to 4.30:1, and the details and
+  calendar days share `--muted` with every other secondary line. Colour alone lifts the
+  past time from 1.28 to 2.72:1 and leaves the rest within 0.4 of where they were. The
+  disabled arrow and the pressed picker count lost a little (2.44 to 2.22, 8.08 to 6.77,
+  the latter still Lc 69) because the ink they are drawn from is dimmer. The fix is under
+  "Proposals beyond colour values".
 - **Headings, Lc 85 to 95.** `--ink` is both body and heading colour. On the page Lc 85
   needs 13.5:1, past the brief's body ceiling of 13, so one token cannot meet both. Body
-  text was chosen: the halation the maintainer reported is in body text, and headings are
+  text was chosen: most of what a reader reads is body text, and headings are
   15 to 24 px at weight 700 to 900, where APCA's own minimum is Lc 45 to 60. They measure
   Lc 80 to 81.5. A separate heading token would close it, and is a design change of its own.
 - **Surface steps, 1.1 to 1.2.** Page to panel 1.07, panel to ticket 1.06 (before: 1.09
@@ -173,9 +188,22 @@ their dark blocks; they use none of the faded states.
   the same treatment as the light theme. Each control is also a filled shape with a text
   label. Raising every control border to 3:1 is a visual change to both themes.
 
+## Proposals beyond colour values
+
+Built and measured on 2026-11-08, then taken out under the colour-only instruction. Each
+keeps the light theme identical by giving the token the old literal in `:root`.
+
+- Opacity tokens for the faded states, dark values in brackets: `--fade-past` .45 (.7),
+  `--fade-off` .28 (.65), `--fade-nav` .3 (.55), `--fade-count` .75 (1), `--fade-legend`
+  .5 (.65). Measured in Chromium: past ticket 4.76:1 Lc 36.5, calendar day 4.46:1, arrow
+  4.38:1, legend 4.62:1, picker counts 9.43:1 Lc 63.7. All clear the brief.
+- `color-scheme:dark` in the app's dark block, so scrollbars and form-control defaults are
+  drawn dark. The generated pages already set it.
+- A heading token brighter than body text, for the Lc 85 heading target.
+- A sheet one step lighter than the page, if tickets get a ground that allows it.
+
 ## Open questions
 
-- A heading token, if the maintainer wants headings brighter than body text.
 - The light theme shows the same faded states at 1.37:1 (past ticket) and 1.49:1
   (calendar). It was kept byte-for-byte unchanged here by instruction.
 - `status/index.html` and `tietosuoja/index.html` carry their own dark tokens, and the
@@ -184,8 +212,15 @@ their dark blocks; they use none of the faded states.
 
 ## Implementation status
 
-Proposed 2026-11-08, not yet implemented. The "After" table is computed from the proposed
-tokens and the rules that draw them.
-**Next step:** implement it in `index.html` and `scripts/build_pages.py`, move
-`accent_check.SURFACES` with the surfaces, and compare the light theme's computed styles
-before and after.
+Implemented, colour values only, in `index.html`, `sw.js` (CACHE v313),
+`manifest.webmanifest`, `scripts/build_pages.py` and the regenerated pages, with
+`accent_check.SURFACES` and the CLAUDE.md surface list moved to the new values.
+`accent_check.py --theme dark` prints the same report before and after.
+
+Verified 2026-11-08 under a pinned clock in Chromium and WebKit, the HEAD build and this
+one served side by side. Light theme: 47,394 lines of computed colour, background,
+borders, outline, shadow, opacity, filter and `color-scheme`, every element and
+pseudo-element in the twelve views and both ways of choosing the theme, 0 differ. Dark
+theme: opacity, filter, shadow and `color-scheme` unchanged; only colours and the colour
+stops of gradients moved. The stored switch and the OS setting give identical records.
+**Next step:** the maintainer's look at the screenshots and the release decision.

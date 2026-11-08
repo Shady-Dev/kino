@@ -10,7 +10,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>Leffavuoro – elokuvat ja näytösajat</title>
-<meta name="theme-color" content="#0D0E12">
+<meta name="theme-color" content="#111318">
 <!-- Installed on iOS, the default status-bar treatment is a system material that
      blurs whatever the page's top edge holds. black-translucent is the only style
      that makes the bar truly transparent; the page then extends underneath, the
@@ -85,13 +85,15 @@
     --past:#AEB4BE;
   }
   [data-theme="dark"]{
-    --bg:#0D0E12; --surface:#16181F; --ink:#EDEDEA; --muted:#AEB5C2;
-    --line:#262A33; --accent:#E8B84B; --accent-soft:#2A2415;
+    /* Measured 2026-11-08, docs/research/dark-theme.md. --chip-bg cannot get lighter:
+       the chain markers' dark shades are held to 3:1 against it. */
+    --bg:#111318; --surface:#171A20; --ink:#D7D7D4; --muted:#B3B9C5;
+    --line:#343842; --accent:#E8B84B; --accent-soft:#2A2415;
     --accent-text:#E8B84B;
-    --accent-on-ink:#8A6508;
-    --chip-bg:#1C1F28; --chip-hover:#E8B84B; --chip-hover-ink:#0D0E12;
+    --accent-on-ink:#523C05;
+    --chip-bg:#1C1F28; --chip-hover:#E8B84B; --chip-hover-ink:#111318;
     --shadow:0 1px 3px rgba(0,0,0,.4);
-    --past:#4A4F5A;
+    --past:#B3B9C5;
   }
   *{box-sizing:border-box;margin:0;padding:0}
   /* Announced, never seen. Not display:none and not visibility:hidden -- both remove the
@@ -1764,7 +1766,7 @@
     document.documentElement.setAttribute('data-theme', t);
     const m = document.querySelector('meta[name="theme-color"]');
     if(m) m.content = getComputedStyle(document.documentElement)
-      .getPropertyValue('--bg').trim() || '#0D0E12';
+      .getPropertyValue('--bg').trim() || '#111318';
   };
   // The head script has already set the attribute; this repeats its rule so theme-color
   // follows. A stored value other than the two themes is ignored, not written into

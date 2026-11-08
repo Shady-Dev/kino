@@ -330,7 +330,7 @@ def row(label, a, b, n, v, m):
 
 # The surfaces a chain marker touches in each theme (index.html tokens: --chip-bg, --surface
 # and --bg). A shade must reach 3:1 against every one of them (decided 2026-10-13).
-SURFACES = {"light": ("#FFFFFF", "#F6F7F9"), "dark": ("#1C1F28", "#16181F", "#0D0E12")}
+SURFACES = {"light": ("#FFFFFF", "#F6F7F9"), "dark": ("#1C1F28", "#171A20", "#111318")}
 CONTRAST = 3.0
 THEME_KEY = {"light": "accent", "dark": "accentDark"}
 # CIELAB L* range and C*ab floor for a shade `search` proposes: the window the 2026-10-13

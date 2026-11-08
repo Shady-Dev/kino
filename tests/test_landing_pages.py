@@ -923,8 +923,8 @@ class GeneratedPagesTest(unittest.TestCase):
         for k, text in self.canonical.items():
             with self.subTest(path=k):
                 css = re.search(r"<style>(.*?)</style>", text, re.S).group(1)
-                self.assertIn(":root[data-theme=dark]{--bg:#0D0E12", css)
-                self.assertIn("@media(prefers-color-scheme:dark){:root:not([data-theme=light]){--bg:#0D0E12", css)
+                self.assertIn(":root[data-theme=dark]{--bg:#111318", css)
+                self.assertIn("@media(prefers-color-scheme:dark){:root:not([data-theme=light]){--bg:#111318", css)
                 self.assertIn("html:not([data-theme]) #themeToggle{display:none}", css)
 
     def test_the_toggle_is_the_apps_button_with_a_localised_name(self):
