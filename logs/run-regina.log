@@ -1,7 +1,6 @@
 [regina] schedule: 4 window(s), the last from 2027-01-25
 [regina] film pages: 95 parsed, 0 with nothing usable, 116/147 showtimes rated
-[regina] prices: 55 ticket pages due, reading 40, 15 wait for the next run
-[regina] prices: 147 screenings, 143 priced, 40 pages read, 92 reused, 4 without an ordinary ticket, 0 failed, 15 deferred
+[regina] prices: 147 screenings, 143 priced, 15 pages read, 132 reused, 4 without an ordinary ticket, 0 failed, 0 deferred
 [regina] Kino Regina: 147 showtimes, 53 dates
 [regina] synopses merged: 0
 [run] venuelists-local.json rewritten
