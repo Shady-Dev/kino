@@ -556,19 +556,6 @@
     "en"
    ]
   },
-  "bamse ja meren salaisuus": {
-   "id": 1275785,
-   "img": "data/posters/aed5ff66e478c590.jpg",
-   "r": 0,
-   "s": {
-    "en": "",
-    "fi": "Bamse, Pomppi ja Kilpinen ovat jälleen uuden seikkailun keskellä! Bamse, Pomppi ja Kilpinen lähtevät kohti suurta meriseikkailua ja sukeltavat keskelle merimysteeriä – pian alkaa koko perheen seikkailu, täynnä ystävyyttä, yllätyksiä ja huikeita hetkiä."
-   },
-   "tr": "https://www.youtube.com/watch?v=Vh9Tp3JXbQM",
-   "ts": [
-    "fi"
-   ]
-  },
   "beau travail": {
    "id": 14626,
    "r": 0,
@@ -1323,6 +1310,7 @@
    "img": "data/posters/445a6b495360d819.jpg",
    "kr": "K-12",
    "krs": [
+    "biokaari",
     "elavienkuvien",
     "ihmekompleksi",
     "isohannu",
@@ -3415,10 +3403,6 @@
   "kojootti vs acme": {
    "id": 1204680,
    "img": "data/posters/e1a7880d02ca0644.jpg",
-   "kr": "K-7",
-   "krs": [
-    "kinopiispanristi"
-   ],
    "r": 8.2,
    "s": {
     "en": "After Acme products fail him one too many times in his dogged pursuit of the Roadrunner, Wile E. Coyote decides to hire a billboard lawyer to sue the Acme Corporation.",
@@ -3510,16 +3494,12 @@
   },
   "kojootti vs acme suomeksi": {
    "id": 1204680,
-   "img": "data/posters/9bcb7891e3c4c53a.jpg",
-   "r": 8.2,
+   "r": 0,
    "s": {
-    "en": "After Acme products fail him one too many times in his dogged pursuit of the Roadrunner, Wile E. Coyote decides to hire a billboard lawyer to sue the Acme Corporation.",
+    "en": "",
     "fi": "Vuosikymmenten ajan pommien räjäyttämä, dynamiitin murskaama, magneettien runtelema, siirtolohkareiden litistämä, junien tallaama, tunneleiden huijaama, jousien sinkoama, höyryjyrien yliajama, viallisten laitteiden pettämä, benjiköysien kiusaama, rakettien riepottelema, lepakkoasujen selkäänpuukottama, rakettiluistinten paiskoma, yksipyöräisten kumoama, maanjäristyspillereiden tärisyttämä, villiintyneiden kuminauhojen venyttämä ja lounaisten Yhdysvaltojen jokaiselta jyrkänteeltä syösty Kelju K. Kojootti saa viimein tarpeekseen ja päättää iskeä takaisin. Mainostauluonnettomuuksiin erikoistuneen asianajajan Kevin Averyn (Will Forte) kanssa liittoutuessaan hän haastaa oikeuteen ACME Inc.:n – ahneuttaan tavoittelevan jättiyhtiön, jonka tuotteet ovat olleet jokaisen Kojoottia kohdanneen katastrofin taustalla – sekä yhtiötä edustavan lipevän yritysjuristin Buddy Cranen (John Cena)."
    },
-   "tr": "https://www.youtube.com/watch?v=kMsiD1Nky5I",
-   "ts": [
-    "en"
-   ]
+   "tr": ""
   },
   "koko perheen jazz suomi 100 juhlakonsertti": {
    "r": 0,
@@ -4325,7 +4305,6 @@
     "biosavoy",
     "biostara",
     "biovuoksi",
-    "cine",
     "cinemantsala",
     "elavienkuvien",
     "elokuviin",
@@ -4349,24 +4328,19 @@
     "kinopirtti",
     "kinosampo",
     "kinoset",
-    "kinotar",
     "kinotervakoski",
     "kinotoijala",
     "kirkkonummi",
-    "kkino",
     "korjaamo",
     "kotkanleffat",
     "kulttuurimylly",
-    "kurikankino",
     "kuvatahti",
-    "laitilankino",
     "leffabuumi",
     "levisummit",
     "savonkinot",
     "star",
     "studio123jarvenpaa",
     "studio123kouvola",
-    "tapiola",
     "vaakuna"
    ],
    "r": 7.4,
@@ -5533,6 +5507,7 @@
    "kr": "K-12",
    "krs": [
     "bioforum",
+    "biokaari",
     "biorexkokkola",
     "cinemantsala",
     "gilda",
@@ -6263,16 +6238,12 @@
   },
   "pikku kummitus lapanen": {
    "id": 1781923,
-   "img": "data/posters/8a9129f55b1b3d43.jpg",
    "r": 0,
    "s": {
-    "en": "Laban the Little Ghost is back with a new collection of cozy and just-spooky-enough adventures at the Good Morning Sun Castle. Together with his little sister Labolina and his best friend, the Little Prince, their days are filled with everything from trick-or-treating, birthday celebrations, and lost Christmas presents to unexpected guests and many other fun experiences.",
+    "en": "",
     "fi": "Pikku kummitus Lapanen on palannut uusien seikkailujen pariin Hyvänhuomenen linnassa. Lapanen ei ole kuin muut kummitukset, sillä hän pelkää pimeää. Lapanen haluaisi olla pelottava, mutta kuinka paljon hän yrittääkään, hän onnistuu vain pelästyttämään itsensä. Linnan kellarissa asuvat Lapasen lisäksi Äiti ja Isä Kummitus sekä hänen uhkarohkea pikkusiskonsa Lapaniina, joka osaa matkia kaikkia maailman ääniä. Linnassa asuu myös ihmisiä: Kuningas ja Kuningatar, Prinsessa ja Pikkuprinssi, jotka ovat Lapasen parhaat ystävät.\n\nElokuva on suomeksi puhuttu."
    },
-   "tr": "",
-   "ts": [
-    "en"
-   ]
+   "tr": ""
   },
   "pikku kummitus lapanen keppostelee": {
    "id": 1781923,
@@ -6322,8 +6293,6 @@
     "isohannu",
     "kinolumo",
     "kinopiispanristi",
-    "kinopirtti",
-    "kinovirta",
     "kotkanleffat",
     "kulttuurimylly",
     "kuvatahti",
@@ -6360,33 +6329,26 @@
    "kr": "S",
    "krs": [
     "alatalo",
-    "biograni",
     "biorex",
     "biorexkokkola",
     "biosade",
     "biosalo",
     "biostara",
-    "biovuoksi",
     "elokuviin",
     "engel",
     "helios",
     "ihmekompleksi",
     "isohannu",
-    "joutsankino",
     "kino123",
     "kinohannikainen",
     "kinohirvi",
     "kinokulma",
-    "kinolumo",
     "kinometso",
     "kinomyyri",
     "kinopiispanristi",
     "kinopirtti",
-    "kinotar",
     "kinotervakoski",
     "korjaamo",
-    "kotkanleffat",
-    "kulttuurimylly",
     "leffabuumi",
     "savonkinot",
     "star",
@@ -6428,7 +6390,6 @@
   },
   "pikkuli ja tähtipeura på svenska": {
    "id": 1403476,
-   "img": "data/posters/79b249e47f0870db.jpg",
    "r": 0,
    "s": {
     "en": "",
@@ -6452,33 +6413,26 @@
    "kr": "S",
    "krs": [
     "alatalo",
-    "biograni",
     "biorex",
     "biorexkokkola",
     "biosade",
     "biosalo",
     "biostara",
-    "biovuoksi",
     "elokuviin",
     "engel",
     "helios",
     "ihmekompleksi",
     "isohannu",
-    "joutsankino",
     "kino123",
     "kinohannikainen",
     "kinohirvi",
     "kinokulma",
-    "kinolumo",
     "kinometso",
     "kinomyyri",
     "kinopiispanristi",
     "kinopirtti",
-    "kinotar",
     "kinotervakoski",
     "korjaamo",
-    "kotkanleffat",
-    "kulttuurimylly",
     "leffabuumi",
     "savonkinot",
     "star",
@@ -6532,7 +6486,6 @@
     "ihmekompleksi",
     "isohannu",
     "kino123",
-    "kinolumo",
     "kinopiispanristi",
     "kinopirtti",
     "kotkanleffat",
@@ -6668,16 +6621,12 @@
   },
   "practical magic lumotut sisaret": {
    "id": 1302904,
-   "img": "data/posters/1b75e3e44aca4810.jpg",
-   "r": 7.2,
+   "r": 0,
    "s": {
-    "en": "The Owens sisters must confront the dark curse that threatens to unravel their family once and for all.",
+    "en": "",
     "fi": "Sandra Bullockin ja Nicole Kidmanin tähdittämä PRACTICAL MAGIC: LUMOTUT SISARET vie kuutamon valaisemien kepposten ja esiäitien taikuuden sävyttämään maailmaan, jossa Owensin sisarten on kohdattava synkkä kirous, joka uhkaa repiä heidän perheensä lopullisesti hajalle. Luvassa on lumottu elokuva täynnä komediaa ja taikaa."
    },
-   "tr": "https://www.youtube.com/watch?v=Ho10_4IX1jE",
-   "ts": [
-    "en"
-   ]
+   "tr": ""
   },
   "practical magic lumotut sisaret k18 anniskelunäytös": {
    "id": 1302904,
@@ -7202,7 +7151,7 @@
   "resident evil": {
    "id": 1423191,
    "img": "data/posters/647807f97cc3fb5a.jpg",
-   "r": 7.3,
+   "r": 7.4,
    "s": {
     "en": "Medical courier Bryan unwittingly finds himself fighting for survival as one fateful, horrifying night collapses around him in chaos.",
     "fi": "Visionäärisen ohjaajan Zach Creggerin (Weapons, Barbarian) mielestä syntyy jännittävä – ja kauhistuttava – uudelleentulkinta Resident Evil -elokuvasarjasta. Täysin uudessa tarinassa Resident Evil seuraa Bryania (Austin Abrams), lääkintälähettiä, joka huomaamattaan ajautuu toiminnantäyteiseen, tauottomaan selviytymiskamppailuun, kun yksi kohtalokas ja kammottava yö syöksyy hänen ympärillään kaaokseen.",
@@ -7756,16 +7705,12 @@
   },
   "ryhmä hau dinoelokuva suomeksi": {
    "id": 1185806,
-   "img": "data/posters/b7775ab25a7de6bc.jpg",
-   "r": 8.2,
+   "r": 0,
    "s": {
-    "en": "The Paw Patrol lands on a mysterious dinosaur island after a storm, where they meet Rex, a stranded pup. When Humdinger's reckless mining triggers a volcano, the team faces their biggest rescue mission yet to save the island.",
+    "en": "",
     "fi": "Ryhmä Haun laiva joutuu mystisen myrskyn kouriin ja haaksirikkoutuu trooppiselle saarelle, joka kuhisee dinosauruksia. He tapaavat Rexin – pennun, joka on jo vuosia ollut saarella jumissa ja josta on kehkeytynyt melkoinen dinosaurusekspertti. Kun Ryhmä Haun arkkivihollinen, Pormestari Hanttinen, aloittaa valtavat kaivuutyöt voidakseen hyödyntää saaren luonnonvaroja, hän saa vahingossa valtavan nukuksissa olleen tulivuoren purkautumaan. Pennut tempautuvat mukaan riskialttiiseen, dinon kokoiseen, kaikkien aikojen suurimpaan pelastusoperaatioonsa tavoitteenaan pysäyttää Hanttinen ennen kuin kaikki saarella katoaa ikiajoiksi."
    },
-   "tr": "https://www.youtube.com/watch?v=xgI5iYmOf5Q",
-   "ts": [
-    "en"
-   ]
+   "tr": ""
   },
   "rölli ja metsänhenki": {
    "id": 64029,
@@ -7944,7 +7889,6 @@
     "biosavoy",
     "biostara",
     "biovuoksi",
-    "cine",
     "cinemantsala",
     "elavienkuvien",
     "elokuviin",
@@ -7968,24 +7912,19 @@
     "kinopirtti",
     "kinosampo",
     "kinoset",
-    "kinotar",
     "kinotervakoski",
     "kinotoijala",
     "kirkkonummi",
-    "kkino",
     "korjaamo",
     "kotkanleffat",
     "kulttuurimylly",
-    "kurikankino",
     "kuvatahti",
-    "laitilankino",
     "leffabuumi",
     "levisummit",
     "savonkinot",
     "star",
     "studio123jarvenpaa",
     "studio123kouvola",
-    "tapiola",
     "vaakuna"
    ],
    "r": 7.4,
@@ -8085,19 +8024,6 @@
     "fi": "Laula minulle Arja on dokumenttielokuva legendaarisesta suomalaisesta laulajasta ja ihmisoikeusaktivistista Arja Saijonmaasta, vahvatahtoisesta naisesta, joka on elänyt taiteensa rajojen, sukupolvien ja ideologioiden yli. Elokuva seuraa hänen poikkeuksellista matkaansa ja elinikäistä ystävyyttään kreikkalaisen säveltäjän ja vapaustaistelijan Mikis Theodorakiksen kanssa. Musiikkielämysten, harvinaisen arkistomateriaalin ja nykyhetken pohdintojen kautta dokumenttielokuva paljastaa pelottoman esiintyjän ja rauhan sillanrakentajan, jonka aseena on laulu."
    },
    "tr": ""
-  },
-  "skönärit": {
-   "id": 1421693,
-   "img": "data/posters/212554662022cb5c.jpg",
-   "r": 0,
-   "s": {
-    "en": "The protagonist of this documentary, that takes the audience from underneath the blazing sun to the middle of icebergs and through the seven seas, is Jalmar “Jallu” Yrjänen. He is a young seaman from Rauma, Finland, whose fate was to be swallowed by the waves of the Atlantic Ocean as the only fatality of the shipwreck of his vessel, the M/S Mercur, on 8 December, 1925.  Milja Viita’s collage film combines primary source material such as letters and logbooks with archival film footage shot between the 1960s and the 1990s. The authentic footage lets us have a glimpse into the day-to-day life of seafarers far from their home ports.",
-    "fi": ""
-   },
-   "tr": "",
-   "ts": [
-    "en"
-   ]
   },
   "sleepaway camp": {
    "id": 13567,
