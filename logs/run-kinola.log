@@ -28,18 +28,18 @@
 [kinomyyri] Kino Myyri: 15 showtimes, 8 dates
 [kinomyyri] Kino Myyri: 15 showtimes, 8 dates
 [kinomyyri] synopses merged: 0
-[kinokonepaja] 64 screening(s) listed, 21 film page(s) read
+[kinokonepaja] 63 screening(s) listed, 21 film page(s) read
 [kinokonepaja] omitted 0 confirmed non-film(s) by evidence-backed exclusion over 0 screening(s), and 3 unresolved over 3
 [kinokonepaja] unresolved: Cold November, Reel Rock Film Tour 20, The BritRock Film Tour 2026
 [kinokonepaja] override edward-scissorhands: evidence-unavailable
 [kinokonepaja] override gremlins: evidence-unavailable
 [kinokonepaja] override nightmare-on-elm-street: evidence-unavailable
 [kinokonepaja] 4 film(s) with a language name not read, that part left blank: A shelter Among the Clouds (albania); Dua (albania, serbia); Helena Ranta – Sodan viimeinen sana (serbia, albania); Shame and Money (albania)
-[kinokonepaja] Kino Konepaja: 61 showtimes, 30 dates
-[kinokonepaja] Kino Konepaja: 61 showtimes, 30 dates
+[kinokonepaja] Kino Konepaja: 60 showtimes, 29 dates
+[kinokonepaja] Kino Konepaja: 60 showtimes, 29 dates
 [kinokonepaja] synopses merged: 0
 [run] http: 49 revalidated (304), 58 full, 17 not stored (origin said no-store), 0 cache entries written
 [run] hosts: 4 attempted -- kinokonepaja.fi, kinomyyri.fi, www.kinokilta.fi, www.kinolaika.fi
-[run] kinola: 4 venues, 171 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
-[run] timing: 4 site(s), 198.5s of fetching added up across workers that overlap, longest site 78.3s, longest queue wait 92.2s, 78.3s wall from this module's first fetch starting to its last ending
+[run] kinola: 4 venues, 170 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
+[run] timing: 4 site(s), 218.2s of fetching added up across workers that overlap, longest site 84.2s, longest queue wait 100.9s, 84.2s wall from this module's first fetch starting to its last ending
 exit=0

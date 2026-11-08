@@ -1,13 +1,13 @@
-[biorexkokkola] Bio Rex Kokkola: 30 showtimes, 13 dates
+[biorexkokkola] Bio Rex Kokkola: 29 showtimes, 12 dates
 [biorexkokkola] synopses merged: 0
-[kinopirtti] Kinopirtti: 56 showtimes, 18 dates
+[kinopirtti] Kinopirtti: 53 showtimes, 17 dates
 [kinopirtti] synopses merged: 0
-[kinotar] Kinotar 123: 22 showtimes, 17 dates
+[kinotar] Kinotar 123: 21 showtimes, 16 dates
 [kinotar] synopses merged: 0
 [kinojuha] Kino Juha: 7 showtimes, 6 dates
 [kinojuha] VIP-Sali: 9 showtimes, 8 dates
 [kinojuha] synopses merged: 0
-[biovuoksi] Bio Vuoksi: 13 showtimes, 6 dates
+[biovuoksi] Bio Vuoksi: 12 showtimes, 5 dates
 [biovuoksi] synopses merged: 0
 [kinoiiris] Kino Iiris: 32 showtimes, 19 dates
 [kinoiiris] synopses merged: 0
@@ -21,10 +21,10 @@
 [kinokaustinen] Kino Kaustinen: no programme at the moment (adapter confirmed the venue empty); publishing an empty file
 [kinokaustinen] synopses merged: 0
 [kinokaustinen] no programme published: https://kinokaustinen.fi/elokuvat/ohjelmistossa renders the template's empty programme
-[kinomarilyn] Kino Marilyn: 81 showtimes, 26 dates
+[kinomarilyn] Kino Marilyn: 80 showtimes, 25 dates
 [kinomarilyn] synopses merged: 0
 [run] http: 0 revalidated (304), 182 full, 182 not stored (origin said no-store), 0 cache entries written
 [run] hosts: 11 attempted -- biograni.fi, biovuoksi.fi, cinemaniagara.fi, jamsankinotar.fi, k-kino.fi, kinoiiris.com, kinojuha.fi, kinokaustinen.fi, kinopirtti.fi, www.biorex.org, www.kinomarilyn.fi
-[run] etiketti: 11 venues, 302 showtimes, 0 stale, 0 unverified, 0 pending, 1 with no programme, 0 failures
-[run] timing: 11 site(s), 329.6s of fetching added up across workers that overlap, longest site 65.8s, longest queue wait 36.3s, 97.3s wall from this module's first fetch starting to its last ending
+[run] etiketti: 11 venues, 295 showtimes, 0 stale, 0 unverified, 0 pending, 1 with no programme, 0 failures
+[run] timing: 11 site(s), 350.0s of fetching added up across workers that overlap, longest site 68.4s, longest queue wait 38.5s, 103.2s wall from this module's first fetch starting to its last ending
 exit=0

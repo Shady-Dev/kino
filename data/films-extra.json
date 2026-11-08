@@ -1315,10 +1315,15 @@
     "elokuviin",
     "ihmekompleksi",
     "isohannu",
+    "kinoelo",
     "kinohamina",
     "kinokulma",
+    "kinomania",
     "kinomarilyn",
+    "kinosampo",
     "kinotervakoski",
+    "kinotoijala",
+    "leffabuumi",
     "lieksankino"
    ],
    "r": 0,
@@ -2166,7 +2171,8 @@
    "krs": [
     "ihmekompleksi",
     "isohannu",
-    "kinomarilyn"
+    "kinomarilyn",
+    "leffabuumi"
    ],
    "r": 0,
    "s": {
@@ -2917,7 +2923,6 @@
     "elokuviin",
     "engel",
     "gilda",
-    "haapamaki",
     "helios",
     "isohannu",
     "kinoakseli",
@@ -2937,6 +2942,7 @@
     "kinoolympia",
     "kinopiispanristi",
     "kinopirtti",
+    "kinosampo",
     "kinotervakoski",
     "kisakino",
     "kkino",
@@ -4006,16 +4012,12 @@
   },
   "kätyrit monsterit dub": {
    "id": 1315772,
-   "img": "data/posters/67059865db3405c0.jpg",
-   "r": 7.6,
+   "r": 0,
    "s": {
-    "en": "This is the rambunctious, ridiculous and totally true story of how the Minions conquered Hollywood, became movie stars, lost everything, unleashed monsters onto the world and then banded together to try and save the planet from the mayhem they had just created.",
+    "en": "",
     "fi": "Illumination johdattaa meidät jälleen hulvattomaan animaatiomaailmaansa uudella elokuvallaan Kätyrit & Monsterit, joka tuo maailman suosituimpaan animaatio-franchiseen kokonaan uusia hahmoja. Hillitön, riehakas ja täysin tositapahtumiin perustuva elokuva kertoo, miten Kätyrit valloittavat Hollywoodin ja nousevat elokuvatähdiksi, menettävät kaiken, tulevat päästäneeksi hirviöitä maailmaan ja lopulta yhdistävät voimansa pelastaakseen planeetan itse aiheuttamaltaan kaaokselta. Alkuperäisissä äänirooleissa kuullaan muun muassa Oscar®-voittaja Allison Janney, kaksinkertainen Oscar®-voittaja Christoph Waltz, Oscar®-voittaja Jeff Bridges, kaksinkertainen Oscar®-ehdokas Jesse Eisenberg, Zoey Deutch (Nouvelle Vague) sekä Oscar®-ehdokas Trey Parker, joka tunnetaan myös yhtenä South Parkin luojista. Näyttelijäkaartia täydentävät myös entinen Saturday Night Live -tähti Bobby Moynihan ja Phil LaMarr (Futurama, Kukkulan kuningas). Kätyrit & Monsterit -elokuvan on ohjannut Oscar-ehdokkuuden saanut Pierre Coffin, jonka ohjaustöihin lukeutuvat myös kolme ensimmäistä Itse ilkimys -elokuvaa ja ensimmäinen Kätyrit-elokuva. Coffin on myös ääninäytellyt itse Kätyreitä niiden elokuvadebyytistä 2010 alkaen. Elokuvan käsikirjoittajat ovat Brian Lynch (Kätyrit, Lemmikkien salainen elämä -elokuvat) ja Pierre Coffin. Elokuvan ovat tuottaneet myös Oscar-ehdokkuuden saanut Illuminationin perustaja ja pääjohtaja Chris Meledandri sekä Bill Ryan (The Super Mario Bros. Movie -elokuvan vastaava tuottaja ). Kätyrit & Monsterit -elokuvan vastaava tuottaja on Brian Lynch. Yli 15 vuotta on kulunut Kätyreiden luomisesta, ja niistä on tullut sukupolvensa ikonisimpia animaatiohahmoja. Kaikenikäisten fanien rakastamat Kätyrit ovat siivittäneet Illuminationin Itse ilkimys- ja Kätyrit-elokuvatuotannot yli 5,6 miljardia dollaria tuottaneiksi maailmanlaajuisiksi jymymenestyksiksi."
    },
-   "tr": "https://www.youtube.com/watch?v=V-O-uBaHk3c",
-   "ts": [
-    "en"
-   ]
+   "tr": ""
   },
   "kätyrit monsterit dub 5": {
    "id": 1315772,
@@ -4037,16 +4039,12 @@
   },
   "kätyrit monsterit suomeksi": {
    "id": 1315772,
-   "img": "data/posters/67059865db3405c0.jpg",
-   "r": 7.6,
+   "r": 0,
    "s": {
-    "en": "This is the rambunctious, ridiculous and totally true story of how the Minions conquered Hollywood, became movie stars, lost everything, unleashed monsters onto the world and then banded together to try and save the planet from the mayhem they had just created.",
+    "en": "",
     "fi": "Suomeksi puhuttu. Illumination johdattaa meidät jälleen hulvattomaan animaatiomaailmaansa uudella elokuvallaan Kätyrit & Monsterit, joka tuo maailman suosituimpaan animaatio-franchiseen kokonaan uusia hahmoja. Hillitön, riehakas ja täysin tositapahtumiin perustuva elokuva kertoo, miten Kätyrit valloittavat Hollywoodin ja nousevat elokuvatähdiksi, menettävät kaiken, tulevat päästäneeksi hirviöitä maailmaan ja lopulta yhdistävät voimansa pelastaakseen planeetan itse aiheuttamaltaan kaaokselta. Alkuperäisissä äänirooleissa kuullaan muun muassa Oscar®-voittaja Allison Janney, kaksinkertainen Oscar®-voittaja Christoph Waltz, Oscar®-voittaja Jeff Bridges, kaksinkertainen Oscar®-ehdokas Jesse Eisenberg, Zoey Deutch (Nouvelle Vague) sekä Oscar®-ehdokas Trey Parker, joka tunnetaan myös yhtenä South Parkin luojista. Näyttelijäkaartia täydentävät myös entinen Saturday Night Live -tähti Bobby Moynihan ja Phil LaMarr (Futurama, Kukkulan kuningas). Kätyrit & Monsterit -elokuvan on ohjannut Oscar-ehdokkuuden saanut Pierre Coffin, jonka ohjaustöihin lukeutuvat myös kolme ensimmäistä Itse ilkimys -elokuvaa ja ensimmäinen Kätyrit-elokuva. Coffin on myös ääninäytellyt itse Kätyreitä niiden elokuvadebyytistä 2010 alkaen. Elokuvan käsikirjoittajat ovat Brian Lynch (Kätyrit, Lemmikkien salainen elämä -elokuvat) ja Pierre Coffin. Elokuvan ovat tuottaneet myös Oscar-ehdokkuuden saanut Illuminationin perustaja ja pääjohtaja Chris Meledandri sekä Bill Ryan (The Super Mario Bros. Movie -elokuvan vastaava tuottaja ). Kätyrit & Monsterit -elokuvan vastaava tuottaja on Brian Lynch. Yli 15 vuotta on kulunut Kätyreiden luomisesta, ja niistä on tullut sukupolvensa ikonisimpia animaatiohahmoja. Kaikenikäisten fanien rakastamat Kätyrit ovat siivittäneet Illuminationin Itse ilkimys- ja Kätyrit-elokuvatuotannot yli 5,6 miljardia dollaria tuottaneiksi maailmanlaajuisiksi jymymenestyksiksi."
    },
-   "tr": "https://www.youtube.com/watch?v=V-O-uBaHk3c",
-   "ts": [
-    "en"
-   ]
+   "tr": ""
   },
   "kätyrit monsterit suomeksi puhuttu": {
    "id": 1315772,
@@ -4289,7 +4287,6 @@
     "cinemantsala",
     "elavienkuvien",
     "elokuviin",
-    "engel",
     "haapamaki",
     "ihmekompleksi",
     "isohannu",
@@ -5493,12 +5490,15 @@
     "gilda",
     "haapamaki",
     "ihmekompleksi",
+    "kinoelo",
     "kinojuha",
     "kinokulma",
     "kinolaika",
+    "kinomania",
     "kinomarilyn",
     "kinopirtti",
     "kisakino",
+    "leffabuumi",
     "levisummit",
     "sheryl",
     "star"
@@ -6039,32 +6039,6 @@
    },
    "tr": ""
   },
-  "pedon sydän": {
-   "id": 1263337,
-   "img": "data/posters/980bb19ce751c44c.jpg",
-   "kr": "K-12",
-   "krs": [
-    "biorex",
-    "biosalo",
-    "cinemantsala",
-    "kinohamina",
-    "kinohirvi",
-    "kinolumo",
-    "kinopiispanristi",
-    "savonkinot",
-    "star",
-    "studio123jarvenpaa"
-   ],
-   "r": 7.3,
-   "s": {
-    "en": "After a harrowing plane crash, Special Forces officer James Belmont and his combat dog, Odin, find themselves stranded deep in the Alaskan wilderness. Together, they are forced into a brutal fight for survival against the elements.",
-    "fi": ""
-   },
-   "tr": "https://www.youtube.com/watch?v=UkMuGKqAux4",
-   "ts": [
-    "en"
-   ]
-  },
   "pelastakaa sotamies ryan": {
    "id": 857,
    "img": "data/posters/a4147683eb09a1fc.jpg",
@@ -6316,7 +6290,6 @@
     "biostara",
     "engel",
     "helios",
-    "ihmekompleksi",
     "isohannu",
     "kino123",
     "kinohirvi",
@@ -6398,7 +6371,6 @@
     "biostara",
     "engel",
     "helios",
-    "ihmekompleksi",
     "isohannu",
     "kino123",
     "kinohirvi",
@@ -6467,7 +6439,6 @@
     "kuvatahti",
     "laitilankino",
     "leffabuumi",
-    "pajakkakino",
     "savonkinot",
     "star",
     "studio123jarvenpaa"
@@ -7866,7 +7837,6 @@
     "cinemantsala",
     "elavienkuvien",
     "elokuviin",
-    "engel",
     "haapamaki",
     "ihmekompleksi",
     "isohannu",
@@ -8006,19 +7976,6 @@
     "fi": "...you won't be coming home! Veneilyonnettomuudessa perheensä menettänyt ujo Angela (Rose) asuu omalaatuisen Martha-tätinsä (Gould) ja serkkunsa Rickyn (Tiersten) luona. Martha päättää lähettää Angelan ja Rickyn Camp Arawakiin, kesäleirille paikkaan, jossa teini-ikäiset voivat oppia nauttimaan luonnosta ja toisistaan. Pian heidän saapumisen jälkeen sarja outoja ja väkivaltaisia onnettomuuksia alkaa vaatia uhreja leiriläisten joukosta. Onko leirin menneisyydestä palannut synkkä salaisuus? Päättyykö kesäkausi kaikkien osalta sanoinkuvaamattomaan kauhuun? Kesäleirille sijoittuvaa teinikauhua kultaiselta 1980-luvulta! Sleepaway Camp on toki saanut vaikutteita genren aiemmista klassikoista, mutta samalla se kulkee slasherinä täysin omia polkujaan. Nihilistisen tunnelman ja tiettyjen lajityypille epätavallisten ja rajoja rikkovien ratkaisujen ansiosta se on kasvattanut maineen todellisena kulttiklassikkona. Hahmoissa on toinen toistaan häiriintyneempiä henkilöitä sekä nuorisossa, että aikuisissa, ja monet elokuvan uhrit, sekä heidän roolien näyttelijät, ovat jopa teinikauhulle epätyypillisen nuoria. Elokuvan unohtumaton loppukäänne on shokeeraavuudessaan isku vasten kasvoja."
    },
    "tr": ""
-  },
-  "sodan ja rauhan lapset": {
-   "id": 1203670,
-   "img": "data/posters/0e45048840fa33ab.jpg",
-   "r": 0,
-   "s": {
-    "en": "",
-    "fi": "Sodan ja rauhan lapset kertoo siitä, miten Suomessa maailmansotien välisenä aikana lapsista ja nuorista pyrittiin kasvattamaan isänmaan puolesta uhrautuvia vastuunkantajia."
-   },
-   "tr": "https://www.youtube.com/watch?v=oDKOGhJAqnM",
-   "ts": [
-    "fi"
-   ]
   },
   "solange a seat at the table 10th anniversary": {
    "r": 0,
@@ -9745,8 +9702,7 @@
     "kinolumo",
     "kirkkonummi",
     "levisummit",
-    "savonkinot",
-    "star"
+    "savonkinot"
    ],
    "r": 7.0,
    "s": {
@@ -9876,10 +9832,6 @@
   "whalefall": {
    "id": 1255833,
    "img": "data/posters/b06de03c5de0cf45.jpg",
-   "kr": "K-16",
-   "krs": [
-    "biorex"
-   ],
    "r": 6.6,
    "s": {
     "en": "Whalefall is a high-octane survival thriller that tells the story of an encounter between a young man and a massive sperm whale. Directed by Brian Duffield, the film is written by Duffield and Daniel Kraus, based on Kraus’s book of the same name, and stars Austin Abrams, Josh Brolin, Elisabeth Shue, John Ortiz, Jane Levy and Emily Rudd. After the tragic loss of his father (Josh Brolin), Jay Gardiner (Austin Abrams) heads to the Central California coast to dive and search for his father’s body, but is swallowed by a massive sperm whale. Inside the whale’s stomach, Jay realises he has only enough oxygen to last an hour, and in that struggle, his father’s strict teachings may, after all, hold the key to his survival.",
@@ -9943,10 +9895,15 @@
     "ihmekompleksi",
     "joutsankino",
     "kinoaurora",
+    "kinoelo",
     "kinokilta",
     "kinokonepaja",
+    "kinomania",
     "kinomarilyn",
+    "kinosampo",
+    "kinotoijala",
     "korjaamo",
+    "leffabuumi",
     "tapiola"
    ],
    "r": 7.7,
@@ -10138,7 +10095,6 @@
    "img": "data/posters/d0630be5ff40e993.jpg",
    "kr": "K-16",
    "krs": [
-    "bioforum",
     "biogrand",
     "biomarlon",
     "biorex",
@@ -10201,13 +10157,12 @@
   },
   "yön lapsi nightborn": {
    "id": 964849,
-   "img": "data/posters/d0630be5ff40e993.jpg",
-   "r": 5.9,
+   "r": 0,
    "s": {
     "en": "",
     "fi": "Yön lapsi on Hanna Bergholmin ja Ilja Rautsin yhdessä käsikirjoittama psykologinen trilleri, joka pureutuu vanhemmuuteen ja parisuhteeseen liittyviin tunteisiin ennennäkemättömällä tavalla."
    },
-   "tr": "https://www.youtube.com/watch?v=dWePsu_Kd9c"
+   "tr": ""
   },
   "äideistä parhain": {
    "id": 32990,
