@@ -8,7 +8,7 @@
 [kinojuha] VIP-Sali: 9 showtimes, 8 dates
 [kinojuha] synopses merged: 0
 [biovuoksi] Bio Vuoksi: 32 showtimes, 10 dates
-[biovuoksi] synopses merged: 1
+[biovuoksi] synopses merged: 0
 [kinoiiris] Kino Iiris: 32 showtimes, 19 dates
 [kinoiiris] synopses merged: 0
 [kinoiiris] screening-note sentences left out of synopses: 1
@@ -26,5 +26,5 @@
 [run] http: 0 revalidated (304), 187 full, 187 not stored (origin said no-store), 0 cache entries written
 [run] hosts: 11 attempted -- biograni.fi, biovuoksi.fi, cinemaniagara.fi, jamsankinotar.fi, k-kino.fi, kinoiiris.com, kinojuha.fi, kinokaustinen.fi, kinopirtti.fi, www.biorex.org, www.kinomarilyn.fi
 [run] etiketti: 11 venues, 315 showtimes, 0 stale, 0 unverified, 0 pending, 1 with no programme, 0 failures
-[run] timing: 11 site(s), 313.8s of fetching added up across workers that overlap, longest site 60.2s, longest queue wait 38.3s, 94.6s wall from this module's first fetch starting to its last ending
+[run] timing: 11 site(s), 306.3s of fetching added up across workers that overlap, longest site 58.7s, longest queue wait 36.6s, 91.4s wall from this module's first fetch starting to its last ending
 exit=0
