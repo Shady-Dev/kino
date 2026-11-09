@@ -1,7 +1,7 @@
-[kinokuva] Kino-Kuva, Teuva: 9 showtimes, 5 dates, 3 film(s)
-[kinokuva] Kino-Kuva: 9 showtimes, 5 dates
+[kinokuva] Kino-Kuva, Teuva: 11 showtimes, 7 dates, 5 film(s)
+[kinokuva] Kino-Kuva: 11 showtimes, 7 dates
 [kinokuva] synopses merged: 0
 [run] hosts: 1 attempted -- www.kinokuva.fi
-[run] kinokuva: 1 venues, 9 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
-[run] timing: 1 site(s), 1.0s of fetching added up across workers that overlap, longest site 1.0s, longest queue wait 144.5s, 1.0s wall from this module's first fetch starting to its last ending
+[run] kinokuva: 1 venues, 11 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
+[run] timing: 1 site(s), 1.1s of fetching added up across workers that overlap, longest site 1.1s, longest queue wait 158.1s, 1.1s wall from this module's first fetch starting to its last ending
 exit=0

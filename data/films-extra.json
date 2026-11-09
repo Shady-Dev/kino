@@ -445,12 +445,13 @@
   },
   "avengers endgame encore": {
    "id": 299534,
-   "r": 0,
+   "img": "data/posters/b7147419b96540ff.jpg",
+   "r": 8.2,
    "s": {
     "en": "",
     "fi": "Avengers: Endgame tulee takaisin elokuvateattereihin Encore-juhlajulkaisuna. Elokuvassa on uutta materiaalia, joka sitoo Endgamen tapahtumat joulukuussa tulevaan Avengers: Doomsday -elokuvaan. Thanoksen aiheuttamien tuhojen jälijltä koko maailma on raunioina. Jäljellä olevien liittolaistensa avulla Avengers kokoontuu jälleen palauttaakseen täydellisen tasapainon universumiin."
    },
-   "tr": ""
+   "tr": "https://www.youtube.com/watch?v=L2NAh3CIdig"
   },
   "avengers endgame encore 2d": {
    "id": 299534,
@@ -506,22 +507,22 @@
   },
   "babybio järki ja tunteet sense and sensibility": {
    "id": 1503762,
-   "img": "data/posters/056008305739a764.jpg",
-   "r": 7.3,
+   "r": 0,
    "s": {
     "en": "",
     "fi": "Uusi, vastustamaton tulkinta Jane Austenin ikonisesta Järki ja tunteet -teoksesta: hurmaava, nokkela ja syvästi samaistuttava tarina rakkaudesta ja sisaruudesta. Pääosissa loistavat Daisy Edgar-Jones ja Esmé Creed-Miles."
    },
-   "tr": "https://www.youtube.com/watch?v=OFLyW0lxFU0"
+   "tr": ""
   },
   "back to the beginning ozzy s final bow": {
    "id": 1515139,
+   "img": "data/posters/10a5b5a96bd42dfd.jpg",
    "r": 0,
    "s": {
     "en": "OZZY & BLACK SABBATH: BACK TO THE BEGINNING documents a landmark moment in music history: Ozzy Osbourne’s historic final farewell performance for his fans at Villa Park stadium in his Birmingham hometown – captured just 17 days before his untimely passing. The film highlights the historic day with performances from Ozzy, Black Sabbath, and some of the most influential names in rock, along with personal reflections from the superstar musicians they inspired and a behind-the-scenes look at the day itself. This is an historic and intimate farewell to Ozzy and the band that changed music forever.",
     "fi": ""
    },
-   "tr": ""
+   "tr": "https://www.youtube.com/watch?v=REqdAeNUIho"
   },
   "backrooms everything must go": {
    "r": 0,
@@ -1309,17 +1310,23 @@
    "img": "data/posters/445a6b495360d819.jpg",
    "kr": "K-12",
    "krs": [
+    "bioforum",
     "biokaari",
+    "biomarlon",
+    "biosalo",
+    "biostara",
     "biovuoksi",
     "elavienkuvien",
     "elokuviin",
     "ihmekompleksi",
     "isohannu",
+    "jarvelankino",
     "kinoelo",
     "kinohamina",
     "kinokulma",
     "kinomania",
     "kinomarilyn",
+    "kinopiispanristi",
     "kinosampo",
     "kinotervakoski",
     "kinotoijala",
@@ -2186,6 +2193,7 @@
     "ihmekompleksi",
     "isohannu",
     "kinomarilyn",
+    "kinopiispanristi",
     "leffabuumi"
    ],
    "r": 0,
@@ -2547,6 +2555,14 @@
    "s": {
     "en": "",
     "fi": "Yhdeksänvuotias Mari herää keskellä yötä ja huomaa jonkun käyneen huoneessaan. Ainoa johtolanka öisestä vierailijasta on huoneeseen unohtunut tontun lapanen. Mari, isoäiti ja hyvin epäileväinen isä päätyvät yhdessä seikkailuntäyteiselle matkalle etsimään joulupukkia, mutta lapasen omistaja tekee kaikkensa pysäyttääkseen heidät. Joulupukin salainen paja ei saa paljastua – se olisi katastrofi! Puhuttu suomeksi!"
+   },
+   "tr": ""
+  },
+  "joulupukin salainen paja dub": {
+   "r": 0,
+   "s": {
+    "en": "",
+    "fi": "Yhdeksänvuotias Mari herää keskellä yötä ja huomaa jonkun käyneen huoneessaan. Ainoa johtolanka öisestä vierailijasta on huoneeseen unohtunut tontun lapanen. Mari, isoäiti ja hyvin epäileväinen isä päätyvät yhdessä seikkailuntäyteiselle matkalle etsimään joulupukkia, mutta lapasen omistaja tekee kaikkensa pysäyttääkseen heidät. Joulupukin salainen paja ei saa paljastua – se olisi katastrofi! JOULUPUKIN SALAINEN PAJA elokuvateattereissa 13.11. kautta maan!"
    },
    "tr": ""
   },
@@ -2924,6 +2940,7 @@
    "img": "data/posters/133d5c0758982817.jpg",
    "kr": "K-12",
    "krs": [
+    "bioforum",
     "biogrand",
     "biopallas",
     "biorex",
@@ -2958,6 +2975,7 @@
     "kinopirtti",
     "kinosampo",
     "kinotervakoski",
+    "kirkkonummi",
     "kisakino",
     "kkino",
     "korjaamo",
@@ -2982,6 +3000,16 @@
    },
    "tr": "https://www.youtube.com/watch?v=iUpszeSB7k4"
   },
+  "kerro kaikille berätta för alla": {
+   "id": 1304530,
+   "img": "data/posters/133d5c0758982817.jpg",
+   "r": 0,
+   "s": {
+    "en": "",
+    "fi": "Kerro kaikille on voimaelokuva Amanda Aaltosesta, joka kieltäytyy alistumasta hänelle varattuun köyhän naisen ankeaan kohtaloon ja etsii huimapäisesti onneaan maailmalta. Rangaistukseksi sääntöjen rikkomisesta yhteiskunta anastaa häneltä kaikkein tärkeimmän, vapauden, ja sulkee hänet Seilin saarelle."
+   },
+   "tr": "https://www.youtube.com/watch?v=iUpszeSB7k4"
+  },
   "kerro kaikille kahvi ja kino": {
    "id": 1304530,
    "r": 0,
@@ -2997,6 +3025,14 @@
    "s": {
     "en": "",
     "fi": "Kerro kaikille on voimaelokuva Amanda Aaltosesta, joka kieltäytyy alistumasta hänelle varattuun köyhän naisen ankeaan kohtaloon ja etsii huimapäisesti onneaan maailmalta. Rangaistukseksi sääntöjen rikkomisesta yhteiskunta anastaa häneltä kaikkein tärkeimmän, vapauden, ja sulkee hänet Seilin saarelle."
+   },
+   "tr": ""
+  },
+  "kerro kaikille tekijävieraat alli haapasalo ja katja kallio": {
+   "r": 0,
+   "s": {
+    "en": "",
+    "fi": "Senioreille suunnatun HopeaCinen ohjelmistossa nähdään kotimaisia uutuuselokuvia kerran kuussa. Kuhunkin esitykseen kutsutaan vieraiksi elokuvantekijöitä tai elokuva-asiantuntijoita, jotka näytöksen jälkeen avaavat elokuvan tekoprosessia ja tarjoavat uutta ajateltavaa elokuvakatselun syventämiseksi."
    },
    "tr": ""
   },
@@ -4004,12 +4040,16 @@
   },
   "kätyrit ja monsterit suomeksi": {
    "id": 1315772,
-   "r": 0,
+   "img": "data/posters/67059865db3405c0.jpg",
+   "r": 7.5,
    "s": {
-    "en": "",
+    "en": "This is the rambunctious, ridiculous and totally true story of how the Minions conquered Hollywood, became movie stars, lost everything, unleashed monsters onto the world and then banded together to try and save the planet from the mayhem they had just created.",
     "fi": "Suosithan paikkavarausta! Illumination johdattaa meidät jälleen hulvattomaan animaatiomaailmaansa uudella elokuvallaan Kätyrit & Monsterit, joka tuo maailman suosituimpaan animaatio-franchiseen kokonaan uusia hahmoja. Hillitön, riehakas ja täysin tositapahtumiin perustuva elokuva kertoo, miten Kätyrit valloittavat Hollywoodin ja nousevat elokuvatähdiksi, menettävät kaiken, tulevat päästäneeksi hirviöitä maailmaan ja lopulta yhdistävät … voimansa pelastaakseen planeetan itse aiheuttamaltaan kaaokselta. Alkuperäisissä äänirooleissa kuullaan muun muassa Oscar®-voittaja Allison Janney, kaksinkertainen Oscar®-voittaja Christoph Waltz, Oscar®-voittaja Jeff Bridges, kaksinkertainen Oscar®-ehdokas Jesse Eisenberg, Zoey Deutch (Nouvelle Vague) sekä Oscar®-ehdokas Trey Parker, joka tunnetaan myös yhtenä South Parkin luojista. Näyttelijäkaartia täydentävät myös entinen Saturday Night Live -tähti Bobby Moynihan ja Phil LaMarr (Futurama, Kukkulan kuningas). Kätyrit & Monsterit -elokuvan on ohjannut Oscar-ehdokkuuden saanut Pierre Coffin, jonka ohjaustöihin lukeutuvat myös kolme ensimmäistä Itse ilkimys -elokuvaa ja ensimmäinen Kätyrit-elokuva. Coffin on myös ääninäytellyt itse Kätyreitä niiden elokuvadebyytistä 2010 alkaen. Elokuvan käsikirjoittajat ovat Brian Lynch (Kätyrit, Lemmikkien salainen elämä -elokuvat) ja Pierre Coffin. Elokuvan ovat tuottaneet myös Oscar-ehdokkuuden saanut Illuminationin perustaja ja pääjohtaja Chris Meledandri sekä Bill Ryan (The Super Mario Bros. Movie -elokuvan vastaava tuottaja ). Kätyrit & Monsterit -elokuvan vastaava tuottaja on Brian Lynch. Yli 15 vuotta on kulunut Kätyreiden luomisesta, ja niistä on tullut sukupolvensa ikonisimpia animaatiohahmoja. Kaikenikäisten fanien rakastamat Kätyrit ovat siivittäneet Illuminationin Itse ilkimys- ja Kätyrit-elokuvatuotannot yli 5,6 miljardia dollaria tuottaneiksi maailmanlaajuisiksi jymymenestyksiksi."
    },
-   "tr": ""
+   "tr": "https://www.youtube.com/watch?v=V-O-uBaHk3c",
+   "ts": [
+    "en"
+   ]
   },
   "kätyrit monsterit": {
    "id": 1315772,
@@ -4107,6 +4147,7 @@
     "biorex",
     "gilda",
     "kinoaurora",
+    "kinokilta",
     "tapiola"
    ],
    "r": 8.1,
@@ -4294,7 +4335,9 @@
     "biopallas",
     "biorex",
     "biorexkokkola",
+    "biosalo",
     "biosavoy",
+    "biostara",
     "biovuoksi",
     "elavienkuvien",
     "elokuviin",
@@ -5504,6 +5547,7 @@
     "bioforum",
     "biokaari",
     "biorexkokkola",
+    "biosalo",
     "biovuoksi",
     "cinemantsala",
     "elokuviin",
@@ -6253,6 +6297,7 @@
    "img": "data/posters/8a9129f55b1b3d43.jpg",
    "kr": "S",
    "krs": [
+    "bioforum",
     "biorex",
     "biosalo",
     "biosavoy",
@@ -6261,6 +6306,7 @@
     "engel",
     "isohannu",
     "kinolumo",
+    "kinopiispanristi",
     "kotkanleffat",
     "kulttuurimylly",
     "kuvatahti",
@@ -6300,6 +6346,7 @@
     "biograni",
     "biorex",
     "biosalo",
+    "biostara",
     "engel",
     "helios",
     "isohannu",
@@ -6378,6 +6425,7 @@
     "biograni",
     "biorex",
     "biosalo",
+    "biostara",
     "engel",
     "helios",
     "isohannu",
@@ -6917,12 +6965,17 @@
    "tr": ""
   },
   "på svenska lilla spöket laban busar vidare": {
+   "id": 1781923,
+   "img": "data/posters/8a9129f55b1b3d43.jpg",
    "r": 0,
    "s": {
-    "en": "",
+    "en": "Laban the Little Ghost is back with a new collection of cozy and just-spooky-enough adventures at the Good Morning Sun Castle. Together with his little sister Labolina and his best friend, the Little Prince, their days are filled with everything from trick-or-treating, birthday celebrations, and lost Christmas presents to unexpected guests and many other fun experiences.",
     "fi": "Yhdessä Lapaniinan, Pikkuprinssin ja ystäviensä kanssa hän joutuu hauskoihin, jännittäviin ja välillä hieman pelottaviinkin tilanteisiin, joissa ystävyys, rohkeus ja mielikuvitus ovat aina keskiössä."
    },
-   "tr": ""
+   "tr": "",
+   "ts": [
+    "en"
+   ]
   },
   "på svenska vaiana liveaction": {
    "id": 1108427,
@@ -7672,12 +7725,16 @@
   },
   "ryhmä hau dinoelokuva suomeksi": {
    "id": 1185806,
-   "r": 0,
+   "img": "data/posters/b7775ab25a7de6bc.jpg",
+   "r": 8.2,
    "s": {
-    "en": "",
+    "en": "The Paw Patrol lands on a mysterious dinosaur island after a storm, where they meet Rex, a stranded pup. When Humdinger's reckless mining triggers a volcano, the team faces their biggest rescue mission yet to save the island.",
     "fi": "Ryhmä Haun laiva joutuu mystisen myrskyn kouriin ja haaksirikkoutuu trooppiselle saarelle, joka kuhisee dinosauruksia. He tapaavat Rexin – pennun, joka on jo vuosia ollut saarella jumissa ja josta on kehkeytynyt melkoinen dinosaurusekspertti. Kun Ryhmä Haun arkkivihollinen, Pormestari Hanttinen, aloittaa valtavat kaivuutyöt voidakseen hyödyntää saaren luonnonvaroja, hän saa vahingossa valtavan nukuksissa olleen tulivuoren purkautumaan. Pennut tempautuvat mukaan riskialttiiseen, dinon kokoiseen, kaikkien aikojen suurimpaan pelastusoperaatioonsa tavoitteenaan pysäyttää Hanttinen ennen kuin kaikki saarella katoaa ikiajoiksi."
    },
-   "tr": ""
+   "tr": "https://www.youtube.com/watch?v=xgI5iYmOf5Q",
+   "ts": [
+    "en"
+   ]
   },
   "rölli ja metsänhenki": {
    "id": 64029,
@@ -7828,7 +7885,7 @@
   "shaun the sheep the beast of mossy bottom": {
    "id": 1477104,
    "img": "data/posters/0d3865389792d3a5.jpg",
-   "r": 7.4,
+   "r": 7.3,
    "s": {
     "en": "On Halloween Eve at Mossy Bottom Farm, excitement turns to dismay when the clumsy Farmer ruins the pumpkin patch. Shaun tries fixing it with science experiments, but things go awry when a wild beast appears in the woods.",
     "fi": ""
@@ -7850,7 +7907,9 @@
     "biopallas",
     "biorex",
     "biorexkokkola",
+    "biosalo",
     "biosavoy",
+    "biostara",
     "biovuoksi",
     "elavienkuvien",
     "elokuviin",
@@ -7885,7 +7944,7 @@
     "studio123jarvenpaa",
     "studio123kouvola"
    ],
-   "r": 7.4,
+   "r": 7.3,
    "s": {
     "en": "The much-loved Shaun the Sheep returns to the big screen in a new, delightful, and hilarious adventure! The farm’s residents are eagerly awaiting Halloween, until the pumpkin patch they’ve lovingly tended is destroyed on the eve of the festivities. Shaun isn’t one to sit idly by, so he decides to become a ‘mad scientist’ to rectify the situation. Soon events spiral out of control. When the farm’s owner goes missing and a strange wild beast strikes terror into the villagers, everything is set for a monstrously fun adventure.",
     "fi": ""
@@ -9941,7 +10000,10 @@
    "img": "data/posters/aca6e1cdaad07a60.jpg",
    "kr": "K-12",
    "krs": [
+    "bioforum",
     "biograni",
+    "biosalo",
+    "biostara",
     "biovuoksi",
     "elavienkuvien",
     "gilda",
@@ -9951,10 +10013,14 @@
     "kinoelo",
     "kinokilta",
     "kinokonepaja",
+    "kinokuva",
     "kinomania",
     "kinomarilyn",
+    "kinoolympia",
+    "kinopiispanristi",
     "kinosampo",
     "kinotoijala",
+    "kirkkonummi",
     "korjaamo",
     "kurikankino",
     "leffabuumi",
@@ -9968,12 +10034,28 @@
    },
    "tr": "https://www.youtube.com/watch?v=kA9NfV4pM_Q"
   },
+  "wicker intohimosta pudottu": {
+   "id": 1195803,
+   "img": "data/posters/aca6e1cdaad07a60.jpg",
+   "r": 7.5,
+   "s": {
+    "en": "On the outskirts of a village by the sea, lives a Fisherwoman; smelly, single and perpetually ridiculed. One day, fed up with her stuffy, small-minded neighbours, she commissions herself a husband to be made from wicker. In an otherwise conservative town, this unconventional romance sparks outrage, jealousy and chaos.",
+    "fi": ""
+   },
+   "tr": "https://www.youtube.com/watch?v=kA9NfV4pM_Q",
+   "ts": [
+    "en"
+   ]
+  },
   "wicker intohimosta punottu": {
    "id": 1195803,
    "img": "data/posters/aca6e1cdaad07a60.jpg",
    "kr": "K-12",
    "krs": [
+    "bioforum",
     "biograni",
+    "biosalo",
+    "biostara",
     "biovuoksi",
     "elavienkuvien",
     "gilda",
@@ -9983,10 +10065,14 @@
     "kinoelo",
     "kinokilta",
     "kinokonepaja",
+    "kinokuva",
     "kinomania",
     "kinomarilyn",
+    "kinoolympia",
+    "kinopiispanristi",
     "kinosampo",
     "kinotoijala",
+    "kirkkonummi",
     "korjaamo",
     "kurikankino",
     "leffabuumi",
@@ -10040,6 +10126,7 @@
     "kinolumo",
     "kinomarilyn",
     "kinomyyri",
+    "kinoolympia",
     "kinopiispanristi",
     "kinopirtti",
     "kinotervakoski",
