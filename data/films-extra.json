@@ -806,13 +806,12 @@
   },
   "casino royale": {
    "id": 36557,
-   "img": "data/posters/b0d1623bd56ac751.jpg",
-   "r": 7.6,
+   "r": 0,
    "s": {
     "en": "Le Chiffre, a banker to the world's terrorists, is scheduled to participate in a high-stakes poker game in Montenegro, where he intends to use his winnings to establish his financial grip on the terrorist market. M sends Bond—on his maiden mission as a 00 Agent—to attend this game and prevent Le Chiffre from winning. With the help of Vesper Lynd and Felix Leiter, Bond enters the most important poker game in his already dangerous career.",
     "fi": "Huom! Elokuvassa ei ole tekstitystä. Salaiseksi agentiksi ylennetty James Bond päätyy rikollispankkiiri Le Chiffren jäljille ja ottaa miehestä mittaa korkeiden panosten pokeripelissä. Avuksi tarvitaan myös Britannian valtiovarainministeriön kirjanpitäjä Vesper Lynd."
    },
-   "tr": "https://www.youtube.com/watch?v=p7D4U5YsZlM"
+   "tr": ""
   },
   "casper": {
    "id": 8839,
@@ -1311,6 +1310,7 @@
    "kr": "K-12",
    "krs": [
     "biokaari",
+    "biovuoksi",
     "elavienkuvien",
     "elokuviin",
     "ihmekompleksi",
@@ -1323,6 +1323,7 @@
     "kinosampo",
     "kinotervakoski",
     "kinotoijala",
+    "kurikankino",
     "leffabuumi",
     "lieksankino"
    ],
@@ -1459,6 +1460,19 @@
     "fi": "Liput näytökseen täältä! Rays and Shadowsin tapa kuvata saksalaismiehittäjiä ja heidän kanssaan yhteistyöhön ryhtyneitä ranskalaisia on herättänyt kotimaassaan sekä kohua että kiitosta. Euroopan nimikkäiden tähtien Jean Dujardinin ja August Diehlin väkeviä suorituksia säestää Nastya Golubevan lupauksia herättävä roolityö Jeanin tyttärenä Corinnena. Tuomitsemisen tai puolustelun sijaan elokuva valaisee sitä inhmillistä kompleksisuutta kauniine ja rumine puolineen, jonka sanat ’historian väärällä puolella’ usein peittävät.” (Konsta Heikkinen)"
    },
    "tr": ""
+  },
+  "evil does not exist": {
+   "id": 1156125,
+   "img": "data/posters/f5bb7379b38368c0.jpg",
+   "r": 6.8,
+   "s": {
+    "en": "Takumi and his daughter Hana live in Mizubiki Village, close to Tokyo. One day, the village inhabitants become aware of a plan to build a camping site near Takumi's house offering city residents a comfortable \"escape\" to nature.",
+    "fi": ""
+   },
+   "tr": "https://www.youtube.com/watch?v=zVY4lWfrbME",
+   "ts": [
+    "en"
+   ]
   },
   "fallen angels": {
    "id": 11220,
@@ -1701,7 +1715,7 @@
   "godzilla minus zero": {
    "id": 1381071,
    "img": "data/posters/c7d77437d278666d.jpg",
-   "r": 0,
+   "r": 8.0,
    "s": {
     "en": "War reduced Japan to zero, and Godzilla plunged it into minus. Two years have passed since then, and the country has faced agonizing struggles to achieve recovery and finally reclaim its daily life. Just as humanity managed to cling to a hard-won peace, a new threat strikes, crushing hope in an instant.",
     "fi": "Sota nujersi Japanin nollille, ja Godzilla sysäsi sen miinukselle. Siitä on kulunut nyt kaksi vuotta, ja maa on kohdannut piinallisia haasteita toetakseen ja palatakseen tavalliseen arkielämään. Juuri, kun ihmiskunta on onnistunut takertumaan kovalla työllä ansaittuun rauhaan, uusi uhka iskee, murentaen toivon silmänräpäyksessä. Kolmatta kertaa ei ole. Kaikki päättyy tähän. Filmed for IMAX -projektina luotu GODZILLA MINUS ZERO on kuvattu IMAXin sertifioimilla digitaalisilla teräväpiirtokameroilla, ja sen äänen- ja kuvanlaatu on optimoitu ainutlaatuisella tavalla IMAX-valkokankaille. Faneja odottaa ihka uusiin, hurjiin ulottuvuuksiin yltävä Godzilla. GODZILLA MINUS ZERO on elokuvaelämys, josta ei kannata jäädä paitsi"
@@ -4091,6 +4105,7 @@
    "kr": "K-16",
    "krs": [
     "biorex",
+    "gilda",
     "kinoaurora",
     "tapiola"
    ],
@@ -4120,14 +4135,6 @@
   "la grazia": {
    "id": 1397364,
    "img": "data/posters/6c8d0779f3581c89.jpg",
-   "kr": "K-7",
-   "krs": [
-    "engel",
-    "gilda",
-    "joutsankino",
-    "kinohannikainen",
-    "kinomyyri"
-   ],
    "r": 7.3,
    "s": {
     "en": "Toni Servillo plays the widowed Italian President Mariano De Santis, who struggles with moral dilemmas and grieves whilst clinging to the memory of his wife. A judge specialising in criminal law, he would prefer not to convict anyone, even as his colleagues and political players at the pinnacle of power seek to pressure the President into doing their bidding. As the President’s term draws to its inevitable close, he seeks support from his daughter Dorotea (Anna Ferzetti). The President’s close friend Coco Valori (Milvia Marigliano) is a long-standing socialite who still finds the energy to criticise everyone and everything. LA GRAZIA, the opening film of the Venice Film Festival, marks the return to the top of Paolo Sorrentino, director of The Great Beauty. Sorrentino tackles big questions: what is the meaning of a life lived? Toni Servillo was awarded the prize for Best Actor in Venice.",
@@ -4239,6 +4246,14 @@
     "fi"
    ]
   },
+  "lapin sota tekstitetty englanniksi": {
+   "r": 0,
+   "s": {
+    "en": "",
+    "fi": "Tekstitetty englanniksi! Elokuvan tapahtumat sijoittuvat Lappiin syksyllä 1944, Suomen ja Saksan väliseen konfliktiin toisen maailmansodan loppuvaiheessa. Nuori sotamies Heikki taistelee Karjalan kannaksella ystävänsä Paulin kanssa. Komppaniaan liittyy vankilasta vapautunut Arvo, jonka maailmankuva haastaa muiden käsitykset sodasta ja velvollisuudesta. Aselepo herättää toivon kotiinpaluusta, mutta pian selviää, että Suomen on käännyttävä entisiä saksalaisia liittolaisiaan vastaan Lapissa. Samaan aikaan Rovaniemellä saksalaisten tulkkina työskentelevä Saara joutuu valitsemaan tulevaisuutensa: jäädä Suomeen vai paeta Saksaan rakastettunsa, majuri Duisbergin, kanssa. Lapin sota on vahvasti hahmojensa inhimillisiin kokemuksiin nojaava kertomus ihmisistä, jotka ajautuvat historiallisten mullistusten keskelle. Sodan kauheuksien keskeltä he etsivät merkitystä, inhimillisyyttä ja anteeksiantoa – ja kysyvät, miten armottomassa ympäristössä voidaan löytää armollisuutta. Elokuvateattereissa 23.10."
+   },
+   "tr": ""
+  },
   "lapin sota väliaika": {
    "id": 1450460,
    "img": "data/posters/c15d678a31ae397e.jpg",
@@ -4279,10 +4294,7 @@
     "biopallas",
     "biorex",
     "biorexkokkola",
-    "biosade",
-    "biosalo",
     "biosavoy",
-    "biostara",
     "biovuoksi",
     "cinemantsala",
     "elavienkuvien",
@@ -4294,7 +4306,6 @@
     "kino123",
     "kinoakseli",
     "kinoelo",
-    "kinohirvi",
     "kinojuha",
     "kinolaika",
     "kinolumo",
@@ -4308,7 +4319,6 @@
     "kinoset",
     "kinotervakoski",
     "kinotoijala",
-    "kirkkonummi",
     "korjaamo",
     "kotkanleffat",
     "kulttuurimylly",
@@ -4450,16 +4460,12 @@
   },
   "light sleeper": {
    "id": 36351,
-   "img": "data/posters/a2a10563795a3ccb.jpg",
-   "r": 6.7,
+   "r": 0,
    "s": {
-    "en": "John LeTour is a recovering drug user who suffers insomnia and still deals to a high-end New York clientele, even though he’s trying to move on from the business. John’s professional midlife crisis becomes something more acute — and dangerous — when he re-encounters an old flame while a string of seemingly drug-related murders rocks the city.",
+    "en": "",
     "fi": "Light Sleeper täydentää Paul Schraderin sivulliselokuvien sarjaa, johon kuuluvat myös Taxi Driver ja American Gigolo. Elokuva on yhtä aikaa pohdiskeleva ja väkivaltainen, trillerimäinen kuvaus huumediileriveteraanista, joka pyrkii muuttamaan elämänsä suunnan. Susan Sarandon nähdään pirtsakan Annin roolissa."
    },
-   "tr": "https://www.youtube.com/watch?v=s8g8-5qSmFk",
-   "ts": [
-    "en"
-   ]
+   "tr": ""
   },
   "liisa akimof soolo": {
    "r": 0,
@@ -5276,7 +5282,7 @@
   },
   "naza": {
    "id": 1755291,
-   "img": "data/posters/60552918c00e4422.jpg",
+   "img": "data/posters/92e7b2647887b27d.jpg",
    "r": 8.1,
    "s": {
     "en": "Filmed at night from Tel Aviv rooftops, the film reveals in detail the systems behind the systematic destruction of Palestinian civilians by the Israeli military in Gaza. It is directed by Rachel Szor and Yuval Abraham, known for the Oscar-winning documentary No Other Land. The screening begins with a 26-minute short film about Gaza and is followed by a discussion. Details regarding the speakers will be announced later. The screening is organized in collaboration with B-plan Distribution and the Refugee Film Festival.",
@@ -5425,6 +5431,19 @@
    },
    "tr": ""
   },
+  "nothing underneath": {
+   "id": 62558,
+   "img": "data/posters/76e281fe52f6fa4c.jpg",
+   "r": 5.7,
+   "s": {
+    "en": "Bob Crane has long maintained a psychic connection to his twin sister, Jessica, who works as a fashion model in Milan. When Bob senses that his sister might be injured or killed, he travels to Italy to look for her, only to discover that she's vanished without a trace. Enlisting the help of about-to-retire Commissioner Danesi, Bob soon finds himself embroiled in a web of mystery and terror, when a scissors wielding killer begins to strike and all clues lead back to Jessica...",
+    "fi": ""
+   },
+   "tr": "",
+   "ts": [
+    "en"
+   ]
+  },
   "nousu": {
    "r": 0,
    "s": {
@@ -5486,6 +5505,7 @@
     "bioforum",
     "biokaari",
     "biorexkokkola",
+    "biovuoksi",
     "cinemantsala",
     "gilda",
     "haapamaki",
@@ -5578,13 +5598,12 @@
   },
   "obsession": {
    "id": 1339713,
-   "img": "data/posters/b087e78e6e9510ef.jpg",
-   "r": 8.2,
+   "r": 0,
    "s": {
     "en": "",
     "fi": "Kun toivoton romantikko katkaisee salaperäisen “toivepajun” saadakseen ihastuksena rakastumaan itseensä, hän tajuaa saaneensa juuri sen, mitä toivoikin. Mutta pian hänelle valkenee, että joistakin toiveista joutuu maksamaan synkän hinnan."
    },
-   "tr": "https://www.youtube.com/watch?v=gMC8kkwbIQQ"
+   "tr": ""
   },
   "oddities": {
    "id": 1486256,
@@ -6061,16 +6080,12 @@
   },
   "pelin säännöt": {
    "id": 776,
-   "img": "data/posters/a5e399c41d44e688.jpg",
-   "r": 7.5,
+   "r": 0,
    "s": {
-    "en": "The Marquis de la Chesnaye and his wife host a weekend gala where a variety of complicated romantic and social entanglements between guests and servants lead to tragedy, all against the backdrop of a looming war.",
+    "en": "",
     "fi": "”Suurin ranskalainen elokuva” on tarkkanäköinen sukellus – niin, pelin sääntöihin. Tässä tapauksessa yhteiskunnan, ihmissuhteiden, luokkajaon, näkymättömän ja näkyvän, itse elämän sääntöihin. Yläluokkaista hienostoa näennäisen kepeästi seuraava elokuva kasvaa kuvaukseksi yhteiskunnasta ja sotaelokuvaksi ilman sotaa."
    },
-   "tr": "https://www.youtube.com/watch?v=oRH7oaBQuaY",
-   "ts": [
-    "en"
-   ]
+   "tr": ""
   },
   "pelko jäytää sielua": {
    "id": 216,
@@ -6285,14 +6300,11 @@
     "alatalo",
     "biograni",
     "biorex",
-    "biosade",
     "biosalo",
-    "biostara",
     "engel",
     "helios",
     "isohannu",
     "kino123",
-    "kinohirvi",
     "kinokulma",
     "kinometso",
     "kinopiispanristi",
@@ -6366,14 +6378,11 @@
     "alatalo",
     "biograni",
     "biorex",
-    "biosade",
     "biosalo",
-    "biostara",
     "engel",
     "helios",
     "isohannu",
     "kino123",
-    "kinohirvi",
     "kinokulma",
     "kinometso",
     "kinopiispanristi",
@@ -7116,6 +7125,19 @@
    },
    "tr": ""
   },
+  "riemuloma rivieralla": {
+   "id": 778,
+   "img": "data/posters/b2fba408983f0b56.jpg",
+   "r": 7.0,
+   "s": {
+    "en": "",
+    "fi": "Jacques Tatin parhaimpiin kuuluva komedia ihmisten ja ympäristönsä kanssa alati törmäilevän herra Hulot'n kommelluksista rannikon lomakeskuksessa."
+   },
+   "tr": "https://www.youtube.com/watch?v=BoQTEEmoZgM",
+   "ts": [
+    "fi"
+   ]
+  },
   "ringu": {
    "id": 2671,
    "r": 0,
@@ -7829,10 +7851,7 @@
     "biopallas",
     "biorex",
     "biorexkokkola",
-    "biosade",
-    "biosalo",
     "biosavoy",
-    "biostara",
     "biovuoksi",
     "cinemantsala",
     "elavienkuvien",
@@ -7844,7 +7863,6 @@
     "kino123",
     "kinoakseli",
     "kinoelo",
-    "kinohirvi",
     "kinojuha",
     "kinolaika",
     "kinolumo",
@@ -7858,7 +7876,6 @@
     "kinoset",
     "kinotervakoski",
     "kinotoijala",
-    "kirkkonummi",
     "korjaamo",
     "kotkanleffat",
     "kulttuurimylly",
@@ -8063,6 +8080,19 @@
     "fi": "Maailmanlaajuisen menestyksen saavuttaneen ja ennätyksiä rikkoneen Spider-Man: No Way Home -elokuvan jälkeen Spider-Man: Brand New Day aloittaa täysin uuden luvun Peter Parkerin ja Spider-Manin tarinassa. On kulunut neljä vuotta No Way Home -elokuvan tapahtumista, ja Peter on nyt aikuinen, joka elää täysin yksin poistettuaan itsensä vapaaehtoisesti rakastamiensa ihmisten elämästä ja muistoista. Taistellessaan rikollisuutta vastaan New Yorkissa, joka ei enää tunne hänen nimeään, hän on omistautunut täysin kaupungin suojelemiselle — täysipäiväisenä Spider-Manina. Mutta kun vaatimukset häntä kohtaan kasvavat, paine käynnistää yllättävän fyysisen muutoksen, joka uhkaa hänen olemassaoloaan. Samalla uusi outo rikosaalto synnyttää yhden voimakkaimmista uhista, jonka hän on koskaan kohdannut."
    },
    "tr": ""
+  },
+  "spinal tap ii the end continues": {
+   "id": 975225,
+   "img": "data/posters/4d5858539f179aee.jpg",
+   "r": 6.1,
+   "s": {
+    "en": "",
+    "fi": "Yli 40 vuotta alkuperäisen This Is Spinal Tap -mockumentaarin jälkeen lavoilta jo vetäytyneen yhtyeen tie näyttää loppuneen ja bändi vaikuttaa hävinneen kuin tuhka tuuleen. Spinal Tap ei ole keikkaillut viiteentoista vuoteen, Davidin ja Nigelin välille syntyneen riidan takia, mutta tähän tulee muutos, kun heidän entinen managerinsa Ian Faith menehtyy ja Spinal Tapin sopimus siirtyy hänen tyttärelleen, Hope Faithille, joka huomaa pikkuprintin vaativan yhtyeen tekevän paluun vielä yhdelle keikalle. Vuosien varrella trio on kuitenkin lähtenyt omille teilleen ja vuosikymmenten aikana matkaan tarttuneet rumpalitkin ovat kaikki kuolleet omituisissa olosuhteissa. Dokumenttielokuvantekijä Marty DiBerg haluaa jälleen ikuistaa bändin suuren paluun lavoille ja täydentää kertomuksen siitä, mitä bändin jäsenet ovat puuhanneet viime Onko bändin viimeinen konsertti todella se hetki, jolloin he nousevat rockin ikonien joukkoon?"
+   },
+   "tr": "https://www.youtube.com/watch?v=1ryx-eRSwSs",
+   "ts": [
+    "fi"
+   ]
   },
   "stand by me viimeinen kesä": {
    "id": 235,
@@ -8294,13 +8324,12 @@
   },
   "taksikuski": {
    "id": 103,
-   "img": "data/posters/238e6650e84ba962.jpg",
-   "r": 8.1,
+   "r": 0,
    "s": {
     "en": "",
     "fi": "Martin Scorsesen ajattoman mestariteoksen pääosassa Robert De Niro on Vietnam-veteraani, joka ajaa taksia yön pimeinä tunteina. Kaikki näkemänsä vaikuttaa häneen syvästi: narkkarit, prostituoidut, rikolliset, kerjäläiset… Suurkaupungin yöt ovat kuin viidakko, ja jonkun täytyy laittaa asiat järjestykseen. Koska kukaan muu tässä hullussa maailmassa ei tunnu välittävän mistään, mies päättää ottaa oikeuden omiin käsiinsä ja muuttuu pian käveleväksi aikapommiksi valmiina väkivaltaiseen toimintaan… De Niron rinnalla loistavat nuori Jodie Foster, Harvey Keitel, Peter Boyle ja Cybill Shepherd. Kaunistelemattomasta käsikirjoituksesta vastaa Paul Schrader. Musiikin sävelsi Bernard Herrmann uransa viimeisenä työnään. 50 vuotta sitten marraskuussa Suomen ensi-iltansa saanut Taksikuski nähdään Cinema Orionissa 35mm-filmikopiona!"
    },
-   "tr": "https://www.youtube.com/watch?v=zdqCqDSTVNI"
+   "tr": ""
   },
   "talven taikaa nalle naavatassu": {
    "r": 0,
@@ -8615,6 +8644,19 @@
     "fi": "Kun mystinen kosminen tapahtuma repäisee Oak Streetin irti lähiöstä ja siirtää koko naapuruston tuntemattomaan paikkaan, Plattin perhe huomaa pian, että heidän eloonjääntiinsä riippuu yhdessä pysymisestä tuntemattomaksi muuttuneessa ympäristössä. THE END OF OAK STREETIN pääosissa ovat Anne Hathaway ja Ewan McGregor, mukana myös Maisy Stella ja Christian Convery. Elokuvan on ohjannut David Robert Mitchell ja tuottanut J.J. Abrams, Hannah Minghella, Jon Cohen, David Robert Mitchell, Matt Jackson ja Tommy Harper. Vastaavina tuottajina toimivat Chris Bender, Jake Weiner, Joanne Lee and Leeann Stonebreaker. Mitchellin kuvausryhmässä toimivat pääkuvaaja Michael Gioulakis, tuotantosuunnitttelija Maya Shimoguchi, leikkaaja John Axelrad, säveltäjä Michael Giacchino ja pukusuunnittelija Erin Benach. Warner Bros. Pictures esittää A Bad Robot -tuotannon, A Jackson Pictures -tuotannon, David Robert Mitchellin elokuvan: THE END OF OAK STREET. Elokuvan levittää maailmanlaajuisesti Warner Bros. Pictures."
    },
    "tr": ""
+  },
+  "the filth and the fury": {
+   "id": 27745,
+   "img": "data/posters/82325697c202061d.jpg",
+   "r": 6.9,
+   "s": {
+    "en": "Julien Temple's second documentary profiling punk rock pioneers the Sex Pistols is an enlightening, entertaining trip back to a time when the punk movement was just discovering itself. Featuring archival footage, never-before-seen performances, rehearsals, and recording sessions as well as interviews with group members who lived to tell the tale--including the one and only John Lydon (aka Johnny Rotten).",
+    "fi": ""
+   },
+   "tr": "https://www.youtube.com/watch?v=rKdPOIcIBxs",
+   "ts": [
+    "en"
+   ]
   },
   "the hills have eyes": {
    "id": 12262,
@@ -9090,6 +9132,19 @@
    },
    "tr": ""
   },
+  "the wall": {
+   "id": 363707,
+   "img": "data/posters/f7fd73c2fcde4e67.jpg",
+   "r": 0,
+   "s": {
+    "en": "In 1976 Matta-Clark left for Berlin claiming that he intended to blow-up the Berlin Wall as his contribution to the New York–Downtown Manhattan: Soho show. Friends dissuaded him from such a suicidal action, and so instead he created  Made in America, a piece that reflects on the political origins of the Berlin Wall and the West’s fascination with consumerism.",
+    "fi": ""
+   },
+   "tr": "",
+   "ts": [
+    "en"
+   ]
+  },
   "the warriors": {
    "id": 11474,
    "img": "data/posters/1ec177ea3950d403.jpg",
@@ -9204,8 +9259,7 @@
    "krs": [
     "gilda",
     "kinoaurora",
-    "kinomarilyn",
-    "kinoolympia"
+    "kinomarilyn"
    ],
    "r": 7.4,
    "s": {
@@ -9884,12 +9938,13 @@
    },
    "tr": ""
   },
-  "wicker intohimosta punottu": {
+  "wicker": {
    "id": 1195803,
    "img": "data/posters/aca6e1cdaad07a60.jpg",
    "kr": "K-12",
    "krs": [
     "biograni",
+    "biovuoksi",
     "elavienkuvien",
     "gilda",
     "ihmekompleksi",
@@ -9903,7 +9958,41 @@
     "kinosampo",
     "kinotoijala",
     "korjaamo",
+    "kurikankino",
     "leffabuumi",
+    "matintupa",
+    "tapiola"
+   ],
+   "r": 7.6,
+   "s": {
+    "en": "Wicker is a comedy starring Oscar-winner Olivia Colman and Alexander Skarsgård, exploring marriage and the absurdity of societal norms. An unmarried fisherwoman (Olivia Colman) has had enough of the villagers’ narrow-mindedness and decides to commission a husband for herself, made of wicker, from the local basket weaver (Peter Dinklage). The wicker-man (Alexander Skarsgård) turns out to be far more husband-material than the woman imagined. Her surprising spouse awakens new emotions in her and sets off a wave of infatuation, jealousy, and upheaval that threatens to shake the entire village community to its core. This sharp-tongued, humorous and boldly unconventional comedy takes on a completely new perspective on love and marriage. The film had its world premiere at the Sundance Film Festival in 2026.",
+    "fi": ""
+   },
+   "tr": "https://www.youtube.com/watch?v=kA9NfV4pM_Q"
+  },
+  "wicker intohimosta punottu": {
+   "id": 1195803,
+   "img": "data/posters/aca6e1cdaad07a60.jpg",
+   "kr": "K-12",
+   "krs": [
+    "biograni",
+    "biovuoksi",
+    "elavienkuvien",
+    "gilda",
+    "ihmekompleksi",
+    "joutsankino",
+    "kinoaurora",
+    "kinoelo",
+    "kinokilta",
+    "kinokonepaja",
+    "kinomania",
+    "kinomarilyn",
+    "kinosampo",
+    "kinotoijala",
+    "korjaamo",
+    "kurikankino",
+    "leffabuumi",
+    "matintupa",
     "tapiola"
    ],
    "r": 7.7,
@@ -9918,16 +10007,12 @@
   },
   "wickern inohimosta punottu": {
    "id": 1195803,
-   "img": "data/posters/aca6e1cdaad07a60.jpg",
-   "r": 7.6,
+   "r": 0,
    "s": {
-    "en": "On the outskirts of a village by the sea, lives a Fisherwoman; smelly, single and perpetually ridiculed. One day, fed up with her stuffy, small-minded neighbours, she commissions herself a husband to be made from wicker. In an otherwise conservative town, this unconventional romance sparks outrage, jealousy and chaos.",
+    "en": "",
     "fi": "Yhteisönsä vieraksuma kalastajanainen tilaa paikalliselta korinpunojalta itselleen punotun aviomiehen. Korista luotu hahmo osoittautuu odottamattoman ainutlaatuiseksi, hänen läsnäolonsa lietsoo kateutta ja levottomuutta, joka hämmentää hiljaista kylää."
    },
-   "tr": "https://www.youtube.com/watch?v=kA9NfV4pM_Q",
-   "ts": [
-    "en"
-   ]
+   "tr": ""
   },
   "wild horse nine": {
    "id": 891621,
@@ -9965,6 +10050,7 @@
     "leffabuumi",
     "niagara",
     "orion",
+    "pajakkakino",
     "savonkinot",
     "star",
     "tapiola"
@@ -10100,13 +10186,13 @@
     "biorex",
     "biorexkokkola",
     "biosade",
-    "biosalo",
     "biostara",
     "elokuviin",
     "gilda",
     "ihmekompleksi",
     "isohannu",
     "jarvelankino",
+    "joutsankino",
     "kino123",
     "kinoakseli",
     "kinoaurora",
@@ -10130,7 +10216,6 @@
     "leffabuumi",
     "matintupa",
     "niagara",
-    "orion",
     "pajakkakino",
     "savonkinot",
     "star",
@@ -10174,5 +10259,5 @@
    "tr": ""
   }
  },
- "generated": "2026-11-08"
+ "generated": "2026-11-09"
 }

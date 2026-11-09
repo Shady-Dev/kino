@@ -19,14 +19,14 @@
 [kinolaika] Kino Laika: 35 showtimes, 12 dates
 [kinolaika] synopses merged: 0
 [kinolaika] synopses skipped as screening notes: 1
-[kinomyyri] 18 screening(s) listed, 15 film page(s) read
+[kinomyyri] 21 screening(s) listed, 17 film page(s) read
 [kinomyyri] omitted 0 confirmed non-film(s) by evidence-backed exclusion over 0 screening(s), and 3 unresolved over 3
 [kinomyyri] unresolved: Boléro, Minä ja Riikka Purra, Scene
 [kinomyyri] override kojootti-vs-acme-dub: evidence-unavailable
 [kinomyyri] override must-pori-nakku: evidence-unavailable
 [kinomyyri] 3 film(s) with a language name not read, that part left blank: Berliinin sankari (saksan); Lapin sota (saami); Nina Roza (ranskan, bulgarialainen)
-[kinomyyri] Kino Myyri: 15 showtimes, 8 dates
-[kinomyyri] Kino Myyri: 15 showtimes, 8 dates
+[kinomyyri] Kino Myyri: 18 showtimes, 11 dates
+[kinomyyri] Kino Myyri: 18 showtimes, 11 dates
 [kinomyyri] synopses merged: 0
 [kinokonepaja] 63 screening(s) listed, 21 film page(s) read
 [kinokonepaja] omitted 0 confirmed non-film(s) by evidence-backed exclusion over 0 screening(s), and 3 unresolved over 3
@@ -38,8 +38,8 @@
 [kinokonepaja] Kino Konepaja: 60 showtimes, 29 dates
 [kinokonepaja] Kino Konepaja: 60 showtimes, 29 dates
 [kinokonepaja] synopses merged: 0
-[run] http: 49 revalidated (304), 58 full, 17 not stored (origin said no-store), 0 cache entries written
+[run] http: 47 revalidated (304), 62 full, 19 not stored (origin said no-store), 2 cache entries written
 [run] hosts: 4 attempted -- kinokonepaja.fi, kinomyyri.fi, www.kinokilta.fi, www.kinolaika.fi
-[run] kinola: 4 venues, 170 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
-[run] timing: 4 site(s), 218.2s of fetching added up across workers that overlap, longest site 84.2s, longest queue wait 100.9s, 84.2s wall from this module's first fetch starting to its last ending
+[run] kinola: 4 venues, 173 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
+[run] timing: 4 site(s), 196.9s of fetching added up across workers that overlap, longest site 74.5s, longest queue wait 89.1s, 74.5s wall from this module's first fetch starting to its last ending
 exit=0
