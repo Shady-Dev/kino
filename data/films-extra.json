@@ -1321,18 +1321,23 @@
     "ihmekompleksi",
     "isohannu",
     "jarvelankino",
+    "kino123",
     "kinoelo",
     "kinohamina",
     "kinokulma",
+    "kinolumo",
     "kinomania",
     "kinomarilyn",
     "kinopiispanristi",
     "kinosampo",
     "kinotervakoski",
     "kinotoijala",
+    "kotkanleffat",
+    "kulttuurimylly",
     "kurikankino",
     "leffabuumi",
-    "lieksankino"
+    "lieksankino",
+    "studio123kouvola"
    ],
    "r": 0,
    "s": {
@@ -1374,6 +1379,19 @@
     "fi": "Ryhmä Haun laiva joutuu mystisen myrskyn kouriin ja haaksirikkoutuu trooppiselle saarelle, joka kuhisee dinosauruksia. He tapaavat Rexin – pennun, joka on jo vuosia ollut saarella jumissa ja josta on kehkeytynyt melkoinen dinosaurusekspertti. Kun Ryhmä Haun arkkivihollinen, Pormestari Hanttinen, aloittaa valtavat kaivuutyöt voidakseen hyödyntää saaren luonnonvaroja, hän saa vahingossa valtavan nukuksissa olleen tulivuoren purkautumaan. Pennut tempautuvat mukaan riskialttiiseen, dinon kokoiseen, kaikkien aikojen suurimpaan pelastusoperaatioonsa tavoitteenaan pysäyttää Hanttinen ennen kuin kaikki saarella katoaa ikiajoiksi."
    },
    "tr": ""
+  },
+  "ekenäs filmfest minotaur": {
+   "id": 848700,
+   "img": "data/posters/b01a276bcbd05b0d.jpg",
+   "r": 7.6,
+   "s": {
+    "en": "When Gleb, a successful company director, finds himself under siege from mounting corporate pressures, an increasingly unstable world, and the discovery of his wife's affair, the collapse of his carefully ordered life accelerates toward violence.",
+    "fi": "MINOTAUR on venäläisohjaaja Andrei Zvjagintsevin odotettu uusi elokuva. Se kertoo menestyneestä venäläisestä liikemiehestä Glebistä. Ammatillisten paineiden kasautuessa ja avioliiton rakoillessa Glebin huolellisessa järjestyksessä oleva elämä alkaa romahtaa väkivaltaisesti kiihtyen. Rikosdraaman pääosissa nähdään Dmitri Mazurov ja Iris Lebedeva."
+   },
+   "tr": "https://www.youtube.com/watch?v=wdFIMrC4oW8",
+   "ts": [
+    "en"
+   ]
   },
   "el espíritu de la colmena mehiläispesän henki": {
    "id": 4495,
@@ -2192,8 +2210,11 @@
    "krs": [
     "ihmekompleksi",
     "isohannu",
+    "kino123",
+    "kinolumo",
     "kinomarilyn",
     "kinopiispanristi",
+    "kotkanleffat",
     "leffabuumi"
    ],
    "r": 0,
@@ -2956,6 +2977,7 @@
     "gilda",
     "helios",
     "isohannu",
+    "kino123",
     "kinoakseli",
     "kinoaurora",
     "kinoelo",
@@ -2979,6 +3001,7 @@
     "kisakino",
     "kkino",
     "korjaamo",
+    "kotkanleffat",
     "kuvakukko",
     "kuvatahti",
     "leffabuumi",
@@ -5551,18 +5574,24 @@
     "gilda",
     "haapamaki",
     "ihmekompleksi",
+    "kino123",
     "kinoelo",
     "kinojuha",
     "kinokulma",
     "kinolaika",
     "kinomania",
     "kinomarilyn",
+    "kinopiispanristi",
     "kinopirtti",
+    "kinosampo",
+    "kinotoijala",
     "kisakino",
+    "kotkanleffat",
     "leffabuumi",
     "levisummit",
     "sheryl",
-    "star"
+    "star",
+    "studio123kouvola"
    ],
    "r": 0,
    "s": {
@@ -6349,11 +6378,14 @@
     "isohannu",
     "kino123",
     "kinokulma",
+    "kinolumo",
     "kinometso",
+    "kinomyyri",
     "kinopiispanristi",
     "kinopirtti",
     "kinotervakoski",
     "korjaamo",
+    "kotkanleffat",
     "leffabuumi",
     "savonkinot",
     "star",
@@ -6428,11 +6460,14 @@
     "isohannu",
     "kino123",
     "kinokulma",
+    "kinolumo",
     "kinometso",
+    "kinomyyri",
     "kinopiispanristi",
     "kinopirtti",
     "kinotervakoski",
     "korjaamo",
+    "kotkanleffat",
     "leffabuumi",
     "savonkinot",
     "star",
@@ -6486,6 +6521,7 @@
     "ihmekompleksi",
     "isohannu",
     "kino123",
+    "kinolumo",
     "kinopiispanristi",
     "kinopirtti",
     "kotkanleffat",
@@ -9152,12 +9188,14 @@
    "tr": ""
   },
   "the super mario galaxy movie suomeksi puhuttu": {
-   "r": 0,
+   "id": 1226863,
+   "img": "data/posters/64818bb8457cfb63.jpg",
+   "r": 8.2,
    "s": {
     "en": "",
     "fi": "Animaatioelokuva The Super Mario Galaxy Movie perustuu Super Mario Bros. -pelisarjan maailmaan. Elokuva jatkaa vuonna 2023 ensi-iltansa saaneen ja yli 1,3 miljardia dollaria tuottaneen The Super Mario Bros. Movie -elokuvan tarinaa. Sekä vuoden 2023 elokuva että The Super Mario Galaxy Movie -elokuva ovat Illuminationin Chris Meledandrin ja Nintendon Shigeru Miyamoton yhteistuotantoja. Elokuvan rahoituksesta vastaavat yhdessä Universal Pictures ja Nintendo ja sen kansainvälinen levittäjä on Universal Pictures. The Super Mario Galaxy Movien ohjaajina ovat The Super Mario Bros. Movie -elokuvasta tutut nimet, Aaron Horvath ja Michael Jelenic. Edellisen elokuvan tapaan käsikirjoittajana on Matthew Fogel ja elokuvan musiikin on säveltänyt Brian Tyler."
    },
-   "tr": ""
+   "tr": "https://www.youtube.com/watch?v=En5QZmL5R1s"
   },
   "the time that remains": {
    "id": 44898,
@@ -10019,17 +10057,21 @@
     "kinokilta",
     "kinokonepaja",
     "kinokuva",
+    "kinolumo",
     "kinomania",
     "kinomarilyn",
+    "kinomyyri",
     "kinoolympia",
     "kinopiispanristi",
     "kinosampo",
     "kinotoijala",
     "kirkkonummi",
     "korjaamo",
+    "kotkanleffat",
     "kurikankino",
     "leffabuumi",
     "matintupa",
+    "studio123kouvola",
     "tapiola"
    ],
    "r": 7.6,
@@ -10071,17 +10113,21 @@
     "kinokilta",
     "kinokonepaja",
     "kinokuva",
+    "kinolumo",
     "kinomania",
     "kinomarilyn",
+    "kinomyyri",
     "kinoolympia",
     "kinopiispanristi",
     "kinosampo",
     "kinotoijala",
     "kirkkonummi",
     "korjaamo",
+    "kotkanleffat",
     "kurikankino",
     "leffabuumi",
     "matintupa",
+    "studio123kouvola",
     "tapiola"
    ],
    "r": 7.7,
@@ -10179,9 +10225,9 @@
   "wildwood sysimetsä": {
    "id": 791523,
    "img": "data/posters/3243e3129f13e25d.jpg",
-   "r": 8.7,
+   "r": 8.5,
    "s": {
-    "en": "After her baby brother is abducted by a murder of crows, headstrong teenager Prue McKeel launches a desperate rescue mission into the Impassable Wilderness, an enchanted forest hidden just beyond Portland, Oregon. Joined by her hapless but loyal classmate Curtis Mehlberg, Prue navigates a world of talking animals, bandits, and powerful figures driven by grief and ambition. As the pair is drawn into a conflict threatening the balance of the forest itself, Prue must discover the strength and belief she never knew she possessed.",
+    "en": "Prue and her classmate Curtis are drawn into a magical forest filled with enchanted creatures, loyal allies, and formidable adversaries as they embark on a desperate quest to rescue Prue's abducted baby brother from a murder of crows led by a mysterious woman named Alexandra.",
     "fi": "Kun omapäisen teinitytön Prue McKeelin pikkuveli joutuu varisparven sieppaamaksi, Prue lähtee epätoivoiselle pelastusretkelle Tiettömään korpeen – lumottuun metsään, joka kätkeytyy aivan Oregonin Portlandin kupeeseen. Seurakseen Prue saa kömpelön mutta uskollisen luokkatoverinsa Curtis Mehlbergin. Tiettömässä korvessa kaksikko kohtaa puhuvia eläimiä, rosvoja ja mahtihahmoja, joiden tekoja ohjaavat suru ja kunnianhimo. Kun Prue ja Curtis tempautuvat keskelle konfliktia, joka uhkaa koko metsän tasapainoa, Pruen on löydettävä itsestään voimaa ja uskoa, joita hän ei tiennyt omaavansa. Pelastaakseen veljensä ja suojellakseen Sysimetsän haurasta tulevaisuutta Pruen on oltava valmis panemaan kaikki peliin. Oscar®-ehdokkuuden saaneen ja BAFTA®-palkitun LAIKA -studion Sysimetsä ( Wildwood ) on suuri seikkailutarina rakkaudesta, uhrauksista ja taikuudesta, joka paljastuu, kun uskallamme katsoa tutun maailman tuolle puolen."
    },
    "tr": "https://www.youtube.com/watch?v=bJQGtSeLPII",
