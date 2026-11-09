@@ -8,10 +8,8 @@
 [schedule] 2026-11-14: 26 showtimes
 [schedule] 2026-11-15: 18 showtimes
 [tmdb] no TMDB match (42): Dyyni: Osat 1 ja 2 | League of Legends Worlds 26 Finals in Cinema | Me olemme Pariisin orkesteri | NV26: Adult Supervision - Arkipelag | NV26: Avajaiselokuva: Sanguine - Species | NV26: Blaise | NV26: Bloody Tennis | NV26: Body Blow | NV26: Bruton | NV26: Buffet Infinity | NV26: CRCL9 | NV26: Colony | NV26: Crawlers | NV26: Cruising - Yön kuningas | NV26: Cult of Euphoria 2026 -lyhytelokuvat | NV26: Dernsie: The Amazing Life of Bruce Dern | NV26: Enju | NV26: Escape from New York - Pako New Yorkista 4K | NV26: Faces of Death | NV26: Finlandia-gaala: Juokse kuin varas | NV26: Gaua - The Night | NV26: Gore from Outer Space | NV26: Gröna Gubbar från Y.R. | NV26: Hard Boiled 4k | NV26: Ithaqua | NV26: Mineshaft: The Cruising Murders | NV26: Never After Dark | NV26: Objet a | NV26: Oddities | NV26: Onslaught | NV26: Phí Phông: The Blood Demon | NV26: Punaista lunta | NV26: Päätöselokuva: TC 2000 | NV26: Rosebush Pruning | NV26: Swamp Thing | NV26: The Beast & Renny Harlin Masterclass | NV26: The Best Summer | NV26: The Fog - Usva 4K | NV26: The Peril at Pincer Point | NV26: Upiro | NV26: You Are the Film | Ooppera: Carmen (encore 2010)
-[tmdb] weak match, no exact title (6): Godzilla Minus Zero -> ゴジラ-0.0 | Leviticus -> Leviticus | NT LIVE: Les Liaisons Dangereuses -> National Theatre Live: Les Liaisons Dangereuses | Ramayana: Rise of a Legend -> रामायणम् | Rose -> Rose | Two Seasons, Two Strangers -> 旅と日々
-[tmdb] rating held back, under 25 votes (4): Matka Piemonteen (6.3 / 3 votes) | NT LIVE: Les Liaisons Dangereuses (6.0 / 6 votes) | Ramayana: Rise of a Legend (7.8 / 20 votes) | Two Seasons, Two Strangers (7.1 / 16 votes)
-[tmdb] rating refresh: 6 scheduled, 6 re-read, 0 failed and still due, 0 deferred (budget 12)
-[tmdb] 10 new lookups, 54 re-checks, cache 182, 115 mergeable by id
+[tmdb] weak candidate kept, not searched until 2026-11-10 (6): Godzilla Minus Zero -> ゴジラ-0.0 | Leviticus -> Leviticus | NT LIVE: Les Liaisons Dangereuses -> National Theatre Live: Les Liaisons Dangereuses | Ramayana: Rise of a Legend -> रामायणम् | Rose -> Rose | Two Seasons, Two Strangers -> 旅と日々
+[tmdb] 0 new lookups, 0 re-checks, cache 182, 115 mergeable by id
 [films] 93 film entries
 [attrs] dropped, neither format nor language (9): Klassikko | Maxim | NV | OCAP | Pkseutu | SEVERAL | TKU & R | Tampere | Varaus20
 [schedule] 17 venue files written, 0 kept as-is
