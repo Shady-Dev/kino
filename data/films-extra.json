@@ -1392,7 +1392,8 @@
     "leffabuumi",
     "lieksankino",
     "star",
-    "studio123kouvola"
+    "studio123kouvola",
+    "vaakuna"
    ],
    "r": 0,
    "s": {
@@ -4539,6 +4540,7 @@
     "kotkanleffat",
     "kulttuurimylly",
     "kuvatahti",
+    "laitilankino",
     "leffabuumi",
     "levisummit",
     "savonkinot",
@@ -8143,6 +8145,7 @@
     "kotkanleffat",
     "kulttuurimylly",
     "kuvatahti",
+    "laitilankino",
     "leffabuumi",
     "levisummit",
     "savonkinot",
@@ -10250,6 +10253,7 @@
     "star",
     "studio123kouvola",
     "tapiola",
+    "vaakuna",
     "vihdinkino"
    ],
    "r": 7.6,
@@ -10312,6 +10316,7 @@
     "star",
     "studio123kouvola",
     "tapiola",
+    "vaakuna",
     "vihdinkino"
    ],
    "r": 7.7,
@@ -10371,7 +10376,8 @@
     "pajakkakino",
     "savonkinot",
     "star",
-    "tapiola"
+    "tapiola",
+    "vaakuna"
    ],
    "r": 8.1,
    "s": {
@@ -10531,6 +10537,7 @@
     "korjaamo",
     "kotkanleffat",
     "kurikankino",
+    "laitilankino",
     "leffabuumi",
     "matintupa",
     "niagara",
