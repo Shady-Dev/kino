@@ -8,33 +8,34 @@
 [savonkinot] Maxim Varkaus: 23 showtimes, 10 dates
 [savonkinot] Kino-Hovi Kitee: 8 showtimes, 8 dates
 [savonkinot] synopses merged: 0
-[leffabuumi] Kinolinna: 77 showtimes, 13 dates
-[leffabuumi] Kino Ritz: 17 showtimes, 15 dates
+[leffabuumi] Kinolinna: 83 showtimes, 13 dates
+[leffabuumi] Kino Ritz: 26 showtimes, 21 dates
 [leffabuumi] Kino Saimaa: 4 showtimes, 3 dates
 [leffabuumi] synopses merged: 0
 [studio123jarvenpaa] Studio 123 Järvenpää: 33 showtimes, 12 dates
 [studio123jarvenpaa] synopses merged: 0
 [studio123kouvola] Studio 123 Kouvola: 40 showtimes, 20 dates
 [studio123kouvola] synopses merged: 0
-[ihmekompleksi] Ihme Kompleksi: 21 showtimes, 13 dates
+[ihmekompleksi] Ihme Kompleksi: 20 showtimes, 12 dates
 [ihmekompleksi] synopses merged: 0
 [kino123] Kino 123: 32 showtimes, 4 dates
 [kino123] synopses merged: 0
 [biogrand] Bio Grand: 12 showtimes, 4 dates
 [biogrand] synopses merged: 0
-[joutsankino] FAILED: <urlopen error [Errno 8] nodename nor servname provided, or not known>
+[joutsankino] Joutsan Kino: 11 showtimes, 8 dates
+[joutsankino] synopses merged: 0
 [cine] Cine Keuda-Talo: 7 showtimes, 2 dates
 [cine] Cine Nikkilä: no programme at the moment (adapter confirmed the venue empty); publishing an empty file
 [cine] synopses merged: 0
 [star] strand prefix split off 3 showtimes
-[star] Elokuvateatteri Star: 73 showtimes, 10 dates
+[star] Elokuvateatteri Star: 72 showtimes, 10 dates
 [star] synopses merged: 0
 [star] screening-note sentences left out of synopses: 1
 [haapamaki] Haapamäen Elokuvat: 12 showtimes, 10 dates
 [haapamaki] synopses merged: 0
 [run] venuelists-local.json rewritten
-[run] http: 0 revalidated (304), 264 full, 264 not stored (origin said no-store), 0 cache entries written
+[run] http: 0 revalidated (304), 275 full, 275 not stored (origin said no-store), 0 cache entries written
 [run] hosts: 12 attempted -- biogrand.fi, haapamaenelokuvat.fi, ihmekompleksi.fi, kiertue.cine.fi, kino.joutsa.fi, kino123.fi, kotkanleffat.fi, leffabuumi.fi, lippu.elokuvateatteristar.fi, studio123.fi, studiot123.com, www.savonkinot.fi
 [run] pending: cine has 1 venue(s) with no programme yet: cine-nikkila
-[run] etiketti: 19 venues, 543 showtimes, 0 stale, 0 unverified, 1 pending, 0 with no programme, 1 failures
-exit=1
+[run] etiketti: 20 venues, 567 showtimes, 0 stale, 0 unverified, 1 pending, 0 with no programme, 0 failures
+exit=0
