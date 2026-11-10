@@ -4,7 +4,7 @@
 [kinopiispanristi] synopses merged: 0
 [kinolumo] film pages: 17 with a synopsis, 2 without, 19 films
 [kinolumo] strand prefix split off 1 showtimes
-[kinolumo] Kino Lumo: 79 showtimes, 12 dates
+[kinolumo] Kino Lumo: 78 showtimes, 11 dates
 [kinolumo] synopses merged: 0
 [http] 404 from www.laitilankino.fi, gave up after 3 attempt(s) -- Server: nginx
 [laitilankino] film page yon-lapsi failed: HTTPError: HTTP Error 404: Not Found
@@ -13,6 +13,6 @@
 [laitilankino] synopses merged: 0
 [run] http: 0 revalidated (304), 51 full, 0 not stored (origin said no-store), 0 cache entries written
 [run] hosts: 3 attempted -- www.kinolumo.fi, www.kinopiispanristi.fi, www.laitilankino.fi
-[run] cinemahouse: 3 venues, 232 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
-[run] timing: 3 site(s), 107.0s of fetching added up across workers that overlap, longest site 42.1s, longest queue wait 48.7s, 42.1s wall from this module's first fetch starting to its last ending
+[run] cinemahouse: 3 venues, 231 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
+[run] timing: 3 site(s), 128.1s of fetching added up across workers that overlap, longest site 53.6s, longest queue wait 55.1s, 53.6s wall from this module's first fetch starting to its last ending
 exit=0

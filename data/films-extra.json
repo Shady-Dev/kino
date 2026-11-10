@@ -1828,7 +1828,6 @@
     "cinemantsala",
     "gilda",
     "haapamaki",
-    "kino123",
     "kinohamina",
     "kinokonepaja",
     "kinomarilyn",
@@ -4612,7 +4611,6 @@
     "elavienkuvien",
     "elokuviin",
     "haapamaki",
-    "ihmekompleksi",
     "isohannu",
     "joutsankino",
     "kino123",
@@ -6211,11 +6209,6 @@
   "ortotopologian loputtomat alkeet": {
    "id": 1753057,
    "img": "data/posters/24b34ae212265b6a.jpg",
-   "kr": "K-7",
-   "krs": [
-    "savonkinot",
-    "star"
-   ],
    "r": 0,
    "s": {
     "en": "The story of Aapo Heikkilä, who served as a docent of orthotopology at the University of Oulu for nearly 30 years and was the world’s sole representative of this unique \"scientific field\" . In the 1980s, Heikkilä became a superstar in the scientific community and, at the same time, the University of Oulu’s most famous scholar.",
@@ -6606,7 +6599,6 @@
     "isohannu",
     "kinolumo",
     "kinopiispanristi",
-    "kotkanleffat",
     "kulttuurimylly",
     "kuvatahti",
     "savonkinot",
@@ -6625,16 +6617,12 @@
   },
   "pikku kummitus lapanen keppostelee suomeksi": {
    "id": 1781923,
-   "img": "data/posters/8a9129f55b1b3d43.jpg",
    "r": 0,
    "s": {
-    "en": "Laban the Little Ghost is back with a new collection of cozy and just-spooky-enough adventures at the Good Morning Sun Castle. Together with his little sister Labolina and his best friend, the Little Prince, their days are filled with everything from trick-or-treating, birthday celebrations, and lost Christmas presents to unexpected guests and many other fun experiences.",
+    "en": "",
     "fi": "Pikku Kummitus Lapanen palaa uusien seikkailujen pariin Hyvänhuomenen linnassa. Yhdessä Lapaniinan, Pikkuprinssin ja ystäviensä kanssa hän joutuu hauskoihin, jännittäviin ja välillä hieman pelottaviinkin tilanteisiin, joissa ystävyys, rohkeus ja mielikuvitus ovat aina keskiössä. Lämmin ja humoristinen elokuvaelämys perheen pienimmille elokuvissakävijöille. Elokuva on saanut Euroopan unionin Luova Eurooppa -ohjelman tuen."
    },
-   "tr": "",
-   "ts": [
-    "en"
-   ]
+   "tr": ""
   },
   "pikkuli ja tähtipeura": {
    "id": 1403476,
@@ -7553,12 +7541,17 @@
    "tr": "https://www.youtube.com/watch?v=dmd9tEt9F30"
   },
   "rocky 50th anniversary": {
-   "r": 0,
+   "id": 1366,
+   "img": "data/posters/2c75158a2043fdd9.jpg",
+   "r": 7.8,
    "s": {
     "en": "Elokuvassa ei ole tekstitystä! Struggling Philadelphia boxer Rocky Balboa has a chance to become a somebody when heavyweight champion Apollo Creed come up with the Bicentennial gimmick of fighting a sure-ringer and easily winning the bout himself. But someone forgot to tell Rocky, who trains earnestly. And in the climactic fight sequence, the \"Italian Stallion\" gets his wish: to go the distance...against all the odds!",
-    "fi": ""
+    "fi": "Sylvester Stallonen kolmessa päivässä käsikirjoittama ja kuukaudessa kuvattu pienen budjetin elokuva sai Oscarin leikkauksen ja ohjauksen lisäksi parhaana elokuvana. Rocky Balboa on lahjakas, mutta saamaton nyrkkeilijä, joka perii lainoja työkseen. Hän pääsee mestaruusotteluun, kun mestarin haastaja loukkaantuu viime hetkillä. Samalla Rocky saa tilaisuuden valloittaa unelmiensa nainen."
    },
-   "tr": ""
+   "tr": "https://www.youtube.com/watch?v=dmd9tEt9F30",
+   "ts": [
+    "fi"
+   ]
   },
   "rokumentti 40 years of fuckin up a film by nofx": {
    "r": 0,
@@ -10122,8 +10115,7 @@
     "isohannu",
     "kirkkonummi",
     "levisummit",
-    "savonkinot",
-    "star"
+    "savonkinot"
    ],
    "r": 7.0,
    "s": {
@@ -10320,6 +10312,7 @@
     "biosavoy",
     "biostara",
     "biovuoksi",
+    "cine",
     "cinemantsala",
     "elavienkuvien",
     "gilda",
@@ -10348,6 +10341,7 @@
     "korjaamo",
     "kotkanleffat",
     "kurikankino",
+    "kuvakukko",
     "leffabuumi",
     "matintupa",
     "niagara",
@@ -10396,6 +10390,7 @@
     "biosavoy",
     "biostara",
     "biovuoksi",
+    "cine",
     "cinemantsala",
     "elavienkuvien",
     "gilda",
@@ -10424,6 +10419,7 @@
     "korjaamo",
     "kotkanleffat",
     "kurikankino",
+    "kuvakukko",
     "leffabuumi",
     "matintupa",
     "niagara",
@@ -10486,6 +10482,7 @@
     "kinotervakoski",
     "kinovirta",
     "kotkanleffat",
+    "kuvakukko",
     "leffabuumi",
     "niagara",
     "orion",
