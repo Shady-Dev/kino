@@ -1367,6 +1367,7 @@
     "bioforum",
     "biogrand",
     "biokaari",
+    "biomarilyn",
     "biomarlon",
     "biopallas",
     "biorex",
@@ -1381,6 +1382,7 @@
     "isohannu",
     "jarvelankino",
     "kino123",
+    "kinoakseli",
     "kinoelo",
     "kinohamina",
     "kinohirvi",
@@ -1394,6 +1396,7 @@
     "kinopirtti",
     "kinosampo",
     "kinoset",
+    "kinotar",
     "kinotervakoski",
     "kinotoijala",
     "kinovirta",
@@ -1402,6 +1405,7 @@
     "kurikankino",
     "leffabuumi",
     "lieksankino",
+    "savonkinot",
     "star",
     "studio123jarvenpaa",
     "studio123kouvola",
@@ -1605,12 +1609,16 @@
   },
   "father mother sister brother": {
    "id": 1159206,
-   "r": 0,
+   "img": "data/posters/9748f77855a4de36.jpg",
+   "r": 6.4,
    "s": {
-    "en": "",
+    "en": "Estranged siblings reunite after years apart, forced to confront unresolved tensions and reevaluate their strained relationships with their emotionally distant parents.",
     "fi": "Father Mother Sister Brother kuvaa aikuisten lasten ja heidän vanhempiensa välisiä monimutkaisia suhteita. Tarinat sijoittuvat nykyaikaan ja kolmeen eri paikkaan; Yhdysvaltain koillisosiin, Dubliniin ja Pariisiin. Father: Sisarukset Jeff (Adam Driver) ja Emily (Mayim Bialik) vierailevat eristäytyneen ja mahdollisesti varattoman isänsä (Tom Waits) luona. Vierailun aikana he alkavat epäillä isänsä teeskentelevän kurjuuttaan ja huomaavat tämän ranteessa arvokkaan Rolex-kellon. Mother: Sisarukset Timothea (Cate Blanchett) ja Lilith (Vicky Krieps) vierailevat kirjailijaäitinsä (Charlotte Rampling) luona iltapäiväteellä. Tarina keskittyy pinnan alla kyteviin jännitteisiin ja siihen, mitä jätetään sanomatta perinteisten rituaalien äärellä. Sister Brother: Kaksoset Skye (Indya Moore) ja Billy (Luka Sabbat) siivoavat edesmenneiden vanhempiensa asuntoa. He käyvät läpi muistoja ja tavaroita, löytäen uusia puolia vanhemmistaan ja perheensä historiasta. Elokuva piirtää inhimillisen kuvan perheestä, läheisyydestä ja etäisyydestä lempeällä huumorilla, johon sekoittuu melankolian sävyjä."
    },
-   "tr": ""
+   "tr": "https://www.youtube.com/watch?v=PA07EmbZ0b0",
+   "ts": [
+    "en"
+   ]
   },
   "fatherland": {
    "id": 1437696,
@@ -2329,6 +2337,7 @@
    "img": "data/posters/8b1166ae143c79d4.jpg",
    "kr": "K-16",
    "krs": [
+    "biomarilyn",
     "biorex",
     "biorexkokkola",
     "ihmekompleksi",
@@ -2339,6 +2348,7 @@
     "kinomarilyn",
     "kinopiispanristi",
     "kinopirtti",
+    "kinotar",
     "kotkanleffat",
     "leffabuumi",
     "star"
@@ -2521,6 +2531,14 @@
    "s": {
     "en": "",
     "fi": "Kolme nuorta italialaista lahjakkuutta konsertoi Concordian temppelissä Agrigentossa Sisiliassa. IL VOLO - Piero Barone, Gianluca Ginoble ja Ignazio Boschetto muodostavat pop-operaattisen trion joka on ihastuttanut yleisöä kautta maailman jo vuosia. Tässä konsertissa kolmikko tulkitsee sydänjuuria koskettavasti ajattomia kappaleita, muiden muassa O’ Sole Mio, Amor, Vida de Mi Vida, Leonard Cohenin Hallelujah, sekä osioita Oopperan kummituksesta ja Gladiaattori-elokuvasta, unohtamatta Nessun Dormaa, E Lucevan le stelle… IL VOLOn seuraan liittyy myös maailmakuulu sopraano Pretty Yende, joka on esiintynyt niin Metropolitan operassa kuin MIlanon La Scalassakin. Hän vierailee esittämässä osansa aariassa Verdin La Traviatasta."
+   },
+   "tr": ""
+  },
+  "ilta hyvää joulua ennakkokuuntelu": {
+   "r": 0,
+   "s": {
+    "en": "",
+    "fi": "ILTA esittää: Hyvää joulua – immersiivinen konserttielokuva Suomen rakastetuimpiin laulajiin lukeutuva ILTA kutsuu katsojat joulun sydämeen. Hyvää joulua on hänen ensimmäiseen samannimiseen joulualbumiinsa perustuva konserttielokuva, joka tarjoaa ainutlaatuisen mahdollisuuden kokea albumin musiikki ja tarinat valkokankaalla. 20. marraskuuta ilmestyvä Hyvää joulua kokoaa yhteen Iltan aiemmin julkaistuja joululauluja sekä uusia tulkintoja rakastetuimmista jouluklassikoista. Albumi on taltioitu ainutlaatuisessa ympäristössä Oulunkylän puukirkossa yhdessä jousisoittajien, flyygelin ja gospelkuoron kanssa hyödyntäen immersiivistä tallennusmetodia, joka tuo kuulijan keskelle esitystä. Konserttielokuvassa kuullaan albumin kappaleiden liveversioita sekä päästään Iltan seurassa kappaleiden ja albumin synnyn äärelle. Lämminhenkinen kokonaisuus yhdistää musiikin, tarinankerronnan ja joulun tunnelman tavalla, joka kutsuu pysähtymään vuoden tärkeimpien hetkien äärelle. Kesto: n. 60 minuuttia"
    },
    "tr": ""
   },
@@ -2944,6 +2962,10 @@
   "katti hatussa suomeksi puhuttu": {
    "id": 1117898,
    "img": "data/posters/0a4381fbfe4b427a.jpg",
+   "kr": "K-7",
+   "krs": [
+    "biorex"
+   ],
    "r": 0,
    "s": {
     "en": "Assigned his toughest mission yet, the Cat must cheer up siblings Gabby and Sebastian as they adjust to life in a new town. Known for pushing boundaries, this agent of chaos must prove himself or risk losing his magical hat forever.",
@@ -3126,7 +3148,6 @@
     "helios",
     "isohannu",
     "kino123",
-    "kinoakseli",
     "kinoaurora",
     "kinohirvi",
     "kinoiiris",
@@ -4358,17 +4379,15 @@
     "gilda",
     "kinoaurora",
     "kinokilta",
+    "orion",
     "tapiola"
    ],
    "r": 8.1,
    "s": {
-    "en": "The intertwined lives of three men in three different eras, three lives intimately linked by sexuality and desire, pain, and legacy.",
+    "en": "La bola negra, which won the Best Director award in Cannes, has been described by the international press as “powerful”, “stunning” and “the most important historical queer film of all time”. The film is based on the figure of the poet Federico García Lorca, who was executed during the Spanish Civil War, and his unfinished novel. The story depicts the fates of three gay men in the years 1932, 1937 and 2017. War, forbidden desire, grief, guilt and hushed family secrets are all interwoven. Directed by Javier Calvo and Javier Ambrossi, the film features compelling performances from both young gay actors (including the singer Guitarricadelafuente) and veteran stars such as Lola Dueñas, Glenn Close, and Penélope Cruz. Supported by the Creative Europe programme – MEDIA.",
     "fi": "Cannesin pääkilpasarjan parhaan ohjauksen palkinnon voittanut La bola negra on kansainvälisen lehdistön mukaan ”vaikuttava”, ”tyrmäävä”, ”kautta aikojen tärkein historiallinen queer-kuvaelma”. Elokuvan taustalla on Espanjan sisällissodassa teloitetun runoilijan Federico García Lorcan hahmo ja hänen keskeneräiseksi jäänyt romaaninsa. Tarinassa kuvataan kolmen homoseksuaalin kohtaloita vuosina 1932, 1937 ja 2017. Yhteen nivoutuvat sota, kielletty halu, suru, syyllisyys ja vaietut perhesalaisuudet. Javier Calvon ja Javier Ambrossin ohjaaman elokuvan rooleissa vakuuttavat sekä nuoret gay-näyttelijät (mm. laulaja Guitarricadelafuente) että veteraanitähdet Lola Dueñas, Glenn Close ja Pénelope Cruz."
    },
-   "tr": "https://www.youtube.com/watch?v=lBVxKt0gKDY",
-   "ts": [
-    "en"
-   ]
+   "tr": "https://www.youtube.com/watch?v=lBVxKt0gKDY"
   },
   "la bola negra ennakkonäytös": {
    "id": 1422041,
@@ -4569,6 +4588,7 @@
     "kinopirtti",
     "kinosampo",
     "kinoset",
+    "kinotar",
     "kinotervakoski",
     "kinotoijala",
     "korjaamo",
@@ -5780,11 +5800,13 @@
     "kinopiispanristi",
     "kinopirtti",
     "kinosampo",
+    "kinotar",
     "kinotoijala",
     "kisakino",
     "kotkanleffat",
     "leffabuumi",
     "levisummit",
+    "savonkinot",
     "sheryl",
     "star",
     "studio123jarvenpaa",
@@ -5873,12 +5895,13 @@
   },
   "obsession": {
    "id": 1339713,
-   "r": 0,
+   "img": "data/posters/b087e78e6e9510ef.jpg",
+   "r": 8.2,
    "s": {
     "en": "",
     "fi": "Kun toivoton romantikko katkaisee salaperäisen “toivepajun” saadakseen ihastuksena rakastumaan itseensä, hän tajuaa saaneensa juuri sen, mitä toivoikin. Mutta pian hänelle valkenee, että joistakin toiveista joutuu maksamaan synkän hinnan."
    },
-   "tr": ""
+   "tr": "https://www.youtube.com/watch?v=gMC8kkwbIQQ"
   },
   "oddities": {
    "id": 1486256,
@@ -6152,6 +6175,7 @@
    "img": "data/posters/24b34ae212265b6a.jpg",
    "kr": "K-7",
    "krs": [
+    "savonkinot",
     "star"
    ],
    "r": 0,
@@ -6598,6 +6622,7 @@
     "korjaamo",
     "kotkanleffat",
     "leffabuumi",
+    "savonkinot",
     "star",
     "studio123jarvenpaa",
     "tapiola",
@@ -6682,6 +6707,7 @@
     "korjaamo",
     "kotkanleffat",
     "leffabuumi",
+    "savonkinot",
     "star",
     "studio123jarvenpaa",
     "tapiola",
@@ -6869,12 +6895,16 @@
   },
   "practical magic lumotut sisaret": {
    "id": 1302904,
-   "r": 0,
+   "img": "data/posters/1b75e3e44aca4810.jpg",
+   "r": 7.2,
    "s": {
-    "en": "",
+    "en": "The Owens sisters must confront the dark curse that threatens to unravel their family once and for all.",
     "fi": "Sandra Bullockin ja Nicole Kidmanin tähdittämä PRACTICAL MAGIC: LUMOTUT SISARET vie kuutamon valaisemien kepposten ja esiäitien taikuuden sävyttämään maailmaan, jossa Owensin sisarten on kohdattava synkkä kirous, joka uhkaa repiä heidän perheensä lopullisesti hajalle. Luvassa on lumottu elokuva täynnä komediaa ja taikaa."
    },
-   "tr": ""
+   "tr": "https://www.youtube.com/watch?v=Ho10_4IX1jE",
+   "ts": [
+    "en"
+   ]
   },
   "practical magic lumotut sisaret k18 anniskelunäytös": {
    "id": 1302904,
@@ -7866,16 +7896,12 @@
   },
   "rose": {
    "id": 1176962,
-   "img": "data/posters/7de845a87ecfdd03.jpg",
-   "r": 7.6,
+   "r": 0,
    "s": {
-    "en": "In the early 17th century, a soldier arrives at an isolated Protestant village in Germany claiming to be the heir to an abandoned farmstead. Even though he proves to be a good man, the villagers’ suspicions about his identity grow and they force a reckoning.",
+    "en": "",
     "fi": "Salaperäinen sotilas (Sandra Hüller) ilmaantuu syrjäiseen protestanttiseen kylään Saksassa kolmikymmenvuotisen sodan riehuessa. Muukalainen, jonka kasvot ovat ampumahaavan ruhjomat, kertoo olevansa hylätyn tilan perijä ja todistaa tämän asiakirjalla. Markus Schleinzerin tositapahtumiin perustuva ankara elokuva kertoo naisesta, joka otti miehen roolin ja ansaitsi kyläläisten luottamuksen työteliäisyydellään ja teoillaan. Sandra Hüller voitti parhaan pääosanäyttelijän Hopeisen karhun tämänvuotisilla Berliinin elokuvajuhlilla."
    },
-   "tr": "https://www.youtube.com/watch?v=KrmkNoxS6t4",
-   "ts": [
-    "en"
-   ]
+   "tr": ""
   },
   "rose water": {
    "r": 0,
@@ -8154,60 +8180,12 @@
   },
   "shaun the sheep the beast of mossy bottom eng audio": {
    "id": 1477104,
-   "img": "data/posters/0d3865389792d3a5.jpg",
-   "kr": "K-7",
-   "krs": [
-    "biogrand",
-    "biokaari",
-    "biomarilyn",
-    "biomarlon",
-    "biopallas",
-    "biorex",
-    "biorexkokkola",
-    "biosalo",
-    "biosavoy",
-    "biostara",
-    "biovuoksi",
-    "elavienkuvien",
-    "elokuviin",
-    "haapamaki",
-    "ihmekompleksi",
-    "isohannu",
-    "joutsankino",
-    "kino123",
-    "kinoakseli",
-    "kinoelo",
-    "kinojuha",
-    "kinolaika",
-    "kinolumo",
-    "kinomania",
-    "kinomarilyn",
-    "kinometso",
-    "kinoolympia",
-    "kinopiispanristi",
-    "kinopirtti",
-    "kinosampo",
-    "kinoset",
-    "kinotervakoski",
-    "kinotoijala",
-    "korjaamo",
-    "kotkanleffat",
-    "kulttuurimylly",
-    "kuvatahti",
-    "laitilankino",
-    "leffabuumi",
-    "levisummit",
-    "savonkinot",
-    "star",
-    "studio123jarvenpaa",
-    "studio123kouvola"
-   ],
-   "r": 7.3,
+   "r": 0,
    "s": {
     "en": "The much-loved Shaun the Sheep returns to the big screen in a new, delightful, and hilarious adventure! The farm’s residents are eagerly awaiting Halloween, until the pumpkin patch they’ve lovingly tended is destroyed on the eve of the festivities. Shaun isn’t one to sit idly by, so he decides to become a ‘mad scientist’ to rectify the situation. Soon events spiral out of control. When the farm’s owner goes missing and a strange wild beast strikes terror into the villagers, everything is set for a monstrously fun adventure.",
     "fi": ""
    },
-   "tr": "https://www.youtube.com/watch?v=daZMq0AyOMc"
+   "tr": ""
   },
   "she killed in ecstasy": {
    "id": 28294,
@@ -9034,6 +9012,10 @@
   "the invite": {
    "id": 950028,
    "img": "data/posters/2755bb2be0a0c120.jpg",
+   "kr": "K-12",
+   "krs": [
+    "engel"
+   ],
    "r": 7.2,
    "s": {
     "en": "",
@@ -10280,6 +10262,7 @@
     "gilda",
     "ihmekompleksi",
     "joutsankino",
+    "kinoakseli",
     "kinoaurora",
     "kinoelo",
     "kinoiiris",
@@ -10294,6 +10277,7 @@
     "kinopiispanristi",
     "kinopirtti",
     "kinosampo",
+    "kinotar",
     "kinotoijala",
     "kinovirta",
     "kirkkonummi",
@@ -10304,6 +10288,7 @@
     "matintupa",
     "niagara",
     "orion",
+    "savonkinot",
     "star",
     "studio123jarvenpaa",
     "studio123kouvola",
@@ -10349,6 +10334,7 @@
     "gilda",
     "ihmekompleksi",
     "joutsankino",
+    "kinoakseli",
     "kinoaurora",
     "kinoelo",
     "kinoiiris",
@@ -10363,6 +10349,7 @@
     "kinopiispanristi",
     "kinopirtti",
     "kinosampo",
+    "kinotar",
     "kinotoijala",
     "kinovirta",
     "kirkkonummi",
@@ -10373,6 +10360,7 @@
     "matintupa",
     "niagara",
     "orion",
+    "savonkinot",
     "star",
     "studio123jarvenpaa",
     "studio123kouvola",
@@ -10414,6 +10402,7 @@
     "helios",
     "isohannu",
     "kino123",
+    "kinoakseli",
     "kinoaurora",
     "kinoiiris",
     "kinojuha",
@@ -10425,6 +10414,7 @@
     "kinoolympia",
     "kinopiispanristi",
     "kinopirtti",
+    "kinotar",
     "kinotervakoski",
     "kinovirta",
     "kotkanleffat",

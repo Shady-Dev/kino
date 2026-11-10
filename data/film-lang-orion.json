@@ -50,7 +50,7 @@
  },
  "hiroshima-rakastettuni": {
   "price": "",
-  "at": "2026-11-08T12:15:01+00:00",
+  "at": "2026-11-10T12:16:11+00:00",
   "fields": {
    "lang": "FR-A, JA-A, EN-A, FI-S",
    "len": "88",
@@ -130,6 +130,18 @@
    "year": "2026",
    "syn_fi": "Dokumenttielokuva kertoo Andriy Kuzmenkosta eli Kuzmasta, legendaarisen Skryabin-yhtyeen keulakuvasta. Ennennäkemättömän arkistomateriaalin kautta elokuva seuraa hänen matkaansa nuoruudesta yhdeksi Ukrainan tunnetuimmista musiikki- ja kulttuurihahmoista ja avaa hänen huumoriaan, itseironiaansa, henkilökohtaista kasvuaan sekä suhdettaan vapauteen, musiikkiin ja ihmisiin. Näytös järjestetään yhteistyössä Ukrainalaisten yhdistys Suomessa ry:n kanssa.",
    "syn_en": "The story of Andriy Kuzmenko, frontman of the band Skryabin, who was loved by millions but truly known by only a few. Through exclusive archival footage, never before seen by the public, the film reveals his inner transformations, self-irony, and a life lived at full speed — a life that continues to resonate long after his passing. Directed by Artem Hryhorian, the film takes viewers on a journey through Kuzma’s life — from a boy growing up in Novoiavorivsk to an icon of Ukrainian pop culture. It is a film about freedom, pain, and love for people, all of which found expression in his every word. The film explores Kuzma as a figure of cultural memory, whose presence and influence remain alive decades after his death. The screening is organized in collaboration with the Association of Ukrainians in Finland."
+  }
+ },
+ "la-bola-negra": {
+  "price": "",
+  "at": "2026-11-10T12:16:11+00:00",
+  "fields": {
+   "lang": "ES-A, FI-S, SV-S",
+   "len": "155",
+   "rating": "K-16",
+   "original": "La bola negra",
+   "year": "2026",
+   "syn_fi": "Cannesin pääkilpasarjan parhaan ohjauksen palkinnon voittanut La bola negra on kansainvälisen lehdistön mukaan ”vaikuttava”, ”tyrmäävä”, ”kautta aikojen tärkein historiallinen queer-kuvaelma”. Elokuvan taustalla on Espanjan sisällissodassa teloitetun runoilijan Federico García Lorcan hahmo ja hänen keskeneräiseksi jäänyt romaaninsa. Tarinassa kuvataan kolmen homoseksuaalin kohtaloita vuosina 1932, 1937 ja 2017. Yhteen nivoutuvat sota, kielletty halu, suru, syyllisyys ja vaietut perhesalaisuudet. Javier Calvon ja Javier Ambrossin ohjaaman elokuvan rooleissa vakuuttavat sekä nuoret gay-näyttelijät (mm. laulaja Guitarricadelafuente) että veteraanitähdet Lola Dueñas, Glenn Close ja Pénelope Cruz."
   }
  },
  "lapin-sota": {
@@ -249,7 +261,7 @@
  },
  "urpo-ja-turpo-johtolangan-jaljilla": {
   "price": "",
-  "at": "2026-11-08T12:15:01+00:00",
+  "at": "2026-11-10T12:16:11+00:00",
   "fields": {
    "lang": "FI-A",
    "len": "60",

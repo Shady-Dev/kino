@@ -1,6 +1,6 @@
 [helios] Kino Helios, Helsinki: 19 showtimes, 9 dates, 17 with a language, 19 of 87 event(s) are this house's cinema
 [helios] Vuotalo, Helsinki: 2 showtimes, 2 dates, 2 with a language, 2 of 55 event(s) are this house's cinema
-[helios] Kanneltalo, Helsinki: 1 showtimes, 1 dates, 0 with a language, 1 of 43 event(s) are this house's cinema
+[helios] Kanneltalo, Helsinki: 1 showtimes, 1 dates, 0 with a language, 1 of 45 event(s) are this house's cinema
 [helios] strand prefix split off 4 showtimes
 [helios] Kino Helios: 19 showtimes, 9 dates
 [helios] Vuotalo: 2 showtimes, 2 dates
@@ -9,5 +9,5 @@
 [helios] synopses skipped as screening notes: 2
 [run] hosts: 1 attempted -- api.hel.fi
 [run] helios: 3 venues, 22 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
-[run] timing: 1 site(s), 7.0s of fetching added up across workers that overlap, longest site 7.0s, longest queue wait 182.3s, 7.0s wall from this module's first fetch starting to its last ending
+[run] timing: 1 site(s), 6.6s of fetching added up across workers that overlap, longest site 6.6s, longest queue wait 183.8s, 6.6s wall from this module's first fetch starting to its last ending
 exit=0
