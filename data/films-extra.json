@@ -602,6 +602,14 @@
    },
    "tr": ""
   },
+  "begyndelser beginnings": {
+   "r": 0,
+   "s": {
+    "en": "",
+    "fi": "Huom! Vain englanninkielinen tekstitys! English subtitles! POHJOISMAISEN NEUVOSTON ELOKUVAPALKINTOEHDOKAS 2026! Ane (Trine Dyrholm) ja Thomas (David Dencik) ovat keski-ikäiset kahden kouluikäisen lapsen vanhemmat keskellä eroamisprosessia. Thomasilla on uusi kumppani, jonka luokse hän aikoo muuttaa, mutta ensin pitäisi saada kerrottua suuret ja hankalat uutiset tyttärille, jotka eivät tiedä eroaikeista mitään. Suunnitelmat menevät uusiksi, kun Ane saa yllättäen aivoinfarktin ja hänen kehonsa toinen puoli halvaantuu. Vaikeassa tilanteessa pariskunta päättää jäädyttää muuttoaikeet ja jatkaa yhteiseloa toistaiseksi. Päätöksellä on yllättävät seuraukset. Rikollisperheestä kertoneella Wildlandilla (Espoo Ciné 2020) läpimurron tehnyt tanskalaisohjaaja Jeanette Nordahl osoittaa jälleen hallitsevansa hillityn psykologisen ihmissuhde- ja perhedynamiikkakuvauksen. Beginnings sai ensi-iltansa Berliinin elokuvajuhlien Panorama-sarjassa. Lähde: Suvi Heino/Espoo Ciné Sarjan järjestäjät: Walhalla ry, Svenska nu, Pohjola Norden ja Pohjoismainen kulttuuripiste sekä Päijät-Hämeen elokuvakeskus ry/Kino Iiris."
+   },
+   "tr": ""
+  },
   "belle epoque muutosten aika": {
    "id": 2470,
    "r": 0,
@@ -1147,7 +1155,8 @@
    "kr": "K-12",
    "krs": [
     "biorex",
-    "gilda"
+    "gilda",
+    "orion"
    ],
    "r": 7.5,
    "s": {
@@ -1360,6 +1369,7 @@
     "biokaari",
     "biomarlon",
     "biopallas",
+    "biorex",
     "biorexkokkola",
     "biosade",
     "biosalo",
@@ -1601,6 +1611,16 @@
     "fi": "Father Mother Sister Brother kuvaa aikuisten lasten ja heidän vanhempiensa välisiä monimutkaisia suhteita. Tarinat sijoittuvat nykyaikaan ja kolmeen eri paikkaan; Yhdysvaltain koillisosiin, Dubliniin ja Pariisiin. Father: Sisarukset Jeff (Adam Driver) ja Emily (Mayim Bialik) vierailevat eristäytyneen ja mahdollisesti varattoman isänsä (Tom Waits) luona. Vierailun aikana he alkavat epäillä isänsä teeskentelevän kurjuuttaan ja huomaavat tämän ranteessa arvokkaan Rolex-kellon. Mother: Sisarukset Timothea (Cate Blanchett) ja Lilith (Vicky Krieps) vierailevat kirjailijaäitinsä (Charlotte Rampling) luona iltapäiväteellä. Tarina keskittyy pinnan alla kyteviin jännitteisiin ja siihen, mitä jätetään sanomatta perinteisten rituaalien äärellä. Sister Brother: Kaksoset Skye (Indya Moore) ja Billy (Luka Sabbat) siivoavat edesmenneiden vanhempiensa asuntoa. He käyvät läpi muistoja ja tavaroita, löytäen uusia puolia vanhemmistaan ja perheensä historiasta. Elokuva piirtää inhimillisen kuvan perheestä, läheisyydestä ja etäisyydestä lempeällä huumorilla, johon sekoittuu melankolian sävyjä."
    },
    "tr": ""
+  },
+  "fatherland": {
+   "id": 1437696,
+   "img": "data/posters/57c9bb739407c934.jpg",
+   "r": 7.3,
+   "s": {
+    "en": "This masterful film by Paweł Pawlikowski (Ida, Cold War), winner of the Best Director award at Cannes, delves into the relationship between the writer Thomas Mann and his daughter Erika, an actress, writer, journalist and rally driver, as they embark on a road trip through a Germany in ruins, from US-controlled Frankfurt to Weimar, which is under Soviet control. The lead roles are played by Oscar nominee Sandra Hüller and Hanns Zischler.",
+    "fi": ""
+   },
+   "tr": "https://www.youtube.com/watch?v=52zHLYf25M0"
   },
   "faust": {
    "id": 10728,
@@ -2309,6 +2329,7 @@
    "img": "data/posters/8b1166ae143c79d4.jpg",
    "kr": "K-16",
    "krs": [
+    "biorex",
     "biorexkokkola",
     "ihmekompleksi",
     "isohannu",
@@ -3136,6 +3157,7 @@
     "leffabuumi",
     "marita",
     "niagara",
+    "orion",
     "pajakkakino",
     "regina",
     "savonkinot",
@@ -3547,7 +3569,7 @@
   "klara ja aurinko": {
    "r": 0,
    "s": {
-    "en": "",
+    "en": "Based on the bestselling novel from Nobel Prize-winner Kazuo Ishiguro and written and directed by Academy-Award® winner Taika Waititi (Jojo Rabbit), Klara and the Sun introduces audiences to Klara (Jenna Ortega), an Artificial Friend who wants nothing more than to find the perfect home. When Klara meets Josie (Mia Tharia), each immediately senses a kindred spirit in the other. Josie has a fraught relationship with her mother (Amy Adams) and they’ve suffered great loss, but Klara’s innocent wonder and unwavering loyalty begin to heal the family and bring light to Josie’s complicated world.",
     "fi": "Klara (Jenna Ortega) on keinotekoinen ystävä, jonka suurin toive on löytää täydellinen koti. Kun Klara kohtaa Josien (Mia Tharia), he tunnistavat heti toisissaan hengenheimolaisen. Josien suhde äitiinsä (Amy Adams) on vaikea, ja perhettä ovat koetelleet raskaat menetykset. Klaran viaton ihmettely ja horjumaton uskollisuus alkavat kuitenkin eheyttää perhettä ja tuoda valoa Josien monimutkaiseen maailmaan. Oscar®-palkitun Taika Waititin (Jojo Rabbit) käsikirjoittama ja ohjaama Klara ja Aurinko perustuu Nobel-palkitun Kazuo Ishiguron samannimiseen menestysromaaniin."
    },
    "tr": ""
@@ -5256,6 +5278,14 @@
    },
    "tr": ""
   },
+  "minotaur": {
+   "r": 0,
+   "s": {
+    "en": "",
+    "fi": "Minotaur on venäläisohjaaja Andrei Zvjagintsevin odotettu uusi elokuva – sen valmistumista odotettiin yhdeksän vuotta! Se kertoo menestyneestä venäläisestä liikemiehestä Glebistä. Ammatillisten paineiden kasautuessa ja avioliiton rakoillessa Glebin huolellisessa järjestyksessä oleva elämä alkaa romahtaa väkivaltaisesti kiihtyen. Elokuvan tapahtumat sijoittuvat sijoittuvat syksyyn 2022. Rikosdraaman pääosissa nähdään Dmitri Mazuro v ja Iris Lebedeva. Elokuvatutkija Mia Öhman alustaa ennakkonäytöksen TI 24.11. KLO 19:30."
+   },
+   "tr": ""
+  },
   "minä ja riikka purra": {
    "id": 1789735,
    "img": "data/posters/00ba33a99fa0e923.jpg",
@@ -5498,7 +5528,7 @@
   "naza": {
    "id": 1755291,
    "img": "data/posters/92e7b2647887b27d.jpg",
-   "r": 8.1,
+   "r": 8.0,
    "s": {
     "en": "Filmed at night from Tel Aviv rooftops, the film reveals in detail the systems behind the systematic destruction of Palestinian civilians by the Israeli military in Gaza. It is directed by Rachel Szor and Yuval Abraham, known for the Oscar-winning documentary No Other Land. The screening begins with a 26-minute short film about Gaza and is followed by a discussion. Details regarding the speakers will be announced later. The screening is organized in collaboration with B-plan Distribution and the Refugee Film Festival.",
     "fi": "Tel Avivin katoilla öisin kuvattu elokuva paljastaa yksityiskohtaisesti järjestelmät, jotka ovat Israelin Gazassa toteuttaman palestiinalaissiviilien suunnitelmallisen tuhoamisen taustalla. Elokuva sai Venetsian elokuvajuhlien ensi-iltayleisöltä festivaalin historian kaikkien aikojen pisimmät, 25 minuuttia kestäneet suosionosoitukset. Tekoälyn ja automaattivalvonnan käyttöä Israelin armeijan Palestiinaan kohdistamassa hyökkäyksessä käsittelevä elokuva on herättänyt ensiesityksensä jälkeen kansainvälisen kohun. Elokuva nimi viittaa Israelin armeijan käyttämään termiin siviiliuhrien lukumäärästä. Siinä haastatellaan 24 anonyyminä esiintyvää Israelin puolustusvoimien ja tiedustelupalvelun työntekijää, jotka kertovat muun muassa laskelmoiduista siviilien murhaamisista. Elokuvan on tuottanut brittilehti The Guardian osana uutismedian sitoutumista riippumattoman journalismin levittämiseen. Tuotannon taustalla ovat myös Oscar-palkitun The Zone of Interest -elokuvan (R&A 2023) ohjaaja Jonathan Glazer ja tuottaja James Wilson, jotka toimivat elokuvan vastaavina tuottajina."
@@ -5712,6 +5742,16 @@
    },
    "tr": ""
   },
+  "nälkäpeli elokorjuun sarastus": {
+   "id": 1300968,
+   "img": "data/posters/08a418319b615a6e.jpg",
+   "r": 0,
+   "s": {
+    "en": "",
+    "fi": "Nälkäpeli: Elonkorjuun sarastus sijoittuu tapahtumiin 24 vuotta ennen kuin Katniss Everdeen ilmoittautui vapaaehtoiseksi tribuutiksi, jolloin hänen tuleva ohjaajansa Haymitch Abernathy joutuu osallistumaan Nälkäpeliin. Juhlavuoden kunniaksi peliin valitaan kaksinkertainen määrä tribuutteja ja 50. Nälkäpeli voi alkaa. Francis Lawrencen ohjaama Nälkäpeli: Elonkorjuun sarastus saapuu elokuvateattereihin 20.11.2026."
+   },
+   "tr": "https://www.youtube.com/watch?v=Dr060OLTodE"
+  },
   "nälkäpeli elonkorjuun sarastus": {
    "id": 1300968,
    "img": "data/posters/cad95ad93c0d2c85.jpg",
@@ -5730,6 +5770,7 @@
     "ihmekompleksi",
     "kino123",
     "kinoelo",
+    "kinohannikainen",
     "kinojuha",
     "kinokulma",
     "kinolaika",
@@ -6529,7 +6570,6 @@
    "img": "data/posters/79b249e47f0870db.jpg",
    "kr": "S",
    "krs": [
-    "alatalo",
     "biograni",
     "biopallas",
     "biorex",
@@ -6614,7 +6654,6 @@
    "img": "data/posters/79b249e47f0870db.jpg",
    "kr": "S",
    "krs": [
-    "alatalo",
     "biograni",
     "biopallas",
     "biorex",
@@ -7035,6 +7074,7 @@
    "krs": [
     "biorexkokkola",
     "kinoaurora",
+    "kinohannikainen",
     "kinokilta",
     "kinokulma",
     "kinolaika",
@@ -8271,12 +8311,13 @@
   },
   "sopeutumaton": {
    "id": 1444061,
+   "img": "data/posters/26b3955801497bbc.jpg",
    "r": 0,
    "s": {
     "en": "Winner of the Audience Award at the Tampere Film Festival, Sopeutumaton is a documentary about Nadja (24), a highly sensitive young woman from Helsinki’s Kallio district who has become caught in an endless cycle of underground parties and substance use. As everyday life begins to overwhelm her and her mental well-being deteriorates, she retreats to an old hermit’s cabin on a remote island in Lake Päijänne to find some peace. Cut off from the world and from the hypersocial life she is accustomed to, Nadja is forced to confront her deepest fears. At the same time, she forms a mysterious connection with the long-deceased owner of the cabin, the legendary hermit Toivo. This marks the beginning of a journey toward breaking intergenerational patterns, understanding the unusual abilities that run in her family, and finding her way into adulthood. Through Nadja’s story, the film explores the mental well-being of young adults in contemporary society and the role of nature and self-help in healing and restoring the mind. The documentary was filmed over a period of six years.",
     "fi": "Tampereen elokuvafestivaalien yleisöpalkinnon voittanut Sopeutumaton -dokumenttielokuva kertoo UG-bileiden ja päihteiden loputtomaan virtaan vajonneesta erityisherkästä Kalliolaisnuoresta Nadjasta (24), joka etsii ulospääsyä tukalasta tilanteestaan. Arjen kaatuessa päälle ja mielen hyvinvoinnin rakoillessa ajautuu hän Päijänteen kaukaisimpaan saareen vanhaan erakon mökkiin rauhoittumaan. Luonnon hiljaisuudessa ja saarella eristyksissä hypersosiaalinen Nadja joutuu kohtaamaan pahimmat pelkonsa ja saa samalla yhteyden aikaa sitten menehtyneeseen mökin isäntään myyttiseen erakko Toivoon. Tästä käynnistyy matka ylisukupolvisten käyttäytymismallien nujertamiseksi, suvussa kulkevien outojen kykyjen ymmärtämiseksi ja kohti aikuisuutta. Nadjan tarinan kautta elokuva käsittelee nuorten aikuisten mielen hyvinvointia nyky-yhteiskunnassa sekä luonnon ja self-helpin vaikutusta oman mielen eheytymiseen. Elokuvan seurantaosuus on kuvattu 6 vuoden aikana."
    },
-   "tr": ""
+   "tr": "https://www.youtube.com/watch?v=4u6mZQulux0"
   },
   "sorry baby": {
    "id": 1205515,
@@ -9986,7 +10027,7 @@
   "vasenkätinen tyttö": {
    "id": 999075,
    "img": "data/posters/99a2c3bb145ea6bf.jpg",
-   "r": 7.3,
+   "r": 7.2,
    "s": {
     "en": "",
     "fi": "Äiti ja kaksi tytärtä muuttavat väkeä kuhisevaan Taipeihin. Sisukas kolmikko ryhtyy pitämään nuudelikojua vilkkaalla yötorilla. Koju ei ehkä ole suurmenestys, mutta kolmikko pitää yhtä. Suurkaupungin vauhti ja vilinä lumoaa kolmikon nuorimmaisen. Isoisä moittii tyttöä vasemman käden käyttämisestä, se kun on vanhojen uskomusten mukaan ´ paholaisen käsi ´. Tyttö uskoo isoisää kirjaimellisesti. Perheen pitkään vaietut salaisuudet alkavat paljastua. Vasenkätisen tytön tuottaja, leikkaaja ja toinen käsikirjoittaja Sean Baker muistetaan Oscar –magneetti Anoran ohjauksesta. Tuottajana (mm. Florida Project) mainetta niittäneen Shih-Ching Tsoun esikoisohjaus tavoittaa Taipein neonvalojen kaleidoskoopin, elämän sirkuksen ja seikkailun. Vuonna 2016 syntynyt nuori tähti Nina Ye on vuoden hurmaavin läpimurto valkokankailla."
@@ -10222,6 +10263,7 @@
     "biogrand",
     "biograni",
     "biomarilyn",
+    "biorex",
     "biorexkokkola",
     "biosalo",
     "biostara",
@@ -10232,6 +10274,7 @@
     "joutsankino",
     "kinoaurora",
     "kinoelo",
+    "kinoiiris",
     "kinokilta",
     "kinokonepaja",
     "kinokuva",
@@ -10251,6 +10294,8 @@
     "kurikankino",
     "leffabuumi",
     "matintupa",
+    "niagara",
+    "orion",
     "star",
     "studio123jarvenpaa",
     "studio123kouvola",
@@ -10287,6 +10332,7 @@
     "biogrand",
     "biograni",
     "biomarilyn",
+    "biorex",
     "biorexkokkola",
     "biosalo",
     "biostara",
@@ -10297,6 +10343,7 @@
     "joutsankino",
     "kinoaurora",
     "kinoelo",
+    "kinoiiris",
     "kinokilta",
     "kinokonepaja",
     "kinokuva",
@@ -10316,6 +10363,8 @@
     "kurikankino",
     "leffabuumi",
     "matintupa",
+    "niagara",
+    "orion",
     "star",
     "studio123jarvenpaa",
     "studio123kouvola",
@@ -10325,13 +10374,10 @@
    ],
    "r": 7.7,
    "s": {
-    "en": "On the outskirts of a village by the sea, lives a Fisherwoman; smelly, single and perpetually ridiculed. One day, fed up with her stuffy, small-minded neighbours, she commissions herself a husband to be made from wicker. In an otherwise conservative town, this unconventional romance sparks outrage, jealousy and chaos.",
+    "en": "The captivating film Wicker – A Love Woven from Passion is a comedy about marriage and the absurdity of social conventions, starring Academy Award winner Olivia Colman and Alexander Skarsgård. Fed up with the narrow-mindedness of her fellow villagers, an unmarried fisherwoman (Olivia Colman)decides to commission a husband made of willow from the local basket weaver (Peter Dinklage). The willow-woven man (Alexander Skarsgård) turns out to have far more to offer as a husband than she could ever haveimagined. Her unexpected spouse awakens new feelings in her and sets off a wave of infatuation, jealousy and upheaval that threatens to turn the entire village upside down. Sharp-witted, humorous and daringly subversive, this comedy challenges audiences to look at love and marriage from an entirely new perspective.",
     "fi": "Omaperäinen ja sykähdyttävä elokuva Wicker – intohimosta punottu on Oscar-voittaja Olivia Colmanin ja Alexander Skarsgårdin tähdittämä komedia avioliitosta ja yhteiskunnan normien absurdiudesta. Naimaton kalastajanainen (Olivia Colman) saa tarpeekseen kyläläisten ahdasmielisyydestä ja päättää tilata paikalliselta korinpunojalta (Peter Dinklage) itselleen aviomiehen – pajusta. Pajusta punotussa miehessä (Alexander Skarsgård) on aviomiesainesta enemmän kuin nainen olisi osannut odottaa. Yllättävä puoliso herättää naisessa uudenlaisia tunteita ja käynnistää ihastuksen, kateuden, ja mullistusten aallon, joka uhkaa järkyttää koko kyläyhteisöä. Teräväkielinen, humoristinen ja normeja uskaliaasti rikkova komedia haastaa pohtimaan rakkautta ja avioliittoa täysin uudesta näkökulmasta. Elokuvan maailmanensi-ilta oli Sundance-elokuvajuhlilla vuonna 2026."
    },
-   "tr": "https://www.youtube.com/watch?v=kA9NfV4pM_Q",
-   "ts": [
-    "en"
-   ]
+   "tr": "https://www.youtube.com/watch?v=kA9NfV4pM_Q"
   },
   "wickern inohimosta punottu": {
    "id": 1195803,
@@ -10546,6 +10592,7 @@
     "leffabuumi",
     "matintupa",
     "niagara",
+    "orion",
     "pajakkakino",
     "savonkinot",
     "star",

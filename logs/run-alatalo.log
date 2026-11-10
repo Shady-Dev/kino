@@ -1,19 +1,12 @@
-[alatalo] 3 screening(s) in 2 town heading(s) read
-[alatalo] 8 line(s) that are neither a town heading, a date heading nor a screening, left out
-[alatalo] Pohjantähti, Pudasjärvi: 3 showtimes, 1 dates, priced 10€
-[alatalo] Teatterisali, Haapajärvi: 0 showtimes, 0 dates
-[alatalo] Kiurusali, Kiuruvesi: 0 showtimes, 0 dates
-[alatalo] Toholampisali, Toholampi: 0 showtimes, 0 dates
-[alatalo] Kulttuurikeskus, Kemijärvi: 0 showtimes, 0 dates
-[alatalo] Pohjantähti: 3 showtimes, 1 dates
+[alatalo] Pohjantähti: no programme at the moment (adapter confirmed the venue empty); publishing an empty file
 [alatalo] Teatterisali: no programme at the moment (adapter confirmed the venue empty); publishing an empty file
 [alatalo] Kiurusali: no programme at the moment (adapter confirmed the venue empty); publishing an empty file
 [alatalo] Toholampisali: no programme at the moment (adapter confirmed the venue empty); publishing an empty file
 [alatalo] Kulttuurikeskus: no programme at the moment (adapter confirmed the venue empty); publishing an empty file
 [alatalo] synopses merged: 0
+[alatalo] no programme published: http://www.moviecompanyalatalo.fi/: the page lists 2 of this operator's towns and no date, time or screening under any of them, which is what it publishes between tours
 [run] http: 0 revalidated (304), 1 full, 1 not stored (origin said no-store), 0 cache entries written
 [run] hosts: 1 attempted -- www.moviecompanyalatalo.fi
-[run] pending: alatalo has 4 venue(s) with no programme yet: alatalo-haapajarvi, alatalo-kiuruvesi, alatalo-toholampi, alatalo-kemijarvi
-[run] alatalo: 1 venues, 3 showtimes, 0 stale, 0 unverified, 4 pending, 0 with no programme, 0 failures
-[run] timing: 1 site(s), 0.7s of fetching added up across workers that overlap, longest site 0.7s, longest queue wait 155.8s, 0.7s wall from this module's first fetch starting to its last ending
+[run] alatalo: 0 venues, 0 showtimes, 0 stale, 0 unverified, 0 pending, 1 with no programme, 0 failures
+[run] timing: 1 site(s), 0.8s of fetching added up across workers that overlap, longest site 0.8s, longest queue wait 176.0s, 0.8s wall from this module's first fetch starting to its last ending
 exit=0
