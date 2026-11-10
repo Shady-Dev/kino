@@ -1359,6 +1359,20 @@
    },
    "tr": ""
   },
+  "ebenezer": {
+   "id": 1567605,
+   "img": "data/posters/445a6b495360d819.jpg",
+   "r": 0,
+   "s": {
+    "en": "An elderly miser embarks on a supernatural journey after visits from the ghost of his former business partner and the Spirits of Christmas Past, Present, and Yet to Come force him to confront his past and fight for a second chance at happiness.",
+    "fi": "",
+    "sv": "Charles Dickens En Spökhistoria Före Jul, som du aldrig har sett den tidigare. I november, är Johnny Depp Ebenezer Scrooge. Du känner igen namnet, men inte historien. I rollerna i EBENEZER, från Ti West, ser vi Rupert Grint, Andrea Riseborough, Sam Claflin, Daisy Ridley, Arthur Conti, Ellie Bamber, Henry Lloyd-Hughes, Charlie Murphy, med Tramell Tillman och Ian McKellen."
+   },
+   "tr": "https://www.youtube.com/watch?v=l_Ozo1xUgbU",
+   "ts": [
+    "en"
+   ]
+  },
   "ebenezer saiturin joulu": {
    "id": 1567605,
    "img": "data/posters/445a6b495360d819.jpg",
@@ -1374,6 +1388,7 @@
     "biorexkokkola",
     "biosade",
     "biosalo",
+    "biosavoy",
     "biostara",
     "biovuoksi",
     "elavienkuvien",
@@ -1823,8 +1838,7 @@
     "kotkanleffat",
     "leffabuumi",
     "savonkinot",
-    "star",
-    "vihdinkino"
+    "star"
    ],
    "r": 0,
    "s": {
@@ -2340,6 +2354,7 @@
     "biomarilyn",
     "biorex",
     "biorexkokkola",
+    "biosavoy",
     "ihmekompleksi",
     "isohannu",
     "kino123",
@@ -2356,7 +2371,8 @@
    "r": 0,
    "s": {
     "en": "A crew of social media-savvy bank robbers broadcasts their daring heists, unaware that their growing viral fame has put them in the crosshairs of a veteran FBI agent and a brilliant software engineer. Despite the unlikely duo closing in, the crime ring pushes past their limits, putting everything on the line for their most ambitious heist yet.",
-    "fi": "HOW TO ROB A BANK -elokuvassa sosiaalisen median taitava pankkiryöstäjäjoukko lähettää uhkarohkeat ryöstönsä suorina lähetyksinä tietämättä, että heidän alati kasvava viraalijulkisuutensa on saanut kokeneen FBI-agentin ja nerokkaan ohjelmistoinsinöörin heidän jäljilleen. Vaikka tämä epätodennäköinen kaksikko pääsee yhä lähemmäs, rikollisjoukkio koettelee rajojaan ja panee kaiken peliin vakaumuksensa – ja tähänastisen kunnianhimoisimman ryöstönsä – puolesta."
+    "fi": "HOW TO ROB A BANK -elokuvassa sosiaalisen median taitava pankkiryöstäjäjoukko lähettää uhkarohkeat ryöstönsä suorina lähetyksinä tietämättä, että heidän alati kasvava viraalijulkisuutensa on saanut kokeneen FBI-agentin ja nerokkaan ohjelmistoinsinöörin heidän jäljilleen. Vaikka tämä epätodennäköinen kaksikko pääsee yhä lähemmäs, rikollisjoukkio koettelee rajojaan ja panee kaiken peliin vakaumuksensa – ja tähänastisen kunnianhimoisimman ryöstönsä – puolesta.",
+    "sv": "Livestreamande bankrånare i en actionfilm med en exceptionell rollista. Ett gäng bankrånare livesänder sina kupper för en växande publik på nätet. Men medan deras virala berömmelse skjuter i höjden, inser de inte att de samtidigt har hamnat i siktet för en rutinerad FBI-agent och en smart hacker. Trots att den osannolika duon kommer allt närmare vägrar rånarligan att backa. I stället pressar de sig själva till bristningsgränsen och riskerar allt för sina övertygelser - för sin största kupp."
    },
    "tr": "https://www.youtube.com/watch?v=MVvWKh336m4",
    "ts": [
@@ -3156,7 +3172,6 @@
     "kinokonepaja",
     "kinolaika",
     "kinolumo",
-    "kinomania",
     "kinomarilyn",
     "kinometso",
     "kinomyyri",
@@ -3586,6 +3601,20 @@
     "fi": "KIRJASTOKINO ESITTÄÄ: VARAVENTTIILI (1942)\n\nValentin Vaalan ohjaama, poikkeuksellisen moderni ja psykologisesti tarkka melodraama, kuvaa itsenäisen naisen identiteettikriisiä ja sopeutumista maaseudun ahtaaseen sosiaaliseen hierarkiaan. Hilja Valtonen ironiseen romaaniin perustuva teos nousee pelkän kepeän romanttisen komedian yläpuolelle syväksi yhteiskunnalliseksi peiliksi."
    },
    "tr": ""
+  },
+  "klara and the sun": {
+   "id": 858035,
+   "img": "data/posters/7633771831e9d4b8.jpg",
+   "r": 6.1,
+   "s": {
+    "en": "When Klara, an Artificial Friend who wants nothing more than to find the perfect home, meets Josie, each immediately senses a kindred spirit in the other. Josie has a fraught relationship with her mother and they've suffered great loss, but Klara's innocent wonder and unwavering loyalty begin to heal the family and bring light to Josie's complicated world.",
+    "fi": "",
+    "sv": "Jenna Ortega spelar huvudrollen i Taika Waititis filmatisering av den populära boken. När Klara träffar Josie känner de omedelbart en samhörighet. Josie och hennes mamma bär på en djup sorg och deras relation är ansträngd. Men med sin oskuldsfulla nyfikenhet och orubbliga lojalitet börjar Klara läka familjens sår och sprida ljus i Josies komplicerade tillvaro."
+   },
+   "tr": "https://www.youtube.com/watch?v=wixzainceAE",
+   "ts": [
+    "en"
+   ]
   },
   "klara ja aurinko": {
    "r": 0,
@@ -4249,6 +4278,10 @@
   },
   "kyllä isä osaa espanjassa": {
    "id": 1767503,
+   "kr": "S",
+   "krs": [
+    "kinometso"
+   ],
    "r": 0,
    "s": {
     "en": "",
@@ -4559,7 +4592,6 @@
    "krs": [
     "biogrand",
     "biokaari",
-    "biomarilyn",
     "biomarlon",
     "biopallas",
     "biorex",
@@ -4601,7 +4633,8 @@
     "savonkinot",
     "star",
     "studio123jarvenpaa",
-    "studio123kouvola"
+    "studio123kouvola",
+    "virtainpirtti"
    ],
    "r": 7.4,
    "s": {
@@ -4659,16 +4692,12 @@
   },
   "late lammas hämäräpuuhissa": {
    "id": 1477104,
-   "img": "data/posters/93eda5fa30b7d70c.jpg",
-   "r": 7.4,
+   "r": 0,
    "s": {
-    "en": "On Halloween Eve at Mossy Bottom Farm, excitement turns to dismay when the clumsy Farmer ruins the pumpkin patch. Shaun tries fixing it with science experiments, but things go awry when a wild beast appears in the woods.",
+    "en": "",
     "fi": "Rakastettu Late Lammas palaa valkokankaille uudessa, riemastuttavassa ja kutkuttavan hauskassa seikkailussa. Farmin asukkaat odottavat innolla Halloweenia, kunnes heidän rakkaudella kasvattamansa kurpitsaviljelmä tuhoutuu juhlan kynnyksellä. Late ei jää toimettomaksi, vaan päättää ryhtyä “hulluksi tiedemieheksi” korjatakseen tilanteen – ja pian tapahtumat karkaavatkin täysin käsistä. Kun tilan maajussi … katoaa ja outo villi peto herättää kauhua kyläläisissä, ovat kaikki ainekset kasassa hirviömäisen hauskalle seikkailulle kaiken ikäisille. Kananlento ja Wallace & Gromit -elokuvien tekijöiden uusi seikkailu Late Lammas: Hämäräpuuhissa saapuu elokuvateattereihin 30. lokakuuta."
    },
-   "tr": "https://www.youtube.com/watch?v=daZMq0AyOMc",
-   "ts": [
-    "en"
-   ]
+   "tr": ""
   },
   "late lammas hämäräpuuhissa ennakkonäytös 10": {
    "id": 1477104,
@@ -4812,6 +4841,19 @@
    "tr": "https://www.youtube.com/watch?v=CeglJMCgnuw",
    "ts": [
     "en"
+   ]
+  },
+  "love actually 2003": {
+   "id": 508,
+   "img": "data/posters/fbc5c19ccb5bea6e.jpg",
+   "r": 7.1,
+   "s": {
+    "en": "",
+    "fi": "Riemukkaassa Rakkautta vain -elokuvassa tutustutaan suhteiden myötä- ja vastoinkäymisiin muutamaa viikkoa ennen joulua. Poikaystävistä & tyttöystävistä, aviomiehistä & aviovaimoista, isistä & pojista sekä rokkitähdistä & managereista syntyy Rakkautta vain -tarina, tai oikeastaan kymmenen eri tarinaa, joiden sanomana on Rakkautta vain."
+   },
+   "tr": "https://www.youtube.com/watch?v=r3mJrSA1x5s",
+   "ts": [
+    "fi"
    ]
   },
   "loviisa niskavuoren nuori emäntä": {
@@ -5408,19 +5450,6 @@
    },
    "tr": ""
   },
-  "muutoskollektiivi perfect days": {
-   "id": 976893,
-   "img": "data/posters/be360251a608c8c7.jpg",
-   "r": 7.8,
-   "s": {
-    "en": "",
-    "fi": "Hirayama vaikuttaa täysin tyytyväiseltä yksinkertaiseen elämäänsä Tokion vessojen siivoojana. Hyvin suunnitelmallisten arkirutiiniensa ulkopuolella hän nauttii musiikista ja kirjoista, jotka ovat hänen intohimonsa. Lisäksi hän rakastaa puita ja valokuvaa niitä. Odottamattomat kohtaamiset paljastavat vähitellen lisää hänen menneisyydestään."
-   },
-   "tr": "https://www.youtube.com/watch?v=Iv8YO5BXCAQ",
-   "ts": [
-    "fi"
-   ]
-  },
   "muutostiloja": {
    "id": 11542,
    "img": "data/posters/8224da4c771b07df.jpg",
@@ -5502,13 +5531,12 @@
   },
   "naiskäsityöläinen elämä ehjäksi kutoen keskustelutilaisuus": {
    "id": 1815343,
-   "img": "data/posters/f3ccb1e827fefeca.jpg",
    "r": 0,
    "s": {
     "en": "",
     "fi": "Lahtelainen Mervi Pasanen on yksi dokumentin päähenkilöistä. Mervi on mukana Kino Iiriksen näytöksessä ja vastaa yleisön kysymyksiin. Naiskäsityöläinen: Elämä ehjäksi kutoen on intiimi, ”kehollinen” dokumenttielokuva, joka tarjoaa vastapainon nopeatempoiselle maailmalle. Elokuva siirtää huomion lopputuotteesta itse tekemisen parantavaan prosessiin. Kuuden kuukauden ajan kuvattu projekti seuraa neljää suomalaista naiskäsityöläistä, jotka löytävät merkityksen perinteisistä kädentaidoista. Elokuva kutsuu katsojaa siirtymään analyyttisestä mielestä kehon aistimuksiin. Suomen vuodenaikojen vaihtuessa neljä naista löytää eheyden esivanhempien käsitöistä. Nykypäivän loppuunpalamisen ja irrallisuuden keskellä elokuva tarjoaa tarinoita keskinäisestä yhteydestä. Ohjaaja painottaa prosessin merkitystä: tavoitteena on taltioida aitoja tarinoita kiireettömästi ja luottamusta rakentaen, jotta yleisö voisi siirtää huomionsa älyllisestä pohdinnasta omaan kehoonsa ja sydämeensä. Ohjaajan sana (Madison McClintock) Työni tutkii ihmisten ja ympäristön välistä yhteyttä ja riippuvuutta. Yhdysvaltalaisena tekstiilitaiteilijana ja elokuvantekijänä, jolla on pohjoismaiset juuret, minua kiinnostaa se, mitä menetämme, kun siteemme kulttuuriperintöömme katkeaa. Koen itse syvintä yhteyttä menneisiin sukupolviin työskennellessäni käsilläni. Elokuvan idea syntyi vuonna 2021 New Mexicossa, kun tapasin suomalaisen mestarikutoja Hannele Köngäksen. Hänen intohimonsa kestäviin menetelmiin, historiallisiin tekniikoihin ja kainuunharmaan villaan teki minuun syvän vaikutuksen. Hannelen opastuksella tutustuin naiskäsityöläisiin ympäri Suomea. Fulbright Finlandin apurahan ja Suomen käsityön museon tuella pystyin lopulta viettämään kuusi kuukautta Suomessa tätä elokuvaa tehden. Naiskäsityöläinen: Elämä ehjäksi kutoen / Craftswoman: Weaving Life Whole Ohjaus: Madison McClintock Kesto: 83 min Valmistumisvuosi: 2026 Kieli: suomi ja englanti, englanninkieliset tekstitykset craftswomanfilm.com"
    },
-   "tr": "https://www.youtube.com/watch?v=7d3-peJCU9U"
+   "tr": ""
   },
   "nalle naavatassu kalassa": {
    "r": 0,
@@ -5782,6 +5810,7 @@
     "biopallas",
     "biorexkokkola",
     "biosalo",
+    "biosavoy",
     "biovuoksi",
     "cinemantsala",
     "elokuviin",
@@ -6288,6 +6317,7 @@
    "img": "data/posters/bae2625b256de906.jpg",
    "kr": "K-16",
    "krs": [
+    "julia",
     "kinokonepaja",
     "tapiola"
    ],
@@ -8964,6 +8994,19 @@
     "fi"
    ]
   },
+  "the holiday 2006": {
+   "id": 1581,
+   "img": "data/posters/00519aaed77d965f.jpg",
+   "r": 7.1,
+   "s": {
+    "en": "",
+    "fi": "Kalifornialainen mainostoimiston omistaja Amanda ja englantilainen hääkolumnisti Iris asuvat eri puolilla maailmaa ja heitä yhdistää vain kaksi asiaa: He ovat molemmat katkeran pettyneitä miehiin ja kaipaavat muutosta elämiinsä."
+   },
+   "tr": "https://www.youtube.com/watch?v=NLVLsyE4uUA",
+   "ts": [
+    "fi"
+   ]
+  },
   "the hunger": {
    "id": 11654,
    "img": "data/posters/9346d882bab3837a.jpg",
@@ -8983,7 +9026,8 @@
    "r": 0,
    "s": {
     "en": "Welcome to the Second Quarter Quell. Return to the world of Panem 24 years before the events of The Hunger Games, starting on the morning of the reaping of the 50th Hunger Games, also known as the Second Quarter Quell.",
-    "fi": "Nälkäpeli: Elonkorjuun sarastus sijoittuu tapahtumiin 24 vuotta ennen kuin Katniss Everdeen ilmoittautui vapaaehtoiseksi tribuutiksi, jolloin hänen tuleva ohjaajansa Haymitch Abernathy joutuu osallistumaan Nälkäpeliin. Juhlavuoden kunniaksi peliin valitaan kaksinkertainen määrä tribuutteja ja 50. Nälkäpeli voi alkaa."
+    "fi": "Nälkäpeli: Elonkorjuun sarastus sijoittuu tapahtumiin 24 vuotta ennen kuin Katniss Everdeen ilmoittautui vapaaehtoiseksi tribuutiksi, jolloin hänen tuleva ohjaajansa Haymitch Abernathy joutuu osallistumaan Nälkäpeliin. Juhlavuoden kunniaksi peliin valitaan kaksinkertainen määrä tribuutteja ja 50. Nälkäpeli voi alkaa.",
+    "sv": "Äntligen kommer en ny film i det älskade Hunger Games-franchiset! Filmen tar sin början på morgonen av uttagningen till de 50:e hungerspelen där en ung man vid namn Haymitch Abernathy deltar. Dessa hungerspel, även kallade the Second Quarter Quell, äger rum hela 24 år innan Katniss kämpar för första gången."
    },
    "tr": "https://www.youtube.com/watch?v=Dr060OLTodE",
    "ts": [
@@ -10256,12 +10300,15 @@
     "biorex",
     "biorexkokkola",
     "biosalo",
+    "biosavoy",
     "biostara",
     "biovuoksi",
+    "cinemantsala",
     "elavienkuvien",
     "gilda",
     "ihmekompleksi",
     "joutsankino",
+    "julia",
     "kinoakseli",
     "kinoaurora",
     "kinoelo",
@@ -10299,7 +10346,8 @@
    "r": 7.6,
    "s": {
     "en": "Wicker is a comedy starring Oscar-winner Olivia Colman and Alexander Skarsgård, exploring marriage and the absurdity of societal norms. An unmarried fisherwoman (Olivia Colman) has had enough of the villagers’ narrow-mindedness and decides to commission a husband for herself, made of wicker, from the local basket weaver (Peter Dinklage). The wicker-man (Alexander Skarsgård) turns out to be far more husband-material than the woman imagined. Her surprising spouse awakens new emotions in her and sets off a wave of infatuation, jealousy, and upheaval that threatens to shake the entire village community to its core. This sharp-tongued, humorous and boldly unconventional comedy takes on a completely new perspective on love and marriage. The film had its world premiere at the Sundance Film Festival in 2026.",
-    "fi": "Omaperäinen ja sykähdyttävä elokuva Wicker – intohimosta punottu on Oscar-voittaja Olivia Colmanin ja Alexander Skarsgårdin tähdittämä komedia avioliitosta ja yhteiskunnan normien absurdiudesta. Naimaton kalastajanainen (Olivia Colman) saa tarpeekseen kyläläisten ahdasmielisyydestä ja päättää tilata paikalliselta korinpunojalta (Peter Dinklage) itselleen aviomiehen – pajusta. Pajusta punotussa miehessä (Alexander Skarsgård) on aviomiesainesta enemmän kuin nainen olisi osannut odottaa. Yllättävä puoliso herättää naisessa uudenlaisia tunteita ja käynnistää ihastuksen, kateuden, ja mullistusten aallon, joka uhkaa järkyttää koko kyläyhteisöä."
+    "fi": "Omaperäinen ja sykähdyttävä elokuva Wicker – intohimosta punottu on Oscar-voittaja Olivia Colmanin ja Alexander Skarsgårdin tähdittämä komedia avioliitosta ja yhteiskunnan normien absurdiudesta. Naimaton kalastajanainen (Olivia Colman) saa tarpeekseen kyläläisten ahdasmielisyydestä ja päättää tilata paikalliselta korinpunojalta (Peter Dinklage) itselleen aviomiehen – pajusta. Pajusta punotussa miehessä (Alexander Skarsgård) on aviomiesainesta enemmän kuin nainen olisi osannut odottaa. Yllättävä puoliso herättää naisessa uudenlaisia tunteita ja käynnistää ihastuksen, kateuden, ja mullistusten aallon, joka uhkaa järkyttää koko kyläyhteisöä.",
+    "sv": "The Wickerman is coming! När den utstötta fiskarkvinnan beställer en make av byns korgmakare flätar han en riktig drömman till henne, vilket skapar rejäl oreda i den lilla fiskebyn."
    },
    "tr": "https://www.youtube.com/watch?v=kA9NfV4pM_Q"
   },
@@ -10328,12 +10376,15 @@
     "biorex",
     "biorexkokkola",
     "biosalo",
+    "biosavoy",
     "biostara",
     "biovuoksi",
+    "cinemantsala",
     "elavienkuvien",
     "gilda",
     "ihmekompleksi",
     "joutsankino",
+    "julia",
     "kinoakseli",
     "kinoaurora",
     "kinoelo",
@@ -10418,7 +10469,6 @@
     "kinotervakoski",
     "kinovirta",
     "kotkanleffat",
-    "kurikankino",
     "leffabuumi",
     "niagara",
     "orion",
