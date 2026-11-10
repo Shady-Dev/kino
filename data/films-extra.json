@@ -1386,12 +1386,14 @@
     "kinoset",
     "kinotervakoski",
     "kinotoijala",
+    "kinovirta",
     "kotkanleffat",
     "kulttuurimylly",
     "kurikankino",
     "leffabuumi",
     "lieksankino",
     "star",
+    "studio123jarvenpaa",
     "studio123kouvola",
     "vaakuna"
    ],
@@ -3122,6 +3124,7 @@
     "kinosampo",
     "kinoset",
     "kinotervakoski",
+    "kinovirta",
     "kirkkonummi",
     "kisakino",
     "kkino",
@@ -3436,6 +3439,16 @@
     "fi": "Kinopalatsi on suljettu keskiviikkona 7.10."
    },
    "tr": ""
+  },
+  "kirjastokino cyrano": {
+   "id": 730047,
+   "img": "data/posters/05e26c4a61045f34.jpg",
+   "r": 6.3,
+   "s": {
+    "en": "",
+    "fi": "KIRJASTOKINO ESITTÄÄ: Cyrano / 2021\n\nJoe Wrightin ohjaama, rohkean visuaalinen ja musiikillinen uudelleentulkinta Edmond Rostandin klassisesta näytelmästä, joka riisuu tarinan perinteisistä pukudraama kliseistä. Elokuva korvaa Cyranon tavaramerkiksi muodostuneen nenän Peter Dinklagen magneettisella ja haavoittuvaisella fyysisellä preesensillä, mikä muuttaa hahmon sisäisen häpeän ja ulkopuolisuuden teemat käsinkosketeltavan moderneiksi."
+   },
+   "tr": "https://www.youtube.com/watch?v=fOInHcgmKus"
   },
   "kirjastokino into the wild": {
    "id": 5915,
@@ -4986,19 +4999,6 @@
    },
    "tr": ""
   },
-  "mark of the devil": {
-   "id": 1317586,
-   "img": "data/posters/53844d47ea8c62ed.jpg",
-   "r": 0,
-   "s": {
-    "en": "A desperate gambler in debt with a gangster robs a Chinese tattoo artist, getting stabbed and killing the man in the process. A black spot appears on his chest and begins to spread and turn into a condemning tattoo",
-    "fi": ""
-   },
-   "tr": "",
-   "ts": [
-    "en"
-   ]
-  },
   "marsupilami": {
    "id": 1145899,
    "img": "data/posters/d24763d2c244cd16.jpg",
@@ -5746,6 +5746,7 @@
     "levisummit",
     "sheryl",
     "star",
+    "studio123jarvenpaa",
     "studio123kouvola"
    ],
    "r": 0,
@@ -9532,7 +9533,6 @@
    "img": "data/posters/ef343d1fb55e5d1c.jpg",
    "kr": "K-16",
    "krs": [
-    "gilda",
     "kinoaurora",
     "kinomarilyn"
    ],
@@ -10244,6 +10244,7 @@
     "kinopirtti",
     "kinosampo",
     "kinotoijala",
+    "kinovirta",
     "kirkkonummi",
     "korjaamo",
     "kotkanleffat",
@@ -10251,6 +10252,7 @@
     "leffabuumi",
     "matintupa",
     "star",
+    "studio123jarvenpaa",
     "studio123kouvola",
     "tapiola",
     "vaakuna",
@@ -10259,7 +10261,7 @@
    "r": 7.6,
    "s": {
     "en": "Wicker is a comedy starring Oscar-winner Olivia Colman and Alexander Skarsgård, exploring marriage and the absurdity of societal norms. An unmarried fisherwoman (Olivia Colman) has had enough of the villagers’ narrow-mindedness and decides to commission a husband for herself, made of wicker, from the local basket weaver (Peter Dinklage). The wicker-man (Alexander Skarsgård) turns out to be far more husband-material than the woman imagined. Her surprising spouse awakens new emotions in her and sets off a wave of infatuation, jealousy, and upheaval that threatens to shake the entire village community to its core. This sharp-tongued, humorous and boldly unconventional comedy takes on a completely new perspective on love and marriage. The film had its world premiere at the Sundance Film Festival in 2026.",
-    "fi": ""
+    "fi": "Omaperäinen ja sykähdyttävä elokuva Wicker – intohimosta punottu on Oscar-voittaja Olivia Colmanin ja Alexander Skarsgårdin tähdittämä komedia avioliitosta ja yhteiskunnan normien absurdiudesta. Naimaton kalastajanainen (Olivia Colman) saa tarpeekseen kyläläisten ahdasmielisyydestä ja päättää tilata paikalliselta korinpunojalta (Peter Dinklage) itselleen aviomiehen – pajusta. Pajusta punotussa miehessä (Alexander Skarsgård) on aviomiesainesta enemmän kuin nainen olisi osannut odottaa. Yllättävä puoliso herättää naisessa uudenlaisia tunteita ja käynnistää ihastuksen, kateuden, ja mullistusten aallon, joka uhkaa järkyttää koko kyläyhteisöä."
    },
    "tr": "https://www.youtube.com/watch?v=kA9NfV4pM_Q"
   },
@@ -10307,6 +10309,7 @@
     "kinopirtti",
     "kinosampo",
     "kinotoijala",
+    "kinovirta",
     "kirkkonummi",
     "korjaamo",
     "kotkanleffat",
@@ -10314,6 +10317,7 @@
     "leffabuumi",
     "matintupa",
     "star",
+    "studio123jarvenpaa",
     "studio123kouvola",
     "tapiola",
     "vaakuna",
@@ -10368,6 +10372,7 @@
     "kinopiispanristi",
     "kinopirtti",
     "kinotervakoski",
+    "kinovirta",
     "kotkanleffat",
     "kurikankino",
     "leffabuumi",
@@ -10584,5 +10589,5 @@
    "tr": ""
   }
  },
- "generated": "2026-11-09"
+ "generated": "2026-11-10"
 }
