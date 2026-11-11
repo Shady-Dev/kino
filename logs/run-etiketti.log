@@ -10,7 +10,7 @@
 [biovuoksi] Bio Vuoksi: 29 showtimes, 9 dates
 [biovuoksi] synopses merged: 0
 [kinoiiris] strand prefix split off 1 showtimes
-[kinoiiris] Kino Iiris: 42 showtimes, 22 dates
+[kinoiiris] Kino Iiris: 41 showtimes, 22 dates
 [kinoiiris] synopses merged: 0
 [kkino] K-Kino: 9 showtimes, 5 dates
 [kkino] synopses merged: 0
@@ -24,6 +24,6 @@
 [kinomarilyn] synopses merged: 0
 [run] http: 0 revalidated (304), 208 full, 208 not stored (origin said no-store), 0 cache entries written
 [run] hosts: 11 attempted -- biograni.fi, biovuoksi.fi, cinemaniagara.fi, jamsankinotar.fi, k-kino.fi, kinoiiris.com, kinojuha.fi, kinokaustinen.fi, kinopirtti.fi, www.biorex.org, www.kinomarilyn.fi
-[run] etiketti: 12 venues, 432 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
-[run] timing: 11 site(s), 347.4s of fetching added up across workers that overlap, longest site 58.3s, longest queue wait 43.7s, 97.9s wall from this module's first fetch starting to its last ending
+[run] etiketti: 12 venues, 431 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
+[run] timing: 11 site(s), 392.2s of fetching added up across workers that overlap, longest site 64.7s, longest queue wait 48.2s, 109.1s wall from this module's first fetch starting to its last ending
 exit=0
