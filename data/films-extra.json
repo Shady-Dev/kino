@@ -1391,6 +1391,7 @@
     "biosavoy",
     "biostara",
     "biovuoksi",
+    "cinemantsala",
     "elavienkuvien",
     "elokuviin",
     "ihmekompleksi",
@@ -1705,7 +1706,7 @@
   "flow": {
    "id": 823219,
    "img": "data/posters/244608d0c5837fe0.jpg",
-   "r": 8.1,
+   "r": 8.0,
    "s": {
     "en": "",
     "fi": "Yksinäinen kissa, joka on joutunut suuren tulvan vuoksi pakenemaan, löytää turvapaikan veneestä muiden eläinlajien kanssa. Yhdessä heidän on selviydyttävä muuttuneen maailmaan haasteista."
@@ -2241,13 +2242,12 @@
   },
   "hiroshima rakastettuni": {
    "id": 5544,
-   "img": "data/posters/497595d61dd6d930.jpg",
-   "r": 7.7,
+   "r": 0,
    "s": {
     "en": "",
     "fi": "Hiroshima, rakastettuni on Alain Resnais’n ohjaama ranskalainen draamaelokuva, joka kertoo ranskalaisen näyttelijättären ja japanilaisen arkkitehdin lyhyestä ja intohimoisesta rakkaussuhteesta Hiroshimassa. Heidän kohtaamisensa nostaa pintaan menneisyyden kipeät muistot ja kokemukset. Elokuvan kerronta liikkuu nykyhetken ja takaumien välillä paljastaen vähitellen rakastavaisten henkilökohtaiset sotakokemukset. Elokuva tutkii rakkauden, muistin ja unohtamisen välistä jännitettä sekä menneisyyden pysyvää vaikutusta ihmisen elämään. Hiroshima, rakastettuni – elokuva teki ohjaaja Alain Resnaisista ranskalaisen elokuvan uuden aallon keulakuvan. Marguerita Duran käsikirjoittama, Oscarille ehdolla ollut, sydäntä koskettava rakkaustarina."
    },
-   "tr": "https://www.youtube.com/watch?v=CLts830aLlw"
+   "tr": ""
   },
   "hirtettyjen kettujen metsä": {
    "id": 261118,
@@ -2354,6 +2354,7 @@
     "biorex",
     "biorexkokkola",
     "biosavoy",
+    "cinemantsala",
     "ihmekompleksi",
     "isohannu",
     "kino123",
@@ -3193,7 +3194,6 @@
     "kirkkonummi",
     "kisakino",
     "kkino",
-    "korjaamo",
     "kotkanleffat",
     "kulttuurimylly",
     "kuvakukko",
@@ -3534,19 +3534,6 @@
     "fi": "Uusi, vastustamaton tulkinta Jane Austenin ikonisesta Järki ja tunteet -teoksesta: hurmaava, nokkela ja syvästi samaistuttava tarina rakkaudesta ja sisaruudesta. Pääosissa loistavat Daisy Edgar-Jones ja Esmé Creed-Miles."
    },
    "tr": ""
-  },
-  "kirjastokino kerro kaikille": {
-   "id": 1304530,
-   "img": "data/posters/133d5c0758982817.jpg",
-   "r": 0,
-   "s": {
-    "en": "",
-    "fi": "Amanda Aaltonen kieltäytyy alistumasta hänelle varattuun köyhän naisen ankeaan kohtaloon ja etsii huimapäisesti onneaan maailmalta. Rangaistukseksi sääntöjen rikkomisesta yhteiskunta anastaa häneltä kaikkein tärkeimmän, vapauden, ja sulkee hänet Seilin saarelle."
-   },
-   "tr": "https://www.youtube.com/watch?v=iUpszeSB7k4",
-   "ts": [
-    "fi"
-   ]
   },
   "kirjastokino linnaisten vihreä kamari": {
    "id": 438815,
@@ -4117,6 +4104,14 @@
    },
    "tr": ""
   },
+  "kuin lammas laatikossa": {
+   "r": 0,
+   "s": {
+    "en": "",
+    "fi": "Lähitulevaisuuden japanilaisessa pikkukaupungissa pariskunta elää surun varjossa menetettyään poikansa onnettomuudessa. Äiti Otone (Haruka Ayase) suunnittelee eteerisen esteettisiä asuntoja. Poikaa yhtä lailla kaipaava puuseppäisä Kensuke (Daigo Yamamoto) on luonteeltaan maanläheisempi. Eräänä päivänä drooni tuo mainoksen REBirth-yhtiöltä, joka tuottaa tekoälyn avulla humanoidireplikoita. Pariskunta päätyy hakemaan kotiinsa humanoidipojan, joka on aivan ilmetty kopio 7-vuotiaasta Kakerusta. Koreeda Hirokazun lempeän humanistiset elokuvat liikkuvat todellisuuksien ja moraalien rajamailla. Rauhallisen pinnan alla väreilee uhkaavia vaihtoehtoja, ja surun ajamana on helppo päätyä kaltevalle pinnalle. Voiko ihmislapsen kopio kokea kuuluvansa perheeseen?"
+   },
+   "tr": ""
+  },
   "kulkurin valssi": {
    "id": 209212,
    "img": "data/posters/62daf325dbaae2fb.jpg",
@@ -4322,7 +4317,7 @@
   "kätyrit monsterit": {
    "id": 1315772,
    "img": "data/posters/67059865db3405c0.jpg",
-   "r": 7.6,
+   "r": 7.5,
    "s": {
     "en": "This is the rambunctious, ridiculous and totally true story of how the Minions conquered Hollywood, became movie stars, lost everything, unleashed monsters onto the world and then banded together to try and save the planet from the mayhem they had just created.",
     "fi": "llumination johdattaa meidät jälleen hulvattomaan animaatiomaailmaansa uudella elokuvallaan Kätyrit & Monsterit, joka tuo maailman suosituimpaan animaatio-franchiseen kokonaan uusia hahmoja. Hillitön, riehakas ja täysin tositapahtumiin perustuva elokuva kertoo, miten Kätyrit valloittavat Hollywoodin ja nousevat elokuvatähdiksi, menettävät kaiken, tulevat päästäneeksi hirviöitä maailmaan ja lopulta yhdistävät voimansa pelastaakseen planeetan itse aiheuttamaltaan kaaokselta."
@@ -4335,7 +4330,7 @@
   "kätyrit monsterit dub": {
    "id": 1315772,
    "img": "data/posters/67059865db3405c0.jpg",
-   "r": 7.6,
+   "r": 7.5,
    "s": {
     "en": "This is the rambunctious, ridiculous and totally true story of how the Minions conquered Hollywood, became movie stars, lost everything, unleashed monsters onto the world and then banded together to try and save the planet from the mayhem they had just created.",
     "fi": "Illumination johdattaa meidät jälleen hulvattomaan animaatiomaailmaansa uudella elokuvallaan Kätyrit & Monsterit, joka tuo maailman suosituimpaan animaatio-franchiseen kokonaan uusia hahmoja. Hillitön, riehakas ja täysin tositapahtumiin perustuva elokuva kertoo, miten Kätyrit valloittavat Hollywoodin ja nousevat elokuvatähdiksi, menettävät kaiken, tulevat päästäneeksi hirviöitä maailmaan ja lopulta yhdistävät voimansa pelastaakseen planeetan itse aiheuttamaltaan kaaokselta. Alkuperäisissä äänirooleissa kuullaan muun muassa Oscar®-voittaja Allison Janney, kaksinkertainen Oscar®-voittaja Christoph Waltz, Oscar®-voittaja Jeff Bridges, kaksinkertainen Oscar®-ehdokas Jesse Eisenberg, Zoey Deutch (Nouvelle Vague) sekä Oscar®-ehdokas Trey Parker, joka tunnetaan myös yhtenä South Parkin luojista. Näyttelijäkaartia täydentävät myös entinen Saturday Night Live -tähti Bobby Moynihan ja Phil LaMarr (Futurama, Kukkulan kuningas). Kätyrit & Monsterit -elokuvan on ohjannut Oscar-ehdokkuuden saanut Pierre Coffin, jonka ohjaustöihin lukeutuvat myös kolme ensimmäistä Itse ilkimys -elokuvaa ja ensimmäinen Kätyrit-elokuva. Coffin on myös ääninäytellyt itse Kätyreitä niiden elokuvadebyytistä 2010 alkaen. Elokuvan käsikirjoittajat ovat Brian Lynch (Kätyrit, Lemmikkien salainen elämä -elokuvat) ja Pierre Coffin. Elokuvan ovat tuottaneet myös Oscar-ehdokkuuden saanut Illuminationin perustaja ja pääjohtaja Chris Meledandri sekä Bill Ryan (The Super Mario Bros. Movie -elokuvan vastaava tuottaja ). Kätyrit & Monsterit -elokuvan vastaava tuottaja on Brian Lynch. Yli 15 vuotta on kulunut Kätyreiden luomisesta, ja niistä on tullut sukupolvensa ikonisimpia animaatiohahmoja. Kaikenikäisten fanien rakastamat Kätyrit ovat siivittäneet Illuminationin Itse ilkimys- ja Kätyrit-elokuvatuotannot yli 5,6 miljardia dollaria tuottaneiksi maailmanlaajuisiksi jymymenestyksiksi."
@@ -4604,10 +4599,12 @@
     "biopallas",
     "biorex",
     "biorexkokkola",
+    "biosade",
     "biosalo",
     "biosavoy",
     "biostara",
     "biovuoksi",
+    "cinemantsala",
     "elavienkuvien",
     "elokuviin",
     "haapamaki",
@@ -4616,6 +4613,7 @@
     "kino123",
     "kinoakseli",
     "kinoelo",
+    "kinohirvi",
     "kinojuha",
     "kinolaika",
     "kinolumo",
@@ -5370,7 +5368,6 @@
     "kinopiispanristi",
     "kinopirtti",
     "niagara",
-    "orion",
     "star"
    ],
    "r": 0,
@@ -6262,13 +6259,12 @@
   },
   "pahoilainen pukeutuu pradaan 2": {
    "id": 1314481,
-   "img": "data/posters/963edd569b11ca2f.jpg",
-   "r": 7.0,
+   "r": 0,
    "s": {
     "en": "",
     "fi": "Lähes 20 vuotta sitten värikkäiden vaiheiden myötä ikonisiksi muodostuneet hahmot Miranda, Andy, Emily ja Nigel—Meryl Streep, Anne Hathaway, Emily Blunt ja Stanley Tucci palaavat New Yorkin muodikkaille kaduille ja Runway Magazinen hohdokkaaseen toimitukseen hartaasti odotetussa jatko-osassa vuoden 2006 elokuvatapaukselle, josta muodostui sukupolvikokemus. Mukana ovat kaikki alkuperäiset päänäyttelijät sekä ohjaaja David Frankel ja käsikirjoittaja Aline Brosh McKenna, ja heidän lisäkseen esiin marssitetaan kokonainen liuta uusia hahmoja mukaan lukien Kenneth Branagh, Simone Ashley, Justin Theroux, Lucy Liu, Patrick Brammall, Caleb Hearon, Helen J. Shen, Pauline Chalamet, B.J. Novak ja Conrad Ricamora. Myös Tracie Thoms ja Tibor Feldman palaavat ensimmäisen elokuvan Lilyn ja Irvin rooleihinsa."
    },
-   "tr": "https://www.youtube.com/watch?v=PMd1at7OwiE"
+   "tr": ""
   },
   "paholainen pukeutuu pradaan 2006": {
    "id": 350,
@@ -6591,7 +6587,6 @@
    "krs": [
     "bioforum",
     "biorex",
-    "biosalo",
     "biosavoy",
     "biostara",
     "elokuviin",
@@ -6632,12 +6627,14 @@
     "biograni",
     "biopallas",
     "biorex",
+    "biosade",
     "biosalo",
     "biostara",
     "engel",
     "helios",
     "isohannu",
     "kino123",
+    "kinohirvi",
     "kinojuha",
     "kinolumo",
     "kinometso",
@@ -6717,12 +6714,14 @@
     "biograni",
     "biopallas",
     "biorex",
+    "biosade",
     "biosalo",
     "biostara",
     "engel",
     "helios",
     "isohannu",
     "kino123",
+    "kinohirvi",
     "kinojuha",
     "kinolumo",
     "kinometso",
@@ -9856,6 +9855,14 @@
    },
    "tr": ""
   },
+  "unesta tehty mies tekijävierailu": {
+   "r": 0,
+   "s": {
+    "en": "",
+    "fi": "Sinemaattisessa dokumenttielokuvassa Emil ja Artur Sallinen nivovat yhteen isoisänsä, säveltäjä Aulis Sallisen (s. 1935) elämää ja hänen läpimurtoteoksensa, Ratsumies-oopperan tarinaa. Dokumentti kasvaa henkilökuvasta tutkielmaksi Suomen kansasta ja sen henkisestä ytimestä. Mikä on ikuinen suomalainen tarinamme – ja voiko se muuttua? Kuvitus koostuu otteista Kansallisoopperan kevään 2025 Ratsumies- produktiosta, Sallisen eri elämänvaiheiden filmatisoinneista sekä arkistokuvista ja haastatteluista. Ohjaajat, kaksosveljekset Emil ja Artur Sallinen kertovat elokuvasta: Säveltäjä Aulis Sallisen lapsenlapsina meille on tarjoutunut ainutlaatuinen mahdollisuus tutustua isoisäämme hänen musiikkinsa kautta. Lapsista saakka olemme aistineet Auliksessa suljetun alueen johon muilla ei ole pääsyä. Hän on kertonut useasti, kuinka ei kokenut pelkoa sodan aikana vaikka hän Karjalan evakkona pakeni pommituksia. Syventyessämme Auliksen elämään haastatteluiden kautta meille ilmeni, että Aulis ammentaa musiikkinsa unestaan ja alitajunnastaan. Yhtäkkiä oivalsimme, että Auliksen tummia sävyjä sisältävä musiikki on portti hänen suljetulle alueelleen. Ehkä Auliksen kokemukset sodasta ovat paljon synkempiä, kun hänen tietoisuutensa on antanut meidän ymmärtää? Traumasta, sodasta ja historiastamme kertova Ratsumies-ooppera (säv. Aulis Sallinen, libr. Paavo Haavikko) tarjosi mahdollisuuden tutkia Auliksen suljettua aluetta paremmin. Ensi-iltansa jälkeen vuonna 1975 Ratsumies sai valtavan kansallisen suosion. Se oli aidosti suomalainen tarina, joka ei vain koskettanut. Se auttoi tätä metsäkansaa ymmärtämään keitä me olemme, ja miksi. Sodasta palannut ratsumies Antti ei pääse kiinni elämäänsä, vaan toteaakin oopperan lopussa ennen kuolemaansa; “Se olen minä, unesta tehty mies.” Dokumenttielokuvan ansiosta olemme saaneet selville, kuka isoisämme on."
+   },
+   "tr": ""
+  },
   "unohdettu saari": {
    "id": 1465063,
    "img": "data/posters/db8d634869fa04ac.jpg",
@@ -10308,6 +10315,7 @@
     "biomarilyn",
     "biorex",
     "biorexkokkola",
+    "biosade",
     "biosalo",
     "biosavoy",
     "biostara",
@@ -10322,6 +10330,7 @@
     "kinoakseli",
     "kinoaurora",
     "kinoelo",
+    "kinohirvi",
     "kinoiiris",
     "kinokilta",
     "kinokonepaja",
@@ -10386,6 +10395,7 @@
     "biomarilyn",
     "biorex",
     "biorexkokkola",
+    "biosade",
     "biosalo",
     "biosavoy",
     "biostara",
@@ -10400,6 +10410,7 @@
     "kinoakseli",
     "kinoaurora",
     "kinoelo",
+    "kinohirvi",
     "kinoiiris",
     "kinokilta",
     "kinokonepaja",
@@ -10467,7 +10478,6 @@
     "isohannu",
     "kino123",
     "kinoakseli",
-    "kinoaurora",
     "kinoiiris",
     "kinojuha",
     "kinokilta",
@@ -10698,5 +10708,5 @@
    "tr": ""
   }
  },
- "generated": "2026-11-10"
+ "generated": "2026-11-11"
 }

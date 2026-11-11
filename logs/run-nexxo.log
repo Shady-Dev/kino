@@ -1,18 +1,18 @@
-[kinoset] Kino 1-2 (Huittinen): 18 showtimes
-[kinoset] Kinema (Loimaa): 13 showtimes
-[kinoset] Bio (Sastamala): 14 showtimes
-[kinoset] Kino 1-2: 18 showtimes, 6 dates
-[kinoset] Kinema: 13 showtimes, 7 dates
-[kinoset] Bio: 14 showtimes, 8 dates
+[kinoset] Kino 1-2 (Huittinen): 15 showtimes
+[kinoset] Kinema (Loimaa): 12 showtimes
+[kinoset] Bio (Sastamala): 13 showtimes
+[kinoset] Kino 1-2: 15 showtimes, 5 dates
+[kinoset] Kinema: 12 showtimes, 6 dates
+[kinoset] Bio: 13 showtimes, 7 dates
 [kinoset] synopses merged: 0
 [kinoaurora] Kino Aurora (Jyväskylä): 20 showtimes
 [kinoaurora] Kino Aurora: 20 showtimes, 6 dates
-[kinoaurora] synopses merged: 0
-[kinohirvi] Kino Hirvi (Äänekoski): 9 showtimes
-[kinohirvi] Kino Hirvi: 9 showtimes, 3 dates
+[kinoaurora] synopses merged: 2
+[kinohirvi] Kino Hirvi (Äänekoski): 24 showtimes
+[kinohirvi] Kino Hirvi: 24 showtimes, 4 dates
 [kinohirvi] synopses merged: 0
-[biosade] Bio Säde (Mänttä): 6 showtimes
-[biosade] Bio Säde: 6 showtimes, 3 dates
+[biosade] Bio Säde (Mänttä): 16 showtimes
+[biosade] Bio Säde: 16 showtimes, 4 dates
 [biosade] synopses merged: 0
 [kinoolympia] Kino Olympia (Hanko): 10 showtimes
 [kinoolympia] Kino Olympia: 10 showtimes, 7 dates
@@ -37,15 +37,15 @@
 [kinometso] Toivakka: 5 showtimes, 1 dates
 [kinometso] Hankasalmi: 5 showtimes, 1 dates
 [kinometso] synopses merged: 0
-[biosalo] Bio-Salo (Salo): 52 showtimes
-[biosalo] Bio-Salo: 52 showtimes, 10 dates
+[biosalo] Bio-Salo (Salo): 47 showtimes
+[biosalo] Bio-Salo: 47 showtimes, 9 dates
 [biosalo] synopses merged: 0
-[biostara] Bio Stara (Paimio): 21 showtimes
-[biostara] Bio Stara: 21 showtimes, 7 dates
+[biostara] Bio Stara (Paimio): 19 showtimes
+[biostara] Bio Stara: 19 showtimes, 6 dates
 [biostara] synopses merged: 0
 [run] http: 0 revalidated (304), 11 full, 11 not stored (origin said no-store), 0 cache entries written
 [run] hosts: 6 attempted -- biosalo.fi, jarvelankino.fi, kino-olympia.fi, kinoaurora.fi, kinohirvi.fi, kinoset.fi
 [run] pending: kinometso has 3 venue(s) with no programme yet: km-tikkakoski, km-vaajakoski, km-laukaa
-[run] nexxo: 15 venues, 197 showtimes, 0 stale, 0 unverified, 3 pending, 0 with no programme, 0 failures
-[run] timing: 9 site(s), 42.9s of fetching added up across workers that overlap, longest site 11.5s, longest queue wait 0.0s, 11.5s wall from this module's first fetch starting to its last ending
+[run] nexxo: 15 venues, 210 showtimes, 0 stale, 0 unverified, 3 pending, 0 with no programme, 0 failures
+[run] timing: 9 site(s), 43.1s of fetching added up across workers that overlap, longest site 11.5s, longest queue wait 0.0s, 11.5s wall from this module's first fetch starting to its last ending
 exit=0
