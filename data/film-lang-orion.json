@@ -50,7 +50,7 @@
  },
  "hirtettyjen-kettujen-metsa": {
   "price": "",
-  "at": "2026-11-09T09:59:56+00:00",
+  "at": "2026-11-11T12:15:29+00:00",
   "fields": {
    "lang": "FI-A",
    "len": "93",
@@ -61,7 +61,7 @@
  },
  "jarki-ja-tunteet": {
   "price": "",
-  "at": "2026-11-09T09:59:56+00:00",
+  "at": "2026-11-11T12:15:29+00:00",
   "fields": {
    "lang": "EN-A, FI-S, SV-S",
    "len": "131",
@@ -85,10 +85,10 @@
  },
  "kinokonsertti-moana-auringon-poika": {
   "price": "",
-  "at": "2026-11-09T09:59:56+00:00",
+  "at": "2026-11-11T12:15:29+00:00",
   "fields": {
    "lang": "EN-A, EN-S",
-   "len": "78",
+   "len": "98",
    "rating": "S",
    "year": "1926",
    "syn_fi": "Moana, auringon poika -elokuvan säestää tässä 100-vuotisjuhlaesityksessä Henri Lindström, Nyla van Ingen & Sami van Ingen. He yhdistävät elokuvaan vuonna 1926 sävellettyä alkuperäismusiikkia sekä Robert ja Frances Flahertyn tyttären Monica Flahertyn vuonna 1971 Samoalla tekemiä analogisia kenttänauhoituksia. Robert Flaherty matkusti vuonna 1923 vaimonsa Francesin kanssa Samoan Savai’in saarelle. Heidän päämääränsä oli luoda elokuva, joka tallentaisi ja toisintaisi samoalaisten perinteitä ja elämänmenoa – aivan kuten Flahertyjen edellinen elokuva Nanook, pakkasen poika teki. Syntyi elokuva, joka oli uraauurtava dokumenttifiktio. Nanookin tavoin Moana hämärsi todellisuuden ja fiktion välisiä rajoja. Aikalaiset ottivat sen kertoman totena, mutta keskustelusta Moanan autenttisuudesta tuli kiinteä osa dokumenttielokuvan historiaa. Englannin kielen sana ”documentary” eli dokumenttielokuva luotiin alun perin juuri Moana -elokuvan arvostelussa. Skotlantilainen elokuvantekijä ja kriitikko John Grierson loi termin salanimellä julkaistussa Moana -arvostelussaan helmikuussa 1926 ja totesi elokuvan sisältävän ”dokumentaarista arvoa”. Vuonna 2014 restauroitu Moana sai ensi-iltansa New Yorkin elokuvajuhlilla. Restauroinnista vastasivat Bruce Posner ja Sami van Ingen. Elokuva esitetään Orionissa tuliterältä 35 mm:n filmikopiolta, joka on valmistettu Centre Pompidoun tuella. Kinokonsertin säestys yhdistää pianolle tulkittua, elokuvaan vuonna 1926 sävellettyä alkuperäismusiikkia sekä Monica Flahertyn Samoalla vuonna 1975 tekemiä analogisia kenttänauhoituksia. Kenttänauhoitukset toistetaan alkuperäisiltä tallenteilta avokela- ja C-kasettinauhureilla. Säestyksestä vastaavat kokeellista elektronista musiikkia sooloartistina tekevä muusikko Henri Lindström, kanadalaissyntyinen oopperalaulaja ja äänitaiteilija Nyla van Ingen sekä elokuvantekijä ja mediataiteilija Sami van Ingen. Kinokonsertti järjestetään SU 22.11. KLO 16:00. Osana Flaherty-viikonloppua lauantaina 21.11. esitetään Sami van Ingenin Cast of Shadows, joka nostaa valokeilaan ne ihmiset, jotka vaikuttivat keskeisesti Robert Flahertyn elokuvaperintöön.",
@@ -134,7 +134,7 @@
  },
  "lapin-sota": {
   "price": "",
-  "at": "2026-11-09T09:59:56+00:00",
+  "at": "2026-11-11T12:15:29+00:00",
   "fields": {
    "lang": "FI-A, FI-S, SV-S",
    "len": "158",
@@ -157,7 +157,7 @@
  },
  "mannerlaatta": {
   "price": "",
-  "at": "2026-11-09T09:59:56+00:00",
+  "at": "2026-11-11T12:15:29+00:00",
   "fields": {
    "lang": "FI-A",
    "len": "74",
@@ -203,7 +203,7 @@
  },
  "spider-man-brand-new-day": {
   "price": "",
-  "at": "2026-11-09T09:59:56+00:00",
+  "at": "2026-11-11T12:15:29+00:00",
   "fields": {
    "lang": "EN-A, FI-S, SV-S",
    "len": "145",
@@ -214,7 +214,7 @@
  },
  "talvitarina": {
   "price": "",
-  "at": "2026-11-09T09:59:56+00:00",
+  "at": "2026-11-11T12:15:29+00:00",
   "fields": {
    "lang": "FR-A, EN-S",
    "len": "115",
@@ -250,7 +250,7 @@
  },
  "vuono": {
   "price": "",
-  "at": "2026-11-09T09:59:56+00:00",
+  "at": "2026-11-11T12:15:29+00:00",
   "fields": {
    "lang": "NO-A, RO-A, EN-A, EN-S",
    "len": "146",
@@ -299,7 +299,7 @@
  },
  "you-can-see-everything": {
   "price": "",
-  "at": "2026-11-09T09:59:56+00:00",
+  "at": "2026-11-11T12:15:29+00:00",
   "fields": {
    "lang": "EN-A, FI-S, SV-S",
    "len": "175",
