@@ -1201,19 +1201,6 @@
    },
    "tr": ""
   },
-  "don giovanni": {
-   "id": 286085,
-   "img": "data/posters/4ff6c6ce7a210c8b.jpg",
-   "r": 0,
-   "s": {
-    "en": "Live 2001 production from the Zurich Opera House of the classic Mozart/Da Ponte opera, with Nikolaus Harnoncourt conducting and directed for television and video by Brian Large.",
-    "fi": ""
-   },
-   "tr": "",
-   "ts": [
-    "en"
-   ]
-  },
   "don giovanni vicenza festivaali mozart": {
    "r": 0,
    "s": {
@@ -1574,6 +1561,14 @@
    },
    "tr": ""
   },
+  "european cinema night erikoisnäytös flow": {
+   "r": 0,
+   "s": {
+    "en": "",
+    "fi": "Tervetuloa juhlistamaan eurooppalaista elokuvaa ja Luova Eurooppa MEDIA -ohjelman 35-vuotistaivalta Kino Iirikseen! Järjestämme European Cinema Night -erikoisnäytöksen keskiviikkona 2. joulukuuta 2026 klo 18.00. Ilta käynnistyy lyhyellä alustuksella, minkä jälkeen kuullaan Suomen Luova Eurooppa Media Deskin toiminnanjohtaja Liisa Saurin tervetuliaispuheenvuoro. Illan elokuvana nähdään Gints Zilbalodisin ohjaama ylistetty animaatioelokuva Flow (2024). Flow on visuaalisesti lumoava ja dialogiton animaatioelokuva kissasta, jonka koti tuhoutuu suuren tulvan seurauksena. Kissa löytää turvan veneestä yhdessä muiden eläinten kanssa, ja yhdessä heidän on navigoitava muuttuvan maailman haasteiden ja vaarojen keskellä luottaen toisiinsa. Tämä laajasti palkittu (mm. parhaan animaatioelokuvan Oscar ja Euroopan elokuvakatsojien LUX-palkinto) mestariteos tarjoaa ainutlaatuisen ja koskettavan kokemuksen kaikenikäisille. Näytöksen jälkeen järjestetään keskustelu osana ohjelmaa, jossa vieraana on ohjaaja ja käsikirjoittaja Keijo Skippari. Oscar-voittaja: paras animaatio Golden Globe -voittaja: paras animaatio César-voittaja: paras animaatio European Film Awards -voittaja: paras animaatio Rohkea kissa kohtaa suuren hyökyaallon. Kissa pelastautuu veneeseen iloisen koiran, väsyneen kapybaran, ilkikurisen makin ja äkäisen linnun kanssa. Eläimet tekevät seikkailuntäyteisen matkan läpi upean luonnon ja salaperäisten kaupunkien – uuden vieraan maailman, jossa yhteistyö ja ystävyys ovat tärkeintä. Flow on uskomattoman hyvin animoitu ja tunteellinen seikkailuelokuva, jossa eläimet todella saavat käyttäytyä kuten luonnossa. Dialogittomassa elokuvassa korostuu musiikki, joka on osittain työstetty Suomessa! Fantastinen elokuvakokemus sekä lapsille että aikuisille on hukutettu suurimpiin kansainvälisiin palkintoihin, kruununa parhaan animaation Oscar. Huom! 3 lippua/asiakas."
+   },
+   "tr": ""
+  },
   "evil does not exist": {
    "id": 1156125,
    "img": "data/posters/f5bb7379b38368c0.jpg",
@@ -1822,7 +1817,6 @@
    "img": "data/posters/ab35e373af42f3c1.jpg",
    "kr": "S",
    "krs": [
-    "biomarilyn",
     "biorex",
     "biorexkokkola",
     "biosavoy",
@@ -1831,7 +1825,6 @@
     "haapamaki",
     "kinohamina",
     "kinokonepaja",
-    "kinomarilyn",
     "kinoolympia",
     "kinopirtti",
     "kinotar",
@@ -3181,7 +3174,6 @@
     "kinokonepaja",
     "kinolaika",
     "kinolumo",
-    "kinomarilyn",
     "kinometso",
     "kinomyyri",
     "kinoolympia",
@@ -4626,7 +4618,6 @@
     "kinolaika",
     "kinolumo",
     "kinomania",
-    "kinomarilyn",
     "kinometso",
     "kinoolympia",
     "kinopiispanristi",
@@ -6612,7 +6603,6 @@
     "kinolumo",
     "kinopiispanristi",
     "kulttuurimylly",
-    "kuvatahti",
     "savonkinot",
     "star",
     "studio123jarvenpaa"
@@ -7153,6 +7143,7 @@
    "kr": "K-16",
    "krs": [
     "biorexkokkola",
+    "helios",
     "kinoaurora",
     "kinohannikainen",
     "kinokilta",
@@ -8930,7 +8921,6 @@
    "img": "data/posters/1f8ec30de3187d84.jpg",
    "kr": "K-16",
    "krs": [
-    "biorexkokkola",
     "engel",
     "gilda",
     "kinokilta",
@@ -8951,7 +8941,6 @@
    "img": "data/posters/1f8ec30de3187d84.jpg",
    "kr": "K-16",
    "krs": [
-    "biorexkokkola",
     "engel",
     "gilda",
     "kinokilta",
@@ -10390,7 +10379,8 @@
     "studio123kouvola",
     "tapiola",
     "vaakuna",
-    "vihdinkino"
+    "vihdinkino",
+    "virtainpirtti"
    ],
    "r": 7.6,
    "s": {
@@ -10471,7 +10461,8 @@
     "studio123kouvola",
     "tapiola",
     "vaakuna",
-    "vihdinkino"
+    "vihdinkino",
+    "virtainpirtti"
    ],
    "r": 7.7,
    "s": {
@@ -10672,7 +10663,6 @@
     "joutsankino",
     "kino123",
     "kinoaurora",
-    "kinohannikainen",
     "kinohirvi",
     "kinoiiris",
     "kinokilta",
@@ -10691,7 +10681,6 @@
     "kurikankino",
     "laitilankino",
     "leffabuumi",
-    "matintupa",
     "niagara",
     "orion",
     "pajakkakino",
