@@ -1,11 +1,11 @@
-[kotkanleffat] Kinopalatsi Kotka: 47 showtimes, 22 dates
-[kotkanleffat] Trio 123: 84 showtimes, 9 dates
+[kotkanleffat] Kinopalatsi Kotka: 46 showtimes, 22 dates
+[kotkanleffat] Trio 123: 81 showtimes, 9 dates
 [kotkanleffat] synopses merged: 0
-[savonkinot] Tapio Joensuu: 113 showtimes, 20 dates
+[savonkinot] Tapio Joensuu: 110 showtimes, 20 dates
 [savonkinot] Killa Savonlinna: 15 showtimes, 9 dates
 [savonkinot] Kuvalinna Savonlinna: 25 showtimes, 14 dates
 [savonkinot] Kuvalipas Iisalmi: 46 showtimes, 13 dates
-[savonkinot] Maxim Varkaus: 39 showtimes, 14 dates
+[savonkinot] Maxim Varkaus: 37 showtimes, 14 dates
 [savonkinot] Kino-Hovi Kitee: 14 showtimes, 11 dates
 [savonkinot] synopses merged: 0
 [leffabuumi] Kinolinna: 68 showtimes, 11 dates
@@ -20,22 +20,22 @@
 [ihmekompleksi] synopses merged: 0
 [kino123] Kino 123: 72 showtimes, 9 dates
 [kino123] synopses merged: 0
-[biogrand] Bio Grand: 29 showtimes, 9 dates
+[biogrand] Bio Grand: 28 showtimes, 9 dates
 [biogrand] synopses merged: 0
-[joutsankino] Joutsan Kino: 11 showtimes, 8 dates
+[joutsankino] Joutsan Kino: 10 showtimes, 7 dates
 [joutsankino] synopses merged: 0
 [cine] Cine Keuda-Talo: no programme at the moment (adapter confirmed the venue empty); publishing an empty file
 [cine] Cine Nikkilä: 5 showtimes, 2 dates
 [cine] synopses merged: 0
-[star] strand prefix split off 3 showtimes
-[star] Elokuvateatteri Star: 135 showtimes, 14 dates
+[star] strand prefix split off 2 showtimes
+[star] Elokuvateatteri Star: 131 showtimes, 14 dates
 [star] synopses merged: 0
 [star] screening-note sentences left out of synopses: 1
 [haapamaki] Haapamäen Elokuvat: 13 showtimes, 10 dates
 [haapamaki] synopses merged: 0
 [run] venuelists-local.json rewritten
-[run] http: 0 revalidated (304), 304 full, 304 not stored (origin said no-store), 0 cache entries written
+[run] http: 0 revalidated (304), 301 full, 301 not stored (origin said no-store), 0 cache entries written
 [run] hosts: 12 attempted -- biogrand.fi, haapamaenelokuvat.fi, ihmekompleksi.fi, kiertue.cine.fi, kino.joutsa.fi, kino123.fi, kotkanleffat.fi, leffabuumi.fi, lippu.elokuvateatteristar.fi, studio123.fi, studiot123.com, www.savonkinot.fi
 [run] pending: cine has 1 venue(s) with no programme yet: cine-keuda
-[run] etiketti: 20 venues, 901 showtimes, 0 stale, 0 unverified, 1 pending, 0 with no programme, 0 failures
+[run] etiketti: 20 venues, 886 showtimes, 0 stale, 0 unverified, 1 pending, 0 with no programme, 0 failures
 exit=0
