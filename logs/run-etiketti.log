@@ -1,6 +1,6 @@
 [biorexkokkola] Bio Rex Kokkola: 42 showtimes, 12 dates
 [biorexkokkola] synopses merged: 0
-[kinopirtti] Kinopirtti: 88 showtimes, 20 dates
+[kinopirtti] Kinopirtti: 87 showtimes, 19 dates
 [kinopirtti] synopses merged: 0
 [kinotar] Kinotar 123: 41 showtimes, 19 dates
 [kinotar] synopses merged: 0
@@ -11,21 +11,21 @@
 [biovuoksi] synopses merged: 0
 [kinoiiris] strand prefix split off 1 showtimes
 [kinoiiris] Kino Iiris: 40 showtimes, 22 dates
-[kinoiiris] synopses merged: 1
+[kinoiiris] synopses merged: 0
 [kinoiiris] screening-note sentences left out of synopses: 1
 [kkino] K-Kino: 9 showtimes, 5 dates
 [kkino] synopses merged: 0
 [biograni] Bio Grani: 8 showtimes, 3 dates
 [biograni] synopses merged: 0
-[niagara] Cinema Niagara: 50 showtimes, 18 dates
+[niagara] Cinema Niagara: 49 showtimes, 17 dates
 [niagara] synopses merged: 0
 [niagara] screening-note sentences left out of synopses: 1
 [kinokaustinen] Kino Kaustinen: 5 showtimes, 3 dates
 [kinokaustinen] synopses merged: 0
-[kinomarilyn] Kino Marilyn: 70 showtimes, 23 dates
+[kinomarilyn] Kino Marilyn: 69 showtimes, 22 dates
 [kinomarilyn] synopses merged: 0
 [run] http: 0 revalidated (304), 203 full, 203 not stored (origin said no-store), 0 cache entries written
 [run] hosts: 11 attempted -- biograni.fi, biovuoksi.fi, cinemaniagara.fi, jamsankinotar.fi, k-kino.fi, kinoiiris.com, kinojuha.fi, kinokaustinen.fi, kinopirtti.fi, www.biorex.org, www.kinomarilyn.fi
-[run] etiketti: 12 venues, 402 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
-[run] timing: 11 site(s), 369.4s of fetching added up across workers that overlap, longest site 64.8s, longest queue wait 47.2s, 102.7s wall from this module's first fetch starting to its last ending
+[run] etiketti: 12 venues, 399 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
+[run] timing: 11 site(s), 350.3s of fetching added up across workers that overlap, longest site 60.9s, longest queue wait 51.7s, 101.6s wall from this module's first fetch starting to its last ending
 exit=0

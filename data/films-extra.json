@@ -269,16 +269,12 @@
   },
   "anssi kasitonnin maailma": {
    "id": 1558479,
-   "img": "data/posters/77404703685f2779.jpg",
    "r": 0,
    "s": {
-    "en": "8000: An Art Odyssey (Anssi Kasitonnin maailma) is a documentary about the Finnish Ars Fennica awarded artist Anssi 8000. Anssi does everything his own way, and preferably with his own hands. The films follows Anssi as he prepares for the biggest exhibition of his life at Kunsthalle Helsinki, films a French short film with dreams of an Oscar award and develops a skate toy with a company based in Hong Kong. It is a warm and humorous story about passion, creativity – and how sometimes, doing things the wrong way is the right way.",
+    "en": "",
     "fi": "\"Joskus kannattaa tehdä vähän väärinkin.\" Anssi Kasitonnin maailma kertoo Anssi Heinosesta – Ars Fennica -palkitusta taiteilijasta, joka tekee kaiken omalla tavallaan ja mieluiten omin käsin. Dokumentti seuraa kuinka Anssi rakentaa elämänsä suurinta näyttelyä Helsingin Taidehalliin, kuvaa ranskankielistä lyhytelokuvaa Oscar-voitto mielessään ja kehittelee skeittilelua hongkongilaisen lelufirman kanssa. Anssi Kasitonnin maailma on lämminhenkinen ja humoristinen tarina intohimosta, luovuudesta – ja siitä, kuinka joskus kannattaa tehdä vähän väärinkin. (Pitkä synopsis) Anssi Kasitonnin maailma kertoo Anssi Heinosesta – Ars Fennica -palkitusta taiteilijasta, joka tekee kaiken omalla tavallaan ja mieluiten omin käsin. Dokumentti seuraa Anssin lyhytelokuvan Le Saboteur valmistumista ja kamppailua lyhytelokuvien Oscar-palkintoa kohti sekä Anssin tähän asti suurimman taidenäyttelyn valmistumista Helsingin Taidehalliin. Anssi on myös kehitellyt skeittilelun, johon hänellä on patentti. Sen prototyyppiä valmistetaan Hong Kongissa ja Anssi käy neuvotteluja sen maailmanlaajuisesta myynnistä hänen amerikkalaisen managerinsa kanssa. Anssi vie tee-se-itse tyyliin äärimmilleen sillä hän tekee kaikki elokuviensa lavasteet ja erikoistehosteet itse, valmistaa valtavat veistokset kotitilallaan Sahalahdessa ja käyttää näyttelijöinä ja avustajina lähinnä sukulaisia ja ystäviä. “Koska ne ovat ilmaisia”, toteaa Anssi. Dokumentti seuraa Anssia usean vuoden ajan ja syventyy yhtälailla hänen elämänsä ihmissuhteisiin kuin työskentelyyn. Anssi Kasitonnin maailma on lämminhenkinen ja humoristinen tarina intohimosta, luovuudesta – ja siitä, kuinka joskus kannattaa tehdä vähän väärinkin."
    },
-   "tr": "",
-   "ts": [
-    "en"
-   ]
+   "tr": ""
   },
   "anttilanmäen kyläjuhla 2019 dokumenttielokuva": {
    "r": 0,
@@ -678,8 +674,7 @@
   },
   "boléro matinea": {
    "id": 1004348,
-   "img": "data/posters/e2fb4797a1c9451b.jpg",
-   "r": 6.2,
+   "r": 0,
    "s": {
     "en": "With the support of the Creative Europe Programme – MEDIA",
     "fi": "Ohjaaja Anne Fontaine (Coco ennen Chanelia, Viattomat) kuvaa musiikillisessa elämäkerrassa Ravelin intohimoista elämää. Keskipisteessä ovat Boléron työstön aikana tapahtuneet vastoinkäymiset ja komplikaatiot. Säveltäjän maailmankuulu balettimusiikki kirjoitettiin Ida Rubinsteinille, joka oli tanssija, tuottaja ja ohjaaja Ranskan belle époquen aikaan."
@@ -1829,9 +1824,7 @@
     "kinopirtti",
     "kinotar",
     "kotkanleffat",
-    "leffabuumi",
-    "savonkinot",
-    "star"
+    "savonkinot"
    ],
    "r": 0,
    "s": {
@@ -3163,9 +3156,11 @@
     "elokuviin",
     "engel",
     "gilda",
+    "haapamaki",
     "helios",
     "isohannu",
     "kino123",
+    "kinoakseli",
     "kinoaurora",
     "kinohirvi",
     "kinoiiris",
@@ -3176,7 +3171,6 @@
     "kinolumo",
     "kinometso",
     "kinomyyri",
-    "kinoolympia",
     "kinopiispanristi",
     "kinopirtti",
     "kinosampo",
@@ -4498,7 +4492,6 @@
   },
   "lapin sota englanninkielinen tekstitys": {
    "id": 1450460,
-   "img": "data/posters/c15d678a31ae397e.jpg",
    "r": 0,
    "s": {
     "en": "",
@@ -4611,7 +4604,6 @@
     "isohannu",
     "joutsankino",
     "kino123",
-    "kinoakseli",
     "kinoelo",
     "kinohirvi",
     "kinojuha",
@@ -4619,7 +4611,6 @@
     "kinolumo",
     "kinomania",
     "kinometso",
-    "kinoolympia",
     "kinopiispanristi",
     "kinopirtti",
     "kinosampo",
@@ -4652,16 +4643,12 @@
   },
   "late lammas elokuva hämäräpuuhissa elokuva on tekstitetty": {
    "id": 1477104,
-   "img": "data/posters/0d3865389792d3a5.jpg",
-   "r": 7.4,
+   "r": 0,
    "s": {
-    "en": "On Halloween Eve at Mossy Bottom Farm, excitement turns to dismay when the clumsy Farmer ruins the pumpkin patch. Shaun tries fixing it with science experiments, but things go awry when a wild beast appears in the woods.",
+    "en": "",
     "fi": "Rakastettu Late Lammas palaa valkokankaille uudessa, riemastuttavassa ja kutkuttavan hauskassa seikkailussa. Farmin asukkaat odottavat innolla Halloweenia, kunnes heidän rakkaudella kasvattamansa kurpitsaviljelmä tuhoutuu juhlan kynnyksellä. Late ei jää toimettomaksi, vaan päättää ryhtyä “hulluksi tiedemieheksi” korjatakseen tilanteen – ja pian tapahtumat karkaavatkin täysin käsistä. Kun tilan maajussi katoaa ja outo villi peto herättää kauhua kyläläisissä, ovat kaikki ainekset kasassa hirviömäisen hauskalle seikkailulle kaiken ikäisille. Kananlento ja Wallace & Gromit -elokuvien tekijöiden uusi seikkailu Late Lammas: Hämäräpuuhissa saapuu elokuvateattereihin 30. lokakuuta."
    },
-   "tr": "https://www.youtube.com/watch?v=daZMq0AyOMc",
-   "ts": [
-    "en"
-   ]
+   "tr": ""
   },
   "late lammas elokuva hämäräpuuhissa ennakkonäytös": {
    "id": 1477104,
@@ -5828,6 +5815,7 @@
     "gilda",
     "haapamaki",
     "ihmekompleksi",
+    "isohannu",
     "jarvelankino",
     "kino123",
     "kinoelo",
@@ -6140,6 +6128,14 @@
    "s": {
     "en": "",
     "fi": "Madama Butterfly saa lumoavan näyttämötoteutuksen Bregenzin järvinäyttämöllä, jossa Michael Levinen vaikuttava lavastus ja hienovaraiset maisemamaalaukset tuovat japanilaisen estetiikan osaksi ainutlaatuista ympäristöä. Andreas Homokin ohjaama tuotanto yhdistää visuaalisen näyttävyyden ja Puccinin herkkävireisen musiikin, jonka Enrique Mazzola johtaa vivahteikkaasti. Barno Ismatullaevan ylistetty tulkinta Cio-Cio-Sanina kruunaa koskettavan esityksen, joka palkittiin seisaaltaan annetuilla suosionosoituksilla."
+   },
+   "tr": ""
+  },
+  "ooppera pavarotti mies joka kosketti maailmaa arena di verona": {
+   "r": 0,
+   "s": {
+    "en": "",
+    "fi": "Luciano Pavarotti – mies joka kosketti maailmaa Pavarottin 90-vuotissyntymäpäivän kunniaksi Arena di Veronalla järjestettiin vertaansa vailla olevan tähtikaartin voimin koskettava kunnianosoitus maailman ihailluimman tenorin uralle. Andrea Bocelli, Placido Domingo, José Carreras, Jonathan Tetelman, Yusif Eyvazpv, Angela Gheorghiou ja monet muut tuovat rakastetun Pavarottin hetkeksi takaisin elämään."
    },
    "tr": ""
   },
@@ -6569,16 +6565,12 @@
   },
   "pikku kummitus lapanen keppostelee dub": {
    "id": 1781923,
-   "img": "data/posters/8a9129f55b1b3d43.jpg",
    "r": 0,
    "s": {
-    "en": "Laban the Little Ghost is back with a new collection of cozy and just-spooky-enough adventures at the Good Morning Sun Castle. Together with his little sister Labolina and his best friend, the Little Prince, their days are filled with everything from trick-or-treating, birthday celebrations, and lost Christmas presents to unexpected guests and many other fun experiences.",
+    "en": "",
     "fi": "Pikku Kummitus Lapanen palaa uusien seikkailujen pariin Hyvänhuomenen linnassa. Yhdessä Lapaniinan, Pikkuprinssin ja ystäviensä kanssa hän joutuu hauskoihin, jännittäviin ja välillä hieman pelottaviinkin tilanteisiin, joissa ystävyys, rohkeus ja mielikuvitus ovat aina keskiössä. Lämmin ja humoristinen elokuvaelämys perheen pienimmille elokuvissakävijöille. Elokuva on saanut Euroopan unionin Luova Eurooppa -ohjelman tuen."
    },
-   "tr": "",
-   "ts": [
-    "en"
-   ]
+   "tr": ""
   },
   "pikku kummitus lapanen keppostelee ennakkonäytös n 10": {
    "r": 0,
@@ -6596,12 +6588,12 @@
     "bioforum",
     "biorex",
     "biosavoy",
-    "biostara",
     "elokuviin",
     "engel",
     "isohannu",
     "kinolumo",
     "kinopiispanristi",
+    "kinotervakoski",
     "kulttuurimylly",
     "savonkinot",
     "star",
@@ -6652,7 +6644,6 @@
     "kinotervakoski",
     "korjaamo",
     "kotkanleffat",
-    "leffabuumi",
     "savonkinot",
     "star",
     "studio123jarvenpaa",
@@ -6739,7 +6730,6 @@
     "kinotervakoski",
     "korjaamo",
     "kotkanleffat",
-    "leffabuumi",
     "savonkinot",
     "star",
     "studio123jarvenpaa",
@@ -6785,7 +6775,6 @@
    "img": "data/posters/a8cdd21dca604433.jpg",
    "kr": "S",
    "krs": [
-    "biomarlon",
     "biorex",
     "biosalo",
     "cinemantsala",
@@ -6800,8 +6789,7 @@
     "laitilankino",
     "leffabuumi",
     "marita",
-    "star",
-    "studio123jarvenpaa"
+    "star"
    ],
    "r": 0,
    "s": {
@@ -7143,6 +7131,7 @@
    "kr": "K-16",
    "krs": [
     "biorexkokkola",
+    "haapamaki",
     "helios",
     "kinoaurora",
     "kinohannikainen",
@@ -8176,17 +8165,13 @@
   },
   "sense and sensibility": {
    "id": 1503762,
-   "img": "data/posters/056008305739a764.jpg",
-   "r": 7.3,
+   "r": 0,
    "s": {
     "en": "",
-    "fi": "Isänsä kuoleman jälkeen sisarukset Elinor ja Marianne Dashwood joutuvat jättämään kotinsa ja aloittamaan uuden elämän maaseudulla. He navigoivat seurapiirien tiukkojen odotusten keskellä ja joutuvat samalla vastakkain rakkauden, sydänsurujen ja yhteiskunnallisten normien kanssa. Järjen ja tunteen välillä tasapainoilevat sisarukset etsivät kumpikin omaa tietään rakkauteen ja itsenäisyyteen.",
+    "fi": "",
     "sv": "Jane Austens roman få nytt liv i detta romantiska drama. En ny tolkning av Jane Austens ikoniska roman; en charmig, kvick och djupt relaterbar berättelse om kärlek och systerskap."
    },
-   "tr": "https://www.youtube.com/watch?v=OFLyW0lxFU0",
-   "ts": [
-    "fi"
-   ]
+   "tr": ""
   },
   "sentimental value": {
    "id": 1124566,
@@ -8290,7 +8275,6 @@
   },
   "siri hustvedt dance around the self": {
    "id": 1616153,
-   "img": "data/posters/2db1c745cc30b20f.jpg",
    "r": 0,
    "s": {
     "en": "Siri Hustvedt leaves behind her youth in Minnesota to begin a new life in New York, where the search for the protagonist of her debut novel marks the beginning of a literary journey. Dance Around the Self traces her path to becoming one of the most significant writers of our time. Her journey is shaped by writing, feminist ideas, and an unquenchable curiosity about the human inner world. In this intimate portrait, Hustvedt also reflects on her life with her husband, Paul Auster. The German Film Academy named Dance Around the Self the Best Documentary Film of the Year. With the support of the Creative Europe Programme – MEDIA",
@@ -9635,7 +9619,6 @@
    "img": "data/posters/ef343d1fb55e5d1c.jpg",
    "kr": "K-16",
    "krs": [
-    "kinoaurora",
     "kinomarilyn"
    ],
    "r": 7.4,
@@ -10179,20 +10162,12 @@
   },
   "vi är bäst": {
    "id": 191294,
-   "img": "data/posters/75dd5ef9272601ad.jpg",
-   "kr": "K-7",
-   "krs": [
-    "niagara"
-   ],
-   "r": 7.0,
+   "r": 0,
    "s": {
     "en": "Lukas Moodysson’s (KIMPASSA, LILJA 4-EVER, FUCKING ÅMÅL) coming-of-age film WE’RE THE BEST! is set in Stockholm in 1982. It’s a film about Bobo, Klara, and Hedvig: three 13-year-old girls who hang out on the streets and chat. They’re strong and brave, tough and vulnerable, confused and strange. They have to fend for themselves far too early. Who have to heat up fish sticks in the toaster while their mom is at the bar. Who start a punk band even though they don’t have any instruments—and even though everyone says punk is dead. It’s a movie with lots of music, plenty of humor, and a whole lot of life lessons.",
-    "fi": "Me Ollaan Parhaita! sijoittuu vuoden 1982 Tukholmaan. Se on elokuva Bobosta, Klarasta ja Hedvigistä: kolmesta 13-vuotiaasta tytöstä, jotka vetelehtivät kaduilla ja höpöttävät. Jotka ovat vahvoja ja rohkeita, kovia ja heikkoja ja sekaisin sekä outoja. Joiden täytyy pärjätä itsekseen aivan liian aikaisin. Joiden täytyy lämmittää kalapuikkoja leivänpaahtimessa, kun äiti on baarissa. Jotka perustavat punk-bändin, vaikkei heillä ole soittimia - ja vaikka kaikki sanovat että punk on kuollut. Se on elokuva, jossa on paljon musiikkia, runsaasti huumoria ja roppakaupalla elämäntotuuksia."
+    "fi": ""
    },
-   "tr": "https://www.youtube.com/watch?v=TfPytPjV1xc",
-   "ts": [
-    "fi"
-   ]
+   "tr": ""
   },
   "vi är bäst me ollaan parhaita": {
    "id": 191294,
@@ -10661,16 +10636,11 @@
     "biomarlon",
     "biorex",
     "biorexkokkola",
-    "biosade",
-    "biostara",
     "elokuviin",
     "gilda",
-    "ihmekompleksi",
-    "isohannu",
     "jarvelankino",
     "joutsankino",
     "kino123",
-    "kinoaurora",
     "kinohirvi",
     "kinoiiris",
     "kinokilta",
@@ -10681,7 +10651,6 @@
     "kinomyyri",
     "kinopiispanristi",
     "kinopirtti",
-    "kinoset",
     "kinotar",
     "kinovirta",
     "korjaamo",
