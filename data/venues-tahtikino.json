@@ -1,1 +1,1 @@
-{"generated": "2026-11-12T12:16:17+00:00", "oldest": "2026-11-12T12:16:17+00:00", "status": "ok", "stale": [], "unverified": [], "pending": ["tahtikino-muhos"], "provider": "tahtikino", "venues": [{"id": "tahtikino-muhos", "name": "Tähti Kino", "short": "Tähti Kino", "city": "Muhos"}]}
+{"generated": "2026-11-12T18:15:42+00:00", "oldest": "2026-11-12T18:15:42+00:00", "status": "ok", "stale": [], "unverified": [], "pending": [], "provider": "tahtikino", "venues": [{"id": "tahtikino-muhos", "name": "Tähti Kino", "short": "Tähti Kino", "city": "Muhos"}]}

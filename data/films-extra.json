@@ -1134,6 +1134,19 @@
    },
    "tr": ""
   },
+  "die hard 1988": {
+   "id": 562,
+   "img": "data/posters/76321f149b809fca.jpg",
+   "r": 7.8,
+   "s": {
+    "en": "",
+    "fi": "Korkealla, Los Angelesin kattojen yläpuolella, terroristiryhmä on vallannut pilvenpiirtäjän, ottanut sen työntekijöitä panttivangiksi ja julistaneet sodan. Mutta heiltä on jäänyt yksi ihminen huomaamatta... vapaata viettävä poliisi. Yksin... väsynyt... ja kaikkien ainoa toivo. Hän on New York Cityn etsivä John McClane, joka on hiljattain saapunut kaupunkiin viettämään joulua hänestä etääntyneen vaimonsa kanssa. Mutta McClanen odottaessa vaimon toimistojuhlien päättymistä, terroristit iskevät ja valtaavat rakennuksen. Terroristijohtaja Hans Gruberin ja tämän raa'an kätyrin kootessa panttivankeja McClane onnistuu poistumaan huomaamatta. Aseistettuna ainoastaan virka-aseellaan ja oveluudellaan, McClane alkaa yksinäisen sotansa."
+   },
+   "tr": "https://www.youtube.com/watch?v=4Wi28Vsi_ZU",
+   "ts": [
+    "fi"
+   ]
+  },
   "die hard 2 die harder": {
    "id": 1573,
    "img": "data/posters/d67d87cc68bd6d2d.jpg",
@@ -1149,7 +1162,6 @@
    "img": "data/posters/faa2e1edf2dd940e.jpg",
    "kr": "K-12",
    "krs": [
-    "biorex",
     "gilda",
     "orion"
    ],
@@ -1176,6 +1188,16 @@
    "s": {
     "en": "",
     "fi": "Suleimanin tunnetuin teos on absurdi komedia palestiinalaisten ongelmista miehitysalueella. Rakastavaiset voivat tavata vain hetkittäin israelilaisten tiesululla, koska nainen asuu Ramallahissa ja mies Jerusalemissa. Buster Keatonin oloinen Suleiman tulkitsee itse hykerryttävän pääosan tässä mestariteoksessa, joka näyttää runouden raunioiden keskellä."
+   },
+   "tr": ""
+  },
+  "dokumentti kino colombia in my arms": {
+   "id": 660354,
+   "img": "data/posters/c6be1b31b8e71ea1.jpg",
+   "r": 0,
+   "s": {
+    "en": "Kino Töölön Dokumentti Kinossa palkittu kotimainen dokumentti COLOMBIA IN MY ARMS. Näytöksen jälkeen ohjaajat Jenni Kivistö ja Jussi Rastas keskustelemassa elokuvasta yleisön kanssa. \n\nENGLISH SUBTITLES\n\nLOGLINE\nThe peace agreement between FARC guerrillas and the Colombian Government throws a highly polarized society into chaos. What happens to a fragile peace in an unequal country when doing the 'wrong' thing may easily be justified as the only means of struggle?\n\nSYNOPSIS\nErnesto is one of many FARC guerrillas who dream about a better country worth fighting for, but this time without a weapon. However, the peace agreement — aimed at ending 52 years of armed conflict — throws the polarized society into chaos, with everyone fearing for the future and their own survival. What happens to a fragile peace in an unequal country when doing the 'wrong' thing may easily be justified as the only means of struggle? Colombia in My Arms is an intimate, strong and sincere portrait of people at the extremes of Colombian society. Through the situatio\n\nREVIEWS\n\n\"The directors made an admirable sacrifice for art and documentary film.\" - Tero Kartastenpää / Helsingin Sanomat (Finland)\n\n\"An impressive documentary film far from reportage style, a wide angled visual interpretation, a drama with strong characters. The filmmakers have succeeded in creating a drama as good as any fiction.\" - Tue Steen Müller / Film consultant, critic and former director of the European Documentary Network (Denmark)\n\n “It is a very good film. It was a wonderful cinematic surprise for its power and complexity. It is a film that doesn’t cheapen the situation. It is complex. I particularly like this type of cinema. I prefer cinema that makes me think.” - Luiz Zanin / Film critic / Rede TVT (Brazil) \n\n\"Eloquent and sensitive. Dreamlike quality interrupted by occasional bursts of violence. Balanced glimpse into the consequences of Colombian's much-heralded peace accord.\" - Nick Holdsworth / The European Documentary Magazine (United Kingdom)\n\n “Colombia in My Arms is an important documentary on the current panorama of Colombian society. The filmmakers go straight to the point.” - Jorge Cruz Jr. / Apostila de Cinema (Brazil)",
+    "fi": ""
    },
    "tr": ""
   },
@@ -1824,7 +1846,6 @@
     "kinokonepaja",
     "kinoolympia",
     "kinopirtti",
-    "kinotar",
     "kotkanleffat",
     "savonkinot"
    ],
@@ -3229,6 +3250,76 @@
    },
    "tr": "https://www.youtube.com/watch?v=iUpszeSB7k4"
   },
+  "kerro kaikille elokuvanäytös": {
+   "id": 1304530,
+   "img": "data/posters/133d5c0758982817.jpg",
+   "kr": "K-12",
+   "krs": [
+    "bioforum",
+    "biogrand",
+    "biopallas",
+    "biorex",
+    "biorexkokkola",
+    "biosade",
+    "biosalo",
+    "biostara",
+    "biovuoksi",
+    "cinemantsala",
+    "elokuviin",
+    "engel",
+    "gilda",
+    "haapamaki",
+    "helios",
+    "isohannu",
+    "kino123",
+    "kinoakseli",
+    "kinoaurora",
+    "kinohirvi",
+    "kinoiiris",
+    "kinojuha",
+    "kinokilta",
+    "kinokonepaja",
+    "kinolaika",
+    "kinolumo",
+    "kinometso",
+    "kinomyyri",
+    "kinopiispanristi",
+    "kinopirtti",
+    "kinosampo",
+    "kinoset",
+    "kinotervakoski",
+    "kinovirta",
+    "kirkkonummi",
+    "kisakino",
+    "kkino",
+    "kotkanleffat",
+    "kuvakukko",
+    "kuvatahti",
+    "leffabuumi",
+    "marita",
+    "niagara",
+    "orion",
+    "pajakkakino",
+    "regina",
+    "savonkinot",
+    "star",
+    "studio123jarvenpaa",
+    "studio123kouvola",
+    "tapiola",
+    "vaakuna",
+    "vihdinkino",
+    "virtainpirtti"
+   ],
+   "r": 0,
+   "s": {
+    "en": "",
+    "fi": "Amanda Aaltonen kieltäytyy alistumasta hänelle varattuun köyhän naisen ankeaan kohtaloon ja etsii huimapäisesti onneaan maailmalta. Rangaistukseksi sääntöjen rikkomisesta yhteiskunta anastaa häneltä kaikkein tärkeimmän, vapauden, ja sulkee hänet Seilin saarelle."
+   },
+   "tr": "https://www.youtube.com/watch?v=iUpszeSB7k4",
+   "ts": [
+    "fi"
+   ]
+  },
   "kerro kaikille kahvi ja kino": {
    "id": 1304530,
    "r": 0,
@@ -4423,8 +4514,7 @@
     "gilda",
     "kinoaurora",
     "kinokilta",
-    "orion",
-    "tapiola"
+    "orion"
    ],
    "r": 8.1,
    "s": {
@@ -4435,16 +4525,12 @@
   },
   "la bola negra ennakkonäytös": {
    "id": 1422041,
-   "img": "data/posters/a916af8ace1a0515.jpg",
-   "r": 8.0,
+   "r": 0,
    "s": {
-    "en": "The intertwined lives of three men in three different eras, three lives intimately linked by sexuality and desire, pain, and legacy.",
+    "en": "",
     "fi": "Espoo Ciné suosittelee -ennakkonäytös tarjoilee isoksi puheenaiheeksi Oscar-veikkauksissakin nousseen La bola negran! Cannesin pääkilpasarjan parhaan ohjauksen palkinnon voittanut La bola negra on kansainvälisen lehdistön mukaan ”vaikuttava”, ”tyrmäävä”, ”kautta aikojen tärkein historiallinen queer-kuvaelma”. Elokuvan taustalla on Espanjan sisällissodassa teloitetun runoilijan Federico García Lorcan hahmo ja hänen keskeneräiseksi jäänyt romaaninsa. Tarinassa kuvataan kolmen homoseksuaalin kohtaloita vuosina 1932, 1937 ja 2017. Yhteen nivoutuvat sota, kielletty halu, suru, syyllisyys ja vaietut perhesalaisuudet. Javier Calvon ja Javier Ambrossin ohjaaman elokuvan rooleissa vakuuttavat sekä nuoret gay-näyttelijät (mm. laulaja Guitarricadelafuente) että veteraanitähdet Lola Dueñas, Glenn Close ja Pénelope Cruz."
    },
-   "tr": "https://www.youtube.com/watch?v=lBVxKt0gKDY",
-   "ts": [
-    "en"
-   ]
+   "tr": ""
   },
   "la grazia": {
    "id": 1397364,
@@ -4503,6 +4589,19 @@
     "fi": "Elokuvan tapahtumat sijoittuvat Lappiin syksyllä 1944, Suomen ja Saksan väliseen konfliktiin toisen maailmansodan loppuvaiheessa. Nuori sotamies Heikki taistelee Karjalan kannaksella ystävänsä Paulin kanssa. Komppaniaan liittyy vankilasta vapautunut Arvo, jonka maailmankuva haastaa muiden käsitykset sodasta ja velvollisuudesta. Aselepo herättää toivon kotiinpaluusta, mutta pian selviää, että Suomen on käännyttävä entisiä saksalaisia liittolaisiaan vastaan Lapissa. Samaan aikaan Rovaniemellä saksalaisten tulkkina työskentelevä Saara joutuu valitsemaan tulevaisuutensa: jäädä Suomeen vai paeta Saksaan rakastettunsa, majuri Duisbergin, kanssa. Lapin sota on vahvasti hahmojensa inhimillisiin kokemuksiin nojaava kertomus ihmisistä, jotka ajautuvat historiallisten mullistusten keskelle. Sodan kauheuksien keskeltä he etsivät merkitystä, inhimillisyyttä ja anteeksiantoa – ja kysyvät, miten armottomassa ympäristössä voidaan löytää armollisuutta."
    },
    "tr": ""
+  },
+  "lapin sota elokuvanäytös": {
+   "id": 1450460,
+   "img": "data/posters/c15d678a31ae397e.jpg",
+   "r": 0,
+   "s": {
+    "en": "",
+    "fi": "Nuori sotamies Heikki taistelee Karjalan kannaksella ystävänsä Paulin kanssa. Komppaniaan liittyy vankilasta vapautunut Arvo, jonka maailmankuva haastaa muiden käsitykset sodasta ja velvollisuudesta. Aselepo herättää toivon kotiinpaluusta, mutta pian selviää, että Suomen on käännyttävä entisiä saksalaisia liittolaisiaan vastaan Lapissa. Samaan aikaan Rovaniemellä saksalaisten tulkkina työskentelevä Saara joutuu valitsemaan tulevaisuutensa: jäädä Suomeen vai paeta Saksaan rakastettunsa, majuri Duisbergin, kanssa."
+   },
+   "tr": "",
+   "ts": [
+    "fi"
+   ]
   },
   "lapin sota englanninkielinen tekstitys": {
    "id": 1450460,
@@ -4620,7 +4719,6 @@
     "kino123",
     "kinoelo",
     "kinohirvi",
-    "kinojuha",
     "kinolaika",
     "kinolumo",
     "kinomania",
@@ -5363,12 +5461,9 @@
     "kinokilta",
     "kinokonepaja",
     "kinolaika",
-    "kinolumo",
     "kinomarilyn",
-    "kinopiispanristi",
     "kinopirtti",
-    "niagara",
-    "star"
+    "niagara"
    ],
    "r": 0,
    "s": {
@@ -5385,19 +5480,6 @@
     "fi": "Perjantaina 30.10.2026 saapuu teattereihin Liisa Akimofin pienelokuva Riikka Purrasta ja persuista: Minä ja Riikka Purra. Tätä elokuvaa ei ole odotettu. ”Motiivini Minä ja Riikka Purra -dokkarin tekemiseen oli uteliaisuus” Muusikkona ja tuottajana tunnetuksi tullut käsikirjoittaja-ohjaaja kertoo. ”Tajusin, etten tunne yhtäkään persua enkä ymmärrä heidän järjenjuoksuaan. Halusin ottaa selvää!” Akimof hommasi kameran ja pyöri Purran ja persujen maailmassa puoli vuotta elokuusta 2025 alkaen. Lopputuloksena syntyi vauhdikas, jopa hauska DIY-dokkari, jossa idealistinen vihervassari hämmästelee politiikan tekemisen arkea ampumaradalla, eduskunnassa, Brysselissä, turuilla ja toreilla. Elokuva syöksyy kriisistä toiseen ja kuulee myös antifasisteja, vassareita ja yksinäistä sivistysporvaria. Median graindaamiselle annetaan kasvot. ”Dokkari ei ole ”viipyilevä”, Akimof nauraa. ”Halusin tehdä leffan, jonka jengi jaksaisi katsoa. Dokkarini sinisilmäisenä pyrkimyksenä on vähentää lynkkausmeininkiä. On erittäin ok väitellä asioista, mutta toinen toistensa kaasukammioihin toivottaminen ei ole ok.” Minä ja Riikka Purra -elokuvan keskeisiä henkilöitä ovat valtiovarainministeri Purran lisäksi valtiosihteeri Riikka Slunga-Poutsalo, spin doctor Matias Turkkila ja kansanedustaja Anna Kontula. Elokuvassa seikkailevat myös mm. sisäministeri Mari, pääministeri Petteri, RKP:n Anders eli Antero ja koko joukko kansanedustajia ja rivikansalaisia."
    },
    "tr": ""
-  },
-  "minä ja riikka purra tekijävierailulla": {
-   "id": 1789735,
-   "img": "data/posters/00ba33a99fa0e923.jpg",
-   "r": 0,
-   "s": {
-    "en": "",
-    "fi": "Liisa Akimofin pienelokuva Riikka Purrasta ja persuista. Akimof hommasi kameran ja pyöri Purran ja persujen maailmassa puoli vuotta elokuusta 2025 alkaen. Lopputuloksena syntyi vauhdikas, jopa hauska DIY-dokkari, jossa idealistinen vihervassari hämmästelee politiikan tekemisen arkea ampumaradalla, eduskunnassa, Brysselissä, turuilla ja toreilla. Elokuva syöksyy kriisistä toiseen ja kuulee myös antifasisteja, vassareita ja yksinäistä sivistysporvaria. Median graindaamiselle annetaan kasvot."
-   },
-   "tr": "",
-   "ts": [
-    "fi"
-   ]
   },
   "montreal ma belle": {
    "r": 0,
@@ -5830,7 +5912,6 @@
     "gilda",
     "haapamaki",
     "ihmekompleksi",
-    "isohannu",
     "jarvelankino",
     "kino123",
     "kinoelo",
@@ -6798,7 +6879,6 @@
     "kino123",
     "kinolumo",
     "kinopiispanristi",
-    "kinopirtti",
     "kotkanleffat",
     "kuvatahti",
     "laitilankino",
@@ -6825,7 +6905,6 @@
   },
   "pirjo i sverige neulekino": {
    "id": 1729175,
-   "img": "data/posters/a8cdd21dca604433.jpg",
    "r": 0,
    "s": {
     "en": "",
@@ -8133,16 +8212,12 @@
   },
   "se oli pelkkä sattuma": {
    "id": 1456349,
-   "img": "data/posters/63f9c6488985f762.jpg",
-   "r": 7.2,
+   "r": 0,
    "s": {
-    "en": "An unassuming mechanic is reminded of his time in an Iranian prison when he encounters a man he suspects to be his sadistic jailhouse captor.",
+    "en": "",
     "fi": "Cannesissa Kultaisen palmun voittanut iranilaisohjaaja Jafar Panahin Se oli pelkkä satuma (englanninkielinen nimi It Was Just an Accident ) on intensiivinen ja ajatuksia herättävä kostotarina joukosta ihmisistä, jotka saavat sattumalta tilaisuuden kostaa kiduttajalleen. Sattuma käynnistää odottamattoman, paikoin jopa humoristisen tapahtumaketjun. Ryhmä ei kuitenkaan ole varma, onko heidän käsissään sittenkään oikea henkilö. Elokuvan ydin pureutuu eettiseen kysymykseen: voiko koston tavoittelu oikeuttaa turvautumisen samoihin menetelmiin – sieppaukseen ja kidutukseen – joita sortaja itse on käyttänyt?"
    },
-   "tr": "https://www.youtube.com/watch?v=9oHw2ubyWE4",
-   "ts": [
-    "en"
-   ]
+   "tr": ""
   },
   "seatapp": {
    "id": 1729182,
@@ -8649,16 +8724,12 @@
   },
   "så länge hjärtat slår": {
    "id": 1292041,
-   "img": "data/posters/c0160c5958b1fc2f.jpg",
    "r": 0,
    "s": {
-    "en": "In the spring of 2020, when the Coronavirus pandemic paralyzed all of Sweden, employees at a nursing home are forced to experience how the infection finds its way in, and the situation becomes increasingly desperate. Care assistant Hanne finds herself in a difficult dilemma.",
+    "en": "",
     "fi": "Hanne työskentelee vanhusten hoivakodissa, kun etäisyydestä, epävarmuudesta ja kasvomaskeista tulee kaikkien arkipäivää maaliskuussa 2020. Kun puutteelliset turvallisuuskäytännöt ja kotitekoiset visiirit johtavat potilaiden hengenvaaraan, Hanne asettuu vastakkain ongelmat maton alle lakaisevan johdon kanssa. Hän tietää vaarantavansa työnsä, ystävyyssuhteensa ja muiden luottamuksen, mutta päättää viedä asian julkisuuteen. Edessä on vaikea valinta: vaieta tai lähteä."
    },
-   "tr": "",
-   "ts": [
-    "en"
-   ]
+   "tr": ""
   },
   "tabu": {
    "id": 977,
@@ -9166,6 +9237,19 @@
     "fi": "Ylistettyjä säveltäjämuotokuvia televisioon BBC:lle ohjannut Ken Russell pääsi uransa huipulla jatkamaan lempiaiheidensa parissa valkokankaalla. Pjotr Tšaikovskin (Richard Chamberlain) keskeisiin vuosiin 1874–76 sijoittuva pakahduttava melodraama etenee takaumien, painajaisten ja fantasiajaksojen kautta. Russell varmisti United Artistsin rahoituksen kuvailemalla elokuvan tarinaksi homoseksuaalista, joka rakastuu nymfomaaniin."
    },
    "tr": ""
+  },
+  "the nightmare before christmas 1993": {
+   "id": 9479,
+   "img": "data/posters/668dac472165ce3b.jpg",
+   "r": 7.9,
+   "s": {
+    "en": "",
+    "fi": "Painajainen ennen joulua (suomeksi myös Tim Burtonin painajainen ennen joulua, Tim Burton's The Nightmare Before Christmas) on vuonna 1993 julkaistu yhdysvaltalainen stop motion-animaatio- sekä fantasiaelokuva. Elokuvan hahmot, tarinan ja maailman on luonut Tim Burton, joka myös toimi toisena tuottajana. Ohjauksesta vastasi Henry Selick."
+   },
+   "tr": "https://www.youtube.com/watch?v=IoYahD_xNR0",
+   "ts": [
+    "fi"
+   ]
   },
   "the odyssey": {
    "id": 1368337,
@@ -10489,14 +10573,12 @@
     "gilda",
     "helios",
     "isohannu",
-    "kino123",
     "kinoakseli",
     "kinoiiris",
     "kinojuha",
     "kinokilta",
     "kinokonepaja",
     "kinolumo",
-    "kinomarilyn",
     "kinomyyri",
     "kinoolympia",
     "kinopiispanristi",
@@ -10645,7 +10727,6 @@
    "img": "data/posters/d0630be5ff40e993.jpg",
    "kr": "K-16",
    "krs": [
-    "biogrand",
     "biomarlon",
     "biorex",
     "biorexkokkola",
@@ -10655,20 +10736,15 @@
     "joutsankino",
     "kino123",
     "kinohirvi",
-    "kinoiiris",
     "kinokilta",
     "kinokonepaja",
     "kinokulma",
     "kinolumo",
     "kinomarilyn",
-    "kinomyyri",
-    "kinopiispanristi",
     "kinopirtti",
-    "kinotar",
     "kinovirta",
     "korjaamo",
     "kotkanleffat",
-    "kurikankino",
     "laitilankino",
     "leffabuumi",
     "niagara",
