@@ -1237,12 +1237,14 @@
    ]
   },
   "dry leaf": {
+   "id": 1057888,
+   "img": "data/posters/39d7be390311b523.jpg",
    "r": 0,
    "s": {
     "en": "“A rebuke to the excessive sharpness and sterility of high-definition video and the maximalism of so much contemporary cinema.” Imogen Sara Smith, Film Comment",
     "fi": "Keski-ikäinen mies, Irakli, lähtee etsimään kadonnutta valokuvaajatytärtään Lisaa näkymättömän ystävän kanssa. Heidän ainoa johtolankansa on kierrellä syrjäseutujen jalkapallokenttiä, joita tytär on kuvannut."
    },
-   "tr": ""
+   "tr": "https://www.youtube.com/watch?v=nx1D3hVbMgc"
   },
   "dua": {
    "id": 1472825,
@@ -2013,7 +2015,7 @@
   "heart of the beast": {
    "id": 1263337,
    "img": "data/posters/980bb19ce751c44c.jpg",
-   "r": 7.3,
+   "r": 7.5,
    "s": {
     "en": "After a harrowing plane crash, Special Forces officer James Belmont and his combat dog, Odin, find themselves stranded deep in the Alaskan wilderness. Together, they are forced into a brutal fight for survival against the elements.",
     "fi": "Jouduttuaan vakavaan lentokoneonnettomuuteen entinen erikoisjoukkojen upseeri James Belmont (Brad Pitt) ja hänen taistelukoiransa Odin jäävät eristyksiin syvälle Alaskan erämaahan. Yhdessä he joutuvat armottomaan selviytymiskamppailuun luonnonvoimia vastaan. Maineikkaan ohjaaja David Ayerin Heart of the Beast on intensiivinen seikkailutrilleri, joka tutkii miehen ja hänen parhaan ystävänsä murtumatonta sidettä heidän kohdatessaan tähänastisen elämänsä suurimman taistelun.",
@@ -4275,6 +4277,7 @@
   },
   "kyllä isä osaa espanjassa": {
    "id": 1767503,
+   "img": "data/posters/f757537641360cd7.jpg",
    "kr": "S",
    "krs": [
     "kinometso"
@@ -10124,14 +10127,6 @@
   "verityn varjo": {
    "id": 1283515,
    "img": "data/posters/4a690568fa372cff.jpg",
-   "kr": "K-12",
-   "krs": [
-    "biorex",
-    "gilda",
-    "isohannu",
-    "levisummit",
-    "savonkinot"
-   ],
    "r": 7.0,
    "s": {
     "en": "Lowen Ashleigh, hired to ghostwrite for best-selling author Verity Crawford, uncovers Verity's autobiographical notes, and becomes involved in what may prove to be a lethal conspiracy.",
@@ -10703,5 +10698,5 @@
    "tr": ""
   }
  },
- "generated": "2026-11-11"
+ "generated": "2026-11-12"
 }
