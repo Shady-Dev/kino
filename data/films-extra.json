@@ -2758,6 +2758,14 @@
    },
    "tr": ""
   },
+  "joulupukin salainen paja puhumme suomea": {
+   "r": 0,
+   "s": {
+    "en": "",
+    "fi": "Yhdeksänvuotias Mari herää keskellä yötä ja huomaa jonkun käyneen huoneessaan. Ainoa johtolanka öisestä vierailijasta on huoneeseen unohtunut tontun lapanen. Mari, isoäiti ja hyvin epäileväinen isä päätyvät yhdessä seikkailuntäyteiselle matkalle etsimään joulupukkia, mutta lapasen omistaja tekee kaikkensa pysäyttääkseen heidät. Joulupukin salainen paja ei saa paljastua – se olisi katastrofi! JOULUPUKIN SALAINEN PAJA elokuvateattereissa 13.11. kautta maan!"
+   },
+   "tr": ""
+  },
   "joulupukin salainen paja suomeksi": {
    "r": 0,
    "s": {
@@ -2771,6 +2779,14 @@
    "s": {
     "en": "",
     "fi": "Yhdeksänvuotias Mari herää keskellä yötä ja huomaa jonkun käyneen huoneessaan. Ainoa johtolanka öisestä vierailijasta on huoneeseen unohtunut tontun lapanen."
+   },
+   "tr": ""
+  },
+  "joulupukin salainen paja vi talar svenska": {
+   "r": 0,
+   "s": {
+    "en": "",
+    "fi": "Yhdeksänvuotias Mari herää keskellä yötä ja huomaa jonkun käyneen huoneessaan. Ainoa johtolanka öisestä vierailijasta on huoneeseen unohtunut tontun lapanen. Mari, isoäiti ja hyvin epäileväinen isä päätyvät yhdessä seikkailuntäyteiselle matkalle etsimään joulupukkia, mutta lapasen omistaja tekee kaikkensa pysäyttääkseen heidät. Joulupukin salainen paja ei saa paljastua – se olisi katastrofi! JOULUPUKIN SALAINEN PAJA elokuvateattereissa 13.11. kautta maan!"
    },
    "tr": ""
   },
@@ -3129,16 +3145,12 @@
   },
   "kenraali": {
    "id": 961,
-   "img": "data/posters/7b61b03169190e07.jpg",
-   "r": 7.9,
+   "r": 0,
    "s": {
-    "en": "During America’s Civil War, Union spies steal engineer Johnnie Gray's beloved locomotive, 'The General'—with Johnnie's lady love aboard an attached boxcar—and he single-handedly must do all in his power to both get The General back and to rescue Annabelle.",
+    "en": "",
     "fi": "Turun elokuvakerhon syyssarjan aloittaa 100-vuotispäiviään juhlistava mykkäelokuvaklassikko Kenraali (1926). Samana vuonna Buster Keaton juhli myös toisen elokuvan Rakkaus ja romahdus ensi-iltaa ja Kenraali sijoittuukin keskelle mykkäelokuvan kultakautta. Äänielokuvat antoivat vielä odottaa itseään ja elokuvat kukoistivat täynnä kekseliästä kuvakerrontaa ja sulavaa liikettä, jotka hävisivät elokuvallisesta ilmaisusta vuosiksi äänikaluston raskauden mukana. Laiva-Kalle nuorempi (1928) ja Kameramies (1928) seurasivat Kenraalia, mutta sisällissotaan sijoittuva komedia on Keatonin filmografiastaan se, joka erityisesti nostetaan hänen elokuvistaan esille. Johnny Grayn (Buster Keaton) elämässä on kaksi rakkautta: Kenraali niminen höyryjuna koneistoineen ja Annabelle (Marion Mack). Sisällissodan syttyessä ei junainsinöörin anneta listautua muiden miesten mukana, mutta selitykset eivät kelpaa Annabellelle, joka epäilee miestä pelkuriksi. Kohtalokkaalla junamatkalla Johnnyn kummatkin rakkaudet kidnapataan ja niin alkaa yli vihollislinjojen kulkeva takaa-ajo. Johnnyn pyyhältäessä epäröimättä läpi sotatantereiden, nousee vakavan historian ja sen läpi rämpivän pienen yksilön ristiriita koomisiin mittasuhteisiin. Sodan hulluus on hieman absurdi tausta, johon Johnnyllä ei ole aikaa perehtyä. Hän onnistuu elokuvassa toimimaan rintamalinjojen takana liki puolueettomana miehenä, joka on valmis rakkauden takia tekemään mitä vain, jotta saa rakkaansa turvallisesti kotiin. Tapahtumat pohjautuvat todelliseen junaryöstöön vuonna 1862, milloin pohjoisvaltioiden joukot ryöstivät etelävaltioiden Kenraali-junan. Suurena junaintoilijana tunnettu Keaton pyrki mahdollisimman lähelle tapahtumien todellisuutta kuvatessaan elokuvan mittavia junastuntteja, jotka huipentuvat yksiin mykkäelokuvahistorian kalleimmista minuuteista. Kenraali on täynnä tinkimätöntä epookkia, kunnianhimoisia stuntteja ja huimia takaa-ajokohtauksia. Kivikasvoinen Buster Keaton pääsee näyttämään akrobaattista lahjakkuuttaan ja uskomatonta koomista ajoitustaan vaarallisissa stunteissa. Aikalaisyleisöt ottivat elokuvan vakavan aiheensa takia ristiriitaisesti vastaan, mutta sen humoristisen otteen arvostajat ovat löytäneet elokuvan ja nostaneet sen klassikkojen joukkoon."
    },
-   "tr": "https://www.youtube.com/watch?v=eEVWb9NcSuY",
-   "ts": [
-    "en"
-   ]
+   "tr": ""
   },
   "kerro kaikille": {
    "id": 1304530,
@@ -10321,6 +10333,7 @@
     "gilda",
     "helios",
     "ihmekompleksi",
+    "jarvelankino",
     "joutsankino",
     "julia",
     "kinoakseli",
@@ -10403,6 +10416,7 @@
     "gilda",
     "helios",
     "ihmekompleksi",
+    "jarvelankino",
     "joutsankino",
     "julia",
     "kinoakseli",
@@ -10593,6 +10607,10 @@
   "you can see everything": {
    "id": 1765072,
    "img": "data/posters/650c789b1581e9b9.jpg",
+   "kr": "S",
+   "krs": [
+    "cinemantsala"
+   ],
    "r": 8.9,
    "s": {
     "en": "Thirty-four days before she’s sent to prison, notorious Silicon Valley founder Elizabeth Holmes invites a skeptical film crew to document her every move. What begins as an intimate portrait of an enigmatic felon becomes a mind-bending three-year journey into the abyss. From boundary-pushing directors Nathan Fielder and Lance Oppenheim comes You Can See Everything.",

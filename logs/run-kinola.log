@@ -1,11 +1,11 @@
-[kinokilta] 68 screening(s) listed, 48 film page(s) read
+[kinokilta] 64 screening(s) listed, 47 film page(s) read
 [kinokilta] omitted 0 confirmed non-film(s) by evidence-backed exclusion over 0 screening(s), and 0 unresolved over 0
 [kinokilta] override retkikino-2026: active
 [kinokilta] 7 synopsis/synopses withheld, no language settled: Combat Shock, Cruising, Never After Dark, RetkiKino 2026, The Hills Have Eyes, The Hunger, Tumma kristalli - The Dark Crystal
 [kinokilta] 8 film(s) with a language name not read, that part left blank: Alligator (Ei teksitystä); Combat Shock (Ei teksitystä); IKIOMAT 6 (Useita); Joysticks (Ei teksitystä); Kuzma (ukraina, Ei teksitystä); Prom Night (Ei teksitystä); Savage Dawn (Ei teksitystä); The Devils (Ei teksitystä)
-[kinokilta] Kino Kilta: 68 showtimes, 28 dates
+[kinokilta] Kino Kilta: 64 showtimes, 27 dates
 [kinokilta] strand prefix split off 2 showtimes
-[kinokilta] Kino Kilta: 68 showtimes, 28 dates
+[kinokilta] Kino Kilta: 64 showtimes, 27 dates
 [kinokilta] synopses merged: 0
 [kinolaika] 44 screening(s) listed, 26 film page(s) read
 [kinolaika] omitted 0 confirmed non-film(s) by evidence-backed exclusion over 0 screening(s), and 12 unresolved over 12
@@ -19,14 +19,14 @@
 [kinolaika] Kino Laika: 32 showtimes, 11 dates
 [kinolaika] synopses merged: 0
 [kinolaika] synopses skipped as screening notes: 1
-[kinomyyri] 31 screening(s) listed, 22 film page(s) read
+[kinomyyri] 32 screening(s) listed, 23 film page(s) read
 [kinomyyri] omitted 0 confirmed non-film(s) by evidence-backed exclusion over 0 screening(s), and 1 unresolved over 1
 [kinomyyri] unresolved: Minä ja Riikka Purra
 [kinomyyri] override kojootti-vs-acme-dub: evidence-unavailable
 [kinomyyri] override must-pori-nakku: evidence-unavailable
 [kinomyyri] 4 film(s) with a language name not read, that part left blank: Berliinin sankari (saksan); Lapin sota (saami); Me olemme Pariisin orkesteri (ranskan); Nina Roza (ranskan, bulgarialainen)
-[kinomyyri] Kino Myyri: 30 showtimes, 15 dates
-[kinomyyri] Kino Myyri: 30 showtimes, 15 dates
+[kinomyyri] Kino Myyri: 31 showtimes, 15 dates
+[kinomyyri] Kino Myyri: 31 showtimes, 15 dates
 [kinomyyri] synopses merged: 0
 [kinokonepaja] 60 screening(s) listed, 20 film page(s) read
 [kinokonepaja] omitted 0 confirmed non-film(s) by evidence-backed exclusion over 0 screening(s), and 3 unresolved over 3
@@ -38,8 +38,8 @@
 [kinokonepaja] Kino Konepaja: 57 showtimes, 29 dates
 [kinokonepaja] Kino Konepaja: 57 showtimes, 29 dates
 [kinokonepaja] synopses merged: 0
-[run] http: 49 revalidated (304), 71 full, 24 not stored (origin said no-store), 0 cache entries written
+[run] http: 0 revalidated (304), 120 full, 25 not stored (origin said no-store), 48 cache entries written
 [run] hosts: 4 attempted -- kinokonepaja.fi, kinomyyri.fi, www.kinokilta.fi, www.kinolaika.fi
-[run] kinola: 4 venues, 187 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
-[run] timing: 4 site(s), 228.5s of fetching added up across workers that overlap, longest site 77.3s, longest queue wait 111.9s, 77.3s wall from this module's first fetch starting to its last ending
+[run] kinola: 4 venues, 184 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
+[run] timing: 4 site(s), 225.6s of fetching added up across workers that overlap, longest site 85.4s, longest queue wait 99.4s, 85.4s wall from this module's first fetch starting to its last ending
 exit=0
