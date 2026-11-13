@@ -50,7 +50,7 @@
  },
  "hirtettyjen-kettujen-metsa": {
   "price": "",
-  "at": "2026-11-11T12:15:29+00:00",
+  "at": "2026-11-13T17:56:34+00:00",
   "fields": {
    "lang": "FI-A",
    "len": "93",
@@ -61,7 +61,7 @@
  },
  "jarki-ja-tunteet": {
   "price": "",
-  "at": "2026-11-11T12:15:29+00:00",
+  "at": "2026-11-13T17:56:34+00:00",
   "fields": {
    "lang": "EN-A, FI-S, SV-S",
    "len": "131",
@@ -85,7 +85,7 @@
  },
  "kinokonsertti-moana-auringon-poika": {
   "price": "",
-  "at": "2026-11-11T12:15:29+00:00",
+  "at": "2026-11-13T17:56:34+00:00",
   "fields": {
    "lang": "EN-A, EN-S",
    "len": "98",
@@ -134,7 +134,7 @@
  },
  "lapin-sota": {
   "price": "",
-  "at": "2026-11-11T12:15:29+00:00",
+  "at": "2026-11-13T17:56:34+00:00",
   "fields": {
    "lang": "FI-A, FI-S, SV-S",
    "len": "158",
@@ -157,7 +157,7 @@
  },
  "mannerlaatta": {
   "price": "",
-  "at": "2026-11-11T12:15:29+00:00",
+  "at": "2026-11-13T17:56:34+00:00",
   "fields": {
    "lang": "FI-A",
    "len": "74",
@@ -203,7 +203,7 @@
  },
  "spider-man-brand-new-day": {
   "price": "",
-  "at": "2026-11-11T12:15:29+00:00",
+  "at": "2026-11-13T17:56:34+00:00",
   "fields": {
    "lang": "EN-A, FI-S, SV-S",
    "len": "145",
@@ -214,7 +214,7 @@
  },
  "talvitarina": {
   "price": "",
-  "at": "2026-11-11T12:15:29+00:00",
+  "at": "2026-11-13T17:56:34+00:00",
   "fields": {
    "lang": "FR-A, EN-S",
    "len": "115",
@@ -239,7 +239,7 @@
  },
  "vuono": {
   "price": "",
-  "at": "2026-11-11T12:15:29+00:00",
+  "at": "2026-11-13T17:56:34+00:00",
   "fields": {
    "lang": "NO-A, RO-A, EN-A, EN-S",
    "len": "146",
@@ -288,10 +288,11 @@
  },
  "you-can-see-everything": {
   "price": "",
-  "at": "2026-11-11T12:15:29+00:00",
+  "at": "2026-11-13T17:56:34+00:00",
   "fields": {
    "lang": "EN-A, FI-S, SV-S",
    "len": "175",
+   "rating": "S",
    "year": "2026",
    "syn_fi": "Kolmekymmentäneljä päivää ennen vankilaan joutumistaan pahamaineinen Piilaakson yritysperustaja Elizabeth Holmes kutsuu skeptisen kuvausryhmän dokumentoimaan jokaista liikettään. Arvoituksellisen rikollisen intiimistä muotokuvasta alkaa vähitellen muotoutua tajunnanräjäyttävä, kolme vuotta kestävä matka syvyyksiin. Rajoja rikkovien ohjaajien Nathan Fielderin ja Lance Oppenheimin käsialaa oleva You Can See Everything vie katsojan matkalle, jolla mikään ei ole sitä, miltä näyttää.",
    "syn_en": "Thirty-four days before she’s sent to prison, notorious Silicon Valley founder Elizabeth Holmes invites a skeptical film crew to document her every move. What begins as an intimate portrait of an enigmatic felon becomes a mind-bending three-year journey into the abyss. From boundary-pushing directors Nathan Fielder and Lance Oppenheim comes You Can See Everything."

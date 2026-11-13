@@ -2356,26 +2356,6 @@
   "how to rob a bank": {
    "id": 1437511,
    "img": "data/posters/8b1166ae143c79d4.jpg",
-   "kr": "K-16",
-   "krs": [
-    "biomarilyn",
-    "biorex",
-    "biorexkokkola",
-    "biosavoy",
-    "cinemantsala",
-    "ihmekompleksi",
-    "isohannu",
-    "kino123",
-    "kinojuha",
-    "kinolumo",
-    "kinomarilyn",
-    "kinopiispanristi",
-    "kinopirtti",
-    "kinotar",
-    "kotkanleffat",
-    "leffabuumi",
-    "star"
-   ],
    "r": 0,
    "s": {
     "en": "A crew of social media-savvy bank robbers broadcasts their daring heists, unaware that their growing viral fame has put them in the crosshairs of a veteran FBI agent and a brilliant software engineer. Despite the unlikely duo closing in, the crime ring pushes past their limits, putting everything on the line for their most ambitious heist yet.",
@@ -2939,6 +2919,19 @@
    },
    "tr": ""
   },
+  "jääkärin morsian 1931": {
+   "id": 680487,
+   "img": "data/posters/c8da899025a50b34.jpg",
+   "r": 0,
+   "s": {
+    "en": "",
+    "fi": "Jääkärikorpraali Martin ja varsovalaisen balettitytön Sabinan tiet kohtaavat Libaussa. Sabina tanssii tiensä suomalaisjääkärin sydämeen, mutta nuoret joutuvat erilleen, kun jääkäripataljoona hälytetään rintamalle. Häikäilemätön parooni von Lichtenstein tahtoo Sabinan itselleen keinoja kaihtamatta."
+   },
+   "tr": "",
+   "ts": [
+    "fi"
+   ]
+  },
   "kaasuvalo": {
    "id": 13528,
    "r": 0,
@@ -3193,7 +3186,6 @@
     "biosade",
     "biosalo",
     "biostara",
-    "biovuoksi",
     "cinemantsala",
     "elokuviin",
     "engel",
@@ -3226,7 +3218,6 @@
     "kuvakukko",
     "kuvatahti",
     "leffabuumi",
-    "marita",
     "niagara",
     "orion",
     "pajakkakino",
@@ -3269,7 +3260,6 @@
     "biosade",
     "biosalo",
     "biostara",
-    "biovuoksi",
     "cinemantsala",
     "elokuviin",
     "engel",
@@ -3302,7 +3292,6 @@
     "kuvakukko",
     "kuvatahti",
     "leffabuumi",
-    "marita",
     "niagara",
     "orion",
     "pajakkakino",
@@ -5936,6 +5925,7 @@
     "kinotoijala",
     "kisakino",
     "kotkanleffat",
+    "kuvakukko",
     "leffabuumi",
     "levisummit",
     "savonkinot",
@@ -6747,6 +6737,7 @@
     "kinotervakoski",
     "korjaamo",
     "kotkanleffat",
+    "kuvakukko",
     "savonkinot",
     "star",
     "studio123jarvenpaa",
@@ -6789,7 +6780,6 @@
   },
   "pikkuli ja tähtipeura på svenska": {
    "id": 1403476,
-   "img": "data/posters/79b249e47f0870db.jpg",
    "r": 0,
    "s": {
     "en": "",
@@ -6833,6 +6823,7 @@
     "kinotervakoski",
     "korjaamo",
     "kotkanleffat",
+    "kuvakukko",
     "savonkinot",
     "star",
     "studio123jarvenpaa",
@@ -6885,7 +6876,6 @@
     "kinolumo",
     "kinopiispanristi",
     "kotkanleffat",
-    "kuvatahti",
     "laitilankino",
     "leffabuumi",
     "marita",
@@ -7238,7 +7228,8 @@
     "kinokilta",
     "kinokulma",
     "kinolaika",
-    "kinomarilyn"
+    "kinomarilyn",
+    "kuvakukko"
    ],
    "r": 0,
    "s": {
@@ -8200,7 +8191,6 @@
   },
   "scene": {
    "id": 1402181,
-   "img": "data/posters/21508a0cc30f9304.jpg",
    "r": 0,
    "s": {
     "en": "Inbaraj, a police officer finds himself drawn back into an old case he once left behind. The case brings new challenges and complications. The story follows how Inbaraj takes up the case once again and fights to uncover the truth.",
@@ -10674,8 +10664,10 @@
    "img": "data/posters/650c789b1581e9b9.jpg",
    "kr": "S",
    "krs": [
+    "biorex",
     "cinemantsala",
-    "niagara"
+    "niagara",
+    "orion"
    ],
    "r": 8.9,
    "s": {
