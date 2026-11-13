@@ -27,5 +27,5 @@
 [run] http: 0 revalidated (304), 193 full, 193 not stored (origin said no-store), 0 cache entries written
 [run] hosts: 11 attempted -- biograni.fi, biovuoksi.fi, cinemaniagara.fi, jamsankinotar.fi, k-kino.fi, kinoiiris.com, kinojuha.fi, kinokaustinen.fi, kinopirtti.fi, www.biorex.org, www.kinomarilyn.fi
 [run] etiketti: 12 venues, 368 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
-[run] timing: 11 site(s), 337.5s of fetching added up across workers that overlap, longest site 62.1s, longest queue wait 42.9s, 95.1s wall from this module's first fetch starting to its last ending
+[run] timing: 11 site(s), 377.5s of fetching added up across workers that overlap, longest site 68.2s, longest queue wait 46.7s, 107.7s wall from this module's first fetch starting to its last ending
 exit=0
