@@ -1842,7 +1842,6 @@
     "gilda",
     "haapamaki",
     "kinohamina",
-    "kinokonepaja",
     "kinoolympia",
     "kinopirtti",
     "kotkanleffat",
@@ -3158,12 +3157,16 @@
   },
   "ken russell s the devils": {
    "id": 31767,
-   "r": 0,
+   "img": "data/posters/1f8ec30de3187d84.jpg",
+   "r": 7.5,
    "s": {
-    "en": "",
+    "en": "In 1634 France, charismatic Father Urbain Grandier becomes the target of sexually depraved Sister Jeanne's accusations of witchcraft, which corrupt officials of church and state are all too happy to exploit.​​​​​​​​​​​​​​​​",
     "fi": "1960-luvulla alkaneen yhteiskuntakriittisten noitavainoelokuvien buumin hurjin saavutus oli Ken Russellin Warner Brothersille ohjaama suurelokuva, joka oli Suomessa kokonaan kielletty 30 vuotta. Pappi nimeltä Urbain Grandier poltettiin roviolla Ranskan Loudunissa 1636 nunnaluostarin viettelystä ja satanismista tuomittuna. Elokuva ei kuvaa paholaisia, vaan ylivaltaa ja toisinajattelijoiden demonisointia. Oliver Reed ja Vanessa Redgrave sekä renessanssimies Derek Jarmanin lavastus ovat kiihkeän elokuvan valtteja. Uusi restaurointi tuo leikkaamattoman ohjaajan version ensimmäistä kertaa levitykseen."
    },
-   "tr": ""
+   "tr": "https://www.youtube.com/watch?v=ImeXlanF3iY",
+   "ts": [
+    "en"
+   ]
   },
   "kenraali": {
    "id": 961,
@@ -10389,7 +10392,6 @@
     "elavienkuvien",
     "gilda",
     "helios",
-    "ihmekompleksi",
     "jarvelankino",
     "joutsankino",
     "julia",
@@ -10472,7 +10474,6 @@
     "elavienkuvien",
     "gilda",
     "helios",
-    "ihmekompleksi",
     "jarvelankino",
     "joutsankino",
     "julia",
@@ -10708,7 +10709,6 @@
     "elokuviin",
     "gilda",
     "jarvelankino",
-    "joutsankino",
     "kino123",
     "kinohirvi",
     "kinokilta",

@@ -7,9 +7,9 @@
 [kinokilta] strand prefix split off 2 showtimes
 [kinokilta] Kino Kilta: 64 showtimes, 29 dates
 [kinokilta] synopses merged: 0
-[kinolaika] 48 screening(s) listed, 35 film page(s) read
-[kinolaika] omitted 0 confirmed non-film(s) by evidence-backed exclusion over 0 screening(s), and 21 unresolved over 21
-[kinolaika] unresolved: Antti Autio, Dave Lindholm & Pepe Ahlqvist: WALKIN' BLUES -kiertue, Eternal Erection, Hopeasiivet, Kino Iglu: Moskiittorannikko, Knipi - Sivellinvetoja, Livemusavisa, Lyhytelokuvapäivä: Coffee n' Movies, Lyhytelokuvapäivä: Kerttu Matinpuro -elokuvat, Lyhytelokuvapäivä: Ovis Aries, Lyhytelokuvapäivä: PÄIVÄLIPPU, Lyhytelokuvapäivä: Satumaa
+[kinolaika] 47 screening(s) listed, 34 film page(s) read
+[kinolaika] omitted 0 confirmed non-film(s) by evidence-backed exclusion over 0 screening(s), and 20 unresolved over 20
+[kinolaika] unresolved: Antti Autio, Dave Lindholm & Pepe Ahlqvist: WALKIN' BLUES -kiertue, Eternal Erection, Hopeasiivet, Kino Iglu: Moskiittorannikko, Livemusavisa, Lyhytelokuvapäivä: Coffee n' Movies, Lyhytelokuvapäivä: Kerttu Matinpuro -elokuvat, Lyhytelokuvapäivä: Ovis Aries, Lyhytelokuvapäivä: PÄIVÄLIPPU, Lyhytelokuvapäivä: Satumaa, Lyhytelokuvapäivä: Stadin AO-sarja
 [kinolaika] override a-fox-under-a-pink-moon: evidence-unavailable
 [kinolaika] override mina-ja-riikka-purra-2: active
 [kinolaika] override naza: evidence-unavailable
@@ -29,18 +29,18 @@
 [kinomyyri] Kino Myyri: 26 showtimes, 13 dates
 [kinomyyri] synopses merged: 0
 [kinomyyri] synopses skipped as screening notes: 1
-[kinokonepaja] 59 screening(s) listed, 20 film page(s) read
+[kinokonepaja] 58 screening(s) listed, 19 film page(s) read
 [kinokonepaja] omitted 0 confirmed non-film(s) by evidence-backed exclusion over 0 screening(s), and 3 unresolved over 3
 [kinokonepaja] unresolved: Cold November, Reel Rock Film Tour 20, The BritRock Film Tour 2026
 [kinokonepaja] override edward-scissorhands: evidence-unavailable
 [kinokonepaja] override gremlins: evidence-unavailable
 [kinokonepaja] override nightmare-on-elm-street: evidence-unavailable
 [kinokonepaja] 4 film(s) with a language name not read, that part left blank: A shelter Among the Clouds (albania); Dua (albania, serbia); Helena Ranta – Sodan viimeinen sana (serbia, albania); Shame and Money (albania)
-[kinokonepaja] Kino Konepaja: 56 showtimes, 29 dates
-[kinokonepaja] Kino Konepaja: 56 showtimes, 29 dates
+[kinokonepaja] Kino Konepaja: 55 showtimes, 28 dates
+[kinokonepaja] Kino Konepaja: 55 showtimes, 28 dates
 [kinokonepaja] synopses merged: 0
-[run] http: 49 revalidated (304), 79 full, 23 not stored (origin said no-store), 0 cache entries written
+[run] http: 49 revalidated (304), 77 full, 23 not stored (origin said no-store), 0 cache entries written
 [run] hosts: 4 attempted -- kinokonepaja.fi, kinomyyri.fi, www.kinokilta.fi, www.kinolaika.fi
-[run] kinola: 4 venues, 173 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
-[run] timing: 4 site(s), 245.1s of fetching added up across workers that overlap, longest site 77.8s, longest queue wait 104.3s, 79.1s wall from this module's first fetch starting to its last ending
+[run] kinola: 4 venues, 172 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
+[run] timing: 4 site(s), 220.4s of fetching added up across workers that overlap, longest site 74.9s, longest queue wait 96.2s, 74.9s wall from this module's first fetch starting to its last ending
 exit=0
