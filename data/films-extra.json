@@ -2721,6 +2721,19 @@
    },
    "tr": ""
   },
+  "jesaja": {
+   "id": 1750532,
+   "img": "data/posters/b73ec0b32c5eeec7.jpg",
+   "r": 0,
+   "s": {
+    "en": "The fifth year of the New Normal begins in 2024. Finland prepares for war. In Helsinki, Jesaja Jalonen, a remote digital worker, prepares for the run of his life.",
+    "fi": "Jesaja on dokufiktiivinen kuvaus päähenkilönsä edesottamuksista vuoden 2024 Suomen todellisten tapahtumien keskellä nyky-Helsingin scifi-dystopia-maisemassa. Jesaja Jalonen, 33-vuotias etädigityöläinen ja maratoonari, joka kuuntelee profeetta Jesajan kirjaa elämänsä soundtrackina, ajautuu sotaan valmistautuvassa pääkaupungissa psykologis-poliittis- hengelliselle matkalle. Jesajan jokainen askel asioiden tiedostamisessa vie häntä eteenpäin kohti täydellistä syrjäytymistä yhteiskunnasta. Jesaja o n elokuvantekijäpari Jenni & Lauri Luhdan kolmas pitkä elokuva. Se on heidän ensimmäinen suomenkielinen täyspitkä teoksensa ja ensimmäinen joka myös käsittelee Suomea. Tutustu elokuvaan ja tekijöihin täältä:"
+   },
+   "tr": "",
+   "ts": [
+    "en"
+   ]
+  },
   "jimmy and stiggs night visions": {
    "r": 0,
    "s": {
@@ -3152,16 +3165,12 @@
   },
   "ken russell s the devils": {
    "id": 31767,
-   "img": "data/posters/1f8ec30de3187d84.jpg",
-   "r": 7.5,
+   "r": 0,
    "s": {
-    "en": "In 1634 France, charismatic Father Urbain Grandier becomes the target of sexually depraved Sister Jeanne's accusations of witchcraft, which corrupt officials of church and state are all too happy to exploit.​​​​​​​​​​​​​​​​",
+    "en": "",
     "fi": "1960-luvulla alkaneen yhteiskuntakriittisten noitavainoelokuvien buumin hurjin saavutus oli Ken Russellin Warner Brothersille ohjaama suurelokuva, joka oli Suomessa kokonaan kielletty 30 vuotta. Pappi nimeltä Urbain Grandier poltettiin roviolla Ranskan Loudunissa 1636 nunnaluostarin viettelystä ja satanismista tuomittuna. Elokuva ei kuvaa paholaisia, vaan ylivaltaa ja toisinajattelijoiden demonisointia. Oliver Reed ja Vanessa Redgrave sekä renessanssimies Derek Jarmanin lavastus ovat kiihkeän elokuvan valtteja. Uusi restaurointi tuo leikkaamattoman ohjaajan version ensimmäistä kertaa levitykseen."
    },
-   "tr": "https://www.youtube.com/watch?v=ImeXlanF3iY",
-   "ts": [
-    "en"
-   ]
+   "tr": ""
   },
   "kenraali": {
    "id": 961,
@@ -3179,7 +3188,6 @@
    "krs": [
     "bioforum",
     "biogrand",
-    "biopallas",
     "biorex",
     "biorexkokkola",
     "biosade",
@@ -3256,7 +3264,6 @@
    "krs": [
     "bioforum",
     "biogrand",
-    "biopallas",
     "biorex",
     "biorexkokkola",
     "biosade",
@@ -5662,6 +5669,13 @@
   "naza": {
    "id": 1755291,
    "img": "data/posters/92e7b2647887b27d.jpg",
+   "kr": "K-12",
+   "krs": [
+    "engel",
+    "gilda",
+    "kinokonepaja",
+    "orion"
+   ],
    "r": 8.0,
    "s": {
     "en": "Filmed at night from Tel Aviv rooftops, the film reveals in detail the systems behind the systematic destruction of Palestinian civilians by the Israeli military in Gaza. It is directed by Rachel Szor and Yuval Abraham, known for the Oscar-winning documentary No Other Land. The screening begins with a 26-minute short film about Gaza and is followed by a discussion. Details regarding the speakers will be announced later. The screening is organized in collaboration with B-plan Distribution and the Refugee Film Festival.",
@@ -7216,6 +7230,7 @@
    "kr": "K-16",
    "krs": [
     "biorexkokkola",
+    "cinemantsala",
     "haapamaki",
     "helios",
     "kinoaurora",
@@ -8514,6 +8529,16 @@
    "s": {
     "en": "",
     "fi": "Ortotopologian loputtomat alkeet on Markku Pölösen hauska ja koskettava fiktioelokuva oululaisesta legendasta Aapo Heikkilästä. Tässäkin elokuvassa ohjaaja on poikkeusyksilön puolella erilaisuutta torjuvassa maailmassa. Pölönen tarkastelee Aapo Heikkilän elämää ja hänen maailmankuvaansa kunnioittavasti, myötätunnolla ja lämpimällä huumorilla. Elokuva koskettaa katsojaansa monella tavalla: se liikuttaa, naurattaa ja inspiroi. Elokuvassa risteilee erilaisia todellisuuksia ja totuuden lajeja enemmän kuin elokuvissa yleensä. On kuin Forrest Gump kohtaisi Albert Einsteinin."
+   },
+   "tr": ""
+  },
+  "staubwelt": {
+   "id": 1696146,
+   "img": "data/posters/f175586d20ae3b45.jpg",
+   "r": 0,
+   "s": {
+    "en": "An elderly crime investigator has reached the end of her career. Shortly after stepping down, she encounters the Devil, who has appeared in the city and begun working as a police photographer. A warmth grows between them during a series of pastoral walks. Over the course of their conversations, the Devil reveals he needs her help to end his existence.",
+    "fi": "Maaginen, melankolisen komedian sävyttämä elokuva kertoo eläköityvästä rikostutkija Agnesista, joka viimeisenä työpäivänään kohtaa poliisin rikoskuvaajana työskentelevän paholaisen. Yhteisillä kävelyillä heidän välilleen syntyy läheisyys, kunnes paholainen kertoo tarvitsevansa Agnesin apua päättääkseen päivänsä. Elokuva on syönyt elävänä tukun sci-fiä ja fantasiaelokuvia Fritz Langin Faustista ja Cocteaun Kaunottaresta ja hirviöstä Terminaattoriin , mutta muodostaa täysin omanlaisensa abstraktin keitoksen, jota kannattalee Groskindin oman äidin Vivan Groskindin pohjattoman surun sävyttämä roolisuoritus päähenkilö Agnesina. Elokuvahistoriallisten silmäniskujen ohella elokuva nojaa osittain Groskindin äidin elämänkokemuksiin. Myös muissa rooleissa nähdään ei-koulutettuja näyttelijöitä esittämässä versioita itsestään, mikä on metodi, jota Groskind on hionut pitkään. Elokuvassa puhutaan suomea, ruotsia, malayalamia, ranskaa ja persiaa. Tekstitys englanniksi."
    },
    "tr": ""
   },
@@ -10686,7 +10711,6 @@
    "img": "data/posters/d0630be5ff40e993.jpg",
    "kr": "K-16",
    "krs": [
-    "biomarlon",
     "biorex",
     "biorexkokkola",
     "elokuviin",
