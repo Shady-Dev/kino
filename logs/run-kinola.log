@@ -1,22 +1,22 @@
-[kinokilta] 64 screening(s) listed, 47 film page(s) read
+[kinokilta] 62 screening(s) listed, 46 film page(s) read
 [kinokilta] omitted 0 confirmed non-film(s) by evidence-backed exclusion over 0 screening(s), and 0 unresolved over 0
 [kinokilta] override retkikino-2026: active
 [kinokilta] 7 synopsis/synopses withheld, no language settled: Combat Shock, Cruising, Never After Dark, RetkiKino 2026, The Hills Have Eyes, The Hunger, Tumma kristalli - The Dark Crystal
 [kinokilta] 8 film(s) with a language name not read, that part left blank: Alligator (Ei teksitystä); Combat Shock (Ei teksitystä); IKIOMAT 6 (Useita); Joysticks (Ei teksitystä); Kuzma (ukraina, Ei teksitystä); Prom Night (Ei teksitystä); Savage Dawn (Ei teksitystä); The Devils (Ei teksitystä)
-[kinokilta] Kino Kilta: 64 showtimes, 27 dates
+[kinokilta] Kino Kilta: 62 showtimes, 27 dates
 [kinokilta] strand prefix split off 2 showtimes
-[kinokilta] Kino Kilta: 64 showtimes, 27 dates
+[kinokilta] Kino Kilta: 62 showtimes, 27 dates
 [kinokilta] synopses merged: 0
-[kinolaika] 41 screening(s) listed, 26 film page(s) read
-[kinolaika] omitted 0 confirmed non-film(s) by evidence-backed exclusion over 0 screening(s), and 12 unresolved over 12
-[kinolaika] unresolved: Antti Autio, Dave Lindholm & Pepe Ahlqvist: WALKIN' BLUES -kiertue, Kino Iglu: Moskiittorannikko, Knipi - Sivellinvetoja, Livemusavisa, Lyhytelokuvapäivä: Coffee n' Movies, Lyhytelokuvapäivä: Kerttu Matinpuro -elokuvat, Lyhytelokuvapäivä: Ovis Aries, Lyhytelokuvapäivä: PÄIVÄLIPPU, Lyhytelokuvapäivä: Satumaa, Lyhytelokuvapäivä: Stadin AO-sarja, Lyhytelokuvapäivä: Toivo
+[kinolaika] 49 screening(s) listed, 35 film page(s) read
+[kinolaika] omitted 0 confirmed non-film(s) by evidence-backed exclusion over 0 screening(s), and 21 unresolved over 21
+[kinolaika] unresolved: Antti Autio, Dave Lindholm & Pepe Ahlqvist: WALKIN' BLUES -kiertue, Eternal Erection, Hopeasiivet, Kino Iglu: Moskiittorannikko, Knipi - Sivellinvetoja, Livemusavisa, Lyhytelokuvapäivä: Coffee n' Movies, Lyhytelokuvapäivä: Kerttu Matinpuro -elokuvat, Lyhytelokuvapäivä: Ovis Aries, Lyhytelokuvapäivä: PÄIVÄLIPPU, Lyhytelokuvapäivä: Satumaa
 [kinolaika] override a-fox-under-a-pink-moon: evidence-unavailable
 [kinolaika] override mina-ja-riikka-purra-2: active
 [kinolaika] override naza: evidence-unavailable
 [kinolaika] override pikku-kummitus-lapanen-keppostelee: evidence-unavailable
 [kinolaika] override two-seasons-two-strangers: active
-[kinolaika] Kino Laika: 29 showtimes, 10 dates
-[kinolaika] Kino Laika: 29 showtimes, 10 dates
+[kinolaika] Kino Laika: 28 showtimes, 10 dates
+[kinolaika] Kino Laika: 28 showtimes, 10 dates
 [kinolaika] synopses merged: 0
 [kinolaika] synopses skipped as screening notes: 1
 [kinomyyri] 30 screening(s) listed, 22 film page(s) read
@@ -38,8 +38,8 @@
 [kinokonepaja] Kino Konepaja: 58 showtimes, 29 dates
 [kinokonepaja] Kino Konepaja: 58 showtimes, 29 dates
 [kinokonepaja] synopses merged: 0
-[run] http: 48 revalidated (304), 71 full, 24 not stored (origin said no-store), 0 cache entries written
+[run] http: 46 revalidated (304), 81 full, 24 not stored (origin said no-store), 1 cache entries written
 [run] hosts: 4 attempted -- kinokonepaja.fi, kinomyyri.fi, www.kinokilta.fi, www.kinolaika.fi
-[run] kinola: 4 venues, 179 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
-[run] timing: 4 site(s), 236.7s of fetching added up across workers that overlap, longest site 80.8s, longest queue wait 112.5s, 80.8s wall from this module's first fetch starting to its last ending
+[run] kinola: 4 venues, 176 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
+[run] timing: 4 site(s), 234.6s of fetching added up across workers that overlap, longest site 76.4s, longest queue wait 95.1s, 76.4s wall from this module's first fetch starting to its last ending
 exit=0
