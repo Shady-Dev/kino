@@ -1811,7 +1811,7 @@
   "fåret shaun och monstret på bondgården": {
    "id": 1477104,
    "img": "data/posters/93eda5fa30b7d70c.jpg",
-   "r": 7.4,
+   "r": 7.3,
    "s": {
     "en": "On Halloween Eve at Mossy Bottom Farm, excitement turns to dismay when the clumsy Farmer ruins the pumpkin patch. Shaun tries fixing it with science experiments, but things go awry when a wild beast appears in the woods.",
     "fi": "",
@@ -1839,7 +1839,6 @@
     "biorex",
     "biorexkokkola",
     "biosavoy",
-    "cinemantsala",
     "gilda",
     "haapamaki",
     "kinohamina",
@@ -3670,13 +3669,12 @@
   },
   "kirjastokino sense and sensibility 1995": {
    "id": 4584,
-   "img": "data/posters/90645b198527b148.jpg",
-   "r": 7.4,
+   "r": 0,
    "s": {
     "en": "",
     "fi": "KIRJASTOKINO ESITTÄÄ: Sense and Sensibility / 1995\n\nSense and Sensibility ei ole pelkkä pukudraama, vaan Ang Leen ohjaama, psykologisesti tarkka tutkielma yhteiskunnallisista rooleista ja tukahdutetuista tunteista. Emma Thompsonin Oscar-palkittu käsikirjoitus herättää Jane Austenin tekstin eloon purevalla älykkyydellä ja hienovaraisella ironialla, joka purkaa luokkayhteiskunnan tekopyhyyttä. Se on ajaton mestariteos järjen ja tunteen ikuisesta kamppailusta, jonka näyttelijätyö – erityisesti Thompsonin, Kate Winsletin ja Alan Rickmanin välillä – hipoo täydellisyyttä."
    },
-   "tr": "https://www.youtube.com/watch?v=5unqnd-CGz4"
+   "tr": ""
   },
   "kirjastokino varaventtiili": {
    "id": 655285,
@@ -3894,16 +3892,12 @@
   },
   "kokuho kabukin mestari": {
    "id": 1379266,
-   "img": "data/posters/2ea2dd1507dbc2dc.jpg",
-   "r": 7.9,
+   "r": 0,
    "s": {
-    "en": "Nagasaki, 1964: Following the death of his Yakuza father, 15-year-old Kikuo is taken under the wings of a famous Kabuki actor. Alongside Shunsuke, the actor’s only son, he decides to dedicate himself to this traditional form of theatre. For decades, the two young men grow and evolve together – and one will become the greatest Japanese master of the art of Kabuki.",
+    "en": "",
     "fi": "Nagasaki, 1964. Nuori Kikuo näkee isänsä kuoleman yakuza-klaanien välienselvittelyssä. Aikansa suurin kabuki-tähti Hanjiro II ottaa Kikuon suojatikseen ja pelastaa näin pojan hengen. Kikuo omistaa elämänsä kabuki-teatterille yhdessä Hanjiron pojan Shunsuken kanssa. Vuosikymmenien omistautuminen tuottaa tulosta. Myrskyisä ura on täynnä veljeyttä ja petoksia, kunnianosoituksia ja skandaaleja. Kikuosta tulee tähti, vaikka yakuza-tausta nousee rasitteeksi vahvasti suljetuissa kabuki-piireissä. Kikuo pääsee kabukin mestariluokkaan, kansallisaarteeksi. Japanissa ällistyttävät 13 miljoonaa katsojaa elokuvateattereihin kerännyt Kokuho - kabukin mestari on visuaalista runoutta. Sofia El Fanin (Adelen elämä) kuvaus saa Kumiko Ogawan puvut ja vahvasti meikatut tähdet säkenöimään. Nuorukaiset esiintyvät kabuki-teatterissa onnagata-tradition mukaan: he pukeutuvat näissä traagisissa tarinoissa kuvankauniiksi neitokaisiksi. Kokuho – kabukin mestari oli Japanin virallinen Oscar-kandidaatti, ja sai ehdokkuuden parhaasta maskeerauksesta."
    },
-   "tr": "https://www.youtube.com/watch?v=p6k9Y-irvOE",
-   "ts": [
-    "en"
-   ]
+   "tr": ""
   },
   "kolahtaako calle málaga muistojeni katu": {
    "r": 0,
@@ -4204,7 +4198,6 @@
   },
   "kulkurin valssi": {
    "id": 209212,
-   "img": "data/posters/62daf325dbaae2fb.jpg",
    "r": 0,
    "s": {
     "en": "",
@@ -4714,7 +4707,6 @@
     "elavienkuvien",
     "elokuviin",
     "haapamaki",
-    "isohannu",
     "joutsankino",
     "kino123",
     "kinoelo",
@@ -5912,6 +5904,7 @@
     "gilda",
     "haapamaki",
     "ihmekompleksi",
+    "isohannu",
     "jarvelankino",
     "kino123",
     "kinoelo",
@@ -6872,8 +6865,6 @@
    "kr": "S",
    "krs": [
     "biorex",
-    "biosalo",
-    "cinemantsala",
     "ihmekompleksi",
     "isohannu",
     "kino123",
@@ -8845,13 +8836,12 @@
   },
   "tekijätorstai down by law": {
    "id": 1554,
-   "img": "data/posters/c4c6092a0dd91433.jpg",
-   "r": 7.4,
+   "r": 0,
    "s": {
     "en": "",
     "fi": "Tekijätorstaissa ALEKSI SALMENPERÄ: \nklo 17:15 Down By Law (Jim Jarmusch,1986) \nklo 19:00-20:00 Keskustelu: haastattelussa Aleksi ja ystävä\nklo 20:15 Miehen Työ (2007)\n\nOstamalla lipun jompaan kumpaan näytökseen, pääset mukaan keskusteluun. \nOstamalla Tekijätorstai Double Feature lipun, pääset mukaan molempiin elokuviin ja keskusteluun. \n\nAleksi Salmenperä haluaa näyttää Tekijätorstain ensimmäisessä näytöksessä Jim Jarmuschin vuoden 1986 mestariteoksen - Down By Law. Aleksi tulee itse alustamaan näytöksen. \n\nDown by Law on minimalistisen indie-elokuvan ja amerikkalaisen rikoselokuvaperinteen dekonstruktio, joka vaihtaa genrelle tyypillisen toiminnan verkkaisen lakoniseen hahmotutkielmaan. Visuaalisesti teos on  mestarillisen mustavalkoisen kuvauksen siivittämä runollinen kuvaus New Orleansin nuhruisista kortteleista ja Louisianan suistoalueista. Elokuvan ytimessä on Tom Waitsin, John Lurien ja Roberto Benignin esittämän kolmikon absurdi kemia, jossa vankilapako toimii vain näyttämönä eksistentiaaliselle vaeltelulle, Jarmuschin tavaramerkiksi muodostuneelle vieraantumisen tematiikalle sekä Waitsin ja Lurien sielukkaalle soundtrackille."
    },
-   "tr": "https://www.youtube.com/watch?v=IeFU1PJ-APQ"
+   "tr": ""
   },
   "tekijätorstai hetki ennen valoa": {
    "id": 1015881,
@@ -8875,8 +8865,7 @@
   },
   "tekijätorstai miehen työ": {
    "id": 20163,
-   "img": "data/posters/23fa5ddf79bb7696.jpg",
-   "r": 5.8,
+   "r": 0,
    "s": {
     "en": "",
     "fi": "Tekijätorstaissa ALEKSI SALMENPERÄ: \nklo 17:15 Down By Law (Jim Jarmusch,1986) \nklo 19:00-20:00 Keskustelu: haastattelussa Aleksi ja ystävä\nklo 20:15 Miehen Työ (2007)\n\nOstamalla lipun jompaan kumpaan näytökseen, pääset mukaan keskusteluun. \nOstamalla Tekijätorstai Double Feature lipun, pääset mukaan molempiin elokuviin ja keskusteluun. \n\nMiehen työ (2007) on palkitun Aleksi Salmenperän ohjaama, sysimustalla huumorilla sävytetty draama perheenelättäjän myytistä ja modernista miehen kriisistä. Työttömyytensä salaava Juha (Tommi Korpela) ajautuu elättämään perhettään seksityöllä, mikä käynnistää salaisuuksien ja häpeän hallitsemattoman kierteensä. Kuudella Jussi-palkinnolla palkittu teos loistaa erityisesti Korpelan huikean pääosaroolin ansiosta. Tämä ajaton suomalaisen nykyelokuvan merkkiteos on tyylikäs, koskettava ja ajatuksia herättävä."
@@ -8989,45 +8978,12 @@
   "the devils": {
    "id": 31767,
    "img": "data/posters/1f8ec30de3187d84.jpg",
-   "kr": "K-16",
-   "krs": [
-    "engel",
-    "gilda",
-    "kinokilta",
-    "kinolaika",
-    "niagara",
-    "regina",
-    "sheryl"
-   ],
    "r": 7.5,
    "s": {
     "en": "Assembled from the original camera negative, this new 4K restoration presents Ken Russell’s definitive vision of THE DEVILS by referencing the edit he privately constructed in 2004. THE DEVILS is the uncut and unfiltered theatrical experience that Russell always envisioned – and the first time the film will be presented restored and in 4K",
     "fi": "Ainutlaatuinen elokuvataiteen mestariteos, jonka pääosissa nähdään Oscar®-voittaja Vanessa Redgrave ja Oliver Reed. THE DEVILS on eeppinen teos pakkomielteestä ja korruptiosta - sekä yhden elokuvahistorian merkittävimmän ohjaajan, Ken Russellin, taidonnäyte. Vuosikymmeniä kielletty teos nähdään nyt ensimmäistä kertaa juuri sellaisena kuin Russell sen alun perin tarkoitti: leikkaamattomana ja sensuroimattomana - ja nyt restauroituna sekä 4K-laatuisena."
    },
    "tr": "https://www.youtube.com/watch?v=ImeXlanF3iY"
-  },
-  "the devils 1971": {
-   "id": 31767,
-   "img": "data/posters/1f8ec30de3187d84.jpg",
-   "kr": "K-16",
-   "krs": [
-    "engel",
-    "gilda",
-    "kinokilta",
-    "kinolaika",
-    "niagara",
-    "regina",
-    "sheryl"
-   ],
-   "r": 7.5,
-   "s": {
-    "en": "In 1634 France, charismatic Father Urbain Grandier becomes the target of sexually depraved Sister Jeanne's accusations of witchcraft, which corrupt officials of church and state are all too happy to exploit.​​​​​​​​​​​​​​​​",
-    "fi": ""
-   },
-   "tr": "https://www.youtube.com/watch?v=ImeXlanF3iY",
-   "ts": [
-    "en"
-   ]
   },
   "the dialogue police dialogpolisen": {
    "r": 0,
@@ -9948,6 +9904,8 @@
    "tr": ""
   },
   "unesta tehty mies": {
+   "id": 1743488,
+   "img": "data/posters/a8ac06319ada64c2.jpg",
    "r": 0,
    "s": {
     "en": "",
@@ -10792,5 +10750,5 @@
    "tr": ""
   }
  },
- "generated": "2026-11-12"
+ "generated": "2026-11-13"
 }
