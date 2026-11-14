@@ -1,31 +1,30 @@
 [biorexkokkola] Bio Rex Kokkola: 34 showtimes, 10 dates
 [biorexkokkola] synopses merged: 0
-[kinopirtti] Kinopirtti: 71 showtimes, 17 dates
+[kinopirtti] Kinopirtti: 68 showtimes, 17 dates
 [kinopirtti] synopses merged: 0
-[kinotar] Kinotar 123: 35 showtimes, 17 dates
+[kinotar] Kinotar 123: 34 showtimes, 17 dates
 [kinotar] synopses merged: 0
-[kinojuha] Kino Juha: 10 showtimes, 8 dates
+[kinojuha] Kino Juha: 9 showtimes, 8 dates
 [kinojuha] VIP-Sali: 9 showtimes, 8 dates
 [kinojuha] synopses merged: 0
-[biovuoksi] Bio Vuoksi: 18 showtimes, 6 dates
+[biovuoksi] Bio Vuoksi: 17 showtimes, 6 dates
 [biovuoksi] synopses merged: 0
 [kinoiiris] strand prefix split off 1 showtimes
-[kinoiiris] Kino Iiris: 31 showtimes, 21 dates
+[kinoiiris] Kino Iiris: 29 showtimes, 21 dates
 [kinoiiris] synopses merged: 0
-[kinoiiris] screening-note sentences left out of synopses: 1
 [kkino] K-Kino: 9 showtimes, 5 dates
 [kkino] synopses merged: 0
-[biograni] Bio Grani: 6 showtimes, 2 dates
+[biograni] Bio Grani: 5 showtimes, 2 dates
 [biograni] synopses merged: 0
-[niagara] Cinema Niagara: 42 showtimes, 15 dates
+[niagara] Cinema Niagara: 40 showtimes, 15 dates
 [niagara] synopses merged: 0
 [niagara] screening-note sentences left out of synopses: 1
 [kinokaustinen] Kino Kaustinen: 3 showtimes, 2 dates
 [kinokaustinen] synopses merged: 0
-[kinomarilyn] Kino Marilyn: 63 showtimes, 20 dates
+[kinomarilyn] Kino Marilyn: 62 showtimes, 20 dates
 [kinomarilyn] synopses merged: 0
-[run] http: 0 revalidated (304), 189 full, 189 not stored (origin said no-store), 0 cache entries written
+[run] http: 0 revalidated (304), 185 full, 185 not stored (origin said no-store), 0 cache entries written
 [run] hosts: 11 attempted -- biograni.fi, biovuoksi.fi, cinemaniagara.fi, jamsankinotar.fi, k-kino.fi, kinoiiris.com, kinojuha.fi, kinokaustinen.fi, kinopirtti.fi, www.biorex.org, www.kinomarilyn.fi
-[run] etiketti: 12 venues, 331 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
-[run] timing: 11 site(s), 373.0s of fetching added up across workers that overlap, longest site 67.6s, longest queue wait 48.6s, 109.1s wall from this module's first fetch starting to its last ending
+[run] etiketti: 12 venues, 319 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
+[run] timing: 11 site(s), 340.9s of fetching added up across workers that overlap, longest site 62.4s, longest queue wait 42.1s, 93.9s wall from this module's first fetch starting to its last ending
 exit=0

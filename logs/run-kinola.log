@@ -7,7 +7,7 @@
 [kinokilta] strand prefix split off 2 showtimes
 [kinokilta] Kino Kilta: 60 showtimes, 28 dates
 [kinokilta] synopses merged: 0
-[kinolaika] 47 screening(s) listed, 34 film page(s) read
+[kinolaika] 45 screening(s) listed, 33 film page(s) read
 [kinolaika] omitted 0 confirmed non-film(s) by evidence-backed exclusion over 0 screening(s), and 20 unresolved over 20
 [kinolaika] unresolved: Antti Autio, Dave Lindholm & Pepe Ahlqvist: WALKIN' BLUES -kiertue, Eternal Erection, Hopeasiivet, Kino Iglu: Moskiittorannikko, Livemusavisa, Lyhytelokuvapäivä: Coffee n' Movies, Lyhytelokuvapäivä: Kerttu Matinpuro -elokuvat, Lyhytelokuvapäivä: Ovis Aries, Lyhytelokuvapäivä: PÄIVÄLIPPU, Lyhytelokuvapäivä: Satumaa, Lyhytelokuvapäivä: Stadin AO-sarja
 [kinolaika] override a-fox-under-a-pink-moon: evidence-unavailable
@@ -15,32 +15,32 @@
 [kinolaika] override naza: evidence-unavailable
 [kinolaika] override pikku-kummitus-lapanen-keppostelee: evidence-unavailable
 [kinolaika] override two-seasons-two-strangers: active
-[kinolaika] Kino Laika: 27 showtimes, 9 dates
-[kinolaika] Kino Laika: 27 showtimes, 9 dates
+[kinolaika] Kino Laika: 25 showtimes, 9 dates
+[kinolaika] Kino Laika: 25 showtimes, 9 dates
 [kinolaika] synopses merged: 0
 [kinolaika] synopses skipped as screening notes: 1
-[kinomyyri] 28 screening(s) listed, 21 film page(s) read
+[kinomyyri] 27 screening(s) listed, 21 film page(s) read
 [kinomyyri] omitted 0 confirmed non-film(s) by evidence-backed exclusion over 0 screening(s), and 2 unresolved over 2
 [kinomyyri] unresolved: Kari Juusosen juhlanäytös: Lyhytelokuvia, Minä ja Riikka Purra
 [kinomyyri] override kojootti-vs-acme-dub: evidence-unavailable
 [kinomyyri] override must-pori-nakku: evidence-unavailable
 [kinomyyri] 4 film(s) with a language name not read, that part left blank: Berliinin sankari (saksan); Lapin sota (saami); Me olemme Pariisin orkesteri (ranskan); Nina Roza (ranskan, bulgarialainen)
-[kinomyyri] Kino Myyri: 26 showtimes, 13 dates
-[kinomyyri] Kino Myyri: 26 showtimes, 13 dates
+[kinomyyri] Kino Myyri: 25 showtimes, 13 dates
+[kinomyyri] Kino Myyri: 25 showtimes, 13 dates
 [kinomyyri] synopses merged: 0
 [kinomyyri] synopses skipped as screening notes: 1
-[kinokonepaja] 58 screening(s) listed, 19 film page(s) read
+[kinokonepaja] 57 screening(s) listed, 18 film page(s) read
 [kinokonepaja] omitted 0 confirmed non-film(s) by evidence-backed exclusion over 0 screening(s), and 3 unresolved over 3
 [kinokonepaja] unresolved: Cold November, Reel Rock Film Tour 20, The BritRock Film Tour 2026
 [kinokonepaja] override edward-scissorhands: evidence-unavailable
 [kinokonepaja] override gremlins: evidence-unavailable
 [kinokonepaja] override nightmare-on-elm-street: evidence-unavailable
 [kinokonepaja] 4 film(s) with a language name not read, that part left blank: A shelter Among the Clouds (albania); Dua (albania, serbia); Helena Ranta – Sodan viimeinen sana (serbia, albania); Shame and Money (albania)
-[kinokonepaja] Kino Konepaja: 55 showtimes, 28 dates
-[kinokonepaja] Kino Konepaja: 55 showtimes, 28 dates
+[kinokonepaja] Kino Konepaja: 54 showtimes, 28 dates
+[kinokonepaja] Kino Konepaja: 54 showtimes, 28 dates
 [kinokonepaja] synopses merged: 0
-[run] http: 46 revalidated (304), 78 full, 23 not stored (origin said no-store), 1 cache entries written
+[run] http: 47 revalidated (304), 75 full, 23 not stored (origin said no-store), 0 cache entries written
 [run] hosts: 4 attempted -- kinokonepaja.fi, kinomyyri.fi, www.kinokilta.fi, www.kinolaika.fi
-[run] kinola: 4 venues, 168 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
-[run] timing: 4 site(s), 249.0s of fetching added up across workers that overlap, longest site 80.3s, longest queue wait 117.6s, 80.3s wall from this module's first fetch starting to its last ending
+[run] kinola: 4 venues, 164 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
+[run] timing: 4 site(s), 238.7s of fetching added up across workers that overlap, longest site 77.4s, longest queue wait 99.9s, 77.4s wall from this module's first fetch starting to its last ending
 exit=0

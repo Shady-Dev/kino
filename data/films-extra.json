@@ -4379,12 +4379,24 @@
    "img": "data/posters/f757537641360cd7.jpg",
    "kr": "S",
    "krs": [
-    "kinometso"
+    "kinolumo",
+    "kinometso",
+    "kinopiispanristi"
    ],
    "r": 0,
    "s": {
     "en": "",
     "fi": "Perheen vastustuksesta huolimatta isä päättää toteuttaa unelmansa eläkepäivistä Espanjassa. Mutta miten Suomen tunnetuin perhe pärjää Espanjan auringon alla torakoiden, salsan ensiaskeleiden ja rantatuolien lomassa? Entä solmiiko isä kiinteistökaupoilla elämänsä diilin - vai menettääkö hän kaiken?"
+   },
+   "tr": ""
+  },
+  "kyllä isä osaa espanjassa tekijävierailulla": {
+   "id": 1767503,
+   "img": "data/posters/f757537641360cd7.jpg",
+   "r": 0,
+   "s": {
+    "en": "",
+    "fi": "PAIKALLA ELOKUVAA ALUSTAMASSA NÄYTTELIJÄ VILPPU ELEINEN JA OHJAAJA LAURI NURKSE! Alustus alkaa 17:30 ja elokuva n. 18:00. Perheen vastustuksesta huolimatta isä päättää toteuttaa unelmansa eläkepäivistä Espanjassa. Mutta miten Suomen tunnetuin perhe pärjää Espanjan auringon alla torakoiden, salsan ensiaskeleiden ja rantatuolien lomassa? Entä solmiiko isä kiinteistökaupoilla … elämänsä diilin - vai menettääkö hän kaiken?"
    },
    "tr": ""
   },
@@ -4706,7 +4718,6 @@
     "biosalo",
     "biosavoy",
     "biostara",
-    "biovuoksi",
     "cinemantsala",
     "elavienkuvien",
     "elokuviin",
@@ -4721,14 +4732,12 @@
     "kinometso",
     "kinopiispanristi",
     "kinopirtti",
-    "kinosampo",
     "kinoset",
     "kinotar",
     "kinotervakoski",
     "kinotoijala",
     "korjaamo",
     "kotkanleffat",
-    "kulttuurimylly",
     "kuvatahti",
     "laitilankino",
     "leffabuumi",
@@ -6683,32 +6692,12 @@
   },
   "pikku kummitus lapanen keppostelee puhumme suomea": {
    "id": 1781923,
-   "img": "data/posters/8a9129f55b1b3d43.jpg",
-   "kr": "S",
-   "krs": [
-    "bioforum",
-    "biorex",
-    "biosavoy",
-    "elokuviin",
-    "engel",
-    "isohannu",
-    "kinolumo",
-    "kinopiispanristi",
-    "kinotervakoski",
-    "kulttuurimylly",
-    "savonkinot",
-    "star",
-    "studio123jarvenpaa"
-   ],
    "r": 0,
    "s": {
-    "en": "Laban the Little Ghost is back with a new collection of cozy and just-spooky-enough adventures at the Good Morning Sun Castle. Together with his little sister Labolina and his best friend, the Little Prince, their days are filled with everything from trick-or-treating, birthday celebrations, and lost Christmas presents to unexpected guests and many other fun experiences.",
+    "en": "",
     "fi": "Pikku Kummitus Lapanen palaa uusien seikkailujen pariin Hyvänhuomenen linnassa. Yhdessä Lapaniinan, Pikkuprinssin ja ystäviensä kanssa hän joutuu hauskoihin, jännittäviin ja välillä hieman pelottaviinkin tilanteisiin, joissa ystävyys, rohkeus ja mielikuvitus ovat aina keskiössä. Lämmin ja humoristinen elokuvaelämys perheen pienimmille elokuvissakävijöille. Elokuva on saanut Euroopan unionin Luova Eurooppa -ohjelman tuen."
    },
-   "tr": "",
-   "ts": [
-    "en"
-   ]
+   "tr": ""
   },
   "pikku kummitus lapanen keppostelee suomeksi": {
    "id": 1781923,
@@ -6724,7 +6713,6 @@
    "img": "data/posters/79b249e47f0870db.jpg",
    "kr": "S",
    "krs": [
-    "biograni",
     "biopallas",
     "biorex",
     "biosade",
@@ -6735,7 +6723,6 @@
     "isohannu",
     "kino123",
     "kinohirvi",
-    "kinojuha",
     "kinolumo",
     "kinometso",
     "kinomyyri",
@@ -6749,8 +6736,7 @@
     "savonkinot",
     "star",
     "studio123jarvenpaa",
-    "tapiola",
-    "vihdinkino"
+    "tapiola"
    ],
    "r": 0,
    "s": {
@@ -6810,7 +6796,6 @@
    "img": "data/posters/79b249e47f0870db.jpg",
    "kr": "S",
    "krs": [
-    "biograni",
     "biopallas",
     "biorex",
     "biosade",
@@ -6821,7 +6806,6 @@
     "isohannu",
     "kino123",
     "kinohirvi",
-    "kinojuha",
     "kinolumo",
     "kinometso",
     "kinomyyri",
@@ -6835,8 +6819,7 @@
     "savonkinot",
     "star",
     "studio123jarvenpaa",
-    "tapiola",
-    "vihdinkino"
+    "tapiola"
    ],
    "r": 0,
    "s": {
