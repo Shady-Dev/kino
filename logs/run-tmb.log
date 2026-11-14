@@ -1,17 +1,17 @@
-[tmb] kinotoijala: 11 showtimes, 6 films, 8 dates, 0 priced, 11 timed, 11 with a genre, 11 with a synopsis
-[kinotoijala] Kino-Toijala: 11 showtimes, 8 dates
+[tmb] kinotoijala: 10 showtimes, 6 films, 7 dates, 0 priced, 10 timed, 10 with a genre, 10 with a synopsis
+[kinotoijala] Kino-Toijala: 10 showtimes, 7 dates
 [kinotoijala] synopses merged: 0
-[tmb] kinosampo: 11 showtimes, 7 films, 8 dates, 0 priced, 11 timed, 11 with a genre, 11 with a synopsis
-[kinosampo] Kino-Sampo: 11 showtimes, 8 dates
+[tmb] kinosampo: 10 showtimes, 7 films, 7 dates, 0 priced, 10 timed, 10 with a genre, 10 with a synopsis
+[kinosampo] Kino-Sampo: 10 showtimes, 7 dates
 [kinosampo] synopses merged: 0
-[tmb] kinomania: 19 showtimes, 8 films, 8 dates, 0 priced, 19 timed, 19 with a genre, 19 with a synopsis
-[kinomania] KinoMania: 19 showtimes, 8 dates
+[tmb] kinomania: 17 showtimes, 8 films, 7 dates, 0 priced, 17 timed, 17 with a genre, 17 with a synopsis
+[kinomania] KinoMania: 17 showtimes, 7 dates
 [kinomania] synopses merged: 0
 [tmb] kinoelo: 15 showtimes, 8 films, 7 dates, 0 priced, 15 timed, 15 with a genre, 15 with a synopsis
 [kinoelo] Elokuvateatteri Elo: 15 showtimes, 7 dates
 [kinoelo] synopses merged: 0
 [run] http: 0 revalidated (304), 33 full, 33 not stored (origin said no-store), 0 cache entries written
 [run] hosts: 4 attempted -- elokuvat-elo.info, kino-mania.info, kinosampo.info, toijalan-kino.info
-[run] tmb: 4 venues, 56 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
-[run] timing: 4 site(s), 50.2s of fetching added up across workers that overlap, longest site 13.9s, longest queue wait 79.8s, 24.0s wall from this module's first fetch starting to its last ending
+[run] tmb: 4 venues, 52 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
+[run] timing: 4 site(s), 55.8s of fetching added up across workers that overlap, longest site 16.2s, longest queue wait 78.3s, 18.2s wall from this module's first fetch starting to its last ending
 exit=0

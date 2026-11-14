@@ -29,18 +29,18 @@
 [kinomyyri] Kino Myyri: 22 showtimes, 12 dates
 [kinomyyri] synopses merged: 0
 [kinomyyri] synopses skipped as screening notes: 1
-[kinokonepaja] 56 screening(s) listed, 18 film page(s) read
+[kinokonepaja] 55 screening(s) listed, 17 film page(s) read
 [kinokonepaja] omitted 0 confirmed non-film(s) by evidence-backed exclusion over 0 screening(s), and 3 unresolved over 3
 [kinokonepaja] unresolved: Cold November, Reel Rock Film Tour 20, The BritRock Film Tour 2026
 [kinokonepaja] override edward-scissorhands: evidence-unavailable
 [kinokonepaja] override gremlins: evidence-unavailable
 [kinokonepaja] override nightmare-on-elm-street: evidence-unavailable
 [kinokonepaja] 4 film(s) with a language name not read, that part left blank: A shelter Among the Clouds (albania); Dua (albania, serbia); Helena Ranta – Sodan viimeinen sana (serbia, albania); Shame and Money (albania)
-[kinokonepaja] Kino Konepaja: 53 showtimes, 28 dates
-[kinokonepaja] Kino Konepaja: 53 showtimes, 28 dates
+[kinokonepaja] Kino Konepaja: 52 showtimes, 27 dates
+[kinokonepaja] Kino Konepaja: 52 showtimes, 27 dates
 [kinokonepaja] synopses merged: 0
-[run] http: 47 revalidated (304), 74 full, 22 not stored (origin said no-store), 0 cache entries written
+[run] http: 47 revalidated (304), 73 full, 22 not stored (origin said no-store), 0 cache entries written
 [run] hosts: 4 attempted -- kinokonepaja.fi, kinomyyri.fi, www.kinokilta.fi, www.kinolaika.fi
-[run] kinola: 4 venues, 158 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
-[run] timing: 4 site(s), 214.5s of fetching added up across workers that overlap, longest site 70.4s, longest queue wait 95.2s, 70.4s wall from this module's first fetch starting to its last ending
+[run] kinola: 4 venues, 157 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
+[run] timing: 4 site(s), 226.3s of fetching added up across workers that overlap, longest site 74.2s, longest queue wait 100.1s, 74.2s wall from this module's first fetch starting to its last ending
 exit=0
