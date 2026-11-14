@@ -1652,16 +1652,12 @@
   },
   "father mother sister brother": {
    "id": 1159206,
-   "img": "data/posters/9748f77855a4de36.jpg",
-   "r": 6.4,
+   "r": 0,
    "s": {
-    "en": "Estranged siblings reunite after years apart, forced to confront unresolved tensions and reevaluate their strained relationships with their emotionally distant parents.",
+    "en": "",
     "fi": "Father Mother Sister Brother kuvaa aikuisten lasten ja heidän vanhempiensa välisiä monimutkaisia suhteita. Tarinat sijoittuvat nykyaikaan ja kolmeen eri paikkaan; Yhdysvaltain koillisosiin, Dubliniin ja Pariisiin. Father: Sisarukset Jeff (Adam Driver) ja Emily (Mayim Bialik) vierailevat eristäytyneen ja mahdollisesti varattoman isänsä (Tom Waits) luona. Vierailun aikana he alkavat epäillä isänsä teeskentelevän kurjuuttaan ja huomaavat tämän ranteessa arvokkaan Rolex-kellon. Mother: Sisarukset Timothea (Cate Blanchett) ja Lilith (Vicky Krieps) vierailevat kirjailijaäitinsä (Charlotte Rampling) luona iltapäiväteellä. Tarina keskittyy pinnan alla kyteviin jännitteisiin ja siihen, mitä jätetään sanomatta perinteisten rituaalien äärellä. Sister Brother: Kaksoset Skye (Indya Moore) ja Billy (Luka Sabbat) siivoavat edesmenneiden vanhempiensa asuntoa. He käyvät läpi muistoja ja tavaroita, löytäen uusia puolia vanhemmistaan ja perheensä historiasta. Elokuva piirtää inhimillisen kuvan perheestä, läheisyydestä ja etäisyydestä lempeällä huumorilla, johon sekoittuu melankolian sävyjä."
    },
-   "tr": "https://www.youtube.com/watch?v=PA07EmbZ0b0",
-   "ts": [
-    "en"
-   ]
+   "tr": ""
   },
   "fatherland": {
    "id": 1437696,
@@ -7235,6 +7231,7 @@
     "cinemantsala",
     "haapamaki",
     "helios",
+    "isohannu",
     "kinoaurora",
     "kinohannikainen",
     "kinokilta",
@@ -9199,6 +9196,19 @@
    },
    "tr": ""
   },
+  "the magic faraway tree": {
+   "id": 1140521,
+   "img": "data/posters/0d9dd591d740cdd4.jpg",
+   "r": 6.8,
+   "s": {
+    "en": "A modern family relocates to the countryside where the children discover a magical tree with eccentric residents. They're transported to fantastical lands, rekindling their family bond through adventures.",
+    "fi": ""
+   },
+   "tr": "https://www.youtube.com/watch?v=PAUEwUhAjzg",
+   "ts": [
+    "en"
+   ]
+  },
   "the mornings of a sensible youth": {
    "id": 452880,
    "img": "data/posters/e2de64509381484c.jpg",
@@ -10676,6 +10686,7 @@
    "krs": [
     "biorex",
     "cinemantsala",
+    "isohannu",
     "niagara",
     "orion"
    ],
