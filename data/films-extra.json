@@ -1436,7 +1436,6 @@
     "kinotoijala",
     "kinovirta",
     "kotkanleffat",
-    "kulttuurimylly",
     "kurikankino",
     "leffabuumi",
     "lieksankino",
@@ -3011,24 +3010,16 @@
   },
   "katti hatussa": {
    "id": 1117898,
-   "img": "data/posters/0a4381fbfe4b427a.jpg",
    "r": 0,
    "s": {
-    "en": "Assigned his toughest mission yet, the Cat must cheer up siblings Gabby and Sebastian as they adjust to life in a new town. Known for pushing boundaries, this agent of chaos must prove himself or risk losing his magical hat forever.",
+    "en": "",
     "fi": "Luvassa on aivan uudenlainen Katti Hatussa! Dr. Seussin vinkeiden perinteiden tyyliin temmeltävä Katti saapuu valkokankaalle ensi kertaa animaatioversiona uudessa huikeassa seikkailussa, jossa on sielukasta särmää, kun Katin koiruudet, taikuus ja vauhti pääsevät valloilleen. Hattukatti—alkuperäisäänenä Bill Hader—on mestari tuomaan iloa lapsille hilpeällä, omintakeisella ja anarkistisella meiningillään kiidättäen heidät ja yleisön mielikuvitukselliselle matkalle halki ennennäkemättömän maailman. I.I.I.I. (Imaginaation ja inspiraation instituution instituutti Oy) heittää sankarimme eteen toistaiseksi hankalimman haasteen: hän saa tehtäväkseen piristää sisaruksia nimeltä Gabby ja Sebastian, jotka eivät oikein tahdo sopeutua uuteen kotikaupunkiinsa. Katti, tuo ylilyönneistään tunnettu kaaoksen kätyri, saa puolestaan kenties viimeisen tilaisuuden näyttää kyntensä… tai hän on vaarassa menettää taikahattunsa! Haderin lisäksi näyttelijäkaartissa mukana ovat Xochitl Gomez, Matt Berry, Quinta Brunson ja Paula Pell sekä Tiago Martinez, Giancarlo Esposito, America Ferrera, Bowen Yang ja Tituss Burgess."
    },
-   "tr": "https://www.youtube.com/watch?v=tkZpcypT8Z4",
-   "ts": [
-    "en"
-   ]
+   "tr": ""
   },
   "katti hatussa suomeksi puhuttu": {
    "id": 1117898,
    "img": "data/posters/0a4381fbfe4b427a.jpg",
-   "kr": "K-7",
-   "krs": [
-    "biorex"
-   ],
    "r": 0,
    "s": {
     "en": "Assigned his toughest mission yet, the Cat must cheer up siblings Gabby and Sebastian as they adjust to life in a new town. Known for pushing boundaries, this agent of chaos must prove himself or risk losing his magical hat forever.",
@@ -3187,7 +3178,6 @@
    "img": "data/posters/133d5c0758982817.jpg",
    "kr": "K-12",
    "krs": [
-    "bioforum",
     "biogrand",
     "biorex",
     "biorexkokkola",
@@ -3248,20 +3238,18 @@
   },
   "kerro kaikille berätta för alla": {
    "id": 1304530,
-   "img": "data/posters/133d5c0758982817.jpg",
    "r": 0,
    "s": {
     "en": "",
     "fi": "Kerro kaikille on voimaelokuva Amanda Aaltosesta, joka kieltäytyy alistumasta hänelle varattuun köyhän naisen ankeaan kohtaloon ja etsii huimapäisesti onneaan maailmalta. Rangaistukseksi sääntöjen rikkomisesta yhteiskunta anastaa häneltä kaikkein tärkeimmän, vapauden, ja sulkee hänet Seilin saarelle."
    },
-   "tr": "https://www.youtube.com/watch?v=iUpszeSB7k4"
+   "tr": ""
   },
   "kerro kaikille elokuvanäytös": {
    "id": 1304530,
    "img": "data/posters/133d5c0758982817.jpg",
    "kr": "K-12",
    "krs": [
-    "bioforum",
     "biogrand",
     "biorex",
     "biorexkokkola",
@@ -6725,7 +6713,6 @@
     "kinohirvi",
     "kinolumo",
     "kinometso",
-    "kinomyyri",
     "kinopiispanristi",
     "kinopirtti",
     "kinoset",
@@ -6808,7 +6795,6 @@
     "kinohirvi",
     "kinolumo",
     "kinometso",
-    "kinomyyri",
     "kinopiispanristi",
     "kinopirtti",
     "kinoset",
@@ -10380,7 +10366,6 @@
    "krs": [
     "bioforum",
     "biogrand",
-    "biograni",
     "biomarilyn",
     "biorex",
     "biorexkokkola",
@@ -10414,7 +10399,6 @@
     "kinopirtti",
     "kinosampo",
     "kinotar",
-    "kinotoijala",
     "kinovirta",
     "kirkkonummi",
     "korjaamo",
@@ -10462,7 +10446,6 @@
    "krs": [
     "bioforum",
     "biogrand",
-    "biograni",
     "biomarilyn",
     "biorex",
     "biorexkokkola",
@@ -10496,7 +10479,6 @@
     "kinopirtti",
     "kinosampo",
     "kinotar",
-    "kinotoijala",
     "kinovirta",
     "kirkkonummi",
     "korjaamo",
@@ -10667,6 +10649,7 @@
    "img": "data/posters/650c789b1581e9b9.jpg",
    "kr": "S",
    "krs": [
+    "biograni",
     "biorex",
     "cinemantsala",
     "isohannu",
