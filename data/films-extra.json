@@ -354,6 +354,19 @@
     "en"
    ]
   },
+  "autofiktio leffalukupiiri": {
+   "id": 1088548,
+   "img": "data/posters/64d23f46b5356d6f.jpg",
+   "r": 6.2,
+   "s": {
+    "en": "During a long December holiday weekend, a woman, whose mother has recently died, throws herself into work as a form of escape. Her relentless pace is interrupted when a panic attack forces her to take a break.",
+    "fi": "Espanjalaisen ohjaajalegendan Pedro Almodóvarin melodraama Autofiktio (Amarga Navidad) kertoo luomiskriisissä kamppailevasta elokuvantekijästä, joka ammentaa läheistensä tragedioista materiaalia teokseensa. Elokuvan keskiössä on Elsa, mainoskuvaaja, joka tekee töitä tauotta eikä anna itselleen aikaa surra äitinsä kuolemaa. Hän lähtee ystävänsä kanssa Lanzarotelle, sillä molemmat kaipaavat irtiottoa arjesta. Naisten tarinan rinnalla kulkee kertomus elokuvantekijästä, joka tutkii, kuinka erottamattomasti tosielämä ja fiktio voivat kietoutua toisiinsa ja kuinka läheisten kokemukset voivat muuntua taiteeksi – joskus kuohuttavallakin tavalla."
+   },
+   "tr": "https://www.youtube.com/watch?v=R-9dlnkY448",
+   "ts": [
+    "en"
+   ]
+  },
   "autofiktio yksittäisnäytös": {
    "id": 1088548,
    "r": 0,
@@ -3157,16 +3170,12 @@
   },
   "ken russell s the devils": {
    "id": 31767,
-   "img": "data/posters/1f8ec30de3187d84.jpg",
-   "r": 7.5,
+   "r": 0,
    "s": {
-    "en": "In 1634 France, charismatic Father Urbain Grandier becomes the target of sexually depraved Sister Jeanne's accusations of witchcraft, which corrupt officials of church and state are all too happy to exploit.​​​​​​​​​​​​​​​​",
+    "en": "",
     "fi": "1960-luvulla alkaneen yhteiskuntakriittisten noitavainoelokuvien buumin hurjin saavutus oli Ken Russellin Warner Brothersille ohjaama suurelokuva, joka oli Suomessa kokonaan kielletty 30 vuotta. Pappi nimeltä Urbain Grandier poltettiin roviolla Ranskan Loudunissa 1636 nunnaluostarin viettelystä ja satanismista tuomittuna. Elokuva ei kuvaa paholaisia, vaan ylivaltaa ja toisinajattelijoiden demonisointia. Oliver Reed ja Vanessa Redgrave sekä renessanssimies Derek Jarmanin lavastus ovat kiihkeän elokuvan valtteja. Uusi restaurointi tuo leikkaamattoman ohjaajan version ensimmäistä kertaa levitykseen."
    },
-   "tr": "https://www.youtube.com/watch?v=ImeXlanF3iY",
-   "ts": [
-    "en"
-   ]
+   "tr": ""
   },
   "kenraali": {
    "id": 961,
@@ -10711,19 +10720,16 @@
     "jarvelankino",
     "kino123",
     "kinohirvi",
-    "kinokilta",
     "kinokonepaja",
     "kinokulma",
     "kinolumo",
     "kinomarilyn",
     "kinopirtti",
-    "kinovirta",
     "korjaamo",
     "kotkanleffat",
     "laitilankino",
     "leffabuumi",
     "niagara",
-    "orion",
     "pajakkakino",
     "savonkinot",
     "star",
@@ -10767,5 +10773,5 @@
    "tr": ""
   }
  },
- "generated": "2026-11-13"
+ "generated": "2026-11-14"
 }
