@@ -1,17 +1,17 @@
 [token] using FINNKINO_TOKEN from the environment
 [sites] 17 cinemas
-[schedule] 2026-11-15: 417 showtimes
+[schedule] 2026-11-15: 280 showtimes
 [schedule] 2026-11-16: 340 showtimes
 [schedule] 2026-11-17: 332 showtimes
 [schedule] 2026-11-18: 305 showtimes
 [schedule] 2026-11-19: 369 showtimes
 [schedule] 2026-11-20: 48 showtimes
 [schedule] 2026-11-21: 54 showtimes
-[tmdb] no TMDB match (9): Dyyni: Osat 1 ja 2 | Ebenezer: Saiturin joulu | Joulupukin salainen paja | Klara ja aurinko | Me olemme Pariisin orkesteri | MyFazer-ennakkonäytös | NV26: Päätöselokuva: TC 2000 | Nälkäpeli: Balladi... & Elonkorjuun sarastus | Ooppera: Carmen (encore 2010)
+[tmdb] no TMDB match (7): Ebenezer: Saiturin joulu | Joulupukin salainen paja | Klara ja aurinko | Me olemme Pariisin orkesteri | MyFazer-ennakkonäytös | Nälkäpeli: Balladi... & Elonkorjuun sarastus | Ooppera: Carmen (encore 2010)
 [tmdb] weak candidate kept, not searched until 2026-11-16 (6): BTS WORLD TOUR 'ARIRANG' IN KAOHSIUNG: LIVE VIEWIN -> BTS WORLD TOUR 'ARIRANG' IN KAOHSIUNG: LIVE VIEWING | Godzilla Minus Zero -> ゴジラ-0.0 | Hadoota -> حدوتة | Leviticus -> Leviticus | Ramayana: Rise of a Legend -> रामायणम् | Two Seasons, Two Strangers -> 旅と日々
 [tmdb] 0 new lookups, 0 re-checks, cache 194, 120 mergeable by id
-[films] 65 film entries
-[attrs] dropped, neither format nor language (10): Ennakko | Maxim | NV | OCAP | Pkseutu | SEVERAL | TKU & R | Tampere | Varaus20 | myFinnkino
+[films] 60 film entries
+[attrs] dropped, neither format nor language (9): Ennakko | Maxim | OCAP | Pkseutu | SEVERAL | TKU & R | Tampere | Varaus20 | myFinnkino
 [schedule] 17 venue files written, 0 kept as-is
 done
 exit=0
