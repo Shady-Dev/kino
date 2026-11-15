@@ -2909,7 +2909,7 @@
   "järki ja tunteet sense and sensibility": {
    "id": 1503762,
    "img": "data/posters/056008305739a764.jpg",
-   "r": 7.3,
+   "r": 7.2,
    "s": {
     "en": "",
     "fi": "Uusi, vastustamaton tulkinta Jane Austenin ikonisesta Järki ja tunteet -teoksesta: hurmaava, nokkela ja syvästi samaistuttava tarina rakkaudesta ja sisaruudesta. Pääosissa loistavat Daisy Edgar-Jones ja Esmé Creed-Miles."
@@ -4733,7 +4733,7 @@
     "studio123kouvola",
     "virtainpirtti"
    ],
-   "r": 7.4,
+   "r": 7.3,
    "s": {
     "en": "On Halloween Eve at Mossy Bottom Farm, excitement turns to dismay when the clumsy Farmer ruins the pumpkin patch. Shaun tries fixing it with science experiments, but things go awry when a wild beast appears in the woods.",
     "fi": "Rakastettu Late Lammas palaa valkokankaille uudessa, riemastuttavassa ja kutkuttavan hauskassa seikkailussa. Farmin asukkaat odottavat innolla Halloweenia, kunnes heidän rakkaudella kasvattamansa kurpitsaviljelmä tuhoutuu juhlan kynnyksellä. Late ei jää toimettomaksi, vaan päättää ryhtyä “hulluksi tiedemieheksi” korjatakseen tilanteen – ja pian tapahtumat karkaavatkin täysin käsistä. Kun tilan maajussi katoaa ja outo villi peto herättää kauhua kyläläisissä, ovat kaikki ainekset kasassa hirviömäisen hauskalle seikkailulle kaiken ikäisille."
@@ -4764,7 +4764,7 @@
   "late lammas elokuva hämäräpuuhissa suomeksi": {
    "id": 1477104,
    "img": "data/posters/93eda5fa30b7d70c.jpg",
-   "r": 7.4,
+   "r": 7.3,
    "s": {
     "en": "On Halloween Eve at Mossy Bottom Farm, excitement turns to dismay when the clumsy Farmer ruins the pumpkin patch. Shaun tries fixing it with science experiments, but things go awry when a wild beast appears in the woods.",
     "fi": "Rakastettu Late Lammas palaa valkokankaille uudessa, riemastuttavassa ja kutkuttavan hauskassa seikkailussa. Farmin asukkaat odottavat innolla Halloweenia, kunnes heidän rakkaudella kasvattamansa kurpitsaviljelmä tuhoutuu juhlan kynnyksellä. Late ei jää toimettomaksi, vaan päättää ryhtyä “hulluksi tiedemieheksi” korjatakseen tilanteen – ja pian tapahtumat karkaavatkin täysin käsistä. Kun tilan maajussi katoaa ja outo villi peto herättää kauhua kyläläisissä, ovat kaikki ainekset kasassa hirviömäisen hauskalle seikkailulle kaiken ikäisille. Kananlento ja Wallace & Gromit -elokuvien tekijöiden uusi seikkailu Late Lammas: Hämäräpuuhissa saapuu elokuvateattereihin 30. lokakuuta."
@@ -9089,10 +9089,6 @@
   "the invite": {
    "id": 950028,
    "img": "data/posters/2755bb2be0a0c120.jpg",
-   "kr": "K-12",
-   "krs": [
-    "engel"
-   ],
    "r": 7.2,
    "s": {
     "en": "",
