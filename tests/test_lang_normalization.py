@@ -152,14 +152,14 @@ class NameTableTest(unittest.TestCase):
         t = client_tables()
         self.assertEqual(list(t["fi"]), list(t["sv"]))
         self.assertEqual(list(t["fi"]), list(t["en"]))
-        self.assertEqual(list(t["fi"])[-9:],
-                         ["LT", "ML", "FA", "HE", "PS", "EL", "NE", "RO", "YI"])
-        self.assertEqual(len(t["fi"]), 33)
+        self.assertEqual(list(t["fi"])[-10:],
+                         ["LT", "ML", "FA", "HE", "PS", "EL", "NE", "RO", "YI", "TE"])
+        self.assertEqual(len(t["fi"]), 34)
 
     def test_the_names_follow_the_tables_style(self):
         """Lower-case nominatives in fi and sv, capitalised in en, like every neighbour."""
         t = client_tables()
-        for code in ("LT", "ML", "FA", "HE", "PS", "EL", "NE", "RO", "YI"):
+        for code in ("LT", "ML", "FA", "HE", "PS", "EL", "NE", "RO", "YI", "TE"):
             with self.subTest(code=code):
                 self.assertTrue(t["fi"][code].islower() and t["sv"][code].islower())
                 self.assertTrue(t["en"][code][0].isupper())
