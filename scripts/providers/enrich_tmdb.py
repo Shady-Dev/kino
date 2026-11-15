@@ -83,11 +83,12 @@ from strands import EVENT_PREFIXES  # noqa: E402
 # 2026-09-24: Kino Aurora's "Unohdettu saari (EN dub)" drew no poster while the plain
 # title matched; a language code before `dub` names the dub, not the film.
 # 2026-10-13: Kino Ritz's "Kerro kaikille (suomeksi tekstitetty)" names the subtitles.
+# 2026-11-15: Bio Vuoksi's "Lapin sota (tekstitetty englanniksi)" names the subtitles too.
 # 2026-11-04: Tapio Joensuu's "Lapin sota (englanninkielinen tekstitys)" does the same, and
 # Finnkino's "Lapin sota (väliajalla)" names an intermission, at 14 cinemas.
 PAREN_NOISE = re.compile(
     r"\(\s*(?:(?:19|20)\d{2}|suomeksi(?:\s+puhuttu|\s+tekstitetty)?|englanniksi|p[åa]\s+svenska"
-    r"|(?:suomen|englannin|ruotsin)kielinen\s+tekstitys|v[äa]liajalla"
+    r"|(?:suomen|englannin|ruotsin)kielinen\s+tekstitys|tekstitetty\s+englanniksi|v[äa]liajalla"
     r"|puhumme\s+suomea!?|dubattu|(?:(?:en|eng|fi|sv)\s+)?dub\.?|orig\.?|re-?release"
     r"|uudelleenjulkaisu|uusi\s+kopio|live\s?action|liveaction|2d|3d|imax|4k"
     # A screening, not the film: Elokuvateatteri Star publishes its knitting screening as

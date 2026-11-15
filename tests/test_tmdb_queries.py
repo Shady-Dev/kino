@@ -176,6 +176,10 @@ class SubtitledMarkerTest(unittest.TestCase):
         self.assertEqual(enrich_tmdb.clean("Lapin sota (englanninkielinen tekstitys)"),
                          "Lapin sota")
 
+    def test_subtitled_in_english_comes_off_too(self):
+        # Bio Vuoksi, 2026-11-15.
+        self.assertEqual(enrich_tmdb.clean("Lapin sota (tekstitetty englanniksi)"), "Lapin sota")
+
     def test_an_intermission_comes_off_too(self):
         # Finnkino, 2026-11-04, at 14 cinemas.
         self.assertEqual(enrich_tmdb.clean("Lapin sota (väliajalla)"), "Lapin sota")
