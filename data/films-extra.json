@@ -5210,13 +5210,12 @@
   },
   "mary ja noidankukka": {
    "id": 430447,
-   "img": "data/posters/83af7d457b208c54.jpg",
-   "r": 7.2,
+   "r": 0,
    "s": {
     "en": "",
     "fi": "Mary on 12-vuotias tyttö, joka viettää tylsistyneenä kesälomaansa sukulaistensa luona. Eräänä päivänä hän seuraa kissaa metsään, josta löytyy kaunis sininen kukka ja luudanvarsi. Kukka ja luuta heittävät Maryn ja kissan kohti pilviä, kauas Endor Collegeen, taikojen kouluun! Mary ja noidankukka perustuu Mary Stewartin klassikkoromaaniin Pikku noitaluuta ja sen on ohjannut Studio Ghiblillä aiemmin työskennellyt Hiromasa Yonebayashi (Kätkijät, Marnie – tyttö ikkunassa)"
    },
-   "tr": "https://www.youtube.com/watch?v=u8tsjNYEYKQ"
+   "tr": ""
   },
   "matka piemonteen": {
    "id": 1545391,
@@ -7077,7 +7076,7 @@
   "primavera": {
    "id": 1365683,
    "img": "data/posters/8fe80e3891276876.jpg",
-   "r": 7.1,
+   "r": 7.0,
    "s": {
     "en": "A talented violinist, Cecilia, confined in an orphanage, meets Vivaldi who becomes her teacher. Under his mentorship and through his music, she gains courage to break free from the life she was destined for and pursue her passion.",
     "fi": "Matineanäytös. Oopperaohjaajana tunnetun Damiano Michieletton esikoiselokuva Vivaldista ja hänen lahjakkaasta oppilaastaan Ceciliasta elää ja hengittää Venetsian kevään, kanavien ja musiikin ehdoilla."
@@ -7194,7 +7193,6 @@
     "isohannu",
     "kinoaurora",
     "kinohannikainen",
-    "kinokilta",
     "kinokulma",
     "kinolaika",
     "kinomarilyn",
@@ -7517,7 +7515,7 @@
   "resident evil": {
    "id": 1423191,
    "img": "data/posters/647807f97cc3fb5a.jpg",
-   "r": 7.4,
+   "r": 7.5,
    "s": {
     "en": "Medical courier Bryan unwittingly finds himself fighting for survival as one fateful, horrifying night collapses around him in chaos.",
     "fi": "Visionäärisen ohjaajan Zach Creggerin (Weapons, Barbarian) mielestä syntyy jännittävä – ja kauhistuttava – uudelleentulkinta Resident Evil -elokuvasarjasta. Täysin uudessa tarinassa Resident Evil seuraa Bryania (Austin Abrams), lääkintälähettiä, joka huomaamattaan ajautuu toiminnantäyteiseen, tauottomaan selviytymiskamppailuun, kun yksi kohtalokas ja kammottava yö syöksyy hänen ympärillään kaaokseen.",
