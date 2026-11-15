@@ -218,7 +218,7 @@ class DataDatesTest(Stubbed):
                        "/elokuvat/3287/digger": BUUMI_FILM})
         out = e.fetch_site(site("leffabuumi"), sleep=0)
         self.assertEqual({k: len(v) for k, v in out.items()}, {"lb-kinolinna": 2, "lb-ritz": 1})
-        self.assertEqual(out["lb-kinolinna"][0]["url"], "https://leffabuumi.fi/salikartta?id=57163")
+        self.assertEqual(out["lb-kinolinna"][0]["url"], "https://www.leffabuumi.fi/salikartta?id=57163")
         self.assertTrue(out["lb-ritz"][0]["soldOut"])
 
     def test_the_show_row_template_reads_time_room_price_and_seats(self):

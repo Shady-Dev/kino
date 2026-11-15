@@ -123,7 +123,8 @@ SITES = [
     # The one host here that is three cinemas in two towns, and the one that prints the
     # *town* as the place and the cinema as the room ("MIKKELI | KINOLINNA | SALI 2").
     # `match` runs against place and room joined, so the cinema name still selects.
-    {"provider": "leffabuumi", "base": "https://leffabuumi.fi", "label": "Leffabuumi",
+    # The apex has redirected to www since 2026-11-14, so www is the host read.
+    {"provider": "leffabuumi", "base": "https://www.leffabuumi.fi", "label": "Leffabuumi",
      "venues": [
          {"id": "lb-kinolinna", "match": "kinolinna", "name": "Kinolinna",
           "short": "Kinolinna", "city": "Mikkeli"},
