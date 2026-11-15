@@ -1433,7 +1433,6 @@
     "kinotar",
     "kinotervakoski",
     "kinotoijala",
-    "kinovirta",
     "kotkanleffat",
     "kurikankino",
     "leffabuumi",
@@ -1495,7 +1494,6 @@
     "kinotar",
     "kinotervakoski",
     "kinotoijala",
-    "kinovirta",
     "kotkanleffat",
     "kurikankino",
     "leffabuumi",
@@ -2037,19 +2035,6 @@
     "fi": "Tässä näytöksessä ei ole paikkanumerointia käytössä. Tähän tapahtumaan ei voi hyödyntää sarja-, joulu-/vapaalippuja, tai muita etuja sekä alennuksia. Valmistaudu mystisimpään TaikaTorstaihin koskaan! Taikuri Bobo on järjestänyt yhteensä 16 TaikaTorstaita, ja nyt päästään kokemaan jotain täysin erilaista... \"Halloween Taikashow\" on 60 minuuttia hauskaa, uskomatonta ja mystistä Taikuri Bobon esittämää taikuutta, tietenkin halloween teemalla! Vuoden aikana on nähty usea erilainen taikashow, mutta seuraava nähdään vain kerran! Katsotaan liikkuuko pelikortit itsestään vai onko niillä oma tahto keskiviikkona 28.10. Lipunmyynti aukeaa 19.10. klo 14.00! Lue vuoden 2025 kävijöiden palautteet: https://taikuribobo.fi/tapahtumat/"
    },
    "tr": ""
-  },
-  "hamnet": {
-   "id": 858024,
-   "img": "data/posters/84aa45b5d78814bd.jpg",
-   "r": 7.7,
-   "s": {
-    "en": "",
-    "fi": "Hamnet kertoo Shakespearen ajatonta klassikkoa Hamletia innoittaneen vahvan tarinan rakkaudesta ja menetyksestä."
-   },
-   "tr": "https://www.youtube.com/watch?v=xYcgQMxQwmk",
-   "ts": [
-    "fi"
-   ]
   },
   "hangon elokuvajuhlat varaa liput www hangonelokuvajuhlat fi": {
    "r": 0,
@@ -3259,13 +3244,11 @@
     "kinojuha",
     "kinokilta",
     "kinokonepaja",
-    "kinolaika",
     "kinolumo",
     "kinometso",
     "kinomyyri",
     "kinopiispanristi",
     "kinopirtti",
-    "kinosampo",
     "kinoset",
     "kinotervakoski",
     "kinovirta",
@@ -3329,13 +3312,11 @@
     "kinojuha",
     "kinokilta",
     "kinokonepaja",
-    "kinolaika",
     "kinolumo",
     "kinometso",
     "kinomyyri",
     "kinopiispanristi",
     "kinopirtti",
-    "kinosampo",
     "kinoset",
     "kinotervakoski",
     "kinovirta",
@@ -3411,13 +3392,11 @@
     "kinojuha",
     "kinokilta",
     "kinokonepaja",
-    "kinolaika",
     "kinolumo",
     "kinometso",
     "kinomyyri",
     "kinopiispanristi",
     "kinopirtti",
-    "kinosampo",
     "kinoset",
     "kinotervakoski",
     "kinovirta",
@@ -3801,12 +3780,33 @@
    ]
   },
   "klara ja aurinko": {
-   "r": 0,
+   "id": 858035,
+   "img": "data/posters/7633771831e9d4b8.jpg",
+   "kr": "K-12",
+   "krs": [
+    "biorex",
+    "biosavoy",
+    "gilda",
+    "helios",
+    "ihmekompleksi",
+    "kino123",
+    "kinoiiris",
+    "kinomarilyn",
+    "kinomyyri",
+    "kinopiispanristi",
+    "kinopirtti",
+    "kinotar",
+    "kotkanleffat",
+    "leffabuumi",
+    "niagara",
+    "star"
+   ],
+   "r": 6.1,
    "s": {
     "en": "Based on the bestselling novel from Nobel Prize-winner Kazuo Ishiguro and written and directed by Academy-Award® winner Taika Waititi (Jojo Rabbit), Klara and the Sun introduces audiences to Klara (Jenna Ortega), an Artificial Friend who wants nothing more than to find the perfect home. When Klara meets Josie (Mia Tharia), each immediately senses a kindred spirit in the other. Josie has a fraught relationship with her mother (Amy Adams) and they’ve suffered great loss, but Klara’s innocent wonder and unwavering loyalty begin to heal the family and bring light to Josie’s complicated world.",
     "fi": "Klara (Jenna Ortega) on keinotekoinen ystävä, jonka suurin toive on löytää täydellinen koti. Kun Klara kohtaa Josien (Mia Tharia), he tunnistavat heti toisissaan hengenheimolaisen. Josien suhde äitiinsä (Amy Adams) on vaikea, ja perhettä ovat koetelleet raskaat menetykset. Klaran viaton ihmettely ja horjumaton uskollisuus alkavat kuitenkin eheyttää perhettä ja tuoda valoa Josien monimutkaiseen maailmaan. Oscar®-palkitun Taika Waititin (Jojo Rabbit) käsikirjoittama ja ohjaama Klara ja Aurinko perustuu Nobel-palkitun Kazuo Ishiguron samannimiseen menestysromaaniin."
    },
-   "tr": ""
+   "tr": "https://www.youtube.com/watch?v=wixzainceAE"
   },
   "klassikkoelokuva a better tomorrow": {
    "r": 0,
@@ -4803,8 +4803,6 @@
    "img": "data/posters/93eda5fa30b7d70c.jpg",
    "kr": "K-7",
    "krs": [
-    "biokaari",
-    "biomarlon",
     "biopallas",
     "biorex",
     "biorexkokkola",
@@ -4812,6 +4810,7 @@
     "biosalo",
     "biosavoy",
     "biostara",
+    "biovuoksi",
     "cinemantsala",
     "elavienkuvien",
     "elokuviin",
@@ -4823,11 +4822,10 @@
     "kinolumo",
     "kinomania",
     "kinometso",
-    "kinopiispanristi",
-    "kinotar",
+    "kinosampo",
     "kinotervakoski",
+    "kinotoijala",
     "korjaamo",
-    "kuvatahti",
     "leffabuumi",
     "levisummit",
     "savonkinot",
@@ -5994,6 +5992,7 @@
    "krs": [
     "bioforum",
     "biokaari",
+    "biomarlon",
     "biopallas",
     "biorex",
     "biorexkokkola",
@@ -6012,6 +6011,7 @@
     "kinohannikainen",
     "kinojuha",
     "kinokulma",
+    "kinokuva",
     "kinolaika",
     "kinolumo",
     "kinomania",
@@ -6026,11 +6026,13 @@
     "kuvakukko",
     "leffabuumi",
     "levisummit",
+    "lieksankino",
     "savonkinot",
     "sheryl",
     "star",
     "studio123jarvenpaa",
-    "studio123kouvola"
+    "studio123kouvola",
+    "virtainpirtti"
    ],
    "r": 0,
    "s": {
@@ -6443,6 +6445,19 @@
    },
    "tr": ""
   },
+  "pahantorjuja kerhonäytös onnen asiamies": {
+   "id": 1164862,
+   "img": "data/posters/6e6b1231ff934741.jpg",
+   "r": 0,
+   "s": {
+    "en": "",
+    "fi": "Buddhistimunkki Amberin tehtävänä on kiertää Himalajan vuoristokyliä Bhutanissa ja raportoida kansalaisten onnellisuudesta. Tapauskohtaisiin laskelmiin vaikuttavat niin kylän vuohien lukumäärä, kuin tuntemukset puolison poismenosta. Amberin omia sydämen asioita ei voi niitäkään unohtaa. ONNEN ASIAMIES on syvälle luotaava kuvaus inhimillisyydestä huikaisevissa vuoristomaisemissa. Elokuva vie katsojan universaalin äärelle erikoislaatuisessa maassa, jonka kuningas on historiallisesti pitänyt kansansa erillään muusta maailmasta. Tarinasta muodostuu sarja lämpimiä kohtaamisia toinen toistaan syrjäisemmissä kylissä."
+   },
+   "tr": "https://www.youtube.com/watch?v=JFyJaql9R_Y",
+   "ts": [
+    "fi"
+   ]
+  },
   "pahantorjuja kerhonäytös the secret reading club of kabul": {
    "id": 1635591,
    "r": 0,
@@ -6507,9 +6522,10 @@
   },
   "paper tiger": {
    "id": 1381273,
-   "img": "data/posters/bae2625b256de906.jpg",
+   "img": "data/posters/bbda87a41c61eb80.jpg",
    "kr": "K-16",
    "krs": [
+    "bioforum",
     "julia",
     "kinokonepaja",
     "tapiola"
@@ -6794,6 +6810,7 @@
    "img": "data/posters/79b249e47f0870db.jpg",
    "kr": "S",
    "krs": [
+    "biograni",
     "biopallas",
     "biorex",
     "biosalo",
@@ -6811,8 +6828,7 @@
     "kotkanleffat",
     "kuvakukko",
     "savonkinot",
-    "studio123jarvenpaa",
-    "tapiola"
+    "studio123jarvenpaa"
    ],
    "r": 0,
    "s": {
@@ -6850,6 +6866,7 @@
   },
   "pikkuli ja tähtipeura på svenska": {
    "id": 1403476,
+   "img": "data/posters/79b249e47f0870db.jpg",
    "r": 0,
    "s": {
     "en": "",
@@ -6866,41 +6883,6 @@
     "fi": "Pikkuli on suomalainen animaatiosarja, joka perustuu Metsämarja Aittokosken luomiin hahmoihin ja maailmaan. Vuonna 2011 julkaistun kirjan jälkeen Pikkuli tuli tutuksi Pikku Kakkosen ja Buu-klubbenin animaatiosarjasta sekä lastenkirjoista, musiikista, peleistä ja laululeikkiesityksistä. Pikkuli-hahmon seikkailut tarjoavat samaistuttavia tarinoita kaikenikäisille. Pikkulin leikkisä tunnetaitokasvatus rohkaisee lapsia näkemään, että kaikki tunteet ovat sallittuja, vahvistaen lapsen uskoa positiiviseen ajatteluun. Pikkuli-kirjojen uusi kustantamo WSOY julkaisee syksyllä 2026 kolme Pikkuli-kirjaa, joista yksi on elokuvaan pohjaava kirja Pikkuli ja Tähtipeura. Tarina julkaistaan sekä kuvakirjana että äänikirjana. Pikkuli-kirjat lukee äänikirjoiksi Pikkuli-elokuvan ääninäyttelijäkaartistakin tuttu Krista Kosonen."
    },
    "tr": ""
-  },
-  "pikkuli ja tähtipeura suomeksi puhuttu": {
-   "id": 1403476,
-   "img": "data/posters/79b249e47f0870db.jpg",
-   "kr": "S",
-   "krs": [
-    "biopallas",
-    "biorex",
-    "biosalo",
-    "biostara",
-    "engel",
-    "helios",
-    "isohannu",
-    "kino123",
-    "kinohirvi",
-    "kinolumo",
-    "kinometso",
-    "kinopirtti",
-    "kinoset",
-    "kinotervakoski",
-    "kotkanleffat",
-    "kuvakukko",
-    "savonkinot",
-    "studio123jarvenpaa",
-    "tapiola"
-   ],
-   "r": 0,
-   "s": {
-    "en": "",
-    "fi": "Pikkuli sekä muu Aurinkonummen metsän väki on valmistautumassa jouluun, mutta aikuiset alkavat riidellä ja peruvat koko joulun. Pikkuli ystävineen päättää pelastaa tilanteen ja lähtee lumiseen metsään löytääkseen avuksi tarujen Tähtipeuran. Revontulien loimutessa sinnikäs retkue kohtaa monia seikkailuja, tavoitteenaan pelastaa kaikkien joulu."
-   },
-   "tr": "",
-   "ts": [
-    "fi"
-   ]
   },
   "pikkuli och himmelshinden": {
    "id": 1403476,
@@ -6941,7 +6923,6 @@
     "kotkanleffat",
     "laitilankino",
     "leffabuumi",
-    "marita",
     "star"
    ],
    "r": 0,
@@ -7289,7 +7270,8 @@
     "kinokulma",
     "kinolaika",
     "kinomarilyn",
-    "kuvakukko"
+    "kuvakukko",
+    "lieksankino"
    ],
    "r": 0,
    "s": {
@@ -7416,16 +7398,12 @@
   },
   "på svenska lilla spöket laban busar vidare": {
    "id": 1781923,
-   "img": "data/posters/8a9129f55b1b3d43.jpg",
    "r": 0,
    "s": {
-    "en": "Laban the Little Ghost is back with a new collection of cozy and just-spooky-enough adventures at the Good Morning Sun Castle. Together with his little sister Labolina and his best friend, the Little Prince, their days are filled with everything from trick-or-treating, birthday celebrations, and lost Christmas presents to unexpected guests and many other fun experiences.",
+    "en": "",
     "fi": "Yhdessä Lapaniinan, Pikkuprinssin ja ystäviensä kanssa hän joutuu hauskoihin, jännittäviin ja välillä hieman pelottaviinkin tilanteisiin, joissa ystävyys, rohkeus ja mielikuvitus ovat aina keskiössä."
    },
-   "tr": "",
-   "ts": [
-    "en"
-   ]
+   "tr": ""
   },
   "på svenska vaiana liveaction": {
    "id": 1108427,
@@ -10432,6 +10410,7 @@
    "krs": [
     "bioforum",
     "biogrand",
+    "biograni",
     "biomarilyn",
     "biorex",
     "biorexkokkola",
@@ -10462,7 +10441,9 @@
     "kinoolympia",
     "kinopiispanristi",
     "kinopirtti",
+    "kinosampo",
     "kinotar",
+    "kinotoijala",
     "kinovirta",
     "kirkkonummi",
     "kotkanleffat",
@@ -10509,6 +10490,7 @@
    "krs": [
     "bioforum",
     "biogrand",
+    "biograni",
     "biomarilyn",
     "biorex",
     "biorexkokkola",
@@ -10539,7 +10521,9 @@
     "kinoolympia",
     "kinopiispanristi",
     "kinopirtti",
+    "kinosampo",
     "kinotar",
+    "kinotoijala",
     "kinovirta",
     "kirkkonummi",
     "kotkanleffat",
@@ -10611,7 +10595,6 @@
     "pajakkakino",
     "savonkinot",
     "star",
-    "tapiola",
     "vaakuna"
    ],
    "r": 7.9,
@@ -10768,8 +10751,7 @@
     "star",
     "studio123jarvenpaa",
     "vaakuna",
-    "vihdinkino",
-    "virtainpirtti"
+    "vihdinkino"
    ],
    "r": 5.9,
    "s": {
