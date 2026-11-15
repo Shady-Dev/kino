@@ -2604,7 +2604,7 @@
   "intohimorikoksia": {
    "id": 40814,
    "img": "data/posters/5e7af050ca0bd142.jpg",
-   "r": 6.3,
+   "r": 6.2,
    "s": {
     "en": "Fashion designer Joanna Crane leads a double life. By night she is China Blue, a prostitute who's attracted the attention of a sexually frustrated private detective, and a psychopathic priest in possession of a murderous sex toy.",
     "fi": "Kaksoiselämää viettävä muotisuunnittelija Joanna Crane (Kathleen Turner) on iltaisin China Blue, joka toteuttaa asiakkaidensa fetissejä ja mieltymyksiä vailla tunnesiteitä. Maanista saarnaajaa esittävä Anthony Perkins ei ole eroottisen trillerin ainoa yhteys Psykoon. ”Russell esittää kaiken houreisena näkynä, vimmaisena ja hysteerisenä valon, varjon ja värien oopperana”, Kansan Uutisten Osmo Peltonen kirjoitti."
@@ -4718,7 +4718,6 @@
     "kinometso",
     "kinopiispanristi",
     "kinopirtti",
-    "kinoset",
     "kinotar",
     "kinotervakoski",
     "kinotoijala",
@@ -5664,9 +5663,7 @@
    "kr": "K-12",
    "krs": [
     "engel",
-    "gilda",
-    "kinokonepaja",
-    "orion"
+    "kinokonepaja"
    ],
    "r": 8.0,
    "s": {
@@ -6701,7 +6698,6 @@
    "krs": [
     "biopallas",
     "biorex",
-    "biosade",
     "biosalo",
     "biostara",
     "engel",
@@ -6715,7 +6711,6 @@
     "kinopirtti",
     "kinoset",
     "kinotervakoski",
-    "korjaamo",
     "kotkanleffat",
     "kuvakukko",
     "savonkinot",
@@ -6728,7 +6723,10 @@
     "en": "",
     "fi": "Pikkuli sekä muu Aurinkonummen metsän väki on valmistautumassa jouluun, mutta aikuiset alkavat riidellä ja peruvat koko joulun. Pikkuli ystävineen päättää pelastaa tilanteen ja lähtee lumiseen metsään löytääkseen avuksi tarujen Tähtipeuran. Revontulien loimutessa sinnikäs retkue kohtaa monia seikkailuja, tavoitteenaan pelastaa kaikkien joulu."
    },
-   "tr": ""
+   "tr": "",
+   "ts": [
+    "fi"
+   ]
   },
   "pikkuli ja tähtipeura ennakkonäytös": {
    "id": 1403476,
@@ -6783,7 +6781,6 @@
    "krs": [
     "biopallas",
     "biorex",
-    "biosade",
     "biosalo",
     "biostara",
     "engel",
@@ -6797,7 +6794,6 @@
     "kinopirtti",
     "kinoset",
     "kinotervakoski",
-    "korjaamo",
     "kotkanleffat",
     "kuvakukko",
     "savonkinot",
@@ -8553,16 +8549,12 @@
   },
   "stromboli": {
    "id": 4173,
-   "img": "data/posters/b77d184cd37c83dc.jpg",
-   "r": 7.1,
+   "r": 0,
    "s": {
-    "en": "After the end of WWII, a young Lithuanian woman and a young Italian man from Stromboli impulsively marry, but married life on the island is more demanding than she can accept.",
+    "en": "",
     "fi": "Ingrid Bergmanin rohkeassa neorealistisessa irtiotossa Hollywoodista nuori pakolainen muuttaa syrjäiselle tulivuorisaarelle, jonka karu luonto ja kyläyhteisön ankaruus pakottavat kohtaamaan omat pelot. Draama sodanjälkeisestä selviytymisestä yhdistää dokumentaarisen ympäristön ja sisäisen kriisin intensiiviseksi kokemukseksi. Bergmanin paljas ja voimakas roolityö aloitti näyttelijän menestyksekkään italialaiskauden."
    },
-   "tr": "https://www.youtube.com/watch?v=n1cWuVFEtsU",
-   "ts": [
-    "en"
-   ]
+   "tr": ""
   },
   "suburbia kadun kapinalliset": {
    "id": 28054,
@@ -9257,16 +9249,12 @@
   },
   "the punk singer": {
    "id": 178290,
-   "img": "data/posters/a67694adb325fb1e.jpg",
-   "r": 7.1,
+   "r": 0,
    "s": {
-    "en": "A look at the life of activist, musician, and cultural icon Kathleen Hanna, who formed the punk band Bikini Kill and pioneered the \"riot grrrl\" movement of the 1990s.",
+    "en": "",
     "fi": "Kathleen Hanna on keskiössä dokumentissa, jossa käydään läpi hänen elämäänsä alkaen vaikeista nuoruusvuosista ja edeten yhtyeidensä Bikini Kill ja Le Tigre keskushahmoksi ja keskeiseksi Riot Grrrl -liikkeen vaikuttajaksi. Dokumentti merkitsi Hannalle myös ensimmäistä julkituloa Lymen taudin kanssa. Hanna halusi, että dokumenttiin haastatellaan hänen lisäkseen nimenomaan naisia. La 14.11. näytöksen saapuu alustamaan Punkmuseon Sini Törölä."
    },
-   "tr": "https://www.youtube.com/watch?v=fwrXC5OXqgc",
-   "ts": [
-    "en"
-   ]
+   "tr": ""
   },
   "the return of the living dead night visions": {
    "r": 0,
@@ -10399,7 +10387,6 @@
     "kinotar",
     "kinovirta",
     "kirkkonummi",
-    "korjaamo",
     "kotkanleffat",
     "kurikankino",
     "kuvakukko",
@@ -10479,7 +10466,6 @@
     "kinotar",
     "kinovirta",
     "kirkkonummi",
-    "korjaamo",
     "kotkanleffat",
     "kurikankino",
     "kuvakukko",
@@ -10691,9 +10677,7 @@
     "biorexkokkola",
     "elokuviin",
     "gilda",
-    "jarvelankino",
     "kino123",
-    "kinohirvi",
     "kinokulma",
     "kinolumo",
     "kinomarilyn",
@@ -10746,5 +10730,5 @@
    "tr": ""
   }
  },
- "generated": "2026-11-14"
+ "generated": "2026-11-15"
 }

@@ -7,7 +7,7 @@
 [kinokilta] strand prefix split off 2 showtimes
 [kinokilta] Kino Kilta: 60 showtimes, 28 dates
 [kinokilta] synopses merged: 0
-[kinolaika] 43 screening(s) listed, 33 film page(s) read
+[kinolaika] 42 screening(s) listed, 33 film page(s) read
 [kinolaika] omitted 0 confirmed non-film(s) by evidence-backed exclusion over 0 screening(s), and 20 unresolved over 20
 [kinolaika] unresolved: Antti Autio, Dave Lindholm & Pepe Ahlqvist: WALKIN' BLUES -kiertue, Eternal Erection, Hopeasiivet, Kino Iglu: Moskiittorannikko, Livemusavisa, Lyhytelokuvapäivä: Coffee n' Movies, Lyhytelokuvapäivä: Kerttu Matinpuro -elokuvat, Lyhytelokuvapäivä: Ovis Aries, Lyhytelokuvapäivä: PÄIVÄLIPPU, Lyhytelokuvapäivä: Satumaa, Lyhytelokuvapäivä: Stadin AO-sarja
 [kinolaika] override a-fox-under-a-pink-moon: evidence-unavailable
@@ -15,8 +15,8 @@
 [kinolaika] override naza: evidence-unavailable
 [kinolaika] override pikku-kummitus-lapanen-keppostelee: evidence-unavailable
 [kinolaika] override two-seasons-two-strangers: active
-[kinolaika] Kino Laika: 23 showtimes, 9 dates
-[kinolaika] Kino Laika: 23 showtimes, 9 dates
+[kinolaika] Kino Laika: 22 showtimes, 8 dates
+[kinolaika] Kino Laika: 22 showtimes, 8 dates
 [kinolaika] synopses merged: 0
 [kinolaika] synopses skipped as screening notes: 1
 [kinomyyri] 24 screening(s) listed, 20 film page(s) read
@@ -39,8 +39,8 @@
 [kinokonepaja] Kino Konepaja: 52 showtimes, 27 dates
 [kinokonepaja] Kino Konepaja: 52 showtimes, 27 dates
 [kinokonepaja] synopses merged: 0
-[run] http: 47 revalidated (304), 73 full, 22 not stored (origin said no-store), 0 cache entries written
+[run] http: 6 revalidated (304), 114 full, 22 not stored (origin said no-store), 41 cache entries written
 [run] hosts: 4 attempted -- kinokonepaja.fi, kinomyyri.fi, www.kinokilta.fi, www.kinolaika.fi
-[run] kinola: 4 venues, 157 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
-[run] timing: 4 site(s), 226.3s of fetching added up across workers that overlap, longest site 74.2s, longest queue wait 100.1s, 74.2s wall from this module's first fetch starting to its last ending
+[run] kinola: 4 venues, 156 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
+[run] timing: 4 site(s), 227.6s of fetching added up across workers that overlap, longest site 82.7s, longest queue wait 90.4s, 82.7s wall from this module's first fetch starting to its last ending
 exit=0

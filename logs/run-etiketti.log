@@ -16,15 +16,15 @@
 [kkino] synopses merged: 0
 [biograni] Bio Grani: 4 showtimes, 2 dates
 [biograni] synopses merged: 0
-[niagara] Cinema Niagara: 38 showtimes, 15 dates
+[niagara] Cinema Niagara: 37 showtimes, 14 dates
 [niagara] synopses merged: 0
 [niagara] screening-note sentences left out of synopses: 1
 [kinokaustinen] Kino Kaustinen: 1 showtimes, 1 dates
 [kinokaustinen] synopses merged: 0
 [kinomarilyn] Kino Marilyn: 60 showtimes, 19 dates
 [kinomarilyn] synopses merged: 0
-[run] http: 0 revalidated (304), 181 full, 181 not stored (origin said no-store), 0 cache entries written
+[run] http: 0 revalidated (304), 180 full, 180 not stored (origin said no-store), 0 cache entries written
 [run] hosts: 11 attempted -- biograni.fi, biovuoksi.fi, cinemaniagara.fi, jamsankinotar.fi, k-kino.fi, kinoiiris.com, kinojuha.fi, kinokaustinen.fi, kinopirtti.fi, www.biorex.org, www.kinomarilyn.fi
-[run] etiketti: 12 venues, 286 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
-[run] timing: 11 site(s), 327.9s of fetching added up across workers that overlap, longest site 61.7s, longest queue wait 41.8s, 94.8s wall from this module's first fetch starting to its last ending
+[run] etiketti: 12 venues, 285 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
+[run] timing: 11 site(s), 298.8s of fetching added up across workers that overlap, longest site 55.3s, longest queue wait 38.5s, 84.8s wall from this module's first fetch starting to its last ending
 exit=0
