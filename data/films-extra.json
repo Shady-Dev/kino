@@ -46,16 +46,12 @@
   },
   "a clockwork orange": {
    "id": 185,
-   "img": "data/posters/46aa5dacf0a3a895.jpg",
-   "r": 8.2,
+   "r": 0,
    "s": {
     "en": "Alex DeLarge is an “ultraviolent” youth in futuristic Britain. As with all luck, his eventually runs out and he’s arrested and convicted of murder. While in prison, Alex learns of an experimental program in which convicts are programmed to detest violence. If he goes through the program, his sentence will be reduced and he will be back on the streets sooner than expected. But Alex’s ordeals are far from over once he hits the streets of Britain.",
-    "fi": "Knallipäisen huligaanin Alexin matka moraalittomasta pikkurikollisesta aivopestyksi kunnolliseksi kansalaiseksi ja takaisin hulttioksi."
+    "fi": ""
    },
-   "tr": "https://www.youtube.com/watch?v=2meAsIclTzQ",
-   "ts": [
-    "fi"
-   ]
+   "tr": ""
   },
   "a couch in new york": {
    "id": 47434,
@@ -2036,6 +2032,19 @@
    },
    "tr": ""
   },
+  "hamnet": {
+   "id": 858024,
+   "img": "data/posters/84aa45b5d78814bd.jpg",
+   "r": 7.7,
+   "s": {
+    "en": "",
+    "fi": "Hamnet kertoo Shakespearen ajatonta klassikkoa Hamletia innoittaneen vahvan tarinan rakkaudesta ja menetyksestä."
+   },
+   "tr": "https://www.youtube.com/watch?v=xYcgQMxQwmk",
+   "ts": [
+    "fi"
+   ]
+  },
   "hangon elokuvajuhlat varaa liput www hangonelokuvajuhlat fi": {
    "r": 0,
    "s": {
@@ -2716,17 +2725,13 @@
   },
   "jakten på jultomtens verkstad": {
    "id": 1578318,
-   "img": "data/posters/ce3885e6401a6f73.jpg",
    "r": 0,
    "s": {
-    "en": "Nine-year-old Mari is really looking forward to Christmas. Her journalist dad, Svein, on the other hand, loves his job so much, he barely notices the festive season. One night, Mari’s Christmas list vanishes – and in its place lies a mysterious mitten. The mitten sends Mari, Svein and her adventurous grandma on an exciting quest to find Santa Claus. Meanwhile, Stubby the Wishlist Elf is in a panic — he’s lost his mitten, which might just lead this curious family straight to the secret location of Santa’s workshop! He must stop them before it’s too late!",
+    "en": "",
     "fi": "",
     "sv": "Mari, hennes pappa och hennes farmor som har gett sig ut för att hitta jultomtens verkstad, så han skickar ut två nissar för att hindra dem så att de inte ska avslöja alla magiska hemligheter."
    },
-   "tr": "https://www.youtube.com/watch?v=Th2oNpWPSxI",
-   "ts": [
-    "en"
-   ]
+   "tr": ""
   },
   "jakten på jultomtens verkstad på svenska": {
    "r": 0,
@@ -4812,7 +4817,6 @@
     "biostara",
     "biovuoksi",
     "cinemantsala",
-    "elavienkuvien",
     "elokuviin",
     "haapamaki",
     "kino123",
@@ -6027,6 +6031,7 @@
     "leffabuumi",
     "levisummit",
     "lieksankino",
+    "matintupa",
     "savonkinot",
     "sheryl",
     "star",
@@ -7271,6 +7276,7 @@
     "kinolaika",
     "kinomarilyn",
     "kuvakukko",
+    "leffabuumi",
     "lieksankino"
    ],
    "r": 0,
@@ -10695,6 +10701,7 @@
     "biorex",
     "cinemantsala",
     "isohannu",
+    "leffabuumi",
     "niagara",
     "orion"
    ],
@@ -10737,13 +10744,11 @@
     "elokuviin",
     "gilda",
     "kino123",
-    "kinokulma",
     "kinolumo",
     "kinomarilyn",
     "kinopirtti",
     "korjaamo",
     "kotkanleffat",
-    "laitilankino",
     "leffabuumi",
     "niagara",
     "pajakkakino",

@@ -19,13 +19,13 @@
 [bioforum] Bio Forum: 27 showtimes, 12 dates
 [bioforum] Bio Forum: 27 showtimes, 12 dates
 [bioforum] synopses merged: 0
-[kinokulma] 20 screening(s) in 1 schedule block(s), 9 film page(s) read
-[kinokulma] prices for 16 of 18 screening(s); 3 of 4 price scheme(s) read establish an ordinary ticket, from 2 shows.json read(s)
-[kinokulma] left out as the page does: 2 already started, 0 not in the catalogue
+[kinokulma] 19 screening(s) in 1 schedule block(s), 8 film page(s) read
+[kinokulma] prices for 15 of 17 screening(s); 3 of 4 price scheme(s) read establish an ordinary ticket, from 2 shows.json read(s)
+[kinokulma] left out as the page does: 3 already started, 0 not in the catalogue
 [kinokulma] 1 product(s) the site lists as not a film over 2 row(s) left out: Oulaisten Valovoima ry
 [kinokulma] 1 synopsis/synopses withheld, no language settled: Lapin sota
-[kinokulma] Kinokulma: 18 showtimes, 10 dates
-[kinokulma] Kinokulma: 18 showtimes, 10 dates
+[kinokulma] Kinokulma: 17 showtimes, 9 dates
+[kinokulma] Kinokulma: 17 showtimes, 9 dates
 [kinokulma] synopses merged: 0
 [kinohannikainen] 12 screening(s) in 1 schedule block(s), 6 film page(s) read
 [kinohannikainen] prices for 12 of 12 screening(s); 4 of 4 price scheme(s) read establish an ordinary ticket, from 4 shows.json read(s)
@@ -71,9 +71,9 @@
 [kuvatahti] Kuvala: no showtimes, keeping previous data from 2026-11-15T12:14:27+00:00
 [kuvatahti] Kauttuan Kuva: 4 showtimes, 2 dates
 [kuvatahti] synopses merged: 0
-[run] http: 0 revalidated (304), 96 full, 29 not stored (origin said no-store), 0 cache entries written
+[run] http: 0 revalidated (304), 95 full, 29 not stored (origin said no-store), 0 cache entries written
 [run] hosts: 11 attempted -- bioforum.fi, biomarilyn.johku.com, elokuviin.info, kinokulma.fi, kinovirta.johku.com, kulttuurimylly.johku.com, kuvatahti.johku.com, vihdinkino.fi, www.biomarilyn.com, www.kinohannikainen.net, www.kuvatahti.fi
 [run] partial: kuvatahti kept previous data for 1 venue(s): kuvatahti-uusikaupunki
-[run] johku: 12 venues, 136 showtimes, 1 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
-[run] timing: 9 site(s), 189.5s of fetching added up across workers that overlap, longest site 47.9s, longest queue wait 136.3s, 80.1s wall from this module's first fetch starting to its last ending
+[run] johku: 12 venues, 135 showtimes, 1 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
+[run] timing: 9 site(s), 185.3s of fetching added up across workers that overlap, longest site 47.3s, longest queue wait 133.3s, 79.2s wall from this module's first fetch starting to its last ending
 exit=0
