@@ -7,7 +7,9 @@ server-rendered and fetchable, so this parses the public pages:
   /elokuvat/{id}/{slug}     -> every screening for that film, with room, price,
                                free seats and a booking link
 
-Two screening templates render those pages. Kotka's (nineteen of the twenty hosts) prints
+Three screening templates render those pages; Leffabuumi's `show-row` items (2026-11-14)
+print the time in `show-time` and the town and room in `show-city` and `show-screen`. Kotka's
+(nineteen of the twenty hosts) prints
 "KE 2.9. klo 20.00", "TRIO 123 | SALI 2", "Lippu 15,00€" and "Vapaat paikat 27/35";
 Cinema Niagara's (2026-09-02) prints the time in a `time` div, the price in `show-price`,
 "Paikkoja vapaana: 126/127", per-screening tags in `movie-specs`, no place line, and its
@@ -305,9 +307,14 @@ DATA_DATES_RE = re.compile(r'\bdata-dates="([^"]*)"')
 DATA_LOCATIONS_RE = re.compile(r'\bdata-locations="([^"]*)"')
 DATE_RE = re.compile(r"\b(\d{1,2})\.(\d{1,2})\.(\d{4})\b")
 # Kotka: "KE 2.9. klo 20.00". Niagara: <div class="time"><span>16.15</span>.
-TIME_RE = re.compile(r'(?:klo\s*|class="time"[^>]*>\s*(?:<span[^>]*>\s*)?)(\d{1,2})[.:](\d{2})')
+# Leffabuumi (2026-11-14): <span class="show-time">19.30</span>.
+TIME_RE = re.compile(r'(?:klo\s*|class="(?:show-)?time"[^>]*>\s*(?:<span[^>]*>\s*)?)'
+                     r'(\d{1,2})[.:](\d{2})')
 # Trio 123 screenings read "TRIO 123 | SALI 1"; Kinopalatsi has no room at all.
 PLACE_RE = re.compile(r"<p>\s*([^<|]+?)\s*(?:\|\s*([^<]+?)\s*)?<br", re.S)
+# Leffabuumi (2026-11-14): `show-city` "Mikkeli" and `show-screen` "Kinolinna | VIP".
+SHOW_CITY_RE = re.compile(r'<span class="show-city"[^>]*>([^<]*)</span>')
+SHOW_SCREEN_RE = re.compile(r'<span class="show-screen"[^>]*>([^<]*)</span>')
 # Kotka: "Lippu 15,00€". Niagara: <div class="show-price"> 13,00€. Per screening on both;
 # eleven of Niagara's films carried two or three different prices on 2026-09-02.
 PRICE_RE = re.compile(r'(?:Lippu\s*|class="show-price"[^>]*>\s*)([\d,\.]+)')
@@ -329,7 +336,9 @@ def _price(raw):
 # Kotka: "Vapaat paikat 27/35". Niagara: "Paikkoja vapaana: 126/127". Read only to derive
 # soldOut; the counts themselves are not published (docs/archive/2026-09-pipeline.md,
 # "Cinema Niagara, Tampere").
-SEATS_RE = re.compile(r"(?:Vapaat paikat|Paikkoja vapaana):?\s*(\d+)\s*/\s*(\d+)")
+# Leffabuumi (2026-11-14): `Vapaana&nbsp;</span>23/31`.
+SEATS_RE = re.compile(r"(?:Vapaat paikat|Paikkoja vapaana|Vapaana(?:&nbsp;|\s|<[^>]+>)*)"
+                      r":?\s*(\d+)\s*/\s*(\d+)")
 BOOK_RE = re.compile(r'href="(/salikartta\?id=\d+)"')
 # Per-screening labels: Niagara's "Seniorikino" and "Q&amp;A", Kotka's "Erikoisnäytös".
 TAG_RE = re.compile(r'<span class="tag"[^>]*>(.*?)</span>', re.S)
@@ -631,8 +640,12 @@ def parse_movie(page, site, movie_url):
         # Niagara prints no place line; its item carries the place in `data-locations`
         # (2026-10-21) or, before that, as a class ("item tampere date-..."), and `match`
         # runs against that.
-        theatre = _txt(place.group(1)) if place else (_place_attr(attrs) or _place_class(cls))
-        room = _txt(place.group(2)) if (place and place.group(2)) else ""
+        city, screen = SHOW_CITY_RE.search(block), SHOW_SCREEN_RE.search(block)
+        if not place and screen:
+            theatre, room = _txt(city.group(1)) if city else _place_attr(attrs), _txt(screen.group(1))
+        else:
+            theatre = _txt(place.group(1)) if place else (_place_attr(attrs) or _place_class(cls))
+            room = _txt(place.group(2)) if (place and place.group(2)) else ""
         declared = DATA_LOCATIONS_RE.search(attrs) if not theatre else None
         price = PRICE_RE.search(block)
         seats = SEATS_RE.search(block)

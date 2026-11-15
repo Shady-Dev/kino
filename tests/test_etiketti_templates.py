@@ -175,6 +175,34 @@ BUUMI_FILM = dated_film(
     dated_item("mikkeli", "22.10.2026", "18.00", "MIKKELI | KINO RITZ | RITZ 1", "13,00", "0/80", 57260))
 
 
+def show_row(town, date, clock, city, screen, price, seats, sid):
+    """Leffabuumi's screening row, read live on 2026-11-15."""
+    return (f'<div class="item show-row" id="naytos-{sid}"\n'
+            f'      data-locations="[&quot;{town}&quot;]"\n'
+            f'      data-dates="[&quot;{date}&quot;]"\n      >\n'
+            f'      <span class="show-time">{clock}</span>\n'
+            f'      <span class="show-place"><span class="show-hall">\n'
+            f'        <span class="show-city">{city}</span>\n'
+            f'        <span class="show-screen">{screen}</span></span></span>\n'
+            f'      <span class="show-meta"><span class="show-seats">\n'
+            f'        <span class="seat-dot seats-high" aria-hidden="true"></span>\n'
+            f'        <span class="show-seats-label">Vapaana&nbsp;</span>{seats}  </span>\n'
+            f'        <span class="show-price">{price}&euro;</span></span>\n'
+            f'      <span class="show-action"><a class="button-screening" '
+            f'href="/salikartta?id={sid}">Osta lippu</a></span>\n    </div>\n')
+
+
+SHOW_ROW_FILM = dated_film(
+    '<div class="show-date-header show-day"><span class="show-day-label">Maanantai 16.11.'
+    '</span></div>\n',
+    show_row("mikkeli", "16.11.2026", "19.30", "Mikkeli", "Kinolinna | VIP", "18,50", "23/31",
+             57536),
+    show_row("mikkeli", "17.11.2026", "19.00", "Mikkeli", "Kinolinna | Sali 1", "14,50",
+             "156/163", 57503),
+    show_row("mikkeli", "18.11.2026", "18.00", "Mikkeli", "Kino Ritz | Ritz 1", "13,00", "0/80",
+             57600))
+
+
 class DataDatesTest(Stubbed):
     def test_each_item_is_a_screening_with_its_date_place_price_and_link(self):
         e = load()
@@ -192,6 +220,24 @@ class DataDatesTest(Stubbed):
         self.assertEqual({k: len(v) for k, v in out.items()}, {"lb-kinolinna": 2, "lb-ritz": 1})
         self.assertEqual(out["lb-kinolinna"][0]["url"], "https://leffabuumi.fi/salikartta?id=57163")
         self.assertTrue(out["lb-ritz"][0]["soldOut"])
+
+    def test_the_show_row_template_reads_time_room_price_and_seats(self):
+        e = load()
+        rows, meta = e.parse_movie(SHOW_ROW_FILM, site("leffabuumi"), "/elokuvat/3340/x")
+        self.assertEqual(meta["skipped"], 0)
+        self.assertEqual([(r["start"][:16], r["theatre_raw"], r["aud"], r["price"], r["free"])
+                          for r in rows],
+                         [("2026-11-16T19:30", "Mikkeli", "Kinolinna | VIP", "18.5€", 23),
+                          ("2026-11-17T19:00", "Mikkeli", "Kinolinna | Sali 1", "14.5€", 156),
+                          ("2026-11-18T18:00", "Mikkeli", "Kino Ritz | Ritz 1", "13€", 0)])
+
+    def test_the_show_row_template_places_each_venue(self):
+        e = self.stub({"/elokuvat/ohjelmistossa": listing("/elokuvat/3340/x"),
+                       "/elokuvat/3340/x": SHOW_ROW_FILM})
+        out = e.fetch_site(site("leffabuumi"), sleep=0)
+        self.assertEqual({k: len(v) for k, v in out.items()}, {"lb-kinolinna": 2, "lb-ritz": 1})
+        self.assertTrue(out["lb-ritz"][0]["soldOut"])
+        self.assertFalse(out["lb-kinolinna"][0]["soldOut"])
 
     def test_savon_kinots_town_first_place_line_keeps_its_room(self):
         page = dated_film(
