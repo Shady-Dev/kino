@@ -239,6 +239,20 @@ class DataDatesTest(Stubbed):
         self.assertTrue(out["lb-ritz"][0]["soldOut"])
         self.assertFalse(out["lb-kinolinna"][0]["soldOut"])
 
+    def test_blocks_with_no_readable_time_on_every_page_fail_the_site(self):
+        moved = SHOW_ROW_FILM.replace('class="show-time"', 'class="slot-time"')
+        e = self.stub({"/elokuvat/ohjelmistossa": listing("/elokuvat/3340/x", "/elokuvat/3341/y"),
+                       "/elokuvat/3340/x": moved, "/elokuvat/3341/y": moved})
+        with self.assertRaisesRegex(RuntimeError, "template moved"):
+            e.fetch_site(site("leffabuumi"), sleep=0)
+
+    def test_one_unreadable_page_beside_a_read_one_still_publishes(self):
+        moved = SHOW_ROW_FILM.replace('class="show-time"', 'class="slot-time"')
+        e = self.stub({"/elokuvat/ohjelmistossa": listing("/elokuvat/3340/x", "/elokuvat/3341/y"),
+                       "/elokuvat/3340/x": SHOW_ROW_FILM, "/elokuvat/3341/y": moved})
+        out = e.fetch_site(site("leffabuumi"), sleep=0)
+        self.assertEqual({k: len(v) for k, v in out.items()}, {"lb-kinolinna": 2, "lb-ritz": 1})
+
     def test_savon_kinots_town_first_place_line_keeps_its_room(self):
         page = dated_film(
             dated_item("joensuu", "13.10.2026", "18.30", "JOENSUU | TAPIO | TAPIO 3", "14,00",

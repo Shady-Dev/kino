@@ -124,9 +124,10 @@ class ConfirmedEmptyTest(Stubbed):
         screening blocks leaves every venue rowless, which is indistinguishable from a
         chain with nothing on. Both venues are named by the navigation, so without the
         guard both would come back confirmed empty."""
-        out = self.fetch({"/elokuvat/ohjelmistossa": cine_listing("/elokuvat/13/hetki"),
-                          "/elokuvat/13/hetki": DRIFTED_FILM})
-        self.assertEqual(out, {}, "a drifted screening pattern confirms nothing")
+        # Since 2026-11-15 the drift fails the site outright rather than returning nothing.
+        with self.assertRaisesRegex(RuntimeError, "template moved"):
+            self.fetch({"/elokuvat/ohjelmistossa": cine_listing("/elokuvat/13/hetki"),
+                        "/elokuvat/13/hetki": DRIFTED_FILM})
 
     def test_a_page_whose_blocks_the_parser_no_longer_finds_vouches_for_no_venue(self):
         """The same drift one step earlier: the block pattern itself stops matching, so the
@@ -282,21 +283,11 @@ class DriftedParseTest(RunSiteTest):
         (self.run.OUT / "area-cine-keuda.json").write_text(json.dumps(self.PREV), encoding="utf-8")
 
     def test_a_drifted_parse_keeps_both_files_and_leaves_the_site_failing(self):
-        live, total, stale, unverified, pending = self.run_site(
-            {"/elokuvat/ohjelmistossa": cine_listing("/elokuvat/13/hetki"),
-             "/elokuvat/13/hetki": DRIFTED_FILM})
-        self.assertEqual((live, total, unverified, pending), (0, 0, [], []))
-        self.assertEqual(sorted(stale), ["cine-keuda", "cine-nikkila"])
+        with self.assertRaisesRegex(RuntimeError, "template moved"):
+            self.run_site({"/elokuvat/ohjelmistossa": cine_listing("/elokuvat/13/hetki"),
+                           "/elokuvat/13/hetki": DRIFTED_FILM})
         self.assertEqual(self.read("area-cine-keuda.json"), self.PREV)
         self.assertEqual(self.read("area-cine-nikkila.json"), self.PREV)
-        # No live venue and nothing confirmed empty is the run's failure condition, and
-        # the provider file records both venues stale on the previous stamp, so the health
-        # line reads degraded at once rather than waiting for the age to cross STALE_H.
-        self.assertFalse(self.run.confirmed_empty_site(site(), pending))
-        doc = json.loads((self.run.OUT / "venues-cine.json").read_text(encoding="utf-8"))
-        self.assertEqual(doc["status"], "partial")
-        self.assertEqual(sorted(doc["stale"]), ["cine-keuda", "cine-nikkila"])
-        self.assertEqual(doc["oldest"], self.PREV["generated"])
 
     def test_a_page_with_no_block_found_keeps_both_files_and_leaves_the_site_failing(self):
         live, total, stale, unverified, pending = self.run_site(
