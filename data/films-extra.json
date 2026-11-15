@@ -3209,7 +3209,6 @@
     "kinovirta",
     "kirkkonummi",
     "kisakino",
-    "kkino",
     "kotkanleffat",
     "kuvakukko",
     "kuvatahti",
@@ -3224,7 +3223,6 @@
     "studio123kouvola",
     "tapiola",
     "vaakuna",
-    "vihdinkino",
     "virtainpirtti"
    ],
    "r": 0,
@@ -3281,7 +3279,6 @@
     "kinovirta",
     "kirkkonummi",
     "kisakino",
-    "kkino",
     "kotkanleffat",
     "kuvakukko",
     "kuvatahti",
@@ -3296,7 +3293,6 @@
     "studio123kouvola",
     "tapiola",
     "vaakuna",
-    "vihdinkino",
     "virtainpirtti"
    ],
    "r": 0,
@@ -4423,16 +4419,12 @@
   },
   "kätyrit monsterit dub": {
    "id": 1315772,
-   "img": "data/posters/67059865db3405c0.jpg",
-   "r": 7.5,
+   "r": 0,
    "s": {
-    "en": "This is the rambunctious, ridiculous and totally true story of how the Minions conquered Hollywood, became movie stars, lost everything, unleashed monsters onto the world and then banded together to try and save the planet from the mayhem they had just created.",
+    "en": "",
     "fi": "Illumination johdattaa meidät jälleen hulvattomaan animaatiomaailmaansa uudella elokuvallaan Kätyrit & Monsterit, joka tuo maailman suosituimpaan animaatio-franchiseen kokonaan uusia hahmoja. Hillitön, riehakas ja täysin tositapahtumiin perustuva elokuva kertoo, miten Kätyrit valloittavat Hollywoodin ja nousevat elokuvatähdiksi, menettävät kaiken, tulevat päästäneeksi hirviöitä maailmaan ja lopulta yhdistävät voimansa pelastaakseen planeetan itse aiheuttamaltaan kaaokselta. Alkuperäisissä äänirooleissa kuullaan muun muassa Oscar®-voittaja Allison Janney, kaksinkertainen Oscar®-voittaja Christoph Waltz, Oscar®-voittaja Jeff Bridges, kaksinkertainen Oscar®-ehdokas Jesse Eisenberg, Zoey Deutch (Nouvelle Vague) sekä Oscar®-ehdokas Trey Parker, joka tunnetaan myös yhtenä South Parkin luojista. Näyttelijäkaartia täydentävät myös entinen Saturday Night Live -tähti Bobby Moynihan ja Phil LaMarr (Futurama, Kukkulan kuningas). Kätyrit & Monsterit -elokuvan on ohjannut Oscar-ehdokkuuden saanut Pierre Coffin, jonka ohjaustöihin lukeutuvat myös kolme ensimmäistä Itse ilkimys -elokuvaa ja ensimmäinen Kätyrit-elokuva. Coffin on myös ääninäytellyt itse Kätyreitä niiden elokuvadebyytistä 2010 alkaen. Elokuvan käsikirjoittajat ovat Brian Lynch (Kätyrit, Lemmikkien salainen elämä -elokuvat) ja Pierre Coffin. Elokuvan ovat tuottaneet myös Oscar-ehdokkuuden saanut Illuminationin perustaja ja pääjohtaja Chris Meledandri sekä Bill Ryan (The Super Mario Bros. Movie -elokuvan vastaava tuottaja ). Kätyrit & Monsterit -elokuvan vastaava tuottaja on Brian Lynch. Yli 15 vuotta on kulunut Kätyreiden luomisesta, ja niistä on tullut sukupolvensa ikonisimpia animaatiohahmoja. Kaikenikäisten fanien rakastamat Kätyrit ovat siivittäneet Illuminationin Itse ilkimys- ja Kätyrit-elokuvatuotannot yli 5,6 miljardia dollaria tuottaneiksi maailmanlaajuisiksi jymymenestyksiksi."
    },
-   "tr": "https://www.youtube.com/watch?v=V-O-uBaHk3c",
-   "ts": [
-    "en"
-   ]
+   "tr": ""
   },
   "kätyrit monsterit dub 5": {
    "id": 1315772,
@@ -4694,7 +4686,6 @@
    "img": "data/posters/93eda5fa30b7d70c.jpg",
    "kr": "K-7",
    "krs": [
-    "biogrand",
     "biokaari",
     "biomarlon",
     "biopallas",
@@ -4708,7 +4699,6 @@
     "elavienkuvien",
     "elokuviin",
     "haapamaki",
-    "joutsankino",
     "kino123",
     "kinoelo",
     "kinohirvi",
@@ -4717,14 +4707,10 @@
     "kinomania",
     "kinometso",
     "kinopiispanristi",
-    "kinopirtti",
     "kinotar",
     "kinotervakoski",
-    "kinotoijala",
     "korjaamo",
-    "kotkanleffat",
     "kuvatahti",
-    "laitilankino",
     "leffabuumi",
     "levisummit",
     "savonkinot",
@@ -4763,16 +4749,12 @@
   },
   "late lammas elokuva hämäräpuuhissa suomeksi": {
    "id": 1477104,
-   "img": "data/posters/93eda5fa30b7d70c.jpg",
-   "r": 7.3,
+   "r": 0,
    "s": {
-    "en": "On Halloween Eve at Mossy Bottom Farm, excitement turns to dismay when the clumsy Farmer ruins the pumpkin patch. Shaun tries fixing it with science experiments, but things go awry when a wild beast appears in the woods.",
+    "en": "",
     "fi": "Rakastettu Late Lammas palaa valkokankaille uudessa, riemastuttavassa ja kutkuttavan hauskassa seikkailussa. Farmin asukkaat odottavat innolla Halloweenia, kunnes heidän rakkaudella kasvattamansa kurpitsaviljelmä tuhoutuu juhlan kynnyksellä. Late ei jää toimettomaksi, vaan päättää ryhtyä “hulluksi tiedemieheksi” korjatakseen tilanteen – ja pian tapahtumat karkaavatkin täysin käsistä. Kun tilan maajussi katoaa ja outo villi peto herättää kauhua kyläläisissä, ovat kaikki ainekset kasassa hirviömäisen hauskalle seikkailulle kaiken ikäisille. Kananlento ja Wallace & Gromit -elokuvien tekijöiden uusi seikkailu Late Lammas: Hämäräpuuhissa saapuu elokuvateattereihin 30. lokakuuta."
    },
-   "tr": "https://www.youtube.com/watch?v=daZMq0AyOMc",
-   "ts": [
-    "en"
-   ]
+   "tr": ""
   },
   "late lammas hämärä puuhissa": {
    "id": 1477104,
@@ -6706,14 +6688,12 @@
     "kinohirvi",
     "kinolumo",
     "kinometso",
-    "kinopiispanristi",
     "kinopirtti",
     "kinoset",
     "kinotervakoski",
     "kotkanleffat",
     "kuvakukko",
     "savonkinot",
-    "star",
     "studio123jarvenpaa",
     "tapiola"
    ],
@@ -6786,14 +6766,12 @@
     "kinohirvi",
     "kinolumo",
     "kinometso",
-    "kinopiispanristi",
     "kinopirtti",
     "kinoset",
     "kinotervakoski",
     "kotkanleffat",
     "kuvakukko",
     "savonkinot",
-    "star",
     "studio123jarvenpaa",
     "tapiola"
    ],
@@ -6837,6 +6815,7 @@
    "kr": "S",
    "krs": [
     "biorex",
+    "elokuviin",
     "ihmekompleksi",
     "isohannu",
     "kino123",
@@ -6971,16 +6950,12 @@
   },
   "practical magic lumotut sisaret": {
    "id": 1302904,
-   "img": "data/posters/1b75e3e44aca4810.jpg",
-   "r": 7.2,
+   "r": 0,
    "s": {
-    "en": "The Owens sisters must confront the dark curse that threatens to unravel their family once and for all.",
+    "en": "",
     "fi": "Sandra Bullockin ja Nicole Kidmanin tähdittämä PRACTICAL MAGIC: LUMOTUT SISARET vie kuutamon valaisemien kepposten ja esiäitien taikuuden sävyttämään maailmaan, jossa Owensin sisarten on kohdattava synkkä kirous, joka uhkaa repiä heidän perheensä lopullisesti hajalle. Luvassa on lumottu elokuva täynnä komediaa ja taikaa."
    },
-   "tr": "https://www.youtube.com/watch?v=Ho10_4IX1jE",
-   "ts": [
-    "en"
-   ]
+   "tr": ""
   },
   "practical magic lumotut sisaret k18 anniskelunäytös": {
    "id": 1302904,
@@ -7188,6 +7163,7 @@
    "krs": [
     "biorexkokkola",
     "cinemantsala",
+    "elokuviin",
     "haapamaki",
     "helios",
     "isohannu",
@@ -8091,16 +8067,12 @@
   },
   "ryhmä hau dinoelokuva suomeksi": {
    "id": 1185806,
-   "img": "data/posters/b7775ab25a7de6bc.jpg",
-   "r": 8.1,
+   "r": 0,
    "s": {
-    "en": "The Paw Patrol lands on a mysterious dinosaur island after a storm, where they meet Rex, a stranded pup. When Humdinger's reckless mining triggers a volcano, the team faces their biggest rescue mission yet to save the island.",
+    "en": "",
     "fi": "Ryhmä Haun laiva joutuu mystisen myrskyn kouriin ja haaksirikkoutuu trooppiselle saarelle, joka kuhisee dinosauruksia. He tapaavat Rexin – pennun, joka on jo vuosia ollut saarella jumissa ja josta on kehkeytynyt melkoinen dinosaurusekspertti. Kun Ryhmä Haun arkkivihollinen, Pormestari Hanttinen, aloittaa valtavat kaivuutyöt voidakseen hyödyntää saaren luonnonvaroja, hän saa vahingossa valtavan nukuksissa olleen tulivuoren purkautumaan. Pennut tempautuvat mukaan riskialttiiseen, dinon kokoiseen, kaikkien aikojen suurimpaan pelastusoperaatioonsa tavoitteenaan pysäyttää Hanttinen ennen kuin kaikki saarella katoaa ikiajoiksi."
    },
-   "tr": "https://www.youtube.com/watch?v=xgI5iYmOf5Q",
-   "ts": [
-    "en"
-   ]
+   "tr": ""
   },
   "rölli ja metsänhenki": {
    "id": 64029,
@@ -10374,7 +10346,6 @@
     "kinoolympia",
     "kinopiispanristi",
     "kinopirtti",
-    "kinosampo",
     "kinotar",
     "kinovirta",
     "kirkkonummi",
@@ -10453,7 +10424,6 @@
     "kinoolympia",
     "kinopiispanristi",
     "kinopirtti",
-    "kinosampo",
     "kinotar",
     "kinovirta",
     "kirkkonummi",
@@ -10529,7 +10499,7 @@
     "tapiola",
     "vaakuna"
    ],
-   "r": 8.1,
+   "r": 7.9,
    "s": {
     "en": "Shortly before the 1973 Chilean coup, CIA agents Chris (John Malkovich) and Lee (Sam Rockwell) are sent from Santiago to Easter Island by their superior, MJ (Steve Buscemi). Amid the island’s iconic statues, the longtime colleagues are forced to confront their dark past and a web of present-day conspiracies. Meanwhile, Chris’s new friendship with two rebellious students (Mariana di Girolamo and Ailín Salas) threatens to derail everyone’s journey to this remote paradise.",
     "fi": "Pian Chilen vuoden 1973 vallankaappauksen jälkeen CIA:n agentit Chris (John Malkovich) ja Lee (Sam Rockwell) lähetetään Santiagosta Pääsiäissaarelle hoitamaan viraston johtajan MJ:n (Steve Buscemi) määräämää tehtävää. Pitkäaikaiset työtoverit joutuvat kamppailemaan saaren ikonisten patsaiden varjoissa niin menneisyyden haamujen kuin paraikaa valloillaan olevien salaliittojen kanssa. Kun Chris sitten sattuu tapaamaan kaksi vallankumouksellista opiskelijaa (Mariana di Girolamo ja Ailín Salas), seuraukset uhkaavat suistaa raiteiltaan heidän kaikkien reissunsa tähän syrjäiseen paratiisiin.",
