@@ -297,6 +297,14 @@
    },
    "tr": ""
   },
+  "asterix nubian valtakunta": {
+   "r": 0,
+   "s": {
+    "en": "",
+    "fi": "Harvinaisen nuoruuseliksiirin päädyttyä vahingossa taikajuomaan lannistumattomat gallialaiset muuttuvat harmittomiksi lapsiksi. Löytääkseen vastalääkkeen Asterix ja Obelix lähtevät hullunkuriselle matkalle kaukaiseen Nubian valtakuntaan."
+   },
+   "tr": ""
+  },
   "asteroid quest": {
    "r": 0,
    "s": {
@@ -638,12 +646,25 @@
    ]
   },
   "billie maailmojen välissä": {
+   "id": 1538497,
+   "img": "data/posters/4634d78853ec8f0d.jpg",
+   "kr": "K-7",
+   "krs": [
+    "engel",
+    "helios",
+    "kinohannikainen",
+    "kinotervakoski",
+    "kkino"
+   ],
    "r": 0,
    "s": {
-    "en": "",
+    "en": "An impulsive and unconventional teenage girl named Billie discovers secret magical abilities which, once unleashed, hurtle her into a spectacle-filled journey out of suburbia and into a vast witch realm called Hexe. Forced to team up with her cautious mother, Alice, they uncover family mysteries that could change the world of witches forever.",
     "fi": "Billie maailmojen välissä esittelee meille impulsiivisen ja omintakeisen teinitytön nimeltä Billie ja tämän ylisuojelevan äidin Alicen. Kun Billie saa yllättäen käyttöönsä salaisia taikavoimia, hän tempautuu saman tien kotoaan maagiseen Hexen valtakuntaan, missä häntä ovat vastaanottamassa Ms. Quill ja Elias Quire. Huikean matkansa edetessä Billie saa selville perhesalaisuuksia, jotka voivat mullistaa noitien taikamaailman ikiajoiksi. Puhuttu suomeksi!"
    },
-   "tr": ""
+   "tr": "https://www.youtube.com/watch?v=IuosV-TRxDU",
+   "ts": [
+    "en"
+   ]
   },
   "black magic rites": {
    "id": 59912,
@@ -1199,6 +1220,14 @@
    },
    "tr": ""
   },
+  "dokumentti kino amongst the birds": {
+   "r": 0,
+   "s": {
+    "en": "",
+    "fi": "Kotimaan ENSI-ILTA!  \n\nKino Töölön Dokumentti Kinossa ainutlaatuinen Mika Kaurismäen,  Ingvar Þórðarsonin ja Ragnar Axelssonin ohjaama AMONGST THE BIRDS.  \n\nJoka vuosi kaksitoistatuhatta lintua ja muutama ihminen kokoontuu kolmeksi kuukaudeksi syrjäiselle islantilaiselle vuonolle, Loðmundarfjörðuriin.\n\nÓlafur Aðalsteinsson ja Jóhanna Óladóttir edustavat harvinaista sidettä ihmisen ja luonnon välillä. Ólafuria pidetään myös yhtenä maailman johtavista lintutieteilijöistä, vaikka hänellä ei ole muodollista koulutusta alalta. Pariskunta on löytänyt rauhan ja elämäntehtävänsä höyhenpeitteisten ystäviensä parista eristyksissä olevassa Loðmundarfjörðurissa, joka on ollut asumattomana 70-luvulta lähtien.\n\nTäällä ei ole matkapuhelinverkkoa, ja moderni maailma tuntuu olevan muutenkin hyvin kaukana.\n\nHenkeäsalpaavan kaunis Loðmundarfjörður on hiljainen yhdeksän kuukautta vuodesta, mutta kesän lähestyessä haahkat palaavat pesimään, ja vuono herää eloon.\n\nYli kahden vuosikymmenen ajan pariskunta on hoitanut haahkoja ja he ovat rakentaneet kukoistavan pesimäalueen Sævarendiin. Heidän aloittaessaan rupeamansa 22 vuotta sitten, pesiä oli vain 176 kappaletta. Nykyään pesiä on noin 6 000, ja jokaiselle lintuperheelle on rakennettu omat ”talonsa”. Se on kuin lintujen asuttama pieni kaupunki. Kaupungin kokoa kasvattaessaan pariskunta hyödyntää kierrätysmateriaaleja sekä meren mukana tuomaa puutavaraa.\n\nHeidän kamppailunsa muistuttaa lintujen omaa selviytymistaistelua. Joka kevät haahkat ja niiden poikaset ovat jatkuvassa vaarassa naalien, korppien ja lokkien vuoksi. Ólafur, joka tunnettiin aiemmin ketunmetsästäjänä, yrittää nyt suojella kettuja aina kun voi, mutta toisinaan hänen on asetettava lintuystävänsä etusijalle. Korppien kanssa hän ylläpitää haurasta rauhansopimusta: hän ruokkii niitä, jotta ne jättäisivät pesimäalueen rauhaan.\n\nLuonnonkiertokulku näyttäytyy karuna, komeana ja koskettavana."
+   },
+   "tr": ""
+  },
   "dokumentti kino colombia in my arms": {
    "id": 660354,
    "img": "data/posters/c6be1b31b8e71ea1.jpg",
@@ -1401,7 +1430,9 @@
     "biorex",
     "biorexkokkola",
     "biosade",
+    "biosalo",
     "biosavoy",
+    "biostara",
     "biovuoksi",
     "cinemantsala",
     "elavienkuvien",
@@ -1418,6 +1449,7 @@
     "kinolumo",
     "kinomania",
     "kinomarilyn",
+    "kinoolympia",
     "kinopiispanristi",
     "kinopirtti",
     "kinosampo",
@@ -1460,7 +1492,9 @@
     "biorex",
     "biorexkokkola",
     "biosade",
+    "biosalo",
     "biosavoy",
+    "biostara",
     "biovuoksi",
     "cinemantsala",
     "elavienkuvien",
@@ -1477,6 +1511,7 @@
     "kinolumo",
     "kinomania",
     "kinomarilyn",
+    "kinoolympia",
     "kinopiispanristi",
     "kinopirtti",
     "kinosampo",
@@ -1647,6 +1682,14 @@
    "s": {
     "en": "",
     "fi": "Tervetuloa juhlistamaan eurooppalaista elokuvaa ja Luova Eurooppa MEDIA -ohjelman 35-vuotistaivalta Kino Iirikseen! Järjestämme European Cinema Night -erikoisnäytöksen keskiviikkona 2. joulukuuta 2026 klo 18.00. Ilta käynnistyy lyhyellä alustuksella, minkä jälkeen kuullaan Suomen Luova Eurooppa Media Deskin toiminnanjohtaja Liisa Saurin tervetuliaispuheenvuoro. Illan elokuvana nähdään Gints Zilbalodisin ohjaama ylistetty animaatioelokuva Flow (2024). Flow on visuaalisesti lumoava ja dialogiton animaatioelokuva kissasta, jonka koti tuhoutuu suuren tulvan seurauksena. Kissa löytää turvan veneestä yhdessä muiden eläinten kanssa, ja yhdessä heidän on navigoitava muuttuvan maailman haasteiden ja vaarojen keskellä luottaen toisiinsa. Tämä laajasti palkittu (mm. parhaan animaatioelokuvan Oscar ja Euroopan elokuvakatsojien LUX-palkinto) mestariteos tarjoaa ainutlaatuisen ja koskettavan kokemuksen kaikenikäisille. Näytöksen jälkeen järjestetään keskustelu osana ohjelmaa, jossa vieraana on ohjaaja ja käsikirjoittaja Keijo Skippari. Oscar-voittaja: paras animaatio Golden Globe -voittaja: paras animaatio César-voittaja: paras animaatio European Film Awards -voittaja: paras animaatio Rohkea kissa kohtaa suuren hyökyaallon. Kissa pelastautuu veneeseen iloisen koiran, väsyneen kapybaran, ilkikurisen makin ja äkäisen linnun kanssa. Eläimet tekevät seikkailuntäyteisen matkan läpi upean luonnon ja salaperäisten kaupunkien – uuden vieraan maailman, jossa yhteistyö ja ystävyys ovat tärkeintä. Flow on uskomattoman hyvin animoitu ja tunteellinen seikkailuelokuva, jossa eläimet todella saavat käyttäytyä kuten luonnossa. Dialogittomassa elokuvassa korostuu musiikki, joka on osittain työstetty Suomessa! Fantastinen elokuvakokemus sekä lapsille että aikuisille on hukutettu suurimpiin kansainvälisiin palkintoihin, kruununa parhaan animaation Oscar. Huom! 3 lippua/asiakas."
+   },
+   "tr": ""
+  },
+  "european cinema night the act of killing": {
+   "r": 0,
+   "s": {
+    "en": "",
+    "fi": "Vuosien 1965–1966 aikana arviolta yli miljoona kommunistia, kommunistiksi epäiltyä ja kommunistien sympatiseeraajaksi luettua sekä lukuisiin eri etnisiin vähemmistöihin kuuluvaa ihmistä surmattiin Yhdysvaltain ja lännen tukemissa anti-kommunistisissa joukkosurmissa Indonesiassa. Tuohon aikaan 25-vuotias Anwar Congo myi mustan pörssin elokuvalippuja, mutta nousi joukkotappamisen aikaan ystävineen nopeasti yhdeksi pelätyimmistä ja tehokkaimmista kuolemanpartioiden johtajista, joka vastasi henkilökohtaisesti yli tuhannen ihmisen tappamisesta. Yli neljäkymmentä vuotta myöhemmin tanskalaisohjaajat Joshua Oppenheimer ja Christine Cynn kutsutaan Congon toimesta kuvaamaan, kun hän yhdessä ystäviensä kanssa lavastaa pienikokoisissa ja massiivisissa rekonstruoinneissa tappamisen vuotensa uudestaan – he rakentavat filmatisoidut esitykset oikeista surmista lempielokuviensa genrejen, kuten gangsterifilmien, lännenelokuvien ja musikaalien ympärille. Voiko kauheimpiin kuviteltaviin tekoihin syyllistynyt ihminen käydä historiansa läpi katumatta ja viihteenä? Tämä Werner Herzogin ja Errol Morrisin tuottama elokuvatapaus palkittiin ilmestyessään moninkertaisesti ja valittiin lukuisten elokuvakriitikkojen ja mm. Sight & Sound -lehden toimesta vuoden 2013 parhaaksi elokuvaksi. The Act of Killing on yksi surrealistisimmista, pysäyttävimmistä ja omalaatuisimmista katsannoista ihmisen pimeälle puolelle."
    },
    "tr": ""
   },
@@ -2409,6 +2452,16 @@
     "fi"
    ]
   },
+  "how the grinch stole christmas": {
+   "id": 8871,
+   "img": "data/posters/fd5dcbe16f2fd8bc.jpg",
+   "r": 6.8,
+   "s": {
+    "en": "",
+    "fi": "Grinch päättää varastaa joulun Whovillestä, mutta Cindy Lou Whon ja hänen perheensä suunnalta tuleva ystävällisyyden tuulahdus voi sulattaa Grinchin sydämen."
+   },
+   "tr": "https://www.youtube.com/watch?v=UnyPPS1Z-Vs"
+  },
   "how to rob a bank": {
    "id": 1437511,
    "img": "data/posters/8b1166ae143c79d4.jpg",
@@ -2660,6 +2713,16 @@
    "ts": [
     "en"
    ]
+  },
+  "isäni tähtien takaa ohjaajavierailu": {
+   "id": 403372,
+   "img": "data/posters/b508c4d823173248.jpg",
+   "r": 0,
+   "s": {
+    "en": "",
+    "fi": "Einarin lapsuus olisi voinut olla kuten muidenkin suomalaisten poikien. Isä Veikko kävi normaalisti töissä pikkukaupungin verotoimistossa ja äiti työskenteli toimittajana. Kaikki muuttui Einarin ollessa 12-vuotias; isä Veikko koki valaistumisen ilmoittaen olevansa Maan ja ulkoavaruuden välinen sanansaattaja. Hän kertoi näkevänsä avaruusolentoja, pystyen ottamaan yhteyttä tuonpuoleiseen ja omaavansa yliluonnollisia parannustaitoja. Einarista ja Veikosta tuli tiimi, jolle koko maailmankaikkeus oli avoinna. Nyt, 25 vuotta myöhemmin, Einari kohtaa isänsä epäilyksillään. Elokuvan tuottaja Elina Pohjola Pohjola-filmistä on vaikuttunut päähenkilöiden avoimuudesta: ”Rajatiedosta ja ufo-kokemuksista ei yleensä puhuta näin suoraan. Elokuvassa se tapahtuu lämminhenkisesti perhepiirissä, mutta kuten elokuvassa käy ilmi, se ei tee siitä silti helppoa.”"
+   },
+   "tr": "https://www.youtube.com/watch?v=s-xtVeigtrE"
   },
   "isänpäivä": {
    "id": 1262748,
@@ -4595,7 +4658,7 @@
     "kinokilta",
     "orion"
    ],
-   "r": 8.1,
+   "r": 8.0,
    "s": {
     "en": "La bola negra, which won the Best Director award in Cannes, has been described by the international press as “powerful”, “stunning” and “the most important historical queer film of all time”. The film is based on the figure of the poet Federico García Lorca, who was executed during the Spanish Civil War, and his unfinished novel. The story depicts the fates of three gay men in the years 1932, 1937 and 2017. War, forbidden desire, grief, guilt and hushed family secrets are all interwoven. Directed by Javier Calvo and Javier Ambrossi, the film features compelling performances from both young gay actors (including the singer Guitarricadelafuente) and veteran stars such as Lola Dueñas, Glenn Close, and Penélope Cruz. Supported by the Creative Europe programme – MEDIA.",
     "fi": "Cannesin pääkilpasarjan parhaan ohjauksen palkinnon voittanut La bola negra on kansainvälisen lehdistön mukaan ”vaikuttava”, ”tyrmäävä”, ”kautta aikojen tärkein historiallinen queer-kuvaelma”. Elokuvan taustalla on Espanjan sisällissodassa teloitetun runoilijan Federico García Lorcan hahmo ja hänen keskeneräiseksi jäänyt romaaninsa. Tarinassa kuvataan kolmen homoseksuaalin kohtaloita vuosina 1932, 1937 ja 2017. Yhteen nivoutuvat sota, kielletty halu, suru, syyllisyys ja vaietut perhesalaisuudet. Javier Calvon ja Javier Ambrossin ohjaaman elokuvan rooleissa vakuuttavat sekä nuoret gay-näyttelijät (mm. laulaja Guitarricadelafuente) että veteraanitähdet Lola Dueñas, Glenn Close ja Pénelope Cruz."
@@ -4642,11 +4705,27 @@
    },
    "tr": ""
   },
+  "laatusarja vasenkätinen tyttö": {
+   "r": 0,
+   "s": {
+    "en": "",
+    "fi": "Äiti ja kaksi tytärtä muuttavat väkeä kuhisevaan Taipeihin. Sisukas kolmikko ryhtyy pitämään nuudelikojua vilkkaalla yötorilla. Koju ei ehkä ole suurmenestys, mutta kolmikko pitää yhtä. Suurkaupungin vauhti ja vilinä lumoaa kolmikon nuorimmaisen. Isoisä moittii tyttöä vasemman käden käyttämisestä, se kun on vanhojen uskomusten mukaan ´paholaisen käsi´. Tyttö uskoo isoisää kirjaimellisesti. Perheen pitkään vaietut salaisuudet alkavat paljastua. Vasenkätisen tytön tuottaja, leikkaaja ja toinen käsikirjoittaja Sean Baker muistetaan Oscar –magneetti Anoran ohjauksesta. Tuottajana (mm. Florida Project) mainetta niittäneen Shih-Ching Tsoun esikoisohjaus tavoittaa Taipein neonvalojen kaleidoskoopin, elämän sirkuksen ja seikkailun. Vuonna 2016 syntynyt nuori tähti Nina Ye on vuoden hurmaavin läpimurto valkokankailla."
+   },
+   "tr": ""
+  },
   "lahden videokuvaajat 70v neljä lyhytelokuvaa": {
    "r": 0,
    "s": {
     "en": "",
     "fi": "Lahden Videokuvaajat ry järjestää Kino Iiriksessä historiallisen elokuvailtapäivän. Näytöksellä alustetaan yhdistyksen tulevaa virallista 70-vuotisjuhlaa, jota vietetään lauantaina 10.10.2026. Näytöksessä 16.9.2026 klo 16:00 nähdään neljä historiallista lyhytelokuvaa, jotka kestävät kukin noin 15 minuuttia. Elokuvat muodostavat yhdessä tasan yhden tunnin mittaisen tiiviin kokonaisuuden. Neljän teoksen joukosta eniten mielenkiintoa herättää Lahden kylän palo vuonna 1877, joka saa näytöksessä virallisen ensi-iltansa. Elokuva kuvaa elävästi kesäkuista suurpaloa, jossa lähes koko senaikainen kylä tuhoutui maan tasalle."
+   },
+   "tr": ""
+  },
+  "lahjakas murhaaja": {
+   "r": 0,
+   "s": {
+    "en": "",
+    "fi": "Oscar-voittaja Helen Mirrenin tähdittämä Lahjakas murhaaja on Anton Corbijnin (Control) ohjaama jännittävä ja nokkela rikostrilleri. Elokuva kuvaa erikoista yhteenottoa nuoren kirjallisuusagentin ja Lahjakas herra Ripley -teoksen kirjoittaneen Patricia Highsmithin välillä. Yhdysvaltalaiskirjailija Highsmith (Helen Mirren) on vetäytynyt Sveitsin Alpeille, missä hän viettää aikansa pääasiassa työhuoneessaan kirjojensa, kissojensa ja antiikkiaseista koostuvan kokoelmansa ympäröimänä. Paikalle saapuu Edward Ridgeway (Alden Ehrenreich), newyorkilaisen kustantamon lähettiläs, jonka tehtävänä on taivutella Highsmith kirjoittamaan vielä yksi osa menestyssarjaan, jonka päähenkilönä on murhaava antisankari Tom Ripley. Nuori ja turhankin innokas vieras ärsyttää Highsmithia, joka aluksi kieltäytyy tarjouksesta ja alkaa manipuloimaan kirjallisuusagenttia."
    },
    "tr": ""
   },
@@ -4796,6 +4875,7 @@
     "kinolumo",
     "kinomania",
     "kinometso",
+    "kinopiispanristi",
     "kinosampo",
     "kinotervakoski",
     "kinotoijala",
@@ -5109,12 +5189,16 @@
   },
   "lyhyt rakkaustarina": {
    "id": 1299382,
-   "r": 0,
+   "img": "data/posters/7eff920a1bfc91f7.jpg",
+   "r": 6.2,
    "s": {
-    "en": "",
+    "en": "Lea and Rocco meet by chance in a bar and an instant attraction ignites between them. From that moment, a secret affair begins, consisting of fleeting, clandestine meetings in a hotel room. However, as time passes, Lea's obsession with Rocco intensifies, leading her to intrude more and more into his life. The story soon takes an unexpected and unsettling turn.",
     "fi": "Lea ja Rocco kohtaavat sattumalta baarissa. Heidän välillään kipinöi heti, ja kaksikko syöksyy salaiseen suhteeseen. Kumpikin viettää tahoillaan tavallisen onnellista, hyvää elämää, mutta hotellihuoneen lakanoissa he tuntuvat löytävän toisistaan jotain, mitä ovat kaivanneet. Kun salasuhde alkaa saada Lean osalta pakkomielteisiä sävyjä, tunnelma kiristyy. Miten pitkälle syrjähypyn voi antaa mennä – ja mitä tapahtuu, kun kaikki lopulta paljastuu? Suomen elokuvasäätiön maahantuontituki 2026."
    },
-   "tr": ""
+   "tr": "",
+   "ts": [
+    "en"
+   ]
   },
   "lyhyt rakkaustarina en kort kärlekshistoria breve storia d amore": {
    "id": 1299382,
@@ -5548,6 +5632,14 @@
    },
    "tr": ""
   },
+  "muistojeni kahvila": {
+   "r": 0,
+   "s": {
+    "en": "",
+    "fi": "Muistojeni kahvila kertoo äitinsä kahvilassa työskentelevän Emilien ja Suomeen muuttaneen ranskalaismies Philippen koskettavan rakkaustarinan. Elokuva on inhimillinen ja kaunis tarina ihmissuhteista ja toisaalta siitä, kuinka tämän päivän työelämän kiireys ja yhteiskunnan paineet voivat ajaa ihmisen uupumukseen. Samalla elokuva on tarina toivosta."
+   },
+   "tr": ""
+  },
   "musiikin rakastajia": {
    "id": 72899,
    "r": 0,
@@ -5971,6 +6063,7 @@
     "biorexkokkola",
     "biosalo",
     "biosavoy",
+    "biostara",
     "biovuoksi",
     "cinemantsala",
     "elokuviin",
@@ -6007,6 +6100,7 @@
     "star",
     "studio123jarvenpaa",
     "studio123kouvola",
+    "vihdinkino",
     "virtainpirtti"
    ],
    "r": 0,
@@ -6500,8 +6594,10 @@
    "kr": "K-16",
    "krs": [
     "bioforum",
+    "gilda",
     "julia",
     "kinokonepaja",
+    "kinopiispanristi",
     "tapiola"
    ],
    "r": 0,
@@ -6788,12 +6884,14 @@
     "biopallas",
     "biorex",
     "biosalo",
+    "biostara",
     "engel",
     "helios",
     "isohannu",
     "kino123",
     "kinolumo",
     "kinometso",
+    "kinopiispanristi",
     "kinopirtti",
     "kinoset",
     "kinotervakoski",
@@ -7134,6 +7232,10 @@
   "primetime": {
    "id": 1375441,
    "img": "data/posters/b51c5ae56c687e43.jpg",
+   "kr": "K-16",
+   "krs": [
+    "kinokilta"
+   ],
    "r": 6.8,
    "s": {
     "en": "In 2006, To Catch a Predator host Chris Hansen sets out to make television history, turning an undercover investigation into one of the most controversial cultural phenomena of the decade.",
@@ -7231,17 +7333,23 @@
    "img": "data/posters/b5fe432085346d64.jpg",
    "kr": "K-16",
    "krs": [
+    "biomarlon",
     "biorexkokkola",
+    "biosalo",
+    "biostara",
     "cinemantsala",
     "elokuviin",
+    "gilda",
     "haapamaki",
     "helios",
     "isohannu",
     "kinoaurora",
     "kinohannikainen",
+    "kinokilta",
     "kinokulma",
     "kinolaika",
     "kinomarilyn",
+    "kinopiispanristi",
     "kirkkonummi",
     "kurikankino",
     "kuvakukko",
@@ -7482,7 +7590,7 @@
   "ramayana rise of a legend": {
    "id": 656908,
    "img": "data/posters/3f0ffbd92d279be2.jpg",
-   "r": 0,
+   "r": 7.4,
    "s": {
     "en": "Based on the celebrated ancient epic known to billions, Namit Malhotra's Ramayana: Rise of a Legend tells the story of Rama, a prince bound by sacrifice; Ravana, an immortal king driven by vengeance; and the prophecy that binds their fates together. It stars Ranbir Kapoor, Yash and Sai Pallavi. The film is produced by acclaimed filmmaker Namit Malhotra, whose Academy Award®-winning visual effects company DNEG has worked on films including The Odyssey, Dune, Interstellar, and Inception; directed by Nitesh Tiwari, whose film Dangal remains the highest-grossing Indian film worldwide; and scored by Academy Award® winners Hans Zimmer and A.R. Rahman. Namit Malhotra's Ramayana: Rise of a Legend will be released globally in theaters in time for Diwali in November.",
     "fi": "An ancient epic follows a young prince and princess whose marriage and subsequent exile mark the beginning of a legendary journey. Their story of love, duty and destiny sets the stage for greater challenges ahead."
@@ -8136,12 +8244,16 @@
   },
   "ryhmä hau dinoelokuva suomeksi": {
    "id": 1185806,
-   "r": 0,
+   "img": "data/posters/b7775ab25a7de6bc.jpg",
+   "r": 8.1,
    "s": {
-    "en": "",
+    "en": "The Paw Patrol lands on a mysterious dinosaur island after a storm, where they meet Rex, a stranded pup. When Humdinger's reckless mining triggers a volcano, the team faces their biggest rescue mission yet to save the island.",
     "fi": "Ryhmä Haun laiva joutuu mystisen myrskyn kouriin ja haaksirikkoutuu trooppiselle saarelle, joka kuhisee dinosauruksia. He tapaavat Rexin – pennun, joka on jo vuosia ollut saarella jumissa ja josta on kehkeytynyt melkoinen dinosaurusekspertti. Kun Ryhmä Haun arkkivihollinen, Pormestari Hanttinen, aloittaa valtavat kaivuutyöt voidakseen hyödyntää saaren luonnonvaroja, hän saa vahingossa valtavan nukuksissa olleen tulivuoren purkautumaan. Pennut tempautuvat mukaan riskialttiiseen, dinon kokoiseen, kaikkien aikojen suurimpaan pelastusoperaatioonsa tavoitteenaan pysäyttää Hanttinen ennen kuin kaikki saarella katoaa ikiajoiksi."
    },
-   "tr": ""
+   "tr": "https://www.youtube.com/watch?v=xgI5iYmOf5Q",
+   "ts": [
+    "en"
+   ]
   },
   "rölli ja metsänhenki": {
    "id": 64029,
@@ -9193,7 +9305,7 @@
    "r": 6.8,
    "s": {
     "en": "A modern family relocates to the countryside where the children discover a magical tree with eccentric residents. They're transported to fantastical lands, rekindling their family bond through adventures.",
-    "fi": ""
+    "fi": "Rakastettuun lapsille suunnattuun The Faraway Tree -kirjasarjaan perustuva THE MAGIC FARAWAY TREE kertoo Pollysta ja Timistä sekä heidän lapsistaan Bethistä, Joesta ja Franista. Tämä nykyaikainen perhe joutuu muuttamaan syrjäiselle Englannin maaseudulle. Pian saapumisensa jälkeen lapset huomaavat, ettei uudessa kodissa ole wifi-yhteyttä eikä sähköä, jolla ladata … heidän rakkaita elektronisia laitteitaan. Niinpä heidän on löydettävä uusia kiinnostuksen kohteita luonnon keskeltä. Tutkiessaan uuden kotinsa ympäristöä lapset löytävät taianomaisen puun ja sen erikoiset, omalaatuiset asukkaat, joihin kuuluvat rakastetut hahmot Moonface, Silky, Dame Washalot ja Saucepan Man. Puunlatvasta he pääsevät matkustamaan toinen toistaan ihmeellisempiin fantasiamaailmoihin. Seikkailujensa ilojen ja haasteiden kautta perheenjäsenet oppivat löytämään uudelleen yhteyden toisiinsa ja arvostamaan toisiaan ensimmäistä kertaa vuosiin."
    },
    "tr": "https://www.youtube.com/watch?v=PAUEwUhAjzg",
    "ts": [
@@ -9610,7 +9722,6 @@
   },
   "tie pimeään": {
    "id": 388237,
-   "img": "data/posters/1ddff406b89084d6.jpg",
    "r": 0,
    "s": {
     "en": "",
@@ -10538,7 +10649,6 @@
     "bioforum",
     "biogrand",
     "biograni",
-    "biomarlon",
     "biopallas",
     "biorex",
     "biorexkokkola",
@@ -10664,9 +10774,11 @@
    "kr": "S",
    "krs": [
     "biograni",
+    "biomarlon",
     "biorex",
     "cinemantsala",
     "isohannu",
+    "kinopiispanristi",
     "leffabuumi",
     "niagara",
     "orion"
