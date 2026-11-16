@@ -1459,6 +1459,7 @@
     "kinotoijala",
     "kirkkonummi",
     "kotkanleffat",
+    "kulttuurimylly",
     "kurikankino",
     "leffabuumi",
     "lieksankino",
@@ -1521,6 +1522,7 @@
     "kinotoijala",
     "kirkkonummi",
     "kotkanleffat",
+    "kulttuurimylly",
     "kurikankino",
     "leffabuumi",
     "lieksankino",
@@ -4249,6 +4251,16 @@
    },
    "tr": ""
   },
+  "komisario palmun erehdys": {
+   "id": 55398,
+   "img": "data/posters/ba9936ea110b3c20.jpg",
+   "r": 7.0,
+   "s": {
+    "en": "Voted the greatest Finnish film of all time, among other accolades, Inspector Palmu’s Error is a crime story set in the late 1930s. A wealthy playboy has drowned in his bathtub under dubious circumstances, and Inspector Palmu and his men must solve the case. Based on Mika Waltari’s detective novel, the film subtly reveals the social tensions of the period. Director Matti Kassila has skilfully deployed every tool of cinematic storytelling, from the flashback structure, camera angles and editing to the actors’ performances and music.",
+    "fi": "Parhaaksi kotimaiseksi elokuvaksikin valittu Komisario Palmun erehdys on 1930-luvun loppuun sijoittuva rikostarina. Rikas playboy on hukkunut epämääräisissä olosuhteissa kylpyammeeseensa ja komisario Palmun pitää miehineen selvittää tapaus. Mika Waltarin dekkariin perustuvassa elokuvassa aikakauden yhteiskunnalliset jännitteet tulevat rivien välistä esiin. Ohjaaja Matti Kassila on virittänyt käyttöönsä kaikki elokuvakerronnan keinot, takaumarakennetta, kuvakulmia, leikkausta, näyttelijätyötä ja musiikkia myöden."
+   },
+   "tr": ""
+  },
   "konsertti il volo at the valley of the temples": {
    "r": 0,
    "s": {
@@ -4614,12 +4626,16 @@
   },
   "kätyrit monsterit suomeksi": {
    "id": 1315772,
-   "r": 0,
+   "img": "data/posters/67059865db3405c0.jpg",
+   "r": 7.5,
    "s": {
-    "en": "",
+    "en": "This is the rambunctious, ridiculous and totally true story of how the Minions conquered Hollywood, became movie stars, lost everything, unleashed monsters onto the world and then banded together to try and save the planet from the mayhem they had just created.",
     "fi": "Suomeksi puhuttu. Illumination johdattaa meidät jälleen hulvattomaan animaatiomaailmaansa uudella elokuvallaan Kätyrit & Monsterit, joka tuo maailman suosituimpaan animaatio-franchiseen kokonaan uusia hahmoja. Hillitön, riehakas ja täysin tositapahtumiin perustuva elokuva kertoo, miten Kätyrit valloittavat Hollywoodin ja nousevat elokuvatähdiksi, menettävät kaiken, tulevat päästäneeksi hirviöitä maailmaan ja lopulta yhdistävät voimansa pelastaakseen planeetan itse aiheuttamaltaan kaaokselta. Alkuperäisissä äänirooleissa kuullaan muun muassa Oscar®-voittaja Allison Janney, kaksinkertainen Oscar®-voittaja Christoph Waltz, Oscar®-voittaja Jeff Bridges, kaksinkertainen Oscar®-ehdokas Jesse Eisenberg, Zoey Deutch (Nouvelle Vague) sekä Oscar®-ehdokas Trey Parker, joka tunnetaan myös yhtenä South Parkin luojista. Näyttelijäkaartia täydentävät myös entinen Saturday Night Live -tähti Bobby Moynihan ja Phil LaMarr (Futurama, Kukkulan kuningas). Kätyrit & Monsterit -elokuvan on ohjannut Oscar-ehdokkuuden saanut Pierre Coffin, jonka ohjaustöihin lukeutuvat myös kolme ensimmäistä Itse ilkimys -elokuvaa ja ensimmäinen Kätyrit-elokuva. Coffin on myös ääninäytellyt itse Kätyreitä niiden elokuvadebyytistä 2010 alkaen. Elokuvan käsikirjoittajat ovat Brian Lynch (Kätyrit, Lemmikkien salainen elämä -elokuvat) ja Pierre Coffin. Elokuvan ovat tuottaneet myös Oscar-ehdokkuuden saanut Illuminationin perustaja ja pääjohtaja Chris Meledandri sekä Bill Ryan (The Super Mario Bros. Movie -elokuvan vastaava tuottaja ). Kätyrit & Monsterit -elokuvan vastaava tuottaja on Brian Lynch. Yli 15 vuotta on kulunut Kätyreiden luomisesta, ja niistä on tullut sukupolvensa ikonisimpia animaatiohahmoja. Kaikenikäisten fanien rakastamat Kätyrit ovat siivittäneet Illuminationin Itse ilkimys- ja Kätyrit-elokuvatuotannot yli 5,6 miljardia dollaria tuottaneiksi maailmanlaajuisiksi jymymenestyksiksi."
    },
-   "tr": ""
+   "tr": "https://www.youtube.com/watch?v=V-O-uBaHk3c",
+   "ts": [
+    "en"
+   ]
   },
   "l atalante": {
    "id": 43904,
@@ -4653,9 +4669,13 @@
    "kr": "K-16",
    "krs": [
     "biorex",
+    "biorexkokkola",
     "gilda",
     "kinoaurora",
+    "kinoiiris",
     "kinokilta",
+    "kotkanleffat",
+    "kulttuurimylly",
     "orion"
    ],
    "r": 8.0,
@@ -4880,6 +4900,8 @@
     "kinotervakoski",
     "kinotoijala",
     "korjaamo",
+    "kotkanleffat",
+    "laitilankino",
     "leffabuumi",
     "levisummit",
     "savonkinot",
@@ -6091,6 +6113,7 @@
     "kotkanleffat",
     "kurikankino",
     "kuvakukko",
+    "laitilankino",
     "leffabuumi",
     "levisummit",
     "lieksankino",
@@ -6896,6 +6919,7 @@
     "kinoset",
     "kinotervakoski",
     "kotkanleffat",
+    "kulttuurimylly",
     "kuvakukko",
     "savonkinot",
     "studio123jarvenpaa"
@@ -7343,6 +7367,8 @@
     "haapamaki",
     "helios",
     "isohannu",
+    "jarvelankino",
+    "kino123",
     "kinoaurora",
     "kinohannikainen",
     "kinokilta",
@@ -7351,6 +7377,7 @@
     "kinomarilyn",
     "kinopiispanristi",
     "kirkkonummi",
+    "kotkanleffat",
     "kurikankino",
     "kuvakukko",
     "leffabuumi",
@@ -8613,7 +8640,7 @@
   "spinal tap ii the end continues": {
    "id": 975225,
    "img": "data/posters/4d5858539f179aee.jpg",
-   "r": 6.1,
+   "r": 6.0,
    "s": {
     "en": "",
     "fi": "Yli 40 vuotta alkuperäisen This Is Spinal Tap -mockumentaarin jälkeen lavoilta jo vetäytyneen yhtyeen tie näyttää loppuneen ja bändi vaikuttaa hävinneen kuin tuhka tuuleen. Spinal Tap ei ole keikkaillut viiteentoista vuoteen, Davidin ja Nigelin välille syntyneen riidan takia, mutta tähän tulee muutos, kun heidän entinen managerinsa Ian Faith menehtyy ja Spinal Tapin sopimus siirtyy hänen tyttärelleen, Hope Faithille, joka huomaa pikkuprintin vaativan yhtyeen tekevän paluun vielä yhdelle keikalle. Vuosien varrella trio on kuitenkin lähtenyt omille teilleen ja vuosikymmenten aikana matkaan tarttuneet rumpalitkin ovat kaikki kuolleet omituisissa olosuhteissa. Dokumenttielokuvantekijä Marty DiBerg haluaa jälleen ikuistaa bändin suuren paluun lavoille ja täydentää kertomuksen siitä, mitä bändin jäsenet ovat puuhanneet viime Onko bändin viimeinen konsertti todella se hetki, jolloin he nousevat rockin ikonien joukkoon?"
@@ -9040,6 +9067,14 @@
    },
    "tr": ""
   },
+  "temetetlen halott unburied man": {
+   "r": 0,
+   "s": {
+    "en": "",
+    "fi": "ELOKUVA ON SALLITTU VAIN AIKUISILLE, KOSKA SITÄ EI OLE IKÄRAJATARKASTETTU. VAIN ENGLANNINKIELINEN TEKSTITYS! ENGLISH SUBTITLES! Unkarin kansannoususta on kulunut 70 vuotta. Mészárosin elokuvasssa sitä tarkastellaan pääministeri Imre Nagyn kohtalon kautta. Tilaisuus alkaa lyhyellä keskustelulla Unkarin tapahtumien heijastumisesta Suomeen ja Lahteen, joka oli juuri niitä ennen solminut ystävyyskaupunkisuhteen Pécsiin. Tilaisuuden järjestää Lahden Suomi-Unkari Seura yhteistyössä Liszt-instituutin ja Päijät-Hämeen elokuvakeskuksen (PHEK) kanssa."
+   },
+   "tr": ""
+  },
   "teräsleidit kuin viimeistä päivää": {
    "id": 1448231,
    "r": 0,
@@ -9155,7 +9190,7 @@
   "the filth and the fury": {
    "id": 27745,
    "img": "data/posters/82325697c202061d.jpg",
-   "r": 6.9,
+   "r": 6.8,
    "s": {
     "en": "Julien Temple's second documentary profiling punk rock pioneers the Sex Pistols is an enlightening, entertaining trip back to a time when the punk movement was just discovering itself. Featuring archival footage, never-before-seen performances, rehearsals, and recording sessions as well as interviews with group members who lived to tell the tale--including the one and only John Lydon (aka Johnny Rotten).",
     "fi": ""
@@ -9788,7 +9823,7 @@
   "tommy": {
    "id": 11326,
    "img": "data/posters/3b459542135290b3.jpg",
-   "r": 6.5,
+   "r": 6.4,
    "s": {
     "en": "",
     "fi": "Ken Russell muokkasi The Who -yhtyeen rock-oopperan ylettömäksi poptaideteokseksi. Nimiosan sokeana ja kuuromykkänä flipperimestarina esitti Roger Daltrey. Muissa rooleissa nähdään Ann-Margret, Oliver Reed, Jack Nicholson, Elton John, Tina Turner, Eric Clapton, Arthur Brown ja Keith Moon, jonka suoritusta sensuroitiin takavuosien Suomessa. Arkistokopion magneettiääni kruunaa hulppean elämyksen."
@@ -10061,7 +10096,7 @@
   "unohdettu saari": {
    "id": 1465063,
    "img": "data/posters/db8d634869fa04ac.jpg",
-   "r": 7.9,
+   "r": 8.0,
    "s": {
     "en": "While celebrating their last night together, high school graduates and best friends Jo and Raissa stumble upon a mysterious portal that transports them to the fantastical island of Nakali. When they discover that the memories of their entire friendship are the price for returning home, Jo and Raissa must race to find a way to leave the island before they forget each other forever.",
     "fi": "DreamWorks Animation on aiemmin tuonut katsojille tarinoita unohtumattomista siteistä pojan ja lohikäärmeen välillä Näin koulutat lohikäärmeesi -elokuvissa, jätin ja aasin välillä Shrek-elokuvissa sekä robotin ja hanhenpoikasen välillä elokuvassa Villi robotti. Nyt luvassa on huikean tunteikas tarina kahdesta parhaasta ystävyksestä, joiden täytyy yhdistää voimansa eron uhatessa elokuvassa Unohdettu saari."
@@ -10776,12 +10811,17 @@
     "biograni",
     "biomarlon",
     "biorex",
+    "biorexkokkola",
     "cinemantsala",
     "isohannu",
     "kinopiispanristi",
+    "kotkanleffat",
     "leffabuumi",
     "niagara",
-    "orion"
+    "orion",
+    "star",
+    "studio123jarvenpaa",
+    "studio123kouvola"
    ],
    "r": 8.9,
    "s": {
