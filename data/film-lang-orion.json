@@ -25,7 +25,7 @@
  },
  "digger": {
   "price": "",
-  "at": "2026-11-14T16:40:21+00:00",
+  "at": "2026-11-16T20:09:11+00:00",
   "fields": {
    "lang": "EN-A, FI-S, SV-S",
    "len": "128",
@@ -98,7 +98,7 @@
  },
  "la-bola-negra": {
   "price": "",
-  "at": "2026-11-14T16:40:21+00:00",
+  "at": "2026-11-16T20:09:11+00:00",
   "fields": {
    "lang": "ES-A, FI-S, SV-S",
    "len": "155",
@@ -121,7 +121,7 @@
  },
  "me-olemme-pariisin-orkesteri": {
   "price": "",
-  "at": "2026-11-14T16:40:21+00:00",
+  "at": "2026-11-16T20:09:11+00:00",
   "fields": {
    "lang": "FR-A, FI-S, SV-S",
    "len": "90",
@@ -132,13 +132,25 @@
  },
  "minotaur": {
   "price": "",
-  "at": "2026-11-14T16:40:21+00:00",
+  "at": "2026-11-16T20:09:11+00:00",
   "fields": {
    "lang": "RU-A, FI-S, SV-S",
    "len": "135",
    "rating": "K-12",
    "year": "2026",
    "syn_fi": "Minotaur on venäläisohjaaja Andrei Zvjagintsevin odotettu uusi elokuva – sen valmistumista odotettiin yhdeksän vuotta! Se kertoo menestyneestä venäläisestä liikemiehestä Glebistä. Ammatillisten paineiden kasautuessa ja avioliiton rakoillessa Glebin huolellisessa järjestyksessä oleva elämä alkaa romahtaa väkivaltaisesti kiihtyen. Elokuvan tapahtumat sijoittuvat sijoittuvat syksyyn 2022. Rikosdraaman pääosissa nähdään Dmitri Mazuro v ja Iris Lebedeva. Elokuvatutkija Mia Öhman alustaa ennakkonäytöksen TI 24.11. KLO 19:30."
+  }
+ },
+ "ortotopologian-loputtomat-alkeet": {
+  "price": "",
+  "at": "2026-11-16T20:09:11+00:00",
+  "fields": {
+   "lang": "FI-A",
+   "len": "75",
+   "rating": "K-7",
+   "original": "Ortotopologian loputtomat alkeet",
+   "year": "2026",
+   "syn_fi": "Vaillinaisen kansakoulun käynyt omaperäinen ajattelija kehitti oman oppisuuntansa, jonka hän nimesi ortotopologiaksi. Oulun yliopiston opiskelijat alkoivat kutsua häntä dosentiksi. Yliopisto antoi Heikkilälle työhuoneen ja luvan pitää luentoja. Dosentti Heikkilä kohtaa elokuvassa Helsingin yliopiston varadekaani Osmo Pulkkisen. Dekaani on tullut selvittämään, voiko ortotopologian dosentin päästää luennoimaan myös hänen omille opiskelijoilleen. Elokuva huipentuu osin koomisia piirteitä saavaan mittelöön akateemisen tieteentekijän ja olevaisuuden salaisuudet omalla teorillaan selvittävän Heikkilän kesken. Sydämen sivistys kohtaa akateemisen oppineisuuden. Ohjaaja Markku Pölönen käsittelee fiktiossaan Heikkilää myötätunnolla ja lämpimällä huumorilla, Elokuva koskettaa katsojaa monella tavalla: se liikuttaa, naurattaa ja inspiroi ajattelemaan mukavia. Forrest Gump meets Albert Einstein."
   }
  },
  "spider-man-brand-new-day": {
@@ -167,7 +179,7 @@
  },
  "urpo-ja-turpo-johtolangan-jaljilla": {
   "price": "",
-  "at": "2026-11-14T16:40:21+00:00",
+  "at": "2026-11-16T20:09:11+00:00",
   "fields": {
    "lang": "FI-A",
    "len": "60",
@@ -192,7 +204,7 @@
  },
  "wicker-intohimosta-punottu": {
   "price": "",
-  "at": "2026-11-14T16:40:21+00:00",
+  "at": "2026-11-16T20:09:11+00:00",
   "fields": {
    "lang": "EN-A, FI-S, SV-S",
    "len": "106",

@@ -1457,10 +1457,12 @@
     "kinotar",
     "kinotervakoski",
     "kinotoijala",
+    "kinovirta",
     "kirkkonummi",
     "kotkanleffat",
     "kulttuurimylly",
     "kurikankino",
+    "kuvatahti",
     "leffabuumi",
     "lieksankino",
     "savonkinot",
@@ -1520,10 +1522,12 @@
     "kinotar",
     "kinotervakoski",
     "kinotoijala",
+    "kinovirta",
     "kirkkonummi",
     "kotkanleffat",
     "kulttuurimylly",
     "kurikankino",
+    "kuvatahti",
     "leffabuumi",
     "lieksankino",
     "savonkinot",
@@ -2072,19 +2076,6 @@
    },
    "tr": ""
   },
-  "hamnet": {
-   "id": 858024,
-   "img": "data/posters/84aa45b5d78814bd.jpg",
-   "r": 7.7,
-   "s": {
-    "en": "",
-    "fi": "Hamnet kertoo Shakespearen ajatonta klassikkoa Hamletia innoittaneen vahvan tarinan rakkaudesta ja menetyksestä."
-   },
-   "tr": "https://www.youtube.com/watch?v=xYcgQMxQwmk",
-   "ts": [
-    "fi"
-   ]
-  },
   "hangon elokuvajuhlat varaa liput www hangonelokuvajuhlat fi": {
    "r": 0,
    "s": {
@@ -2441,19 +2432,6 @@
    },
    "tr": ""
   },
-  "hot shots kaikkien elokuvien äiti": {
-   "id": 9595,
-   "img": "data/posters/6c92d40f84b00292.jpg",
-   "r": 6.6,
-   "s": {
-    "en": "",
-    "fi": "Merivoimien lentäjä-ässää tarvitaan Saddam Husseinin kukistamiseen, mutta tällä on pahoja henkisiä ongelmia. Psykologista on toki apua, etenkin kun tämä on hemaiseva typsy. Hei me lennetään -elokuvilla rikastunut Jim Abrahams pilkkaa tällä kerralla Top Gunia, Tuulen viemää ja lukuisia muita elokuvia."
-   },
-   "tr": "https://www.youtube.com/watch?v=sWjXE3fljtk",
-   "ts": [
-    "fi"
-   ]
-  },
   "how the grinch stole christmas": {
    "id": 8871,
    "img": "data/posters/fd5dcbe16f2fd8bc.jpg",
@@ -2781,13 +2759,17 @@
   },
   "jakten på jultomtens verkstad": {
    "id": 1578318,
+   "img": "data/posters/ce3885e6401a6f73.jpg",
    "r": 0,
    "s": {
-    "en": "",
+    "en": "Nine-year-old Mari is really looking forward to Christmas. Her journalist dad, Svein, on the other hand, loves his job so much, he barely notices the festive season. One night, Mari’s Christmas list vanishes – and in its place lies a mysterious mitten. The mitten sends Mari, Svein and her adventurous grandma on an exciting quest to find Santa Claus. Meanwhile, Stubby the Wishlist Elf is in a panic — he’s lost his mitten, which might just lead this curious family straight to the secret location of Santa’s workshop! He must stop them before it’s too late!",
     "fi": "",
     "sv": "Mari, hennes pappa och hennes farmor som har gett sig ut för att hitta jultomtens verkstad, så han skickar ut två nissar för att hindra dem så att de inte ska avslöja alla magiska hemligheter."
    },
-   "tr": ""
+   "tr": "https://www.youtube.com/watch?v=Th2oNpWPSxI",
+   "ts": [
+    "en"
+   ]
   },
   "jakten på jultomtens verkstad på svenska": {
    "r": 0,
@@ -3124,16 +3106,24 @@
   },
   "katti hatussa": {
    "id": 1117898,
-   "r": 0,
+   "img": "data/posters/661a16f929041273.jpg",
+   "r": 6.9,
    "s": {
-    "en": "",
+    "en": "Assigned his toughest mission yet, the Cat must cheer up siblings Gabby and Sebastian as they adjust to life in a new town. Known for pushing boundaries, this agent of chaos must prove himself or risk losing his magical hat forever.",
     "fi": "Luvassa on aivan uudenlainen Katti Hatussa! Dr. Seussin vinkeiden perinteiden tyyliin temmeltävä Katti saapuu valkokankaalle ensi kertaa animaatioversiona uudessa huikeassa seikkailussa, jossa on sielukasta särmää, kun Katin koiruudet, taikuus ja vauhti pääsevät valloilleen. Hattukatti—alkuperäisäänenä Bill Hader—on mestari tuomaan iloa lapsille hilpeällä, omintakeisella ja anarkistisella meiningillään kiidättäen heidät ja yleisön mielikuvitukselliselle matkalle halki ennennäkemättömän maailman. I.I.I.I. (Imaginaation ja inspiraation instituution instituutti Oy) heittää sankarimme eteen toistaiseksi hankalimman haasteen: hän saa tehtäväkseen piristää sisaruksia nimeltä Gabby ja Sebastian, jotka eivät oikein tahdo sopeutua uuteen kotikaupunkiinsa. Katti, tuo ylilyönneistään tunnettu kaaoksen kätyri, saa puolestaan kenties viimeisen tilaisuuden näyttää kyntensä… tai hän on vaarassa menettää taikahattunsa! Haderin lisäksi näyttelijäkaartissa mukana ovat Xochitl Gomez, Matt Berry, Quinta Brunson ja Paula Pell sekä Tiago Martinez, Giancarlo Esposito, America Ferrera, Bowen Yang ja Tituss Burgess."
    },
-   "tr": ""
+   "tr": "https://www.youtube.com/watch?v=tkZpcypT8Z4",
+   "ts": [
+    "en"
+   ]
   },
   "katti hatussa suomeksi puhuttu": {
    "id": 1117898,
    "img": "data/posters/0a4381fbfe4b427a.jpg",
+   "kr": "K-7",
+   "krs": [
+    "korjaamo"
+   ],
    "r": 0,
    "s": {
     "en": "Assigned his toughest mission yet, the Cat must cheer up siblings Gabby and Sebastian as they adjust to life in a new town. Known for pushing boundaries, this agent of chaos must prove himself or risk losing his magical hat forever.",
@@ -3861,7 +3851,6 @@
     "kinotar",
     "kotkanleffat",
     "leffabuumi",
-    "niagara",
     "star"
    ],
    "r": 6.1,
@@ -4498,23 +4487,13 @@
     "en"
    ]
   },
-  "kuvi ristiinnaulitut rakastavaiset": {
-   "id": 1405469,
-   "r": 0,
-   "s": {
-    "en": "A boy searches for his lost dog in a forest. His suspicions of a tiger’s presence reveal an illegal hunter’s activities.",
-    "fi": ""
-   },
-   "tr": "",
-   "ts": [
-    "en"
-   ]
-  },
   "kuzma": {
+   "id": 1686683,
+   "img": "data/posters/e5a57635e6410557.jpg",
    "r": 0,
    "s": {
     "en": "SPECIAL UKRAINIAN FILM NIGHT AT KINO TÖÖLÖ! For the First Time on the Big Screen in Finland: Documentary About Kuzma Skryabin. \n\nThe biographical documentary \"Kuzma: Fearlessly Cheerful\", dedicated to the legendary Ukrainian musician Andriy Kuzmenko (Kuzma Skryabin), will screen in a special Ukrainian film night at Kino Töölö on Ocotober 29, 2026. \n\nCreated by the team behind the acclaimed documentary Yaremchuk: The Incomparable World of Beauty, the film is built entirely around unique archival footage, most of which has never been made public before.\n\nThis is the story of Andriy Kuzmenko, the frontman of the iconic Ukrainian band Skryabin—a man loved by millions, yet truly known by only a few. Through exclusive, previously unseen archival materials, the film reveals his personal evolution, sharp sense of humor, self-irony, and a life lived at full speed—one whose energy continues to inspire audiences today.\n\nDirected by Artem Hryhorian, the documentary follows Kuzma's journey from a young boy in Novoyavorivsk to one of the defining figures of Ukrainian popular culture. It is a story about freedom, pain, and compassion—values reflected in everything he said and created. At the same time, the film explores Kuzma as a lasting cultural icon whose influence remains strong years after his passing.\n\n“This is definitely not a conventional documentary where everyone simply talks about the main character. Of course, there are interviews, but our goal was to let the audience spend time with Kuzma himself—to see him as he truly was. We all knew him as a national hero, yet very few knew the story of how he became one. Kuzma can no longer speak to us directly, but through these archives, he still can. The audience doesn't just hear about the past—they experience the journey of his life as it unfolds on screen,” says the film's producer, Maksym Serdiuk.",
-    "fi": ""
+    "fi": "Dokumenttielokuva kertoo Andriy Kuzmenkosta eli Kuzmasta, legendaarisen Skryabin-yhtyeen keulakuvasta. Ennennäkemättömän arkistomateriaalin kautta elokuva seuraa hänen matkaansa nuoruudesta yhdeksi Ukrainan tunnetuimmista musiikki- ja kulttuurihahmoista ja avaa hänen huumoriaan, itseironiaansa, henkilökohtaista kasvuaan sekä suhdettaan vapauteen, musiikkiin ja ihmisiin."
    },
    "tr": ""
   },
@@ -4528,7 +4507,6 @@
   },
   "kuzma terribly funny": {
    "id": 1686683,
-   "img": "data/posters/e5a57635e6410557.jpg",
    "r": 0,
    "s": {
     "en": "The story of Andriy Kuzmenko, frontman of the band Skryabin, who was loved by millions but truly known by only a few. Through exclusive archival footage, never before seen by the public, the film reveals his inner transformations, self-irony, and a life lived at full speed — a life that continues to resonate long after his passing. Directed by Artem Hryhorian, the film takes viewers on a journey through Kuzma’s life — from a boy growing up in Novoiavorivsk to an icon of Ukrainian pop culture. It is a film about freedom, pain, and love for people, all of which found expression in his every word. The film explores Kuzma as a figure of cultural memory, whose presence and influence remain alive decades after his death. The screening is organized in collaboration with the Association of Ukrainians in Finland.",
@@ -4607,12 +4585,16 @@
   },
   "kätyrit monsterit dub": {
    "id": 1315772,
-   "r": 0,
+   "img": "data/posters/67059865db3405c0.jpg",
+   "r": 7.5,
    "s": {
-    "en": "",
+    "en": "This is the rambunctious, ridiculous and totally true story of how the Minions conquered Hollywood, became movie stars, lost everything, unleashed monsters onto the world and then banded together to try and save the planet from the mayhem they had just created.",
     "fi": "Illumination johdattaa meidät jälleen hulvattomaan animaatiomaailmaansa uudella elokuvallaan Kätyrit & Monsterit, joka tuo maailman suosituimpaan animaatio-franchiseen kokonaan uusia hahmoja. Hillitön, riehakas ja täysin tositapahtumiin perustuva elokuva kertoo, miten Kätyrit valloittavat Hollywoodin ja nousevat elokuvatähdiksi, menettävät kaiken, tulevat päästäneeksi hirviöitä maailmaan ja lopulta yhdistävät voimansa pelastaakseen planeetan itse aiheuttamaltaan kaaokselta. Alkuperäisissä äänirooleissa kuullaan muun muassa Oscar®-voittaja Allison Janney, kaksinkertainen Oscar®-voittaja Christoph Waltz, Oscar®-voittaja Jeff Bridges, kaksinkertainen Oscar®-ehdokas Jesse Eisenberg, Zoey Deutch (Nouvelle Vague) sekä Oscar®-ehdokas Trey Parker, joka tunnetaan myös yhtenä South Parkin luojista. Näyttelijäkaartia täydentävät myös entinen Saturday Night Live -tähti Bobby Moynihan ja Phil LaMarr (Futurama, Kukkulan kuningas). Kätyrit & Monsterit -elokuvan on ohjannut Oscar-ehdokkuuden saanut Pierre Coffin, jonka ohjaustöihin lukeutuvat myös kolme ensimmäistä Itse ilkimys -elokuvaa ja ensimmäinen Kätyrit-elokuva. Coffin on myös ääninäytellyt itse Kätyreitä niiden elokuvadebyytistä 2010 alkaen. Elokuvan käsikirjoittajat ovat Brian Lynch (Kätyrit, Lemmikkien salainen elämä -elokuvat) ja Pierre Coffin. Elokuvan ovat tuottaneet myös Oscar-ehdokkuuden saanut Illuminationin perustaja ja pääjohtaja Chris Meledandri sekä Bill Ryan (The Super Mario Bros. Movie -elokuvan vastaava tuottaja ). Kätyrit & Monsterit -elokuvan vastaava tuottaja on Brian Lynch. Yli 15 vuotta on kulunut Kätyreiden luomisesta, ja niistä on tullut sukupolvensa ikonisimpia animaatiohahmoja. Kaikenikäisten fanien rakastamat Kätyrit ovat siivittäneet Illuminationin Itse ilkimys- ja Kätyrit-elokuvatuotannot yli 5,6 miljardia dollaria tuottaneiksi maailmanlaajuisiksi jymymenestyksiksi."
    },
-   "tr": ""
+   "tr": "https://www.youtube.com/watch?v=V-O-uBaHk3c",
+   "ts": [
+    "en"
+   ]
   },
   "kätyrit monsterit dub 5": {
    "id": 1315772,
@@ -4676,12 +4658,15 @@
    "img": "data/posters/a916af8ace1a0515.jpg",
    "kr": "K-16",
    "krs": [
+    "biogrand",
     "biorex",
     "biorexkokkola",
     "gilda",
     "kinoaurora",
     "kinoiiris",
     "kinokilta",
+    "kinomyyri",
+    "korjaamo",
     "kotkanleffat",
     "kulttuurimylly",
     "orion"
@@ -4903,12 +4888,16 @@
     "kinolumo",
     "kinomania",
     "kinometso",
+    "kinomyyri",
     "kinopiispanristi",
+    "kinopirtti",
     "kinosampo",
     "kinotervakoski",
     "kinotoijala",
     "korjaamo",
     "kotkanleffat",
+    "kulttuurimylly",
+    "kuvatahti",
     "laitilankino",
     "leffabuumi",
     "levisummit",
@@ -5520,6 +5509,11 @@
   "metsäsota ja rauha": {
    "id": 1787721,
    "img": "data/posters/1e467ccd5634db5b.jpg",
+   "kr": "S",
+   "krs": [
+    "joutsankino",
+    "kinoiiris"
+   ],
    "r": 0,
    "s": {
     "en": "Metsäsota ja rauha follows emeritus professor Erkki Lähde’s more than five-decade struggle for forests and for their ecologically and economically sustainable use. When Lähde, then a young forest scientist, was sent to Finnish Lapland in 1970 to investigate the repeated failure of plantations on vast clear-cut areas, he quickly concluded that the clear-cutting-based model of forestry made little sense – not for nature, nor for forest owners. In the 1970s, he began challenging Finland’s prevailing forestry policy and, in the 1980s, developed the method known as continuous-cover forestry as an alternative to clear-cutting, seeking to bring ecology and economics together. Through Lähde’s story, the film also traces the history of Finnish forest policy from the post-war era to the present, exploring how a forestry model once imposed across Finland has contributed to declining carbon sinks and biodiversity. Although a 2014 reform finally gave forest owners the freedom to choose their method of forest management, the forestry sector remains largely built around clear-cutting, even as interest in continuous-cover forestry continues to grow. As Lähde puts it, a real forest is more than trees: it is also fungi, berries, birds and countless other forms of life and clear-cutting destroys this wider ecosystem. The guests will include director Jari Kokko, producer Pertti Veijalainen, and Liisa Toopakka, a forest specialist from the Finnish Association for Nature Conservation. The discussion will be held in Finnish and moderated by Suomen Luonto journalist Mari Pihlajaniemi.",
@@ -5636,7 +5630,8 @@
     "kinolaika",
     "kinomarilyn",
     "kinopirtti",
-    "niagara"
+    "niagara",
+    "star"
    ],
    "r": 0,
    "s": {
@@ -6091,6 +6086,7 @@
     "biopallas",
     "biorex",
     "biorexkokkola",
+    "biosade",
     "biosalo",
     "biosavoy",
     "biostara",
@@ -6105,6 +6101,7 @@
     "kino123",
     "kinoelo",
     "kinohannikainen",
+    "kinohirvi",
     "kinojuha",
     "kinokulma",
     "kinokuva",
@@ -6115,12 +6112,15 @@
     "kinopiispanristi",
     "kinopirtti",
     "kinosampo",
+    "kinoset",
     "kinotar",
     "kinotoijala",
+    "kinovirta",
     "kisakino",
     "kotkanleffat",
     "kurikankino",
     "kuvakukko",
+    "kuvatahti",
     "laitilankino",
     "leffabuumi",
     "levisummit",
@@ -6625,10 +6625,16 @@
    "kr": "K-16",
    "krs": [
     "bioforum",
+    "biopallas",
     "gilda",
+    "ihmekompleksi",
     "julia",
+    "kinojuha",
     "kinokonepaja",
+    "kinolumo",
+    "kinomyyri",
     "kinopiispanristi",
+    "kinopirtti",
     "tapiola"
    ],
    "r": 0,
@@ -6912,16 +6918,15 @@
    "kr": "S",
    "krs": [
     "biograni",
-    "biopallas",
     "biorex",
     "biosalo",
     "biostara",
-    "engel",
     "helios",
     "isohannu",
     "kino123",
     "kinolumo",
     "kinometso",
+    "kinomyyri",
     "kinopiispanristi",
     "kinopirtti",
     "kinoset",
@@ -6930,6 +6935,7 @@
     "kulttuurimylly",
     "kuvakukko",
     "savonkinot",
+    "star",
     "studio123jarvenpaa"
    ],
    "r": 0,
@@ -6989,6 +6995,29 @@
   "pikkuli och himmelshinden": {
    "id": 1403476,
    "img": "data/posters/e4e4be88f3bfae06.jpg",
+   "kr": "S",
+   "krs": [
+    "biograni",
+    "biorex",
+    "biosalo",
+    "biostara",
+    "helios",
+    "isohannu",
+    "kino123",
+    "kinolumo",
+    "kinometso",
+    "kinomyyri",
+    "kinopiispanristi",
+    "kinopirtti",
+    "kinoset",
+    "kinotervakoski",
+    "kotkanleffat",
+    "kulttuurimylly",
+    "kuvakukko",
+    "savonkinot",
+    "star",
+    "studio123jarvenpaa"
+   ],
    "r": 0,
    "s": {
     "en": "",
@@ -7020,7 +7049,6 @@
     "ihmekompleksi",
     "isohannu",
     "kino123",
-    "kinolumo",
     "kinopiispanristi",
     "kotkanleffat",
     "laitilankino",
@@ -7262,12 +7290,17 @@
    ]
   },
   "primavera matinea": {
-   "r": 0,
+   "id": 1365683,
+   "img": "data/posters/8fe80e3891276876.jpg",
+   "r": 7.0,
    "s": {
-    "en": "",
+    "en": "A talented violinist, Cecilia, confined in an orphanage, meets Vivaldi who becomes her teacher. Under his mentorship and through his music, she gains courage to break free from the life she was destined for and pursue her passion.",
     "fi": "Venetsia 1700-luvun alussa. Pietan orpokodissa kasvatetaan hylätyistä tytöistä muusikoita. Pietan orkesteri on kuulu kautta Euroopan, onhan orpokoti kouluttanut muusikoita jo satoja vuosia. Orpotytöt soittavat kirkon parvella ristikon takana, jotta äveriäs seurapiiriyleisö voi paremmin keskittyä musiikkiin. Pietan johtokunta pestaa säveltäjän uransa kanssa kamppailevan Antonio Vivaldin (Michele Rondino) orkesterin opettajaksi. Poikkeuksellisen lahjakas Cecilia (Primaveran pääosassa hehkuva Tecla Insolia) nousee ykkösviulistiksi. Euroopan aateliset ja kruunupäät matkustavat Venetsiaan kuullakseen Vivaldin sävellyksiä ja Pietan orkesteria - mutta musiikki ei avaa orpokodin lukittuja portteja. Cecilia haluaa maailmalle, eikä anna vastoinkäymisten lannistaa vapaudenkaipuutaan. Oopperaohjaajana tunnetun Damiano Michieletton esikoiselokuva PRIMAVERA elää ja hengittää Venetsian kevään, kanavien ja musiikin ehdoilla. Michieletton oopperaohjauksia on juhlittu Milanon La Scalassa sekä Lontoon, Pariisin ja Berliinin oopperataloissa. Ludovica Rampoldin käsikirjoitus pohjaa vapaasti Tiziano Scarpan romaaniin Stabat mater. Venetsialainen Antonio Vivaldi (1678 – 1741) sävelsi kymmeniä oopperoita, kuoro- ja kamariteoksia sekä lukuisia sonaatteja. Konserttoja syntyi vähintään satoja. Vivaldi opetti Pietan orpokodissa 40 vuoden ajan. Hänen tunnetuin teoksensa Neljä vuodenaikaa syntyi noina vuosina."
    },
-   "tr": ""
+   "tr": "https://www.youtube.com/watch?v=J-fEjuVy5cQ",
+   "ts": [
+    "en"
+   ]
   },
   "primetime": {
    "id": 1375441,
@@ -7373,8 +7406,10 @@
    "img": "data/posters/b5fe432085346d64.jpg",
    "kr": "K-16",
    "krs": [
+    "biogrand",
     "biomarlon",
     "biorexkokkola",
+    "biosade",
     "biosalo",
     "biostara",
     "cinemantsala",
@@ -7382,22 +7417,32 @@
     "gilda",
     "haapamaki",
     "helios",
+    "ihmekompleksi",
     "isohannu",
     "jarvelankino",
     "kino123",
     "kinoaurora",
     "kinohannikainen",
+    "kinohirvi",
+    "kinojuha",
     "kinokilta",
     "kinokulma",
     "kinolaika",
+    "kinolumo",
     "kinomarilyn",
     "kinopiispanristi",
+    "kinopirtti",
+    "kinoset",
+    "kinovirta",
     "kirkkonummi",
+    "korjaamo",
     "kotkanleffat",
     "kurikankino",
     "kuvakukko",
     "leffabuumi",
-    "lieksankino"
+    "lieksankino",
+    "star",
+    "studio123jarvenpaa"
    ],
    "r": 0,
    "s": {
@@ -7791,16 +7836,12 @@
   },
   "rocky 50th anniversary": {
    "id": 1366,
-   "img": "data/posters/2c75158a2043fdd9.jpg",
-   "r": 7.8,
+   "r": 0,
    "s": {
     "en": "Elokuvassa ei ole tekstitystä! Struggling Philadelphia boxer Rocky Balboa has a chance to become a somebody when heavyweight champion Apollo Creed come up with the Bicentennial gimmick of fighting a sure-ringer and easily winning the bout himself. But someone forgot to tell Rocky, who trains earnestly. And in the climactic fight sequence, the \"Italian Stallion\" gets his wish: to go the distance...against all the odds!",
-    "fi": "Sylvester Stallonen kolmessa päivässä käsikirjoittama ja kuukaudessa kuvattu pienen budjetin elokuva sai Oscarin leikkauksen ja ohjauksen lisäksi parhaana elokuvana. Rocky Balboa on lahjakas, mutta saamaton nyrkkeilijä, joka perii lainoja työkseen. Hän pääsee mestaruusotteluun, kun mestarin haastaja loukkaantuu viime hetkillä. Samalla Rocky saa tilaisuuden valloittaa unelmiensa nainen."
+    "fi": ""
    },
-   "tr": "https://www.youtube.com/watch?v=dmd9tEt9F30",
-   "ts": [
-    "fi"
-   ]
+   "tr": ""
   },
   "rokumentti 40 years of fuckin up a film by nofx": {
    "r": 0,
@@ -10546,6 +10587,7 @@
     "biogrand",
     "biograni",
     "biomarilyn",
+    "biopallas",
     "biorex",
     "biorexkokkola",
     "biosade",
@@ -10557,6 +10599,7 @@
     "elavienkuvien",
     "gilda",
     "helios",
+    "ihmekompleksi",
     "jarvelankino",
     "joutsankino",
     "julia",
@@ -10565,6 +10608,7 @@
     "kinoelo",
     "kinohirvi",
     "kinoiiris",
+    "kinojuha",
     "kinokilta",
     "kinokonepaja",
     "kinokuva",
@@ -10584,7 +10628,6 @@
     "kurikankino",
     "kuvakukko",
     "leffabuumi",
-    "matintupa",
     "niagara",
     "orion",
     "savonkinot",
@@ -10626,6 +10669,7 @@
     "biogrand",
     "biograni",
     "biomarilyn",
+    "biopallas",
     "biorex",
     "biorexkokkola",
     "biosade",
@@ -10637,6 +10681,7 @@
     "elavienkuvien",
     "gilda",
     "helios",
+    "ihmekompleksi",
     "jarvelankino",
     "joutsankino",
     "julia",
@@ -10645,6 +10690,7 @@
     "kinoelo",
     "kinohirvi",
     "kinoiiris",
+    "kinojuha",
     "kinokilta",
     "kinokonepaja",
     "kinokuva",
@@ -10664,7 +10710,6 @@
     "kurikankino",
     "kuvakukko",
     "leffabuumi",
-    "matintupa",
     "niagara",
     "orion",
     "savonkinot",
@@ -10728,6 +10773,7 @@
     "pajakkakino",
     "savonkinot",
     "star",
+    "studio123jarvenpaa",
     "vaakuna"
    ],
    "r": 7.9,
@@ -10824,13 +10870,19 @@
    "img": "data/posters/650c789b1581e9b9.jpg",
    "kr": "S",
    "krs": [
+    "biogrand",
     "biograni",
     "biomarlon",
+    "biopallas",
     "biorex",
     "biorexkokkola",
     "cinemantsala",
     "isohannu",
+    "kinoakseli",
+    "kinojuha",
+    "kinolumo",
     "kinopiispanristi",
+    "kinopirtti",
     "kotkanleffat",
     "leffabuumi",
     "niagara",
@@ -10876,7 +10928,7 @@
     "biorex",
     "biorexkokkola",
     "elokuviin",
-    "kino123",
+    "kinohirvi",
     "kinolumo",
     "kinomarilyn",
     "kinopirtti",

@@ -1,8 +1,9 @@
-[biomarilyn] 8 screening(s) in 2 schedule block(s), 8 film page(s) read
-[biomarilyn] prices for 8 of 8 screening(s); 3 of 3 price scheme(s) read establish an ordinary ticket, from 3 shows.json read(s)
+[biomarilyn] 6 screening(s) in 2 schedule block(s), 6 film page(s) read
+[biomarilyn] prices for 6 of 6 screening(s); 3 of 3 price scheme(s) read establish an ordinary ticket, from 3 shows.json read(s)
 [biomarilyn] 20 coming-soon entry/entries with no time, left out: A Place in Hell, Angry Birds 3, Avengers : Doomsday, Billie maailmojen välissä, Cancel 2, Cocomelon -elokuva, Dyyni: osa kolme, Hyviä Vuosia
-[biomarilyn] Bio Marilyn: 8 showtimes, 6 dates
-[biomarilyn] Bio Marilyn: 8 showtimes, 6 dates
+[biomarilyn] left out as the page does: 2 already started, 0 not in the catalogue
+[biomarilyn] Bio Marilyn: 6 showtimes, 5 dates
+[biomarilyn] Bio Marilyn: 6 showtimes, 5 dates
 [biomarilyn] synopses merged: 0
 [vihdinkino] 16 screening(s) in 1 schedule block(s), 6 film page(s) read
 [vihdinkino] prices for 15 of 16 screening(s); 4 of 4 price scheme(s) read establish an ordinary ticket, from 2 shows.json read(s)
@@ -10,64 +11,66 @@
 [vihdinkino] Vihdin Kino: 16 showtimes, 9 dates
 [vihdinkino] Vihdin Kino: 16 showtimes, 9 dates
 [vihdinkino] synopses merged: 0
-[bioforum] 26 screening(s) in 1 schedule block(s), 10 film page(s) read
-[bioforum] prices for 26 of 26 screening(s); 4 of 4 price scheme(s) read establish an ordinary ticket, from 4 shows.json read(s)
-[bioforum] left out as the page does: 1 already started, 0 not in the catalogue
+[bioforum] 24 screening(s) in 1 schedule block(s), 10 film page(s) read
+[bioforum] prices for 24 of 24 screening(s); 4 of 4 price scheme(s) read establish an ordinary ticket, from 4 shows.json read(s)
+[bioforum] left out as the page does: 3 already started, 0 not in the catalogue
 [bioforum] 1 synopsis/synopses withheld, no language settled: Lapin sota
-[bioforum] Bio Forum: 26 showtimes, 12 dates
-[bioforum] Bio Forum: 26 showtimes, 12 dates
+[bioforum] Bio Forum: 24 showtimes, 11 dates
+[bioforum] Bio Forum: 24 showtimes, 11 dates
 [bioforum] synopses merged: 0
-[kinokulma] 19 screening(s) in 1 schedule block(s), 8 film page(s) read
-[kinokulma] prices for 15 of 17 screening(s); 3 of 4 price scheme(s) read establish an ordinary ticket, from 2 shows.json read(s)
+[kinokulma] 17 screening(s) in 1 schedule block(s), 7 film page(s) read
+[kinokulma] prices for 13 of 15 screening(s); 3 of 4 price scheme(s) read establish an ordinary ticket, from 2 shows.json read(s)
+[kinokulma] left out as the page does: 2 already started, 0 not in the catalogue
 [kinokulma] 1 product(s) the site lists as not a film over 2 row(s) left out: Oulaisten Valovoima ry
 [kinokulma] 1 synopsis/synopses withheld, no language settled: Lapin sota
-[kinokulma] Kinokulma: 17 showtimes, 9 dates
-[kinokulma] Kinokulma: 17 showtimes, 9 dates
+[kinokulma] Kinokulma: 15 showtimes, 8 dates
+[kinokulma] Kinokulma: 15 showtimes, 8 dates
 [kinokulma] synopses merged: 0
-[kinohannikainen] 16 screening(s) in 1 schedule block(s), 8 film page(s) read
-[kinohannikainen] prices for 16 of 16 screening(s); 5 of 5 price scheme(s) read establish an ordinary ticket, from 5 shows.json read(s)
+[kinohannikainen] 15 screening(s) in 1 schedule block(s), 8 film page(s) read
+[kinohannikainen] prices for 15 of 15 screening(s); 5 of 5 price scheme(s) read establish an ordinary ticket, from 5 shows.json read(s)
+[kinohannikainen] left out as the page does: 1 already started, 0 not in the catalogue
 [kinohannikainen] 1 synopsis/synopses withheld, no language settled: LAPIN SOTA
-[kinohannikainen] Kino Hannikainen: 16 showtimes, 10 dates
-[kinohannikainen] Kino Hannikainen: 16 showtimes, 10 dates
+[kinohannikainen] Kino Hannikainen: 15 showtimes, 9 dates
+[kinohannikainen] Kino Hannikainen: 15 showtimes, 9 dates
 [kinohannikainen] synopses merged: 0
-[kinovirta] 4 screening(s) in 1 schedule block(s), 3 film page(s) read
-[kinovirta] prices for 4 of 4 screening(s); 2 of 2 price scheme(s) read establish an ordinary ticket, from 1 shows.json read(s)
+[kinovirta] 16 screening(s) in 1 schedule block(s), 7 film page(s) read
+[kinovirta] prices for 16 of 16 screening(s); 3 of 3 price scheme(s) read establish an ordinary ticket, from 2 shows.json read(s)
 [kinovirta] 1 synopsis/synopses withheld, no language settled: Lapin Sota
-[kinovirta] Kino Virta: 4 showtimes, 2 dates
-[kinovirta] Kino Virta: 4 showtimes, 2 dates
+[kinovirta] Kino Virta: 16 showtimes, 6 dates
+[kinovirta] Kino Virta: 16 showtimes, 6 dates
 [kinovirta] synopses merged: 0
-[kulttuurimylly] 8 screening(s) in 1 schedule block(s), 7 film page(s) read
-[kulttuurimylly] prices for 7 of 8 screening(s); 3 of 3 price scheme(s) read establish an ordinary ticket, from 3 shows.json read(s)
+[kulttuurimylly] 10 screening(s) in 1 schedule block(s), 9 film page(s) read
+[kulttuurimylly] prices for 9 of 10 screening(s); 3 of 3 price scheme(s) read establish an ordinary ticket, from 3 shows.json read(s)
 [kulttuurimylly] 1 synopsis/synopses withheld, no language settled: La Bola Negra
-[kulttuurimylly] Kino Kulttuurimylly: 8 showtimes, 6 dates
-[kulttuurimylly] strand prefix split off 5 showtimes
-[kulttuurimylly] Kino Kulttuurimylly: 8 showtimes, 6 dates
+[kulttuurimylly] Kino Kulttuurimylly: 10 showtimes, 6 dates
+[kulttuurimylly] strand prefix split off 6 showtimes
+[kulttuurimylly] Kino Kulttuurimylly: 10 showtimes, 6 dates
 [kulttuurimylly] synopses merged: 0
-[elokuviin] 56 screening(s) in 4 schedule block(s), 14 film page(s) read
-[elokuviin] prices for 56 of 56 screening(s); 4 of 4 price scheme(s) read establish an ordinary ticket, from 4 shows.json read(s)
+[elokuviin] 55 screening(s) in 4 schedule block(s), 14 film page(s) read
+[elokuviin] prices for 55 of 55 screening(s); 4 of 4 price scheme(s) read establish an ordinary ticket, from 4 shows.json read(s)
 [elokuviin] 8 coming-soon entry/entries with no time, left out: Billie maailmojen välissä, Uusin painajainen perheessä
 [elokuviin] 7 private screening(s) (YKSITYISNÄYTÖS!) left out
+[elokuviin] left out as the page does: 1 already started, 0 not in the catalogue
 [elokuviin] 1 synopsis/synopses withheld, no language settled: Jääkärin morsian (1931)
 [elokuviin] Sun Kino: 9 showtimes, 6 dates
 [elokuviin] Kino Kyntäjä: 23 showtimes, 9 dates
-[elokuviin] Y-Kino: 17 showtimes, 11 dates
+[elokuviin] Y-Kino: 16 showtimes, 10 dates
 [elokuviin] Alareksi: 7 showtimes, 6 dates
 [elokuviin] Sun Kino: 9 showtimes, 6 dates
 [elokuviin] Kino Kyntäjä: 23 showtimes, 9 dates
-[elokuviin] Y-Kino: 17 showtimes, 11 dates
+[elokuviin] Y-Kino: 16 showtimes, 10 dates
 [elokuviin] Alareksi: 7 showtimes, 6 dates
 [elokuviin] synopses merged: 0
-[kuvatahti] 4 screening(s) in 2 schedule block(s), 3 film page(s) read
-[kuvatahti] prices for 4 of 4 screening(s); 2 of 2 price scheme(s) read establish an ordinary ticket, from 2 shows.json read(s)
+[kuvatahti] 22 screening(s) in 2 schedule block(s), 7 film page(s) read
+[kuvatahti] prices for 22 of 22 screening(s); 3 of 3 price scheme(s) read establish an ordinary ticket, from 2 shows.json read(s)
 [kuvatahti] 1 synopsis/synopses withheld, no language settled: Lapin sota
-[kuvatahti] Kuvala: 0 showtimes, 0 dates
-[kuvatahti] Kauttuan Kuva: 4 showtimes, 2 dates
-[kuvatahti] Kuvala: no showtimes and none previously; publishing an empty file
-[kuvatahti] Kauttuan Kuva: 4 showtimes, 2 dates
+[kuvatahti] Kuvala: 9 showtimes, 6 dates
+[kuvatahti] Kauttuan Kuva: 13 showtimes, 6 dates
+[kuvatahti] Kuvala: 9 showtimes, 6 dates
+[kuvatahti] Kauttuan Kuva: 13 showtimes, 6 dates
 [kuvatahti] synopses merged: 0
-[run] http: 0 revalidated (304), 106 full, 32 not stored (origin said no-store), 0 cache entries written
+[run] http: 0 revalidated (304), 114 full, 33 not stored (origin said no-store), 0 cache entries written
 [run] hosts: 11 attempted -- bioforum.fi, biomarilyn.johku.com, elokuviin.info, kinokulma.fi, kinovirta.johku.com, kulttuurimylly.johku.com, kuvatahti.johku.com, vihdinkino.fi, www.biomarilyn.com, www.kinohannikainen.net, www.kuvatahti.fi
-[run] partial: kuvatahti has 1 venue(s) that have never produced a showtime: kuvatahti-uusikaupunki
-[run] johku: 12 venues, 155 showtimes, 0 stale, 1 unverified, 0 pending, 0 with no programme, 0 failures
-[run] timing: 9 site(s), 232.8s of fetching added up across workers that overlap, longest site 52.0s, longest queue wait 152.4s, 90.2s wall from this module's first fetch starting to its last ending
+[run] johku: 13 venues, 179 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
+[run] timing: 9 site(s), 262.3s of fetching added up across workers that overlap, longest site 55.7s, longest queue wait 181.5s, 104.1s wall from this module's first fetch starting to its last ending
 exit=0

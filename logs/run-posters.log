@@ -1,3 +1,4 @@
-[mirror] 500 remote poster urls: 492 already mirrored, 8 downloaded (+320 kB), 0 failed, 0 too large
-[mirror] 1926 references rewritten, 0 replaced by a TMDB poster and 0 dropped in 57 files; data/posters now 3539 files, 136330 kB
+[mirror] 533 remote poster urls: 514 already mirrored, 18 downloaded (+734 kB), 1 failed, 0 too large
+[mirror] failed cdn.etiketti.app (1): OSError: could not create decoder object
+[mirror] 2029 references rewritten, 0 replaced by a TMDB poster and 0 dropped in 65 files; data/posters now 3578 files, 137840 kB
 exit=0
