@@ -1,10 +1,11 @@
 [engel] 3 date(s) listed with no time anywhere, skipped: 11-27, 12-04, 12-18 -- Kuin lammas laatikossa | Minotaur | Fatherland
-[engel] film pages: 14 parsed, 0 with nothing usable, 23/30 showtimes rated
-[engel] strand prefix split off 4 showtimes
-[engel] Kino Engel: 30 showtimes, 13 dates
+[engel] detail barnsondagar-pikkuli-och-himmelshinden: URLError: <urlopen error [Errno 8] nodename nor servname provided, or not known>
+[engel] film pages: 14 parsed, 1 with nothing usable, 23/31 showtimes rated
+[engel] strand prefix split off 5 showtimes
+[engel] Kino Engel: 31 showtimes, 14 dates
 [engel] synopses merged: 0
 [run] venuelists-local.json rewritten
 [run] http: 0 revalidated (304), 15 full, 0 not stored (origin said no-store), 0 cache entries written
 [run] hosts: 1 attempted -- kinoengel.fi
-[run] engel: 1 venues, 30 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
+[run] engel: 1 venues, 31 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
 exit=0
