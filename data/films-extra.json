@@ -1171,7 +1171,6 @@
    "img": "data/posters/faa2e1edf2dd940e.jpg",
    "kr": "K-12",
    "krs": [
-    "gilda",
     "orion"
    ],
    "r": 7.5,
@@ -1402,16 +1401,13 @@
     "biorex",
     "biorexkokkola",
     "biosade",
-    "biosalo",
     "biosavoy",
-    "biostara",
     "biovuoksi",
     "cinemantsala",
     "elavienkuvien",
     "elokuviin",
     "ihmekompleksi",
     "isohannu",
-    "jarvelankino",
     "kino123",
     "kinoakseli",
     "kinoelo",
@@ -1429,6 +1425,7 @@
     "kinotar",
     "kinotervakoski",
     "kinotoijala",
+    "kirkkonummi",
     "kotkanleffat",
     "kurikankino",
     "leffabuumi",
@@ -1439,12 +1436,12 @@
     "studio123kouvola",
     "vaakuna"
    ],
-   "r": 0,
+   "r": 7.7,
    "s": {
     "en": "An elderly miser embarks on a supernatural journey after visits from the ghost of his former business partner and the Spirits of Christmas Past, Present, and Yet to Come force him to confront his past and fight for a second chance at happiness.",
     "fi": "Johnny Depp on Ebenezer Scrooge. Nimi on tuttu, tarina ei. Ti Westin ohjaamaa elokuvaa tähdittävät myös Rupert Grint, Andrea Riseborough, Sam Claflin, Daisy Ridley, Arthur Conti, Ellie Bamber, Henry Lloyd-Hughes, Charlie Murphy sekä Tramell Tillman ja Ian McKellen."
    },
-   "tr": "https://www.youtube.com/watch?v=l_Ozo1xUgbU",
+   "tr": "https://www.youtube.com/watch?v=D-n-lqKVr78",
    "ts": [
     "en"
    ]
@@ -1463,16 +1460,13 @@
     "biorex",
     "biorexkokkola",
     "biosade",
-    "biosalo",
     "biosavoy",
-    "biostara",
     "biovuoksi",
     "cinemantsala",
     "elavienkuvien",
     "elokuviin",
     "ihmekompleksi",
     "isohannu",
-    "jarvelankino",
     "kino123",
     "kinoakseli",
     "kinoelo",
@@ -1490,6 +1484,7 @@
     "kinotar",
     "kinotervakoski",
     "kinotoijala",
+    "kirkkonummi",
     "kotkanleffat",
     "kurikankino",
     "leffabuumi",
@@ -1544,7 +1539,7 @@
   "ekenäs filmfest minotaur": {
    "id": 848700,
    "img": "data/posters/b01a276bcbd05b0d.jpg",
-   "r": 7.6,
+   "r": 7.4,
    "s": {
     "en": "When Gleb, a successful company director, finds himself under siege from mounting corporate pressures, an increasingly unstable world, and the discovery of his wife's affair, the collapse of his carefully ordered life accelerates toward violence.",
     "fi": "MINOTAUR on venäläisohjaaja Andrei Zvjagintsevin odotettu uusi elokuva. Se kertoo menestyneestä venäläisestä liikemiehestä Glebistä. Ammatillisten paineiden kasautuessa ja avioliiton rakoillessa Glebin huolellisessa järjestyksessä oleva elämä alkaa romahtaa väkivaltaisesti kiihtyen. Rikosdraaman pääosissa nähdään Dmitri Mazurov ja Iris Lebedeva."
@@ -2626,17 +2621,13 @@
   },
   "insidious out of the further": {
    "id": 1291595,
-   "img": "data/posters/f1fadcf01e5f6329.jpg",
-   "r": 7.7,
+   "r": 0,
    "s": {
-    "en": "Gemma, a young mother raising her daughter in the house she grew up in, discovers she can travel into The Further, where she possesses an ability to bring what lives there back to the real world.",
+    "en": "",
     "fi": "Nuori äiti Gemma kasvattaa tytärtään talossa, jossa hän itse kasvoi, ja hän huomaa voivansa matkustaa The Furtheriin, missä hänellä on kyky tuoda siellä elävät olennot takaisin todelliseen maailmaan.",
     "sv": "I filmen Insidious: Out of the Further (den sjätte delen i skräckserien) följer vi den ensamstående mamman Gemma. Hon upptäcker att hon kan resa in i \"The Further\" – den parallella, mörka världen av förlorade själar. Hon får förmågan att föra dess varelser tillbaka till vår värld, vilket släpper lös ondskefulla krafter.I rollerna ser vi bland annat Amelia Eve som Gemma och Lin Shaye som återvänder i rollen som Elise Rainier."
    },
-   "tr": "https://www.youtube.com/watch?v=gXjurDkYnEM",
-   "ts": [
-    "en"
-   ]
+   "tr": ""
   },
   "intermezzo": {
    "id": 125891,
@@ -3257,14 +3248,12 @@
     "kinoset",
     "kinotervakoski",
     "kinovirta",
-    "kirkkonummi",
     "kisakino",
     "kotkanleffat",
     "kuvakukko",
     "kuvatahti",
     "leffabuumi",
     "niagara",
-    "orion",
     "pajakkakino",
     "regina",
     "savonkinot",
@@ -3325,14 +3314,12 @@
     "kinoset",
     "kinotervakoski",
     "kinovirta",
-    "kirkkonummi",
     "kisakino",
     "kotkanleffat",
     "kuvakukko",
     "kuvatahti",
     "leffabuumi",
     "niagara",
-    "orion",
     "pajakkakino",
     "regina",
     "savonkinot",
@@ -3405,14 +3392,12 @@
     "kinoset",
     "kinotervakoski",
     "kinovirta",
-    "kirkkonummi",
     "kisakino",
     "kotkanleffat",
     "kuvakukko",
     "kuvatahti",
     "leffabuumi",
     "niagara",
-    "orion",
     "pajakkakino",
     "regina",
     "savonkinot",
@@ -4573,19 +4558,6 @@
    },
    "tr": ""
   },
-  "kätyrit monsterit suomeksi puhuttu": {
-   "id": 1315772,
-   "img": "data/posters/67059865db3405c0.jpg",
-   "r": 7.5,
-   "s": {
-    "en": "This is the rambunctious, ridiculous and totally true story of how the Minions conquered Hollywood, became movie stars, lost everything, unleashed monsters onto the world and then banded together to try and save the planet from the mayhem they had just created.",
-    "fi": ""
-   },
-   "tr": "https://www.youtube.com/watch?v=V-O-uBaHk3c",
-   "ts": [
-    "en"
-   ]
-  },
   "l atalante": {
    "id": 43904,
    "img": "data/posters/529a2d4feaee8f96.jpg",
@@ -4811,7 +4783,6 @@
     "biopallas",
     "biorex",
     "biorexkokkola",
-    "biosade",
     "biosalo",
     "biosavoy",
     "biostara",
@@ -4821,7 +4792,6 @@
     "haapamaki",
     "kino123",
     "kinoelo",
-    "kinohirvi",
     "kinolaika",
     "kinolumo",
     "kinomania",
@@ -5261,7 +5231,6 @@
   },
   "mannerlaatta": {
    "id": 384036,
-   "img": "data/posters/f374a4a7a21aae37.jpg",
    "r": 0,
    "s": {
     "en": "Äänen alkemistit is a special screening series dedicated to film sound and film music. The films in the series have been selected by leading professionals in music and cinematic sound. Composer and violinist Sanna Salmenkallio chose Mannerlaatta, an experimental film work by Mika Taanila, for the series. Mannerlaatta is a feature-length lettrist film about fear of flying, security checks and time zones. Made entirely without a camera, the work is based on an original text by Harry Salmenniemi. The film’s music was composed by Mika Vainio.",
@@ -6027,6 +5996,7 @@
     "kinotoijala",
     "kisakino",
     "kotkanleffat",
+    "kurikankino",
     "kuvakukko",
     "leffabuumi",
     "levisummit",
@@ -6122,13 +6092,12 @@
   },
   "obsession": {
    "id": 1339713,
-   "img": "data/posters/b087e78e6e9510ef.jpg",
-   "r": 8.2,
+   "r": 0,
    "s": {
     "en": "",
     "fi": "Kun toivoton romantikko katkaisee salaperäisen “toivepajun” saadakseen ihastuksena rakastumaan itseensä, hän tajuaa saaneensa juuri sen, mitä toivoikin. Mutta pian hänelle valkenee, että joistakin toiveista joutuu maksamaan synkän hinnan."
    },
-   "tr": "https://www.youtube.com/watch?v=gMC8kkwbIQQ"
+   "tr": ""
   },
   "oddities": {
    "id": 1486256,
@@ -6819,12 +6788,10 @@
     "biopallas",
     "biorex",
     "biosalo",
-    "biostara",
     "engel",
     "helios",
     "isohannu",
     "kino123",
-    "kinohirvi",
     "kinolumo",
     "kinometso",
     "kinopirtti",
@@ -7275,6 +7242,8 @@
     "kinokulma",
     "kinolaika",
     "kinomarilyn",
+    "kirkkonummi",
+    "kurikankino",
     "kuvakukko",
     "leffabuumi",
     "lieksankino"
@@ -7367,13 +7336,12 @@
   },
   "päämies": {
    "id": 10731,
-   "img": "data/posters/8daf0f93d91e99e6.jpg",
-   "r": 6.7,
+   "r": 0,
    "s": {
     "en": "",
     "fi": "John Grisham -filmatisointien huippuaikana valmistunut Päämies on lajinsa tyyppiedustaja: vetävä ja hallitun tyylikäs lakijännärin ja oikeussalidraaman risteytys. Nuori poika todistaa vahingossa mafiajuristin itsemurhan ja saa kannoilleen sekä piirisyyttäjän että alamaailman ja päätyy palkkaamaan itselleen asianajajan."
    },
-   "tr": "https://www.youtube.com/watch?v=EZY7_dCQRgk"
+   "tr": ""
   },
   "päätalo": {
    "id": 109861,
@@ -9970,6 +9938,8 @@
    "tr": ""
   },
   "unesta tehty mies tekijävierailu": {
+   "id": 1743488,
+   "img": "data/posters/a8ac06319ada64c2.jpg",
    "r": 0,
    "s": {
     "en": "",
@@ -10293,16 +10263,12 @@
   },
   "viimeinen mies": {
    "id": 5991,
-   "img": "data/posters/dbf34b736c2ee430.jpg",
-   "r": 7.8,
+   "r": 0,
    "s": {
-    "en": "An aging doorman, after being fired from his prestigious job at a luxurious hotel, is forced to face the scorn of his friends, neighbours and society.",
+    "en": "",
     "fi": "F. W. Murnaun ajaton mykkälassikko Viimeinen mies kertoo pikkuporvarillisen tarinan Emil Janningsin tulkitsemasta turhamaisesta hotelliportieerista. Asemansa ylpistämän miehen maailma romahtaa, kun komea virkaunivormu vaihtuu arvon alennuksen myötä vessavahdin vaaleaan pellavatakkiin."
    },
-   "tr": "https://www.youtube.com/watch?v=d7rPS1TQ67I",
-   "ts": [
-    "en"
-   ]
+   "tr": ""
   },
   "vinski 2": {
    "id": 964311,
@@ -10742,7 +10708,6 @@
     "biorex",
     "biorexkokkola",
     "elokuviin",
-    "gilda",
     "kino123",
     "kinolumo",
     "kinomarilyn",
@@ -10793,5 +10758,5 @@
    "tr": ""
   }
  },
- "generated": "2026-11-15"
+ "generated": "2026-11-16"
 }

@@ -1,27 +1,23 @@
 [biomarilyn] 8 screening(s) in 2 schedule block(s), 8 film page(s) read
 [biomarilyn] prices for 8 of 8 screening(s); 3 of 3 price scheme(s) read establish an ordinary ticket, from 3 shows.json read(s)
 [biomarilyn] 20 coming-soon entry/entries with no time, left out: A Place in Hell, Angry Birds 3, Avengers : Doomsday, Billie maailmojen välissä, Cancel 2, Cocomelon -elokuva, Dyyni: osa kolme, Hyviä Vuosia
-[biomarilyn] left out as the page does: 2 already started, 0 not in the catalogue
 [biomarilyn] Bio Marilyn: 8 showtimes, 6 dates
 [biomarilyn] Bio Marilyn: 8 showtimes, 6 dates
 [biomarilyn] synopses merged: 0
 [vihdinkino] 6 screening(s) in 1 schedule block(s), 4 film page(s) read
 [vihdinkino] prices for 5 of 6 screening(s); 4 of 4 price scheme(s) read establish an ordinary ticket, from 2 shows.json read(s)
-[vihdinkino] left out as the page does: 3 already started, 0 not in the catalogue
 [vihdinkino] 2 synopsis/synopses withheld, no language settled: Lapin sota, Pahantorjuja-kerhonäytös: Onnen asiamies
 [vihdinkino] Vihdin Kino: 6 showtimes, 3 dates
 [vihdinkino] Vihdin Kino: 6 showtimes, 3 dates
 [vihdinkino] synopses merged: 0
 [bioforum] 27 screening(s) in 1 schedule block(s), 10 film page(s) read
 [bioforum] prices for 27 of 27 screening(s); 4 of 4 price scheme(s) read establish an ordinary ticket, from 4 shows.json read(s)
-[bioforum] left out as the page does: 2 already started, 0 not in the catalogue
 [bioforum] 1 synopsis/synopses withheld, no language settled: Lapin sota
 [bioforum] Bio Forum: 27 showtimes, 12 dates
 [bioforum] Bio Forum: 27 showtimes, 12 dates
 [bioforum] synopses merged: 0
 [kinokulma] 19 screening(s) in 1 schedule block(s), 8 film page(s) read
 [kinokulma] prices for 15 of 17 screening(s); 3 of 4 price scheme(s) read establish an ordinary ticket, from 2 shows.json read(s)
-[kinokulma] left out as the page does: 3 already started, 0 not in the catalogue
 [kinokulma] 1 product(s) the site lists as not a film over 2 row(s) left out: Oulaisten Valovoima ry
 [kinokulma] 1 synopsis/synopses withheld, no language settled: Lapin sota
 [kinokulma] Kinokulma: 17 showtimes, 9 dates
@@ -29,20 +25,17 @@
 [kinokulma] synopses merged: 0
 [kinohannikainen] 12 screening(s) in 1 schedule block(s), 6 film page(s) read
 [kinohannikainen] prices for 12 of 12 screening(s); 4 of 4 price scheme(s) read establish an ordinary ticket, from 4 shows.json read(s)
-[kinohannikainen] left out as the page does: 2 already started, 0 not in the catalogue
 [kinohannikainen] Kino Hannikainen: 12 showtimes, 7 dates
 [kinohannikainen] Kino Hannikainen: 12 showtimes, 7 dates
 [kinohannikainen] synopses merged: 0
 [kinovirta] 4 screening(s) in 1 schedule block(s), 3 film page(s) read
 [kinovirta] prices for 4 of 4 screening(s); 2 of 2 price scheme(s) read establish an ordinary ticket, from 1 shows.json read(s)
-[kinovirta] left out as the page does: 4 already started, 0 not in the catalogue
 [kinovirta] 1 synopsis/synopses withheld, no language settled: Lapin Sota
 [kinovirta] Kino Virta: 4 showtimes, 2 dates
 [kinovirta] Kino Virta: 4 showtimes, 2 dates
 [kinovirta] synopses merged: 0
 [kulttuurimylly] 3 screening(s) in 1 schedule block(s), 3 film page(s) read
 [kulttuurimylly] prices for 3 of 3 screening(s); 1 of 1 price scheme(s) read establish an ordinary ticket, from 1 shows.json read(s)
-[kulttuurimylly] left out as the page does: 3 already started, 0 not in the catalogue
 [kulttuurimylly] Kino Kulttuurimylly: 3 showtimes, 3 dates
 [kulttuurimylly] strand prefix split off 3 showtimes
 [kulttuurimylly] Kino Kulttuurimylly: 3 showtimes, 3 dates
@@ -51,7 +44,6 @@
 [elokuviin] prices for 54 of 54 screening(s); 4 of 4 price scheme(s) read establish an ordinary ticket, from 4 shows.json read(s)
 [elokuviin] 8 coming-soon entry/entries with no time, left out: Billie maailmojen välissä, Uusin painajainen perheessä
 [elokuviin] 7 private screening(s) (YKSITYISNÄYTÖS!) left out
-[elokuviin] left out as the page does: 9 already started, 0 not in the catalogue
 [elokuviin] 1 synopsis/synopses withheld, no language settled: Jääkärin morsian (1931)
 [elokuviin] Sun Kino: 9 showtimes, 6 dates
 [elokuviin] Kino Kyntäjä: 21 showtimes, 8 dates
@@ -64,16 +56,15 @@
 [elokuviin] synopses merged: 0
 [kuvatahti] 4 screening(s) in 2 schedule block(s), 3 film page(s) read
 [kuvatahti] prices for 4 of 4 screening(s); 2 of 2 price scheme(s) read establish an ordinary ticket, from 2 shows.json read(s)
-[kuvatahti] left out as the page does: 5 already started, 0 not in the catalogue
 [kuvatahti] 1 synopsis/synopses withheld, no language settled: Lapin sota
 [kuvatahti] Kuvala: 0 showtimes, 0 dates
 [kuvatahti] Kauttuan Kuva: 4 showtimes, 2 dates
-[kuvatahti] Kuvala: no showtimes, keeping previous data from 2026-11-15T12:14:27+00:00
+[kuvatahti] Kuvala: no showtimes and nothing left ahead in the previous file from 2026-11-15T12:14:27+00:00; publishing an empty file
 [kuvatahti] Kauttuan Kuva: 4 showtimes, 2 dates
 [kuvatahti] synopses merged: 0
 [run] http: 0 revalidated (304), 95 full, 29 not stored (origin said no-store), 0 cache entries written
 [run] hosts: 11 attempted -- bioforum.fi, biomarilyn.johku.com, elokuviin.info, kinokulma.fi, kinovirta.johku.com, kulttuurimylly.johku.com, kuvatahti.johku.com, vihdinkino.fi, www.biomarilyn.com, www.kinohannikainen.net, www.kuvatahti.fi
-[run] partial: kuvatahti kept previous data for 1 venue(s): kuvatahti-uusikaupunki
-[run] johku: 12 venues, 135 showtimes, 1 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
-[run] timing: 9 site(s), 185.3s of fetching added up across workers that overlap, longest site 47.3s, longest queue wait 133.3s, 79.2s wall from this module's first fetch starting to its last ending
+[run] partial: kuvatahti has 1 venue(s) that have never produced a showtime: kuvatahti-uusikaupunki
+[run] johku: 12 venues, 135 showtimes, 0 stale, 1 unverified, 0 pending, 0 with no programme, 0 failures
+[run] timing: 9 site(s), 183.0s of fetching added up across workers that overlap, longest site 47.3s, longest queue wait 131.5s, 75.8s wall from this module's first fetch starting to its last ending
 exit=0
