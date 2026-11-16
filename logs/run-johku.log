@@ -59,12 +59,12 @@
 [kuvatahti] 1 synopsis/synopses withheld, no language settled: Lapin sota
 [kuvatahti] Kuvala: 0 showtimes, 0 dates
 [kuvatahti] Kauttuan Kuva: 4 showtimes, 2 dates
-[kuvatahti] Kuvala: no showtimes and nothing left ahead in the previous file from 2026-11-15T12:14:27+00:00; publishing an empty file
+[kuvatahti] Kuvala: no showtimes and none previously; publishing an empty file
 [kuvatahti] Kauttuan Kuva: 4 showtimes, 2 dates
 [kuvatahti] synopses merged: 0
 [run] http: 0 revalidated (304), 95 full, 29 not stored (origin said no-store), 0 cache entries written
 [run] hosts: 11 attempted -- bioforum.fi, biomarilyn.johku.com, elokuviin.info, kinokulma.fi, kinovirta.johku.com, kulttuurimylly.johku.com, kuvatahti.johku.com, vihdinkino.fi, www.biomarilyn.com, www.kinohannikainen.net, www.kuvatahti.fi
 [run] partial: kuvatahti has 1 venue(s) that have never produced a showtime: kuvatahti-uusikaupunki
 [run] johku: 12 venues, 135 showtimes, 0 stale, 1 unverified, 0 pending, 0 with no programme, 0 failures
-[run] timing: 9 site(s), 183.0s of fetching added up across workers that overlap, longest site 47.3s, longest queue wait 131.5s, 75.8s wall from this module's first fetch starting to its last ending
+[run] timing: 9 site(s), 196.1s of fetching added up across workers that overlap, longest site 50.5s, longest queue wait 150.8s, 85.0s wall from this module's first fetch starting to its last ending
 exit=0

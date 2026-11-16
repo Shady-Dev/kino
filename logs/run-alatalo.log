@@ -1,12 +1,5 @@
-[alatalo] Pohjantähti: no programme at the moment (adapter confirmed the venue empty); publishing an empty file
-[alatalo] Teatterisali: no programme at the moment (adapter confirmed the venue empty); publishing an empty file
-[alatalo] Kiurusali: no programme at the moment (adapter confirmed the venue empty); publishing an empty file
-[alatalo] Toholampisali: no programme at the moment (adapter confirmed the venue empty); publishing an empty file
-[alatalo] Kulttuurikeskus: no programme at the moment (adapter confirmed the venue empty); publishing an empty file
-[alatalo] synopses merged: 0
-[alatalo] no programme published: http://www.moviecompanyalatalo.fi/: the page lists 2 of this operator's towns and no date, time or screening under any of them, which is what it publishes between tours
-[run] http: 0 revalidated (304), 1 full, 1 not stored (origin said no-store), 0 cache entries written
+[alatalo] FAILED: <urlopen error [Errno 111] Connection refused>
 [run] hosts: 1 attempted -- www.moviecompanyalatalo.fi
-[run] alatalo: 0 venues, 0 showtimes, 0 stale, 0 unverified, 0 pending, 1 with no programme, 0 failures
-[run] timing: 1 site(s), 0.7s of fetching added up across workers that overlap, longest site 0.7s, longest queue wait 139.4s, 0.7s wall from this module's first fetch starting to its last ending
-exit=0
+[run] alatalo: 0 venues, 0 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 1 failures
+[run] timing: 1 site(s), 16.0s of fetching added up across workers that overlap, longest site 16.0s, longest queue wait 158.5s, 16.0s wall from this module's first fetch starting to its last ending
+exit=1
