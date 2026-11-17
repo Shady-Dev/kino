@@ -2076,6 +2076,19 @@
    },
    "tr": ""
   },
+  "hamnet": {
+   "id": 858024,
+   "img": "data/posters/84aa45b5d78814bd.jpg",
+   "r": 7.7,
+   "s": {
+    "en": "",
+    "fi": "Hamnet kertoo Shakespearen ajatonta klassikkoa Hamletia innoittaneen vahvan tarinan rakkaudesta ja menetyksestä."
+   },
+   "tr": "https://www.youtube.com/watch?v=xYcgQMxQwmk",
+   "ts": [
+    "fi"
+   ]
+  },
   "hangon elokuvajuhlat varaa liput www hangonelokuvajuhlat fi": {
    "r": 0,
    "s": {
@@ -3314,6 +3327,7 @@
     "biosade",
     "biosalo",
     "elokuviin",
+    "engel",
     "gilda",
     "haapamaki",
     "helios",
@@ -3377,6 +3391,7 @@
     "biosade",
     "biosalo",
     "elokuviin",
+    "engel",
     "gilda",
     "haapamaki",
     "helios",
@@ -3452,6 +3467,7 @@
     "biosade",
     "biosalo",
     "elokuviin",
+    "engel",
     "gilda",
     "haapamaki",
     "helios",
@@ -4679,6 +4695,7 @@
     "biogrand",
     "biorex",
     "biorexkokkola",
+    "engel",
     "gilda",
     "kinoaurora",
     "kinoiiris",
@@ -4688,7 +4705,8 @@
     "kotkanleffat",
     "kulttuurimylly",
     "niagara",
-    "orion"
+    "orion",
+    "tapiola"
    ],
    "r": 8.0,
    "s": {
@@ -5542,7 +5560,8 @@
    "kr": "S",
    "krs": [
     "joutsankino",
-    "kinoiiris"
+    "kinoiiris",
+    "savonkinot"
    ],
    "r": 0,
    "s": {
@@ -5656,7 +5675,6 @@
     "joutsankino",
     "kinoiiris",
     "kinokilta",
-    "kinokonepaja",
     "kinolaika",
     "kinomarilyn",
     "kinopirtti",
@@ -6257,12 +6275,13 @@
   },
   "obsession": {
    "id": 1339713,
-   "r": 0,
+   "img": "data/posters/b087e78e6e9510ef.jpg",
+   "r": 8.2,
    "s": {
     "en": "",
     "fi": "Kun toivoton romantikko katkaisee salaperäisen “toivepajun” saadakseen ihastuksena rakastumaan itseensä, hän tajuaa saaneensa juuri sen, mitä toivoikin. Mutta pian hänelle valkenee, että joistakin toiveista joutuu maksamaan synkän hinnan."
    },
-   "tr": ""
+   "tr": "https://www.youtube.com/watch?v=gMC8kkwbIQQ"
   },
   "oddities": {
    "id": 1486256,
@@ -6675,6 +6694,7 @@
     "bioforum",
     "biopallas",
     "biorex",
+    "elavienkuvien",
     "gilda",
     "ihmekompleksi",
     "julia",
@@ -7204,12 +7224,16 @@
   },
   "practical magic lumotut sisaret": {
    "id": 1302904,
-   "r": 0,
+   "img": "data/posters/1b75e3e44aca4810.jpg",
+   "r": 7.2,
    "s": {
-    "en": "",
+    "en": "The Owens sisters must confront the dark curse that threatens to unravel their family once and for all.",
     "fi": "Sandra Bullockin ja Nicole Kidmanin tähdittämä PRACTICAL MAGIC: LUMOTUT SISARET vie kuutamon valaisemien kepposten ja esiäitien taikuuden sävyttämään maailmaan, jossa Owensin sisarten on kohdattava synkkä kirous, joka uhkaa repiä heidän perheensä lopullisesti hajalle. Luvassa on lumottu elokuva täynnä komediaa ja taikaa."
    },
-   "tr": ""
+   "tr": "https://www.youtube.com/watch?v=Ho10_4IX1jE",
+   "ts": [
+    "en"
+   ]
   },
   "practical magic lumotut sisaret k18 anniskelunäytös": {
    "id": 1302904,
@@ -7471,6 +7495,7 @@
     "leffabuumi",
     "lieksankino",
     "niagara",
+    "savonkinot",
     "star",
     "studio123jarvenpaa"
    ],
@@ -9358,6 +9383,10 @@
   "the invite": {
    "id": 950028,
    "img": "data/posters/2755bb2be0a0c120.jpg",
+   "kr": "K-12",
+   "krs": [
+    "engel"
+   ],
    "r": 7.2,
    "s": {
     "en": "",
@@ -10800,6 +10829,7 @@
     "savonkinot",
     "star",
     "studio123jarvenpaa",
+    "tapiola",
     "vaakuna"
    ],
    "r": 7.9,
@@ -10903,6 +10933,7 @@
     "biorex",
     "biorexkokkola",
     "cinemantsala",
+    "engel",
     "isohannu",
     "kinoakseli",
     "kinohirvi",
@@ -10915,6 +10946,7 @@
     "leffabuumi",
     "niagara",
     "orion",
+    "savonkinot",
     "star",
     "studio123jarvenpaa",
     "studio123kouvola"
