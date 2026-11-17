@@ -1405,13 +1405,13 @@
   "ebenezer": {
    "id": 1567605,
    "img": "data/posters/445a6b495360d819.jpg",
-   "r": 0,
+   "r": 7.7,
    "s": {
     "en": "An elderly miser embarks on a supernatural journey after visits from the ghost of his former business partner and the Spirits of Christmas Past, Present, and Yet to Come force him to confront his past and fight for a second chance at happiness.",
     "fi": "",
     "sv": "Charles Dickens En Spökhistoria Före Jul, som du aldrig har sett den tidigare. I november, är Johnny Depp Ebenezer Scrooge. Du känner igen namnet, men inte historien. I rollerna i EBENEZER, från Ti West, ser vi Rupert Grint, Andrea Riseborough, Sam Claflin, Daisy Ridley, Arthur Conti, Ellie Bamber, Henry Lloyd-Hughes, Charlie Murphy, med Tramell Tillman och Ian McKellen."
    },
-   "tr": "https://www.youtube.com/watch?v=l_Ozo1xUgbU",
+   "tr": "https://www.youtube.com/watch?v=D-n-lqKVr78",
    "ts": [
     "en"
    ]
@@ -1760,7 +1760,7 @@
   "fatherland": {
    "id": 1437696,
    "img": "data/posters/57c9bb739407c934.jpg",
-   "r": 7.3,
+   "r": 7.2,
    "s": {
     "en": "This masterful film by Paweł Pawlikowski (Ida, Cold War), winner of the Best Director award at Cannes, delves into the relationship between the writer Thomas Mann and his daughter Erika, an actress, writer, journalist and rally driver, as they embark on a road trip through a Germany in ruins, from US-controlled Frankfurt to Weimar, which is under Soviet control. The lead roles are played by Oscar nominee Sandra Hüller and Hanns Zischler.",
     "fi": ""
@@ -3300,7 +3300,6 @@
     "biorexkokkola",
     "biosade",
     "biosalo",
-    "biostara",
     "cinemantsala",
     "elokuviin",
     "engel",
@@ -3330,7 +3329,6 @@
     "kuvatahti",
     "leffabuumi",
     "niagara",
-    "pajakkakino",
     "regina",
     "savonkinot",
     "star",
@@ -3366,7 +3364,6 @@
     "biorexkokkola",
     "biosade",
     "biosalo",
-    "biostara",
     "cinemantsala",
     "elokuviin",
     "engel",
@@ -3396,7 +3393,6 @@
     "kuvatahti",
     "leffabuumi",
     "niagara",
-    "pajakkakino",
     "regina",
     "savonkinot",
     "star",
@@ -3444,7 +3440,6 @@
     "biorexkokkola",
     "biosade",
     "biosalo",
-    "biostara",
     "cinemantsala",
     "elokuviin",
     "engel",
@@ -3474,7 +3469,6 @@
     "kuvatahti",
     "leffabuumi",
     "niagara",
-    "pajakkakino",
     "regina",
     "savonkinot",
     "star",
@@ -3852,7 +3846,6 @@
    "krs": [
     "biorex",
     "biosavoy",
-    "gilda",
     "helios",
     "ihmekompleksi",
     "kino123",
@@ -4880,6 +4873,19 @@
    },
    "tr": ""
   },
+  "late lammas elokuva hämärähommissa": {
+   "id": 1477104,
+   "img": "data/posters/0d3865389792d3a5.jpg",
+   "r": 7.3,
+   "s": {
+    "en": "On Halloween Eve at Mossy Bottom Farm, excitement turns to dismay when the clumsy Farmer ruins the pumpkin patch. Shaun tries fixing it with science experiments, but things go awry when a wild beast appears in the woods.",
+    "fi": ""
+   },
+   "tr": "https://www.youtube.com/watch?v=daZMq0AyOMc",
+   "ts": [
+    "en"
+   ]
+  },
   "late lammas elokuva hämäräpuuhissa": {
    "id": 1477104,
    "img": "data/posters/93eda5fa30b7d70c.jpg",
@@ -4897,6 +4903,7 @@
     "haapamaki",
     "kino123",
     "kinoelo",
+    "kinohirvi",
     "kinolaika",
     "kinolumo",
     "kinomania",
@@ -4918,6 +4925,7 @@
     "star",
     "studio123jarvenpaa",
     "studio123kouvola",
+    "vaakuna",
     "virtainpirtti"
    ],
    "r": 7.3,
@@ -6144,6 +6152,7 @@
     "star",
     "studio123jarvenpaa",
     "studio123kouvola",
+    "vaakuna",
     "vihdinkino",
     "virtainpirtti"
    ],
@@ -6457,6 +6466,14 @@
    "s": {
     "en": "",
     "fi": "Hintaan sisältyy lisäksi paperinen käsiohjelma (mikäli saatavilla) ja väliaikatarjoilu. Varaathan lipun edelliseen iltaan klo 18 mennessä verkossa tai puhelimitse. Tilaamme väliaikatarjoilun siihen mennessä lipun varanneille. Esitys kuuluu erikoisnäytäntöihin – alennuksia tai etuja. Kesä-, sarja-, joulu- ja vapaalippuja ei voi hyödyntää lipun hinnassa. Giuseppe Verdin Un ballo in maschera kertoo siirtomaan kuvernööri Riccardosta, joka rakastuu salaa parhaan ystävänsä Renaton vaimoon Ameliaan. Kielletty rakkaus, poliittiset salaliitot ja ennustaja Ulrican kohtalonennustus punoutuvat yhteen, kun Riccardolle ennustetaan kuolema läheisen ihmisen kädestä. Yrittäessään toimia kunniallisesti kaikki päähenkilöt ajautuvat kuitenkin tapahtumien kulkuun, jota kukaan ei enää pysty pysäyttämään. Huipennus koetaan loisteliaissa naamiaisissa, joissa Renato surmaa Riccardon uskoen tämän vietelleen hänen vaimonsa. Kuollessaan Riccardo paljastaa rakastaneensa Ameliaa puhtaasti eikä heidän välillään ollut uskottomuutta. Totuus selviää liian myöhään, ja ooppera päättyy anteeksiantoon, katumukseen ja kohtalon väistämättömyyteen. Arena di Veronan tuotannossa kapellimestarina toimi Andrea Battistoni, ohjauksesta vastasi Pier Luigi Pizzi, ja päärooleissa loistivat Francesco Meli (Riccardo), Luca Salsi (Renato), Hui He (Amelia) ja Elisabetta Fiorillo (Ulrica)."
+   },
+   "tr": ""
+  },
+  "operation mole": {
+   "r": 0,
+   "s": {
+    "en": "The film is an emotional survival thriller centered on a man's high-stakes mission to rescue 20 Tamil woodcutters arrested in the forests near Tiruvannamala.",
+    "fi": ""
    },
    "tr": ""
   },
@@ -6934,6 +6951,7 @@
     "biorex",
     "biosalo",
     "biostara",
+    "engel",
     "helios",
     "isohannu",
     "kino123",
@@ -7008,29 +7026,6 @@
   "pikkuli och himmelshinden": {
    "id": 1403476,
    "img": "data/posters/e4e4be88f3bfae06.jpg",
-   "kr": "S",
-   "krs": [
-    "biograni",
-    "biorex",
-    "biosalo",
-    "biostara",
-    "helios",
-    "isohannu",
-    "kino123",
-    "kinolumo",
-    "kinometso",
-    "kinomyyri",
-    "kinopiispanristi",
-    "kinopirtti",
-    "kinoset",
-    "kinotervakoski",
-    "kotkanleffat",
-    "kulttuurimylly",
-    "kuvakukko",
-    "savonkinot",
-    "star",
-    "studio123jarvenpaa"
-   ],
    "r": 0,
    "s": {
     "en": "",
@@ -10892,6 +10887,7 @@
     "cinemantsala",
     "isohannu",
     "kinoakseli",
+    "kinohirvi",
     "kinojuha",
     "kinolumo",
     "kinopiispanristi",
@@ -10949,7 +10945,6 @@
     "kotkanleffat",
     "leffabuumi",
     "niagara",
-    "pajakkakino",
     "savonkinot",
     "star",
     "studio123jarvenpaa",
@@ -10991,5 +10986,5 @@
    "tr": ""
   }
  },
- "generated": "2026-11-16"
+ "generated": "2026-11-17"
 }
