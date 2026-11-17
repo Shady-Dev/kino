@@ -8,10 +8,10 @@
 [schedule] 2026-11-22: 143 showtimes
 [schedule] 2026-11-23: 83 showtimes
 [tmdb] no TMDB match (5): Joulupukin salainen paja | Klara ja aurinko | Me olemme Pariisin orkesteri | MyFazer-ennakkonäytös | Nälkäpeli: Balladi... & Elonkorjuun sarastus
-[tmdb] weak match, no exact title (8): BTS WORLD TOUR 'ARIRANG' IN KAOHSIUNG: LIVE VIEWIN -> BTS WORLD TOUR 'ARIRANG' IN KAOHSIUNG: LIVE VIEWING | Dry Leaf -> ხმელი ფოთოლი | Godzilla Minus Zero -> ゴジラ-0.0 | Hadoota -> حدوتة | Leviticus -> Leviticus | NT LIVE: The Audience -> National Theatre Live: The Audience | Ramayana: Rise of a Legend -> रामायणम् | Two Seasons, Two Strangers -> 旅と日々
-[tmdb] rating held back, under 25 votes (5): Dry Leaf (7.3 / 3 votes) | Hadoota (7.0 / 1 votes) | Hetki ennen valoa (7.0 / 1 votes) | NT LIVE: The Audience (8.3 / 11 votes) | Two Seasons, Two Strangers (7.2 / 17 votes)
-[tmdb] rating refresh: 12 scheduled, 12 re-read, 0 failed and still due, 4 deferred (budget 12)
-[tmdb] 9 new lookups, 29 re-checks, cache 200, 125 mergeable by id
+[tmdb] weak candidate kept, not searched until 2026-11-18 (8): BTS WORLD TOUR 'ARIRANG' IN KAOHSIUNG: LIVE VIEWIN -> BTS WORLD TOUR 'ARIRANG' IN KAOHSIUNG: LIVE VIEWING | Dry Leaf -> ხმელი ფოთოლი | Godzilla Minus Zero -> ゴジラ-0.0 | Hadoota -> حدوتة | Leviticus -> Leviticus | NT LIVE: The Audience -> National Theatre Live: The Audience | Ramayana: Rise of a Legend -> रामायणम् | Two Seasons, Two Strangers -> 旅と日々
+[tmdb] rating held back, under 25 votes (1): George Michael: The Faith Tour (9.0 / 5 votes)
+[tmdb] rating refresh: 4 scheduled, 4 re-read, 0 failed and still due, 0 deferred (budget 12)
+[tmdb] 0 new lookups, 4 re-checks, cache 200, 125 mergeable by id
 [films] 62 film entries
 [attrs] dropped, neither format nor language (9): Ennakko | Maxim | OCAP | Pkseutu | SEVERAL | TKU & R | Tampere | Varaus20 | myFinnkino
 [schedule] 17 venue files written, 0 kept as-is
