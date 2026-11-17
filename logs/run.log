@@ -1,17 +1,16 @@
 [token] using FINNKINO_TOKEN from the environment
 [sites] 17 cinemas
-[schedule] 2026-11-17: 289 showtimes
-[schedule] 2026-11-18: 305 showtimes
+[schedule] 2026-11-17: 55 showtimes
+[schedule] 2026-11-18: 306 showtimes
 [schedule] 2026-11-19: 369 showtimes
-[schedule] 2026-11-20: 318 showtimes
-[schedule] 2026-11-21: 354 showtimes
-[schedule] 2026-11-22: 349 showtimes
-[schedule] 2026-11-23: 268 showtimes
+[schedule] 2026-11-20: 382 showtimes
+[schedule] 2026-11-21: 423 showtimes
+[schedule] 2026-11-22: 417 showtimes
+[schedule] 2026-11-23: 327 showtimes
 [tmdb] no TMDB match (5): Joulupukin salainen paja | Klara ja aurinko | Me olemme Pariisin orkesteri | MyFazer-ennakkonäytös | Nälkäpeli: Balladi... & Elonkorjuun sarastus
 [tmdb] weak candidate kept, not searched until 2026-11-18 (8): BTS WORLD TOUR 'ARIRANG' IN KAOHSIUNG: LIVE VIEWIN -> BTS WORLD TOUR 'ARIRANG' IN KAOHSIUNG: LIVE VIEWING | Dry Leaf -> ხმელი ფოთოლი | Godzilla Minus Zero -> ゴジラ-0.0 | Hadoota -> حدوتة | Leviticus -> Leviticus | NT LIVE: The Audience -> National Theatre Live: The Audience | Ramayana: Rise of a Legend -> रामायणम् | Two Seasons, Two Strangers -> 旅と日々
-[tmdb] rating refresh: 1 scheduled, 1 re-read, 0 failed and still due, 0 deferred (budget 12)
-[tmdb] 0 new lookups, 1 re-checks, cache 200, 125 mergeable by id
-[films] 68 film entries
+[tmdb] 0 new lookups, 0 re-checks, cache 200, 125 mergeable by id
+[films] 66 film entries
 [attrs] dropped, neither format nor language (9): Ennakko | Maxim | OCAP | Pkseutu | SEVERAL | TKU & R | Tampere | Varaus20 | myFinnkino
 [schedule] 17 venue files written, 0 kept as-is
 done
