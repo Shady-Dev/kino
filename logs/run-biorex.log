@@ -1,31 +1,31 @@
-[biorex] BioRex Tripla: 224 showtimes
-[biorex] BioRex Redi: 186 showtimes
-[biorex] BioRex Verkatehdas: 164 showtimes
-[biorex] BioRex Sveitsi: 115 showtimes
-[biorex] BioRex Kajaani: 75 showtimes
-[biorex] BioRex Pietarsaari: 53 showtimes
-[biorex] BioRex Porvoo: 106 showtimes
-[biorex] BioRex Riihimäki: 52 showtimes
-[biorex] BioRex Rovaniemi: 141 showtimes
-[biorex] BioRex Seinäjoki: 158 showtimes
-[biorex] BioRex Tornio: 100 showtimes
-[biorex] BioRex Vaasa: 152 showtimes
+[biorex] BioRex Tripla: 213 showtimes
+[biorex] BioRex Redi: 174 showtimes
+[biorex] BioRex Verkatehdas: 154 showtimes
+[biorex] BioRex Sveitsi: 109 showtimes
+[biorex] BioRex Kajaani: 69 showtimes
+[biorex] BioRex Pietarsaari: 51 showtimes
+[biorex] BioRex Porvoo: 102 showtimes
+[biorex] BioRex Riihimäki: 50 showtimes
+[biorex] BioRex Rovaniemi: 128 showtimes
+[biorex] BioRex Seinäjoki: 146 showtimes
+[biorex] BioRex Tornio: 92 showtimes
+[biorex] BioRex Vaasa: 143 showtimes
 [biorex] film pages: 46/46
-[biorex] BioRex Tripla: 224 showtimes, 28 dates
-[biorex] BioRex Redi: 186 showtimes, 24 dates
-[biorex] BioRex Verkatehdas: 164 showtimes, 24 dates
-[biorex] BioRex Sveitsi: 115 showtimes, 24 dates
-[biorex] BioRex Kajaani: 75 showtimes, 24 dates
-[biorex] BioRex Pietarsaari: 53 showtimes, 19 dates
-[biorex] BioRex Porvoo: 106 showtimes, 24 dates
-[biorex] BioRex Riihimäki: 52 showtimes, 20 dates
-[biorex] BioRex Rovaniemi: 141 showtimes, 24 dates
-[biorex] BioRex Seinäjoki: 158 showtimes, 24 dates
-[biorex] BioRex Tornio: 100 showtimes, 24 dates
-[biorex] BioRex Vaasa: 152 showtimes, 24 dates
+[biorex] BioRex Tripla: 213 showtimes, 28 dates
+[biorex] BioRex Redi: 174 showtimes, 24 dates
+[biorex] BioRex Verkatehdas: 154 showtimes, 24 dates
+[biorex] BioRex Sveitsi: 109 showtimes, 23 dates
+[biorex] BioRex Kajaani: 69 showtimes, 23 dates
+[biorex] BioRex Pietarsaari: 51 showtimes, 18 dates
+[biorex] BioRex Porvoo: 102 showtimes, 23 dates
+[biorex] BioRex Riihimäki: 50 showtimes, 19 dates
+[biorex] BioRex Rovaniemi: 128 showtimes, 24 dates
+[biorex] BioRex Seinäjoki: 146 showtimes, 23 dates
+[biorex] BioRex Tornio: 92 showtimes, 23 dates
+[biorex] BioRex Vaasa: 143 showtimes, 24 dates
 [biorex] synopses merged: 0
 [run] http: 0 revalidated (304), 46 full, 0 not stored (origin said no-store), 0 cache entries written
 [run] hosts: 1 attempted -- biorex.fi
-[run] biorex: 12 venues, 1526 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
-[run] timing: 1 site(s), 104.5s of fetching added up across workers that overlap, longest site 104.5s, longest queue wait 0.0s, 104.5s wall from this module's first fetch starting to its last ending
+[run] biorex: 12 venues, 1431 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
+[run] timing: 1 site(s), 140.0s of fetching added up across workers that overlap, longest site 140.0s, longest queue wait 0.0s, 140.0s wall from this module's first fetch starting to its last ending
 exit=0

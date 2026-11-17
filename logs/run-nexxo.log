@@ -37,8 +37,8 @@
 [kinometso] Toivakka: no programme at the moment (adapter confirmed the venue empty); publishing an empty file
 [kinometso] Hankasalmi: 5 showtimes, 1 dates
 [kinometso] synopses merged: 0
-[biosalo] Bio-Salo (Salo): 60 showtimes
-[biosalo] Bio-Salo: 60 showtimes, 10 dates
+[biosalo] Bio-Salo (Salo): 61 showtimes
+[biosalo] Bio-Salo: 61 showtimes, 10 dates
 [biosalo] synopses merged: 0
 [biostara] Bio Stara (Paimio): 25 showtimes
 [biostara] Bio Stara: 25 showtimes, 7 dates
@@ -46,6 +46,6 @@
 [run] http: 0 revalidated (304), 11 full, 11 not stored (origin said no-store), 0 cache entries written
 [run] hosts: 6 attempted -- biosalo.fi, jarvelankino.fi, kino-olympia.fi, kinoaurora.fi, kinohirvi.fi, kinoset.fi
 [run] pending: kinometso has 4 venue(s) with no programme yet: km-tikkakoski, km-vaajakoski, km-laukaa, km-toivakka
-[run] nexxo: 14 venues, 243 showtimes, 0 stale, 0 unverified, 4 pending, 0 with no programme, 0 failures
-[run] timing: 9 site(s), 39.8s of fetching added up across workers that overlap, longest site 10.8s, longest queue wait 0.0s, 10.8s wall from this module's first fetch starting to its last ending
+[run] nexxo: 14 venues, 244 showtimes, 0 stale, 0 unverified, 4 pending, 0 with no programme, 0 failures
+[run] timing: 9 site(s), 48.1s of fetching added up across workers that overlap, longest site 16.4s, longest queue wait 0.0s, 16.4s wall from this module's first fetch starting to its last ending
 exit=0

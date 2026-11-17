@@ -652,6 +652,7 @@
    "krs": [
     "engel",
     "helios",
+    "ihmekompleksi",
     "kinohannikainen",
     "kinotervakoski",
     "kkino"
@@ -1274,13 +1275,12 @@
   },
   "dracula": {
    "id": 1323409,
-   "img": "data/posters/8d26aa87dac26f9c.jpg",
    "r": 0,
    "s": {
     "en": "“A mercilessly funny and outrageously bold work that once again consolidates Jude as one of the most unusual and radical filmmakers of his generation” Matthew Joseph Jenner, International Cinephile Society “Radu Jude’s Gloriously Stupid Vampire Epic Is the First Movie to Make Any Meaningful Use of Generative AI” David Erlich, Indiewire",
     "fi": "Mitä tapahtuu, kun nuori ja utelias elokuvantekijä haastaa luovuuttaan tekoälyn rajattomilla mahdollisuuksilla? Radu Juden viimeisin elokuva on provokatiivinen ja kuriton kudelma entis- ja nykyaikaan sijoittuvia variaatioita Draculan alkuperäismyytistä: vampyyrijahti, zombit ja lakkoilua häiritsevä Dracula, tieteisvisio Vlad Seivästäjän paluusta, sovitus ensimmäisestä romanialaisesta vampyyrinovellista, traaginen romanssi, rivo kansantarina, tekoälyn synnyttämä kitsch-fantasia… ja paljon muuta."
    },
-   "tr": "https://www.youtube.com/watch?v=n58Zr82ZC_Q"
+   "tr": ""
   },
   "drive my car": {
    "id": 758866,
@@ -1464,7 +1464,7 @@
     "kurikankino",
     "kuvatahti",
     "leffabuumi",
-    "lieksankino",
+    "marita",
     "savonkinot",
     "star",
     "studio123jarvenpaa",
@@ -1529,7 +1529,7 @@
     "kurikankino",
     "kuvatahti",
     "leffabuumi",
-    "lieksankino",
+    "marita",
     "savonkinot",
     "star",
     "studio123jarvenpaa",
@@ -1946,7 +1946,6 @@
     "biorex",
     "biosavoy",
     "gilda",
-    "haapamaki",
     "kinohamina",
     "kinoolympia",
     "kinopirtti",
@@ -2942,19 +2941,6 @@
    },
    "tr": "https://www.youtube.com/watch?v=CIyEFKzqz0s"
   },
-  "joyland": {
-   "id": 962571,
-   "img": "data/posters/4519dc62410fcf02.jpg",
-   "r": 7.4,
-   "s": {
-    "en": "",
-    "fi": "Patriarkaalisen pakistanilaisperheen nuorin poika Haider liittyy salaa Bollywood-henkisen burleskiryhmän taustatanssijaksi ja huomaa pian ihastuvansa ryhmän johtohahmoon, voimakastahtoiseen transnaiseen Bibaan. Heidän tuhoon tuomitun suhteensa myötä myös muiden perheenjäsenten kipuilu perinteisten perhearvojen ja sukupuoliroolien parissa alkaa hiljalleen käydä ilmi."
-   },
-   "tr": "https://www.youtube.com/watch?v=Ksx0U0vNym0",
-   "ts": [
-    "fi"
-   ]
-  },
   "joysticks": {
    "id": 27323,
    "img": "data/posters/2a5c9974ee9e3cb2.jpg",
@@ -3122,6 +3108,14 @@
    "s": {
     "en": "",
     "fi": "Koskettava tarina perheestä, rakkaudesta ja irtipäästämisen vaikeudesta. LYHYT SYNOPSIS Muutoksen tuulet puhaltavat Teron elämässä. Vanhemmat ikääntyvät ja paras ystävä Henri, oma poika, löytää rinnalleen tyttöystävän, ja pienessä mökissä ei ole enää tilaa neljälle. Isän ja koiran on muutettava omaan tupaan, josta manaajan on ensin karkoitettava pahat henget. Yksinäisyys ja etäisyys poikaansa saa Teron elämän horjumaan ja Henrin huolestumaan isänsä hyvinvoinnista. PITKÄ SYNOPSIS Muutoksen tuulet puhaltavat Teron elämässä. Paras ystävä Henri, oma poika, löytää rinnalleen tyttöystävän, ja pienessä mökissä ei ole enää tilaa neljälle. Isän ja koiran on muutettava omaan tupaan, josta manaajan on karkoitettava pahat henget. Yksinäisyys ja etäisyys poikaansa saa Teron elämän horjumaan ja Henrin huolestumaan isänsä hyvinvoinnista. The Beauty of Errors kertoo perheen sisäisistä riippuvuussuhteista, miten ne muuttuvat ja mikä merkitys perheellä on. Muutos heijastuu erityisesti Teroon, joka joutuu pohtimaan ehkä jopa itsestäänselvyytenä pitämiään asioita. Isovanhemmat ovat aina huolehtineet pojistaan Terosta ja Henristä. Heikki-papan lonkkavaivat ja Pirjo-mummin ikääntyminen kääntävät asetelman päälaelleen. Samalla Tero joutuu kohtaamaan kipeän todellisuuden: Henri ei ole enää lapsi. Teron on opittava päästämään irti ja kohdattava maailma yksin."
+   },
+   "tr": ""
+  },
+  "kari juusosen juhlanäytös niko lentäjän poika": {
+   "r": 0,
+   "s": {
+    "en": "",
+    "fi": "Tarinassa Niko uskoo isänsä olevan yksi joulupukin kuuluisista lentävistä poroista. Isäänsä Niko ei ole koskaan tavannut, mutta haaveilee yhtä kaikki lentämään oppimisesta. Palatessaan omista salaisista lentoharjoituksistaan Niko johdattaa vahingossa kaikkien pelkäämän Mustan Suden kotilaumansa kimppuun. Niko lähtee vaaralliselle matkalle halki Lapin erämaan etsiäkseen oikean isänsä ja tullakseen tämän kaltaiseksi lentäjäsankariksi."
    },
    "tr": ""
   },
@@ -3347,7 +3341,7 @@
     "kinoiiris",
     "kinojuha",
     "kinokilta",
-    "kinokonepaja",
+    "kinolaika",
     "kinolumo",
     "kinometso",
     "kinomyyri",
@@ -3411,7 +3405,7 @@
     "kinoiiris",
     "kinojuha",
     "kinokilta",
-    "kinokonepaja",
+    "kinolaika",
     "kinolumo",
     "kinometso",
     "kinomyyri",
@@ -3487,7 +3481,7 @@
     "kinoiiris",
     "kinojuha",
     "kinokilta",
-    "kinokonepaja",
+    "kinolaika",
     "kinolumo",
     "kinometso",
     "kinomyyri",
@@ -3884,6 +3878,7 @@
     "ihmekompleksi",
     "kino123",
     "kinoiiris",
+    "kinolaika",
     "kinomarilyn",
     "kinomyyri",
     "kinopiispanristi",
@@ -4924,45 +4919,6 @@
   "late lammas elokuva hämäräpuuhissa": {
    "id": 1477104,
    "img": "data/posters/93eda5fa30b7d70c.jpg",
-   "kr": "K-7",
-   "krs": [
-    "biopallas",
-    "biorex",
-    "biorexkokkola",
-    "biosalo",
-    "biosavoy",
-    "biostara",
-    "biovuoksi",
-    "cinemantsala",
-    "elokuviin",
-    "haapamaki",
-    "kino123",
-    "kinoelo",
-    "kinohirvi",
-    "kinolaika",
-    "kinolumo",
-    "kinomania",
-    "kinometso",
-    "kinomyyri",
-    "kinopiispanristi",
-    "kinopirtti",
-    "kinosampo",
-    "kinotervakoski",
-    "kinotoijala",
-    "korjaamo",
-    "kotkanleffat",
-    "kulttuurimylly",
-    "kuvatahti",
-    "laitilankino",
-    "leffabuumi",
-    "levisummit",
-    "savonkinot",
-    "star",
-    "studio123jarvenpaa",
-    "studio123kouvola",
-    "vaakuna",
-    "virtainpirtti"
-   ],
    "r": 7.3,
    "s": {
     "en": "On Halloween Eve at Mossy Bottom Farm, excitement turns to dismay when the clumsy Farmer ruins the pumpkin patch. Shaun tries fixing it with science experiments, but things go awry when a wild beast appears in the woods.",
@@ -5681,7 +5637,6 @@
    "kr": "S",
    "krs": [
     "joutsankino",
-    "kinoiiris",
     "kinokilta",
     "kinolaika",
     "kinomarilyn",
@@ -5904,8 +5859,7 @@
    "img": "data/posters/92e7b2647887b27d.jpg",
    "kr": "K-12",
    "krs": [
-    "engel",
-    "kinokonepaja"
+    "engel"
    ],
    "r": 8.0,
    "s": {
@@ -6702,6 +6656,7 @@
     "bioforum",
     "biopallas",
     "biorex",
+    "biosavoy",
     "elavienkuvien",
     "gilda",
     "ihmekompleksi",
@@ -6719,7 +6674,8 @@
    "r": 0,
    "s": {
     "en": "Premiering in competition at the Cannes Film Festival, Paper Tiger is an intense and moving crime drama about two brothers chasing the American Dream, only to become entangled in a dangerous scheme. As they struggle to survive in the treacherous world of the Russian mafia, their family bonds begin to unravel, with devastating consequences. The events threaten their family and put the brothers’ trust in each other to the ultimate test. Starring Adam Driver, Miles Teller and Scarlett Johansson, the film is directed by James Gray, known for Ad Astra, Little Odessa and The Immigrant.",
-    "fi": "1980-luvulle sijoittuva rikosdraama kertoo veljeksistä, joiden tuottoisat liiketoimet kietoutuvat järjestäytyneen rikollisuuden maailmaan. Koetukselle joutuvat niin veljesten perheidylli kuin näiden keskinäiset suhteensakin."
+    "fi": "1980-luvulle sijoittuva rikosdraama kertoo veljeksistä, joiden tuottoisat liiketoimet kietoutuvat järjestäytyneen rikollisuuden maailmaan. Koetukselle joutuvat niin veljesten perheidylli kuin näiden keskinäiset suhteensakin.",
+    "sv": "Paper Tiger är en dramathriller med Adam Driver och Scarlett Johansson I 1980-talets New York försöker ingenjören Irwin och hans fru Linda klara vardagen med tonårssönerna Scott och Ben trots skral ekonomi. När Irwins bror, den före detta polisen Gary, en kväll kommer på besök presenterar han en plan för att få fram snabba pengar. Gary behöver Irwins expertis för att starta ett företag som ska hantera logistiken kring en välbehövlig kanalrensning i stan. Att man måste hantera en grupp ryska affärsmän känns inte som något problem, tills bröderna plötsligt är involverade med den ryska maffian och svävar i livsfara."
    },
    "tr": "https://www.youtube.com/watch?v=MLwTyQOhBkw"
   },
@@ -6981,12 +6937,16 @@
   },
   "pikku kummitus lapanen keppostelee suomeksi": {
    "id": 1781923,
+   "img": "data/posters/8a9129f55b1b3d43.jpg",
    "r": 0,
    "s": {
-    "en": "",
+    "en": "Laban the Little Ghost is back with a new collection of cozy and just-spooky-enough adventures at the Good Morning Sun Castle. Together with his little sister Labolina and his best friend, the Little Prince, their days are filled with everything from trick-or-treating, birthday celebrations, and lost Christmas presents to unexpected guests and many other fun experiences.",
     "fi": "Pikku Kummitus Lapanen palaa uusien seikkailujen pariin Hyvänhuomenen linnassa. Yhdessä Lapaniinan, Pikkuprinssin ja ystäviensä kanssa hän joutuu hauskoihin, jännittäviin ja välillä hieman pelottaviinkin tilanteisiin, joissa ystävyys, rohkeus ja mielikuvitus ovat aina keskiössä. Lämmin ja humoristinen elokuvaelämys perheen pienimmille elokuvissakävijöille. Elokuva on saanut Euroopan unionin Luova Eurooppa -ohjelman tuen."
    },
-   "tr": ""
+   "tr": "",
+   "ts": [
+    "en"
+   ]
   },
   "pikkuli ja tähtipeura": {
    "id": 1403476,
@@ -7008,7 +6968,6 @@
     "kinopirtti",
     "kinoset",
     "kinotervakoski",
-    "kotkanleffat",
     "kulttuurimylly",
     "kuvakukko",
     "savonkinot",
@@ -7505,7 +7464,8 @@
     "niagara",
     "savonkinot",
     "star",
-    "studio123jarvenpaa"
+    "studio123jarvenpaa",
+    "tapiola"
    ],
    "r": 0,
    "s": {
@@ -7799,6 +7759,20 @@
     "fi": "Tokiossa asuva yksinäinen, huonosti toimeentuleva amerikkalainen näyttelijä ryhtyy työskentelemään japanilaiselle \"vuokraperhe\"-yhtiölle ja näyttelemään erilaisia sijaisrooleja muiden ihmisten elämässä. Matkan varrella hän löytää odottamattomia iloja luodun perheensä sisältä."
    },
    "tr": "https://www.youtube.com/watch?v=dWSSjaIGdDI",
+   "ts": [
+    "fi"
+   ]
+  },
+  "resan till piemonte": {
+   "id": 1545391,
+   "img": "data/posters/de699abbfe84cdd0.jpg",
+   "r": 0,
+   "s": {
+    "en": "",
+    "fi": "Matka Piemonteen (alkuperäiseltä nimeltään Resan till Piemonte) on lokakuussa 2026 Suomen elokuvateattereihin saapunut ruotsalainen draamakomedia. Elokuvan on ohjannut ja käsikirjoittanut Alexandra-Therese Keining. Tarina seuraa neljää vastikään eläkkeelle jäänyttä ruotsalaisystävää, jotka matkustavat Italiaan auttamaan Eva-nimistä ystäväänsä tämän perimän oliivitilan myynnissä. Piemonten auringon alla, hyvän ruuan ja tryffeleiden äärellä ystävykset alkavat kuitenkin kyseenalaistaa elämäänsä kotimaassa ja pohtia, olisiko nyt oikea hetki tarttua unelmiin ja aloittaa alusta.",
+    "sv": "En av de mest hyllade svenska filmerna detta år kommer nu till Bio Savoy! Fyra vänner åker tillsammans till Italien där Eva ärvt en olivgård. Tanken är sälja gården, men väl där väcks frågan; vad har dom egentligen i Sverige att återvända till? Italien däremot har sol, god mat och charmiga bybor. Och är det inte nu man ska fånga dagen och se till att förverkliga alla sina drömmar."
+   },
+   "tr": "https://www.youtube.com/watch?v=9U5Kwlm4KcQ",
    "ts": [
     "fi"
    ]
@@ -10649,7 +10623,6 @@
     "bioforum",
     "biogrand",
     "biograni",
-    "biomarilyn",
     "biopallas",
     "biorex",
     "biorexkokkola",
@@ -10687,6 +10660,7 @@
     "kinotoijala",
     "kinovirta",
     "kirkkonummi",
+    "korjaamo",
     "kotkanleffat",
     "kurikankino",
     "kuvakukko",
@@ -10731,7 +10705,6 @@
     "bioforum",
     "biogrand",
     "biograni",
-    "biomarilyn",
     "biopallas",
     "biorex",
     "biorexkokkola",
@@ -10769,6 +10742,7 @@
     "kinotoijala",
     "kinovirta",
     "kirkkonummi",
+    "korjaamo",
     "kotkanleffat",
     "kurikankino",
     "kuvakukko",
@@ -10810,7 +10784,6 @@
     "biograni",
     "biopallas",
     "biorex",
-    "biorexkokkola",
     "biosavoy",
     "cinemantsala",
     "gilda",
@@ -10818,7 +10791,6 @@
     "isohannu",
     "kinoakseli",
     "kinoiiris",
-    "kinojuha",
     "kinokilta",
     "kinokonepaja",
     "kinolumo",
@@ -10932,37 +10904,11 @@
   "you can see everything": {
    "id": 1765072,
    "img": "data/posters/650c789b1581e9b9.jpg",
-   "kr": "S",
-   "krs": [
-    "biogrand",
-    "biograni",
-    "biomarlon",
-    "biopallas",
-    "biorex",
-    "biorexkokkola",
-    "cinemantsala",
-    "engel",
-    "isohannu",
-    "kinoakseli",
-    "kinohirvi",
-    "kinoiiris",
-    "kinojuha",
-    "kinolumo",
-    "kinopiispanristi",
-    "kinopirtti",
-    "kotkanleffat",
-    "leffabuumi",
-    "niagara",
-    "orion",
-    "savonkinot",
-    "star",
-    "studio123jarvenpaa",
-    "studio123kouvola"
-   ],
    "r": 8.8,
    "s": {
     "en": "Thirty-four days before she’s sent to prison, notorious Silicon Valley founder Elizabeth Holmes invites a skeptical film crew to document her every move. What begins as an intimate portrait of an enigmatic felon becomes a mind-bending three-year journey into the abyss. From boundary-pushing directors Nathan Fielder and Lance Oppenheim comes You Can See Everything.",
-    "fi": "Kolmekymmentäneljä päivää ennen vankilaan joutumistaan pahamaineinen Piilaakson yritysperustaja Elizabeth Holmes kutsuu skeptisen kuvausryhmän dokumentoimaan jokaista liikettään. Arvoituksellisen rikollisen intiimistä muotokuvasta alkaa vähitellen muotoutua tajunnanräjäyttävä, kolme vuotta kestävä matka syvyyksiin. Rajoja rikkovien ohjaajien Nathan Fielderin ja Lance Oppenheimin käsialaa oleva YOU CAN SEE EVERYTHING vie katsojan matkalle, jolla mikään ei ole sitä, miltä näyttää."
+    "fi": "Kolmekymmentäneljä päivää ennen vankilaan joutumistaan pahamaineinen Piilaakson yritysperustaja Elizabeth Holmes kutsuu skeptisen kuvausryhmän dokumentoimaan jokaista liikettään. Arvoituksellisen rikollisen intiimistä muotokuvasta alkaa vähitellen muotoutua tajunnanräjäyttävä, kolme vuotta kestävä matka syvyyksiin. Rajoja rikkovien ohjaajien Nathan Fielderin ja Lance Oppenheimin käsialaa oleva YOU CAN SEE EVERYTHING vie katsojan matkalle, jolla mikään ei ole sitä, miltä näyttää.",
+    "sv": "En av årets mest omtalade dokumentärer kommer nu på bio! Trettiofyra dagar innan hon ska in i fängelse bjuder den skandalomsusade Silicon Valley-grundaren Elizabeth Holmes in ett skeptiskt filmteam för att dokumentera varje steg hon tar. Det som börjar som ett intimt porträtt av en gåtfull dömd bedragare blir en omtumlande treårig färd ner i avgrunden. De gränstänjande regissörerna Nathan Fielder och Lance Oppenheim har gjort en av årets mest omtalade filmer, \"You Can See Everything\"."
    },
    "tr": "https://www.youtube.com/watch?v=IEx8D1Wb__U"
   },
@@ -11001,12 +10947,10 @@
     "kinomarilyn",
     "kinopirtti",
     "korjaamo",
-    "kotkanleffat",
     "leffabuumi",
     "niagara",
     "savonkinot",
     "star",
-    "studio123jarvenpaa",
     "vaakuna",
     "vihdinkino"
    ],
