@@ -1,10 +1,10 @@
-[kinokilta] 59 screening(s) listed, 45 film page(s) read
+[kinokilta] 58 screening(s) listed, 44 film page(s) read
 [kinokilta] omitted 0 confirmed non-film(s) by evidence-backed exclusion over 0 screening(s), and 0 unresolved over 0
 [kinokilta] override retkikino-2026: active
 [kinokilta] 8 synopsis/synopses withheld, no language settled: Combat Shock, Cruising, Never After Dark, Primetime, RetkiKino 2026, The Hills Have Eyes, The Hunger, Tumma kristalli - The Dark Crystal
 [kinokilta] 8 film(s) with a language name not read, that part left blank: Alligator (Ei teksitystä); Combat Shock (Ei teksitystä); Joysticks (Ei teksitystä); Kuzma (ukraina, Ei teksitystä); Prom Night (Ei teksitystä); Savage Dawn (Ei teksitystä); Staubwelt (malayalam); The Devils (Ei teksitystä)
-[kinokilta] Kino Kilta: 59 showtimes, 26 dates
-[kinokilta] Kino Kilta: 59 showtimes, 26 dates
+[kinokilta] Kino Kilta: 58 showtimes, 25 dates
+[kinokilta] Kino Kilta: 58 showtimes, 25 dates
 [kinokilta] synopses merged: 0
 [kinolaika] 38 screening(s) listed, 31 film page(s) read
 [kinolaika] omitted 0 confirmed non-film(s) by evidence-backed exclusion over 0 screening(s), and 19 unresolved over 19
@@ -28,18 +28,18 @@
 [kinomyyri] Kino Myyri: 34 showtimes, 13 dates
 [kinomyyri] synopses merged: 0
 [kinomyyri] synopses skipped as screening notes: 1
-[kinokonepaja] 50 screening(s) listed, 16 film page(s) read
+[kinokonepaja] 51 screening(s) listed, 16 film page(s) read
 [kinokonepaja] omitted 0 confirmed non-film(s) by evidence-backed exclusion over 0 screening(s), and 3 unresolved over 3
 [kinokonepaja] unresolved: Cold November, Reel Rock Film Tour 20, The BritRock Film Tour 2026
 [kinokonepaja] override edward-scissorhands: evidence-unavailable
 [kinokonepaja] override gremlins: evidence-unavailable
 [kinokonepaja] override nightmare-on-elm-street: evidence-unavailable
 [kinokonepaja] 4 film(s) with a language name not read, that part left blank: A shelter Among the Clouds (albania); Dua (albania, serbia); Helena Ranta – Sodan viimeinen sana (serbia, albania); Shame and Money (albania)
-[kinokonepaja] Kino Konepaja: 47 showtimes, 25 dates
-[kinokonepaja] Kino Konepaja: 47 showtimes, 25 dates
+[kinokonepaja] Kino Konepaja: 48 showtimes, 25 dates
+[kinokonepaja] Kino Konepaja: 48 showtimes, 25 dates
 [kinokonepaja] synopses merged: 0
-[run] http: 46 revalidated (304), 75 full, 27 not stored (origin said no-store), 0 cache entries written
+[run] http: 41 revalidated (304), 79 full, 27 not stored (origin said no-store), 4 cache entries written
 [run] hosts: 4 attempted -- kinokonepaja.fi, kinomyyri.fi, www.kinokilta.fi, www.kinolaika.fi
 [run] kinola: 4 venues, 159 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
-[run] timing: 4 site(s), 230.7s of fetching added up across workers that overlap, longest site 70.5s, longest queue wait 95.8s, 70.5s wall from this module's first fetch starting to its last ending
+[run] timing: 4 site(s), 230.0s of fetching added up across workers that overlap, longest site 74.3s, longest queue wait 111.0s, 74.3s wall from this module's first fetch starting to its last ending
 exit=0

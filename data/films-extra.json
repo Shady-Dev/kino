@@ -1297,7 +1297,7 @@
   },
   "dry leaf": {
    "id": 1057888,
-   "img": "data/posters/39d7be390311b523.jpg",
+   "img": "data/posters/ed4f3968f406fe77.jpg",
    "r": 0,
    "s": {
     "en": "“A rebuke to the excessive sharpness and sterility of high-definition video and the maximalism of so much contemporary cinema.” Imogen Sara Smith, Film Comment",
@@ -2076,19 +2076,6 @@
    },
    "tr": ""
   },
-  "hamnet": {
-   "id": 858024,
-   "img": "data/posters/84aa45b5d78814bd.jpg",
-   "r": 7.7,
-   "s": {
-    "en": "",
-    "fi": "Hamnet kertoo Shakespearen ajatonta klassikkoa Hamletia innoittaneen vahvan tarinan rakkaudesta ja menetyksestä."
-   },
-   "tr": "https://www.youtube.com/watch?v=xYcgQMxQwmk",
-   "ts": [
-    "fi"
-   ]
-  },
   "hangon elokuvajuhlat varaa liput www hangonelokuvajuhlat fi": {
    "r": 0,
    "s": {
@@ -2380,6 +2367,19 @@
     "fi": "Florence ja hänen rakastajansa Julien suunnittelevat murhaavansa Florencen aviomiehen ja lavastavansa teon itsemurhaksi. Kaikki näyttää sujuvan suunnitelmien mukaan, kunnes Julien jää jumiin hissiin ja koko suunnitelma menee uusiksi. Hissi mestauslavalle on Oscar-ehdokas Louis Mallen tyylikäs trilleri, jonka pääosassa nähdään Jeanne Moreau ja jonka alkuperäismusiikista vastaa Miles Davis . Elokuvaa pidetään yhtenä eurooppalaisen elokuvataiteen ranskalaisen uuden aallon perustan luoneista teoksista."
    },
    "tr": ""
+  },
+  "hokum": {
+   "id": 1430077,
+   "img": "data/posters/91281d0c8e5a65a3.jpg",
+   "r": 6.8,
+   "s": {
+    "en": "",
+    "fi": "Ohm Baumania vetäytyy syrjäiseen majataloon sirottelemaan vanhempiensa tuhkat. Siellä hän uppoutuu tarinaan hääsviitissä kummittelevasta noidasta ja alkaa nähdä karmeita näkyjä, jotka pakottavat hänet kohtaamaan painajaismaisen menneisyytensä synkimmät kolkat."
+   },
+   "tr": "https://www.youtube.com/watch?v=qU_i5e48KzQ",
+   "ts": [
+    "fi"
+   ]
   },
   "home sweet home free screening polish film weeks puolan elokuvaviikot": {
    "r": 0,
@@ -2982,6 +2982,19 @@
    },
    "tr": ""
   },
+  "jumanji open world": {
+   "id": 1260649,
+   "img": "data/posters/b54b094432ba9dce.jpg",
+   "r": 0,
+   "s": {
+    "en": "Our heroes have escaped the ever-changing jungles of Jumanji before, but this time the game comes to us—as Jumanji breaks free of its console, unleashing its chaos into our world.",
+    "fi": ""
+   },
+   "tr": "https://www.youtube.com/watch?v=nIw1O3zvOfE",
+   "ts": [
+    "en"
+   ]
+  },
   "junat pociągi trains": {
    "r": 0,
    "s": {
@@ -3327,6 +3340,7 @@
     "kuvatahti",
     "leffabuumi",
     "niagara",
+    "orion",
     "regina",
     "savonkinot",
     "star",
@@ -3389,6 +3403,7 @@
     "kuvatahti",
     "leffabuumi",
     "niagara",
+    "orion",
     "regina",
     "savonkinot",
     "star",
@@ -3463,6 +3478,7 @@
     "kuvatahti",
     "leffabuumi",
     "niagara",
+    "orion",
     "regina",
     "savonkinot",
     "star",
@@ -3851,6 +3867,7 @@
     "kinotar",
     "kotkanleffat",
     "leffabuumi",
+    "niagara",
     "star"
    ],
    "r": 6.1,
@@ -4529,7 +4546,8 @@
    "krs": [
     "kinolumo",
     "kinometso",
-    "kinopiispanristi"
+    "kinopiispanristi",
+    "levisummit"
    ],
    "r": 0,
    "s": {
@@ -4669,6 +4687,7 @@
     "korjaamo",
     "kotkanleffat",
     "kulttuurimylly",
+    "niagara",
     "orion"
    ],
    "r": 8.0,
@@ -4699,16 +4718,12 @@
   },
   "la grazia matinea": {
    "id": 1397364,
-   "img": "data/posters/6c8d0779f3581c89.jpg",
-   "r": 7.3,
+   "r": 0,
    "s": {
-    "en": "As his tenure as President of Italy nears its end, Mariano De Santis faces wrenching decisions-both political and deeply personal. Amid these moral quandaries, he must confront his own conscience and seek guidance from those closest to him, including his confidante and daughter, Dorotea.",
+    "en": "",
     "fi": "Toni Servillo on leskeksi jäänyt Italian presidentti Mariano De Santis, joka kamppailee moraalisten päätösten kanssa ja murehtii vaimonsa muiston kainalossa. Rikoslakiin erikoistunut tuomari ei haluaisi tuomita ketään, vaikka kollegat ja poliittiset pelurit vallan huipulla pyrkivät painostamaan presidenttiä mielensä mukaan. Presidentin kauden lähestyessä vääjäämätöntä loppuaan hän hakee tukea tyttärestään Doroteasta (Anna Ferzetti). Presidentin sydänystävä Coco Valori (Milvia Marigliano) on ikiaikainen seurapiirikuningatar, joka edelleen jaksaa arvostella kaikkia ja kaikkea. Venetsian elokuvajuhlien avajaiselokuva LA GRAZIA on Suuri kauneus -ohjaajan Paolo Sorrentinon paluu huipulle. Sorrentino lataa isoja kysymyksiä: mitä merkitystä on eletyllä elämällä? Toni Servillo palkittiin Venetsiassa parhaasta miespääosasta."
    },
-   "tr": "https://www.youtube.com/watch?v=zvQn44a_IHo",
-   "ts": [
-    "en"
-   ]
+   "tr": ""
   },
   "laatusarja kappale kauneinta suomea the beauty of errors": {
    "r": 0,
@@ -6097,6 +6112,7 @@
    "krs": [
     "bioforum",
     "biokaari",
+    "biomarilyn",
     "biomarlon",
     "biopallas",
     "biorex",
@@ -6650,6 +6666,7 @@
    "krs": [
     "bioforum",
     "biopallas",
+    "biorex",
     "gilda",
     "ihmekompleksi",
     "julia",
@@ -6659,17 +6676,16 @@
     "kinomyyri",
     "kinopiispanristi",
     "kinopirtti",
+    "niagara",
+    "orion",
     "tapiola"
    ],
    "r": 0,
    "s": {
-    "en": "Two brothers become entangled in a scheme that turns out to be too good to be true. As they try to navigate their way through the dangerous world of the Russian mafia, family bonds begin to fray with life-altering consequences.",
+    "en": "Premiering in competition at the Cannes Film Festival, Paper Tiger is an intense and moving crime drama about two brothers chasing the American Dream, only to become entangled in a dangerous scheme. As they struggle to survive in the treacherous world of the Russian mafia, their family bonds begin to unravel, with devastating consequences. The events threaten their family and put the brothers’ trust in each other to the ultimate test. Starring Adam Driver, Miles Teller and Scarlett Johansson, the film is directed by James Gray, known for Ad Astra, Little Odessa and The Immigrant.",
     "fi": "1980-luvulle sijoittuva rikosdraama kertoo veljeksistä, joiden tuottoisat liiketoimet kietoutuvat järjestäytyneen rikollisuuden maailmaan. Koetukselle joutuvat niin veljesten perheidylli kuin näiden keskinäiset suhteensakin."
    },
-   "tr": "https://www.youtube.com/watch?v=MLwTyQOhBkw",
-   "ts": [
-    "en"
-   ]
+   "tr": "https://www.youtube.com/watch?v=MLwTyQOhBkw"
   },
   "passion": {
    "id": 348869,
@@ -7409,7 +7425,9 @@
    "kr": "K-16",
    "krs": [
     "biogrand",
+    "biomarilyn",
     "biomarlon",
+    "biorex",
     "biorexkokkola",
     "biosade",
     "biosalo",
@@ -7435,6 +7453,7 @@
     "kinopiispanristi",
     "kinopirtti",
     "kinoset",
+    "kinotar",
     "kinovirta",
     "kirkkonummi",
     "korjaamo",
@@ -7443,6 +7462,7 @@
     "kuvakukko",
     "leffabuumi",
     "lieksankino",
+    "niagara",
     "star",
     "studio123jarvenpaa"
    ],
@@ -8362,16 +8382,12 @@
   },
   "saapasrasvaa": {
    "id": 33544,
-   "img": "data/posters/c7981e1365b2ea4b.jpg",
    "r": 0,
    "s": {
-    "en": "Two orphans are forced by their abusive aunt to beg in the streets of Bombay. They take up shining shoes but are separated from each other.",
+    "en": "",
     "fi": "Saapasrasvan ohjasi Prakash Aurora , mutta elokuvan taustalla vaikutti vahvasti tuottaja Raj Kapoor (1924–1988), jonka väitetään viimeistelleen elokuvan lopullista levitysversiota rankalla kädellä. Kapoor oli aikakauden suurimpia näyttelijätähtiä. Hän oli aloittanut elokuvauransa jo lapsena klaffipoikana Bombayn elokuvastudioilla. Näyttelijänä Kapoor erikoistui kepeisiin komedioihin, joiden myötä hän on saanut lisänimen \" Intian Charles Chaplin \". Sodan jälkeen Kapoor perusti oman tuotantoyhtiönsä R.K. Filmsin, jolle hän rohkaisi assistenttejaan, mm. Prakash Aroraa, ohjaamaan omia elokuviaan. Tuottajana Kapoor pyrki suuntautumaan viihde elokuvista ajankohtaisiin aiheisiin ja sosiaalisen realismin kuvaukseen. Hänen innoittajanaan oli maineikas vasemmistolainen käsikirjoittaja-ohjaaja K. A. Abbas , jonka kanssa hän tiiviissä yhteistyössä."
    },
-   "tr": "",
-   "ts": [
-    "en"
-   ]
+   "tr": ""
   },
   "saimaa ilmiö": {
    "id": 148482,
@@ -9905,7 +9921,7 @@
    "krs": [
     "kinomarilyn"
    ],
-   "r": 7.4,
+   "r": 7.3,
    "s": {
     "en": "Tony follows 19-year-old Anthony Bourdain at a turning point in his life in 1970s Provincetown, Massachusetts. Restless and uncertain about his future, Tony takes a job in a restaurant kitchen and becomes immersed in the intense and chaotic world of professional cooking. Amid friendships, romance, drugs, and the pressures of kitchen life, he begins to discover discipline and a passion for food. The film captures a pivotal period in which a directionless young man begins to find his own voice and passion, setting him on the path to becoming a world-famous chef.",
     "fi": "19-vuotias Anthony Bourdain matkustaa Provincetowniin ja ajautuu sattumalta ravintolakeittiön kaoottiseen maailmaan. Edessä on kesä, joka mullistaa hänen elämänsä suunnan."
@@ -10641,7 +10657,7 @@
     "vihdinkino",
     "virtainpirtti"
    ],
-   "r": 7.6,
+   "r": 7.5,
    "s": {
     "en": "Wicker is a comedy starring Oscar-winner Olivia Colman and Alexander Skarsgård, exploring marriage and the absurdity of societal norms. An unmarried fisherwoman (Olivia Colman) has had enough of the villagers’ narrow-mindedness and decides to commission a husband for herself, made of wicker, from the local basket weaver (Peter Dinklage). The wicker-man (Alexander Skarsgård) turns out to be far more husband-material than the woman imagined. Her surprising spouse awakens new emotions in her and sets off a wave of infatuation, jealousy, and upheaval that threatens to shake the entire village community to its core. This sharp-tongued, humorous and boldly unconventional comedy takes on a completely new perspective on love and marriage. The film had its world premiere at the Sundance Film Festival in 2026.",
     "fi": "Omaperäinen ja sykähdyttävä elokuva Wicker – intohimosta punottu on Oscar-voittaja Olivia Colmanin ja Alexander Skarsgårdin tähdittämä komedia avioliitosta ja yhteiskunnan normien absurdiudesta. Naimaton kalastajanainen (Olivia Colman) saa tarpeekseen kyläläisten ahdasmielisyydestä ja päättää tilata paikalliselta korinpunojalta (Peter Dinklage) itselleen aviomiehen – pajusta. Pajusta punotussa miehessä (Alexander Skarsgård) on aviomiesainesta enemmän kuin nainen olisi osannut odottaa. Yllättävä puoliso herättää naisessa uudenlaisia tunteita ja käynnistää ihastuksen, kateuden, ja mullistusten aallon, joka uhkaa järkyttää koko kyläyhteisöä.",
@@ -10882,6 +10898,7 @@
     "isohannu",
     "kinoakseli",
     "kinohirvi",
+    "kinoiiris",
     "kinojuha",
     "kinolumo",
     "kinopiispanristi",
@@ -10894,7 +10911,7 @@
     "studio123jarvenpaa",
     "studio123kouvola"
    ],
-   "r": 8.9,
+   "r": 8.8,
    "s": {
     "en": "Thirty-four days before she’s sent to prison, notorious Silicon Valley founder Elizabeth Holmes invites a skeptical film crew to document her every move. What begins as an intimate portrait of an enigmatic felon becomes a mind-bending three-year journey into the abyss. From boundary-pushing directors Nathan Fielder and Lance Oppenheim comes You Can See Everything.",
     "fi": "Kolmekymmentäneljä päivää ennen vankilaan joutumistaan pahamaineinen Piilaakson yritysperustaja Elizabeth Holmes kutsuu skeptisen kuvausryhmän dokumentoimaan jokaista liikettään. Arvoituksellisen rikollisen intiimistä muotokuvasta alkaa vähitellen muotoutua tajunnanräjäyttävä, kolme vuotta kestävä matka syvyyksiin. Rajoja rikkovien ohjaajien Nathan Fielderin ja Lance Oppenheimin käsialaa oleva YOU CAN SEE EVERYTHING vie katsojan matkalle, jolla mikään ei ole sitä, miltä näyttää."
