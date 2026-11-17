@@ -3326,7 +3326,6 @@
     "biogrand",
     "biorex",
     "biorexkokkola",
-    "biosade",
     "biosalo",
     "elokuviin",
     "engel",
@@ -3390,7 +3389,6 @@
     "biogrand",
     "biorex",
     "biorexkokkola",
-    "biosade",
     "biosalo",
     "elokuviin",
     "engel",
@@ -3466,7 +3464,6 @@
     "biogrand",
     "biorex",
     "biorexkokkola",
-    "biosade",
     "biosalo",
     "elokuviin",
     "engel",
@@ -4594,6 +4591,14 @@
    },
    "tr": ""
   },
+  "kärkölän luovan ilmaisun yhdistys esittää valepukki": {
+   "r": 0,
+   "s": {
+    "en": "",
+    "fi": "Antti etsii epätoivoisesti lisätyötä ja päätyy hieman ansioluetteloa liitoiteltuaan aurinkolomalla olevan Joulupukin sijaiseksi. Tietämättä yhtään mitä Korvatunturilla pitää tehdä, Antti tekee työtävieroksuvien tonttujen puolesta uudistuksia, jotka tuntuvat ensinäkemältä oudoilta. Tonttujen kauhuksi oikeakin Joulupukki tulee ennenaikaisesti lomalta ja kaaos on valmis. Tontut eivät enää tiedä kuka on kuka yrittäen samalla olla paljastamatta laiskuuttaan oikealle Joulupukille. Kaiken keskellä pyörii Joulupukin vanha mummo, jota kukaan ei kuuntele, ainakaan mummon mielestä. NÄYTÖKSET"
+   },
+   "tr": ""
+  },
   "kätyrit ja monsterit suomeksi": {
    "id": 1315772,
    "img": "data/posters/67059865db3405c0.jpg",
@@ -4707,6 +4712,7 @@
     "korjaamo",
     "kotkanleffat",
     "kulttuurimylly",
+    "kuvakukko",
     "niagara",
     "orion",
     "tapiola"
@@ -5521,12 +5527,6 @@
   "metsäsota ja rauha": {
    "id": 1787721,
    "img": "data/posters/1e467ccd5634db5b.jpg",
-   "kr": "S",
-   "krs": [
-    "joutsankino",
-    "kinoiiris",
-    "savonkinot"
-   ],
    "r": 0,
    "s": {
     "en": "Metsäsota ja rauha follows emeritus professor Erkki Lähde’s more than five-decade struggle for forests and for their ecologically and economically sustainable use. When Lähde, then a young forest scientist, was sent to Finnish Lapland in 1970 to investigate the repeated failure of plantations on vast clear-cut areas, he quickly concluded that the clear-cutting-based model of forestry made little sense – not for nature, nor for forest owners. In the 1970s, he began challenging Finland’s prevailing forestry policy and, in the 1980s, developed the method known as continuous-cover forestry as an alternative to clear-cutting, seeking to bring ecology and economics together. Through Lähde’s story, the film also traces the history of Finnish forest policy from the post-war era to the present, exploring how a forestry model once imposed across Finland has contributed to declining carbon sinks and biodiversity. Although a 2014 reform finally gave forest owners the freedom to choose their method of forest management, the forestry sector remains largely built around clear-cutting, even as interest in continuous-cover forestry continues to grow. As Lähde puts it, a real forest is more than trees: it is also fungi, berries, birds and countless other forms of life and clear-cutting destroys this wider ecosystem. The guests will include director Jari Kokko, producer Pertti Veijalainen, and Liisa Toopakka, a forest specialist from the Finnish Association for Nature Conservation. The discussion will be held in Finnish and moderated by Suomen Luonto journalist Mari Pihlajaniemi.",
@@ -10629,7 +10629,6 @@
     "biosade",
     "biosalo",
     "biosavoy",
-    "biostara",
     "biovuoksi",
     "cinemantsala",
     "elavienkuvien",
@@ -10711,7 +10710,6 @@
     "biosade",
     "biosalo",
     "biosavoy",
-    "biostara",
     "biovuoksi",
     "cinemantsala",
     "elavienkuvien",
@@ -10951,7 +10949,6 @@
     "niagara",
     "savonkinot",
     "star",
-    "vaakuna",
     "vihdinkino"
    ],
    "r": 5.9,
