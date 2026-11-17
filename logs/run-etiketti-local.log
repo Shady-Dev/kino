@@ -21,7 +21,7 @@
 [kino123] Kino 123: 93 showtimes, 12 dates
 [kino123] synopses merged: 0
 [biogrand] Bio Grand: 32 showtimes, 10 dates
-[biogrand] synopses merged: 1
+[biogrand] synopses merged: 0
 [joutsankino] Joutsan Kino: 7 showtimes, 5 dates
 [joutsankino] synopses merged: 0
 [cine] Cine Keuda-Talo: no programme at the moment (adapter confirmed the venue empty); publishing an empty file
@@ -29,12 +29,12 @@
 [cine] synopses merged: 0
 [cine] no programme published: https://kiertue.cine.fi/elokuvat/ohjelmistossa renders the template's empty programme
 [star] strand prefix split off 3 showtimes
-[star] Elokuvateatteri Star: 120 showtimes, 10 dates
+[star] Elokuvateatteri Star: 121 showtimes, 10 dates
 [star] synopses merged: 0
 [haapamaki] Haapamäen Elokuvat: 18 showtimes, 14 dates
-[haapamaki] synopses merged: 1
+[haapamaki] synopses merged: 0
 [run] venuelists-local.json rewritten
-[run] http: 0 revalidated (304), 231 full, 231 not stored (origin said no-store), 0 cache entries written
+[run] http: 0 revalidated (304), 232 full, 232 not stored (origin said no-store), 0 cache entries written
 [run] hosts: 12 attempted -- biogrand.fi, haapamaenelokuvat.fi, ihmekompleksi.fi, kiertue.cine.fi, kino.joutsa.fi, kino123.fi, kotkanleffat.fi, lippu.elokuvateatteristar.fi, studio123.fi, studiot123.com, www.leffabuumi.fi, www.savonkinot.fi
-[run] etiketti: 19 venues, 776 showtimes, 0 stale, 0 unverified, 0 pending, 1 with no programme, 0 failures
+[run] etiketti: 19 venues, 777 showtimes, 0 stale, 0 unverified, 0 pending, 1 with no programme, 0 failures
 exit=0
