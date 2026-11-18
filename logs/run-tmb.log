@@ -1,17 +1,9 @@
-[tmb] kinotoijala: 18 showtimes, 9 films, 13 dates, 0 priced, 18 timed, 18 with a genre, 18 with a synopsis
-[kinotoijala] Kino-Toijala: 18 showtimes, 13 dates
-[kinotoijala] synopses merged: 0
-[tmb] kinosampo: 19 showtimes, 9 films, 13 dates, 0 priced, 19 timed, 19 with a genre, 19 with a synopsis
-[kinosampo] Kino-Sampo: 19 showtimes, 13 dates
-[kinosampo] synopses merged: 0
-[tmb] kinomania: 35 showtimes, 10 films, 13 dates, 0 priced, 35 timed, 35 with a genre, 35 with a synopsis
-[kinomania] KinoMania: 35 showtimes, 13 dates
-[kinomania] synopses merged: 0
-[tmb] kinoelo: 35 showtimes, 10 films, 13 dates, 0 priced, 35 timed, 35 with a genre, 35 with a synopsis
-[kinoelo] Elokuvateatteri Elo: 35 showtimes, 13 dates
-[kinoelo] synopses merged: 0
-[run] http: 0 revalidated (304), 42 full, 42 not stored (origin said no-store), 0 cache entries written
+[kinotoijala] FAILED: https://toijalan-kino.info/?lista=1: the host served a bot-check page in place of the programme (12052 B served, titled "One moment, please...", Server: Apache)
+[kinosampo] FAILED: https://kinosampo.info/?lista=1: the host served a bot-check page in place of the programme (12048 B served, titled "One moment, please...", Server: Apache)
+[kinomania] FAILED: https://kino-mania.info/?lista=1: the host served a bot-check page in place of the programme (12043 B served, titled "One moment, please...", Server: Apache)
+[kinoelo] FAILED: https://elokuvat-elo.info/?lista=1: the host served a bot-check page in place of the programme (12045 B served, titled "One moment, please...", Server: Apache)
+[run] http: 0 revalidated (304), 4 full, 4 not stored (origin said no-store), 0 cache entries written
 [run] hosts: 4 attempted -- elokuvat-elo.info, kino-mania.info, kinosampo.info, toijalan-kino.info
-[run] tmb: 4 venues, 107 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
-[run] timing: 4 site(s), 70.2s of fetching added up across workers that overlap, longest site 18.3s, longest queue wait 88.7s, 28.9s wall from this module's first fetch starting to its last ending
-exit=0
+[run] tmb: 0 venues, 0 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 4 failures
+[run] timing: 4 site(s), 2.2s of fetching added up across workers that overlap, longest site 0.6s, longest queue wait 54.7s, 2.2s wall from this module's first fetch starting to its last ending
+exit=1

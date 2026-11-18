@@ -3283,6 +3283,19 @@
    },
    "tr": ""
   },
+  "kaupungin synty": {
+   "id": 1688494,
+   "img": "data/posters/8e0112db0ef203d7.jpg",
+   "r": 0,
+   "s": {
+    "en": "How did Turku become Finland’s oldest city? An eager reporter sets out to find out why and on what grounds the city of Turku will celebrate its 800th anniversary in 2029.",
+    "fi": "Kuinka Turusta tuli Suomen vanhin kaupunki? Innokas toimittaja yrittää selvittää, miksi ja millä perusteella Turun kaupunki juhlii 800-vuotisjuhliaan vuonna 2029. Draamadokumentissa Kaupungin synty toimittaja kohtaa kaupungin kasvoja, kuten arkkitehti Benito Casagranden , professori Timo Soikkasen ja joulurauhanjulistaja Mika Akkasen , joilla kaikilla on näkemyksensä Turun synnystä. Kysymys kaupungin iästä kuljettaa toimittajan ympäri Turkua, arkistoista kirjastoihin ja aina Nousiaisiin ja Köyliöön asti. Historialliset tapahtumat – kuten vuoden 1300 translaatiokulkue, vuoden 1928 Turun kaupunginvaltuuston kokous, jossa päätetään ensi kertaa kaupungin satavuotisjuhlista, sekä piispa Henrikin reliikkien löytyminen Juhani Rinteen (Raimo Karppinen) johtaman Turun tuomiokirkon restaurointityön aikana – heräävät henkiin toimittajan mielikuvituksessa."
+   },
+   "tr": "",
+   "ts": [
+    "en"
+   ]
+  },
   "ke kino la grazia": {
    "r": 0,
    "s": {
@@ -3400,7 +3413,6 @@
     "helios",
     "isohannu",
     "kino123",
-    "kinoakseli",
     "kinoaurora",
     "kinohirvi",
     "kinoiiris",
@@ -3410,7 +3422,6 @@
     "kinometso",
     "kinomyyri",
     "kinopiispanristi",
-    "kinopirtti",
     "kinoset",
     "kinotervakoski",
     "kinovirta",
@@ -3462,7 +3473,6 @@
     "helios",
     "isohannu",
     "kino123",
-    "kinoakseli",
     "kinoaurora",
     "kinohirvi",
     "kinoiiris",
@@ -3472,7 +3482,6 @@
     "kinometso",
     "kinomyyri",
     "kinopiispanristi",
-    "kinopirtti",
     "kinoset",
     "kinotervakoski",
     "kinovirta",
@@ -3536,7 +3545,6 @@
     "helios",
     "isohannu",
     "kino123",
-    "kinoakseli",
     "kinoaurora",
     "kinohirvi",
     "kinoiiris",
@@ -3546,7 +3554,6 @@
     "kinometso",
     "kinomyyri",
     "kinopiispanristi",
-    "kinopirtti",
     "kinoset",
     "kinotervakoski",
     "kinovirta",
@@ -4946,7 +4953,6 @@
   },
   "lapin sota väliaika": {
    "id": 1450460,
-   "img": "data/posters/c15d678a31ae397e.jpg",
    "r": 0,
    "s": {
     "en": "",
@@ -5703,6 +5709,7 @@
     "kinolaika",
     "kinomarilyn",
     "kinopirtti",
+    "korjaamo",
     "niagara",
     "star"
    ],
@@ -7125,7 +7132,6 @@
     "isohannu",
     "kino123",
     "kinopiispanristi",
-    "kotkanleffat",
     "laitilankino",
     "leffabuumi",
     "star"
