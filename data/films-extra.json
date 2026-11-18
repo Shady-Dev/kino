@@ -297,11 +297,27 @@
    },
    "tr": ""
   },
+  "arne lähtee avaruuteen": {
+   "r": 0,
+   "s": {
+    "en": "",
+    "fi": "Veljekset Arne ja Stefan elelevät pohjoisruotsalaisessa Brobyn kylässä halkojen hakkuun ja metsästysporukan nokittelun merkeissä. Kun eriskummallinen avaruusolento tekee puuliiterin taakse pakkolaskun, arki kääntyy päälaelleen – Stefan ei halua kattonsa alle yhtäkään siivellä elävää avaruusukkoa, kun taas Arne toivottaa metrinmittaisen otuksen tervetulleeksi ja nimeää tämän Rolandiksi."
+   },
+   "tr": ""
+  },
   "asterix nubian valtakunta": {
    "r": 0,
    "s": {
     "en": "",
     "fi": "Harvinaisen nuoruuseliksiirin päädyttyä vahingossa taikajuomaan lannistumattomat gallialaiset muuttuvat harmittomiksi lapsiksi. Löytääkseen vastalääkkeen Asterix ja Obelix lähtevät hullunkuriselle matkalle kaukaiseen Nubian valtakuntaan."
+   },
+   "tr": ""
+  },
+  "asterix nubian valtakunta suomeksi puhuttu": {
+   "r": 0,
+   "s": {
+    "en": "",
+    "fi": "Harvinaisen nuoruuseliksiirin päädyttyä vahingossa taikajuomaan lannistumattomat gallialaiset muuttuvat harmittomiksi lapsiksi."
    },
    "tr": ""
   },
@@ -1757,14 +1773,17 @@
    "tr": ""
   },
   "fatherland": {
-   "id": 1437696,
-   "img": "data/posters/57c9bb739407c934.jpg",
-   "r": 7.2,
+   "id": 1802918,
+   "kr": "K-7",
+   "krs": [
+    "kinometso"
+   ],
+   "r": 0,
    "s": {
     "en": "This masterful film by Paweł Pawlikowski (Ida, Cold War), winner of the Best Director award at Cannes, delves into the relationship between the writer Thomas Mann and his daughter Erika, an actress, writer, journalist and rally driver, as they embark on a road trip through a Germany in ruins, from US-controlled Frankfurt to Weimar, which is under Soviet control. The lead roles are played by Oscar nominee Sandra Hüller and Hanns Zischler.",
-    "fi": ""
+    "fi": "Cannesissa parhaan ohjauksen palkinnon voittaneen Paweł Pawlikowskin (Ida, Cold War) mestarillinen elokuva syventyy kirjailija Thomas Mannin ja hänen tyttärensä Erikan – näyttelijän, kirjailijan, toimittajan ja rallikuskin – väliseen suhteeseen, kun he lähtevät road tripille raunioituneen Saksan halki, Yhdysvaltojen hallitsemasta Frankfurtista Neuvostoliiton määräysvallan olevaan Weimariin. Päärooleissa ovat Oscar-ehdokas Sandra Hüller sekä Hanns Zischler."
    },
-   "tr": "https://www.youtube.com/watch?v=52zHLYf25M0"
+   "tr": ""
   },
   "faust": {
    "id": 10728,
@@ -2103,6 +2122,19 @@
     "fi": ""
    },
    "tr": ""
+  },
+  "happiness is living in our land": {
+   "id": 1563698,
+   "img": "data/posters/4c20add332b9dd20.jpg",
+   "r": 0,
+   "s": {
+    "en": "In the midst of the most horrid stagnation era in the Soviet Union – at the end of October 1982 – the Monk (Ivo Uukkivi), Allan Vainola, Peep Männil, and Villu Tamme gather for band practice in a room above the garage of a private house in Pääsküla and form one of the most (politically) heavyweight punk bands in history – Velikiye Luki. For the 60th jubilee of the Soviet Union, Ivo and Villu bake a voodoo ginger cookie and while they gobble it down, they demonstratively establish their programme of action: to destroy the Soviet Union.",
+    "fi": "Kauppojen hyllyt ammottavat tyhjyyttään, KGB hengittää niskaan ja ydinsota kolkuttelee ovella. Tallinnassa vuonna 1982 joukko nuoria päättää vastata neuvostokurjuuteen perustamalla punkbändin nimeltään Velikije Luki. Pidätykset, turpasaunat, keikkakiellot ja pakkohoito psykiatrisessa sairaalassa eivät saa bändiä hiljaiseksi. Viina virtaa, vahvistimet pauhaavat ja neuvostovalta saa kuulla kunniansa. Indrek Spunginin Happiness Is Living in Our Land on riemastuttavan räävitön ja mustan huumorin sävyttämä punk-dokumentti, jossa uskomattomat muistelot, kekseliäät uudelleenlavastukset ja neuvostoajan absurdi todellisuus muodostavat villin kokonaisuuden. Samalla avautuu kiehtova näkymä Viron itsenäistymisen historiaan, kerrottuna kaikkea muuta kuin oppikirjamaisesti."
+   },
+   "tr": "",
+   "ts": [
+    "en"
+   ]
   },
   "happy hour": {
    "id": 346914,
@@ -3019,6 +3051,42 @@
   "järki ja tunteet": {
    "id": 1503762,
    "img": "data/posters/056008305739a764.jpg",
+   "kr": "K-7",
+   "krs": [
+    "bioforum",
+    "biokaari",
+    "biorex",
+    "biosalo",
+    "biostara",
+    "elokuviin",
+    "engel",
+    "gilda",
+    "helios",
+    "isohannu",
+    "kinoaurora",
+    "kinoelo",
+    "kinohirvi",
+    "kinoiiris",
+    "kinojuha",
+    "kinokulma",
+    "kinolaika",
+    "kinolumo",
+    "kinomania",
+    "kinometso",
+    "kinopiispanristi",
+    "kinotervakoski",
+    "kkino",
+    "kotkanleffat",
+    "kulttuurimylly",
+    "kuvakukko",
+    "leffabuumi",
+    "niagara",
+    "savonkinot",
+    "star",
+    "studio123jarvenpaa",
+    "studio123kouvola",
+    "virtainpirtti"
+   ],
    "r": 7.2,
    "s": {
     "en": "After the death of their father leaves their family facing financial uncertainty, sisters Elinor and Marianne Dashwood are forced to leave their home and start anew in the countryside. As they navigate the rigid expectations of Regency society, the sisters find themselves caught between love, heartbreak and social convention – Elinor guided by restraint, Marianne by passion. Georgia Oakley’s fresh adaptation of Jane Austen’s classic explores the enduring tensions between reason and feeling, and the complicated paths women must take to find love and independence. An irresistible new take on Jane Austen’s iconic Sense and Sensibility: a charming, witty, and deeply relatable story of love and sisterhood starring Daisy Edgar-Jones and Esmé Creed-Miles.",
@@ -3337,7 +3405,6 @@
     "kinohirvi",
     "kinoiiris",
     "kinojuha",
-    "kinokilta",
     "kinolaika",
     "kinolumo",
     "kinometso",
@@ -3400,7 +3467,6 @@
     "kinohirvi",
     "kinoiiris",
     "kinojuha",
-    "kinokilta",
     "kinolaika",
     "kinolumo",
     "kinometso",
@@ -3475,7 +3541,6 @@
     "kinohirvi",
     "kinoiiris",
     "kinojuha",
-    "kinokilta",
     "kinolaika",
     "kinolumo",
     "kinometso",
@@ -5635,7 +5700,6 @@
    "kr": "S",
    "krs": [
     "joutsankino",
-    "kinokilta",
     "kinolaika",
     "kinomarilyn",
     "kinopirtti",
@@ -7322,7 +7386,8 @@
    "img": "data/posters/b51c5ae56c687e43.jpg",
    "kr": "K-16",
    "krs": [
-    "kinokilta"
+    "kinokilta",
+    "kinokonepaja"
    ],
    "r": 6.8,
    "s": {
@@ -7743,6 +7808,16 @@
    "ts": [
     "en"
    ]
+  },
+  "red rue express": {
+   "id": 1479369,
+   "img": "data/posters/57d61d7b9a827610.jpg",
+   "r": 0,
+   "s": {
+    "en": "Mykola Ivanovych gets the opportunity to mentor a young conductor, Denys. However, the young man has little interest in learning from an experienced railway worker. Instead, Denys is captivated by the charming blogger Diana, who shares a compartment with his mentor. As a result, Mykola Ivanovych is forced to rely on his own unconventional methods of training the next generation of Ukrainian Railways personnel. Mykola Ivanovych’s former colleagues, Petrovych and Pavlivna, who both work in the dining car, are at odds. Pavlivna has grown tired of waiting for Petrovych to propose. Will he realize his mistake before losing the most important woman in his life? The adventures of our heroes culminate on Independence Day. At a festive concert in the Carpathian Mountains, everyone joins in singing the legendary Red Ruta , the Ukrainian anthem of true love.",
+    "fi": ""
+   },
+   "tr": ""
   },
   "rental family": {
    "id": 1208348,
@@ -8503,6 +8578,19 @@
     "fi": "Siskokset Nora ja Agnes tapaavat pitkän tauon jälkeen isänsä Gustavin, karismaattisen mutta etäisen entisen elokuvaohjaajan. Gustav tarjoaa Noralle, teatterinäyttelijälle, roolin elokuvasta, jonka hän toivoo palauttavan hänen uransa kukoistukseen. Kun Nora kieltäytyy, hän saa tietää, että rooli on annettu nuorelle ja innokkaalle Hollywood-tähdelle. Pian sisarusten täytyy selvittää vaikeaa suhdettaan isäänsä ja tulla toimeen amerikkalaisen tähden kanssa, joka sotkeutuu heidän monimutkaisiin perhekuvioihinsa. Cannes Grand Prix voittaja Sentimental value -elokuvan on ohjannut Joachim Trier. Pääsosissa Renate Reinsve, Inga Ibsdotter Lilleaas, Stellan Skarsgård ja Elle Fanning."
    },
    "tr": "https://www.youtube.com/watch?v=zBFstFXdk90"
+  },
+  "shallow grave murhaleikki": {
+   "id": 9905,
+   "img": "data/posters/f6d3deb15887f564.jpg",
+   "r": 7.0,
+   "s": {
+    "en": "When David, Juliet, and Alex find their new roommate dead with a large sum of money, they agree to hide the body and keep the cash. However, this newfound fortune gradually corrodes their friendship.",
+    "fi": "Kun Alex, David ja Juliet löytävät uuden kämppiksensä kuolleena, heidän yllätyksekseen löytyy myös salkullinen käteistä. Päätös pitää rahat johtaa heidät tuhoisaan tapahtumaketjuun, jonka lopputulosta kukaan ei olisi voinut aavistaa."
+   },
+   "tr": "https://www.youtube.com/watch?v=xKrfUAho5as",
+   "ts": [
+    "en"
+   ]
   },
   "shame and money": {
    "id": 1553591,

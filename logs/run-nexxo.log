@@ -20,7 +20,7 @@
 [jarvelankino] Järvelän Kino (Järvelä): 6 showtimes
 [jarvelankino] Järvelän Kino: 6 showtimes, 5 dates
 [jarvelankino] synopses merged: 0
-[kinometso] Muurame (Muurame): 7 showtimes
+[kinometso] Muurame (Muurame): 10 showtimes
 [kinometso] Petäjävesi (Petäjävesi): 7 showtimes
 [kinometso] Tikkakoski (Jyväskylä): 0 showtimes
 [kinometso] Vaajakoski (Jyväskylä): 0 showtimes
@@ -28,7 +28,7 @@
 [kinometso] Viitasaari (Viitasaari): 2 showtimes
 [kinometso] Toivakka (Toivakka): 0 showtimes
 [kinometso] Hankasalmi (Hankasalmi): 5 showtimes
-[kinometso] Muurame: 7 showtimes, 5 dates
+[kinometso] Muurame: 10 showtimes, 6 dates
 [kinometso] Petäjävesi: 7 showtimes, 5 dates
 [kinometso] Tikkakoski: no programme at the moment (adapter confirmed the venue empty); publishing an empty file
 [kinometso] Vaajakoski: no programme at the moment (adapter confirmed the venue empty); publishing an empty file
@@ -36,7 +36,7 @@
 [kinometso] Viitasaari: 2 showtimes, 1 dates
 [kinometso] Toivakka: no programme at the moment (adapter confirmed the venue empty); publishing an empty file
 [kinometso] Hankasalmi: 5 showtimes, 1 dates
-[kinometso] synopses merged: 0
+[kinometso] synopses merged: 3
 [biosalo] Bio-Salo (Salo): 56 showtimes
 [biosalo] Bio-Salo: 56 showtimes, 9 dates
 [biosalo] synopses merged: 0
@@ -46,6 +46,6 @@
 [run] http: 0 revalidated (304), 11 full, 11 not stored (origin said no-store), 0 cache entries written
 [run] hosts: 6 attempted -- biosalo.fi, jarvelankino.fi, kino-olympia.fi, kinoaurora.fi, kinohirvi.fi, kinoset.fi
 [run] pending: kinometso has 4 venue(s) with no programme yet: km-tikkakoski, km-vaajakoski, km-laukaa, km-toivakka
-[run] nexxo: 14 venues, 227 showtimes, 0 stale, 0 unverified, 4 pending, 0 with no programme, 0 failures
-[run] timing: 9 site(s), 40.4s of fetching added up across workers that overlap, longest site 10.8s, longest queue wait 0.0s, 10.8s wall from this module's first fetch starting to its last ending
+[run] nexxo: 14 venues, 230 showtimes, 0 stale, 0 unverified, 4 pending, 0 with no programme, 0 failures
+[run] timing: 9 site(s), 38.7s of fetching added up across workers that overlap, longest site 10.5s, longest queue wait 0.0s, 10.5s wall from this module's first fetch starting to its last ending
 exit=0

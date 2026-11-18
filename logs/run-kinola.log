@@ -1,11 +1,12 @@
-[kinokilta] 58 screening(s) listed, 44 film page(s) read
+[kinokilta] 57 screening(s) listed, 43 film page(s) read
 [kinokilta] omitted 0 confirmed non-film(s) by evidence-backed exclusion over 0 screening(s), and 0 unresolved over 0
 [kinokilta] override retkikino-2026: active
-[kinokilta] 8 synopsis/synopses withheld, no language settled: Combat Shock, Cruising, Never After Dark, Primetime, RetkiKino 2026, The Hills Have Eyes, The Hunger, Tumma kristalli - The Dark Crystal
-[kinokilta] 8 film(s) with a language name not read, that part left blank: Alligator (Ei teksitystä); Combat Shock (Ei teksitystä); Joysticks (Ei teksitystä); Kuzma (ukraina, Ei teksitystä); Prom Night (Ei teksitystä); Savage Dawn (Ei teksitystä); Staubwelt (malayalam); The Devils (Ei teksitystä)
-[kinokilta] Kino Kilta: 58 showtimes, 25 dates
-[kinokilta] Kino Kilta: 58 showtimes, 25 dates
-[kinokilta] synopses merged: 0
+[kinokilta] 9 synopsis/synopses withheld, no language settled: Combat Shock, Cruising, Never After Dark, Primetime, Red Rue Express, RetkiKino 2026, The Hills Have Eyes, The Hunger
+[kinokilta] 9 film(s) with a language name not read, that part left blank: Alligator (Ei teksitystä); Combat Shock (Ei teksitystä); Joysticks (Ei teksitystä); Kuzma (ukraina, Ei teksitystä); Prom Night (Ei teksitystä); Red Rue Express (ukraina); Savage Dawn (Ei teksitystä); Staubwelt (malayalam)
+[kinokilta] Kino Kilta: 57 showtimes, 25 dates
+[kinokilta] Kino Kilta: 57 showtimes, 25 dates
+[kinokilta] synopses merged: 2
+[kinokilta] synopses by language: en 1, fi 1
 [kinolaika] 55 screening(s) listed, 36 film page(s) read
 [kinolaika] omitted 0 confirmed non-film(s) by evidence-backed exclusion over 0 screening(s), and 19 unresolved over 19
 [kinolaika] unresolved: Antti Autio, Dave Lindholm & Pepe Ahlqvist: WALKIN' BLUES -kiertue, Eternal Erection, Hopeasiivet, Livemusavisa, Lyhytelokuvapäivä: Coffee n' Movies, Lyhytelokuvapäivä: Kerttu Matinpuro -elokuvat, Lyhytelokuvapäivä: Ovis Aries, Lyhytelokuvapäivä: PÄIVÄLIPPU, Lyhytelokuvapäivä: Satumaa, Lyhytelokuvapäivä: Stadin AO-sarja, Lyhytelokuvapäivä: Toivo
@@ -37,8 +38,8 @@
 [kinokonepaja] Kino Konepaja: 45 showtimes, 24 dates
 [kinokonepaja] Kino Konepaja: 45 showtimes, 24 dates
 [kinokonepaja] synopses merged: 0
-[run] http: 45 revalidated (304), 76 full, 26 not stored (origin said no-store), 0 cache entries written
+[run] http: 41 revalidated (304), 79 full, 26 not stored (origin said no-store), 3 cache entries written
 [run] hosts: 4 attempted -- kinokonepaja.fi, kinomyyri.fi, www.kinokilta.fi, www.kinolaika.fi
-[run] kinola: 4 venues, 170 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
-[run] timing: 4 site(s), 233.1s of fetching added up across workers that overlap, longest site 78.7s, longest queue wait 112.6s, 82.4s wall from this module's first fetch starting to its last ending
+[run] kinola: 4 venues, 169 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
+[run] timing: 4 site(s), 220.2s of fetching added up across workers that overlap, longest site 72.2s, longest queue wait 103.2s, 72.9s wall from this module's first fetch starting to its last ending
 exit=0
