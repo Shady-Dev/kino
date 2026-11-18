@@ -546,13 +546,12 @@
   },
   "back to the beginning ozzy s final bow": {
    "id": 1515139,
-   "img": "data/posters/10a5b5a96bd42dfd.jpg",
    "r": 0,
    "s": {
     "en": "OZZY & BLACK SABBATH: BACK TO THE BEGINNING documents a landmark moment in music history: Ozzy Osbourne’s historic final farewell performance for his fans at Villa Park stadium in his Birmingham hometown – captured just 17 days before his untimely passing. The film highlights the historic day with performances from Ozzy, Black Sabbath, and some of the most influential names in rock, along with personal reflections from the superstar musicians they inspired and a behind-the-scenes look at the day itself. This is an historic and intimate farewell to Ozzy and the band that changed music forever.",
     "fi": ""
    },
-   "tr": "https://www.youtube.com/watch?v=REqdAeNUIho"
+   "tr": ""
   },
   "backrooms everything must go": {
    "r": 0,
@@ -2509,13 +2508,12 @@
   },
   "humiseva harju": {
    "id": 1316092,
-   "img": "data/posters/7655da5f28146f31.jpg",
-   "r": 6.6,
+   "r": 0,
    "s": {
     "en": "",
     "fi": "Yorkshiren nummille sijoittuva intohimoinen ja myrskyisä rakkaustarina sukeltaa Heathcliffin ja Catherine Earnshaw’n intensiiviseen ja tuhoisaan suhteeseen."
    },
-   "tr": "https://www.youtube.com/watch?v=HWFdeoeBNV0"
+   "tr": ""
   },
   "hundreds of beavers": {
    "id": 1019939,
@@ -5227,7 +5225,7 @@
   "lyhyt rakkaustarina": {
    "id": 1299382,
    "img": "data/posters/7eff920a1bfc91f7.jpg",
-   "r": 6.2,
+   "r": 6.1,
    "s": {
     "en": "Lea and Rocco meet by chance in a bar and an instant attraction ignites between them. From that moment, a secret affair begins, consisting of fleeting, clandestine meetings in a hotel room. However, as time passes, Lea's obsession with Rocco intensifies, leading her to intrude more and more into his life. The story soon takes an unexpected and unsettling turn.",
     "fi": "Lea ja Rocco kohtaavat sattumalta baarissa. Heidän välillään kipinöi heti, ja kaksikko syöksyy salaiseen suhteeseen. Kumpikin viettää tahoillaan tavallisen onnellista, hyvää elämää, mutta hotellihuoneen lakanoissa he tuntuvat löytävän toisistaan jotain, mitä ovat kaivanneet. Kun salasuhde alkaa saada Lean osalta pakkomielteisiä sävyjä, tunnelma kiristyy. Miten pitkälle syrjähypyn voi antaa mennä – ja mitä tapahtuu, kun kaikki lopulta paljastuu? Suomen elokuvasäätiön maahantuontituki 2026."
@@ -6553,7 +6551,7 @@
   "other mommy": {
    "id": 1400837,
    "img": "data/posters/952438d819839253.jpg",
-   "r": 5.8,
+   "r": 6.4,
    "s": {
     "en": "Young Bela forms a relationship with a sinister entity in her home that looks uncannily like her own mother, drawing her into a terrifying and increasingly dark world.",
     "fi": "Modernin kauhun vaikutusvaltaisimpiin tekijöihin lukeutuva tuottaja James Wan sekä Blumhouse Atomic Monster (Backrooms, Obsession) vievät katsojat pelottavalle matkalle nousevan genreohjaajan Rob Savagen johdolla. Tarina sukeltaa nuoren tytön, Belan, synkkenevään maailmaan hänen muodostaessaan suhteen kodissaan asuvaan pahansuopaan olentoon, joka näyttää hämmentävän paljon hänen omalta äidiltään.",
@@ -9734,14 +9732,13 @@
   },
   "the social reckoning": {
    "id": 1281331,
-   "img": "data/posters/cc94b9de33574b5f.jpg",
-   "r": 7.0,
+   "r": 0,
    "s": {
     "en": "Inspired by true events and the whistleblower who sparked the social media accountability debate we follow today, Aaron Sorkin’s original screenplay is a companion piece to the hit film The Social Network and a true David-and-Goliath story. Young Facebook engineer Frances Haugen (Mikey Madison) turns to The Wall Street Journal reporter Jeff Horwitz (Jeremy Allen White) for help. Together, they embark on a dangerous journey that ultimately leads to the exposure of the social network’s most closely guarded secrets.",
     "fi": "Tositapahtumista ja nykyään seuraamamme sosiaalisen median vastuukeskustelun käynnistäneestä ilmiantajasta inspiraationsa saanut Aaron Sorkinin alkuperäiskäsikirjoitus on menestyselokuva The Social Networkin rinnakkaisteos sekä todellinen Daavid ja Goljat -tarina.",
     "sv": "Filmen är inspirerad av den sanna historien om hur Frances Haugen, en ung ingenjör på Facebook, tar hjälp av Jeff Horwitz, reporter på The Wall Street Journal, för att tillsammans avslöja några av det sociala mediets mest välbevarade hemligheter. En fristående fortsättning till succén \"The Social Network\", där Aaron Sorkins originalmanus bygger på händelserna bakom Wall Street Journals uppmärksammade avslöjande \"The Facebook Files\"."
    },
-   "tr": "https://www.youtube.com/watch?v=R8ANzYpaZaY"
+   "tr": ""
   },
   "the spanish earth": {
    "id": 126783,
@@ -10787,7 +10784,6 @@
     "gilda",
     "helios",
     "isohannu",
-    "kinoakseli",
     "kinoiiris",
     "kinokilta",
     "kinokonepaja",
@@ -10944,7 +10940,6 @@
     "kinolumo",
     "kinomarilyn",
     "kinopirtti",
-    "korjaamo",
     "leffabuumi",
     "niagara",
     "savonkinot",
@@ -10986,5 +10981,5 @@
    "tr": ""
   }
  },
- "generated": "2026-11-17"
+ "generated": "2026-11-18"
 }
