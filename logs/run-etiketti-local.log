@@ -13,10 +13,10 @@
 [leffabuumi] Kino Saimaa: 5 showtimes, 4 dates
 [leffabuumi] synopses merged: 0
 [studio123jarvenpaa] Studio 123 Järvenpää: 67 showtimes, 16 dates
-[studio123jarvenpaa] synopses merged: 1
+[studio123jarvenpaa] synopses merged: 0
 [studio123kouvola] Studio 123 Kouvola: 75 showtimes, 23 dates
 [studio123kouvola] synopses merged: 0
-[ihmekompleksi] Ihme Kompleksi: 29 showtimes, 14 dates
+[ihmekompleksi] Ihme Kompleksi: 28 showtimes, 13 dates
 [ihmekompleksi] synopses merged: 0
 [kino123] Kino 123: 85 showtimes, 11 dates
 [kino123] synopses merged: 0
@@ -36,5 +36,5 @@
 [run] venuelists-local.json rewritten
 [run] http: 0 revalidated (304), 234 full, 234 not stored (origin said no-store), 0 cache entries written
 [run] hosts: 12 attempted -- biogrand.fi, haapamaenelokuvat.fi, ihmekompleksi.fi, kiertue.cine.fi, kino.joutsa.fi, kino123.fi, kotkanleffat.fi, lippu.elokuvateatteristar.fi, studio123.fi, studiot123.com, www.leffabuumi.fi, www.savonkinot.fi
-[run] etiketti: 19 venues, 852 showtimes, 0 stale, 0 unverified, 0 pending, 1 with no programme, 0 failures
+[run] etiketti: 19 venues, 851 showtimes, 0 stale, 0 unverified, 0 pending, 1 with no programme, 0 failures
 exit=0
