@@ -1656,12 +1656,13 @@
   },
   "epic elvis presley in concert": {
    "id": 1445363,
-   "r": 0,
+   "img": "data/posters/4f761cb7d0a593d3.jpg",
+   "r": 8.2,
    "s": {
     "en": "",
     "fi": "EPiC: Elvis Presley in Concert on enemmän kuin konserttitaltiointi. Baz Luhrmannin ainutlaatuisessa elokuvaelämyksessä Elvis laulaa ja kertoo tarinansa tavalla, jollaista ei ole koettu aiemmin."
    },
-   "tr": ""
+   "tr": "https://www.youtube.com/watch?v=2s_dCvUgOBI"
   },
   "eraserhead 1977 night visions": {
    "id": 985,
@@ -3947,7 +3948,6 @@
     "ihmekompleksi",
     "kino123",
     "kinolaika",
-    "kinomarilyn",
     "kinopirtti",
     "kinotar",
     "leffabuumi",
@@ -4775,6 +4775,7 @@
     "kinoaurora",
     "kinoiiris",
     "kinokilta",
+    "kinokonepaja",
     "kinomyyri",
     "korjaamo",
     "kotkanleffat",
