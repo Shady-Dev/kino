@@ -1,6 +1,6 @@
 [token] using FINNKINO_TOKEN from the environment
 [sites] 17 cinemas
-[schedule] 2026-11-19: 276 showtimes
+[schedule] 2026-11-19: 63 showtimes
 [schedule] 2026-11-20: 382 showtimes
 [schedule] 2026-11-21: 423 showtimes
 [schedule] 2026-11-22: 417 showtimes
@@ -11,7 +11,7 @@
 [tmdb] weak candidate kept, not searched until 2026-11-20 (8): BTS WORLD TOUR 'ARIRANG' IN KAOHSIUNG: LIVE VIEWIN -> BTS WORLD TOUR 'ARIRANG' IN KAOHSIUNG: LIVE VIEWING | Dry Leaf -> ხმელი ფოთოლი | Godzilla Minus Zero -> ゴジラ-0.0 | Hadoota -> حدوتة | Leviticus -> Leviticus | NT LIVE: The Audience -> National Theatre Live: The Audience | Ramayana: Rise of a Legend -> रामायणम् | Two Seasons, Two Strangers -> 旅と日々
 [tmdb] 0 new lookups, 0 re-checks, cache 201, 126 mergeable by id
 [films] 63 film entries
-[attrs] dropped, neither format nor language (10): Ennakko | Maxim | Neulonta | OCAP | Pkseutu | SEVERAL | TKU & R | Tampere | Varaus20 | myFinnkino
+[attrs] dropped, neither format nor language (8): Maxim | Neulonta | OCAP | Pkseutu | SEVERAL | TKU & R | Tampere | Varaus20
 [schedule] 17 venue files written, 0 kept as-is
 done
 exit=0
