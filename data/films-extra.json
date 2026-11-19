@@ -1458,6 +1458,7 @@
     "kinoakseli",
     "kinoelo",
     "kinohamina",
+    "kinohannikainen",
     "kinohirvi",
     "kinojuha",
     "kinokulma",
@@ -1523,6 +1524,7 @@
     "kinoakseli",
     "kinoelo",
     "kinohamina",
+    "kinohannikainen",
     "kinohirvi",
     "kinojuha",
     "kinokulma",
@@ -3075,7 +3077,6 @@
     "kinohirvi",
     "kinoiiris",
     "kinojuha",
-    "kinokulma",
     "kinolaika",
     "kinolumo",
     "kinomania",
@@ -3236,6 +3237,7 @@
    "img": "data/posters/0a4381fbfe4b427a.jpg",
    "kr": "K-7",
    "krs": [
+    "kinohannikainen",
     "korjaamo"
    ],
    "r": 7.0,
@@ -3950,7 +3952,6 @@
     "kinolaika",
     "kinopirtti",
     "kinotar",
-    "leffabuumi",
     "niagara"
    ],
    "r": 6.1,
@@ -4772,6 +4773,7 @@
     "biorexkokkola",
     "engel",
     "gilda",
+    "joutsankino",
     "kinoaurora",
     "kinoiiris",
     "kinokilta",
