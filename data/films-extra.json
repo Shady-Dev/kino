@@ -1960,13 +1960,9 @@
    "img": "data/posters/ab35e373af42f3c1.jpg",
    "kr": "S",
    "krs": [
-    "biosavoy",
-    "gilda",
     "kinohamina",
     "kinoolympia",
-    "kinopirtti",
-    "kotkanleffat",
-    "savonkinot"
+    "kinopirtti"
    ],
    "r": 0,
    "s": {
@@ -2181,7 +2177,7 @@
   "heart of the beast": {
    "id": 1263337,
    "img": "data/posters/980bb19ce751c44c.jpg",
-   "r": 7.5,
+   "r": 7.7,
    "s": {
     "en": "After a harrowing plane crash, Special Forces officer James Belmont and his combat dog, Odin, find themselves stranded deep in the Alaskan wilderness. Together, they are forced into a brutal fight for survival against the elements.",
     "fi": "Jouduttuaan vakavaan lentokoneonnettomuuteen entinen erikoisjoukkojen upseeri James Belmont (Brad Pitt) ja hänen taistelukoiransa Odin jäävät eristyksiin syvälle Alaskan erämaahan. Yhdessä he joutuvat armottomaan selviytymiskamppailuun luonnonvoimia vastaan. Maineikkaan ohjaaja David Ayerin Heart of the Beast on intensiivinen seikkailutrilleri, joka tutkii miehen ja hänen parhaan ystävänsä murtumatonta sidettä heidän kohdatessaan tähänastisen elämänsä suurimman taistelun.",
@@ -2789,7 +2785,6 @@
   },
   "isänpäivä matinea": {
    "id": 1262748,
-   "img": "data/posters/65c60ab63113da26.jpg",
    "r": 0,
    "s": {
     "en": "",
@@ -3067,7 +3062,6 @@
     "biokaari",
     "biorex",
     "biosalo",
-    "biostara",
     "biovuoksi",
     "cinemantsala",
     "elokuviin",
@@ -3243,7 +3237,7 @@
    "krs": [
     "korjaamo"
    ],
-   "r": 0,
+   "r": 7.0,
    "s": {
     "en": "Assigned his toughest mission yet, the Cat must cheer up siblings Gabby and Sebastian as they adjust to life in a new town. Known for pushing boundaries, this agent of chaos must prove himself or risk losing his magical hat forever.",
     "fi": ""
@@ -3417,6 +3411,7 @@
     "biogrand",
     "biorex",
     "biorexkokkola",
+    "biosade",
     "biosalo",
     "biovuoksi",
     "elokuviin",
@@ -3425,9 +3420,7 @@
     "haapamaki",
     "helios",
     "isohannu",
-    "kino123",
     "kinoaurora",
-    "kinohirvi",
     "kinoiiris",
     "kinojuha",
     "kinolaika",
@@ -3477,6 +3470,7 @@
     "biogrand",
     "biorex",
     "biorexkokkola",
+    "biosade",
     "biosalo",
     "biovuoksi",
     "elokuviin",
@@ -3485,9 +3479,7 @@
     "haapamaki",
     "helios",
     "isohannu",
-    "kino123",
     "kinoaurora",
-    "kinohirvi",
     "kinoiiris",
     "kinojuha",
     "kinolaika",
@@ -3549,6 +3541,7 @@
     "biogrand",
     "biorex",
     "biorexkokkola",
+    "biosade",
     "biosalo",
     "biovuoksi",
     "elokuviin",
@@ -3557,9 +3550,7 @@
     "haapamaki",
     "helios",
     "isohannu",
-    "kino123",
     "kinoaurora",
-    "kinohirvi",
     "kinoiiris",
     "kinojuha",
     "kinolaika",
@@ -3959,10 +3950,8 @@
     "kinomarilyn",
     "kinopirtti",
     "kinotar",
-    "kotkanleffat",
     "leffabuumi",
-    "niagara",
-    "star"
+    "niagara"
    ],
    "r": 6.1,
    "s": {
@@ -5781,13 +5770,12 @@
   },
   "mutiny lavastettu syylliseksi": {
    "id": 1288445,
-   "img": "data/posters/d7d31f49a15249f9.jpg",
-   "r": 7.3,
+   "r": 0,
    "s": {
     "en": "",
     "fi": "MUTINY - LAVASTETTU SYYLLISEKSI on räjähtävä toimintatrilleri, jossa entinen erikoisjoukkojen sotilas Cole Reed todistaa miljardööripomonsa kylmäverisen murhan ja hänet lavastetaan syylliseksi. Colen Reedin ainoa vaihtoehto on paeta. Jäljittäessään totuutta Cole nousee rahtialukselle keskellä avomerta, mukanaan vain ammattitaitonsa ja kostonhalu. Aluksen pimeillä käytävillä hän aloittaa yksinäisen taistelun palkkasotureita ja korruptoituneita agentteja vastaan. Mitä syvemmälle hän kaivautuu, sitä selvemmäksi käy, ettei kyse ole pelkästä yksittäisestä murhasta – vaan maailmanlaajuisesta salaliitosta, jonka lonkerot ulottuvat maiden hallituksiin ja suuryrityksiin asti. Yksin, saarrettuna ja takaa-ajettuna Cole Reed taistelee todistaakseen syyttömyytensä ja estääkseen suunnitelman, joka horjuttaisi kansainvälistä valtasuhteiden tasapainoa ja rauhaa. Jason Stathamin tähdittämä MUTINY- LAVASTETTU SYYLLISEKSI elokuvateattereissa 21.8."
    },
-   "tr": "https://www.youtube.com/watch?v=2Iqvbe98Gb4"
+   "tr": ""
   },
   "muumipeikko ja pyrstötähti": {
    "id": 1589405,
@@ -5932,10 +5920,6 @@
   "naza": {
    "id": 1755291,
    "img": "data/posters/92e7b2647887b27d.jpg",
-   "kr": "K-12",
-   "krs": [
-    "engel"
-   ],
    "r": 8.0,
    "s": {
     "en": "Filmed at night from Tel Aviv rooftops, the film reveals in detail the systems behind the systematic destruction of Palestinian civilians by the Israeli military in Gaza. It is directed by Rachel Szor and Yuval Abraham, known for the Oscar-winning documentary No Other Land. The screening begins with a 26-minute short film about Gaza and is followed by a discussion. Details regarding the speakers will be announced later. The screening is organized in collaboration with B-plan Distribution and the Refugee Film Festival.",
@@ -7030,6 +7014,7 @@
     "kinopirtti",
     "kinoset",
     "kinotervakoski",
+    "korjaamo",
     "kulttuurimylly",
     "kuvakukko",
     "savonkinot",
@@ -8604,19 +8589,6 @@
     "en"
    ]
   },
-  "shaun the sheep the beast of mossy bottom": {
-   "id": 1477104,
-   "img": "data/posters/0d3865389792d3a5.jpg",
-   "r": 7.3,
-   "s": {
-    "en": "On Halloween Eve at Mossy Bottom Farm, excitement turns to dismay when the clumsy Farmer ruins the pumpkin patch. Shaun tries fixing it with science experiments, but things go awry when a wild beast appears in the woods.",
-    "fi": ""
-   },
-   "tr": "https://www.youtube.com/watch?v=daZMq0AyOMc",
-   "ts": [
-    "en"
-   ]
-  },
   "shaun the sheep the beast of mossy bottom eng audio": {
    "id": 1477104,
    "r": 0,
@@ -9106,7 +9078,7 @@
   "tartuffe": {
    "id": 55544,
    "img": "data/posters/e9f08a4d6d8370db.jpg",
-   "r": 7.2,
+   "r": 7.1,
    "s": {
     "en": "A young man shows his millionaire grandfather a film based on Molière's play \"Tartuffe\" in order to expose the old man's hypocritical governess who covets the young man's inheritance.",
     "fi": "Viimeisen miehen menestyksen jälkeen Murnau ja käsikirjoittaja Carl Mayer saivat Ufa-studiolta vapaat kädet. He tarttuivat Molièren näytelmään tehden siitä omanlaisensa version, jossa erityisesti lavastuksen yksityiskohtiin paneuduttiin äärimmäisen huolellisesti. Juonittelut ja vastajuonittelut varakkaan vanhan herran perinnöstä tämän aikuisen pojan ja taloudenhoitajan välillä kutovat verkon, joka on sekä komediallinen että ankara."
@@ -9449,10 +9421,6 @@
   "the invite": {
    "id": 950028,
    "img": "data/posters/2755bb2be0a0c120.jpg",
-   "kr": "K-12",
-   "krs": [
-    "engel"
-   ],
    "r": 7.2,
    "s": {
     "en": "",
@@ -10729,7 +10697,6 @@
     "kinojuha",
     "kinokilta",
     "kinokonepaja",
-    "kinokuva",
     "kinolumo",
     "kinomania",
     "kinomarilyn",
@@ -10808,7 +10775,6 @@
     "kinojuha",
     "kinokilta",
     "kinokonepaja",
-    "kinokuva",
     "kinolumo",
     "kinomania",
     "kinomarilyn",
@@ -11021,7 +10987,6 @@
     "leffabuumi",
     "niagara",
     "savonkinot",
-    "star",
     "vihdinkino"
    ],
    "r": 5.9,
@@ -11067,5 +11032,5 @@
    "tr": ""
   }
  },
- "generated": "2026-11-18"
+ "generated": "2026-11-19"
 }

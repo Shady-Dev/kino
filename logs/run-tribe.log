@@ -1,9 +1,9 @@
-[ritzvaasa] 27 event(s) in category kino, 1 page(s) read
-[ritzvaasa] 26 screening(s) priced as a band, published without a price
-[ritzvaasa] 27 of 27 screening(s) carry a portrait poster
-[ritzvaasa] Ritz Vaasa: 27 showtimes, 12 dates
+[ritzvaasa] 24 event(s) in category kino, 1 page(s) read
+[ritzvaasa] 23 screening(s) priced as a band, published without a price
+[ritzvaasa] 24 of 24 screening(s) carry a portrait poster
+[ritzvaasa] Ritz Vaasa: 24 showtimes, 11 dates
 [ritzvaasa] strand prefix split off 1 showtimes
-[ritzvaasa] Ritz Vaasa: 27 showtimes, 12 dates
+[ritzvaasa] Ritz Vaasa: 24 showtimes, 11 dates
 [ritzvaasa] synopses merged: 0
 [tahtikino] 10 event(s) in category elokuvat, 1 page(s) read
 [tahtikino] 0 of 10 screening(s) carry a portrait poster
@@ -13,6 +13,6 @@
 [tahtikino] synopses skipped as screening notes: 10
 [run] http: 0 revalidated (304), 2 full, 0 not stored (origin said no-store), 0 cache entries written
 [run] hosts: 2 attempted -- muhos.fi, ritz.fi
-[run] tribe: 2 venues, 37 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
-[run] timing: 2 site(s), 7.7s of fetching added up across workers that overlap, longest site 6.3s, longest queue wait 156.1s, 6.3s wall from this module's first fetch starting to its last ending
+[run] tribe: 2 venues, 34 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
+[run] timing: 2 site(s), 7.4s of fetching added up across workers that overlap, longest site 5.9s, longest queue wait 171.9s, 6.9s wall from this module's first fetch starting to its last ending
 exit=0
