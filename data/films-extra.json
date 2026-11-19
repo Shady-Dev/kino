@@ -999,19 +999,6 @@
     "fi"
    ]
   },
-  "combat shock": {
-   "id": 26558,
-   "img": "data/posters/320ea9a935cad0bf.jpg",
-   "r": 6.4,
-   "s": {
-    "en": "A dangerously disturbed Vietnam veteran struggles with life 15 years after his return home, and slowly falls into insanity from his gritty urban lifestyle.",
-    "fi": ""
-   },
-   "tr": "https://www.youtube.com/watch?v=aLZQJh3MUYk",
-   "ts": [
-    "en"
-   ]
-  },
   "coming to terms with the dead": {
    "id": 64573,
    "img": "data/posters/06c2d508a000d8ca.jpg",
@@ -1288,6 +1275,16 @@
     "fi": "Näytöksen jälkeen elokuvakokemusta voi jäädä purkamaan Leffalukupiiriin, jonka vetäjänä toimii FT, dosentti Kaisa Hiltunen. Hiltunen työskentelee elokuvatutkijana Jyväskylän yliopiston Musiikin, taiteen ja kulttuurin tutkimuksen laitoksella. Hän on toiminut aiemmin myös sanomalehti Keskisuomalaisen elokuvakriitikkona. Don Quijote Barcelonassa on lämmin ja inhimillinen fiktiodraama kahdesta kodittomasta miehestä Barcelonan kaduilla. Entinen akateemikko Lluc ja Suomesta lähtöisin oleva Olli ajautuvat yhteiselle selviytymistaipaleelle, joka kasvaa vuosien mittaiseksi ystävyydeksi. Tarina kuvaa mielenterveyden haasteita, ihmisarvoa ja taiteen voimakasta merkitystä selviytymisen lähteenä – Dalín, suomalaisen iskelmän ja Cervantesin Don Quijoten heijastamana."
    },
    "tr": ""
+  },
+  "donnie darko": {
+   "id": 141,
+   "img": "data/posters/36eb35457f35b1fc.jpg",
+   "r": 7.8,
+   "s": {
+    "en": "",
+    "fi": "Kalifornialainen lukiolaispoika Donnie Darko (Jake Gyllenhaal) saattaa ulospäin vaikuttaa aivan tavalliselta amerikkalaiselta teini-ikäiseltä kaverilta, joka elelee perheensä kanssa uneliaassa lähiössä 80-luvun lopussa. Mikään ei voisi olla kauempana totuudesta. 18-vuotiaalla Donniella on mielikuvitusystävänä jättiläismäinen jänis nimeltä Frank, joka innoittaa hänet tekemään järjettömältä vaikuttavia tekoja. Frank pelastaa Donnien hengen kun valtava lentokoneen moottori tippuu keskelle pojan huonetta. Donnie tutkii outoa onnettomuutta ja saa selville uskomattomia asioita, joiden avulla hän voi muokata ajan ja kohtalon virtoja. Psykoterapeutti (Katharine Ross) koettaa ymmärtää Donnien aivoituksia. Donnien on selvitettävä aikamatkailun salaisuus, ennen kuin maailma tuhoutuu. Aikaa on 28 päivää, 6 tuntia, 42 minuuttia ja 12 sekuntia… Tämä science fictionia, fantasiaa, mustaa komediaa ja psykologista trilleriä ennennäkemättömällä tavalla yhdistelevä elokuva ei ilmestyessään ollut mikään kassamenestys, mutta on sittemmin kerännyt vakaan kulttimaineen. Jake Gyllenhaal (\"Highway\", \"Lokakuun taivas\") on ilmiömäinen Donnie Darkon roolissa. Palkitun elokuvan on ohjannut Richard Kelly ja taustavoimina toimivat elokuvan \"Memento\" tuottajat."
+   },
+   "tr": "https://www.youtube.com/watch?v=iVdehGAy4zA"
   },
   "dracula": {
    "id": 1323409,
@@ -2132,6 +2129,14 @@
    "ts": [
     "en"
    ]
+  },
+  "happiness is living in our land ohjaajavierailu": {
+   "r": 0,
+   "s": {
+    "en": "In the Soviet Union, the 1980s are awaited with promises from the great leaders of a coming Communist paradise. The reality, however, is far from it: poverty, shortages, ideological control, and relentless missile production to cope with the ever-looming threat of nuclear war. In the grim depths of stagnation, in late October 1982, a group of Soviet youths gather in Tallinn and form the punk band Velikije Luki. The band faces arrests, beatings, forced psychiatric treatments, and performance bans, yet they carry on, driven by alcohol-soaked courage and determination. Through a series of lucky coincidences, their small acts of rebellion help set in motion events that eventually contribute to the Soviet Union’s downfall. The film is subtitled in English.",
+    "fi": ""
+   },
+   "tr": ""
   },
   "happy as lazzaro": {
    "id": 481432,
@@ -3069,8 +3074,6 @@
     "elokuviin",
     "engel",
     "gilda",
-    "helios",
-    "isohannu",
     "kinoaurora",
     "kinoelo",
     "kinohirvi",
@@ -3417,7 +3420,6 @@
     "haapamaki",
     "helios",
     "isohannu",
-    "kinoaurora",
     "kinoiiris",
     "kinojuha",
     "kinolaika",
@@ -3475,7 +3477,6 @@
     "haapamaki",
     "helios",
     "isohannu",
-    "kinoaurora",
     "kinoiiris",
     "kinojuha",
     "kinolaika",
@@ -3545,7 +3546,6 @@
     "haapamaki",
     "helios",
     "isohannu",
-    "kinoaurora",
     "kinoiiris",
     "kinojuha",
     "kinolaika",
@@ -6674,19 +6674,6 @@
    },
    "tr": ""
   },
-  "paholainen pukeutuu pradaan 2006": {
-   "id": 350,
-   "img": "data/posters/423a0c1d4cba03fb.jpg",
-   "r": 7.4,
-   "s": {
-    "en": "",
-    "fi": "Toimittajan urasta haaveileva Andrea päätyy avustajaksi Runway-muotilehteen, jota palvottu ja pelottava Miranda Priestly johtaa rautaisin ottein. Andrean idealismi karisee nopeasti, kun hän yrittää selvitä pomon antamista tehtävistä, jotka tuntuvat välillä mahdottomilta. Mutta muodin edelläkävijöillä on myös etuja, joista tavikset voivat vain haaveilla."
-   },
-   "tr": "https://www.youtube.com/watch?v=t4isatjZ0BM",
-   "ts": [
-    "fi"
-   ]
-  },
   "pahuksen katti": {
    "id": 20723,
    "r": 0,
@@ -7035,7 +7022,6 @@
     "kinomyyri",
     "kinopiispanristi",
     "kinopirtti",
-    "kinoset",
     "kinotervakoski",
     "korjaamo",
     "kulttuurimylly",
@@ -9577,10 +9563,6 @@
   "the odyssey": {
    "id": 1368337,
    "img": "data/posters/6b7325a881b75227.jpg",
-   "kr": "K-16",
-   "krs": [
-    "isohannu"
-   ],
    "r": 8.0,
    "s": {
     "en": "Odysseus, the legendary King of Ithaca, embarks on a long and perilous journey home following the Trojan War. Throughout his voyage, he is forced to confront the whims of gods, mythological monsters, and trials that stretch both his cunning and his humanity to the breaking point.",
@@ -10752,7 +10734,6 @@
     "kinosampo",
     "kinotar",
     "kinotoijala",
-    "kirkkonummi",
     "korjaamo",
     "kotkanleffat",
     "kuvakukko",
@@ -10775,19 +10756,6 @@
     "sv": "The Wickerman is coming! När den utstötta fiskarkvinnan beställer en make av byns korgmakare flätar han en riktig drömman till henne, vilket skapar rejäl oreda i den lilla fiskebyn."
    },
    "tr": "https://www.youtube.com/watch?v=kA9NfV4pM_Q"
-  },
-  "wicker intohimosta pudottu": {
-   "id": 1195803,
-   "img": "data/posters/aca6e1cdaad07a60.jpg",
-   "r": 7.5,
-   "s": {
-    "en": "On the outskirts of a village by the sea, lives a Fisherwoman; smelly, single and perpetually ridiculed. One day, fed up with her stuffy, small-minded neighbours, she commissions herself a husband to be made from wicker. In an otherwise conservative town, this unconventional romance sparks outrage, jealousy and chaos.",
-    "fi": ""
-   },
-   "tr": "https://www.youtube.com/watch?v=kA9NfV4pM_Q",
-   "ts": [
-    "en"
-   ]
   },
   "wicker intohimosta punottu": {
    "id": 1195803,
@@ -10830,7 +10798,6 @@
     "kinosampo",
     "kinotar",
     "kinotoijala",
-    "kirkkonummi",
     "korjaamo",
     "kotkanleffat",
     "kuvakukko",
@@ -10892,7 +10859,6 @@
     "leffabuumi",
     "niagara",
     "orion",
-    "pajakkakino",
     "savonkinot",
     "star",
     "studio123jarvenpaa",
@@ -11026,10 +10992,8 @@
    "img": "data/posters/d0630be5ff40e993.jpg",
    "kr": "K-16",
    "krs": [
-    "biorex",
     "biorexkokkola",
     "kinohirvi",
-    "kinolumo",
     "niagara",
     "savonkinot"
    ],
