@@ -5,9 +5,9 @@
 [kinoset] Kinema: 13 showtimes, 8 dates
 [kinoset] Bio: 13 showtimes, 8 dates
 [kinoset] synopses merged: 0
-[kinoaurora] Kino Aurora (Jyväskylä): 18 showtimes
-[kinoaurora] Kino Aurora: 18 showtimes, 6 dates
-[kinoaurora] synopses merged: 0
+[kinoaurora] Kino Aurora (Jyväskylä): 22 showtimes
+[kinoaurora] Kino Aurora: 22 showtimes, 8 dates
+[kinoaurora] synopses merged: 2
 [kinohirvi] Kino Hirvi (Äänekoski): 24 showtimes
 [kinohirvi] Kino Hirvi: 24 showtimes, 5 dates
 [kinohirvi] synopses merged: 0
@@ -46,6 +46,6 @@
 [run] http: 0 revalidated (304), 11 full, 11 not stored (origin said no-store), 0 cache entries written
 [run] hosts: 6 attempted -- biosalo.fi, jarvelankino.fi, kino-olympia.fi, kinoaurora.fi, kinohirvi.fi, kinoset.fi
 [run] pending: kinometso has 4 venue(s) with no programme yet: km-tikkakoski, km-vaajakoski, km-laukaa, km-toivakka
-[run] nexxo: 14 venues, 224 showtimes, 0 stale, 0 unverified, 4 pending, 0 with no programme, 0 failures
-[run] timing: 9 site(s), 38.9s of fetching added up across workers that overlap, longest site 10.4s, longest queue wait 0.0s, 10.4s wall from this module's first fetch starting to its last ending
+[run] nexxo: 14 venues, 228 showtimes, 0 stale, 0 unverified, 4 pending, 0 with no programme, 0 failures
+[run] timing: 9 site(s), 42.4s of fetching added up across workers that overlap, longest site 11.3s, longest queue wait 0.0s, 11.3s wall from this module's first fetch starting to its last ending
 exit=0

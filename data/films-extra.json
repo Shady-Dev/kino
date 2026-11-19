@@ -590,7 +590,8 @@
    "img": "data/posters/22e038deabae14e8.jpg",
    "kr": "S",
    "krs": [
-    "kinoiiris"
+    "kinoiiris",
+    "kinomarilyn"
    ],
    "r": 0,
    "s": {
@@ -1964,8 +1965,7 @@
    "kr": "S",
    "krs": [
     "kinohamina",
-    "kinoolympia",
-    "kinopirtti"
+    "kinoolympia"
    ],
    "r": 0,
    "s": {
@@ -3061,7 +3061,6 @@
    "img": "data/posters/056008305739a764.jpg",
    "kr": "K-7",
    "krs": [
-    "bioforum",
     "biokaari",
     "biorex",
     "biosalo",
@@ -3075,9 +3074,7 @@
     "kinoaurora",
     "kinoelo",
     "kinohirvi",
-    "kinoiiris",
     "kinojuha",
-    "kinolaika",
     "kinolumo",
     "kinomania",
     "kinometso",
@@ -3091,7 +3088,6 @@
     "niagara",
     "savonkinot",
     "star",
-    "studio123jarvenpaa",
     "studio123kouvola",
     "virtainpirtti"
    ],
@@ -3113,13 +3109,12 @@
   },
   "järki ja tunteet sense and sensibility": {
    "id": 1503762,
-   "img": "data/posters/056008305739a764.jpg",
-   "r": 7.2,
+   "r": 0,
    "s": {
     "en": "",
     "fi": "Uusi, vastustamaton tulkinta Jane Austenin ikonisesta Järki ja tunteet -teoksesta: hurmaava, nokkela ja syvästi samaistuttava tarina rakkaudesta ja sisaruudesta. Pääosissa loistavat Daisy Edgar-Jones ja Esmé Creed-Miles."
    },
-   "tr": "https://www.youtube.com/watch?v=OFLyW0lxFU0"
+   "tr": ""
   },
   "järven ääni": {
    "r": 0,
@@ -3413,7 +3408,6 @@
    "krs": [
     "biogrand",
     "biorex",
-    "biorexkokkola",
     "biosade",
     "biosalo",
     "biovuoksi",
@@ -3428,12 +3422,12 @@
     "kinojuha",
     "kinolaika",
     "kinolumo",
+    "kinomarilyn",
     "kinometso",
     "kinomyyri",
     "kinopiispanristi",
     "kinoset",
     "kinotervakoski",
-    "kinovirta",
     "kisakino",
     "kotkanleffat",
     "kuvakukko",
@@ -3472,7 +3466,6 @@
    "krs": [
     "biogrand",
     "biorex",
-    "biorexkokkola",
     "biosade",
     "biosalo",
     "biovuoksi",
@@ -3487,12 +3480,12 @@
     "kinojuha",
     "kinolaika",
     "kinolumo",
+    "kinomarilyn",
     "kinometso",
     "kinomyyri",
     "kinopiispanristi",
     "kinoset",
     "kinotervakoski",
-    "kinovirta",
     "kisakino",
     "kotkanleffat",
     "kuvakukko",
@@ -3543,7 +3536,6 @@
    "krs": [
     "biogrand",
     "biorex",
-    "biorexkokkola",
     "biosade",
     "biosalo",
     "biovuoksi",
@@ -3558,12 +3550,12 @@
     "kinojuha",
     "kinolaika",
     "kinolumo",
+    "kinomarilyn",
     "kinometso",
     "kinomyyri",
     "kinopiispanristi",
     "kinoset",
     "kinotervakoski",
-    "kinovirta",
     "kisakino",
     "kotkanleffat",
     "kuvakukko",
@@ -3948,7 +3940,6 @@
     "biosavoy",
     "helios",
     "ihmekompleksi",
-    "kino123",
     "kinolaika",
     "kinopirtti",
     "kinotar",
@@ -4778,6 +4769,7 @@
     "kinoiiris",
     "kinokilta",
     "kinokonepaja",
+    "kinomarilyn",
     "kinomyyri",
     "korjaamo",
     "kotkanleffat",
@@ -5212,6 +5204,14 @@
    "s": {
     "en": "",
     "fi": "Vaala piti Loviisaa rakkaimpana elokuvanaan – eikä syyttä. 1880-luvun Hämeeseen sijoittuva tarina yhdistää suuren rakkausdraaman ja tarkkanäköisen kuvauksen suomalaisen yhteiskunnan murroksesta. Tauno Palo loistaa Niskavuoren isäntänä, jonka intohimo törmää aseman ja velvollisuuden vaatimuksiin. Elokuvan kuvaus, ohjaus ja naispääosan Emma Väänänen palkittiin Jussi-patsailla."
+   },
+   "tr": ""
+  },
+  "lovisa big band a swinging christmas concert": {
+   "r": 0,
+   "s": {
+    "en": "",
+    "fi": "Sytytä joulun taika ja anna swingin viedä mukanaan! Loviisa Big Band kutsuu sinut mukaan tunnelmalliseen Joulu Swing -konserttiin. Tule virittäytymään joulutunnelmaan kapellimestari Tom Bildon johdolla, kun Loviisa Big Band puhaltaa talven kylmyyden loitolle ja täyttää salin svengaavilla ja ikivihreillä joululauluilla – suuren maailman tyyliin sovitettuina. Ota ystäväsi, perheesi tai kumppanisi mukaan ja tule nauttimaan paikallisesta huippumusiikista, joka tuo lämpöä ja valoa talven odotukseen."
    },
    "tr": ""
   },
@@ -5700,6 +5700,14 @@
    },
    "tr": ""
   },
+  "minotaur alustus": {
+   "r": 0,
+   "s": {
+    "en": "",
+    "fi": "MINOTAUR on venäläisohjaaja Andrei Zvjagintsevin odotettu uusi elokuva. Se kertoo menestyneestä venäläisestä liikemiehestä Glebistä. Ammatillisten paineiden kasautuessa ja avioliiton rakoillessa Glebin huolellisessa järjestyksessä oleva elämä alkaa romahtaa väkivaltaisesti kiihtyen. Rikosdraaman pääosissa nähdään Dmitri Mazurov ja Iris Lebedeva. Zvjagintsevin elokuva Loveless voitti Cannesissa tuomariston palkinnon (2017) ja elokuva Leviathan puolestaan parhaan käsikirjoituksen palkinnon (2014). Kumpikin elokuva oli ehdolla parhaan kansainvälisen elokuvan Oscar-palkinnon saajaksi."
+   },
+   "tr": ""
+  },
   "minä ja riikka purra": {
    "id": 1789735,
    "img": "data/posters/00ba33a99fa0e923.jpg",
@@ -6109,6 +6117,19 @@
     "fi": "Richard Linklaterin oodi elokuvan ilolle sukeltaa Jean-Luc Godardin legendaarisen Viimeiseen hengenvetoon -elokuvan tuotannon hilpeisiin käänteisiin.\n\nCahiers du Cinema -lehden toimituksessa oli vauhtia. Toimittajista Claude Chabrol oli jo ohjannut kaksi leffaa. Francois Truffaut oli lähdössä Cannesin elokuvajuhlille esittelemään esikoistaan 400 kepposta. Godard kähvelsi lehden kassasta matkarahat ja painui mukaan. Kaikki tiesivät, että nyt tapahtuu jotain uutta.\n\nGodardin oli päästävä ohjaamaan. Se on helppoa: huijataan tuottaja mukaan, puhutaan Jean Seberg (Zoey Deutch) hehkumaan naispääosaan, ja Jean-Paul Belmondo (aubry Dullin) on kuin luotu konnan rooliin. Aamuisin keksitään pätkä käsikirjoitusta kahvilassa, kuvataan tunti tai koko päivä. Kyllä tästä leffa tulee. Sivuosissa vilahtelee Robert Bressonin, Jean-Pierre Melvillen ja Roberto Rossellinin kaltaisia hahmoja.\n\nKaikki tämä on historiallisesti akkuraattia ja samanaikaisesti keksittyä. Uransa huipulla oleva Richard Linklater (Rakkautta ennen -trilogia, Boyhood) tavoittaa sen välittömyyden, joka kuvauksissa vallitsi yhtä lailla kameran edessä ja takana. Sekä etenkin kuvaustauoilla, joita oli paljon."
    },
    "tr": "https://www.youtube.com/watch?v=sRqWbsdACzg"
+  },
+  "nox ohjaajavierailu": {
+   "id": 1599242,
+   "img": "data/posters/3878b4d3a1278371.jpg",
+   "r": 0,
+   "s": {
+    "en": "From the wreckage of a buddy comedy rises something stranger: a story that fractures midway into an existential revenge thriller—burning forward with the inevitability of the sun’s passage across the sky.",
+    "fi": "Synkkä, lähes brutaali elokuva, jota lävistävät huumorin sirpaleet ja välähdykset toivosta. Buddy -komedian raunioista kohoaa tarina, joka hajoaa puolessa välissä eksistentiaaliseksi kostotrilleriksi – ja etenee kuin polttavan auringon väistämätön kulku taivaan halki. Käsikirjoitus, kuvaus, ohjaus, leikkaus: MATTI HARJU ”Suomalaisen elokuvan todellinen ylpeys ovat sen kapinalliset ja omaperäiset tekijät – löyhä joukko elokuvataiteilijoita, joiden estetiikka on täysin ristiriidassa maan virallisen elokuvakulttuurin kanssa. Heistä kansainvälisesti tunnetuin on toistaiseksi Matti Harju, jonka modernistinen melankolia – lajityypin kliseiden pyörittelyä vino hymy huulilla – saa katsojat aina häkeltymään; mitään vastaavaa ei ole aiemmin nähty. NOX asettuu takametsien noirin muottiin: vakavailmeiset miehet puuhailevat omiaan – sellaista, mitä miehet tekevät ajettuaan huomiota herättämättömät autonsa paikkoihin, joissa alkaa verenvuodatusta tapahtua. Touhu voi muuttua raa’aksi, sillä tilanne voi karata käsistä silmänräpäyksessä. Ja siitä joku joutuu tietysti aina maksamaan. Älä kuitenkaan odota ryöstöjä tai, äläkä myöskään anna alun viittausten buddy-elokuvaan hämätä; NOX on ennen kaikkea asennetta. Tietyt kuvat ja eleet luovat odotuksia, jotka Harju täyttää rennon huolettomalla, leikkisällä, mutta samalla syvästi koetulla otteella. Todella cool elokuva!” – Olaf Möller / International Film Festival Rotterdam"
+   },
+   "tr": "https://www.youtube.com/watch?v=IMJf4jyVvC4",
+   "ts": [
+    "en"
+   ]
   },
   "nuorena äidiksi": {
    "r": 0,
@@ -6791,13 +6812,12 @@
   },
   "pelastakaa sotamies ryan": {
    "id": 857,
-   "img": "data/posters/a4147683eb09a1fc.jpg",
-   "r": 8.2,
+   "r": 0,
    "s": {
     "en": "",
     "fi": "Huom. Elokuvassa ei ole tekstitystä. Joukko sotilaita lähtee kapteeni John Millerin johdolla etsimään vihollisen linjojen taakse jäänyttä James Ryania – rivimiestä, jonka kolme muuta veljestä ovat jo saaneet surmansa sodassa."
    },
-   "tr": "https://www.youtube.com/watch?v=RYExstiQlLc"
+   "tr": ""
   },
   "pelikaanimies": {
    "id": 55502,
@@ -7113,8 +7133,6 @@
     "isohannu",
     "kino123",
     "kinopiispanristi",
-    "laitilankino",
-    "leffabuumi",
     "star"
    ],
    "r": 0,
@@ -7126,7 +7144,6 @@
   },
   "pirjo i sverige kahvi ja kino": {
    "id": 1729175,
-   "img": "data/posters/a8cdd21dca604433.jpg",
    "r": 0,
    "s": {
     "en": "",
@@ -7370,16 +7387,17 @@
   },
   "primetime": {
    "id": 1375441,
-   "img": "data/posters/b51c5ae56c687e43.jpg",
+   "img": "data/posters/ca46dd98e9982631.jpg",
    "kr": "K-16",
    "krs": [
+    "kinoaurora",
     "kinokilta",
     "kinokonepaja"
    ],
    "r": 6.8,
    "s": {
     "en": "In 2006, To Catch a Predator host Chris Hansen sets out to make television history, turning an undercover investigation into one of the most controversial cultural phenomena of the decade.",
-    "fi": ""
+    "fi": "Vuonna 2006 juontaja Chris Hansen päättää tehdä televisiohistoriaa ryhtymällä yhteistyöhön kansalaisjärjestö Perverted Justicen kanssa toteuttaakseen televisioituja ansaoperaatioita sarjassa To Catch a Predator. Korkeiden katsojalukujen tavoittelu tekee Hansenista kulttuurisen ilmiön, mutta Texasissa toteutettu riskialtis operaatio päättyy kohtalokkaasti. PRIMETIME on A24:n tuottama elokuva, jonka on ohjannut Lance Oppenheim ja jonka pääosassa on Robert Pattinson."
    },
    "tr": "https://www.youtube.com/watch?v=C0NZa01qTRU"
   },
@@ -7610,6 +7628,19 @@
     "fi": "Paikalla keskustelemassa elokuvan jälkeen ohjaaja Karin Pennanen ja tuottaja Sonja Lindén! Ohjaaja löytää erakoituneen taiteilijasetänsä kätketyn maailman ja ryhtyy tekemään siitä elokuvaa – omaksi yllätyksekseen setänsä kanssa. Syntyy erityislaatuinen vuoropuhelu, joka avaa näkymän intohimoiseen taiteen tekemiseen ja originelliin elämään. Päivien lumo kertoo luomisesta elämäntapana, monimutkaisista perhesuhteista, rakkaudesta ja kuoleman kosketuksesta. Samalla se on elokuva matkasta kohti itseä ja omien valintojensa hyväksymisestä. Nämä voi ehkä saavuttaa vasta kun onnistuu hyväksymään maailman ja itsen keskeneräisyyden. Ohjaaja Karin kertoo elokuvastaan näin:"
    },
    "tr": ""
+  },
+  "päiväkaffileffa näytös lapin sota": {
+   "id": 1450460,
+   "img": "data/posters/c15d678a31ae397e.jpg",
+   "r": 0,
+   "s": {
+    "en": "",
+    "fi": "Nuori sotamies Heikki taistelee Karjalan kannaksella ystävänsä Paulin kanssa. Komppaniaan liittyy vankilasta vapautunut Arvo, jonka maailmankuva haastaa muiden käsitykset sodasta ja velvollisuudesta. Aselepo herättää toivon kotiinpaluusta, mutta pian selviää, että Suomen on käännyttävä entisiä saksalaisia liittolaisiaan vastaan Lapissa. Samaan aikaan Rovaniemellä saksalaisten tulkkina työskentelevä Saara joutuu valitsemaan tulevaisuutensa: jäädä Suomeen vai paeta Saksaan rakastettunsa, majuri Duisbergin, kanssa."
+   },
+   "tr": "",
+   "ts": [
+    "fi"
+   ]
   },
   "päämies": {
    "id": 10731,
@@ -9432,6 +9463,10 @@
   "the invite": {
    "id": 950028,
    "img": "data/posters/2755bb2be0a0c120.jpg",
+   "kr": "K-12",
+   "krs": [
+    "engel"
+   ],
    "r": 7.2,
    "s": {
     "en": "",
@@ -9544,8 +9579,7 @@
    "img": "data/posters/6b7325a881b75227.jpg",
    "kr": "K-16",
    "krs": [
-    "isohannu",
-    "levisummit"
+    "isohannu"
    ],
    "r": 8.0,
    "s": {
@@ -10842,6 +10876,7 @@
     "gilda",
     "helios",
     "isohannu",
+    "kinoaurora",
     "kinoiiris",
     "kinokilta",
     "kinokonepaja",
@@ -10995,10 +11030,8 @@
     "biorexkokkola",
     "kinohirvi",
     "kinolumo",
-    "leffabuumi",
     "niagara",
-    "savonkinot",
-    "vihdinkino"
+    "savonkinot"
    ],
    "r": 5.9,
    "s": {

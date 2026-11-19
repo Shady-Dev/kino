@@ -6,7 +6,7 @@
 [kinokilta] Kino Kilta: 56 showtimes, 24 dates
 [kinokilta] Kino Kilta: 56 showtimes, 24 dates
 [kinokilta] synopses merged: 0
-[kinolaika] 51 screening(s) listed, 35 film page(s) read
+[kinolaika] 49 screening(s) listed, 34 film page(s) read
 [kinolaika] omitted 0 confirmed non-film(s) by evidence-backed exclusion over 0 screening(s), and 19 unresolved over 19
 [kinolaika] unresolved: Antti Autio, Dave Lindholm & Pepe Ahlqvist: WALKIN' BLUES -kiertue, Eternal Erection, Hopeasiivet, Livemusavisa, Lyhytelokuvapäivä: Coffee n' Movies, Lyhytelokuvapäivä: Kerttu Matinpuro -elokuvat, Lyhytelokuvapäivä: Ovis Aries, Lyhytelokuvapäivä: PÄIVÄLIPPU, Lyhytelokuvapäivä: Satumaa, Lyhytelokuvapäivä: Stadin AO-sarja, Lyhytelokuvapäivä: Toivo
 [kinolaika] override a-fox-under-a-pink-moon: evidence-unavailable
@@ -14,30 +14,30 @@
 [kinolaika] override naza: evidence-unavailable
 [kinolaika] override pikku-kummitus-lapanen-keppostelee: evidence-unavailable
 [kinolaika] override two-seasons-two-strangers: active
-[kinolaika] Kino Laika: 32 showtimes, 10 dates
-[kinolaika] Kino Laika: 32 showtimes, 10 dates
+[kinolaika] Kino Laika: 30 showtimes, 9 dates
+[kinolaika] Kino Laika: 30 showtimes, 9 dates
 [kinolaika] synopses merged: 0
-[kinomyyri] 32 screening(s) listed, 22 film page(s) read
+[kinomyyri] 29 screening(s) listed, 21 film page(s) read
 [kinomyyri] omitted 0 confirmed non-film(s) by evidence-backed exclusion over 0 screening(s), and 3 unresolved over 4
 [kinomyyri] unresolved: Calle Málaga - muistojeni katu, Kari Juusosen juhlanäytös: Lyhytelokuvia, Koulunäytös
 [kinomyyri] override kojootti-vs-acme-dub: evidence-unavailable
 [kinomyyri] override must-pori-nakku: evidence-unavailable
 [kinomyyri] 4 film(s) with a language name not read, that part left blank: Berliinin sankari (saksan); Lapin sota (saami); Me olemme Pariisin orkesteri (ranskan); Nina Roza (ranskan, bulgarialainen)
-[kinomyyri] Kino Myyri: 28 showtimes, 11 dates
-[kinomyyri] Kino Myyri: 28 showtimes, 11 dates
+[kinomyyri] Kino Myyri: 25 showtimes, 10 dates
+[kinomyyri] Kino Myyri: 25 showtimes, 10 dates
 [kinomyyri] synopses merged: 0
-[kinokonepaja] 51 screening(s) listed, 15 film page(s) read
+[kinokonepaja] 52 screening(s) listed, 15 film page(s) read
 [kinokonepaja] omitted 0 confirmed non-film(s) by evidence-backed exclusion over 0 screening(s), and 3 unresolved over 3
 [kinokonepaja] unresolved: Cold November, Reel Rock Film Tour 20, The BritRock Film Tour 2026
 [kinokonepaja] override edward-scissorhands: evidence-unavailable
 [kinokonepaja] override gremlins: evidence-unavailable
 [kinokonepaja] override nightmare-on-elm-street: evidence-unavailable
 [kinokonepaja] 4 film(s) with a language name not read, that part left blank: A shelter Among the Clouds (albania); Dua (albania, serbia); Helena Ranta – Sodan viimeinen sana (serbia, albania); Shame and Money (albania)
-[kinokonepaja] Kino Konepaja: 48 showtimes, 25 dates
-[kinokonepaja] Kino Konepaja: 48 showtimes, 25 dates
+[kinokonepaja] Kino Konepaja: 49 showtimes, 27 dates
+[kinokonepaja] Kino Konepaja: 49 showtimes, 27 dates
 [kinokonepaja] synopses merged: 0
-[run] http: 0 revalidated (304), 120 full, 24 not stored (origin said no-store), 47 cache entries written
+[run] http: 0 revalidated (304), 118 full, 23 not stored (origin said no-store), 45 cache entries written
 [run] hosts: 4 attempted -- kinokonepaja.fi, kinomyyri.fi, www.kinokilta.fi, www.kinolaika.fi
-[run] kinola: 4 venues, 164 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
-[run] timing: 4 site(s), 214.1s of fetching added up across workers that overlap, longest site 77.8s, longest queue wait 92.1s, 77.8s wall from this module's first fetch starting to its last ending
+[run] kinola: 4 venues, 160 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
+[run] timing: 4 site(s), 257.2s of fetching added up across workers that overlap, longest site 92.1s, longest queue wait 113.0s, 92.1s wall from this module's first fetch starting to its last ending
 exit=0
