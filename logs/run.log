@@ -1,15 +1,17 @@
 [token] using FINNKINO_TOKEN from the environment
 [sites] 17 cinemas
-[schedule] 2026-11-19: 63 showtimes
 [schedule] 2026-11-20: 382 showtimes
 [schedule] 2026-11-21: 423 showtimes
 [schedule] 2026-11-22: 417 showtimes
 [schedule] 2026-11-23: 327 showtimes
 [schedule] 2026-11-24: 327 showtimes
 [schedule] 2026-11-25: 362 showtimes
-[tmdb] no TMDB match (3): Joulupukin salainen paja | Klara ja aurinko | Me olemme Pariisin orkesteri
-[tmdb] weak candidate kept, not searched until 2026-11-20 (8): BTS WORLD TOUR 'ARIRANG' IN KAOHSIUNG: LIVE VIEWIN -> BTS WORLD TOUR 'ARIRANG' IN KAOHSIUNG: LIVE VIEWING | Dry Leaf -> ხმელი ფოთოლი | Godzilla Minus Zero -> ゴジラ-0.0 | Hadoota -> حدوتة | Leviticus -> Leviticus | NT LIVE: The Audience -> National Theatre Live: The Audience | Ramayana: Rise of a Legend -> रामायणम् | Two Seasons, Two Strangers -> 旅と日々
-[tmdb] 0 new lookups, 0 re-checks, cache 201, 126 mergeable by id
+[schedule] 2026-11-26: 353 showtimes
+[tmdb] no TMDB match (4): Baletti: Manon | Joulupukin salainen paja | Klara ja aurinko | Me olemme Pariisin orkesteri
+[tmdb] weak match, no exact title (9): Andrew Lloyd Webber’s Starlight Express  -> Andrew Lloyd Webber's Starlight Express: Live On-Stage | BTS WORLD TOUR 'ARIRANG' IN KAOHSIUNG: LIVE VIEWIN -> BTS WORLD TOUR 'ARIRANG' IN KAOHSIUNG: LIVE VIEWING | Dry Leaf -> ხმელი ფოთოლი | Godzilla Minus Zero -> ゴジラ-0.0 | Hadoota -> حدوتة | Leviticus -> Leviticus | NT LIVE: The Audience -> National Theatre Live: The Audience | Ramayana: Rise of a Legend -> रामायणम् | Two Seasons, Two Strangers -> 旅と日々
+[tmdb] rating held back, under 25 votes (4): Dry Leaf (7.3 / 3 votes) | Hadoota (7.0 / 1 votes) | NT LIVE: The Audience (8.3 / 11 votes) | Two Seasons, Two Strangers (7.2 / 17 votes)
+[tmdb] rating refresh: 10 scheduled, 10 re-read, 0 failed and still due, 0 deferred (budget 12)
+[tmdb] 10 new lookups, 23 re-checks, cache 203, 126 mergeable by id
 [films] 63 film entries
 [attrs] dropped, neither format nor language (8): Maxim | Neulonta | OCAP | Pkseutu | SEVERAL | TKU & R | Tampere | Varaus20
 [schedule] 17 venue files written, 0 kept as-is

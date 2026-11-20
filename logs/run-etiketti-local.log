@@ -1,4 +1,4 @@
-[kotkanleffat] Kinopalatsi Kotka: 38 showtimes, 21 dates
+[kotkanleffat] Kinopalatsi Kotka: 37 showtimes, 20 dates
 [kotkanleffat] Trio 123: 56 showtimes, 7 dates
 [kotkanleffat] synopses merged: 0
 [savonkinot] Tapio Joensuu: 73 showtimes, 17 dates
@@ -36,5 +36,5 @@
 [run] venuelists-local.json rewritten
 [run] http: 0 revalidated (304), 213 full, 213 not stored (origin said no-store), 0 cache entries written
 [run] hosts: 12 attempted -- biogrand.fi, haapamaenelokuvat.fi, ihmekompleksi.fi, kiertue.cine.fi, kino.joutsa.fi, kino123.fi, kotkanleffat.fi, lippu.elokuvateatteristar.fi, studio123.fi, studiot123.com, www.leffabuumi.fi, www.savonkinot.fi
-[run] etiketti: 19 venues, 704 showtimes, 0 stale, 0 unverified, 0 pending, 1 with no programme, 0 failures
+[run] etiketti: 19 venues, 703 showtimes, 0 stale, 0 unverified, 0 pending, 1 with no programme, 0 failures
 exit=0
