@@ -10,21 +10,21 @@
 [biovuoksi] Bio Vuoksi: 24 showtimes, 10 dates
 [biovuoksi] synopses merged: 0
 [kinoiiris] Kino Iiris: 32 showtimes, 21 dates
-[kinoiiris] synopses merged: 0
+[kinoiiris] synopses merged: 1
 [kkino] K-Kino: 10 showtimes, 5 dates
 [kkino] synopses merged: 0
 [biograni] Bio Grani: 7 showtimes, 3 dates
 [biograni] synopses merged: 0
-[niagara] Cinema Niagara: 45 showtimes, 18 dates
+[niagara] Cinema Niagara: 43 showtimes, 18 dates
 [niagara] synopses merged: 0
 [niagara] screening-note sentences left out of synopses: 1
 [kinokaustinen] Kino Kaustinen: no programme at the moment (adapter confirmed the venue empty); publishing an empty file
 [kinokaustinen] synopses merged: 0
 [kinokaustinen] no programme published: https://kinokaustinen.fi/elokuvat/ohjelmistossa renders the template's empty programme
-[kinomarilyn] Kino Marilyn: 52 showtimes, 24 dates
+[kinomarilyn] Kino Marilyn: 54 showtimes, 24 dates
 [kinomarilyn] synopses merged: 0
-[run] http: 0 revalidated (304), 184 full, 184 not stored (origin said no-store), 0 cache entries written
+[run] http: 0 revalidated (304), 185 full, 185 not stored (origin said no-store), 0 cache entries written
 [run] hosts: 11 attempted -- biograni.fi, biovuoksi.fi, cinemaniagara.fi, jamsankinotar.fi, k-kino.fi, kinoiiris.com, kinojuha.fi, kinokaustinen.fi, kinopirtti.fi, www.biorex.org, www.kinomarilyn.fi
 [run] etiketti: 11 venues, 339 showtimes, 0 stale, 0 unverified, 0 pending, 1 with no programme, 0 failures
-[run] timing: 11 site(s), 334.3s of fetching added up across workers that overlap, longest site 62.5s, longest queue wait 50.5s, 102.6s wall from this module's first fetch starting to its last ending
+[run] timing: 11 site(s), 369.5s of fetching added up across workers that overlap, longest site 65.5s, longest queue wait 49.4s, 105.7s wall from this module's first fetch starting to its last ending
 exit=0

@@ -1,8 +1,16 @@
-[kinopiispanristi] FAILED: https://www.kinopiispanristi.fi/: the host served a bot-check page in place of the programme (11937 B served, titled "One moment, please...", Server: openresty/1.31.1.1)
-[kinolumo] FAILED: https://www.kinolumo.fi/: the host served a bot-check page in place of the programme (11969 B served, titled "One moment, please...", Server: openresty/1.31.1.1)
-[laitilankino] FAILED: https://www.laitilankino.fi/: the host served a bot-check page in place of the programme (11993 B served, titled "One moment, please...", Server: openresty/1.31.1.1)
-[run] http: 0 revalidated (304), 3 full, 3 not stored (origin said no-store), 0 cache entries written
+[kinopiispanristi] film pages: 20 with a synopsis, 1 without, 21 films
+[kinopiispanristi] strand prefix split off 2 showtimes
+[kinopiispanristi] Kino Piispanristi: 112 showtimes, 12 dates
+[kinopiispanristi] synopses merged: 0
+[kinolumo] film pages: 16 with a synopsis, 1 without, 17 films
+[kinolumo] strand prefix split off 2 showtimes
+[kinolumo] Kino Lumo: 63 showtimes, 10 dates
+[kinolumo] synopses merged: 0
+[laitilankino] film pages: 6 with a synopsis, 0 without, 6 films
+[laitilankino] Laitilan Kino: 8 showtimes, 5 dates
+[laitilankino] synopses merged: 0
+[run] http: 0 revalidated (304), 47 full, 0 not stored (origin said no-store), 0 cache entries written
 [run] hosts: 3 attempted -- www.kinolumo.fi, www.kinopiispanristi.fi, www.laitilankino.fi
-[run] cinemahouse: 0 venues, 0 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 3 failures
-[run] timing: 3 site(s), 2.8s of fetching added up across workers that overlap, longest site 1.0s, longest queue wait 59.8s, 2.8s wall from this module's first fetch starting to its last ending
-exit=1
+[run] cinemahouse: 3 venues, 183 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
+[run] timing: 3 site(s), 103.6s of fetching added up across workers that overlap, longest site 46.9s, longest queue wait 60.4s, 47.2s wall from this module's first fetch starting to its last ending
+exit=0
