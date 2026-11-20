@@ -1448,6 +1448,7 @@
     "elokuviin",
     "ihmekompleksi",
     "isohannu",
+    "jarvelankino",
     "kino123",
     "kinoakseli",
     "kinoelo",
@@ -1514,6 +1515,7 @@
     "elokuviin",
     "ihmekompleksi",
     "isohannu",
+    "jarvelankino",
     "kino123",
     "kinoakseli",
     "kinoelo",
@@ -2662,19 +2664,6 @@
     "fi": "Ching Siu-Tungin tuottama ja koreografioima Heroic Trio on mainio postmoderni keitos, jossa on lähes campisti yhdistetty moderni sarjakuvakerronta kiinalaiseen mytologiaan. Elokuvan kaupunkimaisema tuo mukavasti mieleen modernin sarjakuvan, joissa naamioituneet supersankarit pukeutuvat rohkeasti sukkahousuihin ja käyvät taistoon rikollisuutta vastaan. Heroic Trio on kuitenkin ihan aito aasialainen vastike aiheelle: sen pahikset eivät ole saaneet voimiaan ultramodernissa säteilyonnettomuudessa vaan kiinalaisen mytologian yliluonnollisuutta huokuvasta menneisyydestä. Tarinan sankareina seikkailevat Näkymätön nainen, Ihmenainen ja Varkaanpyytäjä. Rooleissa nähdään kauniita kiinattaria – Michelle Yeoh (ent. Khan), Anita Mui ja Maggie Cheung – jotka ovat ansioituneet näyttelijöinä ja tähtinä tietenkin jo ennen Heroic Trioa, missä naisten tähtikuvaa onkin hyödynnetty reippaasti. Sankarillisen trion seikkailujen jälkeen mm. Michelle Yeoh on nähty myös Hiipivän tiikerin, kätketyn lohikäärmeen (2000) ja Bond-leffan Tomorrow Never Dies (1997) pääosissa, Maggie Cheung puolestaan mm. Irma Vepinä (1996), Peter Chanin sympaattisessa elokuvassa Comrades: Almost a Love Story (1996) sekä Wong Kar-Wain voitokkaassa elokuvassa In the Mood for Love (2000). Ohjaaja Olivier Assayasin Irma Vep -valintaan vaikutti aikoinaan mm. juuri Heroic Trio, jossa Maggie Cheung taivuttelee norjasti jäseniään Siu-Tungin tarkassa koreografiassa – sääli, että myöhemmin paljastui, että näissä kohtauksissa esiintyikin taistelulajit taitava stuntti, eikä Cheung itse. Voimakkaat naishahmot eivät ole harvinaisia Hongkong-elokuvassa, vaan näitä toiminnallisia taistelijoita esiintyy varsinkin uudemmassa elokuvassa. Heroic Trion tekee kuitenkin erityisen kiin-nostavaksi elokuvan kulttuuritausta ja naisen yhteiskunnallinen asema , mikä on Kiinassa ollut vuosisatoja tavalla tai toisella sorrettu. 1990-luvun alussa sankaritrion ylivoimaiset toimijat ovat kuitenkin naisia, kun miehet puolestaan ovat heikkoja statisteja. Kiinalaisessa kerrontaperinteessä kyky muodonmuutokseen ilmentää äärimmäisen pahuuden yliluonnollista voimaa. Mielenkiintoista on, että tämä muodonmuutoksen kyky kohdistuu muutamassakin Hongkong elokuvassa kykyyn vaihtaa sukupuolta, häilyä sukupuolisen identiteetin epämääräisessä välitilassa. Tämä käy varsin hyvin ilmi niin Ching Siu Tungin Aavesoturissa (1987) ja Heroic Triossa kuin Ronny Yun Ritari Jiang-hu:n valkohiuksisessa morsiamessakin (1993): näissä äärimmäinen paha konkreettisesti häilyy sukupuolten välisessä rajamaastossa. Sekä Aavesoturin puudemoni että Heroic Trion maailmanvalloituksesta haaveileva demoni ovat kumpainenkin androgyynejä hahmoja, joissa on sekä naisen ja miehen piirteitä. Ritari Jiang-hun äärimmäinen paha puolestaan esiintyy siamilaisten kaksosten hahmossa: Francis Ng 'n ja Elaine Luin esittämä, pelkoa herättävä sekasikiö on yhtä aikaa mies ja nainen."
    },
    "tr": ""
-  },
-  "if i had legs i d kick you": {
-   "id": 1160360,
-   "img": "data/posters/b15abf871326f95a.jpg",
-   "r": 6.3,
-   "s": {
-    "en": "With her life crashing down around her, Linda attempts to navigate her child's mysterious illness, her absent husband, a missing person, and an increasingly hostile relationship with her therapist.",
-    "fi": ""
-   },
-   "tr": "https://www.youtube.com/watch?v=-oDLBRLkflo",
-   "ts": [
-    "en"
-   ]
   },
   "ihmismetsästäjät": {
    "r": 0,
@@ -3853,6 +3842,14 @@
    "s": {
     "en": "",
     "fi": "Uusi, vastustamaton tulkinta Jane Austenin ikonisesta Järki ja tunteet -teoksesta: hurmaava, nokkela ja syvästi samaistuttava tarina rakkaudesta ja sisaruudesta. Pääosissa loistavat Daisy Edgar-Jones ja Esmé Creed-Miles."
+   },
+   "tr": ""
+  },
+  "kirjastokino last christmas": {
+   "r": 0,
+   "s": {
+    "en": "",
+    "fi": "Tervetuloa toiseen KirjastoKinoon keskiviikkona 2.12. klo 17.00! Tämä elokuvailta yhdistää elokuvan, kirjat ja keskustelun. Tule katsomaan Kotiseutuhuoneeseen ilmaiseksi Paul Feigin vuonna 2019 ensi-iltansa saanutta elokuvaa Last Christmas. Se on romanttinen komediaelokuva, joka sijoittuu jouluiseen Lontooseen ja muistuttaa sydämen äänen kuuntelun tärkeydestä. Lisäksi on lainattavissa jouluisia kirjoja sekä mahdollisuus keskustella elokuvan herättämistä ajatuksista. Elokuvan kesto on 1 tunti ja 43 minuuttia ja ikäraja K7. Lämpimästi tervetuloa KirjastoKinoon! Tapahtuma on osa Pakkopullasta polttoaineeksi – Voimaa ja virtaa lukemisesta -hanketta, jonka on rahoittanut Lupa- ja valvontavirasto."
    },
    "tr": ""
   },
@@ -5438,17 +5435,13 @@
   },
   "marsupilami": {
    "id": 1145899,
-   "img": "data/posters/d24763d2c244cd16.jpg",
-   "r": 6.3,
+   "r": 0,
    "s": {
-    "en": "David is tasked to deliver a mysterious package from South America, only to find out he is carrying a baby Marsupilami!",
+    "en": "",
     "fi": "Perhelomaan tulee uusia käänteitä, kun perheenisä saa Etelä-Amerikasta yllättävän paketin. Seikkailu lähtee liikkeelle kun salaperäisestä laatikosta paljastuu keltainen, täplikäs ja hulvaton veijari – vauva Marsupilami, joka tuo vauhtia niin perheen kuin koko lomaristeilynkin menoon. Marsupilami sulattaa kovimmankin sydämen. Ihmeolento Marsupilami perustuu samannimiseen, André Franquinin luomaan suosittuun belgialaiseen sarjakuvasarjaan. Marsupilami selviää niin villissä viidakossa kuin kaupungissakin nopean älynsä, rajattoman mielikuvituksensa sekä voimakkaan häntänsä avulla.",
     "sv": "För att rädda sitt jobb går David med på en galen plan: han måste ta med sig ett mystiskt paket från Sydamerika. Han hamnar på en kryssningsfartyg med sitt ex Tess, sin son Leo och sin klumpiga, och inte så smarta kollega Stéphane, som David använder för att i hemlighet transportera paketet åt honom. Men allt går fel när Stéphane av misstag öppnar paketet och släpper lös en söt liten Marsupilami. Den sällsynta och busiga lilla varelsen förvandlar snabbt resan till ett fullständigt kaos. Den extraordinära varelsen Marsupilami bygger på den populära belgiska serien med samma namn, skapad av André Franquin. Vare sig det är i den vilda djungeln eller i storstaden klarar sig Marsupilamin utmärkt tack vare sin kvickhet, gränslösa fantasi och kraftfulla svans."
    },
-   "tr": "https://www.youtube.com/watch?v=pXGuY9qcSe0",
-   "ts": [
-    "en"
-   ]
+   "tr": ""
   },
   "marsupilami dub": {
    "id": 1145899,
@@ -5711,13 +5704,6 @@
   "minä ja riikka purra": {
    "id": 1789735,
    "img": "data/posters/00ba33a99fa0e923.jpg",
-   "kr": "S",
-   "krs": [
-    "joutsankino",
-    "kinopirtti",
-    "korjaamo",
-    "star"
-   ],
    "r": 0,
    "s": {
     "en": "",
@@ -7863,16 +7849,12 @@
   },
   "resan till piemonte matka piemonteen": {
    "id": 1545391,
-   "img": "data/posters/e753668f77270e2f.jpg",
    "r": 0,
    "s": {
-    "en": "The film follows four newly retired people who travel to Italy to help Eva sell an olive farm she inherited. But during their sunny stay, new thoughts arise about life, freedom and the dreams they have yet to realize. The trip becomes a chance to reevaluate what really matters when you reach the second half of life.",
+    "en": "",
     "fi": "Neljä ystävää matkustaa yhdessä Italiaan, missä Eva on perinyt oliivitilan. Tarkoituksena on myydä tila, mutta perillä herää kysymys: mitä heillä oikeastaan on Ruotsissa, minkä vuoksi palata takaisin? Italiassa sen sijaan on aurinkoa, hyvää ruokaa ja hurmaavia kyläläisiä. Eikö juuri nyt olisi aika tarttua hetkeen ja toteuttaa kaikki unelmansa?"
    },
-   "tr": "https://www.youtube.com/watch?v=9U5Kwlm4KcQ",
-   "ts": [
-    "en"
-   ]
+   "tr": ""
   },
   "resident evil": {
    "id": 1423191,
