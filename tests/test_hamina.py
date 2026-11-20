@@ -101,6 +101,12 @@ class RowsTest(unittest.TestCase):
         self.assertEqual(([s["start"] for s in shows], report["corrected"]),
                          (["2026-12-02T19:45:00+02:00"], []))
 
+    def test_a_date_without_its_last_dot_still_reads(self):
+        shows, _ = self.rows(page(block("Nälkäpeli", ["Ke 2.12. Klo 16:30", "To 3.12 Klo 17:00"])),
+                             today=datetime.date(2026, 11, 20))
+        self.assertEqual([s["start"] for s in shows],
+                         ["2026-12-02T16:30:00+02:00", "2026-12-03T17:00:00+02:00"])
+
     def test_a_line_outside_the_window_fails_the_site(self):
         with self.assertRaises(H.ShowRowError):
             self.rows(page(block("A", ["Ti 1.6. Klo 17:00", "Ke 2.6. Klo 13:00"])))

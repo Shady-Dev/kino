@@ -73,8 +73,9 @@ TITLE_RE = re.compile(r'class="large-content-showcase__title[^"]*"[^>]*>(.*?)</h
 PARA_RE = re.compile(r"<p>(.*?)</p>", re.S | re.I)
 IMG_RE = re.compile(r'<img[^>]*?width="(\d+)"[^>]*?height="(\d+)"[^>]*?src="([^"]+)"', re.I)
 # `To 24.9. Klo 13:00`, with an optional `| Liput 8€` for that showing alone, or
-# `(Liput 8€)` as the page wrote it on 2026-10-04.
-SHOW_RE = re.compile(r"(ma|ti|ke|to|pe|la|su)\s+(\d{1,2})\.(\d{1,2})\.\s*klo\s*(\d{1,2})[:.](\d{2})"
+# `(Liput 8€)` as the page wrote it on 2026-10-04. `To 3.12 Klo 17:00`, without the last dot,
+# on 2026-11-20.
+SHOW_RE = re.compile(r"(ma|ti|ke|to|pe|la|su)\s+(\d{1,2})\.(\d{1,2})\.?\s*klo\s*(\d{1,2})[:.](\d{2})"
                      r"(?:[^\n]*?[|(]\s*liput\s*([\d.,]+)\s*€)?", re.I)
 LABEL_RE = re.compile(r"^([A-Za-zÄÖÅäöå -]{3,20}):\s*(.+)$")
 # "1 t 27 min", and "1 h 42 min" on two films read 2026-10-04.
