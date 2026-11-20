@@ -1,6 +1,11 @@
-[kinohamina] FAILED: kinohamina: 'Punaista lunta' prints Ke 2.11. and no candidate year carries that weekday inside the window, so the screening cannot be placed
+[kinohamina] 24 screening(s) over 6 film(s)
+[kinohamina] 1 film(s) with no screening line, left out: Joulupukin salainen paja
+[kinohamina] 2 date(s) corrected by hand: Punaista lunta Ke 2.11. -> 2.12.; Punaista lunta To 3.11. -> 3.12.
+[kinohamina] Kino Hamina: 24 showtimes, 12 dates
+[kinohamina] Kino Hamina: 24 showtimes, 12 dates
+[kinohamina] synopses merged: 0
 [run] http: 0 revalidated (304), 1 full, 0 not stored (origin said no-store), 0 cache entries written
 [run] hosts: 1 attempted -- www.hamina.fi
-[run] hamina: 0 venues, 0 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 1 failures
-[run] timing: 1 site(s), 3.0s of fetching added up across workers that overlap, longest site 3.0s, longest queue wait 159.3s, 3.0s wall from this module's first fetch starting to its last ending
-exit=1
+[run] hamina: 1 venues, 24 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
+[run] timing: 1 site(s), 2.1s of fetching added up across workers that overlap, longest site 2.1s, longest queue wait 158.5s, 2.1s wall from this module's first fetch starting to its last ending
+exit=0

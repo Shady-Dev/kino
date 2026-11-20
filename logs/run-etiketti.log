@@ -1,6 +1,6 @@
-[biorexkokkola] Bio Rex Kokkola: 32 showtimes, 12 dates
+[biorexkokkola] Bio Rex Kokkola: 31 showtimes, 11 dates
 [biorexkokkola] synopses merged: 0
-[kinopirtti] Kinopirtti: 65 showtimes, 15 dates
+[kinopirtti] Kinopirtti: 64 showtimes, 14 dates
 [kinopirtti] synopses merged: 0
 [kinotar] Kinotar 123: 36 showtimes, 17 dates
 [kinotar] synopses merged: 0
@@ -21,10 +21,10 @@
 [kinokaustinen] Kino Kaustinen: no programme at the moment (adapter confirmed the venue empty); publishing an empty file
 [kinokaustinen] synopses merged: 0
 [kinokaustinen] no programme published: https://kinokaustinen.fi/elokuvat/ohjelmistossa renders the template's empty programme
-[kinomarilyn] Kino Marilyn: 52 showtimes, 24 dates
+[kinomarilyn] Kino Marilyn: 51 showtimes, 23 dates
 [kinomarilyn] synopses merged: 0
 [run] http: 0 revalidated (304), 180 full, 180 not stored (origin said no-store), 0 cache entries written
 [run] hosts: 11 attempted -- biograni.fi, biovuoksi.fi, cinemaniagara.fi, jamsankinotar.fi, k-kino.fi, kinoiiris.com, kinojuha.fi, kinokaustinen.fi, kinopirtti.fi, www.biorex.org, www.kinomarilyn.fi
-[run] etiketti: 11 venues, 315 showtimes, 0 stale, 0 unverified, 0 pending, 1 with no programme, 0 failures
-[run] timing: 11 site(s), 347.0s of fetching added up across workers that overlap, longest site 60.7s, longest queue wait 44.3s, 90.5s wall from this module's first fetch starting to its last ending
+[run] etiketti: 11 venues, 312 showtimes, 0 stale, 0 unverified, 0 pending, 1 with no programme, 0 failures
+[run] timing: 11 site(s), 347.6s of fetching added up across workers that overlap, longest site 61.0s, longest queue wait 43.2s, 96.2s wall from this module's first fetch starting to its last ending
 exit=0
