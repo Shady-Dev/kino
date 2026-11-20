@@ -227,9 +227,11 @@ def api(path, token):
 # on 2026-09-02 as "Keltaiset kirjeet" (62 rows, tagged TR-A by every other chain that
 # screens it) and "I'm Game" (3 rows). LI is its own for Lithuanian, measured on
 # 2026-09-22 as "Sve\u010dias \u2013 The Visitor" at Kinopalatsi Helsinki (2 rows, spoken,
-# with FI and EN subtitles). Everything downstream is keyed by the ISO code:
-# the other adapters publish it and the client's name table knows only it.
-FINNKINO_LANG = {"SE": "SV", "TU": "TR", "MA": "ML", "LI": "LT"}
+# with FI and EN subtitles). GE is ISO 3166 for Georgia, measured on 2026-11-20 as
+# "Dry Leaf" (15 rows), a Georgian film; the language is KA. Everything downstream is
+# keyed by the ISO code: the other adapters publish it and the client's name table knows
+# only it.
+FINNKINO_LANG = {"SE": "SV", "TU": "TR", "MA": "ML", "LI": "LT", "GE": "KA"}
 
 
 def lang_tag(lbl):

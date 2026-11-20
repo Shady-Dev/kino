@@ -75,12 +75,12 @@ class FinnkinoLangTagTest(unittest.TestCase):
                 self.assertEqual(self.tag(f".{code}-A"), f"{code}-A")
                 self.assertEqual(self.tag(f".{code}-S"), f"{code}-S")
 
-    def test_the_map_is_exactly_these_four(self):
-        """Adding a fifth is a decision about Finnkino's vocabulary and gets written
-        here first."""
+    def test_the_map_is_exactly_these_five(self):
+        """Adding a sixth is a decision about Finnkino's vocabulary and gets written
+        here first. GE, the country, joined on 2026-11-20 for Georgian."""
         import fetch_data
         self.assertEqual(fetch_data.FINNKINO_LANG,
-                         {"SE": "SV", "TU": "TR", "MA": "ML", "LI": "LT"})
+                         {"SE": "SV", "TU": "TR", "MA": "ML", "LI": "LT", "GE": "KA"})
 
 
 class NexxoLangTest(unittest.TestCase):
