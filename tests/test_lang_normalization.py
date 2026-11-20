@@ -125,6 +125,7 @@ class NexxoLangTest(unittest.TestCase):
     def test_the_withdrawn_hebrew_code_becomes_he(self):
         """Kino Aurora's "Naza", 2026-10-02: IW-A beside EN-S."""
         self.assertEqual(self.lang("IW", "EN"), "HE-A, EN-S")
+        self.assertEqual(self.lang("IN", "FI"), "ID-A, FI-S")
         self.assertEqual(self.lang("EN-IW", "FI/IW"), "EN-A, HE-A, FI-S, HE-S")
 
     def test_every_output_is_a_well_formed_tag_list_or_empty(self):
@@ -152,14 +153,14 @@ class NameTableTest(unittest.TestCase):
         t = client_tables()
         self.assertEqual(list(t["fi"]), list(t["sv"]))
         self.assertEqual(list(t["fi"]), list(t["en"]))
-        self.assertEqual(list(t["fi"])[-10:],
-                         ["LT", "ML", "FA", "HE", "PS", "EL", "NE", "RO", "YI", "TE"])
-        self.assertEqual(len(t["fi"]), 34)
+        self.assertEqual(list(t["fi"])[-11:],
+                         ["LT", "ML", "FA", "HE", "PS", "EL", "NE", "RO", "YI", "TE", "ID"])
+        self.assertEqual(len(t["fi"]), 35)
 
     def test_the_names_follow_the_tables_style(self):
         """Lower-case nominatives in fi and sv, capitalised in en, like every neighbour."""
         t = client_tables()
-        for code in ("LT", "ML", "FA", "HE", "PS", "EL", "NE", "RO", "YI", "TE"):
+        for code in ("LT", "ML", "FA", "HE", "PS", "EL", "NE", "RO", "YI", "TE", "ID"):
             with self.subTest(code=code):
                 self.assertTrue(t["fi"][code].islower() and t["sv"][code].islower())
                 self.assertTrue(t["en"][code][0].isupper())

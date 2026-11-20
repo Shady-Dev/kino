@@ -171,8 +171,9 @@ def api_url(site, locationid, days):
 
 
 # Codes Nexxo writes that are not this app's: Swedish as SE, the country, and Hebrew as
-# IW, the ISO 639-1 code withdrawn in 1989 (Kino Aurora, "Naza", 2026-10-02).
-CODE_FIX = {"SE": "SV", "IW": "HE"}
+# IW, the ISO 639-1 code withdrawn in 1989 (Kino Aurora, "Naza", 2026-10-02), and
+# Indonesian as IN, withdrawn the same year ("The Act of Killing", 2026-11-20).
+CODE_FIX = {"SE": "SV", "IW": "HE", "IN": "ID"}
 
 
 def _codes(v):

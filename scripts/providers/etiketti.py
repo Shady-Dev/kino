@@ -398,6 +398,7 @@ LANG_NAMES = {
     "hindi": "HI", "turkki": "TR", "georgia": "KA", "tamili": "TA", "liettua": "LT",
     "malajalam": "ML", "persia": "FA", "heprea": "HE", "pa\u0161tu": "PS", "kreikka": "EL",
     "nepali": "NE", "romania": "RO", "jiddi\u0161": "YI", "telugu": "TE",
+    "indonesia": "ID",
 }
 LANG_WORD_RE = re.compile(r"[a-zåäö]+")
 
@@ -425,7 +426,7 @@ EN_NAMES = {
     "chinese": "ZH", "korean": "KO", "hindi": "HI", "turkish": "TR", "georgian": "KA",
     "tamil": "TA", "lithuanian": "LT", "malayalam": "ML", "persian": "FA", "hebrew": "HE",
     "pashto": "PS", "greek": "EL", "nepali": "NE", "romanian": "RO", "yiddish": "YI",
-    "telugu": "TE",
+    "telugu": "TE", "indonesian": "ID",
 }
 STRICT_SPLIT_RE = re.compile(r"\s*(?:,|/|\bja\b|\band\b)\s*", re.I)
 

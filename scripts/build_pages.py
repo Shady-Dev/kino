@@ -382,7 +382,7 @@ LN = {
            "UK": "ukraina", "AR": "arabia", "JA": "japani", "ZH": "kiina", "KO": "korea",
            "HI": "hindi", "TR": "turkki", "KA": "georgia", "TA": "tamili", "LT": "liettua",
            "ML": "malajalam", "FA": "persia", "HE": "heprea", "PS": "pa\u0161tu",
-           "EL": "kreikka", "NE": "nepali", "RO": "romania", "YI": "jiddi\u0161", "TE": "telugu"},
+           "EL": "kreikka", "NE": "nepali", "RO": "romania", "YI": "jiddi\u0161", "TE": "telugu", "ID": "indonesia"},
     "sv": {"FI": "finska", "EN": "engelska", "SV": "svenska", "ES": "spanska",
            "DE": "tyska", "FR": "franska", "IT": "italienska", "RU": "ryska",
            "ET": "estniska", "DA": "danska", "NO": "norska", "IS": "isl\u00e4ndska",
@@ -391,7 +391,7 @@ LN = {
            "KO": "koreanska", "HI": "hindi", "TR": "turkiska", "KA": "georgiska",
            "TA": "tamil", "LT": "litauiska", "ML": "malayalam",
            "FA": "persiska", "HE": "hebreiska", "PS": "pashto", "EL": "grekiska",
-           "NE": "nepali", "RO": "rum\u00e4nska", "YI": "jiddisch", "TE": "telugu"},
+           "NE": "nepali", "RO": "rum\u00e4nska", "YI": "jiddisch", "TE": "telugu", "ID": "indonesiska"},
     "en": {"FI": "Finnish", "EN": "English", "SV": "Swedish", "ES": "Spanish", "DE": "German",
            "FR": "French", "IT": "Italian", "RU": "Russian", "ET": "Estonian", "DA": "Danish",
            "NO": "Norwegian", "IS": "Icelandic", "NL": "Dutch", "PL": "Polish",
@@ -399,7 +399,7 @@ LN = {
            "ZH": "Chinese", "KO": "Korean", "HI": "Hindi", "TR": "Turkish", "KA": "Georgian",
            "TA": "Tamil", "LT": "Lithuanian", "ML": "Malayalam",
            "FA": "Persian", "HE": "Hebrew", "PS": "Pashto", "EL": "Greek", "NE": "Nepali",
-           "RO": "Romanian", "YI": "Yiddish", "TE": "Telugu"},
+           "RO": "Romanian", "YI": "Yiddish", "TE": "Telugu", "ID": "Indonesian"},
 }
 # A code this table does not name still renders, as itself, so a new one is visible on
 # the page rather than lost. `tests/test_landing_pages.py` asserts every code in the
