@@ -1966,7 +1966,6 @@
    "img": "data/posters/ab35e373af42f3c1.jpg",
    "kr": "S",
    "krs": [
-    "kinohamina",
     "kinoolympia"
    ],
    "r": 0,
@@ -3223,6 +3222,7 @@
    "img": "data/posters/0a4381fbfe4b427a.jpg",
    "kr": "K-7",
    "krs": [
+    "kinohamina",
     "kinohannikainen",
     "korjaamo"
    ],
@@ -6186,6 +6186,7 @@
     "jarvelankino",
     "kino123",
     "kinoelo",
+    "kinohamina",
     "kinohannikainen",
     "kinohirvi",
     "kinojuha",
@@ -7514,6 +7515,7 @@
     "joutsankino",
     "kino123",
     "kinoaurora",
+    "kinohamina",
     "kinohannikainen",
     "kinohirvi",
     "kinojuha",
@@ -11002,7 +11004,8 @@
     "biorexkokkola",
     "kinohirvi",
     "niagara",
-    "savonkinot"
+    "savonkinot",
+    "tapiola"
    ],
    "r": 5.9,
    "s": {
@@ -11030,12 +11033,14 @@
    "tr": ""
   },
   "yön lapsi tekijävierailu": {
-   "r": 0,
+   "id": 964849,
+   "img": "data/posters/d0630be5ff40e993.jpg",
+   "r": 5.9,
    "s": {
     "en": "",
     "fi": "Lapsista haaveilevat suomalainen Saga (Seidi Haarla) ja britti Jon (Rupert Grint) muuttavat suomalaisen metsän keskelle taloon, jossa Saga on viettänyt lapsuuden kesät. Pian he saavat terveen pojan, mutta pikkuhiljaa Sagan valtaa pelottava tunne, että vaativassa vauvassa on jotain outoa. Tuoreiden vanhempien kokemukset saavat modernin kansantarun mittasuhteet."
    },
-   "tr": ""
+   "tr": "https://www.youtube.com/watch?v=dWePsu_Kd9c"
   },
   "äideistä parhain": {
    "id": 32990,
