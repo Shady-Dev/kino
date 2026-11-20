@@ -1,6 +1,7 @@
 """Kino Hamina, the town's own cinema on the municipal site. Stdlib only.
 
-One request. `hamina.fi/asukkaalle/vapaa-aika/kulttuuri/kino-hamina/` renders the whole
+One request. `hamina.fi/hyvinvointi-vapaa-aika/kino-hamina/` (moved there from
+`/asukkaalle/vapaa-aika/kulttuuri/kino-hamina/`, which redirects, by 2026-11-20) renders the whole
 programme, one `large-content-showcase` block per film:
 
     <div class="large-content-showcase columns ...">
@@ -58,7 +59,7 @@ FI = ZoneInfo("Europe/Helsinki")
 SITES = [
     {"provider": "kinohamina", "label": "Kino Hamina",
      "base": "https://www.hamina.fi",
-     "listing": "/asukkaalle/vapaa-aika/kulttuuri/kino-hamina/",
+     "listing": "/hyvinvointi-vapaa-aika/kino-hamina/",
      "venues": [{"id": "kinohamina-hamina", "name": "Kino Hamina",
                  "short": "Kino Hamina", "city": "Hamina"}]},
 ]

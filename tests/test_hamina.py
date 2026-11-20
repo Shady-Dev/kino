@@ -31,7 +31,7 @@ import run
 
 SITE = H.SITES[0]
 TODAY = datetime.date(2026, 9, 18)          # a Friday
-PAGE_URL = "https://www.hamina.fi/asukkaalle/vapaa-aika/kulttuuri/kino-hamina/"
+PAGE_URL = "https://www.hamina.fi/hyvinvointi-vapaa-aika/kino-hamina/"
 POSTER = ('<img loading="lazy" width="768" height="1097" '
           'src="https://efeh4kjo5c9.exactdn.com/app/uploads/sites/2/2026/09/juliste.webp" />')
 LANDSCAPE = ('<img loading="lazy" width="1200" height="800" '
