@@ -668,7 +668,6 @@
    "krs": [
     "engel",
     "helios",
-    "ihmekompleksi",
     "kinohannikainen",
     "kinotervakoski",
     "kkino"
@@ -1441,7 +1440,6 @@
     "bioforum",
     "biogrand",
     "biokaari",
-    "biomarilyn",
     "biomarlon",
     "biopallas",
     "biorex",
@@ -1479,7 +1477,6 @@
     "kinovirta",
     "kirkkonummi",
     "kotkanleffat",
-    "kulttuurimylly",
     "kurikankino",
     "kuvatahti",
     "leffabuumi",
@@ -1508,7 +1505,6 @@
     "bioforum",
     "biogrand",
     "biokaari",
-    "biomarilyn",
     "biomarlon",
     "biopallas",
     "biorex",
@@ -1546,7 +1542,6 @@
     "kinovirta",
     "kirkkonummi",
     "kotkanleffat",
-    "kulttuurimylly",
     "kurikankino",
     "kuvatahti",
     "leffabuumi",
@@ -1936,16 +1931,12 @@
   },
   "full contact": {
    "id": 27073,
-   "img": "data/posters/03260a2ea886032a.jpg",
-   "r": 6.8,
+   "r": 0,
    "s": {
-    "en": "In an effort to get his buddy out of a gambling debt, Jeff agrees to join forces with Judge in a weapons heist. The job goes bad and Judge betrays Jeff. Jeff plots the ultimate revenge on Judge and his followers and it is a question of whether he can follow through with his plan.",
+    "en": "",
     "fi": "Taas käy siten, että kaveria autellessa menee hommat huonosti ja koston tielle käy suunta. Meno on varsin rankkaa. Ohjaaja Ringo Lamin päämielenkiinto on todella tehokkaissa toimintajaksoissa ja visuaalisessa tyylittelyssä. Tämä lienee niitä viimeisimpiä kovia honkkarirutistuksia nimekkäimpien ohjaajien siirtyessä John Woon vanavedessä Hollywoodiin."
    },
-   "tr": "https://www.youtube.com/watch?v=1jTmkANCi7g",
-   "ts": [
-    "en"
-   ]
+   "tr": ""
   },
   "fåret shaun och monstret på bondgården": {
    "id": 1477104,
@@ -7030,6 +7021,42 @@
    },
    "tr": ""
   },
+  "pikkuli ja tähtipeura elokuvanäytös": {
+   "id": 1403476,
+   "img": "data/posters/79b249e47f0870db.jpg",
+   "kr": "S",
+   "krs": [
+    "biograni",
+    "biorex",
+    "biosalo",
+    "biostara",
+    "engel",
+    "helios",
+    "isohannu",
+    "kino123",
+    "kinolumo",
+    "kinometso",
+    "kinomyyri",
+    "kinopiispanristi",
+    "kinopirtti",
+    "kinotervakoski",
+    "korjaamo",
+    "kulttuurimylly",
+    "kuvakukko",
+    "savonkinot",
+    "star",
+    "studio123jarvenpaa"
+   ],
+   "r": 0,
+   "s": {
+    "en": "",
+    "fi": "Pikkuli sekä muu Aurinkonummen metsän väki on valmistautumassa jouluun, mutta aikuiset alkavat riidellä ja peruvat koko joulun. Pikkuli ystävineen päättää pelastaa tilanteen ja lähtee lumiseen metsään löytääkseen avuksi tarujen Tähtipeuran. Revontulien loimutessa sinnikäs retkue kohtaa monia seikkailuja, tavoitteenaan pelastaa kaikkien joulu."
+   },
+   "tr": "",
+   "ts": [
+    "fi"
+   ]
+  },
   "pikkuli ja tähtipeura ennakkonäytös": {
    "id": 1403476,
    "r": 0,
@@ -7093,13 +7120,12 @@
   },
   "pimeyden armeija": {
    "id": 766,
-   "img": "data/posters/78268017176f4870.jpg",
-   "r": 7.3,
+   "r": 0,
    "s": {
     "en": "",
     "fi": "Alkukuvana nähdään ARACHNOBODY (15min) Evil Dead -sarjan kolmas osa on samalla hulvattomin ja kesyin. On myös kolmanneksi paras Evil Dead. Ashin koettelemukset jatkuu siitä mihin ne kakkosessa jäi. Jossain keskiajalla ollaan ja kotiin pitäisi päästä. Kyllähän siinä mies joutuu kekseliäisyyttä käyttämään ja venymään monenlaiseen, mutta Ash hoitaa. Onhan apuna aina luotettava moottorisaha ja mimmikin löytyy mukaan luonnostaan."
    },
-   "tr": "https://www.youtube.com/watch?v=UHZQEtG8xYo"
+   "tr": ""
   },
   "pirjo i sverige": {
    "id": 1729175,
@@ -7108,7 +7134,6 @@
    "krs": [
     "biorex",
     "elokuviin",
-    "ihmekompleksi",
     "isohannu",
     "kino123",
     "kinopiispanristi",
@@ -7371,7 +7396,8 @@
    "krs": [
     "kinoaurora",
     "kinokilta",
-    "kinokonepaja"
+    "kinokonepaja",
+    "sheryl"
    ],
    "r": 6.8,
    "s": {
