@@ -78,6 +78,29 @@ class RowsTest(unittest.TestCase):
         with self.assertRaises(H.ShowRowError):
             self.rows(page(block("A", ["Ma 20.9. Klo 17:00", "Ti 21.9. Klo 13:00"])))
 
+    def test_the_hand_correction_places_the_typoed_lines(self):
+        """The page of 2026-11-20 printed "Ke 2.11." and "To 3.11." for a film that opened
+        on 20.11.; the maintainer's correction places them on 2.12. and 3.12."""
+        shows, report = self.rows(page(block("Punaista lunta", [
+            "Pe 20.11. Klo 17:00", "Ke 2.11. Klo 19:45", "To 3.11. Klo 15:00 (Liput 8€)"])),
+            today=datetime.date(2026, 11, 20))
+        self.assertEqual([(s["start"], s["price"]) for s in shows],
+                         [("2026-11-20T17:00:00+02:00", "11€"),
+                          ("2026-12-02T19:45:00+02:00", "11€"),
+                          ("2026-12-03T15:00:00+02:00", "8€")])
+        self.assertEqual(len(report["corrected"]), 2)
+
+    def test_the_correction_is_for_that_film_alone(self):
+        with self.assertRaises(H.ShowRowError):
+            self.rows(page(block("Uusin painajainen perheessä", ["Ke 2.11. Klo 19:45"])),
+                      today=datetime.date(2026, 11, 20))
+
+    def test_a_fixed_page_needs_no_correction(self):
+        shows, report = self.rows(page(block("Punaista lunta", ["Ke 2.12. Klo 19:45"])),
+                                  today=datetime.date(2026, 11, 20))
+        self.assertEqual(([s["start"] for s in shows], report["corrected"]),
+                         (["2026-12-02T19:45:00+02:00"], []))
+
     def test_a_line_outside_the_window_fails_the_site(self):
         with self.assertRaises(H.ShowRowError):
             self.rows(page(block("A", ["Ti 1.6. Klo 17:00", "Ke 2.6. Klo 13:00"])))

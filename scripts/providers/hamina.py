@@ -82,6 +82,15 @@ MIN_RE = re.compile(r"(?:(\d{1,2})\s*[th]\s*)?(\d{1,3})\s*min", re.I)
 AMOUNT_RE = re.compile(r"^(\d{1,3}(?:[.,]\d{1,2})?)\s*€$")
 TAGS_RE = re.compile(r"<[^>]+>")
 
+# The maintainer's corrections of the page's own typos, (title, weekday, day, month) ->
+# (day, month). Applied only while the printed date contradicts its weekday, so an entry goes
+# quiet once the page is fixed. 2026-11-20: "Ke 2.11." and "To 3.11." under Punaista lunta,
+# which opened 20.11.; 2.12. is a Wednesday and 3.12. a Thursday.
+CORRECTIONS = {
+    ("Punaista lunta", "ke", 2, 11): (2, 12),
+    ("Punaista lunta", "to", 3, 11): (3, 12),
+}
+
 POSTER_MIN_RATIO = 1.2
 POSTER_MIN_WIDTH = 300
 
@@ -154,7 +163,7 @@ def rows(site, page, today=None):
     """-> ([show], report). One row per screening line the page prints."""
     today = today or datetime.datetime.now(FI).date()
     venue = site["venues"][0]
-    out, report = [], {"no_dates": [], "no_price": set()}
+    out, report = [], {"no_dates": [], "no_price": set(), "corrected": []}
     for n, block in enumerate(BLOCK_RE.findall(page)):
         title = _txt(TITLE_RE.search(block).group(1)) if TITLE_RE.search(block) else ""
         if not title:
@@ -172,6 +181,11 @@ def rows(site, page, today=None):
         version = (f.get("versio") or "").strip().upper()
         for wd, day, month, hh, mm, own in found:
             year = resolve_year(int(day), int(month), today, weekday_index(wd), WINDOW)
+            fix = CORRECTIONS.get((title, wd.lower(), int(day), int(month)))
+            if year is None and fix:
+                report["corrected"].append(f"{title} {wd} {day}.{month}. -> {fix[0]}.{fix[1]}.")
+                day, month = str(fix[0]), str(fix[1])
+                year = resolve_year(int(day), int(month), today, weekday_index(wd), WINDOW)
             if year is None:
                 raise ShowRowError(
                     f"{site['provider']}: {title!r} prints {wd} {day}.{month}. and no "
@@ -231,6 +245,9 @@ def fetch_site(site, today=None):
     if report["no_price"]:
         print(f"[{pid}] {len(report['no_price'])} film(s) whose Liput line settles no "
               f"amount: {', '.join(sorted(report['no_price'])[:6])}")
+    if report["corrected"]:
+        print(f"[{pid}] {len(report['corrected'])} date(s) corrected by hand: "
+              f"{'; '.join(report['corrected'])}")
     days = sorted({s["start"][:10] for s in shows})
     print(f"[{pid}] {venue['name']}: {len(shows)} showtimes, {len(days)} dates")
     return per_venue
