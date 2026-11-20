@@ -1,22 +1,29 @@
-[kinoset] Kino 1-2 (Huittinen): 15 showtimes
-[kinoset] Kinema (Loimaa): 11 showtimes
-[kinoset] Bio (Sastamala): 11 showtimes
-[kinoset] Kino 1-2: 15 showtimes, 5 dates
-[kinoset] Kinema: 11 showtimes, 7 dates
-[kinoset] Bio: 11 showtimes, 7 dates
+[http] 403 from kinoset.fi, gave up after 3 attempt(s) -- Server: openresty/1.31.1.1
+[kinoset] locationid 1 FAILED: HTTP Error 403: Forbidden
+[kinoset] locationid 2 FAILED: HTTP Error 403: Forbidden
+[kinoset] locationid 3 FAILED: HTTP Error 403: Forbidden
+[kinoset] Kino 1-2: no showtimes, keeping previous data from 2026-11-20T00:15:27+00:00
+[kinoset] Kinema: no showtimes, keeping previous data from 2026-11-20T00:15:27+00:00
+[kinoset] Bio: no showtimes, keeping previous data from 2026-11-20T00:15:27+00:00
 [kinoset] synopses merged: 0
+[kinoset] no screenings: every venue came back empty and nothing confirms it
 [kinoaurora] Kino Aurora (Jyväskylä): 19 showtimes
 [kinoaurora] Kino Aurora: 19 showtimes, 8 dates
 [kinoaurora] synopses merged: 0
-[kinohirvi] Kino Hirvi (Äänekoski): 24 showtimes
-[kinohirvi] Kino Hirvi: 24 showtimes, 5 dates
+[http] 403 from kinohirvi.fi, gave up after 3 attempt(s) -- Server: openresty/1.31.1.1
+[kinohirvi] locationid 2 FAILED: HTTP Error 403: Forbidden
+[kinohirvi] Kino Hirvi: no showtimes, keeping previous data from 2026-11-20T00:15:27+00:00
 [kinohirvi] synopses merged: 0
-[biosade] Bio Säde (Mänttä): 16 showtimes
-[biosade] Bio Säde: 16 showtimes, 5 dates
+[kinohirvi] no screenings: every venue came back empty and nothing confirms it
+[biosade] locationid 4 FAILED: HTTP Error 403: Forbidden
+[biosade] Bio Säde: no showtimes, keeping previous data from 2026-11-20T00:15:27+00:00
 [biosade] synopses merged: 0
-[kinoolympia] Kino Olympia (Hanko): 20 showtimes
-[kinoolympia] Kino Olympia: 20 showtimes, 9 dates
+[biosade] no screenings: every venue came back empty and nothing confirms it
+[http] 403 from kino-olympia.fi, gave up after 3 attempt(s) -- Server: Apache
+[kinoolympia] locationid 1 FAILED: HTTP Error 403: Forbidden
+[kinoolympia] Kino Olympia: no showtimes, keeping previous data from 2026-11-20T00:15:27+00:00
 [kinoolympia] synopses merged: 0
+[kinoolympia] no screenings: every venue came back empty and nothing confirms it
 [jarvelankino] Järvelän Kino (Järvelä): 6 showtimes
 [jarvelankino] Järvelän Kino: 6 showtimes, 5 dates
 [jarvelankino] synopses merged: 0
@@ -43,9 +50,14 @@
 [biostara] Bio Stara (Paimio): 21 showtimes
 [biostara] Bio Stara: 21 showtimes, 5 dates
 [biostara] synopses merged: 0
-[run] http: 0 revalidated (304), 11 full, 11 not stored (origin said no-store), 0 cache entries written
+[run] http: 0 revalidated (304), 5 full, 5 not stored (origin said no-store), 0 cache entries written
 [run] hosts: 6 attempted -- biosalo.fi, jarvelankino.fi, kino-olympia.fi, kinoaurora.fi, kinohirvi.fi, kinoset.fi
 [run] pending: kinometso has 4 venue(s) with no programme yet: km-tikkakoski, km-vaajakoski, km-laukaa, km-toivakka
-[run] nexxo: 14 venues, 215 showtimes, 0 stale, 0 unverified, 4 pending, 0 with no programme, 0 failures
-[run] timing: 9 site(s), 40.5s of fetching added up across workers that overlap, longest site 10.8s, longest queue wait 0.0s, 10.8s wall from this module's first fetch starting to its last ending
+[run] partial: kinoset kept previous data for 3 venue(s): ks-huittinen, ks-loimaa, ks-sastamala
+[run] partial: kinohirvi kept previous data for 1 venue(s): hi-aanekoski
+[run] partial: biosade kept previous data for 1 venue(s): sa-mantta
+[run] partial: kinoolympia kept previous data for 1 venue(s): ol-hanko
+[run] no screenings: 4 site(s) kept their previous files: kinoset, kinohirvi, biosade, kinoolympia
+[run] nexxo: 8 venues, 118 showtimes, 6 stale, 0 unverified, 4 pending, 0 with no programme, 0 failures
+[run] timing: 9 site(s), 151.1s of fetching added up across workers that overlap, longest site 66.6s, longest queue wait 0.0s, 66.6s wall from this module's first fetch starting to its last ending
 exit=0
