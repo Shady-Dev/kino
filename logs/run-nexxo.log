@@ -7,8 +7,7 @@
 [kinoset] synopses merged: 0
 [kinoaurora] Kino Aurora (Jyväskylä): 19 showtimes
 [kinoaurora] Kino Aurora: 19 showtimes, 8 dates
-[kinoaurora] synopses merged: 2
-[kinoaurora] synopses by language: en 1, fi 1
+[kinoaurora] synopses merged: 0
 [kinohirvi] Kino Hirvi (Äänekoski): 24 showtimes
 [kinohirvi] Kino Hirvi: 24 showtimes, 5 dates
 [kinohirvi] synopses merged: 0
@@ -48,5 +47,5 @@
 [run] hosts: 6 attempted -- biosalo.fi, jarvelankino.fi, kino-olympia.fi, kinoaurora.fi, kinohirvi.fi, kinoset.fi
 [run] pending: kinometso has 4 venue(s) with no programme yet: km-tikkakoski, km-vaajakoski, km-laukaa, km-toivakka
 [run] nexxo: 14 venues, 215 showtimes, 0 stale, 0 unverified, 4 pending, 0 with no programme, 0 failures
-[run] timing: 9 site(s), 40.6s of fetching added up across workers that overlap, longest site 10.4s, longest queue wait 0.0s, 10.4s wall from this module's first fetch starting to its last ending
+[run] timing: 9 site(s), 40.5s of fetching added up across workers that overlap, longest site 10.8s, longest queue wait 0.0s, 10.8s wall from this module's first fetch starting to its last ending
 exit=0
