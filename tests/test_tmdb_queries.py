@@ -176,6 +176,11 @@ class SubtitledMarkerTest(unittest.TestCase):
         self.assertEqual(enrich_tmdb.clean("Lapin sota (englanninkielinen tekstitys)"),
                          "Lapin sota")
 
+    def test_a_bracketed_makers_visit_comes_off(self):
+        # Kino Tapiola, 2026-11-20.
+        self.assertEqual(enrich_tmdb.clean("Yön lapsi (tekijävierailu!)"), "Yön lapsi")
+        self.assertEqual(enrich_tmdb.clean("Romeo + Juliet"), "Romeo + Juliet")
+
     def test_subtitled_in_english_comes_off_too(self):
         # Bio Vuoksi, 2026-11-15.
         self.assertEqual(enrich_tmdb.clean("Lapin sota (tekstitetty englanniksi)"), "Lapin sota")

@@ -184,9 +184,11 @@ TRAIL_FORMAT = re.compile(r"(?<=\w)(?:\s+(?:2d|3d|imax|4k)\b)+\s*$", re.I)
 # "keskustelutilaisuus" is here although it closes nothing today: "Suomi radalla" has no
 # TMDB record either way, and leaving the noise on its search string would be wrong even
 # where the answer does not change.
+# 2026-11-20: Kino Tapiola's "Yön lapsi (tekijävierailu!)" brackets the visit with no "+".
 TRAIL_EVENT = re.compile(
-    r"\s*\(?\s*\+\s*(?:tekij[\u00e4a]vierailu|ohjaajavierailu|leffalukupiiri"
-    r"|keskustelutilaisuus|keskustelu)\s*\)?\s*$",
+    r"\s*(?:\(\s*tekij[\u00e4a]vierailu\s*!?\s*\)\s*$|"
+    r"\(?\s*\+\s*(?:tekij[\u00e4a]vierailu|ohjaajavierailu|leffalukupiiri"
+    r"|keskustelutilaisuus|keskustelu)\s*\)?\s*$)",
     re.I)
 # The same visit as a bare last word, no "+": Kino Lumo's and Kino Piispanristi's "Pirjo i
 # Sverige TEKIJ\u00c4VIERAILULLA" (2026-09-29) drew an initials tile while every other
