@@ -1883,16 +1883,12 @@
   },
   "forbidden world": {
    "id": 42251,
-   "img": "data/posters/314e746d8c75f108.jpg",
-   "r": 5.3,
+   "r": 0,
    "s": {
-    "en": "In the distant future, a federation marshal arrives at a research lab on a remote planet where a genetic experiment has gotten loose and begins feeding on the dwindling scientific group.",
+    "en": "",
     "fi": "Kaukaisella planeetalla on päässyt syntymään ikävän oloinen hirviö. Tilannetta saapuu ottamaan haltuun näissä hommissa erityisen pätevä avaruuspoliisi. Hirviö on ahkera, raatoja syntyy tyydyttävään tahtiin. Alastomuuttakin on laitettu mukaan lisämausteeksi. Gorea on ilahduttavissa määrin, muilta osin vähän käppäisempi meininki. Eli varsin hyvä on tämä perjantai-illan päätös."
    },
-   "tr": "https://www.youtube.com/watch?v=R9hvzM0_K9Y",
-   "ts": [
-    "en"
-   ]
+   "tr": ""
   },
   "forest of the hanged": {
    "r": 0,
@@ -2528,7 +2524,7 @@
   "how to rob a bank": {
    "id": 1437511,
    "img": "data/posters/8b1166ae143c79d4.jpg",
-   "r": 0,
+   "r": 6.2,
    "s": {
     "en": "A crew of social media-savvy bank robbers broadcasts their daring heists, unaware that their growing viral fame has put them in the crosshairs of a veteran FBI agent and a brilliant software engineer. Despite the unlikely duo closing in, the crime ring pushes past their limits, putting everything on the line for their most ambitious heist yet.",
     "fi": "HOW TO ROB A BANK -elokuvassa sosiaalisen median taitava pankkiryöstäjäjoukko lähettää uhkarohkeat ryöstönsä suorina lähetyksinä tietämättä, että heidän alati kasvava viraalijulkisuutensa on saanut kokeneen FBI-agentin ja nerokkaan ohjelmistoinsinöörin heidän jäljilleen. Vaikka tämä epätodennäköinen kaksikko pääsee yhä lähemmäs, rikollisjoukkio koettelee rajojaan ja panee kaiken peliin vakaumuksensa – ja tähänastisen kunnianhimoisimman ryöstönsä – puolesta.",
@@ -2990,16 +2986,12 @@
   },
   "jubilee": {
    "id": 41426,
-   "img": "data/posters/cc8587690168df01.jpg",
-   "r": 6.0,
+   "r": 0,
    "s": {
-    "en": "Queen Elizabeth I visits late 1970s England to find a depressing landscape where life has changed since her time.",
+    "en": "",
     "fi": "Derek Jarmanin tieteissatiirissa Elisabet I matkaa 400 vuoden päähän dystooppiseen tulevaisuuteen, jossa hallitsijoina ovat punkkarit. Elokuvaa tähdittävät aikansa punk- ja new wave -muusikot Adam Antistä Toyah Willcoxiin ja elokuvassa nähdään cameo-esiintymisiä mm. Siouxsie and the Bansheesiltä ja The Slitsiltä. Alkuperäismusiikin sävelsi Brian Eno."
    },
-   "tr": "https://www.youtube.com/watch?v=EmU1s9FA8J4",
-   "ts": [
-    "en"
-   ]
+   "tr": ""
   },
   "juhlat": {
    "id": 309,
@@ -3063,7 +3055,6 @@
     "gilda",
     "kinoaurora",
     "kinoelo",
-    "kinohirvi",
     "kinojuha",
     "kinolumo",
     "kinomania",
@@ -3448,57 +3439,6 @@
     "fi": "Kerro kaikille on voimaelokuva Amanda Aaltosesta, joka kieltäytyy alistumasta hänelle varattuun köyhän naisen ankeaan kohtaloon ja etsii huimapäisesti onneaan maailmalta. Rangaistukseksi sääntöjen rikkomisesta yhteiskunta anastaa häneltä kaikkein tärkeimmän, vapauden, ja sulkee hänet Seilin saarelle."
    },
    "tr": ""
-  },
-  "kerro kaikille elokuvanäytös": {
-   "id": 1304530,
-   "img": "data/posters/133d5c0758982817.jpg",
-   "kr": "K-12",
-   "krs": [
-    "biogrand",
-    "biorex",
-    "biosade",
-    "biosalo",
-    "biovuoksi",
-    "elokuviin",
-    "engel",
-    "gilda",
-    "haapamaki",
-    "helios",
-    "isohannu",
-    "kinoiiris",
-    "kinojuha",
-    "kinolaika",
-    "kinolumo",
-    "kinomarilyn",
-    "kinometso",
-    "kinomyyri",
-    "kinopiispanristi",
-    "kinoset",
-    "kinotervakoski",
-    "kisakino",
-    "kotkanleffat",
-    "kuvakukko",
-    "kuvatahti",
-    "leffabuumi",
-    "niagara",
-    "orion",
-    "regina",
-    "savonkinot",
-    "star",
-    "studio123jarvenpaa",
-    "studio123kouvola",
-    "vaakuna",
-    "virtainpirtti"
-   ],
-   "r": 0,
-   "s": {
-    "en": "",
-    "fi": "Amanda Aaltonen kieltäytyy alistumasta hänelle varattuun köyhän naisen ankeaan kohtaloon ja etsii huimapäisesti onneaan maailmalta. Rangaistukseksi sääntöjen rikkomisesta yhteiskunta anastaa häneltä kaikkein tärkeimmän, vapauden, ja sulkee hänet Seilin saarelle."
-   },
-   "tr": "https://www.youtube.com/watch?v=iUpszeSB7k4",
-   "ts": [
-    "fi"
-   ]
   },
   "kerro kaikille kahvi ja kino": {
    "id": 1304530,
@@ -4595,6 +4535,7 @@
   },
   "kuzma terribly funny": {
    "id": 1686683,
+   "img": "data/posters/e5a57635e6410557.jpg",
    "r": 0,
    "s": {
     "en": "The story of Andriy Kuzmenko, frontman of the band Skryabin, who was loved by millions but truly known by only a few. Through exclusive archival footage, never before seen by the public, the film reveals his inner transformations, self-irony, and a life lived at full speed — a life that continues to resonate long after his passing. Directed by Artem Hryhorian, the film takes viewers on a journey through Kuzma’s life — from a boy growing up in Novoiavorivsk to an icon of Ukrainian pop culture. It is a film about freedom, pain, and love for people, all of which found expression in his every word. The film explores Kuzma as a figure of cultural memory, whose presence and influence remain alive decades after his death. The screening is organized in collaboration with the Association of Ukrainians in Finland.",
@@ -4860,19 +4801,6 @@
     "fi": "Elokuvan tapahtumat sijoittuvat Lappiin syksyllä 1944, Suomen ja Saksan väliseen konfliktiin toisen maailmansodan loppuvaiheessa. Nuori sotamies Heikki taistelee Karjalan kannaksella ystävänsä Paulin kanssa. Komppaniaan liittyy vankilasta vapautunut Arvo, jonka maailmankuva haastaa muiden käsitykset sodasta ja velvollisuudesta. Aselepo herättää toivon kotiinpaluusta, mutta pian selviää, että Suomen on käännyttävä entisiä saksalaisia liittolaisiaan vastaan Lapissa. Samaan aikaan Rovaniemellä saksalaisten tulkkina työskentelevä Saara joutuu valitsemaan tulevaisuutensa: jäädä Suomeen vai paeta Saksaan rakastettunsa, majuri Duisbergin, kanssa. Lapin sota on vahvasti hahmojensa inhimillisiin kokemuksiin nojaava kertomus ihmisistä, jotka ajautuvat historiallisten mullistusten keskelle. Sodan kauheuksien keskeltä he etsivät merkitystä, inhimillisyyttä ja anteeksiantoa – ja kysyvät, miten armottomassa ympäristössä voidaan löytää armollisuutta."
    },
    "tr": ""
-  },
-  "lapin sota elokuvanäytös": {
-   "id": 1450460,
-   "img": "data/posters/c15d678a31ae397e.jpg",
-   "r": 0,
-   "s": {
-    "en": "",
-    "fi": "Nuori sotamies Heikki taistelee Karjalan kannaksella ystävänsä Paulin kanssa. Komppaniaan liittyy vankilasta vapautunut Arvo, jonka maailmankuva haastaa muiden käsitykset sodasta ja velvollisuudesta. Aselepo herättää toivon kotiinpaluusta, mutta pian selviää, että Suomen on käännyttävä entisiä saksalaisia liittolaisiaan vastaan Lapissa. Samaan aikaan Rovaniemellä saksalaisten tulkkina työskentelevä Saara joutuu valitsemaan tulevaisuutensa: jäädä Suomeen vai paeta Saksaan rakastettunsa, majuri Duisbergin, kanssa."
-   },
-   "tr": "",
-   "ts": [
-    "fi"
-   ]
   },
   "lapin sota englanninkielinen tekstitys": {
    "id": 1450460,
@@ -9118,16 +9046,12 @@
   },
   "tartuffe": {
    "id": 55544,
-   "img": "data/posters/e9f08a4d6d8370db.jpg",
-   "r": 7.1,
+   "r": 0,
    "s": {
-    "en": "A young man shows his millionaire grandfather a film based on Molière's play \"Tartuffe\" in order to expose the old man's hypocritical governess who covets the young man's inheritance.",
+    "en": "",
     "fi": "Viimeisen miehen menestyksen jälkeen Murnau ja käsikirjoittaja Carl Mayer saivat Ufa-studiolta vapaat kädet. He tarttuivat Molièren näytelmään tehden siitä omanlaisensa version, jossa erityisesti lavastuksen yksityiskohtiin paneuduttiin äärimmäisen huolellisesti. Juonittelut ja vastajuonittelut varakkaan vanhan herran perinnöstä tämän aikuisen pojan ja taloudenhoitajan välillä kutovat verkon, joka on sekä komediallinen että ankara."
    },
-   "tr": "",
-   "ts": [
-    "en"
-   ]
+   "tr": ""
   },
   "teatteri frankenstein": {
    "r": 0,
@@ -9315,16 +9239,12 @@
   },
   "the decline of western civilization": {
    "id": 21137,
-   "img": "data/posters/1215e18e701d3072.jpg",
-   "r": 7.2,
+   "r": 0,
    "s": {
-    "en": "The Los Angeles punk music scene circa 1980 is the focus of this film. With Alice Bag Band, Black Flag, Catholic Discipline, Circle Jerks, Fear, Germs, and X.",
+    "en": "",
     "fi": "Wayne’s World -ohjaaja Penelope Spheerisin debyyttipitkä on aikakapseli 1980-luvun alun Los Angelesin punkskeneen, ja kaupungissa kehittyneen nopeatempoisemman ja aggressiivisemman hardcore-tyylisuunnan alkuvaiheisiin. Dokumenttielokuva sisältää viihdyttäviä haastatteluita ja energisiä keikkataltiointeja alan pioneereilta kuten Black Flag, Circle Jerks, Fear, Germs ja X."
    },
-   "tr": "https://www.youtube.com/watch?v=_H7f9IRt_4A",
-   "ts": [
-    "en"
-   ]
+   "tr": ""
   },
   "the devils": {
    "id": 31767,
@@ -9526,7 +9446,7 @@
   "the magic faraway tree": {
    "id": 1140521,
    "img": "data/posters/0d9dd591d740cdd4.jpg",
-   "r": 6.8,
+   "r": 6.9,
    "s": {
     "en": "A modern family relocates to the countryside where the children discover a magical tree with eccentric residents. They're transported to fantastical lands, rekindling their family bond through adventures.",
     "fi": "Rakastettuun lapsille suunnattuun The Faraway Tree -kirjasarjaan perustuva THE MAGIC FARAWAY TREE kertoo Pollysta ja Timistä sekä heidän lapsistaan Bethistä, Joesta ja Franista. Tämä nykyaikainen perhe joutuu muuttamaan syrjäiselle Englannin maaseudulle. Pian saapumisensa jälkeen lapset huomaavat, ettei uudessa kodissa ole wifi-yhteyttä eikä sähköä, jolla ladata … heidän rakkaita elektronisia laitteitaan. Niinpä heidän on löydettävä uusia kiinnostuksen kohteita luonnon keskeltä. Tutkiessaan uuden kotinsa ympäristöä lapset löytävät taianomaisen puun ja sen erikoiset, omalaatuiset asukkaat, joihin kuuluvat rakastetut hahmot Moonface, Silky, Dame Washalot ja Saucepan Man. Puunlatvasta he pääsevät matkustamaan toinen toistaan ihmeellisempiin fantasiamaailmoihin. Seikkailujensa ilojen ja haasteiden kautta perheenjäsenet oppivat löytämään uudelleen yhteyden toisiinsa ja arvostamaan toisiaan ensimmäistä kertaa vuosiin."
@@ -9655,12 +9575,17 @@
    "tr": ""
   },
   "the royal ballet alice s adventures in wonderland": {
+   "id": 83053,
+   "img": "data/posters/848086d7fab004eb.jpg",
    "r": 0,
    "s": {
-    "en": "",
+    "en": "A full-length ballet created by choreographer Christopher Wheeldon for the Royal Ballet at the Royal Opera House, Covent Garden. The ballet is based on Lewis Carroll's famous story of Alice, an ordinary girl who one summer afternoon falls down a rabbit hole and finds herself on an extraordinary adventure.  The music is by Joby Talbot, with designs by the internationally acclaimed Bob Crowley. Alice is danced by the Royal Ballet's Lauren Cuthbertson, and actor Simon Russell-Beale plays the cameo role of the Duchess.",
     "fi": "Lipun hintaan sisältyy väliaikatarjoiluna vaihtuva makea, sekä valintasi mukaan kahvi, tee tai alkoholiton kuohuva. Huomaathan, että tähän näytökseen ei voi käyttää sarjalippuja. Tutustu ohjelmistoon Aurinkoisena iltapäivänä puutarhajuhlissa Liisa yllättyy nähdessään vanhempiensa ystävän Lewis Carrollin muuttuvan valkoiseksi jänikseksi. Kun Liisa seuraa tätä kaninkoloon, tapahtumat muuttuvat yhä kummallisemmiksi… Matkustaessaan Ihmemaassa Liisa kohtaa lukemattomia outoja olentoja. Hänet vie mennessään hurmaava herttakaveri, joka on karkuteillä torttuvarkaudesta. Hämmennys kasaantuu hämmennyksen päälle. Sitten Liisa herää säikähdyksellä. Oliko kaikki vain unta? Christopher Wheeldonin teos ”Alice’s Adventures in Wonderland” rynnisti näyttämölle vuonna 2011 värien, näyttämötaikuuden sekä kekseliään ja hienostuneen koreografian räjähdyksenä. Joby Talbotin sävellys yhdistää nykyaikaisia äänimaailmoja ja laajoja melodioita, jotka viittaavat 1800-luvun balettisävellyksiin. Bob Crowleyn hurjan mielikuvitukselliset ja silmiä hivelevät lavastukset hyödyntävät kaikkea nukketeatterista projisointeihin saakka, jotta Ihmemaa tuntuu ihanan todelliselta. Tuloksena on The Royal Ballet parhaimmillaan: maailmanluokan tanssi yhdistyy lumoavaan perheviihteeseen sekä nerokkaaseen musiikkiin ja lavastukseen. Näytöksessä on kaksi väliaikaa. Kuvattu suorana 15. lokakuuta 2024."
    },
-   "tr": ""
+   "tr": "https://www.youtube.com/watch?v=XfmbKGQRIdU",
+   "ts": [
+    "en"
+   ]
   },
   "the royal ballet joutsenlampi": {
    "id": 1702782,
@@ -9712,7 +9637,7 @@
     "en": "Prince Siegfried chances upon a flock of swans while out hunting. When one of the swans turns into a beautiful woman, Odette, he is enraptured. But she is under a spell that holds her captive, allowing her to regain her human form only at night.",
     "fi": "Lipun hintaan sisältyy väliaikatarjoiluna vaihtuva makea, sekä valintasi mukaan kahvi, tee tai alkoholiton kuohuva. Huomaathan, että tähän näytökseen ei voi käyttää sarjalippuja. Tutustu ohjelmistoon Prinsessa Odette on kirottu: paha velho Von Rothbart on muuttanut hänet joutseneksi. Loitsu voidaan murtaa vain ikuisen rakkauden lupauksella. Kun Odette tapaa prinssi Siegfriedin, tämä ihastuu välittömästi Odetten hauraaseen kauneuteen ja lupaa vapauttaa hänet. Odettelle ei kuitenkaan ole taattu vapautta, sillä Von Rothbart juonii estääkseen rakastavaisten suunnitelmat. Liam Scarlettin Royal Balletille luoma tuotanto yhdistää Tšaikovskin suurenmoisen musiikin ja John Macfarlanen kuvankauniit lavastukset luodakseen ikimuistoisen balettispektaakkelin, jossa kietoutuvat yhteen rakkaus, petos ja anteeksianto. Näytöksessä on kaksi väliaikaa."
    },
-   "tr": "",
+   "tr": "https://www.youtube.com/watch?v=ITU241Ypino",
    "ts": [
     "en"
    ]
@@ -10850,7 +10775,6 @@
     "biosavoy",
     "cinemantsala",
     "gilda",
-    "helios",
     "isohannu",
     "kinoaurora",
     "kinoiiris",
@@ -11052,5 +10976,5 @@
    "tr": ""
   }
  },
- "generated": "2026-11-20"
+ "generated": "2026-11-21"
 }
