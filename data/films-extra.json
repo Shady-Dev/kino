@@ -668,6 +668,7 @@
    "krs": [
     "engel",
     "helios",
+    "isohannu",
     "kinohannikainen",
     "kinotervakoski",
     "kkino"
@@ -7323,6 +7324,7 @@
    "img": "data/posters/ca46dd98e9982631.jpg",
    "kr": "K-16",
    "krs": [
+    "isohannu",
     "kinoaurora",
     "kinokilta",
     "kinokonepaja",
@@ -9380,10 +9382,6 @@
   "the invite": {
    "id": 950028,
    "img": "data/posters/2755bb2be0a0c120.jpg",
-   "kr": "K-12",
-   "krs": [
-    "engel"
-   ],
    "r": 7.2,
    "s": {
     "en": "",
@@ -10775,7 +10773,6 @@
     "biosavoy",
     "cinemantsala",
     "gilda",
-    "isohannu",
     "kinoaurora",
     "kinoiiris",
     "kinokilta",
