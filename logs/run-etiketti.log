@@ -5,9 +5,9 @@
 [kinotar] Kinotar 123: 29 showtimes, 16 dates
 [kinotar] synopses merged: 0
 [kinojuha] Kino Juha: 7 showtimes, 6 dates
-[kinojuha] VIP-Sali: 9 showtimes, 7 dates
+[kinojuha] VIP-Sali: 8 showtimes, 6 dates
 [kinojuha] synopses merged: 0
-[biovuoksi] Bio Vuoksi: 20 showtimes, 10 dates
+[biovuoksi] Bio Vuoksi: 19 showtimes, 9 dates
 [biovuoksi] synopses merged: 0
 [kinoiiris] Kino Iiris: 27 showtimes, 19 dates
 [kinoiiris] synopses merged: 0
@@ -25,6 +25,6 @@
 [kinomarilyn] synopses merged: 0
 [run] http: 0 revalidated (304), 169 full, 169 not stored (origin said no-store), 0 cache entries written
 [run] hosts: 11 attempted -- biograni.fi, biovuoksi.fi, cinemaniagara.fi, jamsankinotar.fi, k-kino.fi, kinoiiris.com, kinojuha.fi, kinokaustinen.fi, kinopirtti.fi, www.biorex.org, www.kinomarilyn.fi
-[run] etiketti: 11 venues, 271 showtimes, 0 stale, 0 unverified, 0 pending, 1 with no programme, 0 failures
-[run] timing: 11 site(s), 307.5s of fetching added up across workers that overlap, longest site 52.3s, longest queue wait 39.0s, 83.3s wall from this module's first fetch starting to its last ending
+[run] etiketti: 11 venues, 269 showtimes, 0 stale, 0 unverified, 0 pending, 1 with no programme, 0 failures
+[run] timing: 11 site(s), 302.2s of fetching added up across workers that overlap, longest site 51.2s, longest queue wait 38.6s, 82.3s wall from this module's first fetch starting to its last ending
 exit=0
