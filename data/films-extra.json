@@ -1120,13 +1120,12 @@
   },
   "day of the dead": {
    "id": 8408,
-   "img": "data/posters/9c7cd443dac600ad.jpg",
-   "r": 7.0,
+   "r": 0,
    "s": {
     "en": "",
     "fi": "Romeron zombi-sarjan kolmas osa on samalla kolmanneksi paras! Nyt ollaan päästy maalaistalon ja ostarin kautta maanalaiseen bunkkeriin. Tilanne ei ole häävi siitä huolimatta ja tiedemiehet yrittävät ratkoa ongelmaa mm. eläviä kuolleita kouluttamalla. Mutta niinhän siinä käy, että ei ole bunkkerikaan riittävän turvallinen ja taistoon käydään tälläkin kertaa."
    },
-   "tr": "https://www.youtube.com/watch?v=G8gMvjmGv4k"
+   "tr": ""
   },
   "death spa": {
    "id": 28389,
@@ -1440,7 +1439,6 @@
    "krs": [
     "bioforum",
     "biogrand",
-    "biokaari",
     "biomarlon",
     "biopallas",
     "biorex",
@@ -1478,10 +1476,8 @@
     "kinovirta",
     "kirkkonummi",
     "kotkanleffat",
-    "kurikankino",
     "kuvatahti",
     "leffabuumi",
-    "marita",
     "savonkinot",
     "star",
     "studio123jarvenpaa",
@@ -1505,7 +1501,6 @@
    "krs": [
     "bioforum",
     "biogrand",
-    "biokaari",
     "biomarlon",
     "biopallas",
     "biorex",
@@ -1543,10 +1538,8 @@
     "kinovirta",
     "kirkkonummi",
     "kotkanleffat",
-    "kurikankino",
     "kuvatahti",
     "leffabuumi",
-    "marita",
     "savonkinot",
     "star",
     "studio123jarvenpaa",
@@ -3436,8 +3429,7 @@
     "star",
     "studio123jarvenpaa",
     "studio123kouvola",
-    "vaakuna",
-    "virtainpirtti"
+    "vaakuna"
    ],
    "r": 0,
    "s": {
@@ -3511,8 +3503,7 @@
     "star",
     "studio123jarvenpaa",
     "studio123kouvola",
-    "vaakuna",
-    "virtainpirtti"
+    "vaakuna"
    ],
    "r": 0,
    "s": {
@@ -4721,7 +4712,6 @@
     "kinomyyri",
     "korjaamo",
     "kotkanleffat",
-    "kulttuurimylly",
     "kuvakukko",
     "niagara",
     "orion",
@@ -6147,7 +6137,6 @@
     "kurikankino",
     "kuvakukko",
     "kuvatahti",
-    "laitilankino",
     "leffabuumi",
     "levisummit",
     "lieksankino",
@@ -6642,7 +6631,6 @@
     "gilda",
     "ihmekompleksi",
     "julia",
-    "kinojuha",
     "kinokonepaja",
     "kinolumo",
     "kinomyyri",
@@ -7072,7 +7060,6 @@
    "kr": "S",
    "krs": [
     "biorex",
-    "elokuviin",
     "isohannu",
     "kino123",
     "kinopiispanristi",
@@ -8277,13 +8264,12 @@
   },
   "romería toivon jäljillä": {
    "id": 1182861,
-   "img": "data/posters/b759279e7555b481.jpg",
-   "r": 6.6,
+   "r": 0,
    "s": {
     "en": "",
     "fi": "Cannesin elokuvajuhlilla ensi-iltansa saanut espanjalaisohjaaja Carla Simónin kolmas pitkä elokuva Romería on haikeankaunis ja vangitseva perhedraama nuoresta naisesta, joka lähtee etsimään totuutta isänsä varhaisesta kuolemasta. Romería kertoo 18-vuotiaasta Marinasta, joka saapuu Espanjan rannikolle tapaamaan biologisen isänsä sukua – ihmisiä, joita hän ei ole koskaan tavannut. Hän kohtaa joukon uusia tätejä, setiä ja serkkuja, tietämättä, ottavatko he hänet avosylin vastaan vai suhtautuvatko varauksella. Kohtaamiset nostavat pintaan syvälle haudattuja muistoja, herättävät tunteita ja paljastavat menneisyyteen vaiettuja perhesalaisuuksia. Hajanaisista kertomuksista Marinalle alkaa vähitellen muodostua kuva vanhemmistaan, ja etsintämatkasta tulee mieleenpainuva kokemus, joka tuo hänet lähemmäs itseään ja omia juuriaan. Ohjaaja Carla Simón on tunnettu elokuvastaan Tämä maa (Alcarràs), josta hän voitti Kultaisen karhun Berliinin kansainvälisillä elokuvajuhlilla. Autofiktiivinen elokuva pohjautuu ohjaajan omiin teinivuosien kokemuksiin."
    },
-   "tr": "https://www.youtube.com/watch?v=da3CAnPA_EM"
+   "tr": ""
   },
   "roofman kattokeikkailija": {
    "id": 1242419,
@@ -10784,7 +10770,6 @@
    "kr": "K-16",
    "krs": [
     "biogrand",
-    "biograni",
     "biopallas",
     "biorex",
     "biosavoy",
@@ -10809,7 +10794,6 @@
     "savonkinot",
     "star",
     "studio123jarvenpaa",
-    "tapiola",
     "vaakuna"
    ],
    "r": 7.9,
@@ -10893,13 +10877,12 @@
   },
   "yksinäinen susi mcquade": {
    "id": 14854,
-   "img": "data/posters/d4e089388aabc311.jpg",
-   "r": 6.5,
+   "r": 0,
    "s": {
     "en": "",
     "fi": "Chuck Norris on J.J. McQuade, kovaakin kovempi omia polkujaan turbomaasturilla ajeleva Texas Ranger, joka joutuu vastakkain aseita salakuljettavan porukan kanssa. Aurinko paahtaa, kaljaa korkkaillaan, aavikko pölisee ja hiki on pinnassa tauotta, se ei tokikaan estä Carradinen esittämää pääpahista hengaamasta villapaidassa! Hehkeimmässä kohtauksessa räiskitään takapihalla haulikko tanassa, sitten paneskellaan hiekalla letkun roiskiessa vettä vimmaisen kiihkon keskelle. Siinä sitä on hienovireistä symboliikkaa parhaimmillaan. Ihan sairaan kova leffa. Keväällä menehtyneen Chuck Norrisin muistolle, kiitos kaikesta."
    },
-   "tr": "https://www.youtube.com/watch?v=EpXX9AoTIlg"
+   "tr": ""
   },
   "you can see everything": {
    "id": 1765072,
