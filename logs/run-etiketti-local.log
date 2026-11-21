@@ -1,10 +1,10 @@
 [kotkanleffat] Kinopalatsi Kotka: 36 showtimes, 19 dates
 [kotkanleffat] Trio 123: 47 showtimes, 6 dates
 [kotkanleffat] synopses merged: 0
-[savonkinot] Tapio Joensuu: 67 showtimes, 17 dates
+[savonkinot] Tapio Joensuu: 65 showtimes, 16 dates
 [savonkinot] Killa Savonlinna: 8 showtimes, 6 dates
 [savonkinot] Kuvalinna Savonlinna: 22 showtimes, 12 dates
-[savonkinot] Kuvalipas Iisalmi: 27 showtimes, 11 dates
+[savonkinot] Kuvalipas Iisalmi: 26 showtimes, 10 dates
 [savonkinot] Maxim Varkaus: 32 showtimes, 11 dates
 [savonkinot] Kino-Hovi Kitee: 10 showtimes, 9 dates
 [savonkinot] synopses merged: 0
@@ -12,15 +12,15 @@
 [leffabuumi] Kino Ritz: 19 showtimes, 16 dates
 [leffabuumi] Kino Saimaa: 4 showtimes, 3 dates
 [leffabuumi] synopses merged: 0
-[studio123jarvenpaa] Studio 123 Järvenpää: 50 showtimes, 14 dates
+[studio123jarvenpaa] Studio 123 Järvenpää: 49 showtimes, 13 dates
 [studio123jarvenpaa] synopses merged: 0
 [studio123kouvola] Studio 123 Kouvola: 56 showtimes, 20 dates
 [studio123kouvola] synopses merged: 0
 [ihmekompleksi] Ihme Kompleksi: 23 showtimes, 10 dates
-[ihmekompleksi] synopses merged: 1
+[ihmekompleksi] synopses merged: 0
 [kino123] Kino 123: 60 showtimes, 8 dates
 [kino123] synopses merged: 0
-[biogrand] Bio Grand: 22 showtimes, 7 dates
+[biogrand] Bio Grand: 21 showtimes, 6 dates
 [biogrand] synopses merged: 0
 [joutsankino] Joutsan Kino: 10 showtimes, 7 dates
 [joutsankino] synopses merged: 0
@@ -36,5 +36,5 @@
 [run] venuelists-local.json rewritten
 [run] http: 0 revalidated (304), 212 full, 212 not stored (origin said no-store), 0 cache entries written
 [run] hosts: 12 attempted -- biogrand.fi, haapamaenelokuvat.fi, ihmekompleksi.fi, kiertue.cine.fi, kino.joutsa.fi, kino123.fi, kotkanleffat.fi, lippu.elokuvateatteristar.fi, studio123.fi, studiot123.com, www.leffabuumi.fi, www.savonkinot.fi
-[run] etiketti: 19 venues, 625 showtimes, 0 stale, 0 unverified, 0 pending, 1 with no programme, 0 failures
+[run] etiketti: 19 venues, 620 showtimes, 0 stale, 0 unverified, 0 pending, 1 with no programme, 0 failures
 exit=0
