@@ -288,10 +288,34 @@ class ExpansionTest(unittest.TestCase):
 
     def test_a_title_card_is_never_marked_as_tmdbs(self):
         """enrich_tmdb reclaims a poster it marked `isrc: "tmdb"` and leaves anything else
-        as the cinema's own. Marking a card would let a later TMDB candidate replace it."""
-        for show in self.shows:
-            with self.subTest(title=show["title"]):
-                self.assertNotIn("isrc", show)
+        as the cinema's own. Marking a card would let a later TMDB candidate replace it.
+
+        The mark is written by run.publish_site, never by the adapter, when a carried
+        poster fills an empty `img` (review L11, 2026-11-22). So the shows go through it,
+        with a previous file carrying a mirrored poster for both films: the card stays
+        unmarked, and the film with no card takes the carried poster and the mark."""
+        import copy
+        saved = run.OUT
+        self.addCleanup(setattr, run, "OUT", saved)
+        tmp = tempfile.TemporaryDirectory()
+        self.addCleanup(tmp.cleanup)
+        run.OUT = pathlib.Path(tmp.name)
+        vid = heureka().SITES[0]["venues"][0]["id"]
+        carried = "data/posters/0123456789abcdef.jpg"
+        (run.OUT / f"area-{vid}.json").write_text(json.dumps({"shows": [
+            {"title": s["title"], "start": s["start"], "img": carried} for s in self.shows]}))
+        with contextlib.redirect_stdout(io.StringIO()), contextlib.redirect_stderr(io.StringIO()):
+            run.publish_site(heureka(), heureka().SITES[0], {vid: copy.deepcopy(self.shows)},
+                             "2026-09-07T09:00:00+03:00")
+        out = json.loads((run.OUT / f"area-{vid}.json").read_text())["shows"]
+        card = [x for x in out if x["title"] == "Asteroid Quest"]
+        bare = [x for x in out if x["title"].startswith("Aavistus")]
+        self.assertTrue(card and bare)
+        for show in card:
+            self.assertEqual(show["img"], "data/posters/card-heureka-asteroid-quest.jpg")
+            self.assertNotIn("isrc", show)
+        for show in bare:
+            self.assertEqual((show["img"], show.get("isrc")), (carried, "tmdb"))
 
     def test_every_card_in_the_map_exists_and_is_a_portrait_image(self):
         """A mapping to a file that is not there publishes a broken image on every card.

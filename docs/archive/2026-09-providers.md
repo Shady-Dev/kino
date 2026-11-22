@@ -4613,3 +4613,11 @@ per-screening page, the same as the other two, and stay inside the limits the ex
 Since M6 the price pass requests only that page, one segment under the prefix, with Regina's
 prefix narrowed to `/fi/events/pwdg/event_buybox/show/`. The `CLAUDE.md` wording that names
 them is applied separately by the coordinating session.
+
+### The Heureka title-card mark is tested where the mark is written (2026-11-22)
+Review finding L11, second part. `test_a_title_card_is_never_marked_as_tmdbs` asserted
+that the adapter's shows carry no `isrc`, which the adapter never sets, so it could not
+fail. The mark is written by `run.publish_site` when a carried poster fills an empty
+`img`. The test now publishes the parsed shows over a previous file carrying a mirrored
+poster for both films. The card stays unmarked and the film with no card takes the carried
+poster with the mark. Two mutations of that path, both red.
