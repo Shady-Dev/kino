@@ -95,7 +95,7 @@ DESCR_RE = re.compile(r'<span[^<>]*class=["\'][^"\']*descrption[^"\']*["\'][^<>]
 # the same shape. The weekday is optional because the cell has been seen without one.
 DATE_RE = re.compile(r'(?:([A-Za-zÄÖÅäöå]{2,})\s+)?(\d{1,2})\.(\d{1,2})\.')
 TIME_RE = re.compile(r'(\d{1,2})[:.](\d{2})')
-EUR_RE = re.compile(r'(\d+(?:[.,]\d+)?)\s*(?:€|eur\b)', re.I)
+EUR_RE = re.compile(r'(?<!\d)(\d+(?:[.,]\d+)?)\s*(?:€|eur\b)', re.I)
 TAGS_RE = re.compile(r"<[^>]+>")
 
 

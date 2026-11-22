@@ -87,7 +87,7 @@ SITES = [{"provider": "regina", "label": "Kino Regina", "base": BASE,
 # No EMPTY_VENUES_CONFIRMED here, on purpose: see the module docstring.
 
 BLOCK_RE = re.compile(r'<div class="movie pr col-12 ([a-z]*)">(.*?)(?=<div class="movie pr col-12 |$)', re.S)
-FILM_RE = re.compile(r'<a href="(?:https?://kinoregina\.fi)?/elokuva/(\d+)/?"[^>]*class="title[^"]*"[^>]*>(.*?)</a>', re.S | re.I)
+FILM_RE = re.compile(r'<a href="(?:https?://kinoregina\.fi)?/elokuva/(\d+)/?"[^<>]*class="title[^"]*"[^<>]*>(.*?)</a>', re.S | re.I)
 START_RE = re.compile(r'class="start">\s*(\d{2})-(\d{2})-(\d{4})\s+(\d{1,2}):(\d{2})\s*<', re.I)
 TICKET_RE = re.compile(r'href="(https://kauppa\.kavi\.fi/[^"]+)"', re.I)
 TAGS_RE = re.compile(r"<[^>]+>")

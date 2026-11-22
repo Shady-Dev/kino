@@ -76,7 +76,7 @@ LIFT_IMG_RE = re.compile(r'<div class="lift_image">.*?<img[^>]+src="([^"]+)"', r
 TITLE_RE = re.compile(r"<h2>(.*?)</h2>", re.S | re.I)
 LENGTH_RE = re.compile(r'<p class="movielength">(.*?)</p>', re.S | re.I)
 AGE_RE = re.compile(r"agelimits/agelimit_([a-z0-9]+)\.png", re.I)
-MIN_RE = re.compile(r"(?:(\d+)\s*h\s*)?(\d{1,3})\s*min", re.I)
+MIN_RE = re.compile(r"(?:(?<!\d)(\d+)\s*h\s*)?(\d{1,3})\s*min", re.I)
 SCREENINGS_RE = re.compile(r'<div class="screenings">(.*?)</div>', re.S | re.I)
 # `su 20.9.2026 klo 17:00`. The year is printed, so nothing is resolved.
 ROW_RE = re.compile(r"(\d{1,2})\.(\d{1,2})\.(\d{4})\s*klo\s*(\d{1,2})[:.](\d{2})", re.I)

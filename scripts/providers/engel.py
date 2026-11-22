@@ -254,7 +254,7 @@ GENRE_RE = re.compile(r'class=["\']cmd-desription[^"\']*["\'][^<>]*>(?:(?!<h5).)
 SYN_RE = re.compile(r'class=["\']cmd-desription[^"\']*["\'][^<>]*>(?:(?!</h5>\s*<p>).)*</h5>\s*<p>(.*?)</p>\s*</div>',
                     re.S | re.I)
 RATING_CLASS_RE = re.compile(r'class=["\']rating\s+([^"\']+)["\']', re.I)
-KESTO_RE = re.compile(r'(?:(\d+)\s*h)?\s*(\d+)\s*min', re.I)
+KESTO_RE = re.compile(r'(?:(?<!\d)(\d+)\s*h)?\s*(?<!\d)(\d+)\s*min', re.I)
 
 # Finnish language names as this site writes them -> the tag set the client's LN map
 # keys on. Swedish is SV, the ISO 639-1 language code, not SE, which is Sweden.

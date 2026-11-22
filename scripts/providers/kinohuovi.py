@@ -85,7 +85,7 @@ DATE_RE = re.compile(r'\b(\d{1,2})\.(?:\s*[-–]\s*(\d{1,2})\.)?(\d{1,2})\.')
 # What may stand between two times of one date: nothing but `ja` or a comma.
 TIME_JOIN_RE = re.compile(r"\s*(?:,|\bja\b)?\s*", re.I)
 WEEKDAY_RE = re.compile(r'\b(ma|ti|ke|to|pe|la|su)\b', re.I)
-KESTO_RE = re.compile(r'Kestoaika\s*n?\.?\s*(?:(\d{1,2})\s*(?:t|h)\s*)?(\d{1,3})\s*min',
+KESTO_RE = re.compile(r'Kestoaika\s*(?:n\.?\s*|\.\s*)?(?:(\d{1,2})\s*(?:t|h)\s*)?(\d{1,3})\s*min',
                       re.I)
 # One amount and nothing else after it. A comma or a dot separates the cents.
 PRICE_RE = re.compile(r'\bLiput\s*(\d{1,3}(?:[.,]\d{1,2})?)\s*€\s*\.?\s*$', re.I)

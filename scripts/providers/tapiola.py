@@ -71,7 +71,7 @@ ICON_RE = re.compile(r'<div class="info-icon ([a-z-]+)">\s*(?:<a[^>]*>\s*)?<div 
                      r'(?:(?!<div class="text">).)*<div class="text">(.*?)</div>', re.S | re.I)
 DESC_RE = re.compile(r'<div class="description">(.*?)</div>\s*<div class="info-icons">', re.S | re.I)
 PARA_RE = re.compile(r'<p\b[^>]*>(.*?)</p>', re.S | re.I)
-KESTO_RE = re.compile(r'(?:(\d+)\s*h)?\s*(\d+)\s*min', re.I)
+KESTO_RE = re.compile(r'(?:(?<!\d)(\d+)\s*h)?\s*(?<!\d)(\d+)\s*min', re.I)
 # A paragraph naming the cinema, or speaking of its bar, hall or screenings in the first
 # person, is the venue's notice and not the film's synopsis. Every opera and ballet page
 # opens with two: "Kino Tapiolassa ooppera- ja baletti-iltoihin kuuluu ..." and

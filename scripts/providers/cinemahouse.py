@@ -134,7 +134,7 @@ WHEN_RE = re.compile(r"(\d{1,2})\.(\d{1,2})\.\s*(\d{1,2})[:.](\d{2})")
 WINDOW = (30, 180)
 SEPARATOR = "\u00b7"
 FREE_RE = re.compile(r"(\d+)\s*/\s*(\d+)")
-EUR_RE = re.compile(r"(\d+(?:[.,]\d+)?)\s*(?:\u20ac|eur\b)", re.I)
+EUR_RE = re.compile(r"(?<!\d)(\d+(?:[.,]\d+)?)\s*(?:\u20ac|eur\b)", re.I)
 MIN_RE = re.compile(r"(\d+)\s*min\b", re.I)
 TAGS_RE = re.compile(r"<[^>]+>")
 
@@ -214,7 +214,7 @@ def _rating(badge):
     b = _txt(badge).upper()
     if b == "S":
         return "S"
-    m = re.fullmatch(r"K?\s*-?\s*(\d{1,2})", b)
+    m = re.fullmatch(r"K?\s*(?:-\s*)?(\d{1,2})", b)
     return f"K-{m.group(1)}" if m else ""
 
 

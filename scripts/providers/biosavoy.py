@@ -87,7 +87,9 @@ CHIP_RE = re.compile(r'class="chip">(.*?)</span>', re.S)
 
 FACTS_RE = re.compile(r'<section class="film-facts"(.*?)</section>', re.S)
 FACT_RE = re.compile(r"<dt[^>]*>((?:(?!</dt>).)*)</dt>\s*<dd[^>]*>(.*?)</dd>", re.S)
-PANEL_RE = re.compile(r'id="film-day-(\d{4}-\d{2}-\d{2})"[^<>]*data-tab-panel[^<>]*>(.*?)</ul>',
+# `data-tab-panel` is looked ahead for: two spans around it backtracked cubically on a page
+# of unclosed tags.
+PANEL_RE = re.compile(r'id="film-day-(\d{4}-\d{2}-\d{2})"(?=[^<>]*data-tab-panel)[^<>]*>(.*?)</ul>',
                       re.S)
 PANEL_ROW_RE = re.compile(r'<li class="show-row[^"]*">(.*?)</li>', re.S)
 META_RE = re.compile(r'class="show-row__meta[^"]*">(.*?)</span>', re.S)

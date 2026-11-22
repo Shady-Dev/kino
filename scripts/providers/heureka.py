@@ -106,7 +106,7 @@ WEEKDAYS = ["maanantai", "tiistai", "keskiviikko", "torstai", "perjantai",
             "lauantai", "sunnuntai"]                        # date.weekday(): 0 = Monday
 TIME_RE = re.compile(r"^(\d{1,2})[.:](\d{2})$")
 TAGS_RE = re.compile(r"<[^>]+>")
-DT_RE = re.compile(r'<dt class="detail-list__term">(.*?)</dt>\s*'
+DT_RE = re.compile(r'<dt class="detail-list__term">((?:(?!</dt>).)*)</dt>\s*'
                    r'<dd class="detail-list__desc">(.*?)</dd>', re.S)
 DESC_RE = re.compile(r'<div class="image-with-text__text rte body">(.*?)</div>', re.S)
 LANGS_RE = re.compile(r"Kielivaihtoehdot:(.*?)</p>", re.S)
