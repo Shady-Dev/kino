@@ -103,6 +103,23 @@ class HomeSyncExitTest(unittest.TestCase):
         self.assertNotIn("stale", out)
         self.assertPagesWritten()
 
+    def test_remote_posters_warn_and_leave_the_exit_to_the_poster_step(self):
+        """Review L9, 2026-11-22: mirror_posters exits 3 when it cannot run and 0 when a
+        third party's download failed, so the page build does not judge the same event."""
+        self.write_block(bp.home_links_html(bp.home_cities()))
+        for vid in ("2001", "2003"):
+            path = bp.DATA / f"area-{vid}.json"
+            doc = json.loads(path.read_text(encoding="utf-8"))
+            for s in doc["shows"]:
+                s["img"] = f"https://cdn{vid}.example.test/p.jpg"
+            path.write_text(json.dumps(doc), encoding="utf-8")
+        code, out = self.build()
+        self.assertEqual(code, 0)
+        self.assertIn("poster references were still remote", out)
+        self.assertIn("cdn2001.example.test", out)
+        self.assertIn("cdn2003.example.test", out)
+        self.assertPagesWritten()
+
     def test_one_missing_city_is_enough_to_fail_it(self):
         """The case that happened: the list is right except for the city that just gained
         its second venue."""

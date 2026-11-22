@@ -2053,6 +2053,8 @@ def main(today=None) -> int:
     stale_home = sync_home(write=False, venues=venues)
     if stale_home:
         print("[pages] index.html city links stale: run build_pages.py --home")
+    # Exit 0 is deliberate (review L9, 2026-11-22). The poster step already owns this
+    # verdict: it exits 3 when it cannot run and 0 for a download a third party failed.
     if _unmirrored_hosts:
         total = sum(_unmirrored_hosts.values())
         where = ", ".join(f"{h} x{n}" for h, n in sorted(_unmirrored_hosts.items()))

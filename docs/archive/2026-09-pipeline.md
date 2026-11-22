@@ -3141,3 +3141,11 @@ publishes one with none left empty, as recorded for the Maxim Helsinki case. The
 emptied files, and the closing line reads "previous files kept or emptied", naming how many
 of each site's venues went out empty. An adapter raising `NoScreenings` still leaves every
 file untouched. Three mutations red.
+
+### The page build keeps exit 0 for remote poster references (2026-11-22)
+Review finding L9 asked for an exit of its own, or a record that 0 is deliberate. It is
+deliberate. A remote reference reaches the page build only when the poster step did not
+mirror it, and that step already gives the verdict: 3 when it cannot run, and 0 for a
+download a third party failed, so that the third party's outage does not fail the run. In
+the 400 cloud and 270 local page logs committed before this, the warning appeared in none.
+A test holds exit 0 with the warning printed. Two mutations red.
