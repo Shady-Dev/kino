@@ -31,11 +31,19 @@ Fields:
           connection. Cinema Sheryl, Haapamäen Elokuvat and Elävienkuvien teatteri run
           local until a committed run log shows a runner can read them. Everything else
           runs on Actions
+  links   optional tuple of bare hostnames a published link (ticket link or trailer) may
+          point to besides `host` and the hosts the adapter's site entry names in `base`,
+          `site` and `reads`. Each one covers its subdomains. Declare it with `base` and
+          `reads` when adding a provider: run.py blanks a link to any other host and logs
+          it as `undeclared link host`, and tests/test_link_hosts.py fails on the
+          committed data until the host is declared or the link is gone
 """
 
 PROVIDERS = [
+    # The Finnkino API's trailer links point at its distributor platform's CDN.
     dict(id="finnkino", label="Finnkino", host="finnkino.fi", accent="#E85218",
-         accentDark="#EC4C07", book="buy", module=None, where="local"),
+         accentDark="#EC4C07", book="buy", module=None, where="local",
+         links=("film-cdn.moviexchange.com",)),
     # Violet since 2026-09-21, not the blue it carried: Helsinki reached ten chains and
     # no palette clears 14.4 there with this one held at #1273D4. The joint solve moved
     # four accents and this is the only one outside Helsinki, 4.4 dE00 from its old
@@ -417,8 +425,10 @@ PROVIDERS = [
     # sold-out row falls back to the film page it emits.
     # Kilta's accent is constrained by Finnkino in Turku and in Turun seutu; Laika's is
     # not, Karkkila holding no other provider and sitting in no REGIONS area.
+    # One event is sold through a Holvi web shop.
     dict(id="kinokilta", label="Kino Kilta", host="kinokilta.fi", accent="#1D6F8B",
-         accentDark="#15728F", book="buy", module="kinola", where="cloud"),
+         accentDark="#15728F", book="buy", module="kinola", where="cloud",
+         links=("holvi.com",)),
     dict(id="kinolaika", label="Kino Laika", host="kinolaika.fi", accent="#9A3412",
          accentDark="#B04927", book="buy", module="kinola", where="cloud"),
     # Vantaa's fourth chain and Pääkaupunkiseutu's thirteenth. Measured 2026-09-18 with
@@ -744,8 +754,10 @@ PROVIDERS = [
     # venue keep their names, and the accent its value: every venue is in Helsinki, so the
     # grouping enters no view the provider was not already in. `book="buy"`: the paid rows
     # carry a lippu.fi ticket link; Kuutamo's free rows link the house's event page.
+    # Some events sell through Lippu.fi, and Kanneltalo links its own event pages.
     dict(id="helios", label="Helsingin kulttuurikeskukset", host="hel.fi", accent="#FE17EA",
-         accentDark="#FEA0C7", book="buy", module="helios", where="cloud"),
+         accentDark="#FEA0C7", book="buy", module="helios", where="cloud",
+         links=("lippu.fi", "kanneltalo.fi")),
     # Added 2026-10-13. kinokonepaja.fi answered a non-residential fetcher that day.
     dict(id="kinokonepaja", label="Kino Konepaja", host="kinokonepaja.fi", accent="#4D3900",
          accentDark="#EDC200", book="buy", module="kinola", where="cloud"),

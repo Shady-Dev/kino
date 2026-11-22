@@ -4621,3 +4621,24 @@ fail. The mark is written by `run.publish_site` when a carried poster fills an e
 `img`. The test now publishes the parsed shows over a previous file carrying a mirrored
 poster for both films. The card stays unmarked and the film with no card takes the carried
 poster with the mark. Two mutations of that path, both red.
+
+### Published links only to declared hosts (2026-11-22)
+Review informational finding I1 and the maintainer's request that a compromised cinema site
+cannot use this one to send readers elsewhere. `check_shows` refused a link that is not
+http(s), but any https host passed and was served. At 2d9128e88f, 30 of 5432 committed
+ticket links left the provider's declared hosts: 28 to lippu.fi and 1 to kanneltalo.fi for
+Helsingin kulttuurikeskukset, and 1 to holvi.com for Kino Kilta. Finnkino's 20 trailer
+links in `films.json` point at film-cdn.moviexchange.com. The maintainer delegated the rule
+to the coordinating session. A link must now sit on the registry's `host`, a host the site
+entry already names in `base`, `site` or `reads`, or a host in the new registry field
+`links`, each with its subdomains. `links` was chosen over reusing `site` or `host`: `host`
+is the one domain the footer credits and reaches the client, and `site` is a URL an adapter
+fetches or the client links, so adding a ticket shop to either changes what is requested or
+shown. `links` is read only by the check and stays out of `providers.json`. `run.publish_site`
+applies it to every adapter's `url` and `tr`, and `fetch_data.py` to Finnkino's API trailer;
+`movieUrl` is removed before any file is written and Finnkino's ticket links are built from a
+constant. A link to any other host is published as an empty string, the row stays, and the
+run log names the host on an `undeclared link host` line that `check_runs.py` lists as new
+or carried without failing. The client draws such a ticket without a link, and the generated
+pages draw it as a plain stub. `tests/test_link_hosts.py` also holds the committed data to the
+rule, so a provider that ships an undeclared host fails the suite. Seven mutations red.

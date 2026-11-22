@@ -621,6 +621,7 @@ def main() -> int:
     unknown_attrs = set()
     films_meta = {}
     films_full = {}
+    tr_dropped = {}
     today = datetime.date.today()
     failed_dates = []
     for d in range(7):
@@ -711,6 +712,10 @@ def main() -> int:
                     # it; the other providers show no badge rather than a guessed one.
                     "rd": (film.get("releaseDate") or "")[:10],
                 }
+                # The API's trailer link is the one provider URL on this path; the rest are built.
+                for h, n in common.drop_undeclared_links(
+                        {fid: [films_full[fid]]}, common.link_domains("finnkino")).items():
+                    tr_dropped[h] = tr_dropped.get(h, 0) + n
             runtime = film.get("runtimeInMinutes") or film.get("runTime") or ""
             rid = (film.get("externalIds") or {}).get("moviexchangeReleaseId") or ""
             img = download_poster(rid) if rid else ""
@@ -749,6 +754,7 @@ def main() -> int:
         if untitled:
             print(f"[schedule] {date}: {untitled} row(s) with no title, dropped")
         time.sleep(0.4)
+    common.report_dropped_links("finnkino", tr_dropped)
 
     # The seven requests are independent, and a day that fails is a day missing from
     # every Finnkino venue at once. Written out, that day is absent from `dates`, which

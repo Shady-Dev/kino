@@ -206,6 +206,10 @@ def publish_site(mod, site, per_venue, now, order=0, confirmed=False):
     # that drops a key or changes a type fails its site here, like a parse error, rather
     # than publishing a file the client reads by key.
     common.check_shows(per_venue, label, {v["id"] for v in site["venues"]})
+    # A link to a host neither the registry nor the site entry declares is blanked here,
+    # where every adapter's output passes, so a new provider needs no adapter change.
+    common.report_dropped_links(
+        label, common.drop_undeclared_links(per_venue, common.link_domains(label, site)))
     # A strand prefix belongs in `method`, not in the title: left there it fragments the
     # film, blocks the TMDB match and gives every film in the strand the same fallback
     # tile. Applied centrally so a new adapter gets it without knowing it exists.

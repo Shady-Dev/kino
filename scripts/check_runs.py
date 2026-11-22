@@ -208,6 +208,37 @@ def noshow_report(logs):
     return [head] + [f"    {name}: [{site}] {why}: {mark}" for name, site, why, mark in rows]
 
 
+# A link run.py blanked because its host is not declared for the provider. The row is still
+# published without a link, so this is a report and never a failure.
+LINKS_RE = re.compile(r"^\[([^\]]+)\] undeclared link host (\S+): (\d+) link\(s\) dropped", re.M)
+
+
+def dropped_links(text):
+    """-> {(site, host): count} in the order the log names them."""
+    return {(site, host): int(n) for site, host, n in LINKS_RE.findall(text)}
+
+
+def links_report(logs):
+    """The links blanked for an undeclared host, each marked new or carried. -> [line]."""
+    rows = []
+    for path in logs:
+        text = path.read_text(encoding="utf-8", errors="replace")
+        found = dropped_links(text)
+        if not found:
+            continue
+        versions, complete = history(path)
+        for key, n in found.items():
+            mark = _standing(lambda t, k=key: k in dropped_links(t), text, versions, complete)
+            rows.append((path.name, key, n, mark))
+    if not rows:
+        return []
+    new = sum(mark.startswith("new") for *_, mark in rows)
+    head = (f"[check] undeclared link hosts: {len(rows)} in {len({r[0] for r in rows})} "
+            f"log(s), {new} new, links dropped and rows kept")
+    return [head] + [f"    {name}: [{site}] {host}: {n} link(s): {mark}"
+                     for name, (site, host), n, mark in rows]
+
+
 def strays(repo=REPO):
     """Run logs still sitting at the repo root. -> [Path], empty when the move is clean.
 
@@ -256,7 +287,7 @@ def main(argv):
         for site in failing(text) or ["(log)"]:
             print(f"    {site}: {standing(site, text, versions, complete)}", file=sys.stderr)
 
-    for line in unread_report(logs) + noshow_report(logs):
+    for line in unread_report(logs) + noshow_report(logs) + links_report(logs):
         print(line)
 
     print(f"[check] {len(logs)} run log(s), {len(bad)} failed")

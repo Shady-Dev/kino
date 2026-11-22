@@ -602,6 +602,59 @@ def web_url(url) -> bool:
     return u.scheme in ("http", "https") and bool(u.netloc)
 
 
+# The show fields that carry a link a reader follows, with the domains each also accepts
+# beyond the provider's own. `tr` is normally the TMDB pass's YouTube link, built from a
+# video key, and an adapter has no other trailer host to publish. `movieUrl` is not here
+# because `synmerge.strip_helpers` removes it before any file is written.
+LINK_FIELDS = {"url": (), "tr": ("youtube.com",)}
+
+
+def link_domains(provider, site=None):
+    """The domains a provider's published links may point to. -> set of lowercase hosts.
+
+    The registry's `host` and `links`, plus the hosts the site entry already names in
+    `base`, `site` and `reads`. A leading `www.` is dropped, and `link_allowed` accepts a
+    domain and its subdomains."""
+    import registry
+    p = registry.by_id(provider) or {}
+    hosts = [p.get("host"), *p.get("links", ())]
+    if site:
+        hosts += [urllib.parse.urlsplit(site[k]).hostname for k in ("base", "site")
+                  if site.get(k)]
+        hosts += list(site.get("reads") or ())
+    return {h.lower().removeprefix("www.") for h in hosts if h}
+
+
+def link_allowed(url, domains) -> bool:
+    """Whether `url`'s host is one of `domains` or a subdomain of one. `evilhel.fi` and
+    `hel.fi.evil.example` are neither, for `hel.fi`."""
+    host = (urllib.parse.urlsplit(url).hostname or "").lower()
+    return bool(host) and any(host == d or host.endswith("." + d) for d in domains)
+
+
+def drop_undeclared_links(per_venue, domains):
+    """Blank every link in `per_venue` whose host `domains` does not cover.
+
+    -> {host: links dropped}. The row stays and is drawn without a link. A compromised
+    cinema site can otherwise publish a ticket link to any host and this site serves it."""
+    dropped = {}
+    for shows in per_venue.values():
+        for s in shows:
+            for field, extra in LINK_FIELDS.items():
+                url = s.get(field)
+                if url and isinstance(url, str) and not link_allowed(url, domains | set(extra)):
+                    host = (urllib.parse.urlsplit(url).hostname or url[:40]).lower()
+                    dropped[host] = dropped.get(host, 0) + 1
+                    s[field] = ""
+    return dropped
+
+
+def report_dropped_links(label, dropped):
+    """One log line per host, the shape `check_runs.py` lists. Never fails the site."""
+    for host, n in sorted(dropped.items()):
+        print(f"[{label}] undeclared link host {host}: {n} link(s) dropped", file=sys.stderr)
+
+
 class EmptyProgramme(Exception):
     """An adapter reached a site, read its listing, and there were no films on it.
 
