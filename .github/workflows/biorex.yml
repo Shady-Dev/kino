@@ -48,6 +48,18 @@ jobs:
           path: .http-cache
           key: http-cache-${{ github.run_id }}
           restore-keys: http-cache-
+      # A restored entry is a tarball written by an earlier job in main's cache scope, and
+      # it lands in the workspace before any script runs (review L3, 2026-11-22). Anything
+      # it put outside .http-cache stops the job here.
+      - name: Check the cache restored nothing else
+        run: |
+          stray=$(git status --porcelain --ignored --untracked-files=all \
+                  | grep -vE '^(\?\?|!!) \.http-cache/' || true)
+          if [ -n "$stray" ]; then
+            echo "::error::the cache restore changed files outside .http-cache"
+            echo "$stray"
+            exit 1
+          fi
       - name: Build providers.json and regions.json
         run: |
           python3 scripts/build_providers.py
