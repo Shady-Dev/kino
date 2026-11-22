@@ -48,5 +48,26 @@ class CacheRestoreCheckTest(unittest.TestCase):
         self.assertIn("exit 1", steps[check])
 
 
+class CommitStepHooksTest(unittest.TestCase):
+    """The step holding the push token runs git with hooks off. An earlier step parsed
+    provider content and could have planted a .git/hooks script (review I2, 2026-11-22)."""
+
+    def step(self):
+        text = (_ctx.ROOT / ".github/workflows/biorex.yml").read_text(encoding="utf-8")
+        return next(s for s in re.split(r"\n      - ", text)
+                    if s.startswith("name: Commit data and logs"))
+
+    def test_every_git_in_the_step_runs_with_hooks_off(self):
+        step = self.step()
+        env, run = step.split("\n        run: |", 1)
+        self.assertIn("PUSH_TOKEN:", env)
+        self.assertIn('GIT_CONFIG_COUNT: "1"', env)
+        self.assertIn("GIT_CONFIG_KEY_0: core.hooksPath", env)
+        self.assertIn("GIT_CONFIG_VALUE_0: /dev/null", env)
+        self.assertRegex(run, r"\bgit (?:add|commit)\b", "the step no longer runs git")
+        for word in ("hooksPath", "GIT_CONFIG"):
+            self.assertNotIn(word, run, "the run block overrides the hooks setting")
+
+
 if __name__ == "__main__":
     unittest.main()

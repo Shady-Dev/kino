@@ -35,8 +35,9 @@ jobs:
       # persist-credentials: false keeps the write token out of .git/config, so it is not
       # on disk while the steps that parse third-party pages run. Only "Commit data and
       # logs" needs it, and passes it to its own git commands (audit G10). That does not
-      # isolate the earlier steps. Code they ran could still plant a .git/hooks script that
-      # the commit step runs with PUSH_TOKEN in its environment, and a hosted runner gives
+      # isolate the earlier steps. A .git/hooks script they planted no longer runs, because
+      # the commit step sets core.hooksPath to /dev/null for every git it starts. Repo config
+      # such as core.fsmonitor can still name a command, and a hosted runner gives
       # passwordless sudo. What protects the token is that no step executes provider
       # content (review I2, 2026-11-22).
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
@@ -153,6 +154,11 @@ jobs:
         if: ${{ !cancelled() }}
         env:
           PUSH_TOKEN: ${{ github.token }}
+          # Hooks off for every git in this step, rebase's own children included: an
+          # earlier step parsed provider content and could have planted one.
+          GIT_CONFIG_COUNT: "1"
+          GIT_CONFIG_KEY_0: core.hooksPath
+          GIT_CONFIG_VALUE_0: /dev/null
         run: |
           git config user.name kino-bot && git config user.email a@b.c
           # The header actions/checkout would have stored, set on these commands only. The
