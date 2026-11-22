@@ -3078,3 +3078,17 @@ leaves it. The grace therefore runs from the day a poster stopped being used. No
 prunes when no area file was read. `git add data` stages the deletions, checked in a scratch
 repository. Seven mutations red. Not yet seen: the first deletions, 30 days after the first
 cloud run that carries this.
+
+### Every pipeline pattern is scanned for backtracking (2026-11-22)
+The maintainer asked that the review's fixes hold for adapters not written yet.
+`tests/test_regex_safety.py` reads every module under `scripts/providers/` and
+`scripts/fetch_data.py`: its module-level compiled patterns, every literal passed to a `re`
+function and every `*_RE` template. It builds attack inputs from each pattern's own parse
+tree and fails a pattern whose time grows more than 5.5-fold when one input doubles from
+4,000 to 8,000 characters, or that runs past 3 s. Quadratic growth is about 4 and cubic
+about 8. Each module runs in a child process, so a hang names its pattern instead of
+stopping the suite. The whole scan took 43 CPU seconds. Its first run found twelve patterns
+the 8 kB scan behind M1 had missed, fixed in d1a9254380 with no extraction changed: runtime
+and euro patterns quadratic with a large constant on a digit run (0.25 s at 4,000 digits),
+and cubic spans in Bio Savoy, Heureka and Regina. The exception list is empty. Restoring the
+original H1 heading pattern, Riviera's date pattern or Kinola's term pattern turns it red.
