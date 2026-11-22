@@ -84,8 +84,8 @@ TITLE_RE = re.compile(r'class="show-row__title[^"]*">(.*?)</span>', re.S)
 CHIP_RE = re.compile(r'class="chip">(.*?)</span>', re.S)
 
 FACTS_RE = re.compile(r'<section class="film-facts"(.*?)</section>', re.S)
-FACT_RE = re.compile(r"<dt[^>]*>(.*?)</dt>\s*<dd[^>]*>(.*?)</dd>", re.S)
-PANEL_RE = re.compile(r'id="film-day-(\d{4}-\d{2}-\d{2})"[^>]*data-tab-panel[^>]*>(.*?)</ul>',
+FACT_RE = re.compile(r"<dt[^>]*>((?:(?!</dt>).)*)</dt>\s*<dd[^>]*>(.*?)</dd>", re.S)
+PANEL_RE = re.compile(r'id="film-day-(\d{4}-\d{2}-\d{2})"[^<>]*data-tab-panel[^<>]*>(.*?)</ul>',
                       re.S)
 PANEL_ROW_RE = re.compile(r'<li class="show-row[^"]*">(.*?)</li>', re.S)
 META_RE = re.compile(r'class="show-row__meta[^"]*">(.*?)</span>', re.S)

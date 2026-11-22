@@ -248,8 +248,11 @@ def parse(page, today=None):
 DETAIL_RE = re.compile(r'<label>([^<]+)</label>\s*'
                        r'(?:<span>(.*?)</span>|<div class=["\']contentratings["\']>(.*?)</div>)',
                        re.S | re.I)
-GENRE_RE = re.compile(r'class=["\']cmd-desription[^"\']*["\'][^>]*>.*?<h5[^>]*>(.*?)</h5>', re.S | re.I)
-SYN_RE = re.compile(r'class=["\']cmd-desription[^"\']*["\'][^>]*>.*?</h5>\s*<p>(.*?)</p>\s*</div>', re.S | re.I)
+# Tempered spans: a lazy one settles on the first marker anyway, and backtracking across the
+# later ones is cubic on a page that repeats them.
+GENRE_RE = re.compile(r'class=["\']cmd-desription[^"\']*["\'][^<>]*>(?:(?!<h5).)*<h5[^>]*>(.*?)</h5>', re.S | re.I)
+SYN_RE = re.compile(r'class=["\']cmd-desription[^"\']*["\'][^<>]*>(?:(?!</h5>\s*<p>).)*</h5>\s*<p>(.*?)</p>\s*</div>',
+                    re.S | re.I)
 RATING_CLASS_RE = re.compile(r'class=["\']rating\s+([^"\']+)["\']', re.I)
 KESTO_RE = re.compile(r'(?:(\d+)\s*h)?\s*(\d+)\s*min', re.I)
 

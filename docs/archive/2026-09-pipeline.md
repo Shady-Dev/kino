@@ -2989,3 +2989,20 @@ category, Julia, Kino Vaakuna, Kino Kirkkonummi, Kisakino's film pages and Tribe
 plain error. Iso-Hannu, Kino Huovi, Kuusamotalo, Kuvakukko, Pajakka, Kino Tapiola, TMB and
 Navettakino choose by their own counters, and the rest stay `NoScreenings`. 31 mutations
 red, 16 of them on the conditional raises in both directions.
+
+### Adapter patterns no longer backtrack cubically (2026-11-22)
+Review finding M1. 53 patterns in 27 adapter files backtracked cubically on crafted markup,
+in three shapes: spaces on both sides of a lazy group (`">\s*(.*?)\s*</div>`), attribute
+spans that ran past the next `<` into later tags, and a lazy span between two markers that
+the engine retried at every later marker. 2.5 kB of spaces after Riviera's `class="date">`
+held one match for 5.8 s, localhub's subtitle item took 23 s at 700 characters, and `re`
+holds the GIL over the cloud pool. The patterns now capture raw text and strip it in
+Python, bound attribute spans with `[^<>]*`, and stop a span at its first marker with a
+tempered `(?:(?!X).)*X`. No possessive quantifier or atomic group is used. A scan of the
+708 patterns under `scripts/` with generated attack strings finds none that grows faster
+than quadratically. 102 extraction cases over the 20,534 string literals in the tests read
+the same through old and new, except that a Kinola or Bio Savoy term cell no longer runs
+past a `</dt>` that no `<dd>` follows. The quadratic family, `<x class="y">(.*?)</x>` with
+no closer, is unchanged. `tests/test_regex_backtracking.py` runs 22 crafted inputs with a
+one-second limit. The pre-fix patterns took 0.9 s to over 30 s on them: 21 went over the
+limit and the other errored on a helper that did not exist yet.

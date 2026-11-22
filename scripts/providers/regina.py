@@ -97,10 +97,13 @@ GRID_RE = re.compile(r'<div class="col-4 col-md-2"><b><span>(.*?)</span></b></di
                      r'<div class="col-8 col-md-4">(.*?)</div>', re.S | re.I)
 AGE_RE = re.compile(r'alt="Ikäraja:\s*(K\s*-?\s*\d+|S|T)"', re.I)
 KESTO_RE = re.compile(r"(\d+)\s*min", re.I)
-HEADING_RE = re.compile(r'id="main-content"[^>]*>.*?<h1>(.*?)</h1>', re.S | re.I)
+# A tempered span stops at the first marker, which is the only one a lazy span can settle
+# on, and cannot backtrack across the later ones (cubic on a page that repeats them).
+HEADING_RE = re.compile(r'id="main-content"[^<>]*>(?:(?!<h1>).)*<h1>(.*?)</h1>', re.S | re.I)
 YEAR_RE = re.compile(r"\(\s*((?:19|20)\d{2})\s*\)\s*$")
 ORIGINAL_RE = re.compile(r'<span class="original-name">(.*?)</span>', re.S | re.I)
-KUVAUS_RE = re.compile(r'<a name="kuvaus"></a>.*?<div class="col-12 single-movie-main-content-area">(.*?)</div>',
+_KUVAUS_DIV = r'<div class="col-12 single-movie-main-content-area">'
+KUVAUS_RE = re.compile(r'<a name="kuvaus"></a>(?:(?!' + _KUVAUS_DIV + r').)*' + _KUVAUS_DIV + r'(.*?)</div>',
                        re.S | re.I)
 PARA_RE = re.compile(r"<p\b[^>]*>(.*?)</p>", re.S | re.I)
 GAUGE_RE = re.compile(r"\b(8|16|35|70)\s*mm\b", re.I)

@@ -68,7 +68,7 @@ CATEGORIES = {"seniorikino": "Seniorikino"}
 # Film page: the age limit is a class, the rest are labelled text boxes.
 AGE_RE = re.compile(r'info-icon age-limit-(K-\d+|S)\b', re.I)
 ICON_RE = re.compile(r'<div class="info-icon ([a-z-]+)">\s*(?:<a[^>]*>\s*)?<div class="info-icon-inner">'
-                     r'.*?<div class="text">(.*?)</div>', re.S | re.I)
+                     r'(?:(?!<div class="text">).)*<div class="text">(.*?)</div>', re.S | re.I)
 DESC_RE = re.compile(r'<div class="description">(.*?)</div>\s*<div class="info-icons">', re.S | re.I)
 PARA_RE = re.compile(r'<p\b[^>]*>(.*?)</p>', re.S | re.I)
 KESTO_RE = re.compile(r'(?:(\d+)\s*h)?\s*(\d+)\s*min', re.I)

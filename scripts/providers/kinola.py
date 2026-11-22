@@ -328,7 +328,7 @@ MIN_RE = re.compile(r'(\d{1,3})\s*min\b', re.I)
 # out of the first and publishes a 150 minute film as 30. Checked against the committed
 # data 2026-09-18: Kilta and Laika runtimes are all 76 to 145, so neither moves.
 HM_RE = re.compile(r'(\d{1,2})\s*[ht]\s*(\d{1,2})\s*min\b', re.I)
-DT_DD_RE = re.compile(r'<dt[^>]*>(.*?)</dt>\s*<dd[^>]*>(.*?)</dd>', re.S | re.I)
+DT_DD_RE = re.compile(r'<dt[^>]*>((?:(?!</dt>).)*)</dt>\s*<dd[^>]*>(.*?)</dd>', re.S | re.I)
 STRONG_RE = re.compile(r'<strong[^>]*>\s*([A-Za-zÄÖÅäöå]{3,20})\s*:?\s*</strong>\s*'
                        r'(?:<br\s*/?>)?(.*?)(?=<strong|<br\s*/?>\s*<br|<p[\s>]|</div>|$)', re.S | re.I)
 KILTA_RATING_RE = re.compile(r'alt=["\']Ikäraja:\s*([^"\']+)["\']', re.I)
@@ -352,7 +352,7 @@ TAGS_RE = re.compile(r"<[^>]+>")
 # runtime the page publishes; the text before the first <p> held it only on pages whose
 # synopsis is not in <p> elements.
 SHERYL_FACTS_RE = re.compile(
-    r"<hr\s*/?>\s*(?:<br\s*/?>\s*)*<strong>.*?</strong>(.*?)<br\s*/?>\s*<br\s*/?>",
+    r"<hr\s*/?>\s*(?:<br\s*/?>\s*)*<strong>(?:(?!</strong>).)*</strong>(.*?)<br\s*/?>\s*<br\s*/?>",
     re.S | re.I)
 KILTA_SEP_RE = re.compile(r"^(?:-{2,}|\*{3,})$")
 KILTA_STRONG_RE = re.compile(r"<strong[^>]*>(.*?)</strong>", re.S | re.I)

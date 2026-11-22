@@ -42,8 +42,11 @@ SITES = [
 
 WINDOW = (30, 120)
 TABLE_RE = re.compile(r'<table class="naytokset">(.*)', re.S | re.I)
-FILM_RE = re.compile(r'<td[^>]*class="elokuva"[^>]*>(.*?)</td>.*?'
-                     r'<td[^>]*class="elokuva_tiedot"[^>]*>\s*<pre>(.*?)</pre>', re.S | re.I)
+# Tempered spans stop at the first `</td>` and the first details cell, the only ones the
+# lazy spans could settle on, without backtracking across later ones.
+_TIEDOT = r'<td[^<>]*class="elokuva_tiedot"[^<>]*>\s*<pre>'
+FILM_RE = re.compile(r'<td[^<>]*class="elokuva"[^<>]*>((?:(?!</td>).)*)</td>'
+                     r'(?:(?!' + _TIEDOT + r').)*' + _TIEDOT + r'(.*?)</pre>', re.S | re.I)
 H1_RE = re.compile(r"<h1[^>]*>(.*?)</h1>", re.S | re.I)
 LEN_RE = re.compile(r"Kesto:\s*(\d{1,2})\s*h\s*(\d{1,2})\s*min", re.I)
 RATING_RE = re.compile(r"-(?:K\s*(\d{1,2})(?:/\d{1,2})?|(S))-", re.I)

@@ -1,7 +1,7 @@
 """Adapter regexes finish in linear time on hostile markup.
 
-Spaces on both sides of a lazy group and attribute spans that cross into the next tag
-backtracked cubically: a few kilobytes of crafted
+Spaces on both sides of a lazy group, attribute spans that cross into the next tag and
+lazy spans between two markers each backtracked cubically: a few kilobytes of crafted
 markup held one match for seconds to minutes, and `re` holds the GIL, so one such page
 froze every site in the cloud pool (review of 2026-11-22, M1). Each input here took the
 pre-fix pattern between 0.9 s and over 30 s on the machine it was measured on, and takes
@@ -21,6 +21,7 @@ import etiketti
 import heureka
 import huvimylly
 import julia
+import kinokuva
 import kinola
 import kirkkonummi
 import lieksa
@@ -57,6 +58,11 @@ CASES = [
     ("kirkkonummi range", lambda: kirkkonummi.RANGE_RE.match("1 - 1.1." + W * 5000 + "!")),
     ("julia poster", lambda: julia.POSTER_RE.search('<img class="wp-post-image' * 500)),
     ("kinola title", lambda: kinola.TITLE_RE.search('<a class="kinola-event-title" href="x' * 300)),
+    ("kinola facts", lambda: kinola.DT_DD_RE.findall("<dt>a</dt> <dd" * 700)),
+    ("regina heading", lambda: regina.HEADING_RE.search('id="main-content">a<h1>' * 500)),
+    ("kinokuva films", lambda: kinokuva.FILM_RE.findall(
+        '<td class="elokuva">a</td>a<td class="elokuva_tiedot"><pre>' * 150)),
+    ("engel synopsis", lambda: engel.SYN_RE.search('class="cmd-desription">a</h5> <p>' * 500)),
 ]
 
 
