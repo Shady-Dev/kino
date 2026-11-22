@@ -49,6 +49,29 @@ STRIPPED = ["$pathname", "$host", "$referrer", "$referring_domain",
 
 MANDATORY = ["token", "distinct_id"]
 
+STORAGE = re.compile(r"\b(?:localStorage|sessionStorage)\b")
+STORAGE_CALL = re.compile(r"""\s*\.\s*(?:get|set|remove)Item\(\s*(['"])([^'"]+)\1""")
+
+
+def scripts_of(html):
+    """The text of every script element, the only place storage can be reached."""
+    return "\n".join(re.findall(r"<script\b[^>]*>(.*?)</script>", html, re.S | re.I))
+
+
+def storage_uses(text):
+    """-> ({literal keys}, [other uses]) over every storage reference outside a // comment."""
+    keys, other = set(), []
+    for m in STORAGE.finditer(text):
+        line_start = text.rfind("\n", 0, m.start()) + 1
+        if re.search(r"(?<!:)//", text[line_start:m.start()]):
+            continue
+        call = STORAGE_CALL.match(text, m.end())
+        if call:
+            keys.add(call.group(2))
+        else:
+            other.append(text[m.start():m.end() + 30].split("\n")[0])
+    return keys, other
+
 CASES = [
     # name, event, properties in, expected properties out (None = event dropped)
     ("allowed_minimal", "cinema_opened", {"venue": "tahtikino-muhos"},
@@ -351,10 +374,23 @@ class ConfigTest(unittest.TestCase):
                 self.assertNotIn(call, self.html)
 
     def test_no_browser_storage_is_used_for_analytics(self):
-        """The app's own two keys stay; nothing analytics-related may be added."""
-        keys = set(re.findall(r"(?:localStorage|sessionStorage)\.(?:get|set|remove)Item\('([^']+)'",
-                              self.html))
-        self.assertTrue(keys <= {"kino-prefs", "kino-theme"}, keys)
+        """The app's own two keys stay; nothing analytics-related may be added.
+
+        Every reference to either storage in a script must be a get, set or remove of a
+        literal key (review L11, 2026-11-22). The old pattern read single-quoted literals
+        only and passed on an empty set, so `localStorage.ph_seen = 1` and a double-quoted
+        key went through."""
+        keys, other = storage_uses(self.html)
+        self.assertEqual(other, [], "storage reached some other way than a literal key")
+        self.assertEqual(keys, {"kino-prefs", "kino-theme"})
+
+    def test_the_other_client_files_use_only_the_same_keys(self):
+        for rel in ("pageview.js", "status/index.html", "tietosuoja/index.html"):
+            with self.subTest(file=rel):
+                text = (_ctx.ROOT / rel).read_text(encoding="utf-8")
+                keys, other = storage_uses(text if rel.endswith(".js") else scripts_of(text))
+                self.assertEqual(other, [])
+                self.assertLessEqual(keys, {"kino-prefs", "kino-theme"})
 
     def test_the_allowlist_matches_the_documented_one(self):
         block = allowlist_entries(self.html)
