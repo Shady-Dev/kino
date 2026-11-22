@@ -158,9 +158,11 @@ conditional discount. **Unblocks when:** Julia's own page says what each amount 
 The repo half is done, `scripts/check_staleness.py`: a pure function of a file and a
 clock, answering "did a run happen", which `check_runs.py` cannot. Its threshold is
 `STALE_H` from `index.html` and a test fails if the two drift apart.
-**Next action:** the external ping that calls it. The schedule, the file location and the
-recipient are machine-specific and live in the wrapper outside this repo, so this item
-cannot close here.
+**Next action:** the external ping that calls it, twice. `data/areas.json` is written by
+the local half only, so a stopped cloud half needs a second read with `--file
+data/venues-biorex.json`, which every cloud run stamps (review L12, 2026-11-22). The
+schedule, the file location and the recipient are machine-specific and live in the
+wrapper outside this repo, so this item cannot close here.
 
 ### Rekolan Kino and Juvan Kino wait for a programme
 
