@@ -3084,10 +3084,12 @@ The maintainer asked that the review's fixes hold for adapters not written yet.
 `tests/test_regex_safety.py` reads every module under `scripts/providers/` and
 `scripts/fetch_data.py`: its module-level compiled patterns, every literal passed to a `re`
 function and every `*_RE` template. It builds attack inputs from each pattern's own parse
-tree and fails a pattern whose time grows more than 5.5-fold when one input doubles from
-4,000 to 8,000 characters, or that runs past 3 s. Quadratic growth is about 4 and cubic
-about 8. Each module runs in a child process, so a hang names its pattern instead of
-stopping the suite. The whole scan took 43 CPU seconds. Its first run found twelve patterns
+tree and fails a pattern whose time grows more than 5.5-fold at both doublings of one input,
+from 4,000 to 8,000 to 16,000 characters, best of three taken in turn, or that runs past
+3 s. Quadratic growth is about 4 and cubic about 8. A single doubling flagged Kino Huovi's
+quadratic card pattern under the full suite's load, which is why both are required. Each
+module runs in a child process, so a hang names its pattern instead of stopping the suite.
+The whole scan took 58 CPU seconds. Its first run found twelve patterns
 the 8 kB scan behind M1 had missed, fixed in d1a9254380 with no extraction changed: runtime
 and euro patterns quadratic with a large constant on a digit run (0.25 s at 4,000 digits),
 and cubic spans in Bio Savoy, Heureka and Regina. The exception list is empty. Restoring the

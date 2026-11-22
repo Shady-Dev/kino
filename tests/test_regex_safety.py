@@ -11,9 +11,9 @@ What is scanned: every compiled pattern at module level, every string literal pa
 `re` function, and a module-level `*_RE` string template, filled in. What is thrown at each:
 inputs built from the pattern's own parse tree, the literal text before each unbounded
 repeat followed by that repeat's body, by whitespace, or by the opener repeated with no
-closer. A pattern fails when doubling one input from SMALL to SIZE characters multiplies the
-time more than GROWTH-fold, which a quadratic pattern (about 4) does not reach and a cubic
-one (about 8) does, or when one call runs past HANG_S. The quadratic family, `<x class="y">(.*?)</x>`
+closer. A pattern fails when doubling one input twice, from SMALL to SIZE to twice SIZE
+characters, multiplies the time more than GROWTH-fold both times, which a quadratic pattern
+(about 4) does not reach and a cubic one (about 8) does, or when one call runs past HANG_S. The quadratic family, `<x class="y">(.*?)</x>`
 with no closer, is accepted, as the review recorded.
 
 Each module is checked in a child process, so a pattern that never returns costs a timeout
@@ -155,24 +155,29 @@ def timed(rx, text):
             signal.setitimer(signal.ITIMER_REAL, 0)
 
 
-def best(rx, text, n):
-    """The fastest of `n` timings, None if one hangs: one slow sample is the machine."""
-    got = []
-    for _ in range(n):
-        t = timed(rx, text)
-        if t is None:
-            return None
-        got.append(t)
-    return min(got)
-
-
-def grows(rx, small_text, big_text, n):
-    small = best(rx, small_text, n)
-    big = best(rx, big_text, n) if small is not None else None
+def first_look(rx, small_text, big_text):
+    """One sample each: whether the input is worth confirming."""
+    small = timed(rx, small_text)
+    big = timed(rx, big_text) if small is not None else None
     if small is None or big is None:
-        return "over the hang limit"
-    if small >= FAST_S and big > FLOOR_S and big > GROWTH * small:
-        return f"{big:.3f} s at {SIZE}, {small:.4f} s at {SMALL}"
+        return True
+    return small >= FAST_S and big > FLOOR_S and big > GROWTH * small
+
+
+def confirm(rx, texts):
+    """Interleaved best-of-three at SMALL, SIZE and twice SIZE. -> why it fails, or None.
+
+    Both doublings have to grow more than GROWTH-fold. A busy machine can slow one sample,
+    and it slows the sizes alike when they are taken in turn."""
+    best = [None] * len(texts)
+    for _ in range(3):
+        for i, text in enumerate(texts):
+            t = timed(rx, text)
+            if t is None:
+                return "over the hang limit"
+            best[i] = t if best[i] is None else min(best[i], t)
+    if best[2] > FLOOR_S and best[1] > GROWTH * best[0] and best[2] > GROWTH * best[1]:
+        return f"{best[0]:.4f} s, {best[1]:.4f} s, {best[2]:.4f} s at {SMALL}, {SIZE}, {2 * SIZE}"
     return None
 
 
@@ -180,11 +185,11 @@ def verdict(rx):
     """-> None, or why the pattern fails."""
     tried = set()
     for kind, pre, pump in attacks(rx.pattern, rx.flags):
-        small_text, big_text = build(kind, pre, pump, SMALL), build(kind, pre, pump, SIZE)
-        if small_text in tried:
+        texts = [build(kind, pre, pump, n) for n in (SMALL, SIZE, 2 * SIZE)]
+        if texts[0] in tried:
             continue
-        tried.add(small_text)
-        if grows(rx, small_text, big_text, 1) and (why := grows(rx, small_text, big_text, 3)):
+        tried.add(texts[0])
+        if first_look(rx, texts[0], texts[1]) and (why := confirm(rx, texts)):
             return f"{kind} {pre[:30]!r} + {pump[:10]!r}: {why}"
     return None
 
