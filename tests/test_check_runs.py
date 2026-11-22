@@ -101,10 +101,6 @@ class CheckRunsTest(unittest.TestCase):
         self.assertEqual(self.run_check(), 0)
 
 
-if __name__ == "__main__":
-    unittest.main()
-
-
 class FailingSiteHistoryTest(unittest.TestCase):
     """Every failing site is named and marked new or carried, from git history alone.
 
@@ -339,3 +335,7 @@ class NoScreeningsReportTest(unittest.TestCase):
         self.commit("[kinohuovi] 6 showtimes\nexit=0\n")
         _, out = self.report()
         self.assertNotIn("no screenings", out)
+
+
+if __name__ == "__main__":
+    unittest.main()

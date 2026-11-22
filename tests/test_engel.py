@@ -125,10 +125,6 @@ class YearTest(unittest.TestCase):
                 self.assertEqual(got[:10], d.isoformat() if published else "")
 
 
-if __name__ == "__main__":
-    unittest.main()
-
-
 class FiveHundredTest(unittest.TestCase):
     """The site answering 500 while still serving the programme.
 
@@ -410,3 +406,7 @@ class DroppedConnectionSocketTest(unittest.TestCase):
             page = E.patient_get(url, tries=3, backoff=0, cache=False)
         self.assertIn("Osta liput", page)
         self.assertEqual(self.state["n"], 1)
+
+
+if __name__ == "__main__":
+    unittest.main()

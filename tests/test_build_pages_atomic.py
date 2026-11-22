@@ -231,10 +231,6 @@ class PartialBuildTest(BuildHarness):
         self.assertGreater(len(moved), 20)
 
 
-if __name__ == "__main__":
-    unittest.main()
-
-
 class ObsoletePageTest(BuildHarness):
     """Removing a provider has to stop building its pages, and say what is left behind.
 
@@ -336,3 +332,7 @@ class ObsoletePageTest(BuildHarness):
         log = self.build_out()
         self.assertIn("too many to be a removal", log)
         self.assertNotIn("no longer built and still published", log)
+
+
+if __name__ == "__main__":
+    unittest.main()

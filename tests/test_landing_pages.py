@@ -1995,10 +1995,6 @@ class ReadmeCountsTest(unittest.TestCase):
                 self.assertEqual(int(m.group(1)), len(registry.REGIONS))
 
 
-if __name__ == "__main__":
-    unittest.main()
-
-
 class NonFilmBoundaryTest(unittest.TestCase):
     """A concert and a film under one title stay two cards on the generated pages, and the
     concert takes nothing the films-extra entry under that title holds. Kannusali publishes
@@ -2170,3 +2166,7 @@ class EventPictureTest(unittest.TestCase):
         self.assertEqual(bp.share_image(days), "/data/posters/64cae55437ce098a.jpg")
         self.assertEqual(bp.share_image(bp.group_by_day([self.row()], self.TODAY, 1)),
                          "/icon-512.png")
+
+
+if __name__ == "__main__":
+    unittest.main()

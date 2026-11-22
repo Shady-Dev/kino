@@ -522,10 +522,6 @@ class PagesLayoutTest(unittest.TestCase):
                     "border-left-color", want)
 
 
-if __name__ == "__main__":
-    unittest.main()
-
-
 EVENT_SLUG = "testikino-tapahtumatalo-testila"
 CREDIT = ("Kuva: Mikko Mäntyniemi · Espoon tapahtumarajapinta · "
           "käyttö vain tapahtuman yhteydessä (event only)")
@@ -645,3 +641,7 @@ class EventPicturePagesTest(unittest.TestCase):
                     m = self.measure(w, theme)
                     self.assertEqual(m["theme"], theme)
                     self.assertGreaterEqual(m["contrast"], 4.5)
+
+
+if __name__ == "__main__":
+    unittest.main()

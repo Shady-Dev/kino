@@ -492,10 +492,6 @@ class FinnkinoFilesTest(TrustHarness):
         self.assertNotIn("Finnkinon elokuva", asked)
 
 
-if __name__ == "__main__":
-    unittest.main()
-
-
 class NonFilmTest(TrustHarness):
     """A concert or a stage show an adapter marks `nonFilm` takes nothing from TMDB.
 
@@ -532,3 +528,7 @@ class NonFilmTest(TrustHarness):
         show = self.area()["shows"][0]
         self.assert_no_tmdb_fields(show)
         self.assertNotIn("isrc", show)
+
+
+if __name__ == "__main__":
+    unittest.main()

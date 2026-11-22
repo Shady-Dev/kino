@@ -557,10 +557,6 @@ class ConfirmedEmptyTest(RunSiteHarness):
         self.assertEqual([v["id"] for v in doc["venues"]], ["fc-a", "fc-b", "fc-c", "fc-d"])
 
 
-if __name__ == "__main__":
-    unittest.main()
-
-
 class EnrichmentCarriedForwardTest(unittest.TestCase):
     """A rewrite must not drop what only the TMDB pass can supply.
 
@@ -788,3 +784,7 @@ class PublishAtomicityTest(RunSiteHarness):
         films = json.loads((self.out / "films-extra.json").read_text(encoding="utf-8"))
         self.assertEqual(films["films"]["a film"]["s"]["fi"], "Alpha's own blurb")
         self.assertEqual(sorted(p.name for p in self.out.glob("*.tmp")), [])
+
+
+if __name__ == "__main__":
+    unittest.main()

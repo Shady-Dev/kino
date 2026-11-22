@@ -87,10 +87,6 @@ class ChangedRowsTest(unittest.TestCase):
         self.assertNotIn("left out", log)
 
 
-if __name__ == "__main__":
-    unittest.main()
-
-
 def card(slug, title, kesto):
     """The month's-offer card read 2026-10-04: a heading, then the facts, no screening list."""
     return (f'<h2 class="elementor-heading-title x"><a href="https://kinoakseli.fi/elokuva-{slug}/">'
@@ -118,3 +114,7 @@ class RuntimeTest(unittest.TestCase):
         shows, _ = parse(film("verity", "Verityn varjo", "Su 20.9. klo 18:00", "Ma 21.9. klo 20:00")
                          + card("a", "Verityn varjo", "117min") + card("b", "Verityn varjo", "120min"))
         self.assertEqual({s["len"] for s in shows}, {""})
+
+
+if __name__ == "__main__":
+    unittest.main()

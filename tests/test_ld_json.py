@@ -68,10 +68,6 @@ class LdJsonEscapingTest(unittest.TestCase):
         self.assertEqual(html.lower().count("</script>"), 4)
 
 
-if __name__ == "__main__":
-    unittest.main()
-
-
 def days_priced(*prices):
     return {TODAY.isoformat(): {("Film", False): [
         {"theatre": "Kino Testi", "start": f"{TODAY.isoformat()}T{18 + i}:00:00",
@@ -126,3 +122,7 @@ class LdJsonNonFilmTest(unittest.TestCase):
         self.assertEqual(events["Asla Jo"]["offers"]["price"], "0")
         self.assertEqual(events["Michael"]["@type"], "ScreeningEvent")
         self.assertEqual(events["Michael"]["workPresented"]["@type"], "Movie")
+
+
+if __name__ == "__main__":
+    unittest.main()

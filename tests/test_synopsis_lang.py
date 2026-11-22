@@ -227,10 +227,6 @@ class EnrichmentPreservesEveryLanguageTest(unittest.TestCase):
         self.assertEqual(s["sv"], SV, "the pass dropped a language it does not know")
 
 
-if __name__ == "__main__":
-    unittest.main()
-
-
 class UnreadableFileTest(unittest.TestCase):
     """An unparsable films-extra.json was read as {} and rewritten from one site's
     synopses: one stray comma from a hand edit, and the first site to publish cut 568
@@ -282,3 +278,6 @@ class UnreadableFileTest(unittest.TestCase):
         synmerge.merge(self.out, {"v": [show("Toinen elokuva", FI)]}, "p", 0)
         self.assertEqual(json.loads(self.path.read_text())["films"]["toinen elokuva"]["s"]["fi"], FI)
 
+
+if __name__ == "__main__":
+    unittest.main()

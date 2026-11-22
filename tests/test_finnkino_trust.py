@@ -138,10 +138,6 @@ class TrustedOnlyTest(unittest.TestCase):
         self.assertEqual(out["films.json"]["films"]["10"]["tr"], FINNKINO_TRAILER)
 
 
-if __name__ == "__main__":
-    unittest.main()
-
-
 class AliasOverrideTest(unittest.TestCase):
     """`alias_overrides`: which cached Finnkino films an alias replaces."""
 
@@ -173,3 +169,6 @@ class AliasOverrideTest(unittest.TestCase):
         self.assertEqual(fetch_data.alias_overrides(
             cache, self.META, {"avengers endgame encore": "299534"}), ["HO3"])
 
+
+if __name__ == "__main__":
+    unittest.main()

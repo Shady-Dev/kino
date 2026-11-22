@@ -310,10 +310,6 @@ class RegistryTest(unittest.TestCase):
                                  "&sort=score")
 
 
-if __name__ == "__main__":
-    unittest.main()
-
-
 class LanguageTest(unittest.TestCase):
     """The three ways the calendar stated a screening's language, read 2026-10-04. Two
     dates per page wherever the date matters."""
@@ -346,3 +342,7 @@ class LanguageTest(unittest.TestCase):
             with self.subTest(value=value):
                 self.assertEqual(self.langs(long_=f"<ul><li><strong>Tekstitys:</strong> {value}"
                                                   "</li></ul>"), [""])
+
+
+if __name__ == "__main__":
+    unittest.main()

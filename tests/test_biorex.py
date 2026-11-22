@@ -97,10 +97,6 @@ class GuardTest(unittest.TestCase):
         self.assertEqual(out[TRIPLA["id"]][0]["theatre"], TRIPLA["name"])
 
 
-if __name__ == "__main__":
-    unittest.main()
-
-
 def rich_item(show_id, when, cinema, room, formats, rating="(K-12)", title="Autofiktio"):
     """An item with everything the committed rows carry: several format spans, the rating,
     a room that may state a door limit, a srcset and the film link."""
@@ -202,3 +198,7 @@ class FilmMetaTest(unittest.TestCase):
             s = out[vid][0]
             self.assertEqual((s["len"], s["genres"], s["_syn"]),
                              ("112", "Draama, Komedia", "Pedro Almodóvarin melodraama ."))
+
+
+if __name__ == "__main__":
+    unittest.main()

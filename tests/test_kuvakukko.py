@@ -462,10 +462,6 @@ class SiteTest(unittest.TestCase):
         self.assertTrue(kuvakukko.EMPTY_VENUES_CONFIRMED)
 
 
-if __name__ == "__main__":
-    unittest.main()
-
-
 class EmptyAnchorTest(unittest.TestCase):
     """Nilsiä's 9.10. row read 2026-10-04 opens with an empty anchor before the titled one,
     and the row was dropped with nothing in the log."""
@@ -634,3 +630,7 @@ class EnrichTest(unittest.TestCase):
 def common_norm(title):
     import synmerge
     return synmerge.norm(title)
+
+
+if __name__ == "__main__":
+    unittest.main()

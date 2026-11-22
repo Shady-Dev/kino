@@ -1051,10 +1051,6 @@ class PickersStayModal(Browser):
         self.assertFalse(after["main"] or after["header"])
 
 
-if __name__ == "__main__":
-    unittest.main()
-
-
 class AsyncRaces(Browser):
     """Two awaits with no identity guard let a stale reply win.
 
@@ -2166,7 +2162,6 @@ class ChooserNoteFollowsTheLanguage(ChooserNote):
         expect(self.note()).to_contain_text("ei löytynyt")
 
 
-
 class ChooserNoteFollowsTheLanguageOnAPhone(ChooserNoteFollowsTheLanguage):
     viewport = {"width": 375, "height": 812}; touch = True
 
@@ -2721,3 +2716,7 @@ class EventPictureFails(Browser):
 
 class EventPictureFailsOnAPhone(EventPictureFails):
     viewport = {"width": 375, "height": 812}; touch = True
+
+
+if __name__ == "__main__":
+    unittest.main()
