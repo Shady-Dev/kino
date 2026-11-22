@@ -274,19 +274,19 @@ FILTERS_MARKER = "kinola-filters"
 # The platform's own words when a tenant has nothing on. Not a phrase this parser invented:
 # see the module docstring and docs/research/kinola.md.
 EMPTY_STATE = "ei tulevia tapahtumia"
-TITLE_RE = re.compile(r'<a[^>]*class=["\']kinola-event-title["\'][^>]*href=["\']([^"\']+)["\'][^>]*>(.*?)</a>',
+TITLE_RE = re.compile(r'<a[^<>]*class=["\']kinola-event-title["\'][^<>]*href=["\']([^"\']+)["\'][^<>]*>(.*?)</a>',
                       re.S | re.I)
 SLUG_RE = re.compile(r'/film/([^/?#"\']+)', re.I)
-TICKET_RE = re.compile(r'<a[^>]*class=["\'][^"\']*kinola-event-tickets-link[^"\']*["\'][^>]*href=["\']([^"\']+)["\']',
+TICKET_RE = re.compile(r'<a[^<>]*class=["\'][^"\']*kinola-event-tickets-link[^"\']*["\'][^<>]*href=["\']([^"\']+)["\']',
                        re.S | re.I)
 # A class on an element, never the bare name: Myyri's own script names the class in a
 # `querySelector` after the last row (read 2026-10-12), and the last block runs to the end of
 # the page, so a bare match marked whichever film was listed last sold out.
 SOLD_OUT_RE = re.compile(r'class=["\'][^"\']*(?<![-\w])kinola-event-tickets-link-sold-out'
                          r'(?![-\w])', re.I)
-DIV_CLASS_RE = r'<div[^>]*class=["\'][^"\']*\b%s\b[^"\']*["\'][^>]*>(.*?)</div>'
-SPAN_CLASS_RE = r'<span[^>]*class=["\'][^"\']*\b%s\b[^"\']*["\'][^>]*>(.*?)</span>'
-POSTER_RE = re.compile(r'<img[^>]*class=["\'][^"\']*kinola-event-poster[^"\']*["\'][^>]*>', re.I)
+DIV_CLASS_RE = r'<div[^<>]*class=["\'][^"\']*\b%s\b[^"\']*["\'][^<>]*>(.*?)</div>'
+SPAN_CLASS_RE = r'<span[^<>]*class=["\'][^"\']*\b%s\b[^"\']*["\'][^<>]*>(.*?)</span>'
+POSTER_RE = re.compile(r'<img[^<>]*class=["\'][^"\']*kinola-event-poster[^"\']*["\'][^<>]*>', re.I)
 DATA_SRC_RE = re.compile(r'(?<![-\w])data-src=["\']([^"\']+)["\']', re.I)
 PLAIN_SRC_RE = re.compile(r'(?<![-\w])src=["\']([^"\']+)["\']', re.I)
 KILTA_DATE_RE = re.compile(r'(\d{1,2})\.(\d{1,2})\.(\d{4})')
@@ -334,8 +334,8 @@ STRONG_RE = re.compile(r'<strong[^>]*>\s*([A-Za-zÄÖÅäöå]{3,20})\s*:?\s*</s
 KILTA_RATING_RE = re.compile(r'alt=["\']Ikäraja:\s*([^"\']+)["\']', re.I)
 KONEPAJA_RATING_RE = re.compile(r"K-\d{1,2}|S")
 LAIKA_RATING_RE = re.compile(r'\bK-?(\d{1,2})\b|(?<![A-Za-zÄÖÅäöå])(S)(?![A-Za-zÄÖÅäöå])')
-OG_IMAGE_RE = re.compile(r'<meta[^>]*property=["\']og:image["\'][^>]*content=["\']([^"\']+)["\']'
-                         r'|<meta[^>]*content=["\']([^"\']+)["\'][^>]*property=["\']og:image["\']', re.I)
+OG_IMAGE_RE = re.compile(r'<meta[^<>]*property=["\']og:image["\'][^<>]*content=["\']([^"\']+)["\']'
+                         r'|<meta[^<>]*content=["\']([^"\']+)["\'][^<>]*property=["\']og:image["\']', re.I)
 # `<p` then whitespace or `>`: an SVG `<path d=...>` is not a paragraph. Kilta's logo is
 # drawn with paths, and `<p[^>]*>` read from it through the site menu to the first `</p>`.
 SYN_RE = re.compile(r'<p(?:\s[^>]*)?>(.*?)</p>', re.S | re.I)

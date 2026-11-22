@@ -87,8 +87,8 @@ def _cls(tag, name):
     The lookarounds refuse a longer class with the same prefix, so `cr-screening-row`
     does not match `cr-screening-row-compact` if the plugin ever ships one.
     """
-    return (r"<" + tag + r"\b[^>]*\bclass=\"[^\"]*(?<![\w-])"
-            + name + r"(?![\w-])[^\"]*\"[^>]*>")
+    return (r"<" + tag + r"\b[^<>]*\bclass=\"[^\"]*(?<![\w-])"
+            + name + r"(?![\w-])[^\"]*\"[^<>]*>")
 
 
 # The one element that survives an empty programme: the filter is rendered even when
@@ -118,9 +118,9 @@ TILE_RE = re.compile(_cls("article", "cr-movie-tile") + r"(.*?)</article>", re.S
 TILE_LINK_RE = re.compile(r"<a\b[^>]*(?<![\w-])cr-movie-tile__link(?![\w-])[^>]*>", re.I)
 TILE_TITLE_RE = re.compile(_cls("h3", "cr-movie-tile__title") + r"(.*?)</h3>", re.S | re.I)
 TILE_META_RE = re.compile(_cls("div", "cr-movie-tile__meta") + r"(.*?)</div>", re.S | re.I)
-AGE_RE = re.compile(r"<span\b[^>]*(?<![\w-])cr-badge--age(?![\w-])[^>]*>(.*?)</span>",
+AGE_RE = re.compile(r"<span\b[^<>]*(?<![\w-])cr-badge--age(?![\w-])[^<>]*>(.*?)</span>",
                     re.S | re.I)
-RUNTIME_RE = re.compile(r"<span\b[^>]*(?<![\w-])cr-badge--runtime(?![\w-])[^>]*>(.*?)</span>",
+RUNTIME_RE = re.compile(r"<span\b[^<>]*(?<![\w-])cr-badge--runtime(?![\w-])[^<>]*>(.*?)</span>",
                         re.S | re.I)
 IMG_SRC_RE = re.compile(r"<img\b[^>]*?(?:^|\s)src\s*=\s*\"([^\"]+)\"", re.I)
 

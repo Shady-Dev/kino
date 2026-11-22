@@ -62,7 +62,7 @@ TITLE_RE = re.compile(r'<h2[^>]*>(.*?)</h2>', re.S | re.I)
 PRICE_RE = re.compile(r'Liput:\s*([^<]{1,60})', re.I)
 KESTO_RE = re.compile(r'Kesto:\s*(?:(\d+)\s*h)?\s*(\d+)\s*min', re.I)
 AGE_RE = re.compile(r'Ik(?:&auml;|ä)raja:\s*<img[^>]*/icon/([^."/]+)\.png', re.I)
-POSTER_RE = re.compile(r'<img[^>]*class="[^"]*MovieCard__Poster[^"]*"[^>]*src="([^"]+)"', re.I)
+POSTER_RE = re.compile(r'<img[^<>]*class="[^"]*MovieCard__Poster[^"]*"[^<>]*src="([^"]+)"', re.I)
 SHOW_RE = re.compile(r'<td[^>]*>\s*([A-Za-zÄÖäö]{2,12})?\s*(\d{1,2})\.(\d{1,2})\.\s*'
                      r'klo\s*(\d{1,2})[:.](\d{2})', re.I)
 TAGS_RE = re.compile(r"<[^>]+>")

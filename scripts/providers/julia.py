@@ -59,8 +59,8 @@ FILM_RE = re.compile(
 LINK_RE = re.compile(r'<a href="[^"]*/elokuvat/([^"/]+)/"[^>]*>\s*<h2[^>]*>(.*?)</h2>', re.S | re.I)
 SHOW_RE = re.compile(r'(\d{1,2})\.(\d{1,2})\.(\d{2})\s*klo\s*(\d{1,2})[:.](\d{2})'
                      r'(?:\s*,\s*(\d+)\.\s*sali)?', re.I)
-POSTER_RE = re.compile(r'<img[^>]*class="[^"]*wp-post-image[^"]*"[^>]*src="([^"]+)"', re.I)
-POSTER_ALT_RE = re.compile(r'<img[^>]*src="([^"]+)"[^>]*class="[^"]*wp-post-image', re.I)
+POSTER_RE = re.compile(r'<img[^<>]*class="[^"]*wp-post-image[^"]*"[^<>]*src="([^"]+)"', re.I)
+POSTER_ALT_RE = re.compile(r'<img[^<>]*src="([^"]+)"[^<>]*class="[^"]*wp-post-image', re.I)
 FIELD_RE = {
     "price": re.compile(r'<strong>\s*Hinta:\s*</strong>\s*([^<]{1,40})', re.I),
     "age": re.compile(r'<strong>\s*Ik&auml;raja:\s*</strong>\s*([^<]{1,20})|'

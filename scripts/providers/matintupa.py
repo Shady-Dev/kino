@@ -84,8 +84,8 @@ FIELD_RE = re.compile(r'<b>\s*(Liput|Kesto|Genre):\s*</b>(.*?)(?:<b>|<p|<br|$)',
 PRICE_RE = re.compile(r'^(?:€\s*)?(\d{1,3}(?:[.,]\d{1,2})?)\s*(?:€|eur)?$', re.I)
 LEN_RE = re.compile(r'(?:(\d{1,2})\s*(?:t|h)\s*)?(\d{1,3})\s*min', re.I)
 # Toolset's resizer writes the served dimensions into the filename.
-POSTER_RE = re.compile(r'<img[^>]+src="([^"]+?-wpcf_(\d{2,4})x(\d{2,4})\.(?:jpe?g|png|webp))"'
-                       r'[^>]*class="[^"]*\balignleft\b', re.S | re.I)
+POSTER_RE = re.compile(r'<img[^<>]+src="([^"]+?-wpcf_(\d{2,4})x(\d{2,4})\.(?:jpe?g|png|webp))"'
+                       r'[^<>]*class="[^"]*\balignleft\b', re.S | re.I)
 RATING_RE = re.compile(r'ikaraja_(\d{1,2}|s)\b', re.I)
 TAGS_RE = re.compile(r"<[^>]+>")
 

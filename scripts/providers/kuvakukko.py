@@ -111,7 +111,7 @@ ORGANISER_RE = re.compile(r"^[^:]{0,40}(?:sarja|kerho|festivaali|klubi|seura|yhd
 
 CONTAINER_RE = re.compile(r'<h2[^>]*>[^<]*esitysaikataulu', re.I)
 HEADING_RE = re.compile(r'<h2[^>]*>(.*?)</h2>', re.S | re.I)
-PARA_RE = re.compile(r'<p[^>]*class="[^"]*wp-block-paragraph[^"]*"[^>]*>(.*?)</p>', re.S | re.I)
+PARA_RE = re.compile(r'<p[^<>]*class="[^"]*wp-block-paragraph[^"]*"[^<>]*>(.*?)</p>', re.S | re.I)
 DAY_RE = re.compile(r'^\s*([A-Za-zÄÖäö]{2,12})\s+(\d{1,2})\.(\d{1,2})\.', re.I)
 # The first anchor with text: Nilsiä's 9.10. row read 2026-10-04 opens with an empty one,
 # `Klo 17: <a href=".../kino-manttu-presidentin-kyyditys/"></a><a ...>Rakkautta ja ...`.

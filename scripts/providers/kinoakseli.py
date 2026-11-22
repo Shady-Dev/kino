@@ -31,8 +31,8 @@ SITES = [{"provider": "kinoakseli", "label": "Kino Akseli", "base": URL,
 # the widest span seen and far short of the 365 a wrong weekday would need.
 WINDOW = (30, 60)
 
-HEAD_RE = re.compile(r'<h2[^>]*class="elementor-heading-title[^"]*"[^>]*>\s*'
-                     r'<a href="(https://kinoakseli\.fi/elokuva-[^"]+)"[^>]*>(.*?)</a>', re.S)
+HEAD_RE = re.compile(r'<h2[^<>]*class="elementor-heading-title[^"]*"[^<>]*>\s*'
+                     r'<a href="(https://kinoakseli\.fi/elokuva-[^"]+)"[^<>]*>(.*?)</a>', re.S)
 SHOWS_RE = re.compile(r'Näytösajat(.*?)</p>', re.S)
 SHOW_RE = re.compile(r'([A-Za-zÄÖäö]{2})\s*(\d{1,2})\.(\d{1,2})\.\s*klo\s*(\d{1,2})[:.](\d{2})\s*(\(dub\.?\))?')
 RATING_RE = re.compile(r'Ikäraja\s*:\s*([^<]+)')

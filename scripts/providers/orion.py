@@ -87,7 +87,7 @@ HREF_RE = re.compile(r'href\s*=\s*["\']([^"\']+)["\']', re.I)
 SLUG_URL_RE = re.compile(r'/elokuv[au]t?/([^/?#"\']+)', re.I)
 # The site spells it "descrption", and the span inside it is never closed, so stop at
 # whatever tag comes next rather than at a </span> that may not exist.
-DESCR_RE = re.compile(r'<span[^>]*class=["\'][^"\']*descrption[^"\']*["\'][^>]*>'
+DESCR_RE = re.compile(r'<span[^<>]*class=["\'][^"\']*descrption[^"\']*["\'][^<>]*>'
                       r'(.*?)(?:</span>|<span\b[^>]*>|</a>|$)', re.S | re.I)
 # The live date cell reads `Torstai 27.08.`; the day heading above the table carries
 # the same shape. The weekday is optional because the cell has been seen without one.

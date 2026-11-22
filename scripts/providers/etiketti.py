@@ -69,7 +69,7 @@ EMPTY_VENUES_CONFIRMED = True
 # names the town without identifying the venue. Any attributes on the anchor, because one
 # that gains a class would otherwise stop identifying anything with no other symptom;
 # no host carried one on 2026-09-14, so this buys nothing today and costs nothing either.
-VENUE_LINK_RE = re.compile(r'<a[^>]*href="/teatterit/[^"]+"[^>]*>([^<]*)</a>', re.I)
+VENUE_LINK_RE = re.compile(r'<a[^<>]*href="/teatterit/[^"]+"[^<>]*>([^<]*)</a>', re.I)
 
 SITES = [
     {"provider": "kotkanleffat", "base": "https://kotkanleffat.fi", "label": "Kotkan Leffat",

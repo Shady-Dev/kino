@@ -72,7 +72,7 @@ BLOCK_RE = re.compile(r'<div class="large-content-showcase columns.*?(?=<div cla
                       re.S)
 TITLE_RE = re.compile(r'class="large-content-showcase__title[^"]*"[^>]*>(.*?)</h3>', re.S | re.I)
 PARA_RE = re.compile(r"<p>(.*?)</p>", re.S | re.I)
-IMG_RE = re.compile(r'<img[^>]*?width="(\d+)"[^>]*?height="(\d+)"[^>]*?src="([^"]+)"', re.I)
+IMG_RE = re.compile(r'<img[^<>]*?width="(\d+)"[^<>]*?height="(\d+)"[^<>]*?src="([^"]+)"', re.I)
 # `To 24.9. Klo 13:00`, with an optional `| Liput 8€` for that showing alone, or
 # `(Liput 8€)` as the page wrote it on 2026-10-04. `To 3.12 Klo 17:00`, without the last dot,
 # on 2026-11-20.
