@@ -281,6 +281,19 @@ class RowsTest(unittest.TestCase):
             self.rows(payload(head(d), "Klo? a", "Klo? b", "Klo 15.00 Pirjo -s-"))
         self.assertIn("template has moved", str(e.exception))
 
+    def test_a_date_heading_this_parser_misses_ends_the_date_above(self):
+        """Review H3, 2026-11-22: the row under a heading the pattern rejects was published
+        on the date of the heading above it. It now has no heading, which raises here."""
+        a, b, c = (TODAY + datetime.timedelta(days=n) for n in (3, 4, 5))
+        for missed in (f"{FI_LONG[b.weekday()]} {b.day}.{b.month} \u2013 "
+                       f"{FI_LONG[c.weekday()]} {c.day}.{c.month}",
+                       f"To {b.day}.{b.month}", f"{FI_LONG[b.weekday()]} {b.day},{b.month}"):
+            with self.subTest(missed=missed):
+                with self.assertRaises(H.ShowRowError) as e:
+                    self.rows(payload(head(a), "Klo 19.00 Pirjo -s-", missed,
+                                      "Klo 19.00 Koiramies -k7/4-"))
+                self.assertIn("no date heading", str(e.exception))
+
     def test_a_screening_line_with_no_heading_raises(self):
         with self.assertRaises(H.ShowRowError) as e:
             self.rows(payload("Klo 18.00 Kolme kovaa -k16/13"))

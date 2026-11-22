@@ -56,7 +56,7 @@ import re
 import sys
 from zoneinfo import ZoneInfo
 
-from common import (EmptyProgramme, check_shows, fetch, get_text, resolve_year,
+from common import (EmptyProgramme, check_shows, date_like, fetch, get_text, resolve_year,
                     weekday_index)
 from huvimylly import KAVI_CODES, RATING_RE, STRIP, TIME_RE, WEEKDAY_WORD
 from synmerge import norm
@@ -291,6 +291,8 @@ def rows(site, src, today=None):
             word = _heading_candidate(line)
             if word:
                 venue, pending, fresh, candidate = None, [], True, word
+            elif date_like(line):
+                pending, fresh = [], True       # a date heading this parser missed (review H3)
             continue
         report["klo"] += 1
         if venue is None:

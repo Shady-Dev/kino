@@ -29,7 +29,8 @@ import re
 import sys
 from zoneinfo import ZoneInfo
 
-from common import NoScreenings, bot_check, check_shows, get_text, resolve_year, served, weekday_index
+from common import (NoScreenings, bot_check, check_shows, date_like, get_text, resolve_year,
+                    served, weekday_index)
 
 FI = ZoneInfo("Europe/Helsinki")
 
@@ -99,6 +100,8 @@ def rows(site, content, today=None):
             continue
         s = SLOT_RE.match(line)
         if not s:
+            if date_like(line):
+                day = None                      # a day heading this parser missed (review H3)
             continue
         link = LINK_RE.search(para)
         if not link:
@@ -155,7 +158,7 @@ def fetch_site(site, today=None):
     print(f"[{pid}] {venue['name']}, {venue['city']}: {len(shows)} showtimes, "
           f"{len(days)} dates, {report['films']} film(s)")
     for key, what in (("not_film", "slot(s) with no film link, left out"),
-                      ("orphan", "slot(s) before any day heading, left out"),
+                      ("orphan", "slot(s) under no day heading this parser reads, left out"),
                       ("undated", "day heading(s) whose date no candidate year holds")):
         if report[key]:
             print(f"[{pid}] {report[key]} {what}")

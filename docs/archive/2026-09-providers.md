@@ -4558,3 +4558,18 @@ the new pattern rejects only lines the old one accepted with a stray `a` or `j` 
 and every heading shape in the tests matches as before. A 119 kB crafted line is refused in
 2 ms. Tests run the crafted line in a child process with a 10 s limit; both went red on
 the old pattern.
+
+### A date heading an adapter misses no longer passes its date on (2026-11-22)
+Review finding H3. Huvimylly, Alatalo and Tervakoski carry a date heading down to the rows
+under it, and a heading their pattern rejected was skipped as an unread line. The rows
+under `To 26.11`, `Torstaina 26,11` or `La 3.10.` were then published on the date above,
+with no counter naming them. `common.date_like` now recognises a day and a month however
+they are typed, and a rejected line carrying one ends the date above. Alatalo counts the
+rows under it as unplaceable and Tervakoski as orphans. Huvimylly raises on them, as it
+already did for a row with no heading, which its tests and the comment on `HEAD_LINE_RE`
+record. Kino-Kuva carries no date down, but a row like `TO 22.10. KLO 18.00, PE 23.10. KLO
+16.00` put both clocks on the first date, so a row naming a second date is left out and
+counted as `two_dates`. A clock after `klo` and an amount before `€` are not dates. Alatalo's
+bare `12.10` test now sits above its heading, since below one it is this case. Six
+mutations red. Not yet seen on a live page: the next cloud run, and a local run for
+Huvimylly, show whether any current page carries such a line.

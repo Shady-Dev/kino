@@ -122,6 +122,18 @@ class ProgrammeTest(unittest.TestCase):
         self.assertEqual(report["orphan"], 1)
 
 
+    def test_a_day_heading_this_parser_misses_ends_the_day_above(self):
+        """Review H3, 2026-11-22: the slot under `La 31.10.` was published on the day above."""
+        for missed in ("La 31.10.", "Lauantai 31.10.2026"):
+            with self.subTest(missed=missed):
+                shows, report = self.rows(content(
+                    day("Perjantai 30.10."),
+                    slot("18.00", "h-lapin-sota", "Lapin sota (K16)", ", lippu 10,00 \u20ac"),
+                    day(missed),
+                    slot("15.00", "h-pirjo-i-sverige", "Pirjo i Sverige (S)", ", lippu 10,00 \u20ac")))
+                self.assertEqual([s["start"][:16] for s in shows], ["2026-10-30T18:00"])
+                self.assertEqual(report["orphan"], 1)
+
 class RunnerTest(unittest.TestCase):
     def setUp(self):
         self.tmp = tempfile.TemporaryDirectory()

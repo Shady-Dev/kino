@@ -291,9 +291,10 @@ class RowTest(unittest.TestCase):
         self.assertEqual(titles(out, "alatalo-kiuruvesi"), ["Kero se kaikille"])
 
     def test_a_leading_time_with_no_marker_is_not_a_row(self):
-        """A bare date carries no marker, which is what makes the rule above safe."""
+        """A bare date carries no marker, which is what makes the rule above safe. It sits
+        above the heading here: below one it would end that heading's date (review H3)."""
         d = soon(5)
-        out, rep = parse("Kiuruvesi Kiurusali", head(d), "12.10", "Klo 13.00 Pirjo -s-")
+        out, rep = parse("Kiuruvesi Kiurusali", "12.10", head(d), "Klo 13.00 Pirjo -s-")
         self.assertEqual(titles(out, "alatalo-kiuruvesi"), ["Pirjo"])
         self.assertEqual(rep["unplaceable"], 0)
 
@@ -371,6 +372,27 @@ class RowTest(unittest.TestCase):
             parse("Kemijärvi Kulttuurikeskus", head(d), "Klo 13.00 ?", "Klo 14.00 ?",
                   "Klo 15.00 Pirjo -s-")
         self.assertIn("template has moved", str(cm.exception))
+
+    def test_a_date_heading_this_parser_misses_ends_the_date_above(self):
+        """Review H3, 2026-11-22: the row under a heading the pattern rejects was published
+        on the date of the heading above it."""
+        a, b, c = soon(5), soon(6), soon(7)
+        for missed in (f"{FI_LONG[b.weekday()]} {b.day}.{b.month} \u2013 "
+                       f"{FI_LONG[c.weekday()]} {c.day}.{c.month}",
+                       f"To {b.day}.{b.month}", f"{FI_LONG[b.weekday()]} {b.day},{b.month}"):
+            with self.subTest(missed=missed):
+                out, rep = parse("Kiuruvesi Kiurusali", head(a), "Klo 19.00 Pirjo -s-", missed,
+                                 "Klo 19.00 Vonkka -k7/4-")
+                self.assertEqual(titles(out, "alatalo-kiuruvesi"), ["Pirjo"])
+                self.assertEqual(rep["unplaceable"], 1)
+
+    def test_an_amount_or_a_clock_between_heading_and_rows_keeps_the_date(self):
+        """Both read as a day and a month by digits alone, 7 May and 18 May."""
+        d = soon(5)
+        out, rep = parse("Kiuruvesi Kiurusali", head(d), "Lapset 7,5 \u20ac", "Ovet klo 18.05",
+                         "Klo 19.00 Pirjo -s-")
+        self.assertEqual([s["start"][:10] for s in out["alatalo-kiuruvesi"]], [d.isoformat()])
+        self.assertEqual(rep["unplaceable"], 0)
 
     def test_no_poster_is_published(self):
         d = soon(5)

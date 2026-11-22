@@ -28,7 +28,8 @@ import re
 import sys
 from zoneinfo import ZoneInfo
 
-from common import NoScreenings, bot_check, check_shows, fetch, resolve_year, served, weekday_index
+from common import (NoScreenings, bot_check, check_shows, date_like, fetch, resolve_year, served,
+                    weekday_index)
 
 FI = ZoneInfo("Europe/Helsinki")
 
@@ -108,6 +109,9 @@ def film_rows(pre, today, report):
         if year is None:
             report["undated"] += 1
             continue
+        if date_like(m.group(5)):
+            report["two_dates"] += 1            # its clocks cannot be told apart (review H3)
+            continue
         clocks = CLOCK_RE.findall(m.group(5) or "")
         if not clocks:
             report["untimed"] += 1
@@ -124,7 +128,7 @@ def rows(site, page, today=None):
     venue = site["venues"][0]
     url = site["base"].rstrip("/") + site["listing"]
     table = TABLE_RE.search(page)
-    out, report = [], {"films": 0, "untimed": 0, "undated": 0}
+    out, report = [], {"films": 0, "untimed": 0, "undated": 0, "two_dates": 0}
     for head, pre in FILM_RE.findall(table.group(1) if table else ""):
         t = H1_RE.search(head)
         title = text(t.group(1)) if t else ""
@@ -166,7 +170,8 @@ def fetch_site(site, today=None):
     print(f"[{pid}] {venue['name']}, {venue['city']}: {len(shows)} showtimes, "
           f"{len(days)} dates, {report['films']} film(s)")
     for key, what in (("untimed", "row(s) with no clock, left out"),
-                      ("undated", "row(s) whose date no candidate year holds, left out")):
+                      ("undated", "row(s) whose date no candidate year holds, left out"),
+                      ("two_dates", "row(s) naming a second date, left out")):
         if report[key]:
             print(f"[{pid}] {report[key]} {what}")
     return per_venue

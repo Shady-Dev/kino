@@ -83,6 +83,16 @@ class PageTest(unittest.TestCase):
         self.assertIn("TÄHTIPEURA", utf8)
         self.assertIn("TÄHTIPEURA", latin)
 
+    def test_a_row_naming_a_second_date_is_left_out_and_counted(self):
+        """Review H3, 2026-11-22: both clocks went out on the first date, or the second
+        date was lost."""
+        for line in ("TO 22.10. KLO 18.00, PE 23.10. KLO 16.00", "TO 22.10. JA PE 23.10. KLO 18.00"):
+            with self.subTest(line=line):
+                shows, report = self.rows(page(film("LAPIN SOTA", [line, "SU 25.10. KLO 16.00",
+                                                                   RULE, "Liput  14,-"])))
+                self.assertEqual([s["start"][:16] for s in shows], ["2026-10-25T16:00"])
+                self.assertEqual(report["two_dates"], 1)
+
     def test_free_admission_and_a_preview_heading(self):
         shows, _ = self.rows(page(film("X", ["ENNAKKONÄYTÖKSET!", "LA 24.10. KLO 16.00", RULE,
                                              "Ilmainen sisäänpääsy!"])))

@@ -101,7 +101,8 @@ import re
 import sys
 from zoneinfo import ZoneInfo
 
-from common import NoScreenings, check_shows, fetch, get_text, resolve_year, served, weekday_index
+from common import (NoScreenings, check_shows, date_like, fetch, get_text, resolve_year, served,
+                    weekday_index)
 from synmerge import norm
 
 FI = ZoneInfo("Europe/Helsinki")
@@ -308,6 +309,8 @@ def rows(site, lines, today=None):
             continue
         if not KLO_RE.match(line):
             report["unread"] += 1
+            if date_like(line):
+                pending, fresh = [], True       # a heading this parser missed (review H3)
             continue
         if not pending:
             raise ShowRowError(f"{site['provider']}: {line[:60]!r} is a screening line "

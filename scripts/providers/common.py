@@ -1289,6 +1289,31 @@ def resolve_year(day, month, today, weekday=None, window=DEFAULT_WINDOW):
     return year
 
 
+
+# A day and a month as a programme types them: `25.11`, `26,11`, or `7.12024` with the year
+# run on. Numbers are read whole, so `9,50 €` is an amount and `19.30` no month.
+_DATE_LIKE_RE = re.compile(r"(?<![\d.,])(\d{1,2})[.,](\d+)(?!\d)(?!\s*(?:€|eur))", re.I)
+_CLOCK_BEFORE_RE = re.compile(r"\bklo?\.?\s*$", re.I)
+
+
+def date_like(text):
+    """Whether a line names a day and a month, however its heading was typed. -> bool.
+
+    An adapter that carries a date heading down to the rows under it uses this on a line
+    its heading pattern rejected: such a line is a heading it missed, and the date above no
+    longer holds for what follows (review H3, 2026-11-22). A clock after `klo` is not one.
+    """
+    text = text or ""
+    for m in _DATE_LIKE_RE.finditer(text):
+        if _CLOCK_BEFORE_RE.search(text[:m.start()]):
+            continue
+        tail = m.group(2)
+        month = int(tail) if len(tail) <= 2 else (
+            int(tail[:2]) if 1 <= int(tail[:2]) <= 12 else int(tail[:1]))
+        if 1 <= int(m.group(1)) <= 31 and 1 <= month <= 12:
+            return True
+    return False
+
 # The languages a synopsis slot may be written for; `synmerge.LANGS` is the same list.
 SYN_LANGS = ("fi", "sv", "en")
 
