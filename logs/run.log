@@ -1,17 +1,16 @@
 [token] using FINNKINO_TOKEN from the environment
 [sites] 17 cinemas
-[schedule] 2026-11-22: 279 showtimes
+[schedule] 2026-11-22: 41 showtimes
 [schedule] 2026-11-23: 327 showtimes
 [schedule] 2026-11-24: 327 showtimes
 [schedule] 2026-11-25: 362 showtimes
 [schedule] 2026-11-26: 353 showtimes
 [schedule] 2026-11-27: 37 showtimes
 [schedule] 2026-11-28: 4 showtimes
-[tmdb] dropped 1 entries an alias replaces
 [tmdb] no TMDB match (5): Baletti: Manon | Joulupukin salainen paja | Klara ja aurinko | Me olemme Pariisin orkesteri | Muistojeni kahvila
-[tmdb] weak candidate kept, not searched until 2026-11-23 (10): Andrew Lloyd Webber’s Starlight Express  -> Andrew Lloyd Webber's Starlight Express: Live On-Stage | Animals in War -> Speaking of Animals in the Post War Era | Billie maailmojen välissä -> Hexed | Dry Leaf -> ხმელი ფოთოლი | Godzilla Minus Zero -> ゴジラ-0.0 | Hadoota -> حدوتة | Leviticus -> Leviticus | NT LIVE: The Audience -> National Theatre Live: The Audience | Ramayana: Rise of a Legend -> रामायणम् | Two Seasons, Two Strangers -> 旅と日々
-[tmdb] 1 new lookups, 0 re-checks, cache 208, 128 mergeable by id
-[films] 62 film entries
+[tmdb] weak candidate kept, not searched until 2026-11-23 (9): Andrew Lloyd Webber’s Starlight Express  -> Andrew Lloyd Webber's Starlight Express: Live On-Stage | Animals in War -> Speaking of Animals in the Post War Era | Billie maailmojen välissä -> Hexed | Dry Leaf -> ხმელი ფოთოლი | Godzilla Minus Zero -> ゴジラ-0.0 | Hadoota -> حدوتة | Leviticus -> Leviticus | NT LIVE: The Audience -> National Theatre Live: The Audience | Ramayana: Rise of a Legend -> रामायणम्
+[tmdb] 0 new lookups, 0 re-checks, cache 208, 128 mergeable by id
+[films] 61 film entries
 [attrs] dropped, neither format nor language (8): Maxim | Neulonta | OCAP | Pkseutu | SEVERAL | TKU & R | Tampere | Varaus20
 [schedule] 17 venue files written, 0 kept as-is
 done
