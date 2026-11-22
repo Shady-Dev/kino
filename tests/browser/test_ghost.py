@@ -11,6 +11,7 @@ import unittest
 
 from playwright.sync_api import expect
 
+import _harness
 import test_client_browser as base
 import test_pages_layout as layout
 
@@ -203,7 +204,7 @@ class GhostOnEveryPage(unittest.TestCase):
         page.on("console", lambda m: m.type == "error" and errors.append(m.text))
         page.on("response", lambda r: r.status >= 400 and errors.append(r.url))
         page.goto(self.origin + path)
-        page.wait_for_function("document.fonts.ready.then(()=>true)")
+        _harness.wait_for(page, "document.fonts.ready.then(()=>true)")
         expect(page.locator("#ghost")).to_be_visible()
         page.evaluate(COUNT_TOGGLES)
         self.addCleanup(lambda: self.assertEqual(errors, [], path))
@@ -293,7 +294,7 @@ class GhostOnEveryPage(unittest.TestCase):
                 self.addCleanup(ctx.close)
                 page = ctx.new_page()
                 page.goto(self.origin + path)
-                page.wait_for_function("document.fonts.ready.then(()=>true)")
+                _harness.wait_for(page, "document.fonts.ready.then(()=>true)")
                 expect(page.locator("#ghost")).to_be_hidden()
                 page.set_viewport_size({"width": width + 50, "height": 900})
                 expect(page.locator("#ghost")).to_be_visible()

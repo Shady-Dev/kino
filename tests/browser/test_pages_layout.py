@@ -180,7 +180,7 @@ class PagesLayoutTest(unittest.TestCase):
         self.addCleanup(ctx.close)
         page = ctx.new_page()
         page.goto(self.origin + path)
-        page.wait_for_function("document.fonts.ready.then(()=>true)")
+        _harness.wait_for(page, "document.fonts.ready.then(()=>true)")
         rows = page.evaluate("""() => [...document.querySelectorAll('article.film')].map(f => {
             const r = e => { const b = e.getBoundingClientRect();
                              return {x:b.x, y:b.y, w:b.width, h:b.height, r:b.right, b:b.bottom} };
@@ -335,7 +335,7 @@ class PagesLayoutTest(unittest.TestCase):
         self.addCleanup(ctx.close)
         page = ctx.new_page()
         page.goto(self.origin + path)
-        page.wait_for_function("document.fonts.ready.then(()=>true)")
+        _harness.wait_for(page, "document.fonts.ready.then(()=>true)")
         return page.evaluate("""() => [...document.querySelectorAll('.times .stub')].map(s => {
             const r = e => e.getBoundingClientRect();
             return {w: r(s).width, r: r(s).right, film: r(s.closest('article')).width,
@@ -366,7 +366,7 @@ class PagesLayoutTest(unittest.TestCase):
         self.addCleanup(ctx.close)
         page = ctx.new_page()
         page.goto(self.origin + "/kaupunki/testila/")
-        page.wait_for_function("document.fonts.ready.then(()=>true)")
+        _harness.wait_for(page, "document.fonts.ready.then(()=>true)")
         rows = page.evaluate("""() => { const out = [];
             for (const g of document.querySelectorAll('.times.grid')) { const by = {};
               for (const s of g.querySelectorAll('.stub')) { const b = s.getBoundingClientRect();
@@ -596,10 +596,10 @@ class EventPicturePagesTest(unittest.TestCase):
         ctx.add_init_script(f"try{{localStorage.setItem('kino-theme','{theme}')}}catch(e){{}}")
         page = ctx.new_page()
         page.goto(self.origin + f"/teatteri/{EVENT_SLUG}/")
-        page.wait_for_function("document.fonts.ready.then(() => true)")
+        _harness.wait_for(page, "document.fonts.ready.then(() => true)")
         fig = page.locator("figure.evimg img")
         fig.scroll_into_view_if_needed(timeout=10_000)
-        page.wait_for_function("i => i.complete && i.naturalWidth > 0",
+        _harness.wait_for(page, "i => i.complete && i.naturalWidth > 0",
                                arg=fig.element_handle(timeout=10_000), timeout=10_000)
         return page.evaluate("""() => {
             const r = e => { const b = e.getBoundingClientRect(); return [b.x, b.y, b.width, b.height]; };

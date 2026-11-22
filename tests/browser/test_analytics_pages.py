@@ -141,7 +141,7 @@ class GeneratedPageAnalytics(unittest.TestCase):
                 errors = []
                 page.on("pageerror", lambda e: errors.append(str(e)))
                 page.goto(ORIGIN + path + PLANT, referer="https://example.com/?q=Carrie")
-                page.wait_for_function("window.__ph && window.__ph.sent.length > 0")
+                _harness.wait_for(page, "window.__ph && window.__ph.sent.length > 0")
                 self.settle(page)
                 ph = page.evaluate("window.__ph")
                 self.assertEqual(len(ph["inits"]), 1)
@@ -163,7 +163,7 @@ class GeneratedPageAnalytics(unittest.TestCase):
         page = ctx.new_page()
         for _ in range(2):
             page.goto(ORIGIN + path)
-            page.wait_for_function("window.__ph && window.__ph.sent.length > 0")
+            _harness.wait_for(page, "window.__ph && window.__ph.sent.length > 0")
             self.settle(page)
             self.assertEqual(page.evaluate("window.__ph.captures.length"), 1)
 

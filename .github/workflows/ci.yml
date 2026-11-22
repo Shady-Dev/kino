@@ -118,6 +118,12 @@ jobs:
       - name: The client's JavaScript parses
         run: python3 scripts/check_inline_js.py
 
+      # Every served page carries a Content-Security-Policy listing its inline scripts by
+      # hash. An inline script added or edited without `check_csp.py --sync` would stop
+      # running in the browser, so it fails here first, on every HTML file the site serves.
+      - name: Every page's policy matches its inline scripts
+        run: python3 scripts/check_csp.py
+
       # A push touching DESIGN.md or tests/test_design_contract.py must change IDEAS.md in
       # the same push. The script owns the range: `github.event.before` is not always a
       # commit the checkout can see (a force-pushed branch, a created ref), and an inline

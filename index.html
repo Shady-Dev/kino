@@ -8,6 +8,7 @@
 <html lang="fi">
 <head>
 <meta charset="UTF-8">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-A6TR8zZzqz1bQJXjHoNNe4jctLOZRIRkyBIcvvLHKx8=' 'sha256-rdkYs2oBjOxEOzulJRrOEKxqqIyKNtkzjlC0WUkTe9o=' 'sha256-5n+EsmuYeWqnmfG9V8XzkZCDgqKx1TkI4VCsd8VGjuo=' https://eu-assets.i.posthog.com; connect-src 'self' https://eu.i.posthog.com; img-src 'self'; style-src 'self' 'unsafe-inline'; font-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'; worker-src 'self'; manifest-src 'self'">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>Leffavuoro – elokuvat ja näytösajat</title>
 <meta name="theme-color" content="#111318">
@@ -2394,6 +2395,19 @@
   };
   // --- end pictureCredit ---
   // --- end url sinks ---
+  // A poster or event picture that fails gives way to the tile in its data-f, and a failed
+  // sheet picture hides its figure and credit. One capturing listener stands in for inline
+  // onerror attributes, which the page's Content-Security-Policy does not run.
+  document.addEventListener('error', e => {
+    const img = e.target;
+    if(!(img instanceof HTMLImageElement)) return;
+    const fig = img.parentNode;
+    if(img.dataset.f !== undefined){
+      const card = img.classList.contains('evimg') && img.closest('.movie');
+      if(card) card.classList.remove('ev');
+      img.outerHTML = img.dataset.f;
+    } else if(fig && fig.classList && fig.classList.contains('sheet-fig')) fig.hidden = true;
+  }, true);
   const jsonCache = {};
   // Set by the service-worker block: replays a refresh that landed before the slot existed.
   let swFilled = () => {};
@@ -4674,10 +4688,10 @@
       // A picture that does not load gives way to the tile, and the card drops `ev` to get
       // a film card's phone grid back.
       const poster = evUrl
-        ? `<img class="evimg" src="${evUrl}" alt="${esc(m.imgAlt || '')}"${+m.imgW && +m.imgH ? ` width="${+m.imgW}" height="${+m.imgH}"` : ''} loading="lazy" decoding="async" onerror="this.closest('.movie').classList.remove('ev');this.outerHTML=this.dataset.f" data-f='${tile.replace(/'/g,"&#39;")}'>`
+        ? `<img class="evimg" src="${evUrl}" alt="${esc(m.imgAlt || '')}"${+m.imgW && +m.imgH ? ` width="${+m.imgW}" height="${+m.imgH}"` : ''} loading="lazy" decoding="async" data-f='${tile.replace(/'/g,"&#39;")}'>`
         : m.nonFilm ? tile
         : posterUrl
-        ? `<img class="poster" src="${posterUrl}" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer" onerror="this.outerHTML=this.dataset.f" data-f='${tile.replace(/'/g,"&#39;")}'>`
+        ? `<img class="poster" src="${posterUrl}" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer" data-f='${tile.replace(/'/g,"&#39;")}'>`
         : tile;
       const stubClass = multiTheatre ? 'stubs grid' : 'stubs';
       // method is per showtime, so a film-level pill claimed something about every
@@ -4993,7 +5007,7 @@
     const credit = sample.nonFilm ? pictureCredit(sample, L[lang], esc) : '';
     // A picture that does not load hides its figure, and the credit goes with it.
     const fig = credit && sheetPoster
-      ? `<figure class="sheet-fig"><img src="${sheetPoster}" alt="${esc(sample.imgAlt || '')}"${+sample.imgW && +sample.imgH ? ` width="${+sample.imgW}" height="${+sample.imgH}"` : ''} onerror="this.parentNode.hidden=true"><figcaption>${credit}</figcaption></figure>`
+      ? `<figure class="sheet-fig"><img src="${sheetPoster}" alt="${esc(sample.imgAlt || '')}"${+sample.imgW && +sample.imgH ? ` width="${+sample.imgW}" height="${+sample.imgH}"` : ''}><figcaption>${credit}</figcaption></figure>`
       : '';
     const poster = sheetPoster && !sample.nonFilm ? `<img class="poster" src="${sheetPoster}" alt="">` : '';
     sheetEl.innerHTML = `

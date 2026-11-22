@@ -113,7 +113,7 @@ class UpdateCheck(unittest.TestCase):
         # second, controlled, puts the 24-hour-old copy in Cache Storage. The banner is
         # then true on both sides: the server has nothing newer yet.
         self.page.goto(self.origin + URL)
-        self.page.wait_for_function("navigator.serviceWorker.controller !== null")
+        _harness.wait_for(self.page, "navigator.serviceWorker.controller !== null")
         self.page.reload()
         expect(self.stale).to_contain_text("\u26a0")
         expect(self.credit).to_contain_text(stamp(self.srv.cfg["generated"]))
@@ -142,7 +142,7 @@ class UpdateCheck(unittest.TestCase):
 
     def warned_at(self, timeout=10_000):
         """ms since navigation when the sampler first saw the warning."""
-        self.page.wait_for_function("() => window.__seen && window.__seen.warn", timeout=timeout)
+        _harness.wait_for(self.page, "() => window.__seen && window.__seen.warn", timeout=timeout)
         return self.seen()["warnAt"]
 
     def pick(self, query):
@@ -183,7 +183,7 @@ class UpdateCheck(unittest.TestCase):
             }
             return out;
         }"""
-        self.page.wait_for_function(f"({stored})().then(u => u.includes(location.origin + '/index.html'))")
+        _harness.wait_for(self.page, f"({stored})().then(u => u.includes(location.origin + '/index.html'))")
         self.assertEqual(self.page.evaluate(stored), [self.origin + "/index.html"])
 
     def tearDown(self):

@@ -54,7 +54,7 @@ class PrivacyTableTest(unittest.TestCase):
         self.addCleanup(ctx.close)
         page = ctx.new_page()
         page.goto(self.origin + "/tietosuoja/")
-        page.wait_for_function("document.fonts.ready.then(()=>true)")
+        _harness.wait_for(page, "document.fonts.ready.then(()=>true)")
         return page
 
     def test_a_phone_breaks_an_event_name_only_after_its_underscore(self):

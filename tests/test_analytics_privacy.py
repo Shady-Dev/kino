@@ -22,6 +22,7 @@ import subprocess
 import unittest
 
 import _ctx
+import check_csp
 
 
 HARNESS = pathlib.Path(__file__).resolve().parent / "analytics_harness.js"
@@ -640,7 +641,8 @@ class GeneratedPagesTagTest(unittest.TestCase):
                         self.assertEqual(tags, [want])
                         counts[want] = counts.get(want, 0) + 1
                     self.assertEqual(text.count("pageview.js"), len(tags))
-                    self.assertNotIn("posthog", text.lower())
+                    # The policy names PostHog's hosts; the page itself loads nothing from them.
+                    self.assertNotIn("posthog", check_csp.TAG_RE.sub("", text).lower())
         # Without this the loop passes on an empty checkout.
         self.assertGreater(counts.get("generated_city", 0), 30)
         self.assertGreater(counts.get("generated_theatre", 0), 300)

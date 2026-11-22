@@ -462,7 +462,7 @@ class SheetHeight(Browser):
         self.pick_orion()
         self.page.evaluate("location.hash = 'm=presidentin-kyyditys'")
         expect(self.page.locator(".sheet-body")).to_be_visible()
-        self.page.wait_for_function("() => getComputedStyle(document.querySelector('#sheet'))"
+        _harness.wait_for(self.page, "() => getComputedStyle(document.querySelector('#sheet'))"
                                     ".transform === 'none' || innerWidth >= 700")
         share = self.page.evaluate("() => document.querySelector('#sheet')"
                                    ".getBoundingClientRect().height / innerHeight")
@@ -497,7 +497,7 @@ class SheetLongTitle(Browser):
         expect(self.page.locator("a.stub").first).to_be_visible()
         self.page.evaluate("location.hash = 'm=presidentin-kyyditys'")
         expect(self.page.locator("#sheetTitle")).to_have_text(self.TITLE)
-        self.page.wait_for_function("() => getComputedStyle(document.querySelector('#sheet'))"
+        _harness.wait_for(self.page, "() => getComputedStyle(document.querySelector('#sheet'))"
                                     ".transform === 'none'")
         m = self.page.evaluate("""() => {
             const t = document.querySelector('#sheetTitle');
@@ -1094,7 +1094,7 @@ class AsyncRaces(Browser):
         """Release the held reply and wait until the page has handled it, nothing left out."""
         self.page.evaluate("() => { window.__landed = []; }")
         release.set()
-        self.page.wait_for_function(
+        _harness.wait_for(self.page,
             "s => window.__landed.some(u => u.endsWith(s)) && window.__out === 0", arg=suffix)
 
     def sheet_open(self):
@@ -2534,7 +2534,7 @@ class EventPictures(Browser):
             if 0 <= top < self.viewport["height"] - 120:
                 break
             self.page.evaluate("dy => window.scrollBy(0, dy)", top - 100)
-        self.page.wait_for_function("i => i.complete && i.naturalWidth > 0",
+        _harness.wait_for(self.page, "i => i.complete && i.naturalWidth > 0",
                                     arg=locator.element_handle(), timeout=10_000)
         return locator.evaluate("i => { const b = i.getBoundingClientRect();"
                                 " return [b.width, b.height, i.naturalWidth, i.naturalHeight]; }")
@@ -2697,7 +2697,7 @@ class EventPictureFails(Browser):
         self.assertIn("failed", [s for u, s in self.failed if u.endswith("/ev-cut.png")], self.failed)
         shown = self.card("Suistamon Sähkö")
         self.reach(shown)
-        self.page.wait_for_function("i => i.complete && i.naturalWidth > 0",
+        _harness.wait_for(self.page, "i => i.complete && i.naturalWidth > 0",
                                     arg=shown.locator("img.evimg").element_handle())
         expect(shown).to_have_class(re.compile(r"\bev\b"))
         self.assertEqual(self.page.evaluate("document.documentElement.scrollWidth"),

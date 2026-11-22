@@ -1,6 +1,8 @@
 """Start and stop for what every browser test class shares. Not a test module: the
 leading underscore keeps it out of discovery."""
 import atexit
+import json
+import re
 import struct
 import threading
 import zlib
@@ -26,6 +28,28 @@ def stop(srv):
 
 
 _driver = None
+
+# A predicate written as a function, against an expression to be wrapped in one.
+FUNCTION_RE = re.compile(r"\s*(?:async\s+)?(?:function\b|\([^()]*\)\s*=>|[\w$]+\s*=>)")
+
+
+def wait_for(page, predicate, arg=None, timeout=30_000):
+    """Poll `predicate` in the page until it is truthy. -> its value
+
+    page.wait_for_function compiles a string predicate with eval inside the page, which
+    each page's Content-Security-Policy refuses. evaluate() is compiled by the debugger
+    protocol outside the policy, so the polling loop runs there instead."""
+    fn = predicate if FUNCTION_RE.match(predicate) else f"() => ({predicate})"
+    return page.evaluate(f"""async ([arg, ms]) => {{
+        const p = {fn};
+        const end = Date.now() + ms;
+        for (;;) {{
+            const v = await p(arg);
+            if (v) return v;
+            if (Date.now() > end) throw new Error('wait_for timed out: ' + {json.dumps(predicate)});
+            await new Promise(r => setTimeout(r, 50));
+        }}
+    }}""", [arg, timeout])
 
 
 def playwright():

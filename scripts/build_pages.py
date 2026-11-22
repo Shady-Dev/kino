@@ -49,6 +49,7 @@ HERE = Path(__file__).resolve().parent
 sys.path.insert(0, str(HERE / "providers"))
 
 import common                                    # noqa: E402
+import check_csp                                 # noqa: E402
 from synmerge import norm                        # noqa: E402
 
 ROOT = HERE.parent
@@ -1656,7 +1657,7 @@ def page(*, lang, paths, title, desc, h1, sub, intro, days, today, t,
     # the first showtime 16 px further down a phone.
     cta = (f'<a class="cta" href="{esc(app_href)}"><span data-nosnippet>{esc(t["cta"])}</span>'
            f'<span class="arr" aria-hidden="true" data-nosnippet>\u2192</span></a>')
-    return f"""<!DOCTYPE html>
+    return check_csp.with_policy(f"""<!DOCTYPE html>
 <html lang="{t['lang']}">
 <head>
 <meta charset="UTF-8">
@@ -1700,7 +1701,7 @@ def page(*, lang, paths, title, desc, h1, sub, intro, days, today, t,
 {pageview_tag(kind)}
 </body>
 </html>
-"""
+""")
 
 
 # ---------------------------------------------------------------- main
@@ -1741,7 +1742,8 @@ def redirect_page(lang, to_path, label):
          "en": "This page has moved"}[lang]
     go = {"fi": "Siirry teatterin sivulle", "sv": "G\u00e5 till biografens sida",
           "en": "Go to the cinema's page"}[lang]
-    return (f'<!doctype html>\n<html lang="{lang}">\n<head>\n<meta charset="utf-8">\n'
+    return check_csp.with_policy(
+            f'<!doctype html>\n<html lang="{lang}">\n<head>\n<meta charset="utf-8">\n'
             f'<meta name="viewport" content="width=device-width,initial-scale=1">\n'
             f'<title>{esc(t)}: {esc(label)}</title>\n'
             f'<link rel="canonical" href="{SITE}{to_path}">\n'
