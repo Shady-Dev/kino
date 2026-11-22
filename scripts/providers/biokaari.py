@@ -93,6 +93,9 @@ IMG_RE = re.compile(r'<img[^>]*src="([^"]+)"', re.I)
 SHOW_RE = re.compile(r'<p class="searchItemEventTime">\s*(\d{1,2})[:.](\d{2})\s*</p>\s*'
                      r'<div class="searchItemEventLink">\s*<a href="([^"]+)"', re.I)
 
+# Every time row, to count the ones SHOW_RE did not read (a link cell with no anchor).
+TIME_ROW_RE = re.compile(r'<p class="searchItemEventTime">', re.I)
+
 # Film page: labelled text.
 FIELD_RE = {
     "genres": re.compile(r'Lajityyppi:\s*([^<\n]{1,60}?)\s*(?:<|Ik&auml;raja|Ikäraja|N&auml;yt|Näyt|$)', re.I),
@@ -127,7 +130,7 @@ def parse(page):
             f"parser reads. Treating it as a fetch or template failure rather than a "
             f"cinema with nothing on")
     days = list(DAY_RE.finditer(page))
-    shows, seen = [], set()
+    shows, seen, unread = [], set(), []
     for i, d in enumerate(days):
         day, month, year = (int(x) for x in d.groups())
         chunk = page[d.end():days[i + 1].start() if i + 1 < len(days) else len(page)]
@@ -142,7 +145,9 @@ def parse(page):
             if not title:
                 continue
             img = IMG_RE.search(block)
-            for hh, mm, href in SHOW_RE.findall(block):
+            found = SHOW_RE.findall(block)
+            unread += [f"{title} {day}.{month}."] * (len(TIME_ROW_RE.findall(block)) - len(found))
+            for hh, mm, href in found:
                 try:
                     start = datetime.datetime(year, month, day, int(hh), int(mm), tzinfo=FI)
                 except ValueError:
@@ -181,6 +186,9 @@ def parse(page):
             f"{BASE}: no screening parsed from {len(days)} day container(s) and "
             f"{len(ITEM_RE.findall(page))} film item(s) ({served(page)}). No empty state is "
             f"known for this site, so this is a parse or template failure")
+    if unread:
+        print(f"[biokaari] {len(unread)} time row(s) with no ticket link this parser reads, "
+              f"left out: {', '.join(unread[:5])}")
     shows.sort(key=lambda s: s["start"])
     return shows
 

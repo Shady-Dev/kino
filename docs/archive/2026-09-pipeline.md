@@ -3022,3 +3022,20 @@ word. eTiketti fails when listed films' pages carry no screening block at all an
 published. That reverses two tests from 3725da3b4e, written 43 minutes before the
 correction, which pinned that case as no screenings. K13's missing section stays
 `NoScreenings` as recorded. 21 mutations, all red.
+
+### Ten adapters count the rows they drop (2026-11-22)
+Review finding M3. Ten adapters left out rows that carry a date or a clock with no counter
+moving. Each now counts them and prints the count in its run log line. None moves onto
+`common.unread`, which the maintainer kept to three adapters on 2026-10-29. Kino Hamina
+reads every paragraph after the fields and counts a dated line no row came from. Bio Marlon
+counts a dated row in another shape and a dated row under a widget with two titles.
+Matintupa counts a date with no row in `Esitysajat:`. Bio-Kaari counts a time row with no
+ticket link, Heureka a planetarium clock in another shape, and Kuvakukko a `Klo` with no
+colon. Virtainpirtti counts a screening line with a trailing note and the lines under a
+heading with no rating. Elävien kuvien teatteri counts a clock in another shape apart from
+the untimed rows and reads every clock on `klo 17:00 ja 20:00`. Nexxo prints its broken
+rows beside readable ones and reads a start with no seconds. Bio Pallas names a date block
+whose `Klo` line does not read as an unread row through its existing report, and keeps the
+recorded rule that such a block is never published at midnight. Bio Marlon, Matintupa,
+Virtainpirtti and Bio Pallas fail when such rows exist and none read. 20 mutations, all
+red.

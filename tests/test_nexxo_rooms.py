@@ -125,8 +125,18 @@ class ConfirmedEmptyEvidenceTest(unittest.TestCase):
         good = row(2, "Muurame", "Good")
         bad = dict(row(2, "Muurame", "Bad"))
         del bad["startTime"]
-        shows = nexxo.parse({"shows": {"d": [good, bad]}}, SITE, SITE["venues"][0])
+        out = io.StringIO()
+        with contextlib.redirect_stdout(out):
+            shows = nexxo.parse({"shows": {"d": [good, bad]}}, SITE, SITE["venues"][0])
         self.assertEqual([s["title"] for s in shows], ["Good"])
+        # Dropped with nothing in the log until the review of 2026-11-22 (M3).
+        self.assertIn("1 row(s) with no readable startTime/startDate, dropped", out.getvalue())
+
+    def test_a_start_with_no_seconds_is_read(self):
+        short = dict(row(2, "Muurame", "Short"))
+        short["startTime"] = short["startTime"][:16]
+        shows = nexxo.parse({"shows": {"d": [short]}}, SITE, SITE["venues"][0])
+        self.assertEqual([s["start"][:16] for s in shows], [short["startTime"].replace(" ", "T")])
 
 
 class RenumberedRoomTest(unittest.TestCase):

@@ -25,7 +25,8 @@ import re
 import sys
 from zoneinfo import ZoneInfo
 
-from common import NoScreenings, bot_check, check_shows, get_text, resolve_year, served, weekday_index
+from common import (NoScreenings, bot_check, check_shows, date_like, get_text, resolve_year,
+                    served, weekday_index)
 
 FI = ZoneInfo("Europe/Helsinki")
 
@@ -88,7 +89,7 @@ def rows(site, page, today=None):
     venue = site["venues"][0]
     url = site["base"].rstrip("/") + site["listing"]
     out = []
-    report = {"films": 0, "coming": 0, "private": 0, "untimed": 0, "undated": 0}
+    report = {"films": 0, "coming": 0, "private": 0, "untimed": 0, "undated": 0, "unread": 0}
     for w in WIDGET_RE.findall(page):
         titles = [text(t) for t in H1_RE.findall(w) if text(t)]
         lines = [text(h) for h in H4_RE.findall(w)]
@@ -96,6 +97,8 @@ def rows(site, page, today=None):
             # "Tulossa" heads the coming films; other several-h1 widgets are the address.
             if any(re.match(r"tulossa\b", x, re.I) for x in lines):
                 report["coming"] += len(titles)
+            else:
+                report["unread"] += sum(1 for x in lines if date_like(x))
             continue
         title = titles[0]
         rating, minutes, price, lang = facts(P_RE.findall(w))
@@ -106,6 +109,7 @@ def rows(site, page, today=None):
                 continue
             m = ROW_RE.match(line)
             if not m:
+                report["unread"] += date_like(line)
                 continue
             day, month = int(m.group(3)), int(m.group(4))
             year = resolve_year(day, month, today, weekday_index(m.group(2)), WINDOW)
@@ -145,6 +149,9 @@ def fetch_site(site, today=None):
     url = site["base"].rstrip("/") + site["listing"]
     page = get_text(url)
     shows, report = rows(site, page, today)
+    if not shows and report["unread"]:
+        raise RuntimeError(f"{url}: {report['unread']} dated row(s) and none in a shape this "
+                           f"parser reads, so the row markup moved")
     if not shows:
         bot_check(page, url)
         raise NoScreenings(
@@ -158,7 +165,9 @@ def fetch_site(site, today=None):
           f"{len(days)} dates, {report['films']} film(s), {report['coming']} coming")
     for key, what in (("private", "private screening row(s), left out"),
                       ("untimed", "row(s) with no clock yet, left out"),
-                      ("undated", "row(s) whose date no candidate year holds, left out")):
+                      ("undated", "row(s) whose date no candidate year holds, left out"),
+                      ("unread", "dated row(s) in a shape this parser does not read, "
+                                 "left out")):
         if report[key]:
             print(f"[{pid}] {report[key]} {what}")
     return per_venue

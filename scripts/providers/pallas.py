@@ -34,7 +34,8 @@ What shapes the parser:
   its own block with no `Klo` beside it. Those are release dates, not screenings. Both
   halves are required, and neither is the block's heading, so renaming the heading cannot
   let them through and a date block that stops carrying a readable time is dropped rather
-  than published at midnight.
+  than published at midnight. When its line still opens with `Klo` (`Klo 18`, `Klo 18.00 ja
+  20.30`) it is named in the log as an unread row, and the site fails if no row reads.
 - **No date carries a year**, on the heading or on the row, on all six readings, so the
   weekday selects it through `common.resolve_year` and a line it cannot place raises. The
   weekday is bilingual and abbreviated, Finnish first: `La/Lö`, `Su/Sö`, `Ma/Må`, `Ti`,
@@ -127,6 +128,7 @@ TAGS_RE = re.compile(r"<[^>]+>")
 DATE_RE = re.compile(r"^([A-Za-zÅÄÖåäö]{2,3})(?:\s*/\s*[A-Za-zÅÄÖåäö]{2,4})?\s*"
                      r"(\d{1,2})\.(\d{1,2})\.?$")
 TIME_RE = re.compile(r"^klo\s*(\d{1,2})[.:](\d{2})$", re.I)
+KLO_RE = re.compile(r"^klo\b", re.I)
 # The day heading, which carries the weekday spelled out in both languages.
 HEADING_RE = re.compile(r"^[A-Za-zÅÄÖåäö]{3,}\s*/\s*[A-Za-zÅÄÖåäö]{3,}\s+(\d{1,2})\.(\d{1,2})\.?$")
 META_RE = re.compile(r"(?:(\d+)\s*h\s*)?(?:(\d+)\s*min\s*)?-\s*(?:[Kk]\s*)?([0-9]{1,2}|[Ss])\s*-")
@@ -276,7 +278,8 @@ def rows(site, page, today=None):
     url = site["base"].rstrip("/") + site["listing"]
     stream = events(page)
     out = []
-    report = {"closed": [], "no_price": [], "no_poster": [], "left_out": [], "unread": []}
+    report = {"closed": [], "no_price": [], "no_poster": [], "left_out": [], "unread": [],
+              "clock": []}
     headings, dated = [], set()
     last_img = None
     for i, (kind, value) in enumerate(stream):
@@ -290,6 +293,10 @@ def rows(site, page, today=None):
         if len(value) < 2:
             continue
         dm, tm = DATE_RE.match(value[0]), TIME_RE.match(value[1])
+        if dm and not tm and KLO_RE.match(value[1]):
+            above = stream[i - 1][1][0] if i and stream[i - 1][0] == "text" and stream[i - 1][1] else ""
+            report["clock"].append(f"{above}, {value[0]} {value[1]}")   # its clock unread
+            continue
         if not dm or not tm:
             continue
         title_block = stream[i - 1][1] if i and stream[i - 1][0] == "text" else None
@@ -370,6 +377,11 @@ def fetch_site(site, today=None):
     shows, report = rows(site, page, today)
     for item in report["unread"]:
         unread("line", item)
+    for item in report["clock"]:
+        unread("row", item)
+    if not shows and report["clock"]:
+        raise ShowRowError(f"{url}: {len(report['clock'])} screening row(s) and none with a "
+                           f"clock this parser reads, so the row markup moved")
     if not shows:
         raise NoScreenings(
             f"{url}: no screening line on the programme page ({served(page)}). This site "

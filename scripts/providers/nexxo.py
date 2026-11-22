@@ -206,12 +206,15 @@ def _lang(row):
 
 
 def _iso(start):
-    """'2026-08-26 17:00:00' -> ISO with the correct Helsinki offset (DST-aware)."""
-    try:
-        naive = datetime.datetime.strptime(start.strip(), "%Y-%m-%d %H:%M:%S")
-    except ValueError:
-        return ""
-    return naive.replace(tzinfo=FI).isoformat()
+    """'2026-08-26 17:00:00', or the same with no seconds -> ISO with the correct Helsinki
+    offset (DST-aware)."""
+    for shape in ("%Y-%m-%d %H:%M:%S", "%Y-%m-%d %H:%M"):
+        try:
+            naive = datetime.datetime.strptime(start.strip(), shape)
+        except ValueError:
+            continue
+        return naive.replace(tzinfo=FI).isoformat()
+    return ""
 
 
 def rating(age):
@@ -355,6 +358,9 @@ def parse(payload, site, venue):
     if untitled:
         print(f"[{site['provider']}] {venue['name']}: {untitled} row(s) with no title, "
               f"dropped")
+    if skipped_broken and shows:
+        print(f"[{site['provider']}] {venue['name']}: {skipped_broken} row(s) with no readable "
+              f"startTime/startDate, dropped")
     shows.sort(key=lambda s: s["start"])
     return shows
 

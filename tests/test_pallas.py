@@ -356,6 +356,24 @@ class RowsTest(unittest.TestCase):
                     row(SAT, "20.00", "Resident Evil")))
                 self.assertEqual([s["title"] for s in shows], ["Resident Evil"])
 
+    def test_a_klo_line_that_does_not_read_is_named_as_a_row(self):
+        """Dropped with nothing in the log until the review of 2026-11-22 (M3)."""
+        for clock in ("18", "18.00 ja 20.30"):
+            with self.subTest(clock=clock):
+                shows, report = self.rows(page(heading(SAT), row(SAT, "15.00", "Myrskyn ikkuna"),
+                                               row(SAT, clock, "Resident Evil")))
+                self.assertEqual([s["title"] for s in shows], ["Myrskyn ikkuna"])
+                self.assertEqual(report["clock"], [f"Resident Evil, La/Lö 19.9 Klo {clock}"])
+
+    def test_klo_rows_and_none_read_fail_the_site(self):
+        from unittest import mock
+        html = page(heading(SAT), row(SAT, "18", "Resident Evil"))
+        with self.assertRaises(P.ShowRowError) as cm, \
+                mock.patch.object(P, "fetch", lambda url, **kw: html.encode("utf-8")), \
+                contextlib.redirect_stdout(io.StringIO()), contextlib.redirect_stderr(io.StringIO()):
+            P.fetch_site(SITE, TODAY)
+        self.assertIn("row markup moved", str(cm.exception))
+
     def test_every_screening_links_to_the_page_because_there_is_no_ticket_url(self):
         shows, _ = self.rows(TWO)
         self.assertEqual({s["url"] for s in shows}, {PAGE_URL})

@@ -86,6 +86,11 @@ ROW_RE = re.compile(r"(\d{1,2})\.(\d{1,2})\.(\d{4})\s*klo\s*(\d{1,2})[:.](\d{2})
 # the same call, and failing the site over it would cost the other eleven films their
 # schedule every time the cinema announces a date before a time.
 DATE_ONLY_RE = re.compile(r"(\d{1,2})\.(\d{1,2})\.(\d{4})")
+# After the date: a clock in a shape ROW_RE does not read (`18:00` with no `klo`, `kello
+# 19.00`, `klo 19`). Such a row has a time, so it is counted apart from the untimed ones.
+CLOCKISH_RE = re.compile(r"\b(?:klo|kello)\b|\b\d{1,2}[:.]\d{2}\b", re.I)
+# A further clock on the same date: `klo 17:00 ja 20:00`.
+MORE_CLOCK_RE = re.compile(r"\s*(?:ja|&|,)\s*(?:klo\s*)?(\d{1,2})[:.](\d{2})\b", re.I)
 BUY_RE = re.compile(r'href="(lipunvaraus/[^"]+)"', re.I)
 
 
@@ -153,7 +158,8 @@ def shows_of(site, film, page, report=None):
 
     `report` counts the rows left out: a date with no time yet is one of them.
     """
-    report = {"no_time": 0} if report is None else report
+    report = {"no_time": 0, "unread": 0} if report is None else report
+    report.setdefault("unread", 0)
     venue = site["venues"][0]
     t = TITLE_RE.search(page)
     title = _txt(t.group(1)) if t else ""
@@ -175,7 +181,11 @@ def shows_of(site, film, page, report=None):
         text = _txt(line)
         m = ROW_RE.search(text)
         if not m:
-            if DATE_ONLY_RE.search(text):
+            d = DATE_ONLY_RE.search(text)
+            if d and CLOCKISH_RE.search(text[d.end():]):
+                report["unread"] += 1        # a clock in a shape ROW_RE does not read
+                continue
+            if d:
                 report["no_time"] += 1       # announced for a day, no clock time yet
                 continue
             if text:
@@ -184,35 +194,47 @@ def shows_of(site, film, page, report=None):
                     f"marks it as a screening, so dropping it would lose one silently")
             continue
         day, month, year, hh, mm = (int(x) for x in m.groups())
-        try:
-            start = datetime.datetime(year, month, day, hh, mm, tzinfo=FI)
-        except ValueError as e:
-            raise ListingError(f"{film['url']}: {day}.{month}.{year} {hh}.{mm:02d} is not "
-                               f"a calendar date") from e
+        clocks, rest = [(hh, mm)], text[m.end():]
+        while True:
+            more = MORE_CLOCK_RE.match(rest)
+            if not more:
+                break
+            clocks.append((int(more.group(1)), int(more.group(2))))
+            rest = rest[more.end():]
         buy = BUY_RE.search(line)
-        out.append({
-            "eventId": norm(title),
-            "title": title,
-            "original": "",
-            "len": length,
-            "rating": rating,
-            "genres": genres,
-            "method": "",
-            "theatre": venue["name"],
-            "aud": "",
-            "start": start.isoformat(),
-            # The row's own seat-picker page when it has one, the film page otherwise.
-            "url": urljoin(site["base"] + "/", html_mod.unescape(buy.group(1)))
-                   if buy else film["url"],
-            "img": film["img"],
-            "lang": "",
-            "soldOut": False,
-            # Two amounts, adult and reduced, and the row settles neither.
-            "price": "",
-            "provider": site["provider"],
-            "venue": venue["id"],
-        })
+        for hh, mm in clocks:
+            try:
+                start = datetime.datetime(year, month, day, hh, mm, tzinfo=FI)
+            except ValueError as e:
+                raise ListingError(f"{film['url']}: {day}.{month}.{year} {hh}.{mm:02d} is "
+                                   f"not a calendar date") from e
+            out.append(_row(site, film, venue, title, length, rating, genres, start, buy))
     return out
+
+
+def _row(site, film, venue, title, length, rating, genres, start, buy):
+    return {
+        "eventId": norm(title),
+        "title": title,
+        "original": "",
+        "len": length,
+        "rating": rating,
+        "genres": genres,
+        "method": "",
+        "theatre": venue["name"],
+        "aud": "",
+        "start": start.isoformat(),
+        # The row's own seat-picker page when it has one, the film page otherwise.
+        "url": urljoin(site["base"] + "/", html_mod.unescape(buy.group(1)))
+               if buy else film["url"],
+        "img": film["img"],
+        "lang": "",
+        "soldOut": False,
+        # Two amounts, adult and reduced, and the row settles neither.
+        "price": "",
+        "provider": site["provider"],
+        "venue": venue["id"],
+    }
 
 
 def get(url, tries=3, timeout=30):
@@ -230,7 +252,7 @@ def fetch_site(site, sleep=1.2):
             f"{listing_url}: the programme container holds no film. This site publishes "
             f"no empty-state text, so there is no evidence of an empty programme to read "
             f"this as and the previous files stand")
-    shows, report = [], {"no_time": 0}
+    shows, report = [], {"no_time": 0, "unread": 0}
     # budget_or_raise, not capped: these pages carry the screenings themselves, so
     # trimming the loop would drop them rather than cost metadata.
     for n, film in enumerate(budget_or_raise(listed, pid)):
@@ -252,6 +274,9 @@ def fetch_site(site, sleep=1.2):
     if report["no_time"]:
         print(f"[{pid}] {report['no_time']} row(s) announced for a day with no clock "
               f"time yet, left out")
+    if report["unread"]:
+        print(f"[{pid}] {report['unread']} row(s) whose clock is in a shape this parser does "
+              f"not read, left out")
     return per_venue
 
 

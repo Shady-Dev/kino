@@ -9,6 +9,8 @@ times on every day: the rows repeat verbatim across containers and only the cont
 separates them. A one-day fixture would never show it. One film also carries two `<li>`
 rows on a single day, which is the other shape the page uses.
 """
+import contextlib
+import io
 import unittest
 
 import _ctx                                                # noqa: F401
@@ -175,6 +177,17 @@ class EmptyAndBrokenTest(unittest.TestCase):
         self.assertNotIsInstance(cm.exception, common.EmptyProgramme)
         self.assertNotIsInstance(cm.exception, common.NoScreenings)
         self.assertIn("3 film item", str(cm.exception))
+
+    def test_a_time_row_with_no_ticket_link_is_counted(self):
+        """Dropped with no count until the review of 2026-11-22 (M3)."""
+        film = item("31671", "Hetki ennen valoa", "2026", [("17:30", "1"), ("20:00", "2")])
+        film = film.replace(f'<A href="{TICKETS}/2/"><SPAN>Osta lippu</SPAN></A>', "Loppuunmyyty")
+        out = io.StringIO()
+        with contextlib.redirect_stdout(out):
+            shows = biokaari.parse(page(day("15092026", film)))
+        self.assertEqual([s["start"][11:16] for s in shows], ["17:30"])
+        self.assertIn("1 time row(s) with no ticket link this parser reads, left out: "
+                      "Hetki ennen valoa 15.9.", out.getvalue())
 
     def test_a_page_without_a_day_container_is_a_failure(self):
         with self.assertRaises(RuntimeError) as cm:

@@ -78,6 +78,8 @@ TITLE_RE = re.compile(r'<h2[^>]*>\s*<a[^>]+href="([^"]*/elokuvat/([^"/]+)/?)"[^>
 TIMES_RE = re.compile(r'<b>\s*Esitysajat:\s*</b>(.*?)(?:<b>|$)', re.S | re.I)
 SHOW_RE = re.compile(r'\b([A-Za-zÅÄÖåäö]{2})\s+(\d{1,2})\.(\d{1,2})\.?\s*klo\s*'
                      r'(\d{1,2})[.:](\d{2})', re.I)
+# A weekday and a date, to count the ones in `Esitysajat:` that SHOW_RE did not read.
+DATE_ANY_RE = re.compile(r'\b[A-Za-zÅÄÖåäö]{2}\s+\d{1,2}\.\d{1,2}\b')
 FIELD_RE = re.compile(r'<b>\s*(Liput|Kesto|Genre):\s*</b>(.*?)(?:<b>|<p|<br|$)', re.S | re.I)
 # One amount and nothing else. A comma or a dot separates the cents, and the euro sign may
 # sit either side; anything after it means the row states a condition this cannot settle.
@@ -145,7 +147,7 @@ def rows(site, page, today=None):
     today = today or datetime.datetime.now(FI).date()
     venue = site["venues"][0]
     base = site["base"]
-    out, report = [], {"blocks": 0, "untitled": 0, "undated": 0, "no_price": 0}
+    out, report = [], {"blocks": 0, "untitled": 0, "undated": 0, "no_price": 0, "unread": 0}
     for block in BLOCK_RE.findall(page):
         t = TITLE_RE.search(block)
         if not t:
@@ -165,7 +167,10 @@ def rows(site, page, today=None):
         length, genres = minutes_of(f.get("kesto", "")), f.get("genre", "")
         img, rating = poster_of(block, base), rating_of(block)
         window = TIMES_RE.search(block)
-        for m in SHOW_RE.finditer(text(window.group(1)) if window else ""):
+        times = text(window.group(1)) if window else ""
+        found = list(SHOW_RE.finditer(times))
+        report["unread"] += max(0, len(DATE_ANY_RE.findall(times)) - len(found))
+        for m in found:
             day, month = int(m.group(2)), int(m.group(3))
             year = resolve_year(day, month, today, weekday_index(m.group(1)), WINDOW)
             if year is None:
@@ -203,6 +208,9 @@ def fetch_site(site, today=None):
     url = site["base"].rstrip("/") + site["listing"]
     page = get_text(url)
     shows, report = rows(site, page, today)
+    if not shows and report["unread"]:
+        raise RuntimeError(f"{url}: {report['unread']} screening line(s) and none in a shape "
+                           f"this parser reads, so the line markup moved")
     if not shows:
         bot_check(page, url)
         raise NoScreenings(
@@ -222,6 +230,9 @@ def fetch_site(site, today=None):
               f"holds inside the window, left out")
     if report["untitled"]:
         print(f"[{pid}] {report['untitled']} film block(s) with no title, left out")
+    if report["unread"]:
+        print(f"[{pid}] {report['unread']} screening line(s) in a shape this parser does not "
+              f"read, left out")
     return per_venue
 
 

@@ -119,6 +119,8 @@ ROW_RE = re.compile(r'Klo\s*(\d{1,2})(?:[.:](\d{2}))?\s*:\s*(?:<a\b[^>]*>\s*</a>
                     r'(?:<a\s+href="([^"]*)"[^>]*>(.*?)</a>|([^<]{2,80}))',
                     re.S | re.I)
 TAGS_RE = re.compile(r"<[^>]+>")
+# Every `Klo` and a digit in a day's paragraph, to count the ones ROW_RE did not read.
+KLO_ANY_RE = re.compile(r"\bklo\s*\d", re.I)
 # A cinema's section as lines, whatever element holds them: `DAY_RE` and `ROW_RE` read the
 # classed paragraphs, and this reads what they may have stopped matching.
 LINE_SPLIT_RE = re.compile(r"<br\s*/?>|</?(?:p|li|h[1-6]|div|tr|td|ul|ol|table|figure)\b[^>]*>",
@@ -267,7 +269,7 @@ def parse(page, site=None, today=None, prices=None):
             f"rather than a cinema with nothing on")
     today = today or datetime.datetime.now(FI).date()
     per_venue = {v["id"]: [] for v in VENUES}
-    seen, unplaced, untitled = set(), [], []
+    seen, unplaced, untitled, unread = set(), [], [], []
     headed, dated = set(), set()     # `dated` also holds a section with an unread day line
     for heading, body in _sections(page):
         venue = _venue_for(heading)
@@ -287,6 +289,9 @@ def parse(page, site=None, today=None, prices=None):
                 unplaced.append(f"{wd} {day}.{month}.")
                 continue
             rows = list(ROW_RE.finditer(para))
+            missed = len(KLO_ANY_RE.findall(_txt(para))) - len(rows)
+            if missed > 0:
+                unread += [f"{venue['short']} {day}.{month}."] * missed
             for i, row in enumerate(rows):
                 hh, mm, href, linked, plain = row.groups()
                 title = _txt(linked or plain)
@@ -338,6 +343,9 @@ def parse(page, site=None, today=None, prices=None):
     if untitled:
         print(f"[kuvakukko] {len(untitled)} screening line(s) with no title, skipped: "
               f"{', '.join(untitled[:5])}")
+    if unread:
+        print(f"[kuvakukko] {len(unread)} screening line(s) in a shape this parser does not "
+              f"read, skipped: {', '.join(unread[:5])}")
     if not any(per_venue.values()):
         raise (RuntimeError if dated or unplaced or untitled else NoScreenings)(
             f"{LISTING} has its headings but no screening under them. No empty programme "

@@ -259,7 +259,7 @@ def parse_calendar(page, today=None, days=DAYS):
     today = today or datetime.datetime.now(FI).date()
     films = [ev for ev in events if ev.get("kategoria") == CATEGORY
              and ev.get("koko_paiva") != "Kyllä"]
-    shows, blogs, tokens = [], {}, 0
+    shows, blogs, tokens, unread = [], {}, 0, []
     for n in range(days):
         day = today + datetime.timedelta(days=n)
         if day.isoformat() in holidays:
@@ -269,6 +269,7 @@ def parse_calendar(page, today=None, days=DAYS):
                 tokens += 1
                 start = _iso(day, clock)
                 if not start:
+                    unread.append(clock)
                     continue
                 eid = _event_id(ev)
                 blog = (ev.get("tapahtumasivu_blog_post") or "").strip()
@@ -300,6 +301,9 @@ def parse_calendar(page, today=None, days=DAYS):
     if tokens and not shows:
         raise RuntimeError(f"{BASE}{CALENDAR}: {tokens} planetarium time(s) listed in the "
                            f"next {days} days and none could be read (clock format changed?)")
+    if unread:
+        print(f"[heureka] {len(unread)} planetarium time(s) in the next {days} days in a shape "
+              f"this parser does not read, left out: {', '.join(sorted(set(unread))[:5])}")
     if not shows:
         if not films:
             raise RuntimeError(f"{BASE}{CALENDAR}: {len(events)} calendar item(s) and none "

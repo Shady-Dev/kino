@@ -99,6 +99,16 @@ class PageTest(unittest.TestCase):
         pikkuli = [s for s in shows if s["title"] == "Pikkuli ja Tähtipeura"]
         self.assertEqual([s["method"] for s in pikkuli], ["Ensi-ilta", ""])
 
+    def test_a_line_in_another_shape_and_a_heading_with_no_rating_are_counted(self):
+        """Dropped with no count until the review of 2026-11-22 (M3)."""
+        shows, report = self.rows(page(
+            film("Elokuva A|K-7", "pe 23.10. klo 18.00", "la 24.10. liput 6 €"),
+            film("Elokuva B|", "pe 23.10. klo 20.00", "Kesto 1 h 30 min"),
+            film("Elokuva C|K-12", "su 25.10. klo 18.00 (ensi-ilta)", "ma 26.10. klo 18.00")))
+        self.assertEqual([(s["title"], s["start"][5:16]) for s in shows],
+                         [("Elokuva A", "10-23T18:00"), ("Elokuva C", "10-26T18:00")])
+        self.assertEqual(report["unread"], 2)
+
     def test_a_paragraph_above_the_content_is_not_a_film(self):
         shows, _ = self.rows(LIVE)
         self.assertNotIn("2026-10-23T18:00:00+03:00", [s["start"] for s in shows])
@@ -150,6 +160,14 @@ class RunnerTest(unittest.TestCase):
         self.assertEqual(self.calls, [LISTING])
         self.assertEqual(sorted({s["title"] for s in self.after()["shows"]}),
                          ["Lapin sota", "Pirjo i Sverige"])
+
+    def test_screening_lines_and_none_read_fail_the_site(self):
+        self.kept()
+        self.serve(page(film("Lapin sota|", self.row(1, "18.00"), self.row(2, "18.00"))))
+        code, log = self.main()
+        self.assertEqual(code, 1, log)
+        self.assertIn("markup moved", log)
+        self.assertEqual(self.after()["shows"][0]["title"], "Yesterday")
 
     def test_a_page_with_no_screening_line_keeps_the_previous_file_without_failing(self):
         self.kept()

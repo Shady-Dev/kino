@@ -96,6 +96,13 @@ class BlockTest(unittest.TestCase):
         self.assertEqual(len(shows), 1)
         self.assertEqual(report["undated"], 1)
 
+    def test_a_line_in_another_shape_is_counted(self):
+        """Dropped with every counter at zero until the review of 2026-11-22 (M3)."""
+        shows, report = self.rows(block(times=("la 19.9. klo 17.15", "su 20.9. klo 15",
+                                               "ma 21.9. 18.00")))
+        self.assertEqual([s["start"][:16] for s in shows], ["2026-09-19T17:15"])
+        self.assertEqual(report["unread"], 2)
+
     def test_a_weekday_no_candidate_year_holds_is_left_out(self):
         shows, report = self.rows(block(times=("ma 19.9. klo 17.15",)))
         self.assertEqual((shows, report["undated"]), ([], 1))
@@ -233,6 +240,12 @@ class RunnerTest(unittest.TestCase):
         self.assertIn("no film block", log)
         after = json.loads((run.OUT / f"area-{VENUE}.json").read_text(encoding="utf-8"))
         self.assertEqual(after["shows"][0]["title"], "Yesterday")
+
+    def test_screening_lines_and_none_read_fail_the_site(self):
+        self.serve({LISTING: page(block(times=(self.line(1, "17"), self.line(2, "18"))))})
+        code, log = self.main()
+        self.assertEqual(code, 1, log)
+        self.assertIn("line markup moved", log)
 
     def test_a_refused_request_keeps_the_previous_file(self):
         kept = {"generated": "2026-09-19T00:00:00+00:00", "dates": [], "horizon": "",

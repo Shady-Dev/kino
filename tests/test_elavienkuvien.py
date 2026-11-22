@@ -158,6 +158,22 @@ class FilmPageTest(unittest.TestCase):
         self.assertEqual(len(got), 1)
         self.assertEqual(report["no_time"], 1)
 
+    def test_a_clock_in_another_shape_is_not_filed_as_untimed(self):
+        """Filed as "no clock time yet" until the review of 2026-11-22 (M3)."""
+        report = {"no_time": 0}
+        got = self.rows(film_page(rows=("su 20.9.2026 klo 17:00", "ma 21.9.2026 18:00",
+                                        "ti 22.9.2026 kello 19.00", "ke 23.9.2026 klo 19",
+                                        "pe 2.10.2026")), report)
+        self.assertEqual([s["start"][:16] for s in got], ["2026-09-20T17:00"])
+        self.assertEqual(report, {"no_time": 1, "unread": 3})
+
+    def test_every_clock_on_a_date_is_a_screening(self):
+        got = self.rows(film_page(rows=("to 24.9.2026 klo 17:00 ja 20:00",
+                                        "pe 25.9.2026 klo 15.00, klo 18.00 & 21.00")))
+        self.assertEqual([s["start"][5:16] for s in got],
+                         ["09-24T17:00", "09-24T20:00", "09-25T15:00", "09-25T18:00",
+                          "09-25T21:00"])
+
     def test_a_line_with_no_date_at_all_raises(self):
         with self.assertRaises(E.ListingError):
             self.rows(film_page(rows=("ensi viikolla, aika tarkentuu",)))

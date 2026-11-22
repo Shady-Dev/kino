@@ -17,7 +17,7 @@ programme, one `large-content-showcase` block per film:
 What shapes the parser:
 
 - **Two paragraphs, and they do different jobs.** The first is the film's labelled fields,
-  the second one line per screening. A block whose second paragraph holds no readable line
+  the rest one line per screening. A block whose later paragraphs hold no readable line
   is a film with nothing scheduled, which the page uses for a run that has ended, so it is
   counted and left out rather than failing the site.
 - **A screening line prints no year**, so the weekday selects it through
@@ -78,6 +78,8 @@ IMG_RE = re.compile(r'<img[^<>]*?width="(\d+)"[^<>]*?height="(\d+)"[^<>]*?src="(
 # on 2026-11-20.
 SHOW_RE = re.compile(r"(ma|ti|ke|to|pe|la|su)\s+(\d{1,2})\.(\d{1,2})\.?\s*klo\s*(\d{1,2})[:.](\d{2})"
                      r"(?:[^\n]*?[|(]\s*liput\s*([\d.,]+)\s*€)?", re.I)
+# A weekday and a date, to count the ones on a screening line that SHOW_RE did not take.
+DATE_ANY_RE = re.compile(r"\b(?:ma|ti|ke|to|pe|la|su)\s+\d{1,2}\.\d{1,2}\b", re.I)
 LABEL_RE = re.compile(r"^([A-Za-zÄÖÅäöå -]{3,20}):\s*(.+)$")
 # "1 t 27 min", and "1 h 42 min" on two films read 2026-10-04.
 MIN_RE = re.compile(r"(?:(\d{1,2})\s*[th]\s*)?(\d{1,3})\s*min", re.I)
@@ -165,15 +167,20 @@ def rows(site, page, today=None):
     """-> ([show], report). One row per screening line the page prints."""
     today = today or datetime.datetime.now(FI).date()
     venue = site["venues"][0]
-    out, report = [], {"no_dates": [], "no_price": set(), "corrected": []}
+    out, report = [], {"no_dates": [], "no_price": set(), "corrected": [], "unread": []}
     for n, block in enumerate(BLOCK_RE.findall(page)):
         title = _txt(TITLE_RE.search(block).group(1)) if TITLE_RE.search(block) else ""
         if not title:
             continue                  # the legend block above the films carries no title
         f = fields(block)
         paras = PARA_RE.findall(block)
-        lines = _txt(paras[1]) if len(paras) > 1 else ""
+        # Every paragraph after the fields: the page has also printed one per screening.
+        lines = "\n".join(_txt(p) for p in paras[1:])
         found = SHOW_RE.findall(lines)
+        for line in lines.split("\n"):
+            missed = len(DATE_ANY_RE.findall(line)) - len(SHOW_RE.findall(line))
+            if missed > 0:
+                report["unread"].append(f"{title}: {line[:60]}")
         if not found:
             report["no_dates"].append(title)
             continue
@@ -244,6 +251,9 @@ def fetch_site(site, today=None):
     if report["no_dates"]:
         print(f"[{pid}] {len(report['no_dates'])} film(s) with no screening line, left "
               f"out: {', '.join(report['no_dates'][:6])}")
+    if report["unread"]:
+        print(f"[{pid}] {len(report['unread'])} screening line(s) naming a date no row was "
+              f"read for, left out: {' | '.join(report['unread'][:5])}")
     if report["no_price"]:
         print(f"[{pid}] {len(report['no_price'])} film(s) whose Liput line settles no "
               f"amount: {', '.join(sorted(report['no_price'])[:6])}")

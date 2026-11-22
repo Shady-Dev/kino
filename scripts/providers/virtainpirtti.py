@@ -42,6 +42,8 @@ TAGS_RE = re.compile(r"<[^>]+>")
 HEAD_RE = re.compile(r"^(.+?)\s+(K-?\d{1,2}|-S-|S)(?=\W|$)\.?\s*(.*)$", re.I)
 ROW_RE = re.compile(r"^(ma|ti|ke|to|pe|la|su)\s+(\d{1,2})\.(\d{1,2})\.?\s+klo\s+(\d{1,2})[.:](\d{2})"
                     r"\s*(\*?)$", re.I)
+# A line opening like a screening, to count the ones ROW_RE did not read.
+ROW_START_RE = re.compile(r"^(?:ma|ti|ke|to|pe|la|su)\s+\d{1,2}\.\d{1,2}\.?\s+klo\b", re.I)
 LEN_RE = re.compile(r"^kesto\s+(\d{1,2})\s*h(?:\s*(\d{1,2})\s*min)?", re.I)
 NOTE_DATE_RE = re.compile(r"(\d{1,2})\.(\d{1,2})\.")
 NOTE_PRICE_RE = re.compile(r"(\d{1,3})(?:,(\d{2}))?\s*\u20ac")
@@ -72,6 +74,7 @@ def film(block, today, report):
     ls = lines(block)
     head = HEAD_RE.match(ls[0]) if ls else None
     if not head:
+        report["unread"] += sum(1 for line in ls[1:] if ROW_START_RE.match(line))
         return []
     title, raw, rest = head.group(1).strip(), head.group(2).upper(), head.group(3)
     rating = "S" if raw.strip("-") == "S" else f"K-{int(raw.replace('K', '').strip('-'))}"
@@ -87,6 +90,9 @@ def film(block, today, report):
                 continue
             starts.append(datetime.datetime(year, month, day, int(r.group(4)), int(r.group(5)),
                                             tzinfo=FI))
+            continue
+        if ROW_START_RE.match(line):
+            report["unread"] += 1               # `su 4.10. klo 18.00 (ensi-ilta)`
             continue
         n = LEN_RE.match(line)
         if n:
@@ -124,7 +130,7 @@ def rows(site, page, today=None):
     url = site["base"].rstrip("/") + site["listing"]
     body = page[page.find("wsite-content"):] if "wsite-content" in page else page
     out = []
-    report = {"films": 0, "undated": 0, "undated_note": 0}
+    report = {"films": 0, "undated": 0, "undated_note": 0, "unread": 0}
     for block in PARA_RE.findall(body):
         got = film(block, today, report)
         report["films"] += bool(got)
@@ -145,6 +151,9 @@ def fetch_site(site, today=None):
     url = site["base"].rstrip("/") + site["listing"]
     page = get_text(url)
     shows, report = rows(site, page, today)
+    if not shows and report["unread"]:
+        raise RuntimeError(f"{url}: {report['unread']} screening line(s) and none in a shape "
+                           f"this parser reads, so the programme's markup moved")
     if not shows:
         bot_check(page, url)
         raise NoScreenings(
@@ -157,7 +166,9 @@ def fetch_site(site, today=None):
     print(f"[{pid}] {venue['name']}, {venue['city']}: {len(shows)} showtimes, "
           f"{len(days)} dates, {report['films']} film(s)")
     for key, what in (("undated_note", "price note(s) naming no date, applied to no screening"),
-                      ("undated", "row(s) whose date no candidate year holds, left out")):
+                      ("undated", "row(s) whose date no candidate year holds, left out"),
+                      ("unread", "screening line(s) in a shape this parser does not read, "
+                                 "or under a heading with no rating, left out")):
         if report[key]:
             print(f"[{pid}] {report[key]} {what}")
     return per_venue

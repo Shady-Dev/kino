@@ -89,6 +89,19 @@ class PageTest(unittest.TestCase):
         self.assertEqual([s["start"][:16] for s in shows], ["2026-10-24T17:00"])
         self.assertEqual(report["untimed"], 1)
 
+    def test_a_dated_row_in_another_shape_is_counted(self):
+        """Dropped with every counter at zero until the review of 2026-11-22 (M3)."""
+        two = ('<div class="elementor-element elementor-widget elementor-widget-text-editor"> '
+               '<div class="elementor-widget-container"><h1>Kaksi</h1><h1>otsikkoa</h1>'
+               '<h4>pe 23.10. 19:00</h4> </div> </div>')
+        shows, report = self.rows(page(
+            widget("X", ["la 24.10. 14:00", "lauantai 25.10. 18:00",
+                         "Ennakkonäytös su 25.10. 16:00", "ma–ti 26.–27.10. 18:00"]),
+            two, COMING, ADDRESS))
+        self.assertEqual([s["start"][:16] for s in shows], ["2026-10-24T14:00"])
+        self.assertEqual(report["unread"], 4)
+        self.assertEqual(report["coming"], 2)
+
 
 class RunnerTest(unittest.TestCase):
     def setUp(self):
@@ -142,6 +155,14 @@ class RunnerTest(unittest.TestCase):
         self.assertEqual(code, 0, log)
         self.assertIn("no screenings:", log)
         self.assertIn("no film with a timed screening", log)
+        self.assertEqual(self.after()["shows"][0]["title"], "Yesterday")
+
+    def test_dated_rows_and_none_read_fail_the_site(self):
+        self.kept()
+        self.serve(page(widget("X", ["lauantai " + self.row(1, "18:00")[3:]])))
+        code, log = self.main()
+        self.assertEqual(code, 1, log)
+        self.assertIn("row markup moved", log)
         self.assertEqual(self.after()["shows"][0]["title"], "Yesterday")
 
 

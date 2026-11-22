@@ -151,6 +151,22 @@ class RowsTest(unittest.TestCase):
         self.assertEqual({s["title"] for s in shows}, {"Hetki ennen valoa"})
         self.assertEqual(report["no_dates"], ["Loppunut"])
 
+    def test_a_paragraph_per_screening_line_is_read(self):
+        """Read only from the second paragraph until the review of 2026-11-22 (M3)."""
+        one = block("A", ["Su 20.9. Klo 17:00"]).replace(
+            "<p>Su 20.9. Klo 17:00</p>",
+            "<p>Su 20.9. Klo 17:00</p><p>Ke 23.9. Klo 13:00</p><p>To 24.9. Klo 17:00</p>")
+        shows, report = self.rows(page(one))
+        self.assertEqual([s["start"][5:10] for s in shows], ["09-20", "09-23", "09-24"])
+        self.assertEqual(report["unread"], [])
+
+    def test_a_date_no_row_was_read_for_is_counted(self):
+        shows, report = self.rows(page(block("A", ["La 19.9. ja Su 20.9. Klo 15:00",
+                                                   "Su 20.9. 19:00", "Ke 23.9. Klo 13:00"])))
+        self.assertEqual([s["start"][5:16] for s in shows], ["09-20T15:00", "09-23T13:00"])
+        self.assertEqual(report["unread"], ["A: La 19.9. ja Su 20.9. Klo 15:00",
+                                            "A: Su 20.9. 19:00"])
+
     def test_the_portrait_poster_publishes_and_a_landscape_image_does_not(self):
         shows, _ = self.rows(page(
             block("A", ["Su 20.9. Klo 17:00"]),

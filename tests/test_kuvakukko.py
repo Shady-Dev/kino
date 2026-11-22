@@ -10,6 +10,7 @@ that. Manttu's section is deliberately dated before the others: it publishes eve
 weekend and its schedule is routinely already past, which is correct output and not
 staleness to repair.
 """
+import contextlib
 import datetime
 import io
 import unittest
@@ -114,6 +115,18 @@ class TwoVenuesTest(unittest.TestCase):
         times = sorted(s["start"][11:16] for s in self.per["kk-kuopio"])
         self.assertIn("13:00", times)      # "Klo 13:"
         self.assertIn("17:30", times)      # "Klo 17.30:"
+
+    def test_a_clock_with_no_colon_is_counted(self):
+        """Dropped with no count until the review of 2026-11-22 (M3)."""
+        html = page(kuopio_days=[day("Tiistai 15.9.", row("13", "Elokuva A"),
+                                     "Klo 17.30 Elokuva B", "Klo 19 Elokuva C")],
+                    nilsia_days=[day("Lauantai 19.9.", row("17", "Elokuva D"))])
+        out = io.StringIO()
+        with contextlib.redirect_stdout(out):
+            per = kuvakukko.parse(html, today=TODAY)
+        self.assertEqual([s["title"] for s in per["kk-kuopio"]], ["Elokuva A"])
+        self.assertIn("2 screening line(s) in a shape this parser does not read, skipped: "
+                      "Kuvakukko 15.9., Kuvakukko 15.9.", out.getvalue())
 
     def test_a_manttu_weekend_that_has_already_passed_stays_in_the_past(self):
         """It publishes every other weekend, so a past schedule is the normal state. The

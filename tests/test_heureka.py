@@ -351,6 +351,19 @@ class ExpansionTest(unittest.TestCase):
         self.assertEqual(h.parse_calendar(CALENDAR, PAUSED, days=7), ([], {}))
         self.assertTrue(h.EMPTY_VENUES_CONFIRMED)
 
+    def test_a_clock_in_another_shape_is_counted(self):
+        """Dropped with no count beside readable clocks until the review of 2026-11-22 (M3)."""
+        h = heureka()
+        odd = {d: ["11.00", "13.00 (EN)", "14:00-14:45"] for d in WEEK}
+        page = ("<html><body>" + script("eventCalendarData", "[\n" + event(
+            "Asteroid Quest", "Planetaarioelokuvat", odd) + "]") + "</body></html>")
+        out = io.StringIO()
+        with contextlib.redirect_stdout(out):
+            shows, _ = h.parse_calendar(page, TODAY, days=2)
+        self.assertEqual([s["start"][11:16] for s in shows], ["11:00", "11:00"])
+        self.assertIn("4 planetarium time(s) in the next 2 days in a shape this parser does "
+                      "not read, left out: 13.00 (EN), 14:00-14:45", out.getvalue())
+
     def test_no_item_in_the_planetarium_category_fails_rather_than_emptying(self):
         """A renamed category leaves the calendar full and the filter matching nothing."""
         h = heureka()
