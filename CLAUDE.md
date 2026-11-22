@@ -147,6 +147,9 @@ written instruction that names `DESIGN.md`, in one commit with the dated IDEAS e
 - `python3 scripts/check_inline_js.py` before pushing. It extracts the inline
   script block, `node --check`s it and `sw.js`, and parses any JSON-LD. The
   Checks workflow runs the same command, so a local pass is the same pass.
+- Every served page carries a meta Content-Security-Policy that names its inline scripts by
+  hash, and CI's `scripts/check_csp.py` fails on any page where they disagree. After adding
+  or editing an inline script in a hand-written page, run `python3 scripts/check_csp.py --sync`.
 - A hard refresh verifies. No workflow dispatch is involved.
 - Anything the language toggle can reach must be redrawn by `applyLang()`.
 - Escape provider text at every `innerHTML` interpolation (`esc()`), and run every
@@ -197,6 +200,13 @@ written instruction that names `DESIGN.md`, in one commit with the dated IDEAS e
   screenings that exist but cannot be published all still fail the site.
   `common.EmptyProgramme` stays for positive evidence of an empty listing, and only that
   publishes the venues empty. Never add a per-site "allow empty" flag.
+- **A picture the pipeline did not draw is decoded only by `mirror_posters.open_image` and
+  written only by `mirror_posters.reencode`.** The helper limits Pillow to JPEG, PNG, WebP
+  and GIF, and `tests/test_image_route.py` fails on an `Image.open` anywhere else under
+  `scripts/`.
+- **An address is published only when `common.web_url` accepts it as an absolute http(s)
+  URL with a host.** `check_shows` and every page site in `build_pages.py` call it, and
+  `tests/test_web_url.py` fails on a new `startswith("http")` test there.
 
 ## Adding a provider
 
@@ -239,6 +249,22 @@ provider missing from it loses its venues, not just its label.
   within `KINO_HOST_CLAIM_WAIT` **fails before sending anything** rather than reading a
   host another site is still reading. A `refused to ...` line in a log is a `reads` entry
   waiting to be written: it says a request was withheld, never that two went out.
+- **Every request goes through `common.fetch` or an opener from `common.make_opener`.** They
+  follow a redirect only within http(s) and never off https, and they carry no FTP, file or
+  data handler. `tests/test_network_route.py` fails on a direct `urlopen`, `build_opener` or
+  connection anywhere under `scripts/`, and a file that needs one is named with its reason
+  in that test's `ALLOWED`.
+- **A published link's host is declared.** A ticket or trailer link must point to the
+  registry `host`, a host the site entry names in `base`, `site` or `reads`, or one listed
+  in the registry's `links`. `run.py` blanks any other and logs it as `undeclared link
+  host`, and `tests/test_link_hosts.py` fails on committed data that carries one.
+- **An adapter counts the screening lines it does not read.** A line or block that names a
+  date or a clock and yields no row is counted with `common.unread_marks(text, read, by)`,
+  and the count is printed in the run log. When such lines exist and no row reads, the
+  site fails.
+- **A pattern must not backtrack worse than quadratically.** `tests/test_regex_safety.py`
+  times every pattern under `scripts/providers` and `scripts/fetch_data.py` on hostile
+  input and fails on one that grows faster. Fix the pattern rather than listing it.
 - **Check for an existing platform first.** A cinema running Vista, MyCloudCinema, Nexxo,
   eTiketti or Johku is a `SITES` entry against an existing adapter. Write a parser only if
   it runs on none of them.
@@ -361,7 +387,9 @@ requests it either, not in a run and not once in a browser to check it. One narr
 exception, decided by the maintainer on 2026-10-09: Riviera and Bio-Kaari make cached,
 paced, read-only GETs of each screening's public detail page on their MyCloudCinema ticket
 host (`websales/show/{id}`), through `prices.py`, for the price and the language it states.
-Nothing past that page is requested: checkout, seat reservation, payment and administrative
+Since 2026-11-22 Korjaamo's `websales/show/{id}` page and Kino Regina's `kauppa.kavi.fi`
+`event_buybox/show/{id}` page are read the same way, for the price.
+Nothing past those pages is requested: checkout, seat reservation, payment and administrative
 actions stay off limits for every provider. A link that could only be obtained by calling
 such an endpoint, or with a credential a visitor is not issued, is not published.
 If a cinema would rather not be included, removing it is one registry entry.
