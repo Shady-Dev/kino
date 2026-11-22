@@ -100,6 +100,13 @@ class VenuePickerModelTest(unittest.TestCase):
         rows = self.r["fav_city"]
         self.assertEqual(rows[:2], ["#Oma teatteri", "all:city:Helsinki"])
 
+    def test_a_stored_favourite_that_is_no_venue_pins_nothing_and_keeps_the_list(self):
+        """Review L5, 2026-11-22: a non-string threw and drew 0 rows; "constructor" was
+        found on the prototype and drew a phantom row."""
+        for case in ("fav_number", "fav_object", "fav_array", "fav_inherited"):
+            with self.subTest(case=case):
+                self.assertEqual(self.r[case], self.r["no_query"])
+
     def test_the_pinned_row_obeys_the_filter(self):
         self.assertNotIn("all:city:Helsinki", self.r["fav_city_filtered_out"])
         self.assertIn("venue:tku", self.r["fav_city_filtered_out"])

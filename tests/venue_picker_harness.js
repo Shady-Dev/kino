@@ -100,6 +100,11 @@ const out = {
   fav_venue: rowsOf('', { fav: 'ja' }),
   fav_city: rowsOf('', { fav: 'city:Helsinki' }),
   fav_city_filtered_out: rowsOf('turku', { fav: 'city:Helsinki' }),
+  // A stored `fav` is untrusted: each of these used to throw or add a phantom row.
+  fav_number: rowsOf('', { fav: 1 }),
+  fav_object: rowsOf('', { fav: {} }),
+  fav_array: rowsOf('', { fav: ['tripla'] }),
+  fav_inherited: rowsOf('', { fav: 'constructor' }),
   none: rowsOf('zzzz'),
   hl: vhl('Järvelän Kino', 'jarvela', s => s),
 

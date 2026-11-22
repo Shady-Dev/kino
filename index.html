@@ -2742,7 +2742,8 @@
     const hitAreaCity = r => (regionCities[r] || []).some(
       c => vfold(`${c} ${ctx.cityLabel(c)}`).includes(vfold(q)));
     const rows = [];
-    const fav = ctx.fav;
+    // Stored, so untrusted: a non-string or an inherited name like "constructor" is no favourite.
+    const fav = typeof ctx.fav === 'string' ? ctx.fav : null;
     const areasView = ctx.view === 'areas';
     if(fav && fav.startsWith('region:')){
       const r = fav.slice(7);
@@ -2756,7 +2757,7 @@
         rows.push({kind:'head', text:T.vOwn});
         rows.push({kind:'all', id:fav, label:allLabel(c), current:ctx.area === fav});
       }
-    } else if(fav && ctx.venueIndex[fav]){
+    } else if(fav && Object.prototype.hasOwnProperty.call(ctx.venueIndex, fav)){
       const a = ctx.venueIndex[fav];
       if(!areasView && hitVenue(a, ctx.cityOf(a))){
         rows.push({kind:'head', text:T.vOwn});
