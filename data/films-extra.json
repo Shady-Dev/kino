@@ -22,19 +22,6 @@
     "en"
    ]
   },
-  "2001 a space odyssey": {
-   "id": 62,
-   "img": "data/posters/d3f9760aa95f89f8.jpg",
-   "r": 8.0,
-   "s": {
-    "en": "",
-    "fi": "Arthur C. Clarken kirjoittama tieteiselokuvan suuri, salaperäinen klassikko, jossa ihmiskunta alkaa tavoitella paikkaansa maailmankaikkeudessa."
-   },
-   "tr": "https://www.youtube.com/watch?v=kR2r-A9H3Kg",
-   "ts": [
-    "fi"
-   ]
-  },
   "70mm the odyssey": {
    "id": 1368337,
    "r": 0,
@@ -6861,14 +6848,12 @@
    "krs": [
     "biorex",
     "biosalo",
-    "engel",
     "isohannu",
     "kino123",
     "kinometso",
     "kinotervakoski",
     "korjaamo",
     "kuvakukko",
-    "savonkinot",
     "studio123jarvenpaa"
    ],
    "r": 0,
@@ -6885,14 +6870,12 @@
    "krs": [
     "biorex",
     "biosalo",
-    "engel",
     "isohannu",
     "kino123",
     "kinometso",
     "kinotervakoski",
     "korjaamo",
     "kuvakukko",
-    "savonkinot",
     "studio123jarvenpaa"
    ],
    "r": 0,
@@ -6952,17 +6935,13 @@
   },
   "pikkuli och himmelshinden": {
    "id": 1403476,
-   "img": "data/posters/e4e4be88f3bfae06.jpg",
    "r": 0,
    "s": {
     "en": "",
-    "fi": "Pikkuli sekä muu Aurinkonummen metsän väki on valmistautumassa jouluun, mutta aikuiset alkavat riidellä ja peruvat koko joulun. Pikkuli ystävineen päättää pelastaa tilanteen ja lähtee lumiseen metsään löytääkseen avuksi tarujen Tähtipeuran. Revontulien loimutessa sinnikäs retkue kohtaa monia seikkailuja, tavoitteenaan pelastaa kaikkien joulu.",
+    "fi": "",
     "sv": "Pikkuli och de andra invånarna i Solbackens skog förbereder sig som bäst för julfirandet. Men när de vuxna i skogen börjar gräla, bestämmer de sig plötsligt för att ställa in och avboka hela julen..."
    },
-   "tr": "",
-   "ts": [
-    "fi"
-   ]
+   "tr": ""
   },
   "pimeyden armeija": {
    "id": 766,
@@ -10562,7 +10541,6 @@
     "elavienkuvien",
     "gilda",
     "helios",
-    "ihmekompleksi",
     "jarvelankino",
     "joutsankino",
     "julia",
@@ -10588,7 +10566,6 @@
     "niagara",
     "orion",
     "savonkinot",
-    "star",
     "studio123jarvenpaa",
     "studio123kouvola",
     "tapiola",
@@ -10619,7 +10596,6 @@
     "elavienkuvien",
     "gilda",
     "helios",
-    "ihmekompleksi",
     "jarvelankino",
     "joutsankino",
     "julia",
@@ -10645,7 +10621,6 @@
     "niagara",
     "orion",
     "savonkinot",
-    "star",
     "studio123jarvenpaa",
     "studio123kouvola",
     "tapiola",
