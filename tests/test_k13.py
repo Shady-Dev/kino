@@ -135,6 +135,21 @@ class SectionTest(unittest.TestCase):
         shows, _ = self.rows(FESTIVAL, "ma 5.10. klo 18.30: LUVATTU MAA, 179 min.")
         self.assertEqual(shows[0]["start"], "2026-10-05T18:30:00+03:00")
 
+    def test_minutes_with_no_separator_after_them_stay_minutes(self):
+        """Review H4, 2026-11-22: `klo 18:30 Joyland` went out at 18:00 as "30 Joyland",
+        and the dotted and bare forms were dropped with every counter at zero."""
+        shows, report = self.rows(FESTIVAL, "ma 5.10. klo 18:30 LUVATTU MAA (Ziemia obiecana) 179 min.",
+                                  "ti 6.10. klo 18.30 KUORIPOJAT", "ke 7.10. klo 18 STUDIO MUNKA")
+        self.assertEqual([(s["start"][:16], s["title"]) for s in shows],
+                         [("2026-10-05T18:30", "LUVATTU MAA"), ("2026-10-06T18:30", "KUORIPOJAT"),
+                          ("2026-10-07T18:00", "STUDIO MUNKA")])
+        self.assertEqual(report["unmatched"], 0)
+
+    def test_a_line_opening_with_a_weekday_and_a_date_that_reads_as_nothing_is_counted(self):
+        shows, report = self.rows(FESTIVAL, ROW1, "ti 6.10. KUORIPOJAT", "ke 7.10. klo18:STUDIO MUNKA")
+        self.assertEqual([s["title"] for s in shows], ["LUVATTU MAA"])
+        self.assertEqual(report["unmatched"], 2)
+
     def test_the_original_title_and_the_runtime_are_read_when_the_row_states_them(self):
         s = self.rows(FESTIVAL, ROW1)[0][0]
         self.assertEqual((s["title"], s["original"], s["len"]),

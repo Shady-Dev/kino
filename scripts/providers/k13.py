@@ -79,9 +79,12 @@ WINDOW = (30, 180)
 SECTION_RE = re.compile(r'<section[^>]*\bid=["\']?ohjelmisto\b["\']?[^>]*>(.*?)</section>',
                         re.S | re.I)
 TAGS_RE = re.compile(r"<[^>]+>")
-# `ma 5.10. klo 18:` and `to 8.10 klo 18:`, with the minutes optional.
+# `ma 5.10. klo 18:` and `to 8.10 klo 18:`, with the minutes optional. The title follows
+# whitespace, which keeps `klo 18:30 Joyland` from reading as 18:00 "30 Joyland".
 ROW_RE = re.compile(r"^(ma|ti|ke|to|pe|la|su)\s+(\d{1,2})\.(\d{1,2})\.?\s*klo\s*"
-                    r"(\d{1,2})(?:[.:](\d{2}))?\s*[:\-–]\s*(.+)$", re.I)
+                    r"(\d{1,2})(?:[.:](\d{2}))?\s*[:\-–]?\s+(.+)$", re.I)
+# A line that opens like a screening, whether or not ROW_RE reads the rest of it.
+DAY_LINE_RE = re.compile(r"^(?:ma|ti|ke|to|pe|la|su)\s+\d{1,2}\.\d{1,2}", re.I)
 # A block heading: one date or a range, always with a year. The range form opens a
 # festival. A single date with no clock is a Kinokka evening.
 HEAD_RE = re.compile(r"^\d{1,2}\.(?:\s*[–-]\s*\d{1,2}\.)?\d{1,2}\.\d{4}\b")
@@ -162,7 +165,7 @@ def scan(page):
     """
     timed, entries = [], []
     report = {"lines": 0, "headings": 0, "no_time": 0, "unlisted": 0, "linked": 0,
-              "undated": 0, "untitled": 0}
+              "undated": 0, "untitled": 0, "unmatched": 0}
     free, entry = False, None
     for line, hrefs in lines_of(page):
         report["lines"] += 1
@@ -183,7 +186,10 @@ def scan(page):
         if m:
             entry = None
             timed.append((m, free))
-        elif entry is not None:
+            continue
+        if DAY_LINE_RE.match(line):
+            report["unmatched"] += 1
+        if entry is not None:
             entry["body"].append(line)
             entry["hrefs"].extend(hrefs)
             entry["free"] = free
@@ -356,7 +362,9 @@ def fetch_site(site, today=None, sleep=1.2):
                       ("unlisted", "dated entry(ies) whose linked page does not list that "
                                    "date for that film, left out"),
                       ("undated", "line(s) whose date no candidate year holds, left out"),
-                      ("untitled", "line(s) with a date and no title, left out")):
+                      ("untitled", "line(s) with a date and no title, left out"),
+                      ("unmatched", "line(s) opening with a weekday and a date that this "
+                                    "parser cannot read, left out")):
         if report[key]:
             print(f"[{pid}] {report[key]} {note}")
     return per_venue

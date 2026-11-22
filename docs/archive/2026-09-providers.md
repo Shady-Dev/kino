@@ -4573,3 +4573,13 @@ counted as `two_dates`. A clock after `klo` and an amount before `€` are not d
 bare `12.10` test now sits above its heading, since below one it is this case. Six
 mutations red. Not yet seen on a live page: the next cloud run, and a local run for
 Huvimylly, show whether any current page carries such a line.
+
+### Kino K13: minutes with no separator after them stay minutes (2026-11-22)
+Review finding H4. `ROW_RE` required a colon or a dash after the clock, and the minutes were
+optional, so `klo 18:30 Joyland` backtracked to the hour alone, took the colon as the
+separator and published 18:00 "30 Joyland". `klo 18.30 Joyland` and `klo 18 Joyland` were
+dropped with every counter at zero. The separator is now optional and the title has to
+follow whitespace, so the minutes can no longer be given up. Every fixture shape, `klo 18:`
+and `klo 18.30:`, reads as before. A line that opens with a weekday and a date and that
+`ROW_RE` still cannot read is counted as `unmatched` and named in the run log. Two tests;
+the old pattern turned both red, and dropping the counter turned one.
