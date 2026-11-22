@@ -3149,3 +3149,13 @@ mirror it, and that step already gives the verdict: 3 when it cannot run, and 0 
 download a third party failed, so that the third party's outage does not fail the run. In
 the 400 cloud and 270 local page logs committed before this, the warning appeared in none.
 A test holds exit 0 with the warning printed. Two mutations red.
+
+### One scheme test for every published address (2026-11-22)
+Review finding L10. The page generator decided whether to link a ticket, write a JSON-LD
+`url` or name a poster with `startswith("http")`, which `httpx:alert(1)` and
+`http:alert(1)` pass, and deleting either guard left the suite green. `common.web_url`
+now holds the test, an absolute http(s) URL with a host, and `check_shows`, the ticket
+stub, the later-screenings list, JSON-LD and the markup poster address all call it.
+`tests/test_web_url.py` tests it once, holds a `javascript:` case at each page site, and
+fails on a new `startswith("http")` in `build_pages.py`. The regenerated pages are
+unchanged: 547 files. Seven mutations red.

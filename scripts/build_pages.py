@@ -1101,7 +1101,7 @@ def later_item(s, t, lang):
     price = price_label([s], lang)
     url = s.get("url") or ""
     head = (f'<a href="{esc(url)}" rel="nofollow noopener">{esc(when)}</a>'
-            if url.startswith("http") else esc(when))
+            if common.web_url(url) else esc(when))
     tail = f' <span class="lf">{esc(", ".join(facts))}</span>' if facts else ""
     if price:
         tail += f' <span class="price">{esc(price)}</span>'
@@ -1422,7 +1422,7 @@ def film_block(title, shows, extra, gmap, lang, t, with_venue, syn_seen, current
         inner = f'<span class="time">{clock}</span>{aud}{price}'
         url = s.get("url") or ""
         times.append(f'<li><a class="stub{cls}" href="{esc(url)}" rel="nofollow noopener">{inner}</a></li>'
-                     if url.startswith("http") else f'<li><span class="stub{cls}">{inner}</span></li>')
+                     if common.web_url(url) else f'<li><span class="stub{cls}">{inner}</span></li>')
 
     # The app's combined view stacks time over place in a grid; its single-venue view
     # keeps the row stub. A city page is the combined view, a theatre page is not.
@@ -1448,7 +1448,7 @@ def poster_url(s, extra):
     img = (s.get("img") or "").strip()
     if img.startswith("data/posters/"):
         return f"{SITE}/{img}"
-    if img.startswith("http"):
+    if common.web_url(img):
         return img
     fx = extra.get(norm(s.get("title") or "")) or {}
     return fx.get("img") or None
@@ -1506,7 +1506,7 @@ def ld_json(days, today, city, extra):
                         work["sameAs"] = \
                             f"https://www.themoviedb.org/movie/{s['tmdbId']}"
                     ev["workPresented"] = work
-                if s.get("url", "").startswith("http"):
+                if common.web_url(s.get("url")):
                     ev["url"] = s["url"]
                     # A zero price gets no Offer: Google reads `price: 0` as admission with
                     # no payment at all, and a cinema printing 0,00 does not say whether the

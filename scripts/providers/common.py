@@ -588,10 +588,18 @@ def check_shows(per_venue, label, venue_ids=()):
                 raise RuntimeError(f"{label}: venue {vid}: start {s['start']!r} is not ISO "
                                    f"8601 with an offset (title {s['title']!r})")
             if s["url"]:
-                u = urllib.parse.urlsplit(s["url"])
-                if u.scheme not in ("http", "https") or not u.netloc:
+                if not web_url(s["url"]):
                     raise RuntimeError(f"{label}: venue {vid}: url {s['url']!r} is not an "
                                        f"absolute http(s) URL (title {s['title']!r})")
+
+
+def web_url(url) -> bool:
+    """Whether `url` is an absolute http(s) URL with a host. The one scheme test for a
+    link or picture address that reaches a published file or a generated page."""
+    if not isinstance(url, str):
+        return False
+    u = urllib.parse.urlsplit(url)
+    return u.scheme in ("http", "https") and bool(u.netloc)
 
 
 class EmptyProgramme(Exception):
