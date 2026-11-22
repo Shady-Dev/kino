@@ -254,5 +254,31 @@ class FieldsTest(EnrichTest):
         self.assertEqual((st["deferred"], shows[1]["price"], shows[3]["price"]), (1, "20€", "20€"))
 
 
+class OneRuleForEveryReaderTest(unittest.TestCase):
+    """The detail-page rule lives in prices.py, so a new price reader inherits it (review
+    2026-11-22, M6). `page=` replaces it, and only a module named here may pass one."""
+
+    PAGE_RULE_OWNERS = {
+        "orion.py": "film pages on the cinema's own site under three /elokuv*/ paths; "
+                    "orion._film_page accepts nothing else",
+    }
+
+    def test_no_other_module_replaces_the_page_rule(self):
+        import ast
+        found = set()
+        for path in sorted((_ctx.ROOT / "scripts").rglob("*.py")):
+            for n in ast.walk(ast.parse(path.read_text(encoding="utf-8"))):
+                if (isinstance(n, ast.Call) and isinstance(n.func, ast.Attribute)
+                        and n.func.attr in ("enrich", "run")
+                        and isinstance(n.func.value, ast.Name) and n.func.value.id == "prices"
+                        and any(kw.arg in ("page", None) for kw in n.keywords)):
+                    found.add(path.name)
+        self.assertEqual(found, set(self.PAGE_RULE_OWNERS))
+
+    def test_the_default_refuses_anything_past_the_detail_page(self):
+        self.assertEqual(prices.page_of(PREFIX + "111/checkout?step=pay", PREFIX), ("", ""))
+        self.assertEqual(prices.page_of(PREFIX + "111/", PREFIX), ("111", PREFIX + "111/"))
+
+
 if __name__ == "__main__":
     unittest.main()
