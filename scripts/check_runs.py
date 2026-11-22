@@ -182,8 +182,9 @@ NOSHOW_RE = re.compile(r"^\[([^\]]+)\] no screenings: (.*?)[ \t]*$", re.M)
 
 
 def noshow_sites(text):
-    """-> {site: the reason the log gives} in the order the log names them."""
-    return dict(NOSHOW_RE.findall(text))
+    """-> {site: the reason the log gives} in the order the log names them. `[run]` is
+    run.py's own summary of the same sites, not a site."""
+    return {site: why for site, why in NOSHOW_RE.findall(text) if site != "run"}
 
 
 def noshow_report(logs):

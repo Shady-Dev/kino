@@ -313,7 +313,9 @@ class NoScreeningsReportTest(unittest.TestCase):
     setUp = FailingSiteHistoryTest.setUp
     commit = FailingSiteHistoryTest.commit
     report = UnreadHistoryTest.report
-    LINE = "[kinohuovi] no screenings: https://www.kinohuovi.fi/: no programme card\n"
+    # The site's own line and the summary run.py's Tally always prints after it.
+    LINE = ("[kinohuovi] no screenings: https://www.kinohuovi.fi/: no programme card\n"
+            "[run] no screenings: 1 site(s) kept their previous files: kinohuovi\n")
 
     def test_a_site_first_seen_is_new_and_the_check_stays_green(self):
         self.commit("[kinohuovi] 6 showtimes\nexit=0\n")

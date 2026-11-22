@@ -3127,3 +3127,9 @@ downscale and JPEG write. Both the Finnkino path and the mirror use them. Withou
 local half keeps the CDN's bytes and says so in its log. The two committed originals are
 left as they are until the poster is fetched again. `tests/test_image_route.py` fails on an
 `Image.open` anywhere under `scripts/` outside the helper. Four mutations red.
+
+### check_runs no longer counts run.py's summary as a site (2026-11-22)
+Review finding L7. `NOSHOW_RE` matched `[run] no screenings: 1 site(s) kept their previous
+files: huvimylly` as a second site, and the check printed two sites for one. The fixture
+lacked that line, which `Tally` prints after every such site. `noshow_sites` skips the `run`
+label and the fixture carries the real line. One mutation red.
