@@ -107,11 +107,12 @@ def film(block, today, report):
         if not dates:
             report["undated_note"] += 1
             continue
-        p = NOTE_PRICE_RE.search(note)
+        # One amount settles the screening; `6 € lapset, 10 € aikuiset` settles nothing.
+        amounts = list(NOTE_PRICE_RE.finditer(note))
         for key in dates:
             got = by_date.setdefault(key, {"price": "", "subs": False})
-            if p:
-                got["price"] = price_of(p)
+            if len(amounts) == 1:
+                got["price"] = price_of(amounts[0])
             got["subs"] = got["subs"] or bool(NOTE_SUBS_RE.search(note))
     first = min(starts) if starts else None
     out = []

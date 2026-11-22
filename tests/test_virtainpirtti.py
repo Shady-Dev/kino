@@ -79,6 +79,15 @@ class PageTest(unittest.TestCase):
         self.assertEqual(by[("Pikkuli ja Tähtipeura", "2026-10-27")]["price"], "9€")
         self.assertEqual(by[("Pikkuli ja Tähtipeura", "2026-10-23")]["price"], "")
 
+    def test_a_note_with_two_amounts_settles_no_price(self):
+        """Published the child price as the screening's until the review of 2026-11-22
+        (M4)."""
+        shows, _ = self.rows(page(film("Elokuva A|K-7", "pe 23.10. klo 18.00", "la 24.10. klo 15.00",
+                                       "la 24.10. liput 6 € lapset, 10 € aikuiset",
+                                       "pe 23.10. liput 8 €")))
+        self.assertEqual([(s["start"][5:10], s["price"]) for s in shows],
+                         [("10-23", "8€"), ("10-24", "")])
+
     def test_a_note_naming_no_date_sets_nothing(self):
         shows, report = self.rows(LIVE)
         saari = [s for s in shows if s["title"] == "Unohdettu saari"][0]

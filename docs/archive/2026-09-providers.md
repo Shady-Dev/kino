@@ -4583,3 +4583,11 @@ follow whitespace, so the minutes can no longer be given up. Every fixture shape
 and `klo 18.30:`, reads as before. A line that opens with a weekday and a date and that
 `ROW_RE` still cannot read is counted as `unmatched` and named in the run log. Two tests;
 the old pattern turned both red, and dropping the counter turned one.
+
+### Virtain Pirtti: a note with two amounts settles no price (2026-11-22)
+Review finding M4. A footnote applies its amount to the dates it names, and it took the
+first amount it found. `la 3.10. liput 6 € lapset, 10 € aikuiset` therefore published 6 €,
+the child ticket, as that screening's price, which the price rule in `common.Show` and
+`CLAUDE.md` forbids. A note now sets a price only when it holds exactly one amount. Its
+subtitle marking still applies to its dates either way. One test; the mutation that takes
+the first of several amounts turned it red.
