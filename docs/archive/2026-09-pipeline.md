@@ -3052,3 +3052,13 @@ from the bare `kauppa.kavi.fi` host to `/fi/events/pwdg/event_buybox/show/`, the
 which shares `enrich`, passes its own page rule that accepts only a film page under
 `/elokuva/`, `/elokuvat/` or `/elokuvu/`. Cache keys are unchanged. Four mutations red; a
 fifth, requesting the row's URL, is equivalent once the tail is checked.
+
+### A missing or refused TMDB token fails the enrich step (2026-11-22)
+Review finding M8. `enrich_tmdb.main()` returned 0 with no `TMDB_TOKEN` and after any
+number of 401s, so `run-enrich.log` read `exit=0`, `enrichfail` stayed 0 and new films
+published without rating, poster or genres for as long as the secret stayed rotated. On the
+runner, where the secret is always set, a missing token now returns 1. A local run without
+one still skips with 0. When all three genre-list requests answer 401 or 403 the pass stops
+before any film request and returns 1. One refused list among answered ones is not a
+refused token. The workflow records the code and fails the run after the data is committed,
+as for a provider. Tests run against a local HTTP server; four mutations red.

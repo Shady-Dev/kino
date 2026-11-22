@@ -14,7 +14,7 @@ the cache. A weak candidate is kept in the cache for the log and the retry, and 
 of it reaches a show or films-extra.json; what an earlier run wrote from one is taken
 back. See `trusted()`.
 """
-import datetime, json, os, pathlib, re, sys, time, urllib.parse, urllib.request
+import datetime, json, os, pathlib, re, sys, time, urllib.error, urllib.parse, urllib.request
 
 import common
 import mirror_posters
@@ -1173,6 +1173,11 @@ def flush(cache, today):
 def main() -> int:
     token = os.environ.get("TMDB_TOKEN", "").strip()
     if not token:
+        # On the runner the secret is always set, so its absence is a rotated or deleted
+        # secret and the run goes red (review M8). A local run without one still skips.
+        if os.environ.get("GITHUB_ACTIONS"):
+            print("[enrich] no TMDB_TOKEN on the runner; the secret is missing")
+            return 1
         print("[enrich] no TMDB_TOKEN, skipping")
         return 0
     th = {"Authorization": f"Bearer {token}", "accept": "application/json", "user-agent": UA}
@@ -1223,7 +1228,7 @@ def main() -> int:
     # genre names in whichever language it is showing; ids on a show mean nothing without
     # it. Swedish joined on 2026-08-29 with the third UI language -- without it a Swedish
     # reader got the provider's own Finnish genre string, which is the gap English had.
-    names = {}
+    names, refused = {}, 0
     for lang, slot in (("fi-FI", "fi"), ("sv-SE", "sv"), ("en-US", "en")):
         try:
             g = get(f"https://api.themoviedb.org/3/genre/movie/list?language={lang}", th)
@@ -1232,7 +1237,12 @@ def main() -> int:
             names[slot].update({k: v for k, v in GENRE_FIX.get(slot, {}).items()
                                 if k in names[slot]})
         except Exception as e:
+            refused += isinstance(e, urllib.error.HTTPError) and e.code in (401, 403)
             print(f"[enrich] genre list {lang}: {e}")
+    if refused == 3:
+        # Every film request would be refused the same way, so nothing is attempted.
+        print("[enrich] TMDB refused the token on all three genre lists (401/403)")
+        return 1
     # fi and en are the bar, as before. Swedish is written when it arrives and omitted
     # when it does not: the client falls through to the provider's own genre string for a
     # language it has no map for, so a missing slot degrades to what that language showed
