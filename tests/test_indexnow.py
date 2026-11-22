@@ -502,5 +502,28 @@ class PayloadTest(unittest.TestCase):
         self.assertNotIn("/", body["host"])
 
 
+class IsoEpochTest(unittest.TestCase):
+    """Review I3, 2026-11-22: a `Z` stamp was read as local time, 7200 s early in Helsinki."""
+
+    def test_a_z_stamp_is_utc_under_any_local_zone(self):
+        import os
+        import time
+        saved = os.environ.get("TZ")
+
+        def restore():
+            if saved is None:
+                os.environ.pop("TZ", None)
+            else:
+                os.environ["TZ"] = saved
+            time.tzset()
+        self.addCleanup(restore)
+        for tz in ("UTC", "Europe/Helsinki", "America/Los_Angeles"):
+            with self.subTest(tz=tz):
+                os.environ["TZ"] = tz
+                time.tzset()
+                self.assertEqual(indexnow._iso_epoch("2026-11-22T10:00:00Z"), 1795341600)
+                self.assertEqual(indexnow._iso_epoch("2026-07-01T00:00:00Z"), 1782864000)
+
+
 if __name__ == "__main__":
     unittest.main()

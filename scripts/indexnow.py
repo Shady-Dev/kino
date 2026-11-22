@@ -94,9 +94,11 @@ def _event():
 
 
 def _iso_epoch(text):
+    """GitHub's `...Z` timestamp -> epoch seconds. The `Z` is UTC, whatever TZ says."""
     try:
-        from datetime import datetime
-        return int(datetime.strptime(text, "%Y-%m-%dT%H:%M:%SZ").timestamp())
+        from datetime import datetime, timezone
+        return int(datetime.strptime(text, "%Y-%m-%dT%H:%M:%SZ")
+                   .replace(tzinfo=timezone.utc).timestamp())
     except Exception:
         return None
 
