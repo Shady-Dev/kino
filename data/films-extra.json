@@ -899,7 +899,6 @@
   },
   "cast of shadows": {
    "id": 1408093,
-   "img": "data/posters/c68404b6bc216a7d.jpg",
    "r": 0,
    "s": {
     "en": "Cast of Shadows explores the crucial contributions of Frances Flaherty and others in Robert Flaherty’s close circle behind his iconic films, including Nanook of the North and Louisiana Story. The film sheds light on how the filmmaker’s brother David, daughters Barbara, Franny and Monica, and many others made these landmark works of film history possible. In this essay film, director Sami van Ingen draws on previously unseen archival material to tell the story of his own family. Cast of Shadows brings into the spotlight the people who played a vital role in shaping Robert Flaherty’s cinematic legacy, but who have remained largely overlooked in the official histories of film. As part of the Flaherty Weekend, the film concert Moana, a Story of the South Seas will be screened on Sunday, November 22, accompanied by Henri Lindström, Nyla van Ingen, and Sami van Ingen.",
@@ -1128,16 +1127,12 @@
   },
   "death spa": {
    "id": 28389,
-   "img": "data/posters/b88d722ac19fe62c.jpg",
-   "r": 5.2,
+   "r": 0,
    "s": {
-    "en": "Michael's health club is beseiged with a series of terrible murders involving killer saunas and other grisly devices. Michael's wife killed herself a while before and her brother holds Michael responsible. Michael needs to stop the bloodshed before he loses all of his clients.",
+    "en": "",
     "fi": "Festarin päätteeksi jumpataankin sitten niin että kerrankin tuntuu. Paha henki pääsee vapaaksi kuntosalilla ja alkaa pistää asiakkaita kuriin. Poliisi käy tapauksen kimppuun, mutta eipä se uusia kuolemia estä. Paikoin hehkuvissa pastellisävyissä kuvattu hurvittelu tarjoilee tasapainoisesti kekseliäitä kuolemia ja innolla väkerrettyjä erikoistehosteita halpistöhöilyn ohella."
    },
-   "tr": "https://www.youtube.com/watch?v=Awqleezg__c",
-   "ts": [
-    "en"
-   ]
+   "tr": ""
   },
   "deathgasm ii goremageddon night visions": {
    "r": 0,
@@ -1545,7 +1540,7 @@
     "studio123kouvola",
     "vaakuna"
    ],
-   "r": 7.8,
+   "r": 7.5,
    "s": {
     "en": "An elderly miser embarks on a supernatural journey after visits from the ghost of his former business partner and the Spirits of Christmas Past, Present, and Yet to Come force him to confront his past and fight for a second chance at happiness.",
     "fi": ""
@@ -5332,16 +5327,12 @@
   },
   "mandy": {
    "id": 460885,
-   "img": "data/posters/784311e7558902da.jpg",
-   "r": 6.2,
+   "r": 0,
    "s": {
     "en": "The Shadow Mountains, 1983. Red and Mandy lead a loving and peaceful existence; but when their pine-scented haven is savagely destroyed, Red is catapulted into a phantasmagoric journey filled with bloody vengeance and laced with fire.",
-    "fi": "Yhdysvaltojen luoteisosa vuonna 1983. Omiin oloihinsa vetäytyneet Red Miller ja Mandy Bloom viettävät rakkaudentäyteistä ja rauhallista elämää. Kun sadistisen Jeremiah Sandin johtama kultti tuhoaa raa'asti heidän männyntuoksuisen valkamansa, Redin on pakko lähteä epätoden tuntuiselle, veriselle ja tulen terästämälle kostoretkelle."
+    "fi": ""
    },
-   "tr": "https://www.youtube.com/watch?v=rI054ow6KJk",
-   "ts": [
-    "fi"
-   ]
+   "tr": ""
   },
   "mannerlaatta": {
    "id": 384036,
@@ -5574,16 +5565,12 @@
   },
   "milanon ihme": {
    "id": 43379,
-   "img": "data/posters/b365bb1e601c0aa4.jpg",
-   "r": 7.3,
+   "r": 0,
    "s": {
-    "en": "Once upon a time a wise and kind old woman discovers a baby in her cabbage patch. She brings up the child and, when she dies, the boy, Totò, enters an orphanage. Totò leaves the orphanage a happy young man, and looks for work in post-war Milan. He ends up with the homeless and organizes them to build a shanty town in a vacant lot. But when greedy developers threaten the community’s land, Totò will need all the help he can get in order to find an impossible way out.",
+    "en": "",
     "fi": "Neorealismin, sadun magian ja satiirin yhdistävässä Milanon ihmeessä marginalisoitu köyhälistö muodostaa laitakaupungin hökkelikylään omavaraisen ja solidaarisen yhteisön, mutta maanomistajilla on muita suunnitelmia. De Sica sisällyttää runolliseen tarinaan niin kapitalismin kuin katolisuudenkin kritiikkiä. Loppuhuipennus sijoittuu Milanon katedraalille."
    },
-   "tr": "https://www.youtube.com/watch?v=la8midGNmV4",
-   "ts": [
-    "en"
-   ]
+   "tr": ""
   },
   "miljardin dollarin aivot": {
    "id": 4889,
@@ -5810,6 +5797,14 @@
    "s": {
     "en": "",
     "fi": "Tarina ihastuttavasta Nalle Naavatassusta ystävineen. Ystävyys ja luottamus joutuvat kovalle koetukselle Nallen tutustuessa kalastuksen saloihin. Kalareissun tavalliset ja melko epätavallisetkin tapahtumat tempaavat yleisön mukaansa. Lopuksi yleisö saa onkia kuivanmaan kaloja."
+   },
+   "tr": ""
+  },
+  "nalle nimeltä naavatassu": {
+   "r": 0,
+   "s": {
+    "en": "",
+    "fi": "Nalle nimeltä Naavatassu on osallistava nukketeatteriesitys, jossa lapset ja aikuiset saavat eläytyä, liikkua ja osallistua tarinan kulkuun. Esitys viehättää koko perhettä vauvasta vaariin. Riemastuttava tarina lähtee lentoon Kettu Ketaleen kepposen siivittämänä ja tempaa yleisön mukaansa seikkailuun halki tutun Hirsimetsän sekä arvaamattoman aallokon."
    },
    "tr": ""
   },
@@ -6923,9 +6918,7 @@
     "biograni",
     "biorex",
     "biosalo",
-    "biostara",
     "engel",
-    "helios",
     "isohannu",
     "kino123",
     "kinolumo",
@@ -6956,9 +6949,7 @@
     "biograni",
     "biorex",
     "biosalo",
-    "biostara",
     "engel",
-    "helios",
     "isohannu",
     "kino123",
     "kinolumo",
@@ -7136,16 +7127,12 @@
   },
   "polttava hurmio": {
    "id": 84922,
-   "img": "data/posters/2ef186caf8f29572.jpg",
-   "r": 6.8,
+   "r": 0,
    "s": {
-    "en": "Famed composer Gustav Mahler reflects on the tragedies of his life and failing marriage while traveling by train.",
+    "en": "",
     "fi": "Ken Russell jatkoi säveltäjämestarien muotokuvilla kierroksia lisäten. Sairas Gustav Mahler (Robert Powell) matkaa puolisonsa Alman kanssa junalla Wieniin muistellen elämäänsä ja kariutuvaa avioliittoaan. Entistäkin omaperäisemmässä teoksessa Mahlerin musiikki yhdistyy surrealistiseen tykittelyyn. Russell voitti elokuvalla Cannesin festivaalin pääsarjan teknisen Grand Prix’n."
    },
-   "tr": "https://www.youtube.com/watch?v=R2mIZpMVhG0",
-   "ts": [
-    "en"
-   ]
+   "tr": ""
   },
   "possession elokuvakerho pennittömät": {
    "r": 0,
@@ -8352,12 +8339,17 @@
    "tr": ""
   },
   "royal ballet opera 2026 27 the nutcracker": {
+   "id": 1702761,
+   "img": "data/posters/89927b25f064425c.jpg",
    "r": 0,
    "s": {
-    "en": "",
+    "en": "At a cosy Christmas party, young Clara meets the mysterious magician Drosselmeyer, who gives her a nutcracker doll. When the guests have departed and the house is asleep, Clara sneaks downstairs in search of her favourite gift. Instead, she finds Drosselmeyer, who whisks her away on a journey into a whole world of enchantment: fantastical landscapes of flurried snow and glittering confection where toys come alive and the magic never stops.",
     "fi": "Taikuri Herra Drosselmeyerin on pelastettava veljenpoikansa. Hans-Peter on muuttunut pähkinänsärkijäksi, ja ainoa tapa pelastaa hänet on, että pähkinänsärkijä voittaa Hiirikuninkaan ja löytää tytön, joka rakastaa ja huolehtii hänestä. Toivoa herättää nuori Clara, jonka Drosselmeyer tapaa joulujuhlissa. Taikuuden avulla kodikas joulujuhla muuttuu upeaksi seikkailuksi. Peter Wrightin Pähkinänsärkijä on lumonnut yleisön jo vuodesta 1984, jolloin se sai ensi-iltansa balettiseurueen esittämänä. Pähkinänsärkijä, jossa kuullaan Tšaikovskin tunnetuimpia melodioita ja joka herää eloon Julia Trevelyan Omanin upeiden lavastusten ansiosta, on taatusti juhlava ilotulitus kaikenikäisille."
    },
-   "tr": ""
+   "tr": "",
+   "ts": [
+    "en"
+   ]
   },
   "ryhmä hau dinoelokuva": {
    "id": 1185806,
@@ -9600,10 +9592,13 @@
    ],
    "r": 0,
    "s": {
-    "en": "",
+    "en": "At a cosy Christmas party, young Clara meets the mysterious magician Drosselmeyer, who gives her a nutcracker doll. When the guests have departed and the house is asleep, Clara sneaks downstairs in search of her favourite gift. Instead, she finds Drosselmeyer, who whisks her away on a journey into a whole world of enchantment: fantastical landscapes of flurried snow and glittering confection where toys come alive and the magic never stops.",
     "fi": "The Royal Opera: Pähkinänsärkijä Kesto: 2h 20min / 140min, yksi väliaika Tallennettu live-esityksessä joulukuussa 2025 Rooleissa: The Sugar Plum Fairy MAYARA MAGRI The Prince REECE CLARKE Herr Drosselmeyer JAMES HAY Clara MARIANNA TSEMBENHOI Hans-Peter/The Nutcracker TAISUKE NAKAO Työryhmä: Choreography PETER WRIGHT after LEV IVANOV Music PYOTR IL’YICH TCHAIKOVSKY Conductor CHARLOTTE POLITI Original Scenario MARIUS PETIPA after E.T.A. HOFFMANN Production and Scenario PETER WRIGHT Designer JULIA TREVELYAN OMAN Lighting Designer MARK HENDERSON Production Consultant ROLAND JOHN WILEY Taikuri Herra Drosselmeyerin on pelastettava veljenpoikansa. Hans-Peter on muuttunut pähkinänsärkijäksi, ja ainoa tapa pelastaa hänet on, että pähkinänsärkijä voittaa Hiirikuninkaan ja löytää tytön, joka rakastaa ja huolehtii hänestä. Toivoa herättää nuori Clara, jonka Drosselmeyer tapaa joulujuhlissa. Taikuuden avulla kodikas joulujuhla muuttuu upeaksi seikkailuksi. Peter Wrightin Pähkinänsärkijä on lumonnut yleisön jo vuodesta 1984, jolloin se sai ensi-iltansa balettiseurueen esittämänä. Pähkinänsärkijä, jossa kuullaan Tšaikovskin tunnetuimpia melodioita ja joka herää eloon Julia Trevelyan Omanin upeiden lavastusten ansiosta, on taatusti juhlava ilotulitus kaikenikäisille. SWEDISH Trollkarlen Herr Drosselmeyer måste rädda sin brorson. Hans-Peter har förvandlats till en nötknäppare, och det enda sättet att rädda honom är att nötknäpparen besegrar Muskung och hittar en flicka som älskar och tar hand om honom. Ett glimt av hopp kommer i form av den unga Clara, som Drosselmeyer träffar på en julfest. Med lite magi förvandlas en mysig julfest till ett fantastiskt äventyr. Peter Wrights Nötknäpparen har förtrollat publiken sedan premiären 1984. Med Tjajkovskijs mest kända melodier och Julia Trevelyan Omans utsökta scenografi är Nötknäpparen garanterat en festlig höjdpunkt för alla åldrar. ENGLISH At a cosy Christmas party, young Clara meets the mysterious magician Drosselmeyer, who gives her a nutcracker doll. When the guests have departed and the house is asleep, Clara sneaks downstairs in search of the doll. Instead, she finds Drosselmeyer, who whisks her away on a journey into a whole world of enchantment: fantastical landscapes of flurried snow and glittering confection where toys come alive and the magic never stops. Peter Wright’s production of this festive family favourite sparkles to the wondrous swell of Tchaikovsky’s orchestral score, alongside the glow and grandeur of Julia Trevelyan Oman’s period designs."
    },
-   "tr": ""
+   "tr": "",
+   "ts": [
+    "en"
+   ]
   },
   "the royal ballet romeo and juliet": {
    "id": 1451897,
@@ -10315,16 +10310,12 @@
   },
   "urpo ja turpo johtolangan jäljillä": {
    "id": 558445,
-   "img": "data/posters/215d5059ed6f02fd.jpg",
    "r": 0,
    "s": {
-    "en": "Two toy bears and their adventures.",
+    "en": "",
     "fi": "Uteliaat leikkikarhut Urpo ja Turpo asuvat lastenhuoneen kirjahyllyssä. Karhujen lempipuuhaa on lukeminen, sillä kirjoista saa oivallisia ajatuksia. Karhut keksivät mitä hauskimpia seikkailuja satujen sekoittuessa arkeen. Urpo ja Turpo pelastuvat leipäpuun ansiosta autiolla saarella, kohentelevat ennakkoluulottomasti muiden ulkonäköä, etsivät johtolankaa, uhmaavat sääntöjä, kaipaavat hiljaisuutta ja kilpailevat ollakseen maailman parhaita ja voimakkaimpia. Toy Storysta tuttujen lelujen lailla Urpo ja Turpo heräävät henkiin, kun kotiväki ei näe. Urpo & Turpo -elokuva viihdyttää niin aikuisia kuin perheen pienimpiä. Heidänkin on helppo seurata elokuvaa, sillä siinä puhutaan hyvää suomea. Hannele Huovin suosittuihin satukirjoihin perustuva kuudesta klassikkoelokuvasta koostuva Urpo ja Turpo johtolangan jäljillä on restauroitu ja elää valkokankaalla nyt entistäkin värikkäämmin."
    },
-   "tr": "",
-   "ts": [
-    "en"
-   ]
+   "tr": ""
   },
   "uskottomuus": {
    "id": 96546,
@@ -10640,7 +10631,6 @@
     "biopallas",
     "biorex",
     "biorexkokkola",
-    "biosade",
     "biosalo",
     "biosavoy",
     "biovuoksi",
@@ -10703,7 +10693,6 @@
     "biopallas",
     "biorex",
     "biorexkokkola",
-    "biosade",
     "biosalo",
     "biosavoy",
     "biovuoksi",
@@ -10789,7 +10778,6 @@
     "kuvakukko",
     "leffabuumi",
     "niagara",
-    "orion",
     "savonkinot",
     "star",
     "studio123jarvenpaa",
@@ -10972,5 +10960,5 @@
    "tr": ""
   }
  },
- "generated": "2026-11-21"
+ "generated": "2026-11-22"
 }
