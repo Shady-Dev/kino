@@ -8,6 +8,7 @@ keyed by ISO date. Two halls and two days are in every fixture, and one film pla
 import contextlib
 import datetime
 import io
+import re
 import json
 import pathlib
 import tempfile
@@ -216,7 +217,33 @@ class BrokenScheduleTest(unittest.TestCase):
     def test_days_with_no_row_fail_rather_than_empty_the_venue(self):
         with self.assertRaises(RuntimeError) as cm:
             biosavoy.parse(schedule(day("Torsdag", "29/10"), day("Fredag", "30/10")), TODAY)
-        self.assertNotIsInstance(cm.exception, common.EmptyProgramme)
+        self.assertNotIsInstance(cm.exception, (common.EmptyProgramme, common.NoScreenings))
+
+    @staticmethod
+    def reordered(html):
+        """The row's attributes with `href` first, a shape ROW_RE does not read."""
+        return re.sub(r'<a (class="show-row[^"]*") (href="[^"]*")>', r"<a \2 \1>", html)
+
+    def test_rows_in_another_shape_under_day_headings_fail(self):
+        """Read as no screenings until the review of 2026-11-22 (M2)."""
+        page = schedule(day("Torsdag", "29/10", self.reordered(row("a", "A", "18.00")),
+                            self.reordered(row("b", "B", "20.00"))))
+        with self.assertRaisesRegex(RuntimeError, "2 row anchor") as cm:
+            biosavoy.parse(page, TODAY)
+        self.assertNotIsInstance(cm.exception, common.NoScreenings)
+
+    def test_one_row_in_another_shape_is_counted(self):
+        page = schedule(day("Torsdag", "29/10", row("a", "A", "18.00"),
+                            self.reordered(row("b", "B", "20.00"))))
+        out = io.StringIO()
+        with contextlib.redirect_stdout(out):
+            shows = biosavoy.parse(page, TODAY)
+        self.assertEqual([s["title"] for s in shows], ["A"])
+        self.assertIn("1 row anchor(s) in a shape ROW_RE does not read", out.getvalue())
+
+    def test_a_section_with_no_day_heading_is_no_screenings(self):
+        with self.assertRaises(common.NoScreenings):
+            biosavoy.parse(schedule(), TODAY)
 
     def test_a_weekday_that_fits_no_year_fails_the_site(self):
         """29/10 is a Thursday in 2026. A Monday 29/10 inside the window does not exist."""

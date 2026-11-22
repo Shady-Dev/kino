@@ -160,5 +160,45 @@ class ScreeningLinkTest(unittest.TestCase):
                          [LISTING, LISTING])
 
 
+class ChangedListingTest(unittest.TestCase):
+    """A moved schema or listing fails the site; one unread item is counted (review
+    2026-11-22, M2). Both used to come back as no screenings."""
+
+    def fetch_site(self, answer):
+        import contextlib, io, json
+        from unittest import mock
+        fake = lambda url, data=None, **kw: json.dumps(answer).encode()
+        out = io.StringIO()
+        with mock.patch.object(riviera, "fetch", fake), \
+                mock.patch.object(riviera.prices, "run", lambda *a, **k: None), \
+                contextlib.redirect_stdout(out):
+            res = riviera.fetch_site(riviera.SITE)
+        return res, out.getvalue()
+
+    def good(self, title="Odyssey"):
+        return item(title, "Ma 14.9.2026", "18:00", "Kallio, Sali 1", button(1))
+
+    def test_an_answer_without_data_movies_fails(self):
+        for answer in ({"success": True}, {"data": {"html": ""}}, {"data": {"movies": None}}):
+            with self.subTest(answer=answer):
+                with self.assertRaisesRegex(RuntimeError, "schema"):
+                    self.fetch_site(answer)
+
+    def test_items_whose_date_class_moved_fail(self):
+        page = listing(self.good("A"), self.good("B")).replace('class="date"', 'class="pvm"')
+        with self.assertRaisesRegex(RuntimeError, "2 listing item"):
+            self.fetch_site({"data": {"movies": page}})
+
+    def test_one_unread_item_beside_a_read_one_is_counted(self):
+        page = listing(self.good("A"), self.good("B").replace('class="date"', 'class="pvm"'))
+        res, log = self.fetch_site({"data": {"movies": page}})
+        self.assertEqual([s["title"] for v in res.values() for s in v], ["A"])
+        self.assertIn("1 listing item(s) without a readable date, time or title", log)
+
+    def test_an_empty_listing_is_not_an_error(self):
+        res, _ = self.fetch_site({"data": {"movies": ""}})
+        self.assertFalse(any(res.values()))
+
+
 if __name__ == "__main__":
     unittest.main()

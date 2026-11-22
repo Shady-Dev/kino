@@ -11,6 +11,7 @@ import datetime
 import io
 import json
 import pathlib
+import re
 import shutil
 import tempfile
 import unittest
@@ -503,6 +504,40 @@ class TheatrePageTest(unittest.TestCase):
         self.assertIn("websales/show/1000/", inside)
         self.assertNotIn("websales/show/1000/", outside)
         self.assertIn(bp.L["fi"]["no_shows"], outside)
+
+
+class ChangedScheduleTest(unittest.TestCase):
+    """A response without <Shows> fails the site, and a show with no readable start is
+    counted (review 2026-11-22, M2)."""
+
+    def test_a_response_without_shows_fails(self):
+        doc = SCHEDULE.replace("<Shows>", "<Sessions>").replace("</Shows>", "</Sessions>")
+        with self.assertRaisesRegex(RuntimeError, "no <Shows> element"):
+            vista.parse_schedule(doc, SITE, SITE["venues"])
+
+    def test_an_empty_shows_element_is_not_an_error(self):
+        doc = SCHEDULE.split("<Shows>")[0] + "<Shows></Shows></Schedule>"
+        self.assertEqual(vista.parse_schedule(doc, SITE, SITE["venues"]), {})
+
+    def unstarted(self, doc, *eids):
+        for eid in eids:
+            head, tail = doc.split(f"<EventID>{eid}</EventID>")
+            head = re.sub(r"<dttmShowStart>[^<]*</dttmShowStart>\s*"
+                          r"<dttmShowStartUTC>[^<]*</dttmShowStartUTC>(?=\s*$)", "", head)
+            doc = head + f"<EventID>{eid}</EventID>" + tail
+        return doc
+
+    def test_one_show_without_a_start_is_counted(self):
+        out = io.StringIO()
+        with contextlib.redirect_stdout(out):
+            res = vista.parse_schedule(self.unstarted(SCHEDULE, "5193"), SITE, SITE["venues"])
+        self.assertEqual(sorted(s["eventId"] for s in res["korjaamo-helsinki"]), ["5202", "5204"])
+        self.assertIn("1 show(s) with no readable start, left out", out.getvalue())
+
+    def test_no_show_with_a_start_fails(self):
+        doc = self.unstarted(SCHEDULE, "5202", "5193", "5204")
+        with self.assertRaisesRegex(RuntimeError, "3 show"):
+            vista.parse_schedule(doc, SITE, SITE["venues"])
 
 
 if __name__ == "__main__":

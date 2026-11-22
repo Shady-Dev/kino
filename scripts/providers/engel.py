@@ -502,7 +502,12 @@ def fetch_page():
     ok, why = usable(page)
     if not ok:
         raise RuntimeError(f"challenged (needs a residential IP): {why}")
-    return enrich(parse(page))
+    shows = parse(page)
+    if not shows:
+        raise RuntimeError(f"{URL}: a body that looks like the programme ({len(page)} "
+                           f"bytes, markers present) and no screening parsed out of it, "
+                           f"which is a broken parse rather than an empty programme")
+    return enrich(shows)
 
 
 def fetch_site(site=SITES[0]):

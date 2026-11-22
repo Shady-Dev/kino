@@ -65,6 +65,28 @@ class YearTest(unittest.TestCase):
                 self.assertEqual(got[:10], d.isoformat() if published else "")
 
 
+class ChangedRowsTest(unittest.TestCase):
+    """A screening list that names dates the row pattern no longer reads (review
+    2026-11-22, M2)."""
+
+    def test_every_list_unread_fails(self):
+        page = (film("a", "Alpha", "Su 20.9. kello 18.00") + film("b", "Beta", "Ma 21.9. kello 20.00"))
+        with self.assertRaisesRegex(RuntimeError, "row markup moved"):
+            parse(page)
+
+    def test_one_list_unread_is_counted(self):
+        shows, log = parse(film("a", "Alpha", "Su 20.9. klo 18:00")
+                           + film("b", "Beta", "Ma 21.9. kello 20.00"))
+        self.assertEqual([s["title"] for s in shows], ["Alpha"])
+        self.assertIn("1 screening list(s) naming a date that no row pattern read, left out: "
+                      "Beta", log)
+
+    def test_a_list_with_no_date_is_not_unread(self):
+        shows, log = parse(film("a", "Alpha", "Su 20.9. klo 18:00") + film("b", "Beta", "tulossa"))
+        self.assertEqual(len(shows), 1)
+        self.assertNotIn("left out", log)
+
+
 if __name__ == "__main__":
     unittest.main()
 

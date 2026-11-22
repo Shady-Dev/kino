@@ -136,9 +136,10 @@ class ConfirmedEmptyTest(Stubbed):
         self.assertEqual(load().parse_movie(BLOCKLESS_FILM, site(), "/elokuvat/13/hetki")[0], [],
                          "fixture must defeat ITEM_RE, or it tests nothing")
         self.assertIn("CINE KEUDA-TALO", BLOCKLESS_FILM)
-        out = self.fetch({"/elokuvat/ohjelmistossa": cine_listing("/elokuvat/13/hetki"),
-                          "/elokuvat/13/hetki": BLOCKLESS_FILM})
-        self.assertEqual(out, {}, "a page with no block found confirms nothing")
+        # Since 2026-11-22 a listed film that reads as nothing fails the site (review M2).
+        with self.assertRaisesRegex(RuntimeError, "carry no screening block"):
+            self.fetch({"/elokuvat/ohjelmistossa": cine_listing("/elokuvat/13/hetki"),
+                        "/elokuvat/13/hetki": BLOCKLESS_FILM})
 
     def test_a_blockless_page_beside_a_readable_one_publishes_rows_and_confirms_nothing(self):
         out, log = self.fetch_logged({"/elokuvat/ohjelmistossa": cine_listing("/elokuvat/13/hetki",
@@ -290,14 +291,11 @@ class DriftedParseTest(RunSiteTest):
         self.assertEqual(self.read("area-cine-nikkila.json"), self.PREV)
 
     def test_a_page_with_no_block_found_keeps_both_files_and_leaves_the_site_failing(self):
-        live, total, stale, unverified, pending = self.run_site(
-            {"/elokuvat/ohjelmistossa": cine_listing("/elokuvat/13/hetki"),
-             "/elokuvat/13/hetki": BLOCKLESS_FILM})
-        self.assertEqual((live, total, unverified, pending), (0, 0, [], []))
-        self.assertEqual(sorted(stale), ["cine-keuda", "cine-nikkila"])
+        with self.assertRaisesRegex(RuntimeError, "carry no screening block"):
+            self.run_site({"/elokuvat/ohjelmistossa": cine_listing("/elokuvat/13/hetki"),
+                           "/elokuvat/13/hetki": BLOCKLESS_FILM})
         self.assertEqual(self.read("area-cine-keuda.json"), self.PREV)
         self.assertEqual(self.read("area-cine-nikkila.json"), self.PREV)
-        self.assertFalse(self.run.confirmed_empty_site(site(), pending))
 
 
 if __name__ == "__main__":

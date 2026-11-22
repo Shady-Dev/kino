@@ -20,6 +20,7 @@ import urllib.error
 import _ctx
 import _no_sleep as no_sleep
 import engel as E
+from common import NoScreenings
 
 
 TODAY = datetime.date(2026, 9, 19)          # a Saturday
@@ -216,6 +217,19 @@ class FiveHundredTest(unittest.TestCase):
             E.fetch_page()
         self.assertIn("broken parse", str(cm.exception))
         self.assertIn("markers present", str(cm.exception))
+
+    def test_a_200_that_looks_right_and_parses_to_nothing_fails_the_site(self):
+        """A row respelled `kello 21.30` reads nothing. That is changed markup, which
+        fails on the 200 path the same as on the 500 one (review 2026-11-22, M2)."""
+        body = ("<html>" + "x" * E.MIN_BYTES
+                + row("a", soon(1), "18:00", "Alpha").replace("klo 18:00", "kello 18.00")
+                + row("b", soon(2), "20:15", "Beta").replace("klo 20:15", "kello 20.15")
+                + "</html>")
+        self.serve(body)
+        with self.assertRaises(RuntimeError) as cm, contextlib.redirect_stdout(io.StringIO()):
+            E.fetch_page()
+        self.assertNotIsInstance(cm.exception, NoScreenings)
+        self.assertIn("broken parse", str(cm.exception))
 
     def test_any_other_status_is_still_an_error(self):
         """The body is served on the second call, so a reader that tolerated the status

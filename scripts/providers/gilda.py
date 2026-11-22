@@ -273,8 +273,14 @@ def parse(payload, site, pages=None, texts=None):
     width = site.get("poster_width", 1080)
 
     pages = pages or {}
-    doc = (payload.get("fi") or {}).get("data") or []
+    doc = (payload.get("fi") if isinstance(payload, dict) else None) or {}
+    doc = doc.get("data") if isinstance(doc, dict) else None
+    if not isinstance(doc, list):
+        keys = sorted(payload)[:6] if isinstance(payload, dict) else type(payload).__name__
+        raise RuntimeError(f"{site['provider']}: the feed has no fi.data list (top level "
+                           f"{keys}); the schema moved, so the previous files stand")
     per_venue = {}
+    unplaced = {}                       # screen id or "start" -> rows left out
     # The feed lists a film twice. Read on 2026-09-07 it held 39 film records for 33
     # distinct `movie_id`s: six films appeared as two copies that differ in one field,
     # `premiere`, and each copy carried the same `show_times`. Both copies parsed, so 44
@@ -307,6 +313,8 @@ def parse(payload, site, pages=None, texts=None):
             venue = by_screen.get(int(s.get("cinema_screen_id") or 0))
             start = _start(s)
             if not venue or not start:
+                why = f"screen {s.get('cinema_screen_id')}" if not venue else "an unreadable start"
+                unplaced[why] = unplaced.get(why, 0) + 1
                 continue
             # The film page, matched on its own title then the original title. That
             # second rule is what resolves a Finnish release title to an
@@ -345,6 +353,12 @@ def parse(payload, site, pages=None, texts=None):
             per_venue.setdefault(venue["id"], []).append(row)
     if dropped:
         print(f"[{site['provider']}] dropped {dropped} duplicate showtime(s)")
+    if unplaced:
+        detail = ", ".join(f"{n} on {why}" for why, n in sorted(unplaced.items()))
+        if not per_venue:
+            raise RuntimeError(f"{site['provider']}: no showtime placed and "
+                               f"{sum(unplaced.values())} left out ({detail})")
+        print(f"[{site['provider']}] {sum(unplaced.values())} showtime(s) left out: {detail}")
     return per_venue
 
 

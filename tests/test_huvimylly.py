@@ -415,6 +415,24 @@ class RunnerTest(unittest.TestCase):
         self.assertEqual(json.loads(
             (run.OUT / "area-huvimylly-raahe.json").read_text()), self.PREV)
 
+    def test_a_programme_the_parser_no_longer_reads_fails_the_site(self):
+        """Moved out of its `<li>` items, or `Klo` respelled, the programme read as no
+        screenings and the run stayed green (review 2026-11-22, M2)."""
+        a, b = self.soon(3), self.soon(4)
+        moved = json.dumps([{"id": 95, "content": {"rendered": (
+            f"<p>{head(a)}</p><p>Klo 14.00 Pirjo -s-</p>"
+            f"<p>{head(b)}</p><p>Klo 15.00 Lapin Sota -k16/13-</p>")}}])
+        respelled = payload(head(a), "Kello 14.00 Pirjo -s-", head(b), "Kello 15.00 Lapin Sota -k16/13-")
+        for label, body in (("out of the list", moved), ("Kello", respelled)):
+            with self.subTest(label):
+                (run.OUT / "area-huvimylly-raahe.json").write_text(json.dumps(self.PREV))
+                self.serve(body)
+                code, log = self.main()
+                self.assertEqual(code, 1, log)
+                self.assertIn("markup moved", log)
+                self.assertEqual(json.loads(
+                    (run.OUT / "area-huvimylly-raahe.json").read_text()), self.PREV)
+
     def test_a_refused_page_keeps_the_previous_file(self):
         (run.OUT / "area-huvimylly-raahe.json").write_text(json.dumps(self.PREV))
         self.serve(RuntimeError("HTTP Error 403"))

@@ -146,6 +146,9 @@ HEAD_ONE_RE = re.compile(rf"({WEEKDAY_WORD})\s+(\d{{1,2}})\.(\d{{1,2}})\.?(?:\s+
 HEAD_LINE_RE = re.compile(rf"^[-\s]*(?:{WEEKDAY_WORD}\s+\d{{1,2}}\.\d{{1,2}}\.?"
                           rf"(?:\s+\d{{4}})?(?:[\s,]|\bja\b)*)+$")
 KLO_RE = re.compile(r"^klo\b", re.I)
+# What `programme_like` looks for once nothing parsed: a clock word in any spelling.
+CLOCK_WORD_RE = re.compile(r"\b(?:klo|kello|kl)\b", re.I)
+PART_SPLIT_RE = re.compile(r"<br\s*/?>|</(?:p|li|h[1-6]|div)\s*>", re.I)
 TIME_RE = re.compile(r"(\d{1,2})[.:](\d{2})\b")
 # The marker is anchored to the end of the line, which is where all twelve shapes in
 # the captures sit, and it has to open with a dash or with a `k` against the number.
@@ -183,8 +186,8 @@ def _text(fragment):
     return re.sub(r"\s+", " ", s).strip()
 
 
-def items(payload):
-    """The programme's `<li>` texts, in order. -> [str].
+def content(payload):
+    """The page's rendered content. -> str.
 
     Raises when the route does not answer with the one page it is asked for, so a login
     wall or a moved slug fails rather than parsing to zero rows.
@@ -195,12 +198,26 @@ def items(payload):
         raise RuntimeError(f"the page route did not answer JSON ({served(payload)})") from e
     if not isinstance(doc, list) or not doc:
         raise RuntimeError(f"the page route answered no page ({served(payload)})")
-    body = ((doc[0].get("content") or {}).get("rendered")) or ""
+    return ((doc[0].get("content") or {}).get("rendered")) or ""
+
+
+def items(payload):
+    """The programme's `<li>` texts, in order. -> [str]. Raises as `content` does."""
+    body = content(payload)
     out = []
     for item in LI_RE.findall(body):
         blocks = BLOCK_RE.findall(item) if HEADING_TAG_RE.search(item) else []
         out += [_text(b) for _, b in blocks] if blocks else [_text(item)]
     return out
+
+
+def programme_like(body):
+    """Whether the content still names a date and a clock word somewhere. -> bool.
+
+    Read when no row came out: a programme moved out of its `<li>` items, or `Klo`
+    respelled `Kello`, reads as no screening at all, and that is changed markup."""
+    parts = [_text(p) for p in PART_SPLIT_RE.split(body or "")]
+    return any(date_like(p) for p in parts) and any(CLOCK_WORD_RE.search(p) for p in parts)
 
 
 def price_of(lines):
@@ -374,7 +391,11 @@ def fetch_site(site, today=None):
     pid = site["provider"]
     venue = site["venues"][0]
     url = site["base"].rstrip("/") + site["listing"]
-    shows, report = rows(site, items(get(url)), today)
+    payload = get(url)
+    shows, report = rows(site, items(payload), today)
+    if not shows and programme_like(content(payload)):
+        raise RuntimeError(f"{url}: the page names a date and a clock and no screening line "
+                           f"was read, so the programme's markup moved")
     if not shows:
         raise NoScreenings(
             f"{url}: no screening line in the page's own content. This site publishes no "

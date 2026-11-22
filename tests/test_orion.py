@@ -163,5 +163,32 @@ class YearTest(unittest.TestCase):
                 self.assertEqual(got[:10], d.isoformat() if published else "")
 
 
+class ChangedCellsTest(unittest.TestCase):
+    """Rows whose cells this parser no longer reads fail the site when nothing else reads,
+    and are counted beside rows that do (review 2026-11-22, M2)."""
+
+    def renamed(self, html):
+        return html.replace("class='date'", "class='pvm'").replace("class='time'", "class='klo'")
+
+    def test_every_row_renamed_fails(self):
+        with self.assertRaisesRegex(RuntimeError, "cells moved"):
+            orion.parse(self.renamed(PAGE), TODAY)
+
+    def test_one_row_renamed_is_counted(self):
+        one = page(("04.09.", [row("Troija", "19:00", "04.09.", link("/checkout/a")),
+                               self.renamed(row("Muu", "21:00", "04.09.", link("/checkout/b")))]))
+        out = io.StringIO()
+        with contextlib.redirect_stdout(out):
+            shows = orion.parse(one, TODAY)
+        self.assertEqual([s["title"] for s in shows], ["Troija"])
+        self.assertIn("1 kinola-day row(s) without a readable title, time or date", out.getvalue())
+
+    def test_a_header_row_is_not_a_screening(self):
+        out = io.StringIO()
+        with contextlib.redirect_stdout(out):
+            shows = orion.parse("<table class='kinola-day'><tr><th>Pvm</th></tr></table>", TODAY)
+        self.assertEqual((shows, out.getvalue()), ([], ""))
+
+
 if __name__ == "__main__":
     unittest.main()

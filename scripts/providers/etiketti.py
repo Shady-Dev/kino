@@ -845,6 +845,7 @@ def fetch_site(site, sleep=1.2):
     # miss clears it.
     complete = True
     unreadable = []       # film pages whose screening blocks all lacked a readable time
+    itemless = []         # film pages with no screening block at all
     for path, mid in budget_or_raise(movies, site['provider']):
         try:
             page = get(site["base"] + path)
@@ -880,8 +881,7 @@ def fetch_site(site, sleep=1.2):
                   f"({meta['skipped']} block(s) without a readable time); "
                   f"no venue of this site can be called empty")
             complete = False
-            if meta["skipped"]:
-                unreadable.append(mid)
+            (unreadable if meta["skipped"] else itemless).append(mid)
         elif meta["skipped"]:
             print(f"[{site['provider']}] movie {mid} ({meta['title']}): {meta['skipped']} "
                   f"screening block(s) with no single date or no readable time, not published")
@@ -947,10 +947,15 @@ def fetch_site(site, sleep=1.2):
                           for p, t in sorted(unclaimed.items()))
               + "; no venue of this site is confirmed empty on this read")
     # Screenings exist and none could be read: the template moved, which fails the site
-    # rather than passing as an empty programme (Leffabuumi, 2026-11-14).
+    # rather than passing as an empty programme (Leffabuumi, 2026-11-14). Listed films whose
+    # pages carry no screening block at all are unread listed films, which fail too.
     if unreadable and not any(per_venue.values()):
         raise RuntimeError(f"{site['provider']}: {len(unreadable)} film page(s) list screening "
                            f"blocks and none has a readable time; the template moved")
+    if itemless and not any(per_venue.values()):
+        raise RuntimeError(f"{site['provider']}: the listing names {len(movies)} film(s) and "
+                           f"{len(itemless)} film page(s) carry no screening block; listed "
+                           f"films that read as nothing are a moved template")
     for k in per_venue:
         per_venue[k].sort(key=lambda s: s["start"])
     # A venue with rows is reported. A venue without rows is reported, empty, only when

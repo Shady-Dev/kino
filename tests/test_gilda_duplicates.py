@@ -154,5 +154,37 @@ class MethodTagsTest(unittest.TestCase):
                                         "movie_audio_style_name": "Tekstitetty"}), "IMAX")
 
 
+class ChangedFeedTest(unittest.TestCase):
+    """A moved schema fails the site, and a row no venue claims is counted (review
+    2026-11-22, M2). Both used to return a short or empty result with nothing in the log."""
+
+    SHOWS = [show(1, "Oasis", "2026-11-22T17:00:00Z"),
+             show(1, "Oasis", "2026-11-22T19:00:00Z", screen=70, screen_name="Gilda 4"),
+             show(1, "Oasis", "2026-11-22T21:00:00Z", screen=71, screen_name="Gilda 5")]
+
+    def test_a_feed_without_its_fi_key_fails(self):
+        for doc in ({"data": [film(1, "Oasis", self.SHOWS)]}, {"fi": {"rows": []}}, []):
+            with self.subTest(doc=str(doc)[:40]):
+                with self.assertRaises(RuntimeError) as cm:
+                    gilda.parse(doc, SITE)
+                self.assertIn("schema moved", str(cm.exception))
+
+    def test_an_empty_list_in_the_known_schema_is_not_an_error(self):
+        self.assertEqual(gilda.parse(payload(), SITE), {})
+
+    def test_a_show_on_an_unknown_screen_is_counted(self):
+        buf = io.StringIO()
+        with redirect_stdout(buf):
+            out = gilda.parse(payload(film(1, "Oasis", self.SHOWS)), SITE)
+        self.assertEqual([r["start"][11:16] for r in out["gd-gilda"]], ["19:00"])
+        self.assertIn("2 showtime(s) left out: 1 on screen 70, 1 on screen 71", buf.getvalue())
+
+    def test_nothing_placed_and_rows_left_out_fails(self):
+        doc = payload(film(1, "Oasis", self.SHOWS[1:]))
+        with self.assertRaises(RuntimeError) as cm:
+            gilda.parse(doc, SITE)
+        self.assertIn("no showtime placed", str(cm.exception))
+
+
 if __name__ == "__main__":
     unittest.main()

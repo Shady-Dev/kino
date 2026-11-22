@@ -1050,41 +1050,26 @@ class LanguageNamesTest(unittest.TestCase):
 
 class ZeroShowsTest(Stubbed):
 
-    def test_a_listing_with_films_whose_pages_render_no_items_yields_nothing(self):
-        """The failure case: fetch_site returns no venue at all, and run.py fails a site
-        with no shows. It must not look like an empty programme."""
+    def test_a_listing_with_films_whose_pages_render_no_items_fails(self):
+        """Listed films that read as nothing are unread listed films, which fail the site
+        under the 2026-11-02 correction (review 2026-11-22, M2). It must not look like an
+        empty programme, and since this read it does not pass as no screenings either."""
         e = self.stub({"/elokuvat/ohjelmistossa": LISTING,
                        "/elokuvat/70/the-invite": FOREIGN_FILM,
                        "/elokuvat/63/the-dog-stars": FOREIGN_FILM})
-        self.assertEqual(e.fetch_site(site("niagara"), sleep=0), {})
+        with self.assertRaisesRegex(RuntimeError, "carry no screening block") as cm, \
+                contextlib.redirect_stdout(io.StringIO()):
+            e.fetch_site(site("niagara"), sleep=0)
+        self.assertNotIsInstance(cm.exception, (common.NoScreenings, common.EmptyProgramme))
 
-    def test_that_case_keeps_the_previous_data_without_failing(self):
-        """No screenings never fails the run since 2026-11-02, by the maintainer's decision."""
-        import run
-        tmp = tempfile.TemporaryDirectory()
-        self.addCleanup(tmp.cleanup)
-        saved = run.OUT
-        run.OUT = pathlib.Path(tmp.name)
-        self.addCleanup(lambda: setattr(run, "OUT", saved))
-        # A day ahead of the real clock: a kept file whose every day has passed is
-        # published empty, and this is about one still worth keeping.
-        ahead = (datetime.date.today() + datetime.timedelta(days=30)).isoformat()
-        prev = {"generated": "2026-08-01T00:00:00+00:00", "dates": [ahead],
-                "horizon": ahead,
-                "shows": [{"title": "Dyyni", "start": f"{ahead}T18:00:00+03:00"}]}
-        (run.OUT / "area-cn-tampere.json").write_text(json.dumps(prev), encoding="utf-8")
+    def test_one_itemless_film_beside_a_read_one_still_publishes(self):
         e = self.stub({"/elokuvat/ohjelmistossa": LISTING,
                        "/elokuvat/70/the-invite": FOREIGN_FILM,
-                       "/elokuvat/63/the-dog-stars": FOREIGN_FILM})
-        no_sleep.patch(self, e)                 # run.main paces the film pages at 1.2 s
-        realimp = importlib.import_module
-        mod = type("M", (), {"__name__": "fakemod", "SITES": [site("niagara")],
-                             "fetch_site": staticmethod(e.fetch_site)})
-        importlib.import_module = lambda n: mod if n == "fakemod" else realimp(n)
-        self.addCleanup(lambda: setattr(importlib, "import_module", realimp))
-        self.assertEqual(run.main(["fakemod", "--half", "all"]), 0)
-        after = json.loads((run.OUT / "area-cn-tampere.json").read_text(encoding="utf-8"))
-        self.assertEqual(after, prev)
+                       "/elokuvat/63/the-dog-stars": niagara_page(LOCATED_ITEMS, twice=False)})
+        with contextlib.redirect_stdout(io.StringIO()) as log:
+            out = e.fetch_site(site("niagara"), sleep=0)
+        self.assertTrue(out["cn-tampere"])
+        self.assertIn("movie 70: no screening row (0 block(s)", log.getvalue())
 
     def test_a_genuinely_empty_programme_is_the_platforms_empty_state(self):
         e = self.stub({"/elokuvat/ohjelmistossa": GENUINELY_EMPTY})

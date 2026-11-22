@@ -177,7 +177,7 @@ def _cells(row):
 
 
 def parse(page, today=None):
-    shows, heading, unplaced = [], "", []
+    shows, heading, unplaced, unread = [], "", [], 0
     for m in BLOCK_RE.finditer(page):
         if m.group("head") is not None:
             heading = _txt(m.group("head"))
@@ -191,6 +191,7 @@ def parse(page, today=None):
             # fallback in case that cell is ever dropped from the markup.
             dm = DATE_RE.search(_txt(cells.get("date", ("", ""))[1])) or DATE_RE.search(heading)
             if not title or not tm or not dm:
+                unread += bool(cells)           # a header row carries no <td>
                 continue
             # The weekday comes from whichever text supplied the date, never from the
             # other one: the heading and a cell could disagree if the markup moved.
@@ -229,6 +230,12 @@ def parse(page, today=None):
     if unplaced:
         print(f"[orion] {len(unplaced)} row(s) whose date no candidate year places inside "
               f"the window, skipped: {', '.join(unplaced[:5])}")
+    if unread and not shows:
+        raise RuntimeError(f"{unread} kinola-day row(s) and none with a "
+                           f"readable title, time and date: the cells moved")
+    if unread:
+        print(f"[orion] {unread} kinola-day row(s) without a readable title, time or date, "
+              f"left out")
     shows.sort(key=lambda s: s["start"])
     return shows
 

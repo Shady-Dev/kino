@@ -208,12 +208,17 @@ def parse_schedule(xml_text, site, venues):
     by_theatre = {v["theatre"]: v for v in venues}
     root = ET.fromstring(xml_text)
     shows = root.find("Shows")
-    for s in (shows if shows is not None else []):
+    if shows is None:
+        raise RuntimeError(f"{site['provider']}: the Schedule response has no <Shows> element "
+                           f"(root <{root.tag}>); the schema moved, so the previous files stand")
+    unread = 0
+    for s in shows:
         venue = by_theatre.get(_txt(s, "TheatreID"))
         if not venue:
             continue        # another theatre in the same area that we do not list
         start = _start(s)
         if not start:
+            unread += 1
             continue
         img = _https(_txt(s, "Images", "EventMediumImagePortrait")
                      or _txt(s, "Images", "EventSmallImagePortrait"))
@@ -241,6 +246,11 @@ def parse_schedule(xml_text, site, venues):
             "provider": site["provider"],
             "venue": venue["id"],
         })
+    if unread and not per_venue:
+        raise RuntimeError(f"{site['provider']}: {unread} show(s) for a listed theatre and none "
+                           f"with a readable start; the schema moved")
+    if unread:
+        print(f"[{site['provider']}] {unread} show(s) with no readable start, left out")
     return per_venue
 
 

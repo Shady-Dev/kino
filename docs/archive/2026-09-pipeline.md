@@ -3006,3 +3006,19 @@ past a `</dt>` that no `<dd>` follows. The quadratic family, `<x class="y">(.*?)
 no closer, is unchanged. `tests/test_regex_backtracking.py` runs 22 crafted inputs with a
 one-second limit. The pre-fix patterns took 0.9 s to over 30 s on them: 21 went over the
 limit and the other errored on a helper that did not exist yet.
+
+### Changed markup in nine adapters fails instead of reading as no screenings (2026-11-22)
+Review finding M2. Nine adapters turned changed markup into an empty result or
+`NoScreenings`, which the 2026-11-02 correction reserves for a valid read with nothing in
+it. Kino Engel's 200 path now fails like its 500 path when a body that passes `usable()`
+parses to no row. Gilda fails on a feed without `fi.data`, and Vista on a response without
+`<Shows>`. Riviera fails on an answer without `data.movies` markup. Each of Riviera, Vista,
+Cinema Orion, Kino Akseli and Bio Savoy now counts the items, rows, shows or screening lists
+it saw and did not read. It fails when nothing else read and prints the count when
+something did. Gilda counts shows on a screen no venue claims the same way. Bio Savoy fails
+under day headings with no row read, and stays `NoScreenings` only with no day heading.
+Huvimylly fails when no row came out of a page whose content still names a date and a clock
+word. eTiketti fails when listed films' pages carry no screening block at all and nothing
+published. That reverses two tests from 3725da3b4e, written 43 minutes before the
+correction, which pinned that case as no screenings. K13's missing section stays
+`NoScreenings` as recorded. 21 mutations, all red.

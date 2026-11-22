@@ -9,7 +9,7 @@ sold at the door), no auditorium, and dates carry no year.
 import datetime, html as html_mod, json, re, sys
 from zoneinfo import ZoneInfo
 
-from common import fetch, get_text, resolve_year, weekday_index
+from common import date_like, fetch, get_text, resolve_year, weekday_index
 
 URL = "https://kinoakseli.fi/"
 FI = ZoneInfo("Europe/Helsinki")
@@ -86,6 +86,7 @@ def _iso(day, month, hh, mm, today=None, weekday=None):
 def parse(page, today=None):
     shows = []
     unplaced = []
+    unread = []                 # titles whose screening list names a date SHOW_RE missed
     cards = {}
     heads = list(HEAD_RE.finditer(page))
     for n, m in enumerate(heads):
@@ -115,7 +116,10 @@ def parse(page, today=None):
             g = _txt(g)
             if g and not any(k in g for k in ("Ikäraja", "Liput", "Näytösajat", "Kesto")):
                 genres = g
-        for sm in SHOW_RE.finditer(block.group(1)):
+        found = list(SHOW_RE.finditer(block.group(1)))
+        if not found and date_like(_txt(block.group(1))):
+            unread.append(title)
+        for sm in found:
             wd, day, month, hh, mm, dub = sm.groups()
             start = _iso(int(day), int(month), int(hh), int(mm), today,
                          weekday_index(wd))
@@ -148,6 +152,12 @@ def parse(page, today=None):
     if unplaced:
         print(f"[kinoakseli] {len(unplaced)} row(s) whose weekday matches no candidate "
               f"year inside the window, skipped: {', '.join(unplaced[:5])}")
+    if unread and not shows:
+        raise RuntimeError(f"{len(unread)} screening list(s) name a date and none reads as a "
+                           f"screening: the row markup moved")
+    if unread:
+        print(f"[kinoakseli] {len(unread)} screening list(s) naming a date that no row "
+              f"pattern read, left out: {', '.join(unread[:5])}")
     shows.sort(key=lambda s: s["start"])
     return shows
 

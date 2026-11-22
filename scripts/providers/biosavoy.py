@@ -79,6 +79,8 @@ DAY_RE = re.compile(r'<h2 class="schedule__day-heading[^"]*">(.*?)</h2>(.*?)'
                     r'(?=<h2 class="schedule__day-heading|</section>|\Z)', re.S)
 DAY_TEXT_RE = re.compile(r"^(\S+)\s+(\d{1,2})/(\d{1,2})$")
 ROW_RE = re.compile(r'<a class="show-row[^"]*"\s+href="(/film/[^"/]+)"\s*>(.*?)</a>', re.S)
+# Any anchor carrying the row class, to count the rows ROW_RE did not read.
+ROW_TAG_RE = re.compile(r'<a\b[^<>]*\bclass="show-row\b')
 TIME_RE = re.compile(r'class="show-row__time[^"]*">\s*(\d{1,2})[.:](\d{2})\s*<')
 TITLE_RE = re.compile(r'class="show-row__title[^"]*">(.*?)</span>', re.S)
 CHIP_RE = re.compile(r'class="chip">(.*?)</span>', re.S)
@@ -129,7 +131,9 @@ def parse(page, today=None):
             f"programme this parser reads. Treating it as a fetch or template failure "
             f"rather than a cinema with nothing on")
     shows, seen = [], set()
-    for heading, body in DAY_RE.findall(page):
+    days = DAY_RE.findall(page)
+    unread = 0
+    for heading, body in days:
         text = _txt(heading)
         m = DAY_TEXT_RE.match(text)
         weekday = SV_WEEKDAYS.get(m.group(1).lower()) if m else None
@@ -141,7 +145,9 @@ def parse(page, today=None):
         if year is None:
             raise ShowRowError(f"biosavoy: {text!r} falls on that weekday in no year inside "
                                f"the window, so its screenings cannot be placed")
-        for href, row in ROW_RE.findall(body):
+        found = ROW_RE.findall(body)
+        unread += len(ROW_TAG_RE.findall(body)) - len(found)
+        for href, row in found:
             clock, title = TIME_RE.search(row), TITLE_RE.search(row)
             name = _txt(title.group(1)) if title else ""
             if not clock or not name:
@@ -175,11 +181,17 @@ def parse(page, today=None):
                 "provider": "biosavoy",
                 "venue": VENUE["id"],
             })
+    if not shows and days:
+        raise RuntimeError(
+            f"{BASE}{LISTING}: {len(days)} day heading(s) and no screening row read under "
+            f"them ({unread} row anchor(s) in another shape), so the row markup moved")
     if not shows:
         raise NoScreenings(
-            f"{BASE}{LISTING}: schedule section present but no screening row found "
-            f"({served(page)}). No empty state is known for this site, so this is a parse "
-            f"or template failure")
+            f"{BASE}{LISTING}: schedule section present but no day heading and no screening "
+            f"row found ({served(page)}). No empty state is known for this site, so the "
+            f"previous files stand")
+    if unread:
+        print(f"[biosavoy] {unread} row anchor(s) in a shape ROW_RE does not read, left out")
     shows.sort(key=lambda s: (s["start"], s["aud"]))
     return shows
 

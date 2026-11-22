@@ -104,20 +104,25 @@ def show_url(block, listing="", base="", tickets=""):
     return listing
 
 
-def parse(page_html, listing="", base="", tickets=""):
+def parse(page_html, listing="", base="", tickets="", report=None):
     """-> list of raw showings; venue assignment happens in fetch_site.
 
-    `listing` is the fallback URL for a showing whose cell names no screening.
+    `listing` is the fallback URL for a showing whose cell names no screening. `report`,
+    when given, receives `items` and `unread`: the listing's items and those not read.
     """
     out = []
-    for block in ITEM_RE.findall(page_html):
+    items = ITEM_RE.findall(page_html)
+    unread = 0
+    for block in items:
         d = DATE_RE.search(block)
         t = TIME_RE.search(block)
         ti = TITLE_RE.search(block)
         if not (d and t and ti):
+            unread += 1
             continue
         dmy = DMY_RE.search(d.group(1))
         if not dmy:
+            unread += 1
             continue
         day, mon, year = (int(x) for x in dmy.groups())
         loc = _txt(LOC_RE.search(block).group(1)) if LOC_RE.search(block) else ""
@@ -143,6 +148,8 @@ def parse(page_html, listing="", base="", tickets=""):
                         else bool(DISABLED_RE.search(block))),
             "url": show_url(block, listing, base, tickets),
         })
+    if report is not None:
+        report.update(items=len(items), unread=unread)
     return out
 
 
@@ -231,8 +238,19 @@ def fetch_site(site=SITE, tries=3, price_sleep=1.0, prices_path=None, now=None):
         "x-requested-with": "XMLHttpRequest",
         "referer": listing}, tries=tries).decode("utf-8", "replace"))
 
-    rows = parse((payload.get("data") or {}).get("movies") or "", listing, base,
-                 site.get("tickets", ""))
+    data = payload.get("data") if isinstance(payload, dict) else None
+    movies = data.get("movies") if isinstance(data, dict) else None
+    if not isinstance(movies, str):
+        raise RuntimeError(f"{ajax}: the answer carries no data.movies markup; the schema "
+                           f"moved, so the previous files stand")
+    report = {}
+    rows = parse(movies, listing, base, site.get("tickets", ""), report)
+    if report["unread"] and not rows:
+        raise RuntimeError(f"{ajax}: {report['items']} listing item(s) and none with a readable "
+                           f"date, time and title; the markup moved")
+    if report["unread"]:
+        print(f"[{site['provider']}] {report['unread']} listing item(s) without a readable "
+              f"date, time or title, left out")
     per_venue = {v["id"]: [] for v in site["venues"]}
     unmatched = 0
     for r in rows:
