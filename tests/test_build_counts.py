@@ -267,5 +267,50 @@ class PosterFiguresTest(unittest.TestCase):
         self.assertNotIn("stale", out.getvalue())
 
 
+ORIGINALS = {"COUNTS": build_counts.COUNTS, "README": build_counts.README}
+
+
+class CheckExitTest(unittest.TestCase):
+    """Review I3, 2026-11-22: `--check` printed "stale" and exited 0."""
+
+    def setUp(self):
+        import shutil
+        import tempfile
+        tmp = tempfile.TemporaryDirectory()
+        self.addCleanup(tmp.cleanup)
+        d = __import__("pathlib").Path(tmp.name)
+        for name, src in ORIGINALS.items():
+            shutil.copy(src, d / src.name)
+            self.addCleanup(setattr, build_counts, name, src)
+            setattr(build_counts, name, d / src.name)
+
+    def check(self):
+        out = io.StringIO()
+        with contextlib.redirect_stdout(out):
+            return build_counts.main(["--check"]), out.getvalue()
+
+    def test_current_counts_pass(self):
+        code, out = self.check()
+        self.assertEqual(code, 0, out)
+
+    def stale_fails(self, name):
+        path = getattr(build_counts, name)
+        text = path.read_text(encoding="utf-8")
+        n = str(build_counts.counts()["providers"])
+        stale = text.replace(n, str(int(n) + 1), 1)
+        self.assertNotEqual(stale, text)
+        path.write_text(stale, encoding="utf-8")
+        code, out = self.check()
+        self.assertEqual(code, 1, out)
+        self.assertIn(f"{'README.md' if name == 'README' else 'docs/counts.md'} is stale", out)
+        self.assertEqual(path.read_text(encoding="utf-8"), stale)
+
+    def test_a_stale_counts_page_fails_and_is_not_written(self):
+        self.stale_fails("COUNTS")
+
+    def test_a_stale_readme_fails_and_is_not_written(self):
+        self.stale_fails("README")
+
+
 if __name__ == "__main__":
     unittest.main()

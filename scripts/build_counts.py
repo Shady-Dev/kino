@@ -220,11 +220,12 @@ def main(argv=None) -> int:
     c = counts()
     print(f"[counts] {c['providers']} providers, {c['venues']} venues, {c['cities']} "
           f"cities, {c['pages_per_language']} pages per language")
-    sync(COUNTS, render(COUNTS.read_text(encoding="utf-8"), block(c)),
-         not args.check, "docs/counts.md")
-    sync(README, readme_text(README.read_text(encoding="utf-8"), c),
-         not args.check, "README.md")
-    return 0
+    stale = sync(COUNTS, render(COUNTS.read_text(encoding="utf-8"), block(c)),
+                 not args.check, "docs/counts.md")
+    stale |= sync(README, readme_text(README.read_text(encoding="utf-8"), c),
+                  not args.check, "README.md")
+    # --check is a check: stale counts fail it, as the drift step's diff would.
+    return 1 if args.check and stale else 0
 
 
 if __name__ == "__main__":
