@@ -7,6 +7,8 @@ returned an existing file on every later run without a request, broken or not (a
 2026-09-25). The ids are the moviexchange release UUIDs; all 84 committed Finnkino posters
 are named by one. The body used here is one of those files.
 """
+import importlib.util
+import io
 import os
 import pathlib
 import re
@@ -62,6 +64,19 @@ class DownloadPosterTest(unittest.TestCase):
         self.body = TRUNCATED
         self.assertEqual(fetch_data.download_poster(RID), "")
         self.assertFalse(self.poster().exists())
+
+    @unittest.skipUnless(importlib.util.find_spec("PIL"), "Pillow not installed")
+    def test_a_body_in_a_format_posters_never_come_in_is_not_saved(self):
+        """Review H2, 2026-11-22: the decode check reached every decoder Pillow ships."""
+        from PIL import Image
+        for fmt in ("BMP", "TIFF"):
+            with self.subTest(fmt=fmt):
+                buf = io.BytesIO()
+                Image.open(io.BytesIO(GOOD)).save(buf, fmt)
+                self.body = buf.getvalue()
+                fetch_data._poster_cache.clear()
+                self.assertEqual(fetch_data.download_poster(RID), "")
+                self.assertFalse(self.poster().exists())
 
     def test_a_broken_file_already_on_disk_is_fetched_again(self):
         self.poster().parent.mkdir(parents=True)

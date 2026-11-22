@@ -171,7 +171,7 @@ jobs:
       # without it, and the next step fails on a skip.
       - name: Install Pillow
         if: needs.verified.outputs.skip != 'true'
-        run: python3 -m pip install --quiet --disable-pip-version-check pillow==12.3.0
+        run: python3 -m pip install --quiet --disable-pip-version-check pillow==13.0.0
 
       # Fail on skipped tests: every dependency is installed on the runner on purpose, so
       # a skip means one is missing and coverage shrank. node is the other dependency;

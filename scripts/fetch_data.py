@@ -329,7 +329,7 @@ def poster_decodes(raw: bytes) -> bool:
         return raw[:2] == b"\xff\xd8" and raw.rstrip(b"\x00")[-2:] == b"\xff\xd9"
     import io
     try:
-        with Image.open(io.BytesIO(raw)) as im:
+        with Image.open(io.BytesIO(raw), formats=("JPEG", "PNG", "WEBP", "GIF")) as im:
             im.load()
         return True
     except Exception:

@@ -55,6 +55,8 @@ JPEG_Q = 82
 MIN_BYTES = 500         # anything smaller is an error page, not an image
 PAUSE = 0.3             # these are other people's CDNs
 HEADERS = {"user-agent": common.UA, "accept": "image/*,*/*"}
+# The only decoders a poster reaches. Every poster URL the adapters publish is JPEG, PNG or WebP.
+FORMATS = ("JPEG", "PNG", "WEBP", "GIF")
 
 
 def key_for(url: str) -> str:
@@ -101,7 +103,7 @@ def download(url: str, dest: pathlib.Path, width: int = POSTER_W) -> bool:
     raw = common.fetch(request_url(url), headers=HEADERS, tries=2, backoff=3, timeout=20)
     if len(raw) < MIN_BYTES:
         raise RuntimeError(f"{len(raw)} bytes")
-    im = Image.open(io.BytesIO(raw))
+    im = Image.open(io.BytesIO(raw), formats=FORMATS)
     im.load()
     if im.mode not in ("RGB", "L"):
         im = im.convert("RGB")

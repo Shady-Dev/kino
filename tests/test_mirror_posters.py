@@ -274,6 +274,30 @@ class MirrorTest(unittest.TestCase):
         self.assertIn("0 failed", " ".join(lines))
 
     @unittest.skipUnless(not mirror_posters.pillow_problem(), "Pillow unusable")
+    def test_a_body_in_a_format_posters_never_come_in_is_refused(self):
+        """Review H2, 2026-11-22: any poster URL reached every decoder Pillow ships, BMP and
+        TIFF among them. A refused body keeps its remote reference like any failed one."""
+        from PIL import Image
+        names = {"a.bmp": "BMP", "b.tif": "TIFF", "c.jpg": "JPEG", "d.png": "PNG"}
+        for name, fmt in names.items():
+            buf = io.BytesIO()
+            Image.open(io.BytesIO(jpeg_bytes(400, 600))).save(buf, fmt)
+            self.srv.files[f"/{name}"] = buf.getvalue()
+        area = self.root / "data" / "area-x-y.json"
+        area.write_text(json.dumps({"generated": "2026-11-22T00:00:00+00:00", "dates": [],
+                                    "horizon": "", "shows": [
+            {"title": n, "img": f"{self.url}/{n}"} for n in names]}), encoding="utf-8")
+        rc, lines = self.run_main()
+        self.assertEqual(rc, mirror_posters.OK)
+        img = {s["title"]: s["img"]
+               for s in json.loads(area.read_text(encoding="utf-8"))["shows"]}
+        self.assertEqual(img["a.bmp"], f"{self.url}/a.bmp")
+        self.assertEqual(img["b.tif"], f"{self.url}/b.tif")
+        self.assertTrue(img["c.jpg"].startswith("data/posters/"))
+        self.assertTrue(img["d.png"].startswith("data/posters/"))
+        self.assertIn("2 failed", " ".join(lines))
+
+    @unittest.skipUnless(not mirror_posters.pillow_problem(), "Pillow unusable")
     def test_an_event_picture_is_mirrored_wider_and_measured_and_a_poster_is_not(self):
         """A `nonFilm` row's picture is drawn uncropped across the sheet, so it keeps up to
         EVENT_W and its size goes on the row; a small one is not enlarged. A film's poster is
