@@ -3174,3 +3174,15 @@ the one generated data file not going through `common.write_text_atomic`. A torn
 reads as unreadable to the client, which then falls back to `PROV_FALLBACK`. It now goes
 through the shared writer. The `--sync-index` write of `index.html` is still in place and is
 a human command. One mutation red.
+
+### The regex safety test times CPU, not the wall clock (2026-11-22)
+`test_regex_safety.py` failed once in a full suite on `cinemahouse.py:217`, a quadratic
+pattern it accepts, and passed alone. It timed each call with `perf_counter` and interrupted
+it with a 3 s `ITIMER_REAL`, while the suite ran 14 files at once and the test one child per
+core. Calls are now timed with `process_time` and interrupted by `ITIMER_VIRTUAL`, so waiting
+for a core no longer counts. CPU time alone was not enough: that pattern took 2.65 s of CPU
+at twice SIZE idle and 3.51 s with 14 busy loops on 14 cores, since efficiency cores spend
+more CPU time on the same work, so the limit rose to 10 CPU seconds. The growth rule is
+unchanged and the 120 s wall-clock child timeout stays as the backstop. Five runs under that
+load passed. The old Alatalo heading pattern, a 0.01 s limit and a missing `SIGVTALRM`
+handler each turned it red.

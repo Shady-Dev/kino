@@ -13,7 +13,7 @@ inputs built from the pattern's own parse tree, the literal text before each unb
 repeat followed by that repeat's body, by whitespace, or by the opener repeated with no
 closer. A pattern fails when doubling one input twice, from SMALL to SIZE to twice SIZE
 characters, multiplies the time more than GROWTH-fold both times, which a quadratic pattern
-(about 4) does not reach and a cubic one (about 8) does, or when one call runs past HANG_S. The quadratic family, `<x class="y">(.*?)</x>`
+(about 4) does not reach and a cubic one (about 8) does, or when one call uses more than HANG_S of CPU. The quadratic family, `<x class="y">(.*?)</x>`
 with no closer, is accepted, as the review recorded.
 
 Each module is checked in a child process, so a pattern that never returns costs a timeout
@@ -48,8 +48,11 @@ SMALL = SIZE // 2
 FAST_S = 0.002        # under this at SMALL characters an input is skipped as linear enough
 FLOOR_S = 0.01        # under this at SIZE growth is noise
 GROWTH = 5.5          # time at SIZE over time at SMALL: about 4 quadratic, 8 cubic
-HANG_S = 3.0          # one call; past this it is reported without waiting for it
-CHILD_TIMEOUT_S = 120
+# One call's CPU seconds; past this it is reported without waiting. At 3.0 cinemahouse.py's
+# quadratic badge pattern failed under load: at twice SIZE it took 2.65 s idle and 3.51 s with
+# every core busy (2026-11-22), since efficiency cores spend more CPU time on the same work.
+HANG_S = 10.0
+CHILD_TIMEOUT_S = 120 # wall clock, the backstop for a child that never returns
 # "file:name or line": the reason it may stay. Empty: every pattern passes today.
 EXCEPTIONS = {}
 
@@ -141,18 +144,22 @@ def _alarm(*_):
 
 
 def timed(rx, text):
-    """Seconds for a full scan, or None past HANG_S where the interpreter can interrupt it."""
+    """CPU seconds for a full scan, or None past HANG_S where the interpreter can interrupt it.
+
+    CPU time, not wall time: the suite runs many files at once and this test runs one child
+    per core, so a pattern waiting for a core read as slow under a wall clock. The child has
+    one thread, so the process's CPU time is the match's own, and the timer counts the same."""
     if hasattr(signal, "setitimer"):
-        signal.setitimer(signal.ITIMER_REAL, HANG_S)
-    t = time.perf_counter()
+        signal.setitimer(signal.ITIMER_VIRTUAL, HANG_S)
+    t = time.process_time()
     try:
         rx.findall(text)
-        return time.perf_counter() - t
+        return time.process_time() - t
     except _Hang:
         return None
     finally:
         if hasattr(signal, "setitimer"):
-            signal.setitimer(signal.ITIMER_REAL, 0)
+            signal.setitimer(signal.ITIMER_VIRTUAL, 0)
 
 
 def first_look(rx, small_text, big_text):
@@ -238,7 +245,7 @@ def patterns(path):
 
 def child(paths):
     if hasattr(signal, "setitimer"):
-        signal.signal(signal.SIGALRM, _alarm)
+        signal.signal(signal.SIGVTALRM, _alarm)
     for p in paths:
         for label, rx in patterns(pathlib.Path(p)):
             print(json.dumps({"start": label}), flush=True)
