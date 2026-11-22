@@ -4591,3 +4591,12 @@ the child ticket, as that screening's price, which the price rule in `common.Sho
 `CLAUDE.md` forbids. A note now sets a price only when it holds exactly one amount. Its
 subtitle marking still applies to its dates either way. One test; the mutation that takes
 the first of several amounts turned it red.
+
+### Elokuviin.info and Kuva-Tähti: empty venue pools are no screenings (2026-11-22)
+Review finding M5. On a shared storefront every venue pool answering `{"data": []}` raised
+`EmptyProgramme`, and `run.py` published every venue of the site empty. A renumbered
+`resourcepool` or a moved `category=2` answers exactly the same, so the answer is no
+evidence the adapter did not already use to find the films, which the `EmptyProgramme`
+docstring requires. Those sites now raise `NoScreenings` and keep their previous files. A
+front-page storefront whose layout names its blocks and draws them still reads an empty
+answer as an empty programme. One test; reverting the branch turned it red.

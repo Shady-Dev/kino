@@ -25,7 +25,8 @@ programme block, the markup draws that many `js-shows` blocks, and each block's
 error recorded for it. Anything less is read again, up to `LISTING_TRIES` times, and then
 the site fails with its previous files standing. Every block answering with an empty list
 is the platform's own statement that nothing is scheduled, which is
-`common.EmptyProgramme`.
+`common.EmptyProgramme`. A shared storefront's venue pools answering empty are not: a
+renumbered pool answers the same, so those sites raise `common.NoScreenings`.
 
 A site whose storefront also sells theatre lists its film blocks in `categories`.
 
@@ -983,6 +984,12 @@ def fetch_site(site, sleep=1.2):
         if reads > 1:
             print(f"[{pid}] the schedule was complete on read {reads} of {LISTING_TRIES}")
     entries = sum(len(b) for b in blocks)
+    if not entries and site.get("shop"):
+        # A pool answering `{"data": []}` is also what a renumbered `resourcepool` or a moved
+        # category reads as, so it is no evidence of an empty programme (review M5).
+        raise NoScreenings(
+            f"{listing_url}: every venue's schedule answered with no entry. A shared "
+            f"storefront's empty pool proves nothing on its own, so the previous files stand")
     if not entries:
         raise EmptyProgramme(
             f"{listing_url}: the storefront's schedule answered with no entry for any of "

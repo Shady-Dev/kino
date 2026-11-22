@@ -1054,6 +1054,19 @@ def pool_url(site, venue, day="2026-10-09"):
 class PoolTest(unittest.TestCase):
     """Elokuviin.info and Kuva-Tähti, read as their venue pages read them on 2026-10-31."""
 
+    def test_every_pool_empty_is_no_screenings_and_not_an_empty_programme(self):
+        """A renumbered `resourcepool` answers `{"data": []}` too, so it publishes no venue
+        empty (review 2026-11-22, M5)."""
+        from unittest import mock
+        for site in (ELOKUVIIN, KUVATAHTI):
+            with self.subTest(site=site["provider"]), \
+                    mock.patch.object(J, "get", lambda url, **kw: json.dumps({"data": []})), \
+                    mock.patch.object(J.time, "sleep", lambda s: None):
+                # The module's own names: another test file reloads `common`.
+                with self.assertRaises(J.NoScreenings) as cm:
+                    J.fetch_site(site, sleep=0)
+                self.assertNotIsInstance(cm.exception, J.EmptyProgramme)
+
     def test_each_hall_files_under_its_venue_with_its_hall_name(self):
         blocks = [[entry("1", "Lapin sota", "2026-10-09 18:00", loc="Sun Kino (ÄHTÄRI)",
                          host=ELOKUVIIN["base"])],
