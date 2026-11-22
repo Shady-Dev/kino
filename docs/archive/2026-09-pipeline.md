@@ -3159,3 +3159,11 @@ stub, the later-screenings list, JSON-LD and the markup poster address all call 
 `tests/test_web_url.py` tests it once, holds a `javascript:` case at each page site, and
 fails on a new `startswith("http")` in `build_pages.py`. The regenerated pages are
 unchanged: 547 files. Seven mutations red.
+
+### Two cities folding to one page slug fail the page build (2026-11-22)
+Review finding L13, marked inferred. None of the 116 committed cities collides, measured
+at this commit, and a fixture with "Jyväskylä" and "Jyvaskyla" confirmed the defect: both
+staged `/kaupunki/jyvaskyla/`, the later page replaced the earlier, and the sitemap listed
+it twice. Venue slugs were already de-duplicated. Two page cities sharing a slug now raise
+before anything is staged, so the previous page set stands and the run log names both
+spellings. One mutation red.

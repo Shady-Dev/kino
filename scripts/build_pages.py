@@ -1878,6 +1878,13 @@ def main(today=None) -> int:
     for v in venues:
         by_city.setdefault(v["city"], []).append(v)
     multi = {c: vs for c, vs in by_city.items() if len(vs) > 1}
+    city_slugs = {}
+    for c in sorted(multi):
+        other = city_slugs.setdefault(slug(c), c)
+        if other != c:
+            # One URL would carry whichever page was staged last, listed twice in the sitemap.
+            raise RuntimeError(f"cities {other!r} and {c!r} share the page slug {slug(c)!r}; "
+                               f"spell the city one way in the venue data")
 
     stats = {"written": 0, "kept": 0}
     # (path, text) for every page this run produces. Nothing reaches the tree until the
