@@ -661,26 +661,12 @@
    ]
   },
   "billie maailmojen välissä": {
-   "id": 1538497,
-   "img": "data/posters/4634d78853ec8f0d.jpg",
-   "kr": "K-7",
-   "krs": [
-    "engel",
-    "helios",
-    "isohannu",
-    "kinohannikainen",
-    "kinotervakoski",
-    "kkino"
-   ],
    "r": 0,
    "s": {
-    "en": "An impulsive and unconventional teenage girl named Billie discovers secret magical abilities which, once unleashed, hurtle her into a spectacle-filled journey out of suburbia and into a vast witch realm called Hexe. Forced to team up with her cautious mother, Alice, they uncover family mysteries that could change the world of witches forever.",
+    "en": "",
     "fi": "Billie maailmojen välissä esittelee meille impulsiivisen ja omintakeisen teinitytön nimeltä Billie ja tämän ylisuojelevan äidin Alicen. Kun Billie saa yllättäen käyttöönsä salaisia taikavoimia, hän tempautuu saman tien kotoaan maagiseen Hexen valtakuntaan, missä häntä ovat vastaanottamassa Ms. Quill ja Elias Quire. Huikean matkansa edetessä Billie saa selville perhesalaisuuksia, jotka voivat mullistaa noitien taikamaailman ikiajoiksi. Puhuttu suomeksi!"
    },
-   "tr": "https://www.youtube.com/watch?v=IuosV-TRxDU",
-   "ts": [
-    "en"
-   ]
+   "tr": ""
   },
   "billie maailmojen välissä suomeksi": {
    "r": 0,
@@ -6908,14 +6894,12 @@
     "engel",
     "isohannu",
     "kino123",
-    "kinolumo",
     "kinometso",
     "kinomyyri",
     "kinopiispanristi",
     "kinopirtti",
     "kinotervakoski",
     "korjaamo",
-    "kulttuurimylly",
     "kuvakukko",
     "savonkinot",
     "star",
@@ -6939,14 +6923,12 @@
     "engel",
     "isohannu",
     "kino123",
-    "kinolumo",
     "kinometso",
     "kinomyyri",
     "kinopiispanristi",
     "kinopirtti",
     "kinotervakoski",
     "korjaamo",
-    "kulttuurimylly",
     "kuvakukko",
     "savonkinot",
     "star",
@@ -10636,7 +10618,6 @@
     "kinoiiris",
     "kinojuha",
     "kinokilta",
-    "kinokonepaja",
     "kinolumo",
     "kinomania",
     "kinomarilyn",
@@ -10698,7 +10679,6 @@
     "kinoiiris",
     "kinojuha",
     "kinokilta",
-    "kinokonepaja",
     "kinolumo",
     "kinomania",
     "kinomarilyn",

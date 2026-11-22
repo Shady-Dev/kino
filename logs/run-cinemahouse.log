@@ -1,16 +1,16 @@
 [kinopiispanristi] film pages: 18 with a synopsis, 1 without, 19 films
 [kinopiispanristi] strand prefix split off 2 showtimes
-[kinopiispanristi] Kino Piispanristi: 78 showtimes, 10 dates
+[kinopiispanristi] Kino Piispanristi: 77 showtimes, 10 dates
 [kinopiispanristi] synopses merged: 0
-[kinolumo] film pages: 15 with a synopsis, 1 without, 16 films
+[kinolumo] film pages: 13 with a synopsis, 1 without, 14 films
 [kinolumo] strand prefix split off 2 showtimes
-[kinolumo] Kino Lumo: 46 showtimes, 8 dates
+[kinolumo] Kino Lumo: 44 showtimes, 8 dates
 [kinolumo] synopses merged: 0
 [laitilankino] film pages: 5 with a synopsis, 0 without, 5 films
 [laitilankino] Laitilan Kino: 5 showtimes, 3 dates
 [laitilankino] synopses merged: 0
-[run] http: 0 revalidated (304), 43 full, 0 not stored (origin said no-store), 0 cache entries written
+[run] http: 0 revalidated (304), 41 full, 0 not stored (origin said no-store), 0 cache entries written
 [run] hosts: 3 attempted -- www.kinolumo.fi, www.kinopiispanristi.fi, www.laitilankino.fi
-[run] cinemahouse: 3 venues, 129 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
-[run] timing: 3 site(s), 82.6s of fetching added up across workers that overlap, longest site 41.3s, longest queue wait 42.2s, 41.3s wall from this module's first fetch starting to its last ending
+[run] cinemahouse: 3 venues, 126 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
+[run] timing: 3 site(s), 86.2s of fetching added up across workers that overlap, longest site 42.4s, longest queue wait 42.7s, 42.4s wall from this module's first fetch starting to its last ending
 exit=0
