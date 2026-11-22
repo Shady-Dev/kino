@@ -818,7 +818,8 @@ class Tally:
         self.empty = []         # sites whose listing loaded and had no films on it
         self.skipped = []       # modules with no sites for this half, which is not a problem
         self.unread = []        # (provider, distinct unread items)
-        self.noshow = []        # sites that parsed no screening, previous files kept
+        self.noshow = []        # sites that parsed no screening; files kept or emptied
+        self.emptied = {}       # such a site -> venues published empty, nothing left ahead
 
     def unusable(self, name, error):
         """A module that could not be imported, or that has no SITES."""
@@ -862,9 +863,13 @@ class Tally:
         if pending:
             self.pendings.append((label, pending))
         if not v and not confirmed_empty_site(site_of(mod, sites, label), pending):
+            # publish_site kept a file with days ahead and emptied one with none left.
             print(f"[{label}] no screenings: every venue came back empty and nothing "
-                  f"confirms it")
+                  f"confirms it; {len(stale)} venue file(s) kept, {len(unverified)} "
+                  f"published empty with no day left ahead")
             self.noshow.append(label)
+            if unverified:
+                self.emptied[label] = len(unverified)
 
     def report(self, stats, throttle, hosts=()):
         """The closing lines, in the order a committed log carries them."""
@@ -918,8 +923,10 @@ class Tally:
                       f"never produced a showtime: {', '.join(new_ids)}")
 
         if self.noshow:
-            print(f"[run] no screenings: {len(self.noshow)} site(s) kept their previous "
-                  f"files: {', '.join(self.noshow)}")
+            names = [f"{n} ({self.emptied[n]} published empty)" if n in self.emptied else n
+                     for n in self.noshow]
+            print(f"[run] no screenings: {len(self.noshow)} site(s), previous files kept "
+                  f"or emptied: {', '.join(names)}")
 
         # The items are named in each site's block. This line lists the sites and never
         # changes the exit code.

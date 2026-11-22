@@ -315,7 +315,7 @@ class NoScreeningsReportTest(unittest.TestCase):
     report = UnreadHistoryTest.report
     # The site's own line and the summary run.py's Tally always prints after it.
     LINE = ("[kinohuovi] no screenings: https://www.kinohuovi.fi/: no programme card\n"
-            "[run] no screenings: 1 site(s) kept their previous files: kinohuovi\n")
+            "[run] no screenings: 1 site(s), previous files kept or emptied: kinohuovi\n")
 
     def test_a_site_first_seen_is_new_and_the_check_stays_green(self):
         self.commit("[kinohuovi] 6 showtimes\nexit=0\n")
@@ -323,7 +323,7 @@ class NoScreeningsReportTest(unittest.TestCase):
         code, out = self.report()
         self.assertEqual(code, 0, out)
         self.assertIn("[check] no screenings: 1 site(s) in 1 log(s), 1 new, previous files "
-                      "kept", out)
+                      "kept or emptied", out)
         self.assertIn("    run-mod.log: [kinohuovi] https://www.kinohuovi.fi/: no programme "
                       "card: new", out)
 

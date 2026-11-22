@@ -204,7 +204,7 @@ def noshow_report(logs):
         return []
     new = sum(mark.startswith("new") for *_, mark in rows)
     head = (f"[check] no screenings: {len(rows)} site(s) in {len({r[0] for r in rows})} "
-            f"log(s), {new} new, previous files kept")
+            f"log(s), {new} new, previous files kept or emptied")
     return [head] + [f"    {name}: [{site}] {why}: {mark}" for name, site, why, mark in rows]
 
 

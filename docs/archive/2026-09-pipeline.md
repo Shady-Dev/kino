@@ -3133,3 +3133,11 @@ Review finding L7. `NOSHOW_RE` matched `[run] no screenings: 1 site(s) kept thei
 files: huvimylly` as a second site, and the check printed two sites for one. The fixture
 lacked that line, which `Tally` prints after every such site. `noshow_sites` skips the `run`
 label and the fixture carries the real line. One mutation red.
+
+### A no-screenings site's log says which files were kept and which emptied (2026-11-22)
+Review finding L8. A site whose fetch returned no venue keeps a file with days ahead and
+publishes one with none left empty, as recorded for the Maxim Helsinki case. The run log and
+`check_runs` said every such file was kept. The site's line now counts the kept and the
+emptied files, and the closing line reads "previous files kept or emptied", naming how many
+of each site's venues went out empty. An adapter raising `NoScreenings` still leaves every
+file untouched. Three mutations red.

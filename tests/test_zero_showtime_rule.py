@@ -72,8 +72,26 @@ class RunTest(unittest.TestCase):
         code, log = self.main(module("zz_zero_a", {"zzlive": 1, "zzdead": {}}))
         self.assertEqual(code, 0, log)
         self.assertIn("[zzdead] no screenings: every venue came back empty", log)
-        self.assertIn("[run] no screenings: 1 site(s) kept their previous files: zzdead", log)
+        self.assertIn("[run] no screenings: 1 site(s), previous files kept or emptied: "
+                      "zzdead (1 published empty)", log)
         self.assertIn("0 failures", log)
+
+    def test_the_log_says_which_files_were_kept_and_which_emptied(self):
+        """Review L8, 2026-11-22: a previous file with no day left is published empty, as
+        recorded, and the log used to say it was kept."""
+        for pid, day in (("zzkeep", "2027-01-09"), ("zzgone", "2026-09-01")):
+            (run.OUT / f"area-{pid}-v.json").write_text(json.dumps(
+                {"generated": "2026-09-01T00:00:00+00:00", "dates": [day], "horizon": day,
+                 "shows": [{"title": "Old", "start": f"{day}T18:00:00+02:00"}]}))
+        code, log = self.main(module("zz_zero_f", {"zzlive": 1, "zzkeep": {}, "zzgone": {}}))
+        self.assertEqual(code, 0, log)
+        self.assertIn("[zzkeep] no screenings: every venue came back empty and nothing "
+                      "confirms it; 1 venue file(s) kept, 0 published empty", log)
+        self.assertIn("[zzgone] no screenings: every venue came back empty and nothing "
+                      "confirms it; 0 venue file(s) kept, 1 published empty", log)
+        self.assertIn("[run] no screenings: 2 site(s), previous files kept or emptied: "
+                      "zzkeep, zzgone (1 published empty)", log)
+        self.assertEqual(json.loads((run.OUT / "area-zzgone-v.json").read_text())["shows"], [])
 
     def test_an_adapter_raising_no_screenings_keeps_its_files_without_failing(self):
         prev = {"generated": "2026-09-01T00:00:00+00:00", "dates": ["2027-01-09"],
