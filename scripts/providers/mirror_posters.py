@@ -111,12 +111,19 @@ def area_docs():
         yield p, doc
 
 
-def download(url: str, dest: pathlib.Path, width: int = POSTER_W) -> bool:
+def open_image(src):
+    """The one place the pipeline decodes a picture it did not draw, limited to FORMATS.
+    `src` is a body as bytes or a path. -> a PIL image, still lazy."""
     from PIL import Image
-    raw = common.fetch(request_url(url), headers=HEADERS, tries=2, backoff=3, timeout=20)
-    if len(raw) < MIN_BYTES:
-        raise RuntimeError(f"{len(raw)} bytes")
-    im = Image.open(io.BytesIO(raw), formats=FORMATS)
+    return Image.open(io.BytesIO(src) if isinstance(src, (bytes, bytearray)) else src,
+                      formats=FORMATS)
+
+
+def reencode(raw: bytes, dest: pathlib.Path, width: int = POSTER_W) -> None:
+    """Decode `raw`, downscale it to `width` if wider, and write a fresh JPEG to `dest`
+    through a temp file. No byte or metadata of the source reaches the file."""
+    from PIL import Image
+    im = open_image(raw)
     im.load()
     if im.mode not in ("RGB", "L"):
         im = im.convert("RGB")
@@ -126,16 +133,22 @@ def download(url: str, dest: pathlib.Path, width: int = POSTER_W) -> bool:
     tmp = dest.with_name(dest.name + ".tmp")
     im.save(tmp, "JPEG", quality=JPEG_Q, optimize=True)
     tmp.replace(dest)
+
+
+def download(url: str, dest: pathlib.Path, width: int = POSTER_W) -> bool:
+    raw = common.fetch(request_url(url), headers=HEADERS, tries=2, backoff=3, timeout=20)
+    if len(raw) < MIN_BYTES:
+        raise RuntimeError(f"{len(raw)} bytes")
+    reencode(raw, dest, width)
     return True
 
 
 def measure(show) -> bool:
     """Put a mirrored picture's size on its row, so the page reserves its shape. -> changed."""
-    from PIL import Image
     path = pathlib.Path(show["img"])
     if not path.exists():
         return False
-    with Image.open(path) as im:
+    with open_image(path) as im:
         size = {"imgW": im.width, "imgH": im.height}
     if all(show.get(k) == v for k, v in size.items()):
         return False

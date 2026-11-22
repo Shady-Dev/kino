@@ -23,6 +23,7 @@ REAL = sorted(p for p in (_ctx.ROOT / "data/posters").glob("*.jpg") if UUID.full
 GOOD = REAL.read_bytes()
 TRUNCATED = GOOD[: len(GOOD) // 2]
 RID = "0040c9a4-3ca0-4580-a920-596e67e160ab"
+PILLOW_HERE = fetch_data.pillow_here
 
 
 class DownloadPosterTest(unittest.TestCase):
@@ -50,8 +51,34 @@ class DownloadPosterTest(unittest.TestCase):
 
     def test_a_good_body_is_written_whole_and_leaves_no_temp_file(self):
         self.assertEqual(fetch_data.download_poster(RID), f"data/posters/{RID}.jpg")
-        self.assertEqual(self.poster().read_bytes(), GOOD)
+        self.assertTrue(fetch_data.poster_decodes(self.poster().read_bytes()))
         self.assertEqual([p.name for p in self.poster().parent.iterdir()], [self.poster().name])
+
+    def test_without_pillow_the_cdn_bytes_are_kept(self):
+        fetch_data.pillow_here = lambda: False
+        self.addCleanup(lambda: setattr(fetch_data, "pillow_here", PILLOW_HERE))
+        self.assertEqual(fetch_data.download_poster(RID), f"data/posters/{RID}.jpg")
+        self.assertEqual(self.poster().read_bytes(), GOOD)
+
+    @unittest.skipUnless(importlib.util.find_spec("PIL"), "Pillow not installed")
+    def test_an_original_is_downscaled_and_loses_its_metadata(self):
+        """Review L2, 2026-11-22: the CDN ignored width=200 twice and sent 3 MB originals
+        with their EXIF, which were committed byte for byte."""
+        from PIL import Image
+        for size in ((2025, 3000), (1944, 2880)):
+            with self.subTest(size=size):
+                exif = Image.Exif()
+                exif[0x010E] = "camera note"
+                buf = io.BytesIO()
+                Image.open(io.BytesIO(GOOD)).convert("RGB").resize(size).save(
+                    buf, "JPEG", exif=exif)
+                self.body = buf.getvalue()
+                fetch_data._poster_cache.clear()
+                self.assertEqual(fetch_data.download_poster(RID), f"data/posters/{RID}.jpg")
+                with Image.open(self.poster()) as im:
+                    self.assertEqual(im.width, 342)
+                    self.assertEqual(len(im.getexif()), 0)
+                self.poster().unlink()
 
     def test_an_id_that_is_not_a_release_uuid_is_never_a_path_or_a_request(self):
         for rid in ("../../escape", "a/b", "", "0040c9a4.jpg"):
@@ -83,7 +110,7 @@ class DownloadPosterTest(unittest.TestCase):
         self.poster().write_bytes(TRUNCATED)
         self.assertEqual(fetch_data.download_poster(RID), f"data/posters/{RID}.jpg")
         self.assertEqual(len(self.asked), 1)
-        self.assertEqual(self.poster().read_bytes(), GOOD)
+        self.assertTrue(fetch_data.poster_decodes(self.poster().read_bytes()))
 
     def test_a_good_file_already_on_disk_costs_no_request(self):
         self.poster().parent.mkdir(parents=True)

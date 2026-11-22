@@ -3117,3 +3117,13 @@ connection outside `common.py`. Three files stay on its allow-list with their re
 `indexnow.py`, `ci_verified.py` and Johku's interim-response handler, which is mounted
 through `make_opener`. Five mutations red, among them a scratch adapter copy with a direct
 `urlopen`.
+
+### Finnkino posters are re-encoded through the shared poster path (2026-11-22)
+Review finding L2. `fetch_data.download_poster` wrote the CDN's body as it came, after a
+decode check. 210 of the 211 committed Finnkino posters carry EXIF, and two ignored
+`width=200` at 2025x3000 and 1944x2880, about 3 MB each. `mirror_posters.open_image` is now
+the one place a picture is decoded, limited to the H2 formats, and `reencode` is the one
+downscale and JPEG write. Both the Finnkino path and the mirror use them. Without Pillow the
+local half keeps the CDN's bytes and says so in its log. The two committed originals are
+left as they are until the poster is fetched again. `tests/test_image_route.py` fails on an
+`Image.open` anywhere under `scripts/` outside the helper. Four mutations red.

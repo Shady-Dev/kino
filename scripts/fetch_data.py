@@ -9,6 +9,7 @@ import strands   # noqa: E402  shared strand list, see providers/strands.py
 import synmerge  # noqa: E402  shared synopsis helpers, see providers/synmerge.py
 import refresh   # noqa: E402  shared rating-refresh schedule, see providers/refresh.py
 import enrich_tmdb  # noqa: E402  the title key, so this file keeps no fourth copy
+import mirror_posters  # noqa: E402  the one poster decoder and re-encoder
 
 DIGITAL_API = "https://digital-api.finnkino.fi/WSVistaWebClient/ocapi/v1"
 JWT_RE = re.compile(r"eyJ[A-Za-z0-9_-]{20,}\.[A-Za-z0-9_-]{20,}\.[A-Za-z0-9_-]{20,}")
@@ -315,6 +316,11 @@ _poster_cache = {}
 RELEASE_ID = re.compile(r"[0-9A-Fa-f]{8}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{12}")
 
 
+def pillow_here() -> bool:
+    import importlib.util
+    return importlib.util.find_spec("PIL") is not None
+
+
 def poster_decodes(raw: bytes) -> bool:
     """Whether a poster body is a whole image. -> bool.
 
@@ -323,13 +329,10 @@ def poster_decodes(raw: bytes) -> bool:
     worktree venv). Without it, a JPEG has to open with SOI and close with EOI, which is
     what a truncated body loses; every committed Finnkino poster does both.
     """
-    try:
-        from PIL import Image
-    except ImportError:
+    if not pillow_here():
         return raw[:2] == b"\xff\xd8" and raw.rstrip(b"\x00")[-2:] == b"\xff\xd9"
-    import io
     try:
-        with Image.open(io.BytesIO(raw), formats=("JPEG", "PNG", "WEBP", "GIF")) as im:
+        with mirror_posters.open_image(raw) as im:
             im.load()
         return True
     except Exception:
@@ -360,9 +363,14 @@ def download_poster(rid: str) -> str:
                 raise RuntimeError("too small")
             if not poster_decodes(raw):
                 raise RuntimeError(f"{len(raw)} bytes that do not decode as an image")
-            tmp = p.with_name(p.name + ".tmp")
-            tmp.write_bytes(raw)
-            tmp.replace(p)
+            if pillow_here():
+                # The CDN has ignored width=200 and sent 3 MB originals, with EXIF.
+                mirror_posters.reencode(raw, p, mirror_posters.POSTER_W)
+            else:
+                tmp = p.with_name(p.name + ".tmp")
+                tmp.write_bytes(raw)
+                tmp.replace(p)
+                print(f"[poster] {rid}: no Pillow here, kept the CDN's bytes unresized")
         except Exception as e:
             print(f"[poster] {rid}: {e}")
             _poster_cache[rid] = ""
