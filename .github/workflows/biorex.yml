@@ -32,9 +32,13 @@ jobs:
       # base that has since moved, which caused the rebase conflicts this job used to
       # die on.
       #
-      # persist-credentials: false keeps the write token out of .git/config, where every
-      # later step could read it, including the ones that parse third-party pages. Only
-      # "Commit data and logs" needs it, and passes it to its own git commands (audit G10).
+      # persist-credentials: false keeps the write token out of .git/config, so it is not
+      # on disk while the steps that parse third-party pages run. Only "Commit data and
+      # logs" needs it, and passes it to its own git commands (audit G10). That does not
+      # isolate the earlier steps. Code they ran could still plant a .git/hooks script that
+      # the commit step runs with PUSH_TOKEN in its environment, and a hosted runner gives
+      # passwordless sudo. What protects the token is that no step executes provider
+      # content (review I2, 2026-11-22).
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
         with:
           ref: main
