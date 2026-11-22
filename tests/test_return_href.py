@@ -137,7 +137,8 @@ class ReturnHrefTest(unittest.TestCase):
         self.assertIn("area=x", self.href("same_host"))
 
     def test_a_return_url_that_is_not_this_origin_is_dropped(self):
-        for name in ("other_host", "protocol_rel", "javascript", "data_url", "nonsense"):
+        for name in ("other_host", "protocol_rel", "javascript", "data_url", "nonsense",
+                     "dot_segment", "double_slash"):
             with self.subTest(case=name):
                 self.assertEqual(self.href(name), "/?area=engel-helsinki&lang=en")
                 self.assertEqual(self.got["path"][name], "")

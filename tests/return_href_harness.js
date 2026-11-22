@@ -62,6 +62,9 @@ const CASES = {
   data_url:     ['engel-helsinki', 'en', 'data:text/html,<script>x</script>'],
   nonsense:     ['engel-helsinki', 'en', 'http://['],
   same_host:    ['engel-helsinki', 'en', 'https://leffavuoro.fi/?area=x#m=y'],
+  // dot segments that normalise to a path opening "//", which a second parse reads as a host
+  dot_segment:  ['engel-helsinki', 'en', '/.//x/.//attacker.example/'],
+  double_slash: ['engel-helsinki', 'en', 'https://leffavuoro.fi//attacker.example/'],
 };
 
 const out = { href: {}, path: {} };

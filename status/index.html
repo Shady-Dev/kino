@@ -526,7 +526,9 @@
     if(!back) return '';
     try {
       const u = new URL(back, origin);
-      return u.origin === origin ? u.pathname + u.search + u.hash : '';
+      // A path opening "//" reads as another host when it is parsed again (review L4).
+      if(u.origin !== origin || u.pathname.startsWith('//')) return '';
+      return u.pathname + u.search + u.hash;
     } catch(e){ return ''; }
   }
   function returnHref(area, lang, langs, back, origin){
