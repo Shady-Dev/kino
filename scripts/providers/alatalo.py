@@ -114,7 +114,7 @@ HEAD_ONE_RE = re.compile(
 # for the same reason: `Sunnuntaina 7.12024-` leaves digits this pattern cannot take, so
 # the line is not a heading and no screening is placed under it.
 HEAD_LINE_RE = re.compile(rf"^[-\s]*(?:{WEEKDAY_WORD}\s+\d{{1,2}}\.\d{{1,2}}"
-                          rf"(?:[.\s]\s*\d{{4}})?\.?[\s,ja-]*)+$")
+                          rf"(?:[.\s]\s*\d{{4}})?\.?(?:[\s,-]|\bja\b)*)+$")
 # `Kl` as well as `Klo`: `Kl 19.00 Vonkka originaaliversio` is in the 2023-12 capture. The
 # word boundary is what makes it safe -- `Klovnit` does not match -- and a line with no
 # time after it is counted rather than read.

@@ -14,10 +14,12 @@ import datetime
 import io
 import json
 import pathlib
+import subprocess
+import sys
 import tempfile
 import unittest
 
-import _ctx                                                # noqa: F401
+import _ctx
 import alatalo as A
 import common
 import registry
@@ -629,6 +631,26 @@ class RegistryTest(unittest.TestCase):
         import huvimylly
         self.assertIs(A.RATING_RE, huvimylly.RATING_RE)
         self.assertIs(A.TIME_RE, huvimylly.TIME_RE)
+
+
+class HeadingCostTest(unittest.TestCase):
+    """A line built to make the heading pattern backtrack (review H1, 2026-11-22)."""
+
+    def test_a_crafted_line_is_refused_quickly(self):
+        """The old separator class took the letters a weekday word also takes, so each
+        repeat multiplied the splits. About 200 characters ran for minutes."""
+        line = "Keskiviikkona 25.11 " + "aaaaaaaaaaaa 1.1 " * 11 + "!"
+        code = ("import sys; sys.path.insert(0, sys.argv[1]); import alatalo; "
+                "print(alatalo.HEAD_LINE_RE.match(sys.argv[2]) is None)")
+        done = subprocess.run([sys.executable, "-c", code,
+                               str(_ctx.ROOT / "scripts" / "providers"), line],
+                              capture_output=True, text=True, timeout=10)
+        self.assertEqual(done.stdout.strip(), "True", done.stderr)
+
+    def test_the_heading_shapes_the_page_carries_still_match(self):
+        for shape in ('Keskiviikkona 25.11', 'Keskiviikkona 25.11 ja Torstaina 26.11', 'Perjantaina 5.12, Lauantaina 6.12.', 'Tiistaina 2.1.2027', 'Maanantaina 4.1 2027', '- Sunnuntaina 7.12 -'):
+            with self.subTest(shape=shape):
+                self.assertTrue(A.HEAD_LINE_RE.match(shape))
 
 
 if __name__ == "__main__":

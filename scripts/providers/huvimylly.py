@@ -143,7 +143,7 @@ TAGS_RE = re.compile(r"<[^>]+>")
 WEEKDAY_WORD = r"[A-Za-zÅÄÖåäö]{6,}"
 HEAD_ONE_RE = re.compile(rf"({WEEKDAY_WORD})\s+(\d{{1,2}})\.(\d{{1,2}})\.?(?:\s+(\d{{4}}))?")
 HEAD_LINE_RE = re.compile(rf"^[-\s]*(?:{WEEKDAY_WORD}\s+\d{{1,2}}\.\d{{1,2}}\.?"
-                          rf"(?:\s+\d{{4}})?[\s,ja]*)+$")
+                          rf"(?:\s+\d{{4}})?(?:[\s,]|\bja\b)*)+$")
 KLO_RE = re.compile(r"^klo\b", re.I)
 TIME_RE = re.compile(r"(\d{1,2})[.:](\d{2})\b")
 # The marker is anchored to the end of the line, which is where all twelve shapes in

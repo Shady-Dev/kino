@@ -4546,3 +4546,15 @@ printing a screening and no date or clock elsewhere confirm the venue empty, and
 clock elsewhere still fails the site. Tracking moved out of the run's exit status: each film
 card on a page confirmed empty is recorded as an unread row, which `check_runs.py` reports as
 new without failing. Two mutations red. Research: [empty-states.md](../research/empty-states.md).
+
+### Alatalo and Huvimylly: the heading pattern no longer backtracks (2026-11-22)
+Review finding H1. `HEAD_LINE_RE` closed each date with a separator class holding `a` and
+`j`, the letters of `ja`, and the next weekday word takes those letters too. A line of
+repeated `aaaaaaaaaaaa 1.1` therefore split one more way per repeat: 174 characters took
+8.2 s and about 200 ran for minutes, holding the GIL over the whole cloud pool. Alatalo is
+read over http, so anyone on the path could add that line. The separator is now a space, a
+comma (and in Alatalo a dash) or the word `ja` standing alone. Over 300,000 generated lines
+the new pattern rejects only lines the old one accepted with a stray `a` or `j` glued on,
+and every heading shape in the tests matches as before. A 119 kB crafted line is refused in
+2 ms. Tests run the crafted line in a child process with a 10 s limit; both went red on
+the old pattern.
