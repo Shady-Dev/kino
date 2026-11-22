@@ -17,8 +17,8 @@
 [kinoolympia] Kino Olympia (Hanko): 16 showtimes
 [kinoolympia] Kino Olympia: 16 showtimes, 7 dates
 [kinoolympia] synopses merged: 0
-[jarvelankino] Järvelän Kino (Järvelä): 10 showtimes
-[jarvelankino] Järvelän Kino: 10 showtimes, 9 dates
+[jarvelankino] Järvelän Kino (Järvelä): 12 showtimes
+[jarvelankino] Järvelän Kino: 12 showtimes, 10 dates
 [jarvelankino] synopses merged: 0
 [kinometso] Muurame (Muurame): 10 showtimes
 [kinometso] Petäjävesi (Petäjävesi): 7 showtimes
@@ -46,6 +46,6 @@
 [run] http: 0 revalidated (304), 11 full, 11 not stored (origin said no-store), 0 cache entries written
 [run] hosts: 6 attempted -- biosalo.fi, jarvelankino.fi, kino-olympia.fi, kinoaurora.fi, kinohirvi.fi, kinoset.fi
 [run] pending: kinometso has 5 venue(s) with no programme yet: km-tikkakoski, km-vaajakoski, km-laukaa, km-toivakka, km-hankasalmi
-[run] nexxo: 13 venues, 159 showtimes, 0 stale, 0 unverified, 5 pending, 0 with no programme, 0 failures
-[run] timing: 9 site(s), 41.8s of fetching added up across workers that overlap, longest site 10.6s, longest queue wait 0.0s, 10.6s wall from this module's first fetch starting to its last ending
+[run] nexxo: 13 venues, 161 showtimes, 0 stale, 0 unverified, 5 pending, 0 with no programme, 0 failures
+[run] timing: 9 site(s), 38.7s of fetching added up across workers that overlap, longest site 10.3s, longest queue wait 0.0s, 10.3s wall from this module's first fetch starting to its last ending
 exit=0
