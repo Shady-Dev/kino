@@ -91,8 +91,8 @@ ARTICLE_RE = re.compile(r'<article class="entry">.*?(?=<article class="entry">|<
                         re.S)
 TITLE_RE = re.compile(r"<h3[^>]*>(.*?)</h3>", re.S | re.I)
 TEXT_RE = re.compile(r'<p class="entry-text">(.*?)</p>', re.S | re.I)
-PRICE_RE = re.compile(r"<h4>\s*Liput:\s*</h4>\s*(.*?)\s*</div>", re.S | re.I)
-LEN_RE = re.compile(r"<h4>\s*Kesto:\s*</h4>\s*(.*?)\s*</div>", re.S | re.I)
+PRICE_RE = re.compile(r"<h4>\s*Liput:\s*</h4>(.*?)</div>", re.S | re.I)
+LEN_RE = re.compile(r"<h4>\s*Kesto:\s*</h4>(.*?)</div>", re.S | re.I)
 RATING_RE = re.compile(r'class="entry-rating-icon"[^>]*rating-icon-([^."]+)\.svg', re.I)
 IMG_RE = re.compile(r'<img class="entry-image" src="([^"]+)"', re.I)
 SHOW_RE = re.compile(r"<li>\s*<p>\s*(ma|ti|ke|to|pe|la|su)\s+(\d{1,2})\.(\d{1,2})\.\s*"

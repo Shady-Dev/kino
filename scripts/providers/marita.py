@@ -98,8 +98,8 @@ TIME_RE = re.compile(r'movie-info-times-time">\s*klo\s*(\d{1,2})[.:](\d{2})', re
 AGE_RE = re.compile(r'<img[^>]*class="age-img"[^>]*labels/([^"/]+)\.png', re.I)
 IMG_RE = re.compile(r'<img[^>]*?width="(\d+)"[^>]*?height="(\d+)"[^>]*?src="([^"]+)"', re.I)
 AMOUNT_RE = re.compile(r"^(\d{1,3}(?:[.,]\d{1,2})?)\s*€$")
-FACT_RE = re.compile(r'movies-info-title">\s*(.*?)\s*</div>\s*'
-                     r'<div[^>]*movies-info-text">\s*(.*?)\s*</div>', re.S | re.I)
+FACT_RE = re.compile(r'movies-info-title">(.*?)</div>\s*'
+                     r'<div[^>]*movies-info-text">(.*?)</div>', re.S | re.I)
 SYN_RE = re.compile(r"<h2>\s*Kuvaus\s*</h2>(.*?)<div", re.S | re.I)
 MIN_RE = re.compile(r"(?:(\d{1,2})\s*h\s*)?(\d{1,3})\s*min", re.I)
 TAGS_RE = re.compile(r"<[^>]+>")

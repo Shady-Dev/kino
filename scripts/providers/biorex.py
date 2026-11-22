@@ -47,8 +47,8 @@ ITEM_RE = re.compile(r'<div class="showtime-item\s*">(.*?)(?=<div class="showtim
 DL_RE = re.compile(r'data-click-data-layer="([^"]+)"')
 # Attributes are newline-separated and href comes before class, so match the URL directly.
 HREF_RE = re.compile(r'href="(https://biorex\.fi/secure-redirect/[^"]+)"')
-PLACE_RE = re.compile(r'class="showtime-item__place__value">\s*(.*?)\s*</div>', re.S)
-RATING_RE = re.compile(r'class="showtime-item__movie-rating">\s*\(?([^)<]*?)\)?\s*</span>', re.S)
+PLACE_RE = re.compile(r'class="showtime-item__place__value">(.*?)</div>', re.S)
+RATING_RE = re.compile(r'class="showtime-item__movie-rating">([^<]*)</span>')
 FORMAT_RE = re.compile(r'class="showtime-item__format">(.*?)</span>', re.S)
 SRCSET_RE = re.compile(r'data-srcset="([^"]+)"')
 MOVIEURL_RE = re.compile(r'class="showtime-item__movie-name"[^>]*href="([^"]+)"')
@@ -76,7 +76,7 @@ def _age(tags, aud):
 
 
 # Film pages carry what the ajax response omits: Finnish synopsis, runtime, genres.
-SYN_RE = re.compile(r'class="movie-description__synopsis[^"]*">\s*(.*?)\s*</div>', re.S)
+SYN_RE = re.compile(r'class="movie-description__synopsis[^"]*">(.*?)</div>', re.S)
 KESTO_RE = re.compile(r'Kesto:</span>\s*(?:(\d+)\s*h)?\s*(?:(\d+)\s*m)?', re.I)
 GENRE_RE = re.compile(r'Genre:</span>\s*([^<]+)', re.I)
 TAGS_RE = re.compile(r"<[^>]+>")
@@ -88,6 +88,14 @@ WS_RE = re.compile(r"\s+")
 
 def _text(s):
     return WS_RE.sub(" ", html_mod.unescape(TAGS_RE.sub(" ", s or ""))).strip()
+
+
+def _rating_text(raw):
+    """`(K-12)` -> "K-12": one optional bracket each side, and nothing if another closes it."""
+    v = raw.strip()
+    v = v[1:] if v.startswith("(") else v
+    v = v[:-1] if v.endswith(")") else v
+    return "" if ")" in v else _text(v)
 
 
 def _split_formats(fmts):
@@ -183,7 +191,8 @@ def parse(posts_html, venue):
             continue
         place = _text(PLACE_RE.search(chunk).group(1)) if PLACE_RE.search(chunk) else ""
         aud = place.split(",")[-1].strip() if "," in place else place
-        rating_raw = _text(RATING_RE.search(chunk).group(1)) if RATING_RE.search(chunk) else ""
+        rm = RATING_RE.search(chunk)
+        rating_raw = _rating_text(rm.group(1)) if rm else ""
         fmts = [f for f in (_text(x) for x in FORMAT_RE.findall(chunk)) if f]
         tags, audio, subs = _split_formats(fmts)
         age, aud = _age(tags, aud)

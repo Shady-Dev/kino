@@ -77,7 +77,7 @@ SHOW_RE = re.compile(r'^(\d{1,2})\.(\d{1,2})\.\s*([A-Za-zÄÖäö]{2,12})\s*'
                      r'\s*!?\s*$', re.I)
 CLOCK_RE = re.compile(r'(\d{1,2})[.:](\d{2})')
 # `26-27.9. La,Su klo17.00`: consecutive days at one time, a weekday for each (2026-09-27).
-RANGE_RE = re.compile(r'^(\d{1,2})\s*-\s*(\d{1,2})\.(\d{1,2})\.\s*([A-Za-zÄÖäö, ]{2,60}?)\s*'
+RANGE_RE = re.compile(r'^(\d{1,2})\s*-\s*(\d{1,2})\.(\d{1,2})\.\s*([A-Za-zÄÖäö,][A-Za-zÄÖäö, ]{1,59}?)\s*'
                       r'klo\s*(\d{1,2})[.:](\d{2})\s*$', re.I)
 TIMED_RE = re.compile(r'klo\s*\d{1,2}[.:]\d{2}', re.I)
 

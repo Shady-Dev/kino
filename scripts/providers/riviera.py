@@ -59,10 +59,10 @@ SITE = {"provider": "riviera", "label": "Riviera",
 SITES = [SITE]
 
 ITEM_RE = re.compile(r'<li class="movielist__item single-show[^"]*">(.*?)</li>', re.S)
-DATE_RE = re.compile(r'class="date">\s*([^<]+?)\s*<')
+DATE_RE = re.compile(r'class="date">([^<]+)<')
 TIME_RE = re.compile(r'class="time">\s*(\d{1,2})[:.](\d{2})')
-LOC_RE = re.compile(r'class="location">\s*([^<]+?)\s*<')
-TITLE_RE = re.compile(r'class="movielist__item__title title">\s*([^<]+?)\s*<')
+LOC_RE = re.compile(r'class="location">([^<]+)<')
+TITLE_RE = re.compile(r'class="movielist__item__title title">([^<]+)<')
 SEATS_RE = re.compile(r"Varatut paikat:\s*(\d+)\s*/\s*(\d+)")
 LEN_RE = re.compile(r"Kesto:\s*(?:(\d+)\s*h)?\s*(?:(\d+)\s*min)?")
 # The actions cell, and the two shapes a screening link takes inside it. An anchor wins

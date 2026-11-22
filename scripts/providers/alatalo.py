@@ -120,7 +120,7 @@ HEAD_LINE_RE = re.compile(rf"^[-\s]*(?:{WEEKDAY_WORD}\s+\d{{1,2}}\.\d{{1,2}}"
 # time after it is counted rather than read.
 KLO_RE = re.compile(r"^kl[o]?\b", re.I)
 # The dash before `k?` is optional here: the live page reads `Lapin Sota k?`.
-UNKNOWN_RATING_RE = re.compile("\\s*[-\u2013]?\\s*k\\s*\\?[-\u2013\\s]*$", re.I)
+UNKNOWN_RATING_RE = re.compile("(?<!\\s)\\s*(?:[-\u2013]\\s*)?k\\s*\\?[-\u2013\\s]*$", re.I)
 # `Liput elokuviin vain10-`, with the amount typed against the word. The middle word is
 # optional so the shape `huvimylly.py` reads, `Liput vain 10-`, is read here too.
 PRICE_RE = re.compile(r"liput\s+(?:\w+\s+)?vain\s*(\d{1,3}(?:[.,]\d{1,2})?)\s*-?\s*\u20ac",

@@ -154,15 +154,16 @@ TIME_RE = re.compile(r"(\d{1,2})[.:](\d{2})\b")
 # title as "Koiramie". A trailing dash is optional, because `-k 16/13` has none, and
 # the en dash is written as an escape because `-k12/9\u2013` is one of the shapes.
 RATING_RE = re.compile(
-    "\\s*[-\u2013]\\s*k?\\s*(\\d{1,2}|s)\\b\\s*(?:/\\s*[-\u2013]?\\s*\\d{1,2})?\\s*[-\u2013]?\\s*$"
-    "|\\s*\\bk\\s*(\\d{1,2})\\b\\s*(?:/\\s*[-\u2013]?\\s*\\d{1,2})?\\s*[-\u2013]?\\s*$", re.I)
+    "(?<!\\s)(?:\\s*[-\u2013]\\s*(?:k\\s*)?(\\d{1,2}|s)\\b"
+    "\\s*(?:/\\s*(?:[-\u2013]\\s*)?\\d{1,2}\\s*)?(?:[-\u2013]\\s*)?$"
+    "|\\s*\\bk\\s*(\\d{1,2})\\b\\s*(?:/\\s*(?:[-\u2013]\\s*)?\\d{1,2}\\s*)?(?:[-\u2013]\\s*)?$)", re.I)
 # The classes Finnish law has: S, 7, 12, 16 and 18 (kavi.fi/en/age-ratings, read
 # 2026-09-25). A typed code outside them is a typo, not a rating: Alatalo's "-k6/13" for
 # Lapin sota, which Elokuvateatteri Star lists as K-16, went out as K-6 and the shared
 # rating pass lent it to four chains. It closes the title and publishes no rating.
 KAVI_CODES = ("S", "7", "12", "16", "18")
 # `-k?` closes a title and states no rating, which is not the same as stating none.
-UNKNOWN_RATING_RE = re.compile("\\s*[-\u2013]\\s*k\\s*\\?\\s*[-\u2013]?\\s*$", re.I)
+UNKNOWN_RATING_RE = re.compile("(?<!\\s)\\s*[-\u2013]\\s*k\\s*\\?\\s*(?:[-\u2013]\\s*)?$", re.I)
 PRICE_RE = re.compile(r"liput\s+vain\s+(\d{1,3}(?:[.,]\d{1,2})?)\s*-?\s*€", re.I)
 
 

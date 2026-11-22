@@ -466,7 +466,7 @@ TICKETS = "https://kauppa.kavi.fi/"
 ORDINARY = "peruslippu"
 PRICE_ROW_RE = re.compile(r'<div class="row[^"]*"[^>]*>(.*?)(?=<div class="row|</form>)', re.S)
 LABEL_RE = re.compile(r"<label\b[^>]*>(.*?)</label>", re.S)
-OFFER_RE = re.compile(r'itemprop="price"[^>]*>\s*([^<]+?)\s*<', re.S)
+OFFER_RE = re.compile(r'itemprop="price"[^>]*>([^<]+)<')
 AMOUNT_RE = re.compile(r"(\d{1,4}(?:[.,]\d{1,2})?)\s*(?:\u20ac|EUR)", re.I)
 
 

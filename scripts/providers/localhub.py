@@ -130,8 +130,7 @@ def is_film(site, page):
 # looser: "Tekstitys: Kuvaileva tekstitys" names no language and publishes none.
 TITLE_SPOKEN_RE = re.compile(r"\(([a-zåäö]+ksi) puhuttu\)", re.I)
 DATED_SPOKEN_RE = re.compile(r"<li>\s*(\d{1,2})\.(\d{1,2})\.\s+([a-zåäö]+ksi) puhuttu\s*</li>", re.I)
-SUBS_ITEM_RE = re.compile(r"<li>\s*<strong>\s*Tekstitys\s*:?\s*</strong>\s*:?\s*([^<]+?)\s*</li>",
-                          re.I)
+SUBS_ITEM_RE = re.compile(r"<li>\s*<strong>\s*Tekstitys\s*(?::\s*)?</strong>([^<]+)</li>", re.I)
 
 
 def _one(word, ending):
@@ -153,7 +152,9 @@ def language(page, start):
     subs = []
     m = SUBS_ITEM_RE.search(page.get("descriptionLong") or "")
     if m:
-        subs = [_one(w, "kielinen") for w in re.split(r",|\bja\b", m.group(1)) if w.strip()]
+        raw = m.group(1).strip()
+        raw = raw[1:].lstrip() if raw.startswith(":") else raw
+        subs = [_one(w, "kielinen") for w in re.split(r",|\bja\b", raw) if w.strip()]
         subs = subs if all(subs) else []
     parts = ([f"{audio}-A"] if audio else []) + [f"{c}-S" for c in dict.fromkeys(subs)]
     return ", ".join(parts)

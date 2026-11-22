@@ -186,9 +186,9 @@ TRAIL_FORMAT = re.compile(r"(?<=\w)(?:\s+(?:2d|3d|imax|4k)\b)+\s*$", re.I)
 # where the answer does not change.
 # 2026-11-20: Kino Tapiola's "Yön lapsi (tekijävierailu!)" brackets the visit with no "+".
 TRAIL_EVENT = re.compile(
-    r"\s*(?:\(\s*tekij[\u00e4a]vierailu\s*!?\s*\)\s*$|"
-    r"\(?\s*\+\s*(?:tekij[\u00e4a]vierailu|ohjaajavierailu|leffalukupiiri"
-    r"|keskustelutilaisuus|keskustelu)\s*\)?\s*$)",
+    r"(?<!\s)\s*(?:\(\s*tekij[\u00e4a]vierailu\s*(?:!\s*)?\)\s*$|"
+    r"(?:\(\s*)?\+\s*(?:tekij[\u00e4a]vierailu|ohjaajavierailu|leffalukupiiri"
+    r"|keskustelutilaisuus|keskustelu)\s*(?:\)\s*)?$)",
     re.I)
 # The same visit as a bare last word, no "+": Kino Lumo's and Kino Piispanristi's "Pirjo i
 # Sverige TEKIJ\u00c4VIERAILULLA" (2026-09-29) drew an initials tile while every other
@@ -211,7 +211,21 @@ TRAIL_FESTIVAL = re.compile(r"\s*\(\s*taidekaupungin\s+elokuvajuhlat\s*\)\s*$", 
 # an edition ("Nirvana 'Nevermind' (35th Anniversary)"), a screening note -- is left
 # alone, and a strand added for either position covers both. The operator's exclamation
 # mark is matched with it: Kino Tapiola's "Matka Piemonteen (ennakkonäytös!)" (2026-09-28).
-PAREN_STRAND = re.compile(r"\(\s*([^()]{1,40}?)\s*!?\s*\)\s*$")
+PAREN_STRAND = re.compile(r"\(([^()]*)\)\s*$")
+
+
+def paren_strand(t):
+    """The trailing bracket's text without its spaces and one closing "!" -> (text, start).
+
+    None when it holds nothing or more than 40 characters. Trimmed in Python, because
+    spaces on both sides of a lazy group backtrack cubically on a long run of them."""
+    m = PAREN_STRAND.search(t)
+    if not m:
+        return None
+    inner = m.group(1).strip()
+    if len(inner) > 1 and inner.endswith("!"):
+        inner = inner[:-1].rstrip()
+    return (inner, m.start()) if 1 <= len(inner) <= 40 else None
 
 # Kannusali's "Elokuva: Flow. (K7)" (2026-10-13). Kept out of strands.EVENT_PREFIXES,
 # which run.py also splits off the published title.
@@ -243,9 +257,9 @@ def clean(title):
             t = t[len(pre):].strip()
             break
     t = TRAIL_INTERVAL.sub(" ", t)
-    m = PAREN_STRAND.search(t)
-    if m and m.group(1).lower() in EVENT_PREFIXES and t[:m.start()].strip():
-        t = t[:m.start()].strip()
+    m = paren_strand(t)
+    if m and m[0].lower() in EVENT_PREFIXES and t[:m[1]].strip():
+        t = t[:m[1]].strip()
     t = EVENT_NOUN.sub(" ", t)
     t = TRAIL_EVENT.sub(" ", t)
     t = TRAIL_VISIT.sub(" ", t)

@@ -312,7 +312,7 @@ DATE_RE = re.compile(r"\b(\d{1,2})\.(\d{1,2})\.(\d{4})\b")
 TIME_RE = re.compile(r'(?:klo\s*|class="(?:show-)?time"[^>]*>\s*(?:<span[^>]*>\s*)?)'
                      r'(\d{1,2})[.:](\d{2})')
 # Trio 123 screenings read "TRIO 123 | SALI 1"; Kinopalatsi has no room at all.
-PLACE_RE = re.compile(r"<p>\s*([^<|]+?)\s*(?:\|\s*([^<]+?)\s*)?<br", re.S)
+PLACE_RE = re.compile(r"<p>([^<|]+)(?:\|([^<]+))?<br")
 # Leffabuumi (2026-11-14): `show-city` "Mikkeli" and `show-screen` "Kinolinna | VIP".
 SHOW_CITY_RE = re.compile(r'<span class="show-city"[^>]*>([^<]*)</span>')
 SHOW_SCREEN_RE = re.compile(r'<span class="show-screen"[^>]*>([^<]*)</span>')

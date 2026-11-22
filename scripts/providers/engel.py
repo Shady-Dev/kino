@@ -245,7 +245,7 @@ def parse(page, today=None):
 # out of bounds under "Access and ethics". So price, `aud` and a per-show booking URL
 # stay empty here, and the two timeless dates stay missing.
 
-DETAIL_RE = re.compile(r'<label>\s*([^<]+?)\s*</label>\s*'
+DETAIL_RE = re.compile(r'<label>([^<]+)</label>\s*'
                        r'(?:<span>(.*?)</span>|<div class=["\']contentratings["\']>(.*?)</div>)',
                        re.S | re.I)
 GENRE_RE = re.compile(r'class=["\']cmd-desription[^"\']*["\'][^>]*>.*?<h5[^>]*>(.*?)</h5>', re.S | re.I)

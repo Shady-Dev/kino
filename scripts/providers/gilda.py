@@ -149,7 +149,7 @@ def _aud(show, venue):
     not this film's rating, and a single-screen house whose screen name repeats the venue
     name must render blank or the stub reads "Bio Rex Lasipalatsi · Bio Rex Lasipalatsi".
     "Gilda 3" is kept, since it distinguishes one of three screens."""
-    name = re.sub(r"\s*\(K-?\d+\)\s*$", "", (show.get("screen_name") or "").strip())
+    name = re.sub(r"(?<!\s)\s*\(K-?\d+\)\s*$", "", (show.get("screen_name") or "").strip())
     low = name.lower()
     if low in (venue["short"].lower(), venue["name"].lower()):
         return ""

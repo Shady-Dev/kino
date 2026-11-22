@@ -129,7 +129,7 @@ DATE_RE = re.compile(r"^([A-Za-zÅÄÖåäö]{2,3})(?:\s*/\s*[A-Za-zÅÄÖåäö
 TIME_RE = re.compile(r"^klo\s*(\d{1,2})[.:](\d{2})$", re.I)
 # The day heading, which carries the weekday spelled out in both languages.
 HEADING_RE = re.compile(r"^[A-Za-zÅÄÖåäö]{3,}\s*/\s*[A-Za-zÅÄÖåäö]{3,}\s+(\d{1,2})\.(\d{1,2})\.?$")
-META_RE = re.compile(r"(?:(\d+)\s*h)?\s*(?:(\d+)\s*min)?\s*-\s*[Kk]?\s*([0-9]{1,2}|[Ss])\s*-")
+META_RE = re.compile(r"(?:(\d+)\s*h\s*)?(?:(\d+)\s*min\s*)?-\s*(?:[Kk]\s*)?([0-9]{1,2}|[Ss])\s*-")
 # A figure that is part of a price: one against a euro sign, or one joined to another by
 # a slash or a dash. Counting these is the whole rule, because what settles a row is
 # whether the block names one amount or several. `22/25€` names two and `12€ med
