@@ -4600,3 +4600,16 @@ evidence the adapter did not already use to find the films, which the `EmptyProg
 docstring requires. Those sites now raise `NoScreenings` and keep their previous files. A
 front-page storefront whose layout names its blocks and draws them still reads an empty
 answer as an empty programme. One test; reverting the branch turned it red.
+
+### Regina and Korjaamo keep their ticket-page price reads (2026-11-22)
+Review finding M7. Kino Regina's `kauppa.kavi.fi/.../event_buybox/show/{id}` and Korjaamo's
+`websales/show/{id}` have been read through `prices.run` on every run since 2026-09-13
+("Regina and Korjaamo prices come from their ticket pages too"), at the maintainer's report of
+missing prices. The 2026-10-09 record that wrote the `CLAUDE.md` exception ("CLAUDE.md names
+the ticket-page exception") named only Riviera and Bio-Kaari, so the written rule and the
+practice disagreed. The maintainer delegated the decision to the coordinating session, which
+decided on 2026-11-22 to keep both reads: they are cached, paced, read-only GETs of a public
+per-screening page, the same as the other two, and stay inside the limits the exception sets.
+Since M6 the price pass requests only that page, one segment under the prefix, with Regina's
+prefix narrowed to `/fi/events/pwdg/event_buybox/show/`. The `CLAUDE.md` wording that names
+them is applied separately by the coordinating session.
