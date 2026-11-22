@@ -31,6 +31,7 @@ import pathlib
 import sys
 
 sys.path.insert(0, str(pathlib.Path(__file__).resolve().parent / "providers"))
+import common  # noqa: E402
 import registry
 
 INDEX = pathlib.Path("index.html")
@@ -113,7 +114,7 @@ def main(argv=None) -> int:
     if body == old:
         print(f"[providers] unchanged ({len(registry.PROVIDERS)} providers)")
     else:
-        path.write_text(body, encoding="utf-8")
+        common.write_text_atomic(path, body)
         print(f"[providers] written ({len(registry.PROVIDERS)} providers)")
 
     stale = sync_index(write=args.sync_index)

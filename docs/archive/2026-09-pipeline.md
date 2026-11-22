@@ -3167,3 +3167,10 @@ staged `/kaupunki/jyvaskyla/`, the later page replaced the earlier, and the site
 it twice. Venue slugs were already de-duplicated. Two page cities sharing a slug now raise
 before anything is staged, so the previous page set stands and the run log names both
 spellings. One mutation red.
+
+### providers.json is written atomically (2026-11-22)
+Review finding I3, third item. `build_providers.py` wrote `data/providers.json` in place,
+the one generated data file not going through `common.write_text_atomic`. A torn write
+reads as unreadable to the client, which then falls back to `PROV_FALLBACK`. It now goes
+through the shared writer. The `--sync-index` write of `index.html` is still in place and is
+a human command. One mutation red.
