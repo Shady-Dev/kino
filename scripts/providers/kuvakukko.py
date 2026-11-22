@@ -62,7 +62,7 @@ import time
 from zoneinfo import ZoneInfo
 
 import synmerge
-from common import NoScreenings, capped, fetch, get_text, resolve_year, weekday_index
+from common import NoScreenings, capped, fetch, get_text, resolve_year, unread_marks, weekday_index
 from etiketti import strict_codes
 
 BASE = "https://www.kuvakukko.fi"
@@ -119,8 +119,6 @@ ROW_RE = re.compile(r'Klo\s*(\d{1,2})(?:[.:](\d{2}))?\s*:\s*(?:<a\b[^>]*>\s*</a>
                     r'(?:<a\s+href="([^"]*)"[^>]*>(.*?)</a>|([^<]{2,80}))',
                     re.S | re.I)
 TAGS_RE = re.compile(r"<[^>]+>")
-# Every `Klo` and a digit in a day's paragraph, to count the ones ROW_RE did not read.
-KLO_ANY_RE = re.compile(r"\bklo\s*\d", re.I)
 # A cinema's section as lines, whatever element holds them: `DAY_RE` and `ROW_RE` read the
 # classed paragraphs, and this reads what they may have stopped matching.
 LINE_SPLIT_RE = re.compile(r"<br\s*/?>|</?(?:p|li|h[1-6]|div|tr|td|ul|ol|table|figure)\b[^>]*>",
@@ -289,8 +287,8 @@ def parse(page, site=None, today=None, prices=None):
                 unplaced.append(f"{wd} {day}.{month}.")
                 continue
             rows = list(ROW_RE.finditer(para))
-            missed = len(KLO_ANY_RE.findall(_txt(para))) - len(rows)
-            if missed > 0:
+            missed = unread_marks(_txt(para), len(rows), by="clock")
+            if missed:
                 unread += [f"{venue['short']} {day}.{month}."] * missed
             for i, row in enumerate(rows):
                 hh, mm, href, linked, plain = row.groups()

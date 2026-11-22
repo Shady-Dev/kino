@@ -1296,13 +1296,12 @@ _DATE_LIKE_RE = re.compile(r"(?<![\d.,])(\d{1,2})[.,](\d+)(?!\d)(?!\s*(?:€|eur
 _CLOCK_BEFORE_RE = re.compile(r"\bklo?\.?\s*$", re.I)
 
 
-def date_like(text):
-    """Whether a line names a day and a month, however its heading was typed. -> bool.
+# A clock word and its hour: `klo 18`, `Kl 19.00`, `kello 17`.
+_CLOCK_WORD_RE = re.compile(r"\b(?:klo|kello|kl)\b\.?\s*\d{1,2}", re.I)
 
-    An adapter that carries a date heading down to the rows under it uses this on a line
-    its heading pattern rejected: such a line is a heading it missed, and the date above no
-    longer holds for what follows (review H3, 2026-11-22). A clock after `klo` is not one.
-    """
+
+def _dates(text):
+    """Each day and month in a line, read as `date_like` reads them."""
     text = text or ""
     for m in _DATE_LIKE_RE.finditer(text):
         if _CLOCK_BEFORE_RE.search(text[:m.start()]):
@@ -1311,8 +1310,29 @@ def date_like(text):
         month = int(tail) if len(tail) <= 2 else (
             int(tail[:2]) if 1 <= int(tail[:2]) <= 12 else int(tail[:1]))
         if 1 <= int(m.group(1)) <= 31 and 1 <= month <= 12:
-            return True
-    return False
+            yield m
+
+
+def date_like(text):
+    """Whether a line names a day and a month, however its heading was typed. -> bool.
+
+    An adapter that carries a date heading down to the rows under it uses this on a line
+    its heading pattern rejected: such a line is a heading it missed, and the date above no
+    longer holds for what follows (review H3, 2026-11-22). A clock after `klo` is not one.
+    """
+    return next(_dates(text), None) is not None
+
+
+def unread_marks(text, read=0, by="date"):
+    """How many screenings a line names beyond the `read` rows taken from it. -> int.
+
+    A mark is a day and a month as `date_like` reads them, or with `by="clock"` a clock word
+    and its hour. An adapter counts what is left over and prints the count, so a row in a
+    shape its pattern misses is never dropped with every counter at zero (review M3,
+    2026-11-22). Every adapter that reads screening lines counts them through this.
+    """
+    marks = len(_CLOCK_WORD_RE.findall(text or "")) if by == "clock" else sum(1 for _ in _dates(text))
+    return max(0, marks - read)
 
 # The languages a synopsis slot may be written for; `synmerge.LANGS` is the same list.
 SYN_LANGS = ("fi", "sv", "en")

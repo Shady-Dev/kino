@@ -9,7 +9,7 @@ sold at the door), no auditorium, and dates carry no year.
 import datetime, html as html_mod, json, re, sys
 from zoneinfo import ZoneInfo
 
-from common import date_like, fetch, get_text, resolve_year, weekday_index
+from common import fetch, get_text, resolve_year, unread_marks, weekday_index
 
 URL = "https://kinoakseli.fi/"
 FI = ZoneInfo("Europe/Helsinki")
@@ -117,7 +117,7 @@ def parse(page, today=None):
             if g and not any(k in g for k in ("Ikäraja", "Liput", "Näytösajat", "Kesto")):
                 genres = g
         found = list(SHOW_RE.finditer(block.group(1)))
-        if not found and date_like(_txt(block.group(1))):
+        if unread_marks(_txt(block.group(1)), len(found)):
             unread.append(title)
         for sm in found:
             wd, day, month, hh, mm, dub = sm.groups()

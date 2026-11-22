@@ -24,7 +24,8 @@ import re
 import sys
 from zoneinfo import ZoneInfo
 
-from common import NoScreenings, bot_check, check_shows, get_text, resolve_year, served, weekday_index
+from common import (NoScreenings, bot_check, check_shows, get_text, resolve_year, served,
+                    unread_marks, weekday_index)
 
 FI = ZoneInfo("Europe/Helsinki")
 
@@ -42,8 +43,6 @@ TAGS_RE = re.compile(r"<[^>]+>")
 HEAD_RE = re.compile(r"^(.+?)\s+(K-?\d{1,2}|-S-|S)(?=\W|$)\.?\s*(.*)$", re.I)
 ROW_RE = re.compile(r"^(ma|ti|ke|to|pe|la|su)\s+(\d{1,2})\.(\d{1,2})\.?\s+klo\s+(\d{1,2})[.:](\d{2})"
                     r"\s*(\*?)$", re.I)
-# A line opening like a screening, to count the ones ROW_RE did not read.
-ROW_START_RE = re.compile(r"^(?:ma|ti|ke|to|pe|la|su)\s+\d{1,2}\.\d{1,2}\.?\s+klo\b", re.I)
 LEN_RE = re.compile(r"^kesto\s+(\d{1,2})\s*h(?:\s*(\d{1,2})\s*min)?", re.I)
 NOTE_DATE_RE = re.compile(r"(\d{1,2})\.(\d{1,2})\.")
 NOTE_PRICE_RE = re.compile(r"(\d{1,3})(?:,(\d{2}))?\s*\u20ac")
@@ -74,7 +73,7 @@ def film(block, today, report):
     ls = lines(block)
     head = HEAD_RE.match(ls[0]) if ls else None
     if not head:
-        report["unread"] += sum(1 for line in ls[1:] if ROW_START_RE.match(line))
+        report["unread"] += sum(unread_marks(line) for line in ls[1:])
         return []
     title, raw, rest = head.group(1).strip(), head.group(2).upper(), head.group(3)
     rating = "S" if raw.strip("-") == "S" else f"K-{int(raw.replace('K', '').strip('-'))}"
@@ -91,9 +90,6 @@ def film(block, today, report):
             starts.append(datetime.datetime(year, month, day, int(r.group(4)), int(r.group(5)),
                                             tzinfo=FI))
             continue
-        if ROW_START_RE.match(line):
-            report["unread"] += 1               # `su 4.10. klo 18.00 (ensi-ilta)`
-            continue
         n = LEN_RE.match(line)
         if n:
             minutes = str(int(n.group(1)) * 60 + int(n.group(2) or 0))
@@ -101,6 +97,8 @@ def film(block, today, report):
             premiere = True
         elif NOTE_PRICE_RE.search(line) or NOTE_SUBS_RE.search(line):
             notes.append(line)
+        else:
+            report["unread"] += unread_marks(line)  # `su 4.10. klo 18.00 (ensi-ilta)`
     by_date = {}
     for note in notes:
         dates = {(int(d), int(m)) for d, m in NOTE_DATE_RE.findall(note)}

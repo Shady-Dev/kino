@@ -25,8 +25,8 @@ import re
 import sys
 from zoneinfo import ZoneInfo
 
-from common import (NoScreenings, bot_check, check_shows, date_like, get_text, resolve_year,
-                    served, weekday_index)
+from common import (NoScreenings, bot_check, check_shows, get_text, resolve_year, served,
+                    unread_marks, weekday_index)
 
 FI = ZoneInfo("Europe/Helsinki")
 
@@ -98,7 +98,7 @@ def rows(site, page, today=None):
             if any(re.match(r"tulossa\b", x, re.I) for x in lines):
                 report["coming"] += len(titles)
             else:
-                report["unread"] += sum(1 for x in lines if date_like(x))
+                report["unread"] += sum(unread_marks(x) for x in lines)
             continue
         title = titles[0]
         rating, minutes, price, lang = facts(P_RE.findall(w))
@@ -109,7 +109,7 @@ def rows(site, page, today=None):
                 continue
             m = ROW_RE.match(line)
             if not m:
-                report["unread"] += date_like(line)
+                report["unread"] += unread_marks(line)
                 continue
             day, month = int(m.group(3)), int(m.group(4))
             year = resolve_year(day, month, today, weekday_index(m.group(2)), WINDOW)

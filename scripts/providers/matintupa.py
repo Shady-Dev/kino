@@ -54,7 +54,8 @@ import re
 import sys
 from zoneinfo import ZoneInfo
 
-from common import NoScreenings, bot_check, check_shows, get_text, resolve_year, served, weekday_index
+from common import (NoScreenings, bot_check, check_shows, get_text, resolve_year, served,
+                    unread_marks, weekday_index)
 
 FI = ZoneInfo("Europe/Helsinki")
 
@@ -78,8 +79,6 @@ TITLE_RE = re.compile(r'<h2[^>]*>\s*<a[^>]+href="([^"]*/elokuvat/([^"/]+)/?)"[^>
 TIMES_RE = re.compile(r'<b>\s*Esitysajat:\s*</b>(.*?)(?:<b>|$)', re.S | re.I)
 SHOW_RE = re.compile(r'\b([A-Za-zÅÄÖåäö]{2})\s+(\d{1,2})\.(\d{1,2})\.?\s*klo\s*'
                      r'(\d{1,2})[.:](\d{2})', re.I)
-# A weekday and a date, to count the ones in `Esitysajat:` that SHOW_RE did not read.
-DATE_ANY_RE = re.compile(r'\b[A-Za-zÅÄÖåäö]{2}\s+\d{1,2}\.\d{1,2}\b')
 FIELD_RE = re.compile(r'<b>\s*(Liput|Kesto|Genre):\s*</b>(.*?)(?:<b>|<p|<br|$)', re.S | re.I)
 # One amount and nothing else. A comma or a dot separates the cents, and the euro sign may
 # sit either side; anything after it means the row states a condition this cannot settle.
@@ -169,7 +168,7 @@ def rows(site, page, today=None):
         window = TIMES_RE.search(block)
         times = text(window.group(1)) if window else ""
         found = list(SHOW_RE.finditer(times))
-        report["unread"] += max(0, len(DATE_ANY_RE.findall(times)) - len(found))
+        report["unread"] += unread_marks(times, len(found))
         for m in found:
             day, month = int(m.group(2)), int(m.group(3))
             year = resolve_year(day, month, today, weekday_index(m.group(1)), WINDOW)

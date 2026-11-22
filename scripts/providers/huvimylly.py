@@ -102,7 +102,7 @@ import sys
 from zoneinfo import ZoneInfo
 
 from common import (NoScreenings, check_shows, date_like, fetch, get_text, resolve_year, served,
-                    weekday_index)
+                    unread_marks, weekday_index)
 from synmerge import norm
 
 FI = ZoneInfo("Europe/Helsinki")
@@ -146,8 +146,6 @@ HEAD_ONE_RE = re.compile(rf"({WEEKDAY_WORD})\s+(\d{{1,2}})\.(\d{{1,2}})\.?(?:\s+
 HEAD_LINE_RE = re.compile(rf"^[-\s]*(?:{WEEKDAY_WORD}\s+\d{{1,2}}\.\d{{1,2}}\.?"
                           rf"(?:\s+\d{{4}})?(?:[\s,]|\bja\b)*)+$")
 KLO_RE = re.compile(r"^klo\b", re.I)
-# What `programme_like` looks for once nothing parsed: a clock word in any spelling.
-CLOCK_WORD_RE = re.compile(r"\b(?:klo|kello|kl)\b", re.I)
 PART_SPLIT_RE = re.compile(r"<br\s*/?>|</(?:p|li|h[1-6]|div)\s*>", re.I)
 TIME_RE = re.compile(r"(\d{1,2})[.:](\d{2})\b")
 # The marker is anchored to the end of the line, which is where all twelve shapes in
@@ -217,7 +215,8 @@ def programme_like(body):
     Read when no row came out: a programme moved out of its `<li>` items, or `Klo`
     respelled `Kello`, reads as no screening at all, and that is changed markup."""
     parts = [_text(p) for p in PART_SPLIT_RE.split(body or "")]
-    return any(date_like(p) for p in parts) and any(CLOCK_WORD_RE.search(p) for p in parts)
+    return (any(unread_marks(p) for p in parts)
+            and any(unread_marks(p, by="clock") for p in parts))
 
 
 def price_of(lines):

@@ -51,7 +51,8 @@ import re
 import sys
 from zoneinfo import ZoneInfo
 
-from common import NoScreenings, check_shows, fetch, get_text, resolve_year, weekday_index
+from common import (NoScreenings, check_shows, fetch, get_text, resolve_year, unread_marks,
+                    weekday_index)
 from synmerge import norm
 
 FI = ZoneInfo("Europe/Helsinki")
@@ -78,8 +79,6 @@ IMG_RE = re.compile(r'<img[^<>]*?width="(\d+)"[^<>]*?height="(\d+)"[^<>]*?src="(
 # on 2026-11-20.
 SHOW_RE = re.compile(r"(ma|ti|ke|to|pe|la|su)\s+(\d{1,2})\.(\d{1,2})\.?\s*klo\s*(\d{1,2})[:.](\d{2})"
                      r"(?:[^\n]*?[|(]\s*liput\s*([\d.,]+)\s*€)?", re.I)
-# A weekday and a date, to count the ones on a screening line that SHOW_RE did not take.
-DATE_ANY_RE = re.compile(r"\b(?:ma|ti|ke|to|pe|la|su)\s+\d{1,2}\.\d{1,2}\b", re.I)
 LABEL_RE = re.compile(r"^([A-Za-zÄÖÅäöå -]{3,20}):\s*(.+)$")
 # "1 t 27 min", and "1 h 42 min" on two films read 2026-10-04.
 MIN_RE = re.compile(r"(?:(\d{1,2})\s*[th]\s*)?(\d{1,3})\s*min", re.I)
@@ -178,8 +177,7 @@ def rows(site, page, today=None):
         lines = "\n".join(_txt(p) for p in paras[1:])
         found = SHOW_RE.findall(lines)
         for line in lines.split("\n"):
-            missed = len(DATE_ANY_RE.findall(line)) - len(SHOW_RE.findall(line))
-            if missed > 0:
+            if unread_marks(line, len(SHOW_RE.findall(line))):
                 report["unread"].append(f"{title}: {line[:60]}")
         if not found:
             report["no_dates"].append(title)

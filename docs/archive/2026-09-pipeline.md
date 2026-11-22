@@ -3092,3 +3092,14 @@ the 8 kB scan behind M1 had missed, fixed in d1a9254380 with no extraction chang
 and euro patterns quadratic with a large constant on a digit run (0.25 s at 4,000 digits),
 and cubic spans in Bio Savoy, Heureka and Regina. The exception list is empty. Restoring the
 original H1 heading pattern, Riviera's date pattern or Kinola's term pattern turns it red.
+
+### Unread dated lines are counted by one helper (2026-11-22)
+The maintainer asked that the review's fixes hold for adapters not written yet. The M3 counts
+had been written seven ways: a weekday-and-date pattern in Hamina and Matintupa, a `Klo`
+count in Kuvakukko, `date_like` in Bio Marlon, Kino Akseli and Huvimylly, and a row-opening
+pattern in Virtainpirtti. `common.unread_marks(text, read, by)` now counts the dates in a
+line, read as `date_like` reads them, or with `by="clock"` its clock words, beyond the `read`
+rows taken from it. All seven call it, and their tests pass unchanged. Kino Akseli now also
+counts a screening list that read some of its dates and not others. `date_like` is the same
+reading through the same generator. The rule that a new adapter counts its unread lines
+through this helper is for `CLAUDE.md`, under "Adding a provider". Nine mutations red.
