@@ -169,6 +169,23 @@ class UpdateCheck(unittest.TestCase):
             }
         }""", fragment)
 
+    def test_a_navigation_is_stored_once_whatever_its_query(self):
+        """Review L6, 2026-11-22: each ?area= navigation kept its own copy of index.html."""
+        for q in ("?area=or-helsinki", "?area=city:Helsinki&lang=en"):
+            self.page.goto(self.origin + "/index.html" + q)
+            expect(self.credit).to_be_visible()
+        stored = """async () => {
+            const out = [];
+            for (const k of await caches.keys()) {
+                const c = await caches.open(k);
+                for (const r of await c.keys())
+                    if (new URL(r.url).pathname === '/index.html') out.push(r.url);
+            }
+            return out;
+        }"""
+        self.page.wait_for_function(f"({stored})().then(u => u.includes(location.origin + '/index.html'))")
+        self.assertEqual(self.page.evaluate(stored), [self.origin + "/index.html"])
+
     def tearDown(self):
         res = getattr(self._outcome, "result", None)
         # A failure inside subTest is recorded against a _SubTest whose test_case is this test.

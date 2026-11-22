@@ -3,7 +3,7 @@
 // Data JSON is served from cache at once and refreshed behind, because waiting on the
 // network is the largest launch cost on a slow connection and the page reports its
 // data's age (IDEAS, 2026-08-29). v73-v76 are reserved by an unmerged branch.
-const CACHE = 'leffavuoro-v316';
+const CACHE = 'leffavuoro-v317';
 
 // This app's own caches and nothing else. The sweep below used to delete every key it
 // did not recognise, which on a shared origin is somebody else's storage.
@@ -100,13 +100,16 @@ self.addEventListener('fetch', e => {
     return;
   }
 
+  // A navigation is stored under its path alone: every ?area= link otherwise kept its own
+  // full copy of index.html, and the offline fallback already matches with ignoreSearch.
+  const key = e.request.mode === 'navigate' ? url.origin + url.pathname : e.request;
   e.respondWith(
     fetch(e.request).then(r => {
       // This branch holds index.html, and the cached copy is the offline fallback, so a
       // 500 must not be cached.
       if (r.ok) {
         const copy = r.clone();
-        e.waitUntil(caches.open(CACHE).then(c => c.put(e.request, copy))
+        e.waitUntil(caches.open(CACHE).then(c => c.put(key, copy))
           .catch(() => {}));
       }
       return r;
