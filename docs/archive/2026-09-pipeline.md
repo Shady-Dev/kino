@@ -3062,3 +3062,19 @@ one still skips with 0. When all three genre-list requests answer 401 or 403 the
 before any film request and returns 1. One refused list among answered ones is not a
 refused token. The workflow records the code and fails the run after the data is committed,
 as for a provider. Tests run against a local HTTP server; four mutations red.
+
+### Mirrored posters nothing names are pruned after 30 days (2026-11-22)
+Review finding M9. The deferral of pruning in `IDEAS.md` gave its cost as a few MB a year.
+Measured at 62e216802c plus this branch, 2,682 of the 3,673 files in `data/posters/`,
+100.5 MiB, are named by no data file and no generated page, and the files still on disk
+from October alone are 50.3 MiB. The maintainer delegated the decision to the coordinating
+session, which reopened the deferral. `mirror_posters.prune` deletes a `*.jpg` that no
+`data/*.json` and nothing under `teatteri/`, `kaupunki/`, `en/` or `sv/` names once it has
+stayed unnamed for 30 days, and never a `card-*` title card. The cloud checkout is one
+commit deep, so a file's first commit cannot be read there and would make every poster look
+new. The day each poster was first seen unnamed is kept instead in
+`data/posters-unreferenced.json`, which only that workflow writes, and a poster named again
+leaves it. The grace therefore runs from the day a poster stopped being used. No run
+prunes when no area file was read. `git add data` stages the deletions, checked in a scratch
+repository. Seven mutations red. Not yet seen: the first deletions, 30 days after the first
+cloud run that carries this.

@@ -20,13 +20,20 @@ below.
 
 Filenames are sha1(url)[:16].jpg. The sources share no id namespace, so the URL is the
 only identifier common to every host.
+
+A mirrored poster that no data file and no generated page names any more is deleted once it
+has stayed unnamed for GRACE_DAYS (`prune`). The day each was first seen unnamed is kept in
+data/posters-unreferenced.json, because the cloud checkout is one commit deep and holds no
+history to date a file by. The house title cards (`card-*`) are never deleted.
 """
 
+import datetime
 import glob
 import hashlib
 import io
 import json
 import pathlib
+import re
 import sys
 import time
 from urllib.parse import quote, urlsplit, urlunsplit
@@ -57,6 +64,12 @@ PAUSE = 0.3             # these are other people's CDNs
 HEADERS = {"user-agent": common.UA, "accept": "image/*,*/*"}
 # The only decoders a poster reaches. Every poster URL the adapters publish is JPEG, PNG or WebP.
 FORMATS = ("JPEG", "PNG", "WEBP", "GIF")
+# Pruning: where a poster can be named, how long one may stay unnamed, and the dates.
+REF_FILES = ("data/*.json",)
+REF_TREES = ("teatteri", "kaupunki", "en", "sv")
+REF_RE = re.compile(r"data/posters/([^\"'\s)<>?#\\]+)")
+GRACE_DAYS = 30
+UNREFERENCED = pathlib.Path("data/posters-unreferenced.json")
 
 
 def key_for(url: str) -> str:
@@ -173,6 +186,45 @@ def pillow_problem() -> str:
     return ""
 
 
+def referenced(root=pathlib.Path(".")):
+    """Every poster file name a data file or a generated page names. -> set of str."""
+    paths = [p for pattern in REF_FILES for p in root.glob(pattern)]
+    paths += [p for tree in REF_TREES for p in (root / tree).rglob("*") if p.is_file()]
+    names = set()
+    for p in paths:
+        names.update(REF_RE.findall(p.read_text(encoding="utf-8", errors="replace")))
+    return names
+
+
+def prune(poster_dir, names, state_path, today, grace_days=GRACE_DAYS):
+    """Delete the posters unnamed for `grace_days` or more. -> (deleted, bytes, pending).
+
+    `names` is `referenced()`. A poster named again leaves the state; one newly unnamed
+    enters it with `today`. Only `*.jpg` is considered, and never a `card-*` file.
+    """
+    try:
+        state = json.loads(state_path.read_text(encoding="utf-8"))
+        state = state if isinstance(state, dict) else {}
+    except (OSError, ValueError):
+        state = {}
+    unnamed = {p.name: p for p in poster_dir.glob("*.jpg")
+               if not p.name.startswith("card-") and p.name not in names}
+    kept = {n: d for n, d in state.items() if n in unnamed and isinstance(d, str)}
+    for n in unnamed:
+        kept.setdefault(n, today.isoformat())
+    cutoff = (today - datetime.timedelta(days=grace_days)).isoformat()
+    deleted = freed = 0
+    for n, since in sorted(kept.items()):
+        if since <= cutoff:
+            freed += unnamed[n].stat().st_size
+            unnamed[n].unlink()
+            deleted += 1
+            del kept[n]
+    if kept != state:
+        common.write_json(state_path, dict(sorted(kept.items())), indent=1)
+    return deleted, freed, len(kept)
+
+
 def main() -> int:
     # Checked once, up front, by using Pillow rather than importing it. Without this a
     # machine that cannot downscale reports every poster as a download failure. The exit
@@ -281,6 +333,14 @@ def main() -> int:
         if changed:
             common.write_films_extra(extra_path, extra)
             files += 1
+
+    if not docs:
+        print("[mirror] prune skipped: no data/area-*.json was read, so what is named is unknown")
+    else:
+        deleted, freed, pending = prune(POSTER_DIR, referenced(), UNREFERENCED,
+                                        datetime.datetime.now(datetime.timezone.utc).date())
+        print(f"[mirror] pruned {deleted} poster(s) unnamed for {GRACE_DAYS} days, "
+              f"{freed // 1024} kB freed; {pending} unnamed and waiting")
 
     total = sum(p.stat().st_size for p in POSTER_DIR.glob("*.jpg"))
     print(f"[mirror] {len(urls)} remote poster urls: {had} already mirrored, "

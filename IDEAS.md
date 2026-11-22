@@ -275,7 +275,6 @@ Each of these was looked at and set down, with the reason. None is scheduled.
 - Finnkino's editorial children's-film list as the authority for the Lapsille filter. It
   would work cross-chain by title and is another scrape on the local-only half. Watch the
   genre rule first.
-- Pruning a poster once its film stops screening. A few MB a year.
 - Closing the window where SITES and the venue files disagree: comparing them directly
   fails every provider addition until the pipeline has run.
 - A cross-host redirect escapes the host claim. `common._claim` claims the request's host

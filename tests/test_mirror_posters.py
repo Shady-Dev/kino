@@ -615,6 +615,99 @@ class MirrorTest(unittest.TestCase):
                 self.assertEqual(s["img"], "")
                 self.assertNotIn("isrc", s)
 
+    @unittest.skipUnless(not mirror_posters.pillow_problem(), "Pillow unusable")
+    def test_the_run_prunes_and_says_how_much(self):
+        posters = self.root / "data" / "posters"
+        posters.mkdir()
+        (posters / "cccc000000000001.jpg").write_bytes(b"x" * 2048)
+        (posters / "cccc000000000002.jpg").write_bytes(b"x" * 2048)
+        (self.root / "data" / "posters-unreferenced.json").write_text(json.dumps(
+            {"cccc000000000001.jpg": "2026-01-01"}), encoding="utf-8")
+        self.srv.files["/one.jpg"] = jpeg_bytes()
+        self.write_data(f"{self.url}/one.jpg", f"{self.url}/one.jpg")
+        rc, lines = self.run_main()
+        self.assertEqual(rc, 0)
+        self.assertFalse((posters / "cccc000000000001.jpg").exists())
+        self.assertTrue((posters / "cccc000000000002.jpg").exists())
+        self.assertIn("[mirror] pruned 1 poster(s) unnamed for 30 days, 2 kB freed; "
+                      "1 unnamed and waiting", lines)
+
+    def test_no_area_file_prunes_nothing(self):
+        posters = self.root / "data" / "posters"
+        posters.mkdir()
+        (posters / "cccc000000000001.jpg").write_bytes(b"x")
+        (self.root / "data" / "posters-unreferenced.json").write_text(json.dumps(
+            {"cccc000000000001.jpg": "2026-01-01"}), encoding="utf-8")
+        with mock.patch.object(mirror_posters, "pillow_problem", lambda: ""):
+            rc, lines = self.run_main()
+        self.assertEqual(rc, 0)
+        self.assertTrue((posters / "cccc000000000001.jpg").exists())
+        self.assertTrue(any("prune skipped" in l for l in lines))
+
+
+class PruneTest(unittest.TestCase):
+    """A poster nothing names any more goes after GRACE_DAYS, and a title card never does
+    (review 2026-11-22, M9: 2,682 of 3,673 files unnamed, 100.5 MiB)."""
+
+    TODAY = __import__("datetime").date(2026, 11, 22)
+
+    def setUp(self):
+        tmp = tempfile.TemporaryDirectory()
+        self.addCleanup(tmp.cleanup)
+        self.root = pathlib.Path(tmp.name)
+        self.dir = self.root / "data" / "posters"
+        self.dir.mkdir(parents=True)
+        self.state = self.root / "data" / "posters-unreferenced.json"
+        for name in ("aaaa000000000001.jpg", "aaaa000000000002.jpg",    # named
+                     "bbbb000000000001.jpg", "bbbb000000000002.jpg",    # not named
+                     "card-heureka-x.jpg"):
+            (self.dir / name).write_bytes(b"x" * 1000)
+        (self.root / "data" / "area-x.json").write_text(json.dumps(
+            {"shows": [{"img": "data/posters/aaaa000000000001.jpg"}]}), encoding="utf-8")
+        page = self.root / "teatteri" / "x" / "index.html"
+        page.parent.mkdir(parents=True)
+        page.write_text('<img src="/data/posters/aaaa000000000002.jpg">', encoding="utf-8")
+
+    def prune(self, days_later):
+        names = mirror_posters.referenced(self.root)
+        today = self.TODAY + __import__("datetime").timedelta(days=days_later)
+        return mirror_posters.prune(self.dir, names, self.state, today)
+
+    def on_disk(self):
+        return sorted(p.name for p in self.dir.iterdir())
+
+    def test_the_data_files_and_the_pages_both_name_posters(self):
+        self.assertEqual(mirror_posters.referenced(self.root),
+                         {"aaaa000000000001.jpg", "aaaa000000000002.jpg"})
+
+    def test_an_unnamed_poster_waits_out_the_grace_period_and_then_goes(self):
+        self.assertEqual(self.prune(0), (0, 0, 2))
+        self.assertEqual(json.loads(self.state.read_text(encoding="utf-8")),
+                         {"bbbb000000000001.jpg": "2026-11-22", "bbbb000000000002.jpg": "2026-11-22"})
+        self.assertEqual(self.prune(mirror_posters.GRACE_DAYS - 1), (0, 0, 2))
+        self.assertEqual(self.prune(mirror_posters.GRACE_DAYS), (2, 2000, 0))
+        self.assertEqual(self.on_disk(), ["aaaa000000000001.jpg", "aaaa000000000002.jpg",
+                                          "card-heureka-x.jpg"])
+        self.assertEqual(json.loads(self.state.read_text(encoding="utf-8")), {})
+
+    def test_a_poster_named_again_leaves_the_waiting_list(self):
+        self.prune(0)
+        (self.root / "data" / "area-y.json").write_text(
+            '{"img": "data/posters/bbbb000000000002.jpg"}', encoding="utf-8")
+        self.assertEqual(self.prune(1), (0, 0, 1))
+        self.assertEqual(self.prune(mirror_posters.GRACE_DAYS + 5), (1, 1000, 0))
+        self.assertIn("bbbb000000000002.jpg", self.on_disk())
+
+    def test_a_title_card_is_never_deleted_or_listed(self):
+        self.prune(0)
+        self.prune(365)
+        self.assertIn("card-heureka-x.jpg", self.on_disk())
+        self.assertNotIn("card-heureka-x.jpg", self.state.read_text(encoding="utf-8"))
+
+    def test_an_unreadable_state_starts_the_wait_again(self):
+        self.state.write_text("not json", encoding="utf-8")
+        self.assertEqual(self.prune(0), (0, 0, 2))
+
 
 if __name__ == "__main__":
     unittest.main()

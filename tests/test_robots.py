@@ -68,7 +68,8 @@ CONSUMED = ("providers.json", "regions.json", "areas.json", "films.json",
 FAMILIES = ("venues-", "venuelists-", "area-", "posters/")
 # Pipeline state nothing public reads. film-lang-: Cinema Orion's per-film language
 # cache, written by orion.film_language through prices.enrich (2026-09-23).
-INTERNAL = ("tmdb.json", "tmdb-titles.json", "prices-", "film-lang-")
+# posters-unreferenced.json: mirror_posters' prune dates (2026-11-22).
+INTERNAL = ("tmdb.json", "tmdb-titles.json", "prices-", "film-lang-", "posters-unreferenced.json")
 
 
 def literal_paths(html):
