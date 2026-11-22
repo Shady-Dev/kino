@@ -320,5 +320,23 @@ class FilmLanguageTest(unittest.TestCase):
         self.assertEqual(shows[0]["movieUrl"], orion.URL + "elokuvat/memoria/")
 
 
+class FilmPageOnlyTest(unittest.TestCase):
+    """The language pass requests a film page and nothing else under the site (review
+    2026-11-22, M6)."""
+
+    def test_a_film_page_keys_on_its_slug_and_is_requested_as_it_is(self):
+        for path in ("elokuvat/memoria/", "elokuva/memoria", "elokuvat/memoria"):
+            with self.subTest(path=path):
+                self.assertEqual(orion._film_page(orion.URL + path),
+                                 ("memoria", orion.URL + path))
+
+    def test_anything_else_is_not_requested(self):
+        for url in (orion.URL + "checkout/f7def1e7", orion.URL + "elokuvat/x/checkout",
+                    orion.URL + "elokuvat/x/?step=pay", "https://evil.example/elokuvat/x/",
+                    orion.URL + "erikoisnaytokset/x/", ""):
+            with self.subTest(url=url):
+                self.assertEqual(orion._film_page(url), ("", ""))
+
+
 if __name__ == "__main__":
     unittest.main()

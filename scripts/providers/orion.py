@@ -85,6 +85,8 @@ ANCHOR_RE = re.compile(r'<a\b([^>]*)>(.*?)</a>', re.S | re.I)
 TITLE_ATTR_RE = re.compile(r'title\s*=\s*(["\'])(.*?)\1', re.I | re.S)
 HREF_RE = re.compile(r'href\s*=\s*["\']([^"\']+)["\']', re.I)
 SLUG_URL_RE = re.compile(r'/elokuv[au]t?/([^/?#"\']+)', re.I)
+# The whole URL of a film page, the only page the language pass requests.
+FILM_PAGE_RE = re.compile(r'^https://cinemaorion\.fi/(elokuv[au]t?/([^/?#"\']+))/?$', re.I)
 # The site spells it "descrption", and the span inside it is never closed, so stop at
 # whatever tag comes next rather than at a </span> that may not exist.
 DESCR_RE = re.compile(r'<span[^<>]*class=["\'][^"\']*descrption[^"\']*["\'][^<>]*>'
@@ -347,6 +349,14 @@ def page_synopsis(page_html):
     return {k: v for k, v in out.items() if k}
 
 
+def _film_page(url):
+    """A film page URL -> (slug, the URL to request), or ("", "") for anything else."""
+    m = FILM_PAGE_RE.match(url or "")
+    if not m:
+        return "", ""
+    return m.group(2), URL + m.group(1) + ("/" if url.endswith("/") else "")
+
+
 def film_language(shows, *, path=None, now=None, sleep=1.5, limit=None, fetch_fn=None):
     """Put each film's language, and its page's synopsis as `_syn`, on its screenings.
     -> counts dict. Never raises: a page that cannot be read leaves its screenings as
@@ -365,6 +375,7 @@ def film_language(shows, *, path=None, now=None, sleep=1.5, limit=None, fetch_fn
     path = path or (prices._out() / FILM_CACHE)
     try:
         st = prices.enrich(asks, provider="orion", prefix=URL, parse=lambda page: "",
+                           page=_film_page,
                            fields=lambda page: {"lang": page_language(page),
                                                 **page_facts(page), **{
                                f"syn_{k}": v for k, v in page_synopsis(page).items()}},

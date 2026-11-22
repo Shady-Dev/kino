@@ -465,7 +465,8 @@ def fetch_schedule(today=None, get=None, sleep=1.0):
 # one per breakpoint). "Peruslippu" is the ordinary ticket; KAVI-klubilaisten lippu and
 # Lapsi are not. Probed 2026-09-13 on two screenings: 10,00 € both. The fetch, cache and
 # pacing are prices.py's; Regina runs on the local half, so the pages are read from there.
-TICKETS = "https://kauppa.kavi.fi/"
+# The per-screening page only: prices.py requests one segment under this and nothing else.
+TICKETS = "https://kauppa.kavi.fi/fi/events/pwdg/event_buybox/show/"
 ORDINARY = "peruslippu"
 PRICE_ROW_RE = re.compile(r'<div class="row[^"]*"[^>]*>(.*?)(?=<div class="row|</form>)', re.S)
 LABEL_RE = re.compile(r"<label\b[^>]*>(.*?)</label>", re.S)

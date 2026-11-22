@@ -36,7 +36,7 @@ class FakeFetch:
 
     def __call__(self, url, headers=None, **kw):
         self.gets.append(url)
-        key = url.rsplit("/", 1)[1]
+        key = url.rstrip("/").rsplit("/", 1)[1]
         if key in self.fail:
             raise OSError("boom")
         return self.pages[key].encode()
@@ -55,12 +55,20 @@ class FormatTest(unittest.TestCase):
         self.assertEqual(prices.one_amount(["20,00", "22,00"]), "")
         self.assertEqual(prices.one_amount([]), "")
 
-    def test_the_key_is_the_last_path_segment_under_the_prefix(self):
+    def test_the_key_is_the_one_segment_under_the_prefix(self):
         self.assertEqual(prices.key_of(PREFIX + "982926", PREFIX), "982926")
-        self.assertEqual(prices.key_of(PREFIX + "abc/?x=1#t", PREFIX), "abc")
+        self.assertEqual(prices.key_of(PREFIX + "abc/", PREFIX), "abc")
         self.assertEqual(prices.key_of("https://other.fi/show/1", PREFIX), "")
         self.assertEqual(prices.key_of(PREFIX, PREFIX), "")
         self.assertEqual(prices.key_of("", PREFIX), "")
+
+    def test_a_query_a_fragment_or_a_deeper_path_is_no_key(self):
+        """Keyed on their last segment until the review of 2026-11-22 (M6): a checkout step
+        was requested as written and shared its key with another screening."""
+        for tail in ("abc/?x=1#t", "abc?x=1", "abc#t", "111/checkout?step=pay", "a/b",
+                     "/abc", "abc//"):
+            with self.subTest(tail=tail):
+                self.assertEqual(prices.key_of(PREFIX + tail, PREFIX), "")
 
 
 class EnrichTest(unittest.TestCase):
@@ -94,6 +102,14 @@ class EnrichTest(unittest.TestCase):
         self.assertEqual(fake.gets, [PREFIX + "7"])
         self.assertEqual([s["price"] for s in shows], ["18€", "18€", ""])
         self.assertEqual(st["screenings"], 1)
+
+    def test_only_the_detail_page_is_requested_and_keys_stay_apart(self):
+        shows = [{"title": "A", "url": PREFIX + "111/checkout?step=pay", "price": ""},
+                 {"title": "B", "url": PREFIX + "222/checkout", "price": ""},
+                 show("111"), show("333/")]
+        st, fake, _ = self.run_it(shows, {"111": "9€", "333": "11€"})
+        self.assertEqual(fake.gets, [PREFIX + "111", PREFIX + "333/"])
+        self.assertEqual([s["price"] for s in shows], ["", "", "9€", "11€"])
 
     def test_a_failed_page_is_not_cached_and_the_rows_survive(self):
         shows = [show("1"), show("2")]

@@ -25,6 +25,7 @@ import datetime
 import json
 import os
 import pathlib
+import re
 import time
 
 from common import UA, fetch, write_json
@@ -32,6 +33,9 @@ from common import UA, fetch, write_json
 TTL_H = float(os.environ.get("KINO_PRICE_TTL_H") or 48)
 FETCH_MAX = int(os.environ.get("KINO_PRICE_MAX") or 40)
 FAIL_STOP = 3
+# What may follow the prefix: one path segment and an optional slash. A checkout step, a
+# query or a deeper path is not a screening's detail page (review 2026-11-22, M6).
+TAIL_RE = re.compile(r"^[^/?#]+/?$")
 OUT = pathlib.Path("data")
 
 
@@ -73,15 +77,28 @@ def _age_h(entry, now):
 
 
 def key_of(url, prefix):
-    """The screening key of a ticket URL under `prefix` -> str, or "" when not one."""
+    """The screening key of a ticket URL under `prefix` -> str, or "" when not one.
+
+    Only `prefix` plus one segment and an optional slash is one. Keying a deeper URL on its
+    last segment gave two screenings one price and sent a checkout href out as written."""
     if not (prefix and url and url.startswith(prefix)):
         return ""
-    tail = url[len(prefix):].split("?")[0].split("#")[0].strip("/")
-    return tail.rsplit("/", 1)[-1] if tail else ""
+    tail = url[len(prefix):]
+    return tail.rstrip("/") if TAIL_RE.match(tail) else ""
+
+
+def page_of(url, prefix):
+    """-> (key, the URL to request), or ("", "") when `url` is not a detail page.
+
+    The request is rebuilt from the prefix and the key, keeping a closing slash the row's
+    own URL carries, so nothing the cinema's markup appends is ever requested."""
+    key = key_of(url, prefix)
+    return (key, prefix + key + ("/" if url.endswith("/") else "")) if key else ("", "")
 
 
 def enrich(shows, *, provider, prefix, parse, referer="", path=None, now=None,
-           sleep=1.0, limit=None, headers=None, fetch_fn=None, fields=None, label=None):
+           sleep=1.0, limit=None, headers=None, fetch_fn=None, fields=None, label=None,
+           page=None):
     """Put each screening's price on its rows. -> counts dict.
 
     `prefix` is the ticket-page URL prefix a row's `url` must carry to be asked;
@@ -96,6 +113,8 @@ def enrich(shows, *, provider, prefix, parse, referer="", path=None, now=None,
     `fetch_fn(url, headers)` -> bytes or str does the GET; an adapter passes one built on
     its own module-level getter, so a test that fakes that getter keeps the price pages
     offline too. The default is common.fetch with two tries and a 20 s timeout.
+    `page(url)` -> (key, url to request) replaces `page_of` for a caller whose pages are
+    not one segment under one prefix (Cinema Orion's film pages).
     """
     path = pathlib.Path(path or (_out() / f"prices-{provider}.json"))
     limit = FETCH_MAX if limit is None else limit
@@ -107,11 +126,13 @@ def enrich(shows, *, provider, prefix, parse, referer="", path=None, now=None,
     except (OSError, ValueError):
         old = {}
 
-    by_key = {}
+    page = page or (lambda url: page_of(url, prefix))
+    by_key, ask = {}, {}
     for s in shows:
-        k = key_of(s.get("url") or "", prefix)
+        k, target = page(s.get("url") or "")
         if k:
             by_key.setdefault(k, []).append(s)
+            ask.setdefault(k, target)
     cache = {k: v for k, v in old.items() if k in by_key and isinstance(v, dict)}
 
     def lacks(k):
@@ -137,7 +158,7 @@ def enrich(shows, *, provider, prefix, parse, referer="", path=None, now=None,
             continue
         if n:
             time.sleep(sleep)
-        url = by_key[k][0]["url"]
+        url = ask[k]
         try:
             page = (fetch_fn(url, hdrs) if fetch_fn
                     else fetch(url, headers=hdrs, tries=2, timeout=20))

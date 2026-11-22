@@ -3039,3 +3039,16 @@ whose `Klo` line does not read as an unread row through its existing report, and
 recorded rule that such a block is never published at midnight. Bio Marlon, Matintupa,
 Virtainpirtti and Bio Pallas fail when such rows exist and none read. 20 mutations, all
 red.
+
+### The price pass requests only a screening's detail page (2026-11-22)
+Review finding M6. `prices.key_of` keyed a URL under the ticket prefix on its last path
+segment, and `enrich` then requested the row's own URL. An href of
+`.../websales/show/111/checkout?step=pay` was requested as written, and screening 222 with
+the same tail received 111's price. The `CLAUDE.md` exception allows each screening's public
+detail page and nothing past it. A key is now the prefix plus one segment and an optional
+slash, and the request is rebuilt from the prefix and the key. Kino Regina's prefix narrowed
+from the bare `kauppa.kavi.fi` host to `/fi/events/pwdg/event_buybox/show/`, the path all
+271 committed Regina links and every fixture carry. Cinema Orion's film-language pass,
+which shares `enrich`, passes its own page rule that accepts only a film page under
+`/elokuva/`, `/elokuvat/` or `/elokuvu/`. Cache keys are unchanged. Four mutations red; a
+fifth, requesting the row's URL, is equivalent once the tail is checked.
