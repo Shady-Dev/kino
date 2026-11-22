@@ -3105,3 +3105,15 @@ rows taken from it. All seven call it, and their tests pass unchanged. Kino Akse
 counts a screening list that read some of its dates and not others. `date_like` is the same
 reading through the same generator. The rule that a new adapter counts its unread lines
 through this helper is for `CLAUDE.md`, under "Adding a provider". Nine mutations red.
+
+### The shared opener reads http(s) only and follows no redirect off https (2026-11-22)
+Review finding L1. `NoDowngradeRedirect` refused only a target starting with `http:`, and
+urllib's redirect handler also follows `ftp:`, so a 302 from an https listing to an FTP
+address was followed. From https only https is now followed, and from http only http or
+https. `make_opener` builds the opener without the FTP, file and data handlers, and
+`enrich_tmdb.get` opens through it, keeping its single attempt. `tests/test_network_route.py`
+scans every file under `scripts/` and fails on a direct `urlopen`, `build_opener` or
+connection outside `common.py`. Three files stay on its allow-list with their reasons:
+`indexnow.py`, `ci_verified.py` and Johku's interim-response handler, which is mounted
+through `make_opener`. Five mutations red, among them a scratch adapter copy with a direct
+`urlopen`.

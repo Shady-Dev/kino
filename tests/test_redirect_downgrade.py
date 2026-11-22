@@ -12,6 +12,7 @@ import http.server
 import io
 import threading
 import unittest
+import urllib.error
 import urllib.request
 
 import _ctx                                                # noqa: F401
@@ -54,9 +55,43 @@ class HandlerTest(unittest.TestCase):
                 self.assertIn(common.NoDowngradeRedirect, kinds)
                 self.assertNotIn(urllib.request.HTTPRedirectHandler, kinds)
 
+    def test_https_to_any_other_scheme_is_refused(self):
+        for to in ("ftp://127.0.0.1:1/x", "file:///etc/passwd", "FTP://kino.test/x"):
+            with self.subTest(to=to), self.assertRaises(common.DowngradeRefused):
+                redirect("https://kino.test/ohjelmisto", to)
+
+    def test_plain_http_redirects_only_to_http_or_https(self):
+        for to in ("ftp://127.0.0.1:1/x", "file:///etc/passwd"):
+            with self.subTest(to=to), self.assertRaises(common.DowngradeRefused):
+                redirect("http://kino.test/ohjelmisto", to)
+
+    def test_no_opener_carries_a_handler_for_ftp_file_or_data(self):
+        import enrich_tmdb
+        banned = (urllib.request.FTPHandler, urllib.request.FileHandler,
+                  urllib.request.DataHandler)
+        for name, op in (("common", common._OPENER), ("biorex", biorex._opener()),
+                         ("johku", johku.OPENER), ("enrich_tmdb", enrich_tmdb._OPENER)):
+            with self.subTest(opener=name):
+                self.assertFalse([h for h in op.handlers if isinstance(h, banned)])
+                self.assertIn(common.NoDowngradeRedirect, [type(h) for h in op.handlers])
+        with self.assertRaises(urllib.error.URLError) as ctx:
+            common._OPENER.open("file:///etc/hosts")
+        self.assertIn("unknown url type", str(ctx.exception))
+
+    def test_johku_keeps_its_own_https_handler_in_place_of_the_plain_one(self):
+        kinds = [type(h) for h in johku.OPENER.handlers]
+        self.assertIn(johku._Handler, kinds)
+        self.assertNotIn(urllib.request.HTTPSHandler, kinds)
+
 
 class Redirecting(http.server.BaseHTTPRequestHandler):
     def do_GET(self):
+        if self.path == "/ftp":
+            self.send_response(302)
+            self.send_header("Location", "ftp://127.0.0.1:1/x")
+            self.send_header("Content-Length", "0")
+            self.end_headers()
+            return
         if self.path == "/old":
             self.send_response(301)
             self.send_header("Location", "/new")
@@ -80,6 +115,14 @@ class FetchTest(unittest.TestCase):
         self.addCleanup(srv.server_close)
         self.addCleanup(srv.shutdown)
         self.assertEqual(common.fetch(f"http://127.0.0.1:{srv.server_port}/old", tries=1), b"ok")
+
+    def test_a_redirect_to_ftp_is_refused_through_fetch(self):
+        srv = http.server.ThreadingHTTPServer(("127.0.0.1", 0), Redirecting)
+        threading.Thread(target=srv.serve_forever, daemon=True).start()
+        self.addCleanup(srv.server_close)
+        self.addCleanup(srv.shutdown)
+        with self.assertRaises(common.DowngradeRefused):
+            common.fetch(f"http://127.0.0.1:{srv.server_port}/ftp", tries=1)
 
     def test_a_refused_downgrade_fails_the_request_without_retrying(self):
         calls = []

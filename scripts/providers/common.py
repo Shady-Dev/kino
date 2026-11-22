@@ -830,23 +830,43 @@ class DowngradeRefused(RuntimeError):
 
 
 class NoDowngradeRedirect(urllib.request.HTTPRedirectHandler):
-    """urllib's redirect handling, less the downgrade. Everything else is followed as
-    before, an upgrade and a plain-HTTP host's own redirects included."""
+    """urllib's redirect handling, less the downgrade. From https only https is followed,
+    and from http only http and https: urllib's own handler also follows `ftp:`. Upgrades
+    and a plain-HTTP host's own redirects are followed as before."""
 
     def redirect_request(self, req, fp, code, msg, headers, newurl):
-        if (req.full_url.lower().startswith("https:")
-                and newurl.lower().startswith("http:")):
+        frm = urllib.parse.urlsplit(req.full_url).scheme.lower()
+        to = urllib.parse.urlsplit(newurl).scheme.lower()
+        allowed = ("https",) if frm == "https" else ("http", "https")
+        if to not in allowed:
             fp.close()
-            raise DowngradeRefused(f"{req.full_url}: refused a {code} redirect from https "
-                                   f"to http ({newurl}); the programme is not read over "
-                                   f"cleartext")
+            raise DowngradeRefused(f"{req.full_url}: refused a {code} redirect from {frm} "
+                                   f"to {to or 'no scheme'} ({newurl}); the programme is "
+                                   f"read over http(s) only, and never over cleartext "
+                                   f"once it was asked for over TLS")
         return super().redirect_request(req, fp, code, msg, headers, newurl)
 
 
+# What every opener holds: build_opener's defaults less FTPHandler, FileHandler and
+# DataHandler, since nothing here reads anything but http(s).
+_BASE_HANDLERS = (urllib.request.ProxyHandler, urllib.request.UnknownHandler,
+                  urllib.request.HTTPHandler, urllib.request.HTTPSHandler,
+                  urllib.request.HTTPDefaultErrorHandler, NoDowngradeRedirect,
+                  urllib.request.HTTPErrorProcessor)
+
+
 def make_opener(*handlers):
-    """An opener that refuses the downgrade, with `handlers` added: what an adapter with
-    its own session (BioRex's cookie jar) builds instead of `urllib.request.build_opener`."""
-    return urllib.request.build_opener(NoDowngradeRedirect, *handlers)
+    """An opener that refuses the downgrade and opens http(s) only, with `handlers` added:
+    what an adapter with its own session (BioRex's cookie jar) builds. A handler that
+    subclasses a base one replaces it, as in `urllib.request.build_opener`."""
+    extra = [h() if isinstance(h, type) else h for h in handlers]
+    op = urllib.request.OpenerDirector()
+    for base in _BASE_HANDLERS:
+        if not any(isinstance(h, base) for h in extra):
+            op.add_handler(base())
+    for h in extra:
+        op.add_handler(h)
+    return op
 
 
 # What `fetch` opens with when the caller passes no opener of its own.

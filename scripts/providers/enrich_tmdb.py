@@ -954,9 +954,13 @@ def reconsider(facts, cache, aliases, budget=None):
     return due[:budget], max(0, len(due) - budget)
 
 
+# common's redirect policy and http(s)-only handlers, without fetch's retries (IDEAS defers those).
+_OPENER = common.make_opener()
+
+
 def get(url, headers, timeout=25):
     req = urllib.request.Request(url, headers=headers)
-    with urllib.request.urlopen(req, timeout=timeout) as r:
+    with _OPENER.open(req, timeout=timeout) as r:
         return json.loads(r.read().decode("utf-8", "replace"))
 
 
