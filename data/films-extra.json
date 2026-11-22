@@ -1427,7 +1427,6 @@
     "kinohamina",
     "kinohannikainen",
     "kinohirvi",
-    "kinojuha",
     "kinokulma",
     "kinolumo",
     "kinomania",
@@ -1440,7 +1439,6 @@
     "kinotar",
     "kinotervakoski",
     "kinotoijala",
-    "kinovirta",
     "kirkkonummi",
     "kotkanleffat",
     "kuvatahti",
@@ -1489,7 +1487,6 @@
     "kinohamina",
     "kinohannikainen",
     "kinohirvi",
-    "kinojuha",
     "kinokulma",
     "kinolumo",
     "kinomania",
@@ -1502,7 +1499,6 @@
     "kinotar",
     "kinotervakoski",
     "kinotoijala",
-    "kinovirta",
     "kirkkonummi",
     "kotkanleffat",
     "kuvatahti",
@@ -1812,19 +1808,6 @@
     "sv": "Under valnatten 2010 får två unga Sverigedemokrater, den charmige men oseriöse Ville och hans kusin Tobias, i uppdrag att hänga en enorm svensk flagga på Rinkeby torg, men blir indragna i en stökig natt fylld av galna möten med langare, aktivister och finska bikers."
    },
    "tr": ""
-  },
-  "flow": {
-   "id": 823219,
-   "img": "data/posters/244608d0c5837fe0.jpg",
-   "r": 8.0,
-   "s": {
-    "en": "",
-    "fi": "Yksinäinen kissa, joka on joutunut suuren tulvan vuoksi pakenemaan, löytää turvapaikan veneestä muiden eläinlajien kanssa. Yhdessä heidän on selviydyttävä muuttuneen maailmaan haasteista."
-   },
-   "tr": "https://www.youtube.com/watch?v=shsVQvHUTxw",
-   "ts": [
-    "fi"
-   ]
   },
   "flush night visions": {
    "r": 0,
@@ -3019,7 +3002,6 @@
    "img": "data/posters/056008305739a764.jpg",
    "kr": "K-7",
    "krs": [
-    "biokaari",
     "biorex",
     "biosalo",
     "biovuoksi",
@@ -3387,7 +3369,6 @@
     "kisakino",
     "kotkanleffat",
     "kuvakukko",
-    "kuvatahti",
     "leffabuumi",
     "niagara",
     "orion",
@@ -3461,7 +3442,6 @@
     "kisakino",
     "kotkanleffat",
     "kuvakukko",
-    "kuvatahti",
     "leffabuumi",
     "niagara",
     "orion",
@@ -6596,8 +6576,7 @@
     "kinopiispanristi",
     "kinopirtti",
     "niagara",
-    "orion",
-    "tapiola"
+    "orion"
    ],
    "r": 0,
    "s": {
@@ -7395,6 +7374,7 @@
     "kuvakukko",
     "leffabuumi",
     "lieksankino",
+    "matintupa",
     "niagara",
     "savonkinot",
     "star",
@@ -10573,10 +10553,8 @@
    "krs": [
     "bioforum",
     "biogrand",
-    "biograni",
     "biopallas",
     "biorex",
-    "biorexkokkola",
     "biosalo",
     "biosavoy",
     "biovuoksi",
@@ -10632,10 +10610,8 @@
    "krs": [
     "bioforum",
     "biogrand",
-    "biograni",
     "biopallas",
     "biorex",
-    "biorexkokkola",
     "biosalo",
     "biosavoy",
     "biovuoksi",
