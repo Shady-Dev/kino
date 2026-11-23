@@ -6,14 +6,10 @@
 [schedule] 2026-11-26: 353 showtimes
 [schedule] 2026-11-27: 37 showtimes
 [schedule] 2026-11-28: 4 showtimes
-[poster] 33c0d2f5-c3aa-4594-ba99-1b7243da37b6: no Pillow here, kept the CDN's bytes unresized
-[poster] e20bf181-e58f-42c7-841f-ad887bc7a6d8: no Pillow here, kept the CDN's bytes unresized
 [schedule] 2026-11-29: 17 showtimes
 [tmdb] no TMDB match (5): Baletti: Manon | Joulupukin salainen paja | Klara ja aurinko | Me olemme Pariisin orkesteri | Muistojeni kahvila
-[tmdb] weak match, no exact title (11): Andrew Lloyd Webber’s Starlight Express  -> Andrew Lloyd Webber's Starlight Express: Live On-Stage | Animals in War -> Speaking of Animals in the Post War Era | Billie maailmojen välissä -> Hexed | Dry Leaf -> ხმელი ფოთოლი | Godzilla Minus Zero -> ゴジラ-0.0 | Grey Bees -> Сірі бджоли | Hadoota -> حدوتة | Leviticus -> Leviticus | NT LIVE: The Audience -> National Theatre Live: The Audience | Ramayana: Rise of a Legend -> रामायणम् | To the Victory! -> За перемогу!
-[tmdb] rating held back, under 25 votes (7): Billie maailmojen välissä (7.7 / 3 votes) | Dry Leaf (7.3 / 3 votes) | Grey Bees (8.2 / 4 votes) | Hadoota (8.3 / 3 votes) | Matka Piemonteen (6.2 / 4 votes) | NT LIVE: The Audience (8.3 / 11 votes) | Paper Tiger (8.0 / 2 votes)
-[tmdb] rating refresh: 6 scheduled, 6 re-read, 0 failed and still due, 0 deferred (budget 12)
-[tmdb] 11 new lookups, 21 re-checks, cache 210, 128 mergeable by id
+[tmdb] weak candidate kept, not searched until 2026-11-24 (11): Andrew Lloyd Webber’s Starlight Express  -> Andrew Lloyd Webber's Starlight Express: Live On-Stage | Animals in War -> Speaking of Animals in the Post War Era | Billie maailmojen välissä -> Hexed | Dry Leaf -> ხმელი ფოთოლი | Godzilla Minus Zero -> ゴジラ-0.0 | Grey Bees -> Сірі бджоли | Hadoota -> حدوتة | Leviticus -> Leviticus | NT LIVE: The Audience -> National Theatre Live: The Audience | Ramayana: Rise of a Legend -> रामायणम् | To the Victory! -> За перемогу!
+[tmdb] 0 new lookups, 0 re-checks, cache 210, 128 mergeable by id
 [films] 62 film entries
 [attrs] dropped, neither format nor language (8): Maxim | Neulonta | OCAP | Pkseutu | SEVERAL | TKU & R | Tampere | Varaus20
 [schedule] 17 venue files written, 0 kept as-is
