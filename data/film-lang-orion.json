@@ -1,7 +1,7 @@
 {
  "digger": {
   "price": "",
-  "at": "2026-11-21T00:16:00+00:00",
+  "at": "2026-11-23T06:14:57+00:00",
   "fields": {
    "lang": "EN-A, FI-S, SV-S",
    "len": "128",
@@ -62,7 +62,7 @@
  },
  "komisario-palmun-erehdys-2": {
   "price": "",
-  "at": "2026-11-21T00:16:00+00:00",
+  "at": "2026-11-23T06:14:57+00:00",
   "fields": {
    "lang": "FI-A, EN-S",
    "len": "103",
@@ -87,7 +87,7 @@
  },
  "minotaur": {
   "price": "",
-  "at": "2026-11-21T00:16:00+00:00",
+  "at": "2026-11-23T06:14:57+00:00",
   "fields": {
    "lang": "RU-A, FI-S, SV-S",
    "len": "135",
@@ -98,7 +98,7 @@
  },
  "ortotopologian-loputtomat-alkeet": {
   "price": "",
-  "at": "2026-11-21T00:16:00+00:00",
+  "at": "2026-11-23T06:14:57+00:00",
   "fields": {
    "lang": "FI-A",
    "len": "75",
@@ -135,7 +135,7 @@
  },
  "wicker-intohimosta-punottu": {
   "price": "",
-  "at": "2026-11-21T00:16:00+00:00",
+  "at": "2026-11-23T06:14:57+00:00",
   "fields": {
    "lang": "EN-A, FI-S, SV-S",
    "len": "106",
