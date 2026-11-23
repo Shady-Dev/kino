@@ -655,6 +655,14 @@
    },
    "tr": ""
   },
+  "billie maailmojen välissä på svenska": {
+   "r": 0,
+   "s": {
+    "en": "",
+    "fi": "BILLIE MAAILMOJEN VÄLISSÄ esittelee meille impulsiivisen ja omintakeisen teinitytön nimeltä Billie (äänenä Hailee Steinfeld) ja tämän ylisuojelevan äidin Alicen (äänenä Rashida Jones). Kun Billie saa yllättäen käyttöönsä salaisia taikavoimia, hän tempautuu saman tien kotoaan maagiseen Hexen valtakuntaan, missä häntä ovat vastaanottamassa Ms. Quill (äänenä Tracey Ullman) ja Elias Quire (äänenä Stephen Fry). Huikean matkansa edetessä Billie saa selville perhesalaisuuksia, jotka voivat mullistaa noitien taikamaailman ikiajoiksi. Elokuvan edessä nähdään Malcon Piercen ja Fawn Veerasunthornin ohjaama lyhytelokuva \"Lilo & Scratch\", kesto: 00:06:10. Elokuvan \"Billie maailmojen välissä\" kesto on 01:43:17."
+   },
+   "tr": ""
+  },
   "billie maailmojen välissä suomeksi": {
    "r": 0,
    "s": {
@@ -1290,13 +1298,12 @@
   },
   "dumbo": {
    "id": 11360,
-   "img": "data/posters/e27deb056f6ac365.jpg",
-   "r": 7.0,
+   "r": 0,
    "s": {
     "en": "",
     "fi": "Disney-yhtiön varhaisvuosikymmenten kultaiseen kaanoniin lukeutuvassa klassikkoanimaatiossa sirkukseen syntyvä pieni elefantinpoikanen joutuu pilkatuksi ja syrjityksi poikkeuksellisen suurten korviensa vuoksi. Rakastavasta äidistään väkivalloin erotettava Dumbo oppii uskomaan itseensä ja kykyihinsä hiiriystävänsä Timotein tuella."
    },
-   "tr": "https://www.youtube.com/watch?v=GPY-g86tcS4"
+   "tr": ""
   },
   "dune part three": {
    "id": 1170608,
@@ -1397,12 +1404,10 @@
     "biopallas",
     "biorex",
     "biorexkokkola",
-    "biosade",
     "biosalo",
     "biosavoy",
     "biostara",
     "biovuoksi",
-    "cinemantsala",
     "elavienkuvien",
     "elokuviin",
     "ihmekompleksi",
@@ -1436,7 +1441,7 @@
     "studio123kouvola",
     "vaakuna"
    ],
-   "r": 7.7,
+   "r": 7.5,
    "s": {
     "en": "An elderly miser embarks on a supernatural journey after visits from the ghost of his former business partner and the Spirits of Christmas Past, Present, and Yet to Come force him to confront his past and fight for a second chance at happiness.",
     "fi": "Johnny Depp on Ebenezer Scrooge. Nimi on tuttu, tarina ei. Ti Westin ohjaamaa elokuvaa tähdittävät myös Rupert Grint, Andrea Riseborough, Sam Claflin, Daisy Ridley, Arthur Conti, Ellie Bamber, Henry Lloyd-Hughes, Charlie Murphy sekä Tramell Tillman ja Ian McKellen."
@@ -1457,12 +1462,10 @@
     "biopallas",
     "biorex",
     "biorexkokkola",
-    "biosade",
     "biosalo",
     "biosavoy",
     "biostara",
     "biovuoksi",
-    "cinemantsala",
     "elavienkuvien",
     "elokuviin",
     "ihmekompleksi",
@@ -1867,17 +1870,13 @@
   },
   "fåret shaun och monstret på bondgården": {
    "id": 1477104,
-   "img": "data/posters/93eda5fa30b7d70c.jpg",
-   "r": 7.3,
+   "r": 0,
    "s": {
-    "en": "On Halloween Eve at Mossy Bottom Farm, excitement turns to dismay when the clumsy Farmer ruins the pumpkin patch. Shaun tries fixing it with science experiments, but things go awry when a wild beast appears in the woods.",
+    "en": "",
     "fi": "",
     "sv": "I den tredje biofilmen om fåret Shaun ser invånarna på Mossy Bottom Farm fram emot Halloween, tills den klumpiga bonden förstör fårflockens älskade pumpaland. När Shaun förvandlas till galet vetenskapsfår för att åtgärda problemet går saker och ting snabbt överstyr, speciellt efter att bonden försvinner och ett vilddjur dyker upp i Mossinghams skogar. OBS! Ingen dialog. Shaun och flocken talar sitt eget språk."
    },
-   "tr": "https://www.youtube.com/watch?v=daZMq0AyOMc",
-   "ts": [
-    "en"
-   ]
+   "tr": ""
   },
   "fåret shaun och monstret på bondgården late lammas hämärapuuhissa": {
    "id": 1477104,
@@ -2989,6 +2988,7 @@
    "img": "data/posters/056008305739a764.jpg",
    "kr": "K-7",
    "krs": [
+    "biograni",
     "biorex",
     "biosalo",
     "biovuoksi",
@@ -4639,9 +4639,7 @@
     "korjaamo",
     "kotkanleffat",
     "kuvakukko",
-    "niagara",
-    "orion",
-    "tapiola"
+    "niagara"
    ],
    "r": 8.0,
    "s": {
@@ -4750,17 +4748,13 @@
   },
   "lapin sota lapplandskriget": {
    "id": 1450460,
-   "img": "data/posters/c15d678a31ae397e.jpg",
    "r": 0,
    "s": {
     "en": "",
-    "fi": "Nuori sotamies Heikki taistelee Karjalan kannaksella ystävänsä Paulin kanssa. Komppaniaan liittyy vankilasta vapautunut Arvo, jonka maailmankuva haastaa muiden käsitykset sodasta ja velvollisuudesta. Aselepo herättää toivon kotiinpaluusta, mutta pian selviää, että Suomen on käännyttävä entisiä saksalaisia liittolaisiaan vastaan Lapissa. Samaan aikaan Rovaniemellä saksalaisten tulkkina työskentelevä Saara joutuu valitsemaan tulevaisuutensa: jäädä Suomeen vai paeta Saksaan rakastettunsa, majuri Duisbergin, kanssa.",
+    "fi": "",
     "sv": "LAPIN SOTA utspelar sig i Lappland under hösten 1944. Berättelsen följer finländska soldater som, efter att ha slutit fred med Sovjetunionen, tvingas vända sina vapen mot sina tidigare vapenbröder, de tyska trupperna, för att driva ut dem ur landet."
    },
-   "tr": "",
-   "ts": [
-    "fi"
-   ]
+   "tr": ""
   },
   "lapin sota loviisan lions clubin erikoisnäytös": {
    "id": 1450460,
@@ -4980,17 +4974,13 @@
   },
   "lilla spöket laban busar vidare": {
    "id": 1781923,
-   "img": "data/posters/8a9129f55b1b3d43.jpg",
    "r": 0,
    "s": {
-    "en": "Laban the Little Ghost is back with a new collection of cozy and just-spooky-enough adventures at the Good Morning Sun Castle. Together with his little sister Labolina and his best friend, the Little Prince, their days are filled with everything from trick-or-treating, birthday celebrations, and lost Christmas presents to unexpected guests and many other fun experiences.",
+    "en": "",
     "fi": "",
     "sv": "Lilla Spöket Laban är tillbaka med nya äventyr på Slottet Godmorgonsol. Tillsammans med Labolina, Lillprins Bus och sina vänner råkar han ut för roliga, spännande och ibland lite läskiga situationer där vänskap, mod och fantasi alltid står i centrum. En varm och humoristisk filmupplevelse för de yngsta biobesökarna."
    },
-   "tr": "",
-   "ts": [
-    "en"
-   ]
+   "tr": ""
   },
   "lilla spöket laban busar vidare på svenska": {
    "r": 0,
@@ -5891,12 +5881,17 @@
    "tr": ""
   },
   "no rest for the wicked": {
+   "id": 1486475,
+   "img": "data/posters/934c7862e880e0f1.jpg",
    "r": 0,
    "s": {
-    "en": "",
+    "en": "1862. Baldur lives a fisherman’s life on the isolated Faroe Islands far to the north in the Atlantic Ocean. His world is turned upside down when a stranger arrives: Helge, a rugged whaler, who awakens deep emotions within him. A mutual attraction starts to grow. When tragedy strikes, their forbidden passion unleashes natural forces so disturbing that the villagers rally to keep evil at bay. But Baldur and Helge refuse to let their love be buried. They will fight till the end – and after.",
     "fi": "1862. Baldur elää yksinkertaista elämää kalastajana syrjäisellä saarella Färsaarilla. Eräänä päivänä saarelle saapuu muukalainen, ja kaikki mullistuu. Tanskalainen valaanpyytäjä Helge herättää Baldurissa jotakin, ja vähitellen heidän välilleen alkaa versoa tunteita. Kun tragedia erottaa nuoret miehet toisistaan, se käynnistää väkivaltaisten tapahtumien ketjun. Pelästyneet saarelaiset kokoontuvat karkottamaan pahuuden ja tukahduttamaan sen alkuunsa. Baldur ja Helge eivät kuitenkaan suostu luopumaan rakkaudestaan. He taistelevat sen puolesta loppuun asti – ja vielä sen jälkeenkin. Elokuva on saanut Euroopan unionin Luova Eurooppa -ohjelman tuen."
    },
-   "tr": ""
+   "tr": "https://www.youtube.com/watch?v=FWHydpn9xIM",
+   "ts": [
+    "en"
+   ]
   },
   "noidat": {
    "id": 6069,
@@ -6046,7 +6041,6 @@
     "haapamaki",
     "ihmekompleksi",
     "isohannu",
-    "jarvelankino",
     "kino123",
     "kinoelo",
     "kinohamina",
@@ -6154,13 +6148,12 @@
   },
   "obsession": {
    "id": 1339713,
-   "img": "data/posters/b087e78e6e9510ef.jpg",
-   "r": 8.2,
+   "r": 0,
    "s": {
     "en": "",
     "fi": "Kun toivoton romantikko katkaisee salaperäisen “toivepajun” saadakseen ihastuksena rakastumaan itseensä, hän tajuaa saaneensa juuri sen, mitä toivoikin. Mutta pian hänelle valkenee, että joistakin toiveista joutuu maksamaan synkän hinnan."
    },
-   "tr": "https://www.youtube.com/watch?v=gMC8kkwbIQQ"
+   "tr": ""
   },
   "oddities": {
    "id": 1486256,
@@ -6855,7 +6848,6 @@
    "kr": "S",
    "krs": [
     "biorex",
-    "biosalo",
     "isohannu",
     "kino123",
     "kinometso",
@@ -6877,7 +6869,6 @@
    "kr": "S",
    "krs": [
     "biorex",
-    "biosalo",
     "isohannu",
     "kino123",
     "kinometso",
@@ -7223,6 +7214,7 @@
     "kinokilta",
     "kinokonepaja",
     "kinokulma",
+    "leffabuumi",
     "sheryl"
    ],
    "r": 6.8,
@@ -7329,6 +7321,7 @@
     "biosade",
     "biosalo",
     "biostara",
+    "biovuoksi",
     "cinemantsala",
     "elokuviin",
     "gilda",
@@ -10232,16 +10225,12 @@
   },
   "uskottomuus": {
    "id": 96546,
-   "img": "data/posters/9818346f89097881.jpg",
-   "r": 6.4,
+   "r": 0,
    "s": {
-    "en": "Irene Wagner, the wife of the prominent German scientist Professor Albert Wagner, had been having an affair with Erich Baumann. She does not disclose this to her husband, hoping to preserve his innocence and their \"perfect marriage\". This fills her with anxiety and guilt. However, Johanna Schultze, Erich's jealous ex-girlfriend, learns about the affair and begins to blackmail Irene, turning Irene's psychological torture into a harsh reality.",
+    "en": "",
     "fi": "Tiiviissä psykologisessa draamassa avioliiton kulissien takaa paljastuvat syyllisyys, pelko ja kiristys. Kun menneisyyden salaisuus uhkaa paljastua, arki muuttuu painajaiseksi. Uskottomuus osoittaa Ingrid Bergmanin jatkuvan kehityksen näyttelijänä Roberto Rossellinin kasvattaessa jännitettä piinaaviin mittasuhteisiin."
    },
-   "tr": "",
-   "ts": [
-    "en"
-   ]
+   "tr": ""
   },
   "uusi ihminen": {
    "id": 25782,
@@ -10260,6 +10249,19 @@
     "fi": "Komediaikoni ja Emmy-voittaja Ben Stiller sekä kaksinkertainen Oscar-voittaja Robert De Niro nähdään jälleen yhdessä elokuvassa Uusin painajainen perheessä. Tähtikaartiin liittyy myös Grammy-voittaja ja Oscar-ehdokas Ariana Grande. Elokuva on uusin luku Painajainen perheessä -elokuvien sarjassa. Elokuvan on ohjannut ja käsikirjoittanut John Hamburg, joka oli mukana käsikirjoittamassa myös kolmea aiempaa elokuvaa, ja sen ovat tuottaneet Oscar-ehdokas Jane Rosenthal ja Robert De Niro Tribeca Productionsille sekä Ben Stiller ja Oscar-palkittu John Lesher Red Hour Filmsille."
    },
    "tr": ""
+  },
+  "uusin painajainen perheessä focker in law": {
+   "id": 1400336,
+   "img": "data/posters/9e18995cae5bcfd3.jpg",
+   "r": 0,
+   "s": {
+    "en": "Henry, son of Greg and Pam Focker, aims to marry Olivia, a strong-willed former hostage negotiator who appears to be his complete mismatch. To Greg's shock, father-in-law Jack Byrnes takes a liking to Olivia, and her unprecedented rise into his Circle of Trust sparks chaos in the family before Jack's 80th birthday party.",
+    "fi": "Komediaikoni ja Emmy-voittaja Ben Stiller sekä kaksinkertainen Oscar-voittaja Robert De Niro nähdään jälleen yhdessä elokuvassa Uusin painajainen perheessä. Tähtikaartiin liittyy myös Grammy-voittaja ja Oscar-ehdokas Ariana Grande. Elokuva on uusin luku Painajainen perheessä -elokuvien sarjassa. Elokuvan on ohjannut ja käsikirjoittanut John Hamburg, joka oli mukana käsikirjoittamassa myös kolmea aiempaa elokuvaa, ja sen ovat tuottaneet Oscar-ehdokas Jane Rosenthal ja Robert De Niro Tribeca Productionsille sekä Ben Stiller ja Oscar-palkittu John Lesher Red Hour Filmsille."
+   },
+   "tr": "https://www.youtube.com/watch?v=9CKu3WoMYCg",
+   "ts": [
+    "en"
+   ]
   },
   "v h s beyond night visions": {
    "r": 0,
@@ -10555,7 +10557,6 @@
     "kinoakseli",
     "kinoaurora",
     "kinoelo",
-    "kinohirvi",
     "kinoiiris",
     "kinojuha",
     "kinokilta",
@@ -10610,7 +10611,6 @@
     "kinoakseli",
     "kinoaurora",
     "kinoelo",
-    "kinohirvi",
     "kinoiiris",
     "kinojuha",
     "kinokilta",
@@ -10656,7 +10656,9 @@
    "img": "data/posters/ce1a7e45f2509c41.jpg",
    "kr": "K-16",
    "krs": [
+    "bioforum",
     "biogrand",
+    "biograni",
     "biopallas",
     "biorex",
     "biosavoy",
@@ -10701,17 +10703,13 @@
   },
   "wildwood": {
    "id": 791523,
-   "img": "data/posters/3243e3129f13e25d.jpg",
-   "r": 8.5,
+   "r": 0,
    "s": {
-    "en": "Prue and her classmate Curtis are drawn into a magical forest filled with enchanted creatures, loyal allies, and formidable adversaries as they embark on a desperate quest to rescue Prue's abducted baby brother from a murder of crows led by a mysterious woman named Alexandra.",
+    "en": "",
     "fi": "",
     "sv": "LAIKA studios är tillbaka med ett nytt enastående stop-motion mästerverk. När hennes lillebror rövas bort av en flock kråkor ger sig den envisa tonåringen Prue McKeel ut på ett desperat räddningsuppdrag i den ogenomträngliga vildmarken – en förtrollad skog som döljer sig strax utanför Portland i Oregon. Vid sin sida har hon sin klantige men lojale klasskamrat Curtis Mehlberg, och tillsammans tar de sig genom en värld fylld av talande djur, banditer och mäktiga gestalter."
    },
-   "tr": "https://www.youtube.com/watch?v=bJQGtSeLPII",
-   "ts": [
-    "en"
-   ]
+   "tr": ""
   },
   "wildwood sysimetsä": {
    "id": 791523,
@@ -10809,7 +10807,6 @@
    "kr": "K-16",
    "krs": [
     "biorexkokkola",
-    "kinohirvi",
     "niagara",
     "savonkinot",
     "tapiola"
@@ -10859,5 +10856,5 @@
    "tr": ""
   }
  },
- "generated": "2026-11-22"
+ "generated": "2026-11-23"
 }
