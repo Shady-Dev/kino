@@ -1,4 +1,4 @@
-[mirror] pruned 0 poster(s) unnamed for 30 days, 0 kB freed; 2739 unnamed and waiting
-[mirror] 448 remote poster urls: 446 already mirrored, 2 downloaded (+65 kB), 0 failed, 0 too large
-[mirror] 1677 references rewritten, 0 replaced by a TMDB poster and 0 dropped in 56 files; data/posters now 3693 files, 142071 kB
+[mirror] pruned 0 poster(s) unnamed for 30 days, 0 kB freed; 2728 unnamed and waiting
+[mirror] 471 remote poster urls: 456 already mirrored, 15 downloaded (+494 kB), 0 failed, 0 too large
+[mirror] 1860 references rewritten, 0 replaced by a TMDB poster and 0 dropped in 59 files; data/posters now 3708 files, 142565 kB
 exit=0

@@ -37,15 +37,15 @@
 [kinometso] Toivakka: no programme at the moment (adapter confirmed the venue empty); publishing an empty file
 [kinometso] Hankasalmi: no programme at the moment (adapter confirmed the venue empty); publishing an empty file
 [kinometso] synopses merged: 0
-[biosalo] Bio-Salo (Salo): 21 showtimes
-[biosalo] Bio-Salo: 21 showtimes, 4 dates
-[biosalo] synopses merged: 0
-[biostara] Bio Stara (Paimio): 8 showtimes
-[biostara] Bio Stara: 8 showtimes, 3 dates
+[biosalo] Bio-Salo (Salo): 67 showtimes
+[biosalo] Bio-Salo: 67 showtimes, 11 dates
+[biosalo] synopses merged: 1
+[biostara] Bio Stara (Paimio): 25 showtimes
+[biostara] Bio Stara: 25 showtimes, 8 dates
 [biostara] synopses merged: 0
 [run] http: 0 revalidated (304), 11 full, 11 not stored (origin said no-store), 0 cache entries written
 [run] hosts: 6 attempted -- biosalo.fi, jarvelankino.fi, kino-olympia.fi, kinoaurora.fi, kinohirvi.fi, kinoset.fi
 [run] pending: kinometso has 5 venue(s) with no programme yet: km-tikkakoski, km-vaajakoski, km-laukaa, km-toivakka, km-hankasalmi
-[run] nexxo: 13 venues, 152 showtimes, 0 stale, 0 unverified, 5 pending, 0 with no programme, 0 failures
-[run] timing: 9 site(s), 40.4s of fetching added up across workers that overlap, longest site 11.0s, longest queue wait 0.0s, 11.0s wall from this module's first fetch starting to its last ending
+[run] nexxo: 13 venues, 215 showtimes, 0 stale, 0 unverified, 5 pending, 0 with no programme, 0 failures
+[run] timing: 9 site(s), 40.8s of fetching added up across workers that overlap, longest site 10.9s, longest queue wait 0.0s, 10.9s wall from this module's first fetch starting to its last ending
 exit=0
