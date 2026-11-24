@@ -1,40 +1,40 @@
-[kotkanleffat] Kinopalatsi Kotka: 44 showtimes, 23 dates
-[kotkanleffat] Trio 123: 78 showtimes, 10 dates
+[kotkanleffat] Kinopalatsi Kotka: 43 showtimes, 22 dates
+[kotkanleffat] Trio 123: 75 showtimes, 9 dates
 [kotkanleffat] synopses merged: 0
-[savonkinot] Tapio Joensuu: 91 showtimes, 17 dates
-[savonkinot] Killa Savonlinna: 16 showtimes, 10 dates
-[savonkinot] Kuvalinna Savonlinna: 24 showtimes, 14 dates
-[savonkinot] Kuvalipas Iisalmi: 44 showtimes, 14 dates
-[savonkinot] Maxim Varkaus: 46 showtimes, 15 dates
-[savonkinot] Kino-Hovi Kitee: 12 showtimes, 11 dates
+[savonkinot] Tapio Joensuu: 87 showtimes, 16 dates
+[savonkinot] Killa Savonlinna: 15 showtimes, 9 dates
+[savonkinot] Kuvalinna Savonlinna: 23 showtimes, 13 dates
+[savonkinot] Kuvalipas Iisalmi: 42 showtimes, 13 dates
+[savonkinot] Maxim Varkaus: 43 showtimes, 14 dates
+[savonkinot] Kino-Hovi Kitee: 11 showtimes, 10 dates
 [savonkinot] synopses merged: 0
-[leffabuumi] Kinolinna: 75 showtimes, 14 dates
-[leffabuumi] Kino Ritz: 27 showtimes, 21 dates
+[leffabuumi] Kinolinna: 72 showtimes, 13 dates
+[leffabuumi] Kino Ritz: 26 showtimes, 20 dates
 [leffabuumi] Kino Saimaa: 4 showtimes, 3 dates
 [leffabuumi] synopses merged: 0
-[studio123jarvenpaa] Studio 123 Järvenpää: 71 showtimes, 16 dates
-[studio123jarvenpaa] synopses merged: 3
-[studio123kouvola] Studio 123 Kouvola: 73 showtimes, 23 dates
+[studio123jarvenpaa] Studio 123 Järvenpää: 68 showtimes, 15 dates
+[studio123jarvenpaa] synopses merged: 0
+[studio123kouvola] Studio 123 Kouvola: 70 showtimes, 22 dates
 [studio123kouvola] synopses merged: 0
-[ihmekompleksi] Ihme Kompleksi: 29 showtimes, 14 dates
-[ihmekompleksi] synopses merged: 2
-[kino123] Kino 123: 90 showtimes, 12 dates
+[ihmekompleksi] Ihme Kompleksi: 27 showtimes, 13 dates
+[ihmekompleksi] synopses merged: 0
+[kino123] Kino 123: 87 showtimes, 11 dates
 [kino123] synopses merged: 0
-[biogrand] Bio Grand: 26 showtimes, 9 dates
-[biogrand] synopses merged: 1
+[biogrand] Bio Grand: 25 showtimes, 8 dates
+[biogrand] synopses merged: 0
 [joutsankino] Joutsan Kino: 8 showtimes, 7 dates
 [joutsankino] synopses merged: 0
 [cine] Cine Keuda-Talo: no programme at the moment (adapter confirmed the venue empty); publishing an empty file
 [cine] Cine Nikkilä: 1 showtimes, 1 dates
 [cine] synopses merged: 0
-[star] strand prefix split off 2 showtimes
-[star] Elokuvateatteri Star: 112 showtimes, 11 dates
-[star] synopses merged: 1
-[haapamaki] Haapamäen Elokuvat: 12 showtimes, 10 dates
+[star] strand prefix split off 3 showtimes
+[star] Elokuvateatteri Star: 109 showtimes, 10 dates
+[star] synopses merged: 0
+[haapamaki] Haapamäen Elokuvat: 11 showtimes, 9 dates
 [haapamaki] synopses merged: 0
 [run] venuelists-local.json rewritten
-[run] http: 0 revalidated (304), 243 full, 243 not stored (origin said no-store), 0 cache entries written
+[run] http: 0 revalidated (304), 241 full, 241 not stored (origin said no-store), 0 cache entries written
 [run] hosts: 12 attempted -- biogrand.fi, haapamaenelokuvat.fi, ihmekompleksi.fi, kiertue.cine.fi, kino.joutsa.fi, kino123.fi, kotkanleffat.fi, lippu.elokuvateatteristar.fi, studio123.fi, studiot123.com, www.leffabuumi.fi, www.savonkinot.fi
 [run] pending: cine has 1 venue(s) with no programme yet: cine-keuda
-[run] etiketti: 20 venues, 883 showtimes, 0 stale, 0 unverified, 1 pending, 0 with no programme, 0 failures
+[run] etiketti: 20 venues, 847 showtimes, 0 stale, 0 unverified, 1 pending, 0 with no programme, 0 failures
 exit=0

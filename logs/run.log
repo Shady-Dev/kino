@@ -1,25 +1,19 @@
 [token] using FINNKINO_TOKEN from the environment
 [sites] 17 cinemas
-[schedule] 2026-11-24: 164 showtimes
+[schedule] 2026-11-24: 67 showtimes
 [schedule] 2026-11-25: 362 showtimes
 [schedule] 2026-11-26: 353 showtimes
-[poster] 12058372-0945-4147-a76f-9305e2977297: no Pillow here, kept the CDN's bytes unresized
-[poster] 019259ed-a494-45f3-8b83-f0a2e0c6c391: no Pillow here, kept the CDN's bytes unresized
-[poster] fce1038b-556c-4f26-8ba1-30f4ddcf4ec9: no Pillow here, kept the CDN's bytes unresized
-[poster] 24f6b692-67cf-4428-bc8a-70a489d48436: no Pillow here, kept the CDN's bytes unresized
 [schedule] 2026-11-27: 393 showtimes
 [schedule] 2026-11-28: 431 showtimes
 [schedule] 2026-11-29: 416 showtimes
-[poster] f2198bef-49bd-4323-8aed-a973c4f15085: no Pillow here, kept the CDN's bytes unresized
-[poster] bec402db-0349-46fd-8922-e86420168a58: no Pillow here, kept the CDN's bytes unresized
 [schedule] 2026-11-30: 396 showtimes
 [tmdb] no TMDB match (7): Baletti: Manon | Joulupukin salainen paja | Klara ja aurinko | Kuin lammas laatikossa | Muistojeni kahvila | Mysteerinäytös I - 30.11. | Uusin painajainen perheessä
-[tmdb] weak match, no exact title (12): Andrew Lloyd Webber’s Starlight Express  -> Andrew Lloyd Webber's Starlight Express: Live On-Stage | Animals in War -> Speaking of Animals in the Post War Era | Dry Leaf -> ხმელი ფოთოლი | Godzilla Minus Zero -> ゴジラ-0.0 | Grey Bees -> Сірі бджоли | Hadoota -> حدوتة | Leviticus -> Leviticus | Me olemme Pariisin orkesteri -> Nous, l'Orchestre | Nox -> Nox | Ramayana: Rise of a Legend -> रामायणम् | To the Victory! -> За перемогу! | Two Seasons, Two Strangers -> 旅と日々
-[tmdb] rating held back, under 25 votes (8): Billie maailmojen välissä (8.2 / 4 votes) | Dry Leaf (7.3 / 3 votes) | Grey Bees (8.2 / 4 votes) | Hadoota (8.2 / 4 votes) | Hetki ennen valoa (7.0 / 1 votes) | Me olemme Pariisin orkesteri (6.8 / 14 votes) | No Rest For The Wicked (8.2 / 7 votes) | Two Seasons, Two Strangers (7.2 / 17 votes)
-[tmdb] rating refresh: 12 scheduled, 12 re-read, 0 failed and still due, 5 deferred (budget 12)
-[tmdb] 17 new lookups, 27 re-checks, cache 216, 131 mergeable by id
+[tmdb] weak candidate kept, not searched until 2026-11-25 (12): Andrew Lloyd Webber’s Starlight Express  -> Andrew Lloyd Webber's Starlight Express: Live On-Stage | Animals in War -> Speaking of Animals in the Post War Era | Dry Leaf -> ხმელი ფოთოლი | Godzilla Minus Zero -> ゴジラ-0.0 | Grey Bees -> Сірі бджоли | Hadoota -> حدوتة | Leviticus -> Leviticus | Me olemme Pariisin orkesteri -> Nous, l'Orchestre | Nox -> Nox | Ramayana: Rise of a Legend -> रामायणम् | To the Victory! -> За перемогу! | Two Seasons, Two Strangers -> 旅と日々
+[tmdb] rating held back, under 25 votes (1): George Michael: The Faith Tour (8.5 / 6 votes)
+[tmdb] rating refresh: 5 scheduled, 5 re-read, 0 failed and still due, 0 deferred (budget 12)
+[tmdb] 0 new lookups, 5 re-checks, cache 216, 131 mergeable by id
 [films] 73 film entries
-[attrs] dropped, neither format nor language (9): Klassikko | Maxim | Neulonta | OCAP | Pkseutu | SEVERAL | TKU & R | Tampere | Varaus20
+[attrs] dropped, neither format nor language (8): Klassikko | Maxim | OCAP | Pkseutu | SEVERAL | TKU & R | Tampere | Varaus20
 [schedule] 17 venue files written, 0 kept as-is
 done
 exit=0
