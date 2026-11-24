@@ -26,7 +26,7 @@
  },
  "famine-33": {
   "price": "",
-  "at": "2026-11-22T12:14:06+00:00",
+  "at": "2026-11-24T12:45:11+00:00",
   "fields": {
    "lang": "UK-A, EN-S",
    "len": "92",
@@ -35,17 +35,6 @@
    "year": "1991",
    "syn_fi": "Famine-33 on ukrainalainen näytelmäelokuva, jonka on ohjannut Oles Jantšuk. Elokuva perustuu Vasyl Barkan romaaniin Keltainen ruhtinas. Se on yksi ensimmäisistä elokuvista, jotka käsittelevät vuosien 1932–1933 holodomoria – Stalinin hallinnon Ukrainassa tarkoituksellisesti aiheuttamaa nälänhätää. Elokuva kertoo tavallisen ukrainalaisen talonpoikaisperheen traagisesta kohtalosta. Perhe yrittää selviytyä pakkokollektivisoinnin, elintarvikkeiden takavarikoinnin ja laajalle levinneen nälänhädän keskellä. Menettäessään vähitellen läheisiään perheenjäsenet joutuvat kokemaan käsittämätöntä kärsimystä. Nälkää näkevän lapsen silmin kerrottu tarina paljastaa holodomorin kauhut ja miljoonien ukrainalaisten kokeman tragedian. Näytös järjestetään yhteistyössä Ukrainalaisten yhdistys Suomessa ry:n kanssa. Näytökseen on vapaa pääsy. Varaa vapaalippusi täältä.",
    "syn_en": "Famine-33 is a Ukrainian feature film directed by Oles Yanchuk, based on Vasyl Barka’s novel The Yellow Prince. It is one of the first feature films to depict the Holodomor of 1932–1933 — the man-made famine orchestrated by Stalin’s regime in Ukraine. The story follows the tragic fate of an ordinary Ukrainian peasant family struggling to survive forced collectivization, the confiscation of food supplies, and widespread starvation. As they gradually lose their loved ones, the family endures unimaginable suffering. Seen through the eyes of a starving child, the film reveals the horrors of the Holodomor and the tragedy experienced by millions of Ukrainians. The screening is organized in collaboration with the Association of Ukrainians in Finland. Admission is free with prior registration. Register here."
-  }
- },
- "hirtettyjen-kettujen-metsa": {
-  "price": "",
-  "at": "2026-11-24T01:46:12+00:00",
-  "fields": {
-   "lang": "FI-A",
-   "len": "93",
-   "rating": "S",
-   "year": "1986",
-   "syn_fi": "Kuppia ottava majuri ja kulta-aarretta piilotteleva vilunkimies ottavat klassisesti yhteen Lapin mailla. Esikoisohjaaja Jouko Suikkari (1948-2021) tavoitti filmatisoijista verevimmin Paasilinnan verrattomuuden nimenomaan veijarikirjailijana. Markku Toikka ja Aarno Sulkanen panevat pääosissa parastaan ja ohessa loistaa eksoottinen iskelmätähti Honey Simone. Poropoliisina nähdään viime talvena edesmennyt Seppo Heinola, myös rajatietokutsumuksestaan ja Shakespeare-tutkimuksistaan tunnettu teatteritaiteen persoona. Hirtettyjen kettujen metsä on ensi-iltakierroksensa jälkeen ollut harvinainen saalis valkokankailla, todellinen täky. -Jukka Sammalisto Näytöksessä ovat vieraina tuottaja Tuomas Sallinen ja näyttelijä Markku Toikka."
   }
  },
  "kerro-kaikille": {
@@ -74,7 +63,7 @@
  },
  "kuzma-terribly-funny": {
   "price": "",
-  "at": "2026-11-22T12:14:06+00:00",
+  "at": "2026-11-24T12:45:11+00:00",
   "fields": {
    "lang": "UK-A, EN-S",
    "len": "133",
@@ -83,6 +72,18 @@
    "year": "2026",
    "syn_fi": "Dokumenttielokuva kertoo Andriy Kuzmenkosta eli Kuzmasta, legendaarisen Skryabin-yhtyeen keulakuvasta. Ennennäkemättömän arkistomateriaalin kautta elokuva seuraa hänen matkaansa nuoruudesta yhdeksi Ukrainan tunnetuimmista musiikki- ja kulttuurihahmoista ja avaa hänen huumoriaan, itseironiaansa, henkilökohtaista kasvuaan sekä suhdettaan vapauteen, musiikkiin ja ihmisiin. Näytös järjestetään yhteistyössä Ukrainalaisten yhdistys Suomessa ry:n kanssa.",
    "syn_en": "The story of Andriy Kuzmenko, frontman of the band Skryabin, who was loved by millions but truly known by only a few. Through exclusive archival footage, never before seen by the public, the film reveals his inner transformations, self-irony, and a life lived at full speed — a life that continues to resonate long after his passing. Directed by Artem Hryhorian, the film takes viewers on a journey through Kuzma’s life — from a boy growing up in Novoiavorivsk to an icon of Ukrainian pop culture. It is a film about freedom, pain, and love for people, all of which found expression in his every word. The film explores Kuzma as a figure of cultural memory, whose presence and influence remain alive decades after his death. The screening is organized in collaboration with the Association of Ukrainians in Finland."
+  }
+ },
+ "la-bola-negra": {
+  "price": "",
+  "at": "2026-11-24T12:45:11+00:00",
+  "fields": {
+   "lang": "ES-A, FI-S, SV-S",
+   "len": "160",
+   "rating": "K-16",
+   "original": "La bola negra",
+   "year": "2026",
+   "syn_fi": "Cannesin pääkilpasarjan parhaan ohjauksen palkinnon voittanut La bola negra on kansainvälisen lehdistön mukaan ”vaikuttava”, ”tyrmäävä”, ”kautta aikojen tärkein historiallinen queer-kuvaelma”. Elokuvan taustalla on Espanjan sisällissodassa teloitetun runoilijan Federico García Lorcan hahmo ja hänen keskeneräiseksi jäänyt romaaninsa. Tarinassa kuvataan kolmen homoseksuaalin kohtaloita vuosina 1932, 1937 ja 2017. Yhteen nivoutuvat sota, kielletty halu, suru, syyllisyys ja vaietut perhesalaisuudet. Javier Calvon ja Javier Ambrossin ohjaaman elokuvan rooleissa vakuuttavat sekä nuoret gay-näyttelijät (mm. laulaja Guitarricadelafuente) että veteraanitähdet Lola Dueñas, Glenn Close ja Pénelope Cruz."
   }
  },
  "minotaur": {
@@ -94,6 +95,18 @@
    "rating": "K-12",
    "year": "2026",
    "syn_fi": "Minotaur on venäläisohjaaja Andrei Zvjagintsevin odotettu uusi elokuva – sen valmistumista odotettiin yhdeksän vuotta! Se kertoo menestyneestä venäläisestä liikemiehestä Glebistä. Ammatillisten paineiden kasautuessa ja avioliiton rakoillessa Glebin huolellisessa järjestyksessä oleva elämä alkaa romahtaa väkivaltaisesti kiihtyen. Elokuvan tapahtumat sijoittuvat sijoittuvat syksyyn 2022. Rikosdraaman pääosissa nähdään Dmitri Mazuro v ja Iris Lebedeva. Elokuvatutkija Mia Öhman alustaa ennakkonäytöksen TI 24.11. KLO 19:30."
+  }
+ },
+ "nox": {
+  "price": "",
+  "at": "2026-11-24T12:45:11+00:00",
+  "fields": {
+   "lang": "FI-A, EN-S",
+   "len": "65",
+   "original": "Nox",
+   "year": "2026",
+   "syn_fi": "Työmies soittaa sairaslomaa. Jalat ovat niin kipeät, ettei työnteosta tule mitään. Pian kylään kutsuu itsensä vanha kaveri, joka ei pyynnöstä huolimatta pysty pysymään poissa. Miehet keskustelevat keskenään ja yksinään, samalla kun ikkunoista hohkaa lähiön ankara hämärä. Myöhemmin toinen miehistä katoaa huuruisen yön päätteeksi. Painostava pimeys vaihtuu korkean kontrastin kesään. Kaveri on löydettävä: jäätelö sulaa ja kosto elää. Nox on vangitseva elokuva, jossa sekoittuu omalakinen neo-noir, eksistentiaalinen trilleri ja kaverikomedian sammaloituneet rauniot. Lakoninen huumori yhdistyy kauniin poeettiseen kieleen, jota lausuvat elämän kolhimat antisankarit. Matti Harjun (Natura) käsikirjoittama, kuvaama, ohjaama ja leikkaama Nox sai maailmanensi-iltansa Rotterdamin elokuvajuhlilla. Suomessa elokuva nähtiin ensi kertaa Rakkautta & Anarkiaa -festivaalilla. ”Suomalaisen elokuvan todellinen ylpeys ovat sen kapinalliset ja omaperäiset tekijät – löyhä joukko elokuvataiteilijoita, joiden estetiikka on täysin ristiriidassa maan virallisen elokuvakulttuurin kanssa. Heistä kansainvälisesti tunnetuin on toistaiseksi Matti Harju, jonka modernistinen melankolia – lajityypin kliseiden pyörittelyä vino hymy huulilla – saa katsojat aina häkeltymään; mitään vastaavaa ei ole aiemmin nähty. Nox asettuu takametsien noirin muottiin: vakavailmeiset miehet puuhailevat omiaan – sellaista, mitä miehet tekevät ajettuaan huomiota herättämättömät autonsa paikkoihin, joissa alkaa verenvuodatusta tapahtua. Touhu voi muuttua raa’aksi, sillä tilanne voi karata käsistä silmänräpäyksessä. Ja siitä joku joutuu tietysti aina maksamaan. Älä kuitenkaan odota ryöstöjä tai, äläkä myöskään anna alun viittausten buddy-elokuvaan hämätä; Nox on ennen kaikkea asennetta. Tietyt kuvat ja eleet luovat odotuksia, jotka Harju täyttää rennon huolettomalla, leikkisällä, mutta samalla syvästi koetulla otteella. Todella cool elokuva!” – Olaf Möller / International Film Festival Rotterdam Suomen elokuvasäätiön markkinointi- ja levitystuki 2026 PE 27.11. KLO 17:00 näytöksessä vieraana ohjaaja Matti Harju.",
+   "syn_en": "A working man calls in sick. His legs are so sore that he can barely manage to work. Before long, an old friend invites himself over, and despite being asked to stay away, he simply refuses to leave. The two men talk, both to each other and to themselves, as the harsh twilight of the suburbs seeps through the windows. Later, one of the men disappears after a hazy night. The oppressive darkness gives way to a high-contrast summer. His friend must be found: the ice cream is melting, and revenge is alive. Nox is a captivating film that blends an idiosyncratic form of neo-noir with existential thriller and the moss-covered ruins of a buddy comedy. Its deadpan humour is intertwined with beautifully poetic language, spoken by antiheroes battered by life. Written, shot, directed and edited by Matti Harju (Natura), Nox had its world premiere at the International Film Festival Rotterdam. In Finland, the film was first screened at the Love & Anarchy (Helsinki International Film Festival). “The true pride of Finnish cinema are its outlaws and mavericks, a loose band of moving image artists whose aesthetics are totally at odds with the nation’s official film culture. The internationally – so far – most widely recognised of these is Matti Harju whose modernist melancholia of slinging genre tropes with a wry frown always leaves viewers dazzled – for something like his films you’ve never seen. Nox sports the airs of a backwoods noir, with seriously determined men being busy with stuff – the kind of stuff men do after they have driven their nondescript cars to places where then things happen. This stuff could be brutal, because things could go out of hand, pronto. For which someone always has to pay, sure. Don’t expect any heist or bloodshed, though, and forget as well the initial buddy movie intimations, for Nox is all about attitude: the expectations evoked by certain images and gestures, which Harju fulfils in just a casually flippant, jocular yet deeply felt fashion. A truly cool movie!” – Olaf Möller / International Film Festival Rotterdam"
   }
  },
  "ortotopologian-loputtomat-alkeet": {
@@ -118,6 +131,18 @@
    "year": "2026",
    "syn_fi": "Cannesin elokuvajuhlien kilpasarjassa ensi-iltansa saanut Paper Tiger on intensiivinen ja koskettava rikosdraama kahdesta veljeksestä, jotka tavoittelevat amerikkalaista unelmaa, mutta ajautuvat vaaralliseen juoneen. Kun veljekset yrittävät selviytyä venäläismafian vaarallisessa maailmassa, perhesiteet alkavat rakoilla kohtalokkain seurauksin. Tapahtumat uhkaavat heidän perhettään ja koettelevat veljesten välistä luottamusta. Pääosissa ovat Adam Driver, Miles Teller ja Scarlett Johansson. Elokuvan on ohjannut James Gray, joka muistetaan muun muassa elokuvista Ad Astra, Pikku Odessa ja Maahanmuuttaja.",
    "syn_en": "Premiering in competition at the Cannes Film Festival, Paper Tiger is an intense and moving crime drama about two brothers chasing the American Dream, only to become entangled in a dangerous scheme. As they struggle to survive in the treacherous world of the Russian mafia, their family bonds begin to unravel, with devastating consequences. The events threaten their family and put the brothers’ trust in each other to the ultimate test. Starring Adam Driver, Miles Teller and Scarlett Johansson, the film is directed by James Gray, known for Ad Astra, Little Odessa and The Immigrant."
+  }
+ },
+ "primetime": {
+  "price": "",
+  "at": "2026-11-24T12:45:11+00:00",
+  "fields": {
+   "lang": "EN-A",
+   "len": "105",
+   "rating": "K-16",
+   "year": "2026",
+   "syn_fi": "Lance Oppenheimin elokuva Primetime kertoo televisiojuontaja Chris Hansenista, joka päättää tehdä televisiohistoriaa keinoja kaihtamatta. Ohjelman suosion kasvaessa oikeuden tavoittelusta muodostuu vähitellen häiritsevää viihdettä, jota ohjaavat maine, kunnianhimo ja sensaatiohakuisuus. Elokuva tutkii tutkivan journalismin ja hyväksikäytön välistä häilyvää rajaa sekä kyseenalaistaa tosielämän tapahtumien muuttamisen viihteeksi.",
+   "syn_en": "Lance Oppenheim’s Primetime follows television host Chris Hansen who sets out to make television history by any means necessary. As the show’s popularity grows the pursuit of justice gradually turns into disturbing entertainment driven by fame, ambition and sensationalism. The film explores the blurred line between investigative journalism and exploitation, questioning the transformation of real-life events into entertainment."
   }
  },
  "talvitarina": {

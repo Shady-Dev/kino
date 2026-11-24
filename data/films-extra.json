@@ -242,7 +242,6 @@
   },
   "anni tahtoo äidin ja kala": {
    "id": 599152,
-   "img": "data/posters/697f7b31ba391e01.jpg",
    "r": 0,
    "s": {
     "en": "",
@@ -658,7 +657,9 @@
     "bioforum",
     "biograni",
     "biokaari",
+    "biomarilyn",
     "biomarlon",
+    "biorex",
     "biorexkokkola",
     "biosade",
     "biosalo",
@@ -677,10 +678,13 @@
     "kinokuva",
     "kinolumo",
     "kinomania",
+    "kinomarilyn",
+    "kinomyyri",
     "kinopiispanristi",
     "kinopirtti",
     "kinosampo",
     "kinoset",
+    "kinotar",
     "kinotervakoski",
     "kinotoijala",
     "kkino",
@@ -722,7 +726,9 @@
     "bioforum",
     "biograni",
     "biokaari",
+    "biomarilyn",
     "biomarlon",
+    "biorex",
     "biorexkokkola",
     "biosade",
     "biosalo",
@@ -741,10 +747,13 @@
     "kinokuva",
     "kinolumo",
     "kinomania",
+    "kinomarilyn",
+    "kinomyyri",
     "kinopiispanristi",
     "kinopirtti",
     "kinosampo",
     "kinoset",
+    "kinotar",
     "kinotervakoski",
     "kinotoijala",
     "kkino",
@@ -1458,10 +1467,12 @@
    "krs": [
     "bioforum",
     "biorex",
+    "biorexkokkola",
     "cinemantsala",
     "gilda",
     "kinoelo",
     "kinojuha",
+    "kinokonepaja",
     "kinolumo",
     "kinomania",
     "kinosampo",
@@ -1484,10 +1495,12 @@
    "krs": [
     "bioforum",
     "biorex",
+    "biorexkokkola",
     "cinemantsala",
     "gilda",
     "kinoelo",
     "kinojuha",
+    "kinokonepaja",
     "kinolumo",
     "kinomania",
     "kinosampo",
@@ -1520,10 +1533,12 @@
    "krs": [
     "bioforum",
     "biorex",
+    "biorexkokkola",
     "cinemantsala",
     "gilda",
     "kinoelo",
     "kinojuha",
+    "kinokonepaja",
     "kinolumo",
     "kinomania",
     "kinosampo",
@@ -1607,6 +1622,7 @@
    "krs": [
     "bioforum",
     "biogrand",
+    "biomarilyn",
     "biomarlon",
     "biopallas",
     "biorex",
@@ -1670,6 +1686,7 @@
    "krs": [
     "bioforum",
     "biogrand",
+    "biomarilyn",
     "biomarlon",
     "biopallas",
     "biorex",
@@ -1951,7 +1968,8 @@
    "kr": "K-7",
    "krs": [
     "gilda",
-    "kinometso"
+    "kinometso",
+    "tapiola"
    ],
    "r": 0,
    "s": {
@@ -2569,7 +2587,6 @@
   },
   "hirtettyjen kettujen metsä": {
    "id": 261118,
-   "img": "data/posters/c06504e405dd11b8.jpg",
    "r": 0,
    "s": {
     "en": "",
@@ -2613,12 +2630,9 @@
    "r": 6.8,
    "s": {
     "en": "",
-    "fi": "Syrjäinen eteläkorealainen rannikkokylä, nimeltään Hope Harbor, sijaitsee lähellä Pohjois-Korean vastaista demilitarisoitua vyöhykettä (DMZ). Kun rajut maastopalot katkaisevat kylän kaikki tietoliikenneyhteydet, kylä jää täysin eristyksiin muusta maailmasta. Samaan aikaan kylässä alkaa tapahtua raakoja hyökkäyksiä: eläimiä silvotaan ja asukkaita löydetään paloiteltuina kapeilta kujilta. Hermostunut paikallispoliisipäällikkö Bum-seok ja hänen reipas apulaisensa Sung-ae ryhtyvät tutkimaan tilannetta. Samaan aikaan Bum-seokin serkun, äkkipikaisen Sung-ki-nimisen miehen, johtama paikallinen metsästysseurue suuntaa vuoristometsiin jäljittämään petoa. Metsästäjät luulevat aluksi ajavansa takaa eksynyttä tiikeriä, mutta pian he huomaavatkin muuttuneensa itse saaliiksi. He törmäävät viidakossa munanmuotoiseen, hopeiseen avaruusalukseen. Kylää terrorisoiva kuolematon ja käsittämättömän nopea olento onkin peräisin ulkoavaruudesta."
+    "fi": "Syrjäisen satamakaupungin laitamilta tehdään salaperäinen löytö. Asukkaat joutuvat epätoivoiseen taisteluun selviytymisestään jotakin sellaista vastaan, mitä he eivät ole koskaan aiemmin kohdanneet."
    },
-   "tr": "https://www.youtube.com/watch?v=OFaJzL83y0Q",
-   "ts": [
-    "fi"
-   ]
+   "tr": "https://www.youtube.com/watch?v=OFaJzL83y0Q"
   },
   "hopeatähti hetki ennen valoa": {
    "r": 0,
@@ -3332,6 +3346,18 @@
    },
    "tr": ""
   },
+  "karaoke": {
+   "id": 242926,
+   "r": 0,
+   "s": {
+    "en": "A man tries to avoid his problems whilst on a night out in a karaoke bar.",
+    "fi": "Tekisikö mielesi laulaa tai haluatko nähdä, miten hyvin muut laulavat. Tervetuloa Marilynin karaokeiltaan. Karaokea laulellaan Marilynin aulabaarissa. Vapaa pääsy. Klo 23 --> K18, alkuillasta myös alaikäiset voivat tulla näyttämään laulutaitonsa."
+   },
+   "tr": "",
+   "ts": [
+    "en"
+   ]
+  },
   "kari juusosen juhlanäytös niko lentäjän poika": {
    "r": 0,
    "s": {
@@ -3577,6 +3603,7 @@
     "kinolumo",
     "kinomarilyn",
     "kinometso",
+    "kinomyyri",
     "kinopiispanristi",
     "kinoset",
     "kinotervakoski",
@@ -3650,6 +3677,7 @@
     "kinolumo",
     "kinomarilyn",
     "kinometso",
+    "kinomyyri",
     "kinopiispanristi",
     "kinoset",
     "kinotervakoski",
@@ -4868,6 +4896,7 @@
     "kulttuurimylly",
     "kuvakukko",
     "niagara",
+    "orion",
     "tapiola"
    ],
    "r": 7.9,
@@ -5127,6 +5156,16 @@
     "fi": "Lemmenlatu on osittain dramatisoitu pitkä dokumenttielokuva, joka kertoo Lahden yli satavuotisen historian perustamisvuodesta 1905 tähän päivään. Rinnalla kuljetamme Suomen satavuotisen itse-näisyyden dramaattisimpia hetkiä. Mukana ovat Salpausselällä järjestetyt hiihdon MM-kisat alkaen vuodesta 1926 huipennuksena juhlavuoden 2017 MM-kisat."
    },
    "tr": ""
+  },
+  "lethal weapon": {
+   "id": 941,
+   "img": "data/posters/f136a22ee4bf0bf2.jpg",
+   "r": 7.3,
+   "s": {
+    "en": "",
+    "fi": "Elellään joulun aikaa. Danny Glover on eläkettä odotteleva poliisi, jonka vanhan ystävän tytär kuolee huumeisiin. Avuksi juttua ratkomaan määrätään Mel Gibsonin esittämä itsetuhoinen ja lyhytpinnainen Martin Riggs. Aluksi ollaan kovasti eri aaltopituuksilla, mutta kyllähän siitä se yhteinen sävel sitten löytyy. Ohjaaja Richard Donnerilla on homma hanskassa. Armottoman menevä leffa. Ja myös kyttäkaksikkoelokuvien aatelia."
+   },
+   "tr": "https://www.youtube.com/watch?v=RLu49mRcmYs"
   },
   "leviticus": {
    "id": 1564614,
@@ -6188,6 +6227,14 @@
     "fi": "Richard Linklaterin oodi elokuvan ilolle sukeltaa Jean-Luc Godardin legendaarisen Viimeiseen hengenvetoon -elokuvan tuotannon hilpeisiin käänteisiin.\n\nCahiers du Cinema -lehden toimituksessa oli vauhtia. Toimittajista Claude Chabrol oli jo ohjannut kaksi leffaa. Francois Truffaut oli lähdössä Cannesin elokuvajuhlille esittelemään esikoistaan 400 kepposta. Godard kähvelsi lehden kassasta matkarahat ja painui mukaan. Kaikki tiesivät, että nyt tapahtuu jotain uutta.\n\nGodardin oli päästävä ohjaamaan. Se on helppoa: huijataan tuottaja mukaan, puhutaan Jean Seberg (Zoey Deutch) hehkumaan naispääosaan, ja Jean-Paul Belmondo (aubry Dullin) on kuin luotu konnan rooliin. Aamuisin keksitään pätkä käsikirjoitusta kahvilassa, kuvataan tunti tai koko päivä. Kyllä tästä leffa tulee. Sivuosissa vilahtelee Robert Bressonin, Jean-Pierre Melvillen ja Roberto Rossellinin kaltaisia hahmoja.\n\nKaikki tämä on historiallisesti akkuraattia ja samanaikaisesti keksittyä. Uransa huipulla oleva Richard Linklater (Rakkautta ennen -trilogia, Boyhood) tavoittaa sen välittömyyden, joka kuvauksissa vallitsi yhtä lailla kameran edessä ja takana. Sekä etenkin kuvaustauoilla, joita oli paljon."
    },
    "tr": "https://www.youtube.com/watch?v=sRqWbsdACzg"
+  },
+  "nox": {
+   "r": 0,
+   "s": {
+    "en": "A working man calls in sick. His legs are so sore that he can barely manage to work. Before long, an old friend invites himself over, and despite being asked to stay away, he simply refuses to leave. The two men talk, both to each other and to themselves, as the harsh twilight of the suburbs seeps through the windows. Later, one of the men disappears after a hazy night. The oppressive darkness gives way to a high-contrast summer. His friend must be found: the ice cream is melting, and revenge is alive. Nox is a captivating film that blends an idiosyncratic form of neo-noir with existential thriller and the moss-covered ruins of a buddy comedy. Its deadpan humour is intertwined with beautifully poetic language, spoken by antiheroes battered by life. Written, shot, directed and edited by Matti Harju (Natura), Nox had its world premiere at the International Film Festival Rotterdam. In Finland, the film was first screened at the Love & Anarchy (Helsinki International Film Festival). “The true pride of Finnish cinema are its outlaws and mavericks, a loose band of moving image artists whose aesthetics are totally at odds with the nation’s official film culture. The internationally – so far – most widely recognised of these is Matti Harju whose modernist melancholia of slinging genre tropes with a wry frown always leaves viewers dazzled – for something like his films you’ve never seen. Nox sports the airs of a backwoods noir, with seriously determined men being busy with stuff – the kind of stuff men do after they have driven their nondescript cars to places where then things happen. This stuff could be brutal, because things could go out of hand, pronto. For which someone always has to pay, sure. Don’t expect any heist or bloodshed, though, and forget as well the initial buddy movie intimations, for Nox is all about attitude: the expectations evoked by certain images and gestures, which Harju fulfils in just a casually flippant, jocular yet deeply felt fashion. A truly cool movie!” – Olaf Möller / International Film Festival Rotterdam",
+    "fi": "Työmies soittaa sairaslomaa. Jalat ovat niin kipeät, ettei työnteosta tule mitään. Pian kylään kutsuu itsensä vanha kaveri, joka ei pyynnöstä huolimatta pysty pysymään poissa. Miehet keskustelevat keskenään ja yksinään, samalla kun ikkunoista hohkaa lähiön ankara hämärä. Myöhemmin toinen miehistä katoaa huuruisen yön päätteeksi. Painostava pimeys vaihtuu korkean kontrastin kesään. Kaveri on löydettävä: jäätelö sulaa ja kosto elää. Nox on vangitseva elokuva, jossa sekoittuu omalakinen neo-noir, eksistentiaalinen trilleri ja kaverikomedian sammaloituneet rauniot. Lakoninen huumori yhdistyy kauniin poeettiseen kieleen, jota lausuvat elämän kolhimat antisankarit. Matti Harjun (Natura) käsikirjoittama, kuvaama, ohjaama ja leikkaama Nox sai maailmanensi-iltansa Rotterdamin elokuvajuhlilla. Suomessa elokuva nähtiin ensi kertaa Rakkautta & Anarkiaa -festivaalilla. ”Suomalaisen elokuvan todellinen ylpeys ovat sen kapinalliset ja omaperäiset tekijät – löyhä joukko elokuvataiteilijoita, joiden estetiikka on täysin ristiriidassa maan virallisen elokuvakulttuurin kanssa. Heistä kansainvälisesti tunnetuin on toistaiseksi Matti Harju, jonka modernistinen melankolia – lajityypin kliseiden pyörittelyä vino hymy huulilla – saa katsojat aina häkeltymään; mitään vastaavaa ei ole aiemmin nähty. Nox asettuu takametsien noirin muottiin: vakavailmeiset miehet puuhailevat omiaan – sellaista, mitä miehet tekevät ajettuaan huomiota herättämättömät autonsa paikkoihin, joissa alkaa verenvuodatusta tapahtua. Touhu voi muuttua raa’aksi, sillä tilanne voi karata käsistä silmänräpäyksessä. Ja siitä joku joutuu tietysti aina maksamaan. Älä kuitenkaan odota ryöstöjä tai, äläkä myöskään anna alun viittausten buddy-elokuvaan hämätä; Nox on ennen kaikkea asennetta. Tietyt kuvat ja eleet luovat odotuksia, jotka Harju täyttää rennon huolettomalla, leikkisällä, mutta samalla syvästi koetulla otteella. Todella cool elokuva!” – Olaf Möller / International Film Festival Rotterdam Suomen elokuvasäätiön markkinointi- ja levitystuki 2026 PE 27.11. KLO 17:00 näytöksessä vieraana ohjaaja Matti Harju."
+   },
+   "tr": ""
   },
   "nox ohjaajavierailu": {
    "id": 1599242,
@@ -7459,15 +7506,20 @@
    "img": "data/posters/ca46dd98e9982631.jpg",
    "kr": "K-16",
    "krs": [
+    "biorex",
     "isohannu",
     "kinoaurora",
+    "kinoiiris",
     "kinojuha",
     "kinokilta",
     "kinokonepaja",
     "kinokulma",
     "kinopiispanristi",
     "kinopirtti",
+    "kinotar",
     "leffabuumi",
+    "niagara",
+    "orion",
     "sheryl"
    ],
    "r": 6.8,
@@ -7593,6 +7645,7 @@
     "kinolaika",
     "kinolumo",
     "kinomarilyn",
+    "kinomyyri",
     "kinopiispanristi",
     "kinopirtti",
     "kinoset",
@@ -9419,6 +9472,11 @@
   "the devils": {
    "id": 31767,
    "img": "data/posters/1f8ec30de3187d84.jpg",
+   "kr": "K-16",
+   "krs": [
+    "kinokilta",
+    "kinolaika"
+   ],
    "r": 7.5,
    "s": {
     "en": "Assembled from the original camera negative, this new 4K restoration presents Ken Russell’s definitive vision of THE DEVILS by referencing the edit he privately constructed in 2004. THE DEVILS is the uncut and unfiltered theatrical experience that Russell always envisioned – and the first time the film will be presented restored and in 4K",
@@ -10834,12 +10892,10 @@
     "julia",
     "kinoakseli",
     "kinoaurora",
-    "kinoelo",
     "kinoiiris",
     "kinojuha",
     "kinokilta",
     "kinolumo",
-    "kinomania",
     "kinomarilyn",
     "kinoolympia",
     "kinopiispanristi",
@@ -10855,8 +10911,7 @@
     "studio123jarvenpaa",
     "studio123kouvola",
     "tapiola",
-    "vaakuna",
-    "virtainpirtti"
+    "vaakuna"
    ],
    "r": 7.5,
    "s": {
@@ -10886,12 +10941,10 @@
     "julia",
     "kinoakseli",
     "kinoaurora",
-    "kinoelo",
     "kinoiiris",
     "kinojuha",
     "kinokilta",
     "kinolumo",
-    "kinomania",
     "kinomarilyn",
     "kinoolympia",
     "kinopiispanristi",
@@ -10907,8 +10960,7 @@
     "studio123jarvenpaa",
     "studio123kouvola",
     "tapiola",
-    "vaakuna",
-    "virtainpirtti"
+    "vaakuna"
    ],
    "r": 7.5,
    "s": {

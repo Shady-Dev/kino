@@ -36,7 +36,7 @@
 [kinometso] Viitasaari: 2 showtimes, 1 dates
 [kinometso] Toivakka: no programme at the moment (adapter confirmed the venue empty); publishing an empty file
 [kinometso] Hankasalmi: no programme at the moment (adapter confirmed the venue empty); publishing an empty file
-[kinometso] synopses merged: 3
+[kinometso] synopses merged: 0
 [biosalo] Bio-Salo (Salo): 62 showtimes
 [biosalo] Bio-Salo: 62 showtimes, 10 dates
 [biosalo] synopses merged: 0
@@ -47,5 +47,5 @@
 [run] hosts: 6 attempted -- biosalo.fi, jarvelankino.fi, kino-olympia.fi, kinoaurora.fi, kinohirvi.fi, kinoset.fi
 [run] pending: kinometso has 5 venue(s) with no programme yet: km-tikkakoski, km-vaajakoski, km-laukaa, km-toivakka, km-hankasalmi
 [run] nexxo: 13 venues, 232 showtimes, 0 stale, 0 unverified, 5 pending, 0 with no programme, 0 failures
-[run] timing: 9 site(s), 41.9s of fetching added up across workers that overlap, longest site 11.2s, longest queue wait 0.0s, 11.2s wall from this module's first fetch starting to its last ending
+[run] timing: 9 site(s), 38.6s of fetching added up across workers that overlap, longest site 10.6s, longest queue wait 0.0s, 10.6s wall from this module's first fetch starting to its last ending
 exit=0

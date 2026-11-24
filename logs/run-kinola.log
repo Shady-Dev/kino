@@ -1,10 +1,10 @@
-[kinokilta] 55 screening(s) listed, 44 film page(s) read
+[kinokilta] 54 screening(s) listed, 43 film page(s) read
 [kinokilta] omitted 0 confirmed non-film(s) by evidence-backed exclusion over 0 screening(s), and 0 unresolved over 0
 [kinokilta] override retkikino-2026: active
 [kinokilta] 8 synopsis/synopses withheld, no language settled: Cruising, Never After Dark, Primetime, Red Rue Express, RetkiKino 2026, The Hills Have Eyes, The Hunger, Tumma kristalli - The Dark Crystal
 [kinokilta] 8 film(s) with a language name not read, that part left blank: Alligator (Ei teksitystä); Joysticks (Ei teksitystä); Kuzma (ukraina); Prom Night (Ei teksitystä); Red Rue Express (ukraina); Savage Dawn (Ei teksitystä); Staubwelt (malayalam); The Devils (Ei teksitystä)
-[kinokilta] Kino Kilta: 55 showtimes, 21 dates
-[kinokilta] Kino Kilta: 55 showtimes, 21 dates
+[kinokilta] Kino Kilta: 54 showtimes, 20 dates
+[kinokilta] Kino Kilta: 54 showtimes, 20 dates
 [kinokilta] synopses merged: 0
 [kinolaika] 49 screening(s) listed, 31 film page(s) read
 [kinolaika] omitted 0 confirmed non-film(s) by evidence-backed exclusion over 0 screening(s), and 18 unresolved over 18
@@ -17,14 +17,14 @@
 [kinolaika] Kino Laika: 31 showtimes, 9 dates
 [kinolaika] Kino Laika: 31 showtimes, 9 dates
 [kinolaika] synopses merged: 0
-[kinomyyri] 16 screening(s) listed, 14 film page(s) read
+[kinomyyri] 32 screening(s) listed, 20 film page(s) read
 [kinomyyri] omitted 0 confirmed non-film(s) by evidence-backed exclusion over 0 screening(s), and 2 unresolved over 3
 [kinomyyri] unresolved: Calle Málaga - muistojeni katu, Koulunäytös
 [kinomyyri] override kojootti-vs-acme-dub: evidence-unavailable
 [kinomyyri] override must-pori-nakku: evidence-unavailable
-[kinomyyri] 4 film(s) with a language name not read, that part left blank: Berliinin sankari (saksan); Lapin sota (saami); Me olemme Pariisin orkesteri (ranskan); Nina Roza (ranskan, bulgarialainen)
-[kinomyyri] Kino Myyri: 13 showtimes, 7 dates
-[kinomyyri] Kino Myyri: 13 showtimes, 7 dates
+[kinomyyri] 5 film(s) with a language name not read, that part left blank: Berliinin sankari (saksan); Kuin lammas laatikossa (japanilainen); Lapin sota (saami); Me olemme Pariisin orkesteri (ranskan); Nina Roza (ranskan, bulgarialainen)
+[kinomyyri] Kino Myyri: 29 showtimes, 12 dates
+[kinomyyri] Kino Myyri: 29 showtimes, 12 dates
 [kinomyyri] synopses merged: 0
 [kinokonepaja] 47 screening(s) listed, 14 film page(s) read
 [kinokonepaja] omitted 0 confirmed non-film(s) by evidence-backed exclusion over 0 screening(s), and 3 unresolved over 3
@@ -36,8 +36,8 @@
 [kinokonepaja] Kino Konepaja: 44 showtimes, 26 dates
 [kinokonepaja] Kino Konepaja: 44 showtimes, 26 dates
 [kinokonepaja] synopses merged: 0
-[run] http: 0 revalidated (304), 107 full, 16 not stored (origin said no-store), 45 cache entries written
+[run] http: 0 revalidated (304), 112 full, 22 not stored (origin said no-store), 44 cache entries written
 [run] hosts: 4 attempted -- kinokonepaja.fi, kinomyyri.fi, www.kinokilta.fi, www.kinolaika.fi
-[run] kinola: 4 venues, 143 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
-[run] timing: 4 site(s), 234.5s of fetching added up across workers that overlap, longest site 94.7s, longest queue wait 114.9s, 94.7s wall from this module's first fetch starting to its last ending
+[run] kinola: 4 venues, 158 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
+[run] timing: 4 site(s), 213.8s of fetching added up across workers that overlap, longest site 80.0s, longest queue wait 108.1s, 80.0s wall from this module's first fetch starting to its last ending
 exit=0
