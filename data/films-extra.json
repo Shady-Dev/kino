@@ -655,6 +655,7 @@
    "kr": "K-7",
    "krs": [
     "bioforum",
+    "biogrand",
     "biograni",
     "biokaari",
     "biomarilyn",
@@ -663,14 +664,18 @@
     "biorexkokkola",
     "biosade",
     "biosalo",
+    "biosavoy",
     "biostara",
     "biovuoksi",
+    "elavienkuvien",
     "elokuviin",
     "engel",
     "helios",
     "ihmekompleksi",
     "isohannu",
     "jarvelankino",
+    "kino123",
+    "kinoakseli",
     "kinoelo",
     "kinohannikainen",
     "kinohirvi",
@@ -688,10 +693,14 @@
     "kinotervakoski",
     "kinotoijala",
     "kkino",
+    "kotkanleffat",
     "kurikankino",
     "kuvatahti",
     "leffabuumi",
     "lieksankino",
+    "savonkinot",
+    "star",
+    "studio123jarvenpaa",
     "vaakuna",
     "vihdinkino"
    ],
@@ -724,6 +733,7 @@
    "kr": "K-7",
    "krs": [
     "bioforum",
+    "biogrand",
     "biograni",
     "biokaari",
     "biomarilyn",
@@ -732,14 +742,18 @@
     "biorexkokkola",
     "biosade",
     "biosalo",
+    "biosavoy",
     "biostara",
     "biovuoksi",
+    "elavienkuvien",
     "elokuviin",
     "engel",
     "helios",
     "ihmekompleksi",
     "isohannu",
     "jarvelankino",
+    "kino123",
+    "kinoakseli",
     "kinoelo",
     "kinohannikainen",
     "kinohirvi",
@@ -757,10 +771,14 @@
     "kinotervakoski",
     "kinotoijala",
     "kkino",
+    "kotkanleffat",
     "kurikankino",
     "kuvatahti",
     "leffabuumi",
     "lieksankino",
+    "savonkinot",
+    "star",
+    "studio123jarvenpaa",
     "vaakuna",
     "vihdinkino"
    ],
@@ -788,12 +806,17 @@
    ]
   },
   "billie maailmojen välissä orig": {
+   "id": 1538497,
+   "img": "data/posters/4634d78853ec8f0d.jpg",
    "r": 0,
    "s": {
-    "en": "",
+    "en": "An impulsive and unconventional teenage girl named Billie discovers secret magical abilities which, once unleashed, hurtle her into a spectacle-filled journey out of suburbia and into a vast witch realm called Hexe. Forced to team up with her cautious mother, Alice, they uncover family mysteries that could change the world of witches forever.",
     "fi": "BILLIE MAAILMOJEN VÄLISSÄ esittelee meille impulsiivisen ja omintakeisen teinitytön nimeltä Billie ja tämän ylisuojelevan äidin Alicen. Kun Billie saa yllättäen käyttöönsä salaisia taikavoimia, hän tempautuu saman tien kotoaan maagiseen Hexen valtakuntaan, missä häntä ovat vastaanottamassa Ms. Quill ja Elias Quire. Huikean matkansa edetessä Billie saa selville perhesalaisuuksia, jotka voivat mullistaa noitien taikamaailman ikiajoiksi. Elokuvan edessä nähdään Malcon Piercen ja Fawn Veerasunthornin ohjaama lyhytelokuva \"Lilo & Scratch\", kesto: 00:06:10. Elokuvan \"Billie maailmojen välissä\" kesto on 01:43:17."
    },
-   "tr": ""
+   "tr": "https://www.youtube.com/watch?v=9ke5KSOUl-U",
+   "ts": [
+    "en"
+   ]
   },
   "billie maailmojen välissä puhumme suomea": {
    "id": 1538497,
@@ -984,12 +1007,17 @@
    "tr": ""
   },
   "calle málaga muistojeni katu matinea": {
-   "r": 0,
+   "id": 1399462,
+   "img": "data/posters/9019d907c9f510df.jpg",
+   "r": 7.5,
    "s": {
-    "en": "",
+    "en": "An aging Spanish woman in Tangier resists her daughter's plan to sell her home. She fights to keep her home, reclaims belongings and rediscovers love and desire.",
     "fi": "María Ángeles on aina asunut Tangerin kaupungissa Pohjois-Marokossa. Eläkkeellä olevan naisen aviomies on kuollut jo vuosia sitten ja tytär asuu Madridissa lastensa kanssa. Hän nauttii päivittäisistä rutiineistaan rakkaan kotikaupunkinsa monikulttuurisessa ympäristössä. Kun hänen tyttärensä yllättäen ilmoittaa aikovansa myydä hänen Málaga-kadulla sijaitsevan asuntonsa, María Ángelesin koko elämä uhkaa muuttua. Edessä on muutto joko Madridiin tai vanhainkotiin. Yrittäessään pitää kiinni kodistaan ja muistoistaan hän joutuu kohtaamaan vaikeuksia, mutta tilanne tuo mukanaan myös iloa ja uuden rakkauden. Elokuva vie katsojan elämänmyönteiselle matkalle pitkin Marokon katuja. Calle Málaga - muistojeni katu on palkitun marokkolaisohjaaja Maryam Touzanin ensimmäinen espanjankielinen elokuva. Touzanin edellinen elokuva Kaftaanin sini oli Marokon Oscar-ehdokkaana 2022. Calle Málagan pääosassa nähdään espanjalaisen elokuvan legenda ja Pedro Almodóvarin luottonäyttelijänä tunnettu Carmen Maura. Luova Eurooppa -ohjelman - MEDIA -tuella."
    },
-   "tr": ""
+   "tr": "https://www.youtube.com/watch?v=FwtLBQpAnk0",
+   "ts": [
+    "en"
+   ]
   },
   "carrie": {
    "id": 7340,
@@ -1486,6 +1514,7 @@
     "biorexkokkola",
     "cinemantsala",
     "gilda",
+    "ihmekompleksi",
     "kinoelo",
     "kinojuha",
     "kinokonepaja",
@@ -1494,7 +1523,10 @@
     "kinosampo",
     "kinotar",
     "kinotoijala",
+    "leffabuumi",
     "levisummit",
+    "savonkinot",
+    "studio123jarvenpaa",
     "tapiola"
    ],
    "r": 0,
@@ -1514,6 +1546,7 @@
     "biorexkokkola",
     "cinemantsala",
     "gilda",
+    "ihmekompleksi",
     "kinoelo",
     "kinojuha",
     "kinokonepaja",
@@ -1522,7 +1555,10 @@
     "kinosampo",
     "kinotar",
     "kinotoijala",
+    "leffabuumi",
     "levisummit",
+    "savonkinot",
+    "studio123jarvenpaa",
     "tapiola"
    ],
    "r": 0,
@@ -1552,6 +1588,7 @@
     "biorexkokkola",
     "cinemantsala",
     "gilda",
+    "ihmekompleksi",
     "kinoelo",
     "kinojuha",
     "kinokonepaja",
@@ -1560,7 +1597,10 @@
     "kinosampo",
     "kinotar",
     "kinotoijala",
+    "leffabuumi",
     "levisummit",
+    "savonkinot",
+    "studio123jarvenpaa",
     "tapiola"
    ],
    "r": 0,
@@ -1636,7 +1676,6 @@
    "img": "data/posters/445a6b495360d819.jpg",
    "kr": "K-12",
    "krs": [
-    "bioforum",
     "biogrand",
     "biomarilyn",
     "biomarlon",
@@ -1700,7 +1739,6 @@
    "img": "data/posters/445a6b495360d819.jpg",
    "kr": "K-12",
    "krs": [
-    "bioforum",
     "biogrand",
     "biomarilyn",
     "biomarlon",
@@ -2135,13 +2173,17 @@
   },
   "fåret shaun och monstret på bondgården": {
    "id": 1477104,
-   "r": 0,
+   "img": "data/posters/93eda5fa30b7d70c.jpg",
+   "r": 7.3,
    "s": {
-    "en": "",
+    "en": "On Halloween Eve at Mossy Bottom Farm, excitement turns to dismay when the clumsy Farmer ruins the pumpkin patch. Shaun tries fixing it with science experiments, but things go awry when a wild beast appears in the woods.",
     "fi": "",
     "sv": "I den tredje biofilmen om fåret Shaun ser invånarna på Mossy Bottom Farm fram emot Halloween, tills den klumpiga bonden förstör fårflockens älskade pumpaland. När Shaun förvandlas till galet vetenskapsfår för att åtgärda problemet går saker och ting snabbt överstyr, speciellt efter att bonden försvinner och ett vilddjur dyker upp i Mossinghams skogar. OBS! Ingen dialog. Shaun och flocken talar sitt eget språk."
    },
-   "tr": ""
+   "tr": "https://www.youtube.com/watch?v=daZMq0AyOMc",
+   "ts": [
+    "en"
+   ]
   },
   "fåret shaun och monstret på bondgården late lammas hämärapuuhissa": {
    "id": 1477104,
@@ -3261,7 +3303,6 @@
     "kinometso",
     "kinomyyri",
     "kinopiispanristi",
-    "kinotervakoski",
     "kkino",
     "kotkanleffat",
     "kulttuurimylly",
@@ -3411,6 +3452,14 @@
   "katti hatussa": {
    "id": 1117898,
    "img": "data/posters/661a16f929041273.jpg",
+   "kr": "K-7",
+   "krs": [
+    "ihmekompleksi",
+    "kinohamina",
+    "kinohannikainen",
+    "kinokulma",
+    "korjaamo"
+   ],
    "r": 7.0,
    "s": {
     "en": "Assigned his toughest mission yet, the Cat must cheer up siblings Gabby and Sebastian as they adjust to life in a new town. Known for pushing boundaries, this agent of chaos must prove himself or risk losing his magical hat forever.",
@@ -3422,18 +3471,24 @@
    ]
   },
   "katti hatussa suomeksi": {
-   "r": 0,
+   "id": 1117898,
+   "img": "data/posters/661a16f929041273.jpg",
+   "r": 7.0,
    "s": {
-    "en": "",
+    "en": "Assigned his toughest mission yet, the Cat must cheer up siblings Gabby and Sebastian as they adjust to life in a new town. Known for pushing boundaries, this agent of chaos must prove himself or risk losing his magical hat forever.",
     "fi": "Tapaa vertaansa vailla oleva Hattukatti! Dr. Seussin vinkeään tyyliin temmeltävä Hattukatti saapuu valkokankaalle ensi kertaa animaatioversiona uudessa huikeassa seikkailussa, jossa Hattukatin koiruudet, taikuus ja vauhti pääsevät valloilleen. Katti on mestari tuomaan iloa lapsille hilpeällä, omintakeisella ja anarkistisella meiningillään, kiidättäen heidät ja yleisön ennen kokemattomalle mielikuvitukselliselle matkalle. Mielikuvituksen ja innoituksen instituutin instituutti heittää sankarimme eteen toistaiseksi hankalimman haasteen: hän saa tehtäväkseen piristää sisaruksia nimeltään Gabby ja Sebastian, jotka eivät tahdo sopeutua uuteen kotikaupunkiinsa. Katti, tuo ylilyönneistään tunnettu kaaoksen kätyri, saa kenties viimeisen tilaisuuden näyttää kyntensä... tai hän on vaarassa menettää taikahattunsa! Alessandro Carlonin ja Erica Rivinojan ohjaaman ja käsikirjoittaman elokuvan tarina on Caroline Williamsin käsialaa ja sen on tuottanut Daniela Mazzucato. Warner Bros. Pictures Animationin ensimmäinen pitkä animaatioelokuva Katti hatussa saa ensi-iltansa 4. joulukuuta. Elokuvan levittää maailmanlaajuisesti Warner Bros. Pictures."
    },
-   "tr": ""
+   "tr": "https://www.youtube.com/watch?v=tkZpcypT8Z4",
+   "ts": [
+    "en"
+   ]
   },
   "katti hatussa suomeksi puhuttu": {
    "id": 1117898,
    "img": "data/posters/0a4381fbfe4b427a.jpg",
    "kr": "K-7",
    "krs": [
+    "ihmekompleksi",
     "kinohamina",
     "kinohannikainen",
     "kinokulma",
@@ -3654,7 +3709,6 @@
     "kinomyyri",
     "kinopiispanristi",
     "kinoset",
-    "kinotervakoski",
     "kisakino",
     "kotkanleffat",
     "kuvakukko",
@@ -3728,7 +3782,6 @@
     "kinomyyri",
     "kinopiispanristi",
     "kinoset",
-    "kinotervakoski",
     "kisakino",
     "kotkanleffat",
     "kuvakukko",
@@ -4112,7 +4165,6 @@
    "img": "data/posters/7633771831e9d4b8.jpg",
    "kr": "K-12",
    "krs": [
-    "biorex",
     "helios",
     "ihmekompleksi",
     "kinolaika",
@@ -4862,12 +4914,16 @@
   },
   "kätyrit monsterit dub": {
    "id": 1315772,
-   "r": 0,
+   "img": "data/posters/67059865db3405c0.jpg",
+   "r": 7.5,
    "s": {
-    "en": "",
+    "en": "This is the rambunctious, ridiculous and totally true story of how the Minions conquered Hollywood, became movie stars, lost everything, unleashed monsters onto the world and then banded together to try and save the planet from the mayhem they had just created.",
     "fi": "Illumination johdattaa meidät jälleen hulvattomaan animaatiomaailmaansa uudella elokuvallaan Kätyrit & Monsterit, joka tuo maailman suosituimpaan animaatio-franchiseen kokonaan uusia hahmoja. Hillitön, riehakas ja täysin tositapahtumiin perustuva elokuva kertoo, miten Kätyrit valloittavat Hollywoodin ja nousevat elokuvatähdiksi, menettävät kaiken, tulevat päästäneeksi hirviöitä maailmaan ja lopulta yhdistävät voimansa pelastaakseen planeetan itse aiheuttamaltaan kaaokselta. Alkuperäisissä äänirooleissa kuullaan muun muassa Oscar®-voittaja Allison Janney, kaksinkertainen Oscar®-voittaja Christoph Waltz, Oscar®-voittaja Jeff Bridges, kaksinkertainen Oscar®-ehdokas Jesse Eisenberg, Zoey Deutch (Nouvelle Vague) sekä Oscar®-ehdokas Trey Parker, joka tunnetaan myös yhtenä South Parkin luojista. Näyttelijäkaartia täydentävät myös entinen Saturday Night Live -tähti Bobby Moynihan ja Phil LaMarr (Futurama, Kukkulan kuningas). Kätyrit & Monsterit -elokuvan on ohjannut Oscar-ehdokkuuden saanut Pierre Coffin, jonka ohjaustöihin lukeutuvat myös kolme ensimmäistä Itse ilkimys -elokuvaa ja ensimmäinen Kätyrit-elokuva. Coffin on myös ääninäytellyt itse Kätyreitä niiden elokuvadebyytistä 2010 alkaen. Elokuvan käsikirjoittajat ovat Brian Lynch (Kätyrit, Lemmikkien salainen elämä -elokuvat) ja Pierre Coffin. Elokuvan ovat tuottaneet myös Oscar-ehdokkuuden saanut Illuminationin perustaja ja pääjohtaja Chris Meledandri sekä Bill Ryan (The Super Mario Bros. Movie -elokuvan vastaava tuottaja ). Kätyrit & Monsterit -elokuvan vastaava tuottaja on Brian Lynch. Yli 15 vuotta on kulunut Kätyreiden luomisesta, ja niistä on tullut sukupolvensa ikonisimpia animaatiohahmoja. Kaikenikäisten fanien rakastamat Kätyrit ovat siivittäneet Illuminationin Itse ilkimys- ja Kätyrit-elokuvatuotannot yli 5,6 miljardia dollaria tuottaneiksi maailmanlaajuisiksi jymymenestyksiksi."
    },
-   "tr": ""
+   "tr": "https://www.youtube.com/watch?v=V-O-uBaHk3c",
+   "ts": [
+    "en"
+   ]
   },
   "kätyrit monsterit dub 5": {
    "id": 1315772,
@@ -4945,6 +5001,7 @@
     "kuvakukko",
     "niagara",
     "orion",
+    "studio123kouvola",
     "tapiola"
    ],
    "r": 7.9,
@@ -5054,13 +5111,17 @@
   },
   "lapin sota lapplandskriget": {
    "id": 1450460,
+   "img": "data/posters/c15d678a31ae397e.jpg",
    "r": 0,
    "s": {
     "en": "",
-    "fi": "",
+    "fi": "Nuori sotamies Heikki taistelee Karjalan kannaksella ystävänsä Paulin kanssa. Komppaniaan liittyy vankilasta vapautunut Arvo, jonka maailmankuva haastaa muiden käsitykset sodasta ja velvollisuudesta. Aselepo herättää toivon kotiinpaluusta, mutta pian selviää, että Suomen on käännyttävä entisiä saksalaisia liittolaisiaan vastaan Lapissa. Samaan aikaan Rovaniemellä saksalaisten tulkkina työskentelevä Saara joutuu valitsemaan tulevaisuutensa: jäädä Suomeen vai paeta Saksaan rakastettunsa, majuri Duisbergin, kanssa.",
     "sv": "LAPIN SOTA utspelar sig i Lappland under hösten 1944. Berättelsen följer finländska soldater som, efter att ha slutit fred med Sovjetunionen, tvingas vända sina vapen mot sina tidigare vapenbröder, de tyska trupperna, för att driva ut dem ur landet."
    },
-   "tr": ""
+   "tr": "",
+   "ts": [
+    "fi"
+   ]
   },
   "lapin sota loviisan lions clubin erikoisnäytös": {
    "id": 1450460,
@@ -5587,13 +5648,17 @@
   },
   "marsupilami": {
    "id": 1145899,
-   "r": 0,
+   "img": "data/posters/d24763d2c244cd16.jpg",
+   "r": 6.3,
    "s": {
-    "en": "",
+    "en": "David is tasked to deliver a mysterious package from South America, only to find out he is carrying a baby Marsupilami!",
     "fi": "Perhelomaan tulee uusia käänteitä, kun perheenisä saa Etelä-Amerikasta yllättävän paketin. Seikkailu lähtee liikkeelle kun salaperäisestä laatikosta paljastuu keltainen, täplikäs ja hulvaton veijari – vauva Marsupilami, joka tuo vauhtia niin perheen kuin koko lomaristeilynkin menoon. Marsupilami sulattaa kovimmankin sydämen. Ihmeolento Marsupilami perustuu samannimiseen, André Franquinin luomaan suosittuun belgialaiseen sarjakuvasarjaan. Marsupilami selviää niin villissä viidakossa kuin kaupungissakin nopean älynsä, rajattoman mielikuvituksensa sekä voimakkaan häntänsä avulla.",
     "sv": "För att rädda sitt jobb går David med på en galen plan: han måste ta med sig ett mystiskt paket från Sydamerika. Han hamnar på en kryssningsfartyg med sitt ex Tess, sin son Leo och sin klumpiga, och inte så smarta kollega Stéphane, som David använder för att i hemlighet transportera paketet åt honom. Men allt går fel när Stéphane av misstag öppnar paketet och släpper lös en söt liten Marsupilami. Den sällsynta och busiga lilla varelsen förvandlar snabbt resan till ett fullständigt kaos. Den extraordinära varelsen Marsupilami bygger på den populära belgiska serien med samma namn, skapad av André Franquin. Vare sig det är i den vilda djungeln eller i storstaden klarar sig Marsupilamin utmärkt tack vare sin kvickhet, gränslösa fantasi och kraftfulla svans."
    },
-   "tr": ""
+   "tr": "https://www.youtube.com/watch?v=pXGuY9qcSe0",
+   "ts": [
+    "en"
+   ]
   },
   "marsupilami dub": {
    "id": 1145899,
@@ -5710,6 +5775,20 @@
    "tr": "",
    "ts": [
     "en"
+   ]
+  },
+  "meet the parents focker in law": {
+   "id": 1597,
+   "img": "data/posters/fab7e1df6889997e.jpg",
+   "r": 6.7,
+   "s": {
+    "en": "",
+    "fi": "Sairaanhoitajana työskentelevä Greg Focker aikoo kosia tyttöystävänsä Pamia viikonloppuvierailulla tämän vanhempien luona. Matkassa on kuitenkin yksi mutka: Gregin on ensiksi pyydettävä Pamin isältä lupa. Valitettavasti Pamin isä, entinen CIA-agentti Jack Brynes, inhoaa heti tyttärensä poikaystävää. Gregin epätoivoinen hyväksynnän tavoittelu kääntyy häntä vastaan ja Myrphyn lait ottavat vallan. Halvattomat kommellukset takaavat sen, että Gregistä tulee täydellinen katastrofi koko perheen silmässä - paitsi hänen järkyttyneen tyttöystävänsä, joka ei voi käsittää, miksi hän yhä rakastaa mahdotonta poikaystävänsä.",
+    "sv": "En efterlängtad komedi kommer upp på vår stora duk. The Fockers are back! I november återförenas komediikonen och Emmy-vinnaren Ben Stiller och tvåfaldigt Oscar®belönade Robert De Niro, tillsammans med Grammy-belönade och Oscar®nominerade Ariana Grande i Meet the Parents: Focker-In-Law, ett nytt kapitel i Meet the Parents-franchisen. Meet the parents: Focker-In-Law är skriven och regisserad av John Hamburg, som var med och skrev manusen till de tre föregående Meet the Parents-filmerna, och producerad av Oscar®nominerade Jane Rosenthal och Robert De Niro för Tribeca Productions samt av Ben Stiller och Oscar®belönade John Lesher för Red Hour Films."
+   },
+   "tr": "https://www.youtube.com/watch?v=wQJvx9yvc1U",
+   "ts": [
+    "fi"
    ]
   },
   "memoria": {
@@ -6335,7 +6414,7 @@
   "nälkäpeli elokorjuun sarastus": {
    "id": 1300968,
    "img": "data/posters/08a418319b615a6e.jpg",
-   "r": 0,
+   "r": 7.8,
    "s": {
     "en": "",
     "fi": "Nälkäpeli: Elonkorjuun sarastus sijoittuu tapahtumiin 24 vuotta ennen kuin Katniss Everdeen ilmoittautui vapaaehtoiseksi tribuutiksi, jolloin hänen tuleva ohjaajansa Haymitch Abernathy joutuu osallistumaan Nälkäpeliin. Juhlavuoden kunniaksi peliin valitaan kaksinkertainen määrä tribuutteja ja 50. Nälkäpeli voi alkaa. Francis Lawrencen ohjaama Nälkäpeli: Elonkorjuun sarastus saapuu elokuvateattereihin 20.11.2026."
@@ -6473,12 +6552,13 @@
   },
   "obsession": {
    "id": 1339713,
-   "r": 0,
+   "img": "data/posters/b087e78e6e9510ef.jpg",
+   "r": 8.2,
    "s": {
     "en": "",
     "fi": "Kun toivoton romantikko katkaisee salaperäisen “toivepajun” saadakseen ihastuksena rakastumaan itseensä, hän tajuaa saaneensa juuri sen, mitä toivoikin. Mutta pian hänelle valkenee, että joistakin toiveista joutuu maksamaan synkän hinnan."
    },
-   "tr": ""
+   "tr": "https://www.youtube.com/watch?v=gMC8kkwbIQQ"
   },
   "oddities": {
    "id": 1486256,
@@ -7193,6 +7273,8 @@
     "kinotervakoski",
     "korjaamo",
     "kuvakukko",
+    "savonkinot",
+    "star",
     "studio123jarvenpaa"
    ],
    "r": 0,
@@ -7218,6 +7300,8 @@
     "kinotervakoski",
     "korjaamo",
     "kuvakukko",
+    "savonkinot",
+    "star",
     "studio123jarvenpaa"
    ],
    "r": 0,
@@ -7565,10 +7649,15 @@
     "kinopiispanristi",
     "kinopirtti",
     "kinotar",
+    "kotkanleffat",
     "leffabuumi",
     "niagara",
     "orion",
-    "sheryl"
+    "savonkinot",
+    "sheryl",
+    "star",
+    "studio123jarvenpaa",
+    "studio123kouvola"
    ],
    "r": 6.8,
    "s": {
@@ -7704,7 +7793,6 @@
     "kurikankino",
     "kuvakukko",
     "leffabuumi",
-    "lieksankino",
     "matintupa",
     "niagara",
     "savonkinot",
@@ -10956,6 +11044,7 @@
     "niagara",
     "orion",
     "savonkinot",
+    "star",
     "studio123jarvenpaa",
     "studio123kouvola",
     "tapiola",
@@ -11005,6 +11094,7 @@
     "niagara",
     "orion",
     "savonkinot",
+    "star",
     "studio123jarvenpaa",
     "studio123kouvola",
     "tapiola",
@@ -11032,7 +11122,6 @@
    "kr": "K-16",
    "krs": [
     "bioforum",
-    "biogrand",
     "biograni",
     "biopallas",
     "biorex",
@@ -11152,6 +11241,16 @@
     "en": "Thirty-four days before she’s sent to prison, notorious Silicon Valley founder Elizabeth Holmes invites a skeptical film crew to document her every move. What begins as an intimate portrait of an enigmatic felon becomes a mind-bending three-year journey into the abyss. From boundary-pushing directors Nathan Fielder and Lance Oppenheim comes You Can See Everything.",
     "fi": "Kolmekymmentäneljä päivää ennen vankilaan joutumistaan pahamaineinen Piilaakson yritysperustaja Elizabeth Holmes kutsuu skeptisen kuvausryhmän dokumentoimaan jokaista liikettään. Arvoituksellisen rikollisen intiimistä muotokuvasta alkaa vähitellen muotoutua tajunnanräjäyttävä, kolme vuotta kestävä matka syvyyksiin. Rajoja rikkovien ohjaajien Nathan Fielderin ja Lance Oppenheimin käsialaa oleva YOU CAN SEE EVERYTHING vie katsojan matkalle, jolla mikään ei ole sitä, miltä näyttää.",
     "sv": "En av årets mest omtalade dokumentärer kommer nu på bio! Trettiofyra dagar innan hon ska in i fängelse bjuder den skandalomsusade Silicon Valley-grundaren Elizabeth Holmes in ett skeptiskt filmteam för att dokumentera varje steg hon tar. Det som börjar som ett intimt porträtt av en gåtfull dömd bedragare blir en omtumlande treårig färd ner i avgrunden. De gränstänjande regissörerna Nathan Fielder och Lance Oppenheim har gjort en av årets mest omtalade filmer, \"You Can See Everything\"."
+   },
+   "tr": "https://www.youtube.com/watch?v=IEx8D1Wb__U"
+  },
+  "you can see ewerything": {
+   "id": 1765072,
+   "img": "data/posters/640b690d082aa355.jpg",
+   "r": 8.7,
+   "s": {
+    "en": "",
+    "fi": "Kolmekymmentäneljä päivää ennen vankilaan joutumistaan pahamaineinen Piilaakson yritysperustaja Elizabeth Holmes kutsuu skeptisen kuvausryhmän dokumentoimaan jokaista liikettään. Arvoituksellisen rikollisen intiimistä muotokuvasta alkaa vähitellen muotoutua tajunnanräjäyttävä, kolme vuotta kestävä matka syvyyksiin. Rajoja rikkovien ohjaajien Nathan Fielderin ja Lance Oppenheimin käsialaa oleva YOU CAN SEE EVERYTHING vie katsojan matkalle, jolla mikään ei ole sitä, miltä näyttää."
    },
    "tr": "https://www.youtube.com/watch?v=IEx8D1Wb__U"
   },
