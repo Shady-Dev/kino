@@ -432,6 +432,7 @@
    "img": "data/posters/b1eae52d6a765de3.jpg",
    "kr": "K-12",
    "krs": [
+    "bioforum",
     "cinemantsala"
    ],
    "r": 0,
@@ -439,13 +440,14 @@
     "en": "Beloved heroes from three distinct universes are set on a deadly collision course and face an existential threat unlike anything they've ever encountered.",
     "fi": "Synopsis lisätään pian."
    },
-   "tr": "https://www.youtube.com/watch?v=X1aFkAkFASk"
+   "tr": "https://www.youtube.com/watch?v=Wb8Tq_HD4E8"
   },
   "avengers doomsday 2d": {
    "id": 1003596,
    "img": "data/posters/b1eae52d6a765de3.jpg",
    "kr": "K-12",
    "krs": [
+    "bioforum",
     "cinemantsala"
    ],
    "r": 0,
@@ -463,6 +465,7 @@
    "img": "data/posters/b1eae52d6a765de3.jpg",
    "kr": "K-12",
    "krs": [
+    "bioforum",
     "cinemantsala"
    ],
    "r": 0,
@@ -648,12 +651,55 @@
    ]
   },
   "billie maailmojen välissä": {
+   "id": 1538497,
+   "img": "data/posters/4634d78853ec8f0d.jpg",
+   "kr": "K-7",
+   "krs": [
+    "bioforum",
+    "biograni",
+    "biokaari",
+    "biomarlon",
+    "biorexkokkola",
+    "biosade",
+    "biosalo",
+    "biostara",
+    "biovuoksi",
+    "elokuviin",
+    "engel",
+    "helios",
+    "ihmekompleksi",
+    "isohannu",
+    "jarvelankino",
+    "kinoelo",
+    "kinohannikainen",
+    "kinohirvi",
+    "kinojuha",
+    "kinokuva",
+    "kinolumo",
+    "kinomania",
+    "kinopiispanristi",
+    "kinopirtti",
+    "kinosampo",
+    "kinoset",
+    "kinotervakoski",
+    "kinotoijala",
+    "kkino",
+    "kurikankino",
+    "kuvatahti",
+    "leffabuumi",
+    "lieksankino",
+    "vaakuna",
+    "vihdinkino"
+   ],
    "r": 0,
    "s": {
-    "en": "",
+    "en": "An impulsive and unconventional teenage girl named Billie discovers secret magical abilities which, once unleashed, hurtle her into a spectacle-filled journey out of suburbia and into a vast witch realm called Hexe. Forced to team up with her cautious mother, Alice, they uncover family mysteries that could change the world of witches forever.",
     "fi": "Billie maailmojen välissä esittelee meille impulsiivisen ja omintakeisen teinitytön nimeltä Billie ja tämän ylisuojelevan äidin Alicen. Kun Billie saa yllättäen käyttöönsä salaisia taikavoimia, hän tempautuu saman tien kotoaan maagiseen Hexen valtakuntaan, missä häntä ovat vastaanottamassa Ms. Quill ja Elias Quire. Huikean matkansa edetessä Billie saa selville perhesalaisuuksia, jotka voivat mullistaa noitien taikamaailman ikiajoiksi. Puhuttu suomeksi!"
    },
-   "tr": ""
+   "tr": "https://www.youtube.com/watch?v=9ke5KSOUl-U",
+   "ts": [
+    "en"
+   ]
   },
   "billie maailmojen välissä dub": {
    "id": 1538497,
@@ -662,6 +708,57 @@
    "s": {
     "en": "An impulsive and unconventional teenage girl named Billie discovers secret magical abilities which, once unleashed, hurtle her into a spectacle-filled journey out of suburbia and into a vast witch realm called Hexe. Forced to team up with her cautious mother, Alice, they uncover family mysteries that could change the world of witches forever.",
     "fi": "BILLIE MAAILMOJEN VÄLISSÄ esittelee meille impulsiivisen ja omintakeisen teinitytön nimeltä Billie (äänenä Hailee Steinfeld) ja tämän ylisuojelevan äidin Alicen (äänenä Rashida Jones). Kun Billie saa yllättäen käyttöönsä salaisia taikavoimia, hän tempautuu saman tien kotoaan maagiseen Hexen valtakuntaan, missä häntä ovat vastaanottamassa Ms. Quill (äänenä Tracey Ullman) ja Elias Quire (äänenä Stephen Fry). Huikean matkansa edetessä Billie saa selville perhesalaisuuksia, jotka voivat mullistaa noitien taikamaailman ikiajoiksi."
+   },
+   "tr": "https://www.youtube.com/watch?v=9ke5KSOUl-U",
+   "ts": [
+    "en"
+   ]
+  },
+  "billie maailmojen välissä elokuvanäytös": {
+   "id": 1538497,
+   "img": "data/posters/4634d78853ec8f0d.jpg",
+   "kr": "K-7",
+   "krs": [
+    "bioforum",
+    "biograni",
+    "biokaari",
+    "biomarlon",
+    "biorexkokkola",
+    "biosade",
+    "biosalo",
+    "biostara",
+    "biovuoksi",
+    "elokuviin",
+    "engel",
+    "helios",
+    "ihmekompleksi",
+    "isohannu",
+    "jarvelankino",
+    "kinoelo",
+    "kinohannikainen",
+    "kinohirvi",
+    "kinojuha",
+    "kinokuva",
+    "kinolumo",
+    "kinomania",
+    "kinopiispanristi",
+    "kinopirtti",
+    "kinosampo",
+    "kinoset",
+    "kinotervakoski",
+    "kinotoijala",
+    "kkino",
+    "kurikankino",
+    "kuvatahti",
+    "leffabuumi",
+    "lieksankino",
+    "vaakuna",
+    "vihdinkino"
+   ],
+   "r": 0,
+   "s": {
+    "en": "An impulsive and unconventional teenage girl named Billie discovers secret magical abilities which, once unleashed, hurtle her into a spectacle-filled journey out of suburbia and into a vast witch realm called Hexe. Forced to team up with her cautious mother, Alice, they uncover family mysteries that could change the world of witches forever.",
+    "fi": ""
    },
    "tr": "https://www.youtube.com/watch?v=9ke5KSOUl-U",
    "ts": [
@@ -681,21 +778,44 @@
     "en"
    ]
   },
-  "billie maailmojen välissä på svenska": {
+  "billie maailmojen välissä puhumme suomea": {
+   "id": 1538497,
+   "img": "data/posters/4634d78853ec8f0d.jpg",
    "r": 0,
    "s": {
-    "en": "",
+    "en": "An impulsive and unconventional teenage girl named Billie discovers secret magical abilities which, once unleashed, hurtle her into a spectacle-filled journey out of suburbia and into a vast witch realm called Hexe. Forced to team up with her cautious mother, Alice, they uncover family mysteries that could change the world of witches forever.",
+    "fi": "BILLIE MAAILMOJEN VÄLISSÄ esittelee meille impulsiivisen ja omintakeisen teinitytön nimeltä Billie (äänenä Hailee Steinfeld) ja tämän ylisuojelevan äidin Alicen (äänenä Rashida Jones). Kun Billie saa yllättäen käyttöönsä salaisia taikavoimia, hän tempautuu saman tien kotoaan maagiseen Hexen valtakuntaan, missä häntä ovat vastaanottamassa Ms. Quill (äänenä Tracey Ullman) ja Elias Quire (äänenä Stephen Fry). Huikean matkansa edetessä Billie saa selville perhesalaisuuksia, jotka voivat mullistaa noitien taikamaailman ikiajoiksi."
+   },
+   "tr": "https://www.youtube.com/watch?v=9ke5KSOUl-U",
+   "ts": [
+    "en"
+   ]
+  },
+  "billie maailmojen välissä på svenska": {
+   "id": 1538497,
+   "img": "data/posters/4634d78853ec8f0d.jpg",
+   "r": 0,
+   "s": {
+    "en": "An impulsive and unconventional teenage girl named Billie discovers secret magical abilities which, once unleashed, hurtle her into a spectacle-filled journey out of suburbia and into a vast witch realm called Hexe. Forced to team up with her cautious mother, Alice, they uncover family mysteries that could change the world of witches forever.",
     "fi": "BILLIE MAAILMOJEN VÄLISSÄ esittelee meille impulsiivisen ja omintakeisen teinitytön nimeltä Billie (äänenä Hailee Steinfeld) ja tämän ylisuojelevan äidin Alicen (äänenä Rashida Jones). Kun Billie saa yllättäen käyttöönsä salaisia taikavoimia, hän tempautuu saman tien kotoaan maagiseen Hexen valtakuntaan, missä häntä ovat vastaanottamassa Ms. Quill (äänenä Tracey Ullman) ja Elias Quire (äänenä Stephen Fry). Huikean matkansa edetessä Billie saa selville perhesalaisuuksia, jotka voivat mullistaa noitien taikamaailman ikiajoiksi. Elokuvan edessä nähdään Malcon Piercen ja Fawn Veerasunthornin ohjaama lyhytelokuva \"Lilo & Scratch\", kesto: 00:06:10. Elokuvan \"Billie maailmojen välissä\" kesto on 01:43:17."
    },
-   "tr": ""
+   "tr": "https://www.youtube.com/watch?v=9ke5KSOUl-U",
+   "ts": [
+    "en"
+   ]
   },
   "billie maailmojen välissä suomeksi": {
+   "id": 1538497,
+   "img": "data/posters/4634d78853ec8f0d.jpg",
    "r": 0,
    "s": {
-    "en": "",
+    "en": "An impulsive and unconventional teenage girl named Billie discovers secret magical abilities which, once unleashed, hurtle her into a spectacle-filled journey out of suburbia and into a vast witch realm called Hexe. Forced to team up with her cautious mother, Alice, they uncover family mysteries that could change the world of witches forever.",
     "fi": "BILLIE MAAILMOJEN VÄLISSÄ esittelee meille impulsiivisen ja omintakeisen teinitytön nimeltä Billie (äänenä Hailee Steinfeld) ja tämän ylisuojelevan äidin Alicen (äänenä Rashida Jones). Kun Billie saa yllättäen käyttöönsä salaisia taikavoimia, hän tempautuu saman tien kotoaan maagiseen Hexen valtakuntaan, missä häntä ovat vastaanottamassa Ms. Quill (äänenä Tracey Ullman) ja Elias Quire (äänenä Stephen Fry). Huikean matkansa edetessä Billie saa selville perhesalaisuuksia, jotka voivat mullistaa noitien taikamaailman ikiajoiksi. Elokuvan edessä nähdään Malcon Piercen ja Fawn Veerasunthornin ohjaama lyhytelokuva \"Lilo & Scratch\", kesto: 00:06:10. Elokuvan \"Billie maailmojen välissä\" kesto on 01:43:17."
    },
-   "tr": ""
+   "tr": "https://www.youtube.com/watch?v=9ke5KSOUl-U",
+   "ts": [
+    "en"
+   ]
   },
   "black magic rites": {
    "id": 59912,
@@ -1334,6 +1454,22 @@
   "dune part three": {
    "id": 1170608,
    "img": "data/posters/e0d0640ca8bfc6cd.jpg",
+   "kr": "K-12",
+   "krs": [
+    "bioforum",
+    "biorex",
+    "cinemantsala",
+    "gilda",
+    "kinoelo",
+    "kinojuha",
+    "kinolumo",
+    "kinomania",
+    "kinosampo",
+    "kinotar",
+    "kinotoijala",
+    "levisummit",
+    "tapiola"
+   ],
    "r": 0,
    "s": {
     "en": "Directed by Denis Villeneuve and co-written by Villeneuve and Brian K. Vaughan, Dune: Part Three is based on Frank Herbert’s novel Dune: Messiah and provides an epic conclusion to Villeneuve’s trilogy. The film stars Timothée Chalamet, Zendaya, Jason Momoa, Florence Pugh, Rebecca Ferguson, Isaach De Bankolé, Charlotte Rampling, Anya Taylor-Joy, Robert Pattinson and Javier Bardem, with Nakoa-Wolf Momoa and Ida Brooke making their debuts.",
@@ -1344,6 +1480,22 @@
   "dune part three preview screening": {
    "id": 1170608,
    "img": "data/posters/e0d0640ca8bfc6cd.jpg",
+   "kr": "K-12",
+   "krs": [
+    "bioforum",
+    "biorex",
+    "cinemantsala",
+    "gilda",
+    "kinoelo",
+    "kinojuha",
+    "kinolumo",
+    "kinomania",
+    "kinosampo",
+    "kinotar",
+    "kinotoijala",
+    "levisummit",
+    "tapiola"
+   ],
    "r": 0,
    "s": {
     "en": "Emperor Paul Atreides faces the fallout from his ascent to power as political plots and a galaxy-wide holy war endanger the future only he can see.",
@@ -1364,6 +1516,35 @@
   "dyyni osa kolme": {
    "id": 1170608,
    "img": "data/posters/0dd47f32e7b1a9db.jpg",
+   "kr": "K-12",
+   "krs": [
+    "bioforum",
+    "biorex",
+    "cinemantsala",
+    "gilda",
+    "kinoelo",
+    "kinojuha",
+    "kinolumo",
+    "kinomania",
+    "kinosampo",
+    "kinotar",
+    "kinotoijala",
+    "levisummit",
+    "tapiola"
+   ],
+   "r": 0,
+   "s": {
+    "en": "Nearly two decades after he seized control of the Imperium, Paul Atreides is now a ruthless Emperor, and must face the consequences of his reign as old allies return, terrifying new threats emerge, and betrayal lurks in every shadow. Haunted by visions of Imperial collapse and the reappearance of his long-lost love, Paul is drawn into a sweeping conspiracy, with Chani at the heart of its unfolding mystery. As enemies close in, Paul must confront the true cost of power and the fate of those he loves the most.",
+    "fi": "Denis Villeneuven ohjaama ja Villeneuven sekä Brian K. Vaughanin yhdessä käsikirjoittama Dyyni: Osa kolme perustuu Frank Herbertin romaaniin Dyynin messias ja tarjoaa eeppisen päätöksen Villeneuven trilogialle. Elokuvan pääosissa ovat Timothée Chalamet, Zendaya, Jason Momoa, Florence Pugh, Rebecca Ferguson, Isaach De Bankolé, Charlotte Rampling, Anya Taylor-Joy, Robert Pattinson ja Javier Bardem, ja uusina tulokkaina nähdään Nakoa-Wolf Momoa ja Ida Brooke."
+   },
+   "tr": "https://www.youtube.com/watch?v=uJqaGLmZpGo",
+   "ts": [
+    "en"
+   ]
+  },
+  "dyyni osa kolme dune part three": {
+   "id": 1170608,
+   "img": "data/posters/eaaeb3210dce7766.jpg",
    "r": 0,
    "s": {
     "en": "Nearly two decades after he seized control of the Imperium, Paul Atreides is now a ruthless Emperor, and must face the consequences of his reign as old allies return, terrifying new threats emerge, and betrayal lurks in every shadow. Haunted by visions of Imperial collapse and the reappearance of his long-lost love, Paul is drawn into a sweeping conspiracy, with Chani at the heart of its unfolding mystery. As enemies close in, Paul must confront the true cost of power and the fate of those he loves the most.",
@@ -1408,7 +1589,7 @@
   "ebenezer": {
    "id": 1567605,
    "img": "data/posters/445a6b495360d819.jpg",
-   "r": 7.7,
+   "r": 7.5,
    "s": {
     "en": "An elderly miser embarks on a supernatural journey after visits from the ghost of his former business partner and the Spirits of Christmas Past, Present, and Yet to Come force him to confront his past and fight for a second chance at happiness.",
     "fi": "",
@@ -1446,6 +1627,8 @@
     "kinohamina",
     "kinohannikainen",
     "kinohirvi",
+    "kinojuha",
+    "kinokaustinen",
     "kinokulma",
     "kinokuva",
     "kinolumo",
@@ -1463,6 +1646,7 @@
     "kotkanleffat",
     "kuvatahti",
     "leffabuumi",
+    "marita",
     "savonkinot",
     "star",
     "studio123jarvenpaa",
@@ -1506,6 +1690,8 @@
     "kinohamina",
     "kinohannikainen",
     "kinohirvi",
+    "kinojuha",
+    "kinokaustinen",
     "kinokulma",
     "kinokuva",
     "kinolumo",
@@ -1523,6 +1709,7 @@
     "kotkanleffat",
     "kuvatahti",
     "leffabuumi",
+    "marita",
     "savonkinot",
     "star",
     "studio123jarvenpaa",
@@ -1763,6 +1950,7 @@
    "id": 1802918,
    "kr": "K-7",
    "krs": [
+    "gilda",
     "kinometso"
    ],
    "r": 0,
@@ -1844,6 +2032,19 @@
     "fi": "Lyhytelokuvanäytöksen teokset käsittelevät kasvien kautta halua, muistia, vastarintaa ja koloniaalista väkivaltaa. Yhteistyössä Bioart Society, Kenno Filmi ja Food Art Research Network."
    },
    "tr": ""
+  },
+  "following": {
+   "id": 11660,
+   "img": "data/posters/2439d0200d840301.jpg",
+   "r": 7.1,
+   "s": {
+    "en": "Bill, an idle, unemployed aspiring writer, walks the crowded streets of London following randomly chosen strangers, a seemingly innocent entertainment that becomes dangerous when he crosses paths with a mysterious character.",
+    "fi": "Ennen nousuaan maailmanmaineeseen kerronnan rakennetta haastaneella kostotrillerillään Memento (2000) , Christopher Nolan ohjasi, käsikirjoitti ja kuvasi tämän 16 -milliselle filmille kuvatun pienen budjetin mustavalkoisen neonoir-trillerin. Elokuva seuraa nuorta aloittelevaa kirjailijaa, joka ryhtyy seuraamaan Lontoon kaduilla sattumanvaraisia ihmisiä, toiveenaan löytää heidän kauttaan inspiraatiota tulevaan romaaniinsa. Ennen pitkää eräs seurantatapaus johdattaa hänet rikollisen alamaailman pariin. Epälineaarisella kerrontatavalla kuvattu ovela ja tajuntaalaajentava elokuva ennakoi Nolanin nousua nykyohjaajien terävimpään kärkeen."
+   },
+   "tr": "https://www.youtube.com/watch?v=62TTN6gD2So",
+   "ts": [
+    "en"
+   ]
   },
   "forbidden world": {
    "id": 42251,
@@ -2350,13 +2551,12 @@
   },
   "hiljaisuus": {
    "id": 11506,
-   "img": "data/posters/b8b7b5461530e74a.jpg",
-   "r": 7.5,
+   "r": 0,
    "s": {
     "en": "",
     "fi": "Hiljaisuus on kypsän Bergmanin mestariteoksia. Lähes olemattomiin eliminoidusta dramaattisesta aineksesta Bergman löytää hienoimmat vivahteet. Vaikka paljon mitään ei tunnu tapahtuvan, elokuva onnistuu pitämään katsojan lumouksessa. Hiljaisuus ei niinkään rakennu vuorosanoille kuin visuaaliselle teholle. Tästäkin huolimatta Bergman on tavalliseen tapaansa kiinnittänyt suurta huomiota ääneen ja saavuttanut tuloksia, jotka ovat samalla sekä syvällisiä että dramaattisesti vaikuttavia. Trilogian aikaisempiin osiin Hiljaisuus liittyy luontevasti sikälikin, että yhteiskunnallisia ongelmia kosketellaan vain symbolein, epäsuorasti. Mutta tunne uhasta ja tuhosta, ärtymyksestä ja tunteiden kuolemasta kulkee läpi koko elokuvan. Hiljaisuuden päähenkilöinä on kaksi sisarusta Ester ja Anna sekä Annan poika Johan, jotka ovat matkalla jostakin jonnekin ja pysähtyvät vieraassa kaupungissa, koska sairaan Esterin on levättävä. Sisarusten välinen suhde on kireä, miltei vihamielinen. Ester on tyypiltään älyllinen, Anna taas vaistonvarainen tunneihminen. Sisarukset ovat saman sielun kaksi puolta ja tuovat mieleen erään Stagneliuksen tunnetun runon sielun ja ruumiin pooleista. Anna on ruumis, Ester henki. Heidän yksipuolisuutensa on heidän onnettomuutensa. Kukaan henkilöistä ei pysty murtamaan alun alkaen valmiiksi piirrettyjä kuvioita. Ester, intellektuelli, on selvimmin ennaltamäärätyn kohtalonsa vanki. Tietoinen, toimiva ihminen on Bergmanille jatkuvasti poikkeus. Häntä ei ole olemassa, sillä niin kauan kuin henkilöt eivät löydä omaa tapaansa elää, tieto on yhdentekevää."
    },
-   "tr": "https://www.youtube.com/watch?v=xddkAomes8k"
+   "tr": ""
   },
   "hiroshima rakastettuni": {
    "id": 5544,
@@ -3027,11 +3227,9 @@
     "engel",
     "gilda",
     "kinoaurora",
-    "kinoelo",
     "kinojuha",
-    "kinolumo",
-    "kinomania",
     "kinometso",
+    "kinomyyri",
     "kinopiispanristi",
     "kinotervakoski",
     "kkino",
@@ -3379,13 +3577,13 @@
     "kinolumo",
     "kinomarilyn",
     "kinometso",
-    "kinomyyri",
     "kinopiispanristi",
     "kinoset",
     "kinotervakoski",
     "kisakino",
     "kotkanleffat",
     "kuvakukko",
+    "kuvatahti",
     "leffabuumi",
     "niagara",
     "orion",
@@ -3452,13 +3650,13 @@
     "kinolumo",
     "kinomarilyn",
     "kinometso",
-    "kinomyyri",
     "kinopiispanristi",
     "kinoset",
     "kinotervakoski",
     "kisakino",
     "kotkanleffat",
     "kuvakukko",
+    "kuvatahti",
     "leffabuumi",
     "niagara",
     "orion",
@@ -3825,17 +4023,13 @@
   },
   "klara and the sun": {
    "id": 858035,
-   "img": "data/posters/7633771831e9d4b8.jpg",
-   "r": 6.1,
+   "r": 0,
    "s": {
-    "en": "When Klara, an Artificial Friend who wants nothing more than to find the perfect home, meets Josie, each immediately senses a kindred spirit in the other. Josie has a fraught relationship with her mother and they've suffered great loss, but Klara's innocent wonder and unwavering loyalty begin to heal the family and bring light to Josie's complicated world.",
+    "en": "",
     "fi": "",
     "sv": "Jenna Ortega spelar huvudrollen i Taika Waititis filmatisering av den populära boken. När Klara träffar Josie känner de omedelbart en samhörighet. Josie och hennes mamma bär på en djup sorg och deras relation är ansträngd. Men med sin oskuldsfulla nyfikenhet och orubbliga lojalitet börjar Klara läka familjens sår och sprida ljus i Josies komplicerade tillvaro."
    },
-   "tr": "https://www.youtube.com/watch?v=wixzainceAE",
-   "ts": [
-    "en"
-   ]
+   "tr": ""
   },
   "klara ja aurinko": {
    "id": 858035,
@@ -3843,7 +4037,6 @@
    "kr": "K-12",
    "krs": [
     "biorex",
-    "biosavoy",
     "helios",
     "ihmekompleksi",
     "kinolaika",
@@ -4672,8 +4865,10 @@
     "kinomyyri",
     "korjaamo",
     "kotkanleffat",
+    "kulttuurimylly",
     "kuvakukko",
-    "niagara"
+    "niagara",
+    "tapiola"
    ],
    "r": 7.9,
    "s": {
@@ -4848,19 +5043,6 @@
     "fi": "Lassie, elokuvahistorian kuuluisin koira palaa takaisin. Sydäntä lämmittävä hyvänmielen tarina pojan ja hänen koiransa erottamattomasta ystävyydestä. Perheen joutuessa luopumaan Lassiesta pojan sydän särkyy. Lassie ei kuitenkaan luovuta. Jännittävä ja vaiherikas seikkailu läpi koko maan yhdistää erottamattomat ystävykset uudelleen. Elokuva perustuu Eric Knightin suosittuun romaaniin Lassie palaa kotiin. Suomen elokuvasäätiön maahantuontituki 2021."
    },
    "tr": ""
-  },
-  "late lammas elokuva hämärähommissa": {
-   "id": 1477104,
-   "img": "data/posters/0d3865389792d3a5.jpg",
-   "r": 7.3,
-   "s": {
-    "en": "On Halloween Eve at Mossy Bottom Farm, excitement turns to dismay when the clumsy Farmer ruins the pumpkin patch. Shaun tries fixing it with science experiments, but things go awry when a wild beast appears in the woods.",
-    "fi": ""
-   },
-   "tr": "https://www.youtube.com/watch?v=daZMq0AyOMc",
-   "ts": [
-    "en"
-   ]
   },
   "late lammas elokuva hämäräpuuhissa": {
    "id": 1477104,
@@ -5170,16 +5352,12 @@
   },
   "lyhyt rakkaustarina": {
    "id": 1299382,
-   "img": "data/posters/7eff920a1bfc91f7.jpg",
-   "r": 6.1,
+   "r": 0,
    "s": {
-    "en": "Lea and Rocco meet by chance in a bar and an instant attraction ignites between them. From that moment, a secret affair begins, consisting of fleeting, clandestine meetings in a hotel room. However, as time passes, Lea's obsession with Rocco intensifies, leading her to intrude more and more into his life. The story soon takes an unexpected and unsettling turn.",
+    "en": "",
     "fi": "Lea ja Rocco kohtaavat sattumalta baarissa. Heidän välillään kipinöi heti, ja kaksikko syöksyy salaiseen suhteeseen. Kumpikin viettää tahoillaan tavallisen onnellista, hyvää elämää, mutta hotellihuoneen lakanoissa he tuntuvat löytävän toisistaan jotain, mitä ovat kaivanneet. Kun salasuhde alkaa saada Lean osalta pakkomielteisiä sävyjä, tunnelma kiristyy. Miten pitkälle syrjähypyn voi antaa mennä – ja mitä tapahtuu, kun kaikki lopulta paljastuu? Suomen elokuvasäätiön maahantuontituki 2026."
    },
-   "tr": "",
-   "ts": [
-    "en"
-   ]
+   "tr": ""
   },
   "lyhyt rakkaustarina en kort kärlekshistoria breve storia d amore": {
    "id": 1299382,
@@ -5235,6 +5413,19 @@
     "fi": "Ei tekstitystä Dystooppisessa lähitulevaisuudessa öljyvarastojen ehtyminen on johtanut maailman sotaan, köyhyyteen ja nälänhätään. Australian maaseudulla viimeiset lainvartijat pyrkivät estämään julman polkupyöräjengin toimintaa. Yksi heistä on Max, joka päätyy henkilökohtaiselle kostoretkelle jengiä vastaan, kun hänen vaimonsa ja poikansa murhataan."
    },
    "tr": ""
+  },
+  "madama butterfly": {
+   "id": 433957,
+   "img": "data/posters/a82cd6157681f681.jpg",
+   "r": 0,
+   "s": {
+    "en": "Japanese-Italian adaptation of Puccini's opera.",
+    "fi": ""
+   },
+   "tr": "",
+   "ts": [
+    "en"
+   ]
   },
   "madama butterfly bregenz festival puccini": {
    "r": 0,
@@ -5499,12 +5690,16 @@
    "tr": "https://www.youtube.com/watch?v=c0jG3QWW4yE"
   },
   "mikkelin aikamatka": {
+   "id": 1841055,
    "r": 0,
    "s": {
-    "en": "",
+    "en": "A documentary film that takes the viewer on an impressive journey through the history of the Mikkeli region, from the Stone Age to the present day.",
     "fi": "Mikkelin aikamatka on noin 110 minuutin mittainen dokumenttielokuva, joka vie katsojan vaikuttavalle matkalle Mikkelin alueen historiaan kivikaudelta nykypäivään."
    },
-   "tr": ""
+   "tr": "",
+   "ts": [
+    "en"
+   ]
   },
   "milano calibro 9": {
    "id": 40022,
@@ -6081,6 +6276,7 @@
     "kinohannikainen",
     "kinohirvi",
     "kinojuha",
+    "kinokaustinen",
     "kinokulma",
     "kinokuva",
     "kinolaika",
@@ -6094,7 +6290,6 @@
     "kinotar",
     "kinotoijala",
     "kinovirta",
-    "kisakino",
     "kotkanleffat",
     "kurikankino",
     "kuvakukko",
@@ -6593,13 +6788,15 @@
     "gilda",
     "ihmekompleksi",
     "julia",
+    "kinojuha",
     "kinokonepaja",
     "kinolumo",
     "kinomyyri",
     "kinopiispanristi",
     "kinopirtti",
     "niagara",
-    "orion"
+    "orion",
+    "tapiola"
    ],
    "r": 0,
    "s": {
@@ -6816,6 +7013,14 @@
     "fi"
    ]
   },
+  "piirtäjän sopimus": {
+   "r": 0,
+   "s": {
+    "en": "",
+    "fi": "Varakkaan maanomistajan vaimo ( Janet Suzman ) palkkaa nuoren taiteilijan ( Anthony Higgins ) piirtämään sarjan piirroksia hänen prameasta maatilastaan miehensä poissaollessa. Yllättäen miehen ruumis löytyy pihamaalta ja tuoreet piirrokset osoittautuvat oleelliseksi murhamysteerin ratkaisussa."
+   },
+   "tr": ""
+  },
   "pikku kummitus lapanen": {
    "id": 1781923,
    "r": 0,
@@ -6886,8 +7091,10 @@
     "biosalo",
     "isohannu",
     "kino123",
+    "kinolumo",
     "kinometso",
     "kinopiispanristi",
+    "kinopirtti",
     "kinotervakoski",
     "korjaamo",
     "kuvakukko",
@@ -6909,8 +7116,10 @@
     "biosalo",
     "isohannu",
     "kino123",
+    "kinolumo",
     "kinometso",
     "kinopiispanristi",
+    "kinopirtti",
     "kinotervakoski",
     "korjaamo",
     "kuvakukko",
@@ -7252,10 +7461,12 @@
    "krs": [
     "isohannu",
     "kinoaurora",
+    "kinojuha",
     "kinokilta",
     "kinokonepaja",
     "kinokulma",
     "kinopiispanristi",
+    "kinopirtti",
     "leffabuumi",
     "sheryl"
    ],
@@ -7364,7 +7575,6 @@
     "biosalo",
     "biostara",
     "biovuoksi",
-    "cinemantsala",
     "elokuviin",
     "gilda",
     "haapamaki",
@@ -7376,7 +7586,6 @@
     "kino123",
     "kinoaurora",
     "kinohamina",
-    "kinohannikainen",
     "kinohirvi",
     "kinojuha",
     "kinokilta",
@@ -7389,7 +7598,6 @@
     "kinoset",
     "kinotar",
     "kinovirta",
-    "kirkkonummi",
     "korjaamo",
     "kotkanleffat",
     "kurikankino",
@@ -7729,10 +7937,6 @@
   "rental family": {
    "id": 1208348,
    "img": "data/posters/723f088c29806ee4.jpg",
-   "kr": "S",
-   "krs": [
-    "cinemantsala"
-   ],
    "r": 7.7,
    "s": {
     "en": "",
@@ -7759,12 +7963,16 @@
   },
   "resan till piemonte matka piemonteen": {
    "id": 1545391,
+   "img": "data/posters/e753668f77270e2f.jpg",
    "r": 0,
    "s": {
-    "en": "",
+    "en": "The film follows four newly retired people who travel to Italy to help Eva sell an olive farm she inherited. But during their sunny stay, new thoughts arise about life, freedom and the dreams they have yet to realize. The trip becomes a chance to reevaluate what really matters when you reach the second half of life.",
     "fi": "Neljä ystävää matkustaa yhdessä Italiaan, missä Eva on perinyt oliivitilan. Tarkoituksena on myydä tila, mutta perillä herää kysymys: mitä heillä oikeastaan on Ruotsissa, minkä vuoksi palata takaisin? Italiassa sen sijaan on aurinkoa, hyvää ruokaa ja hurmaavia kyläläisiä. Eikö juuri nyt olisi aika tarttua hetkeen ja toteuttaa kaikki unelmansa?"
    },
-   "tr": ""
+   "tr": "https://www.youtube.com/watch?v=9U5Kwlm4KcQ",
+   "ts": [
+    "en"
+   ]
   },
   "resident evil": {
    "id": 1423191,
@@ -8393,6 +8601,14 @@
    },
    "tr": ""
   },
+  "salaisuuksia ja valheita": {
+   "r": 0,
+   "s": {
+    "en": "",
+    "fi": "Salaisuuksia ja valheita on yksi Mike Leighin menestyneimmistä elokuvista. Se voitti Golden Globe -palkinnon, kolme BAFTA-palkintoa, Cannesin elokuvafestivaalien Kultaisen Palmun sekä oli ehdolla viidelle Oscar-palkinnolle. Lontoossa asuva Hortense Cumberbatch ( Marianne Jean-Baptiste ) työskentelee optikkona. Hän on menestynyt ja kuuluu keskiluokkaan. Adoptioäitinsä kuoltua Hortense päättää selvittää juurensa. Hortensen ollessa itse tummaihoinen hämmästyy hän, kun saa tietää äitinsä olevan työväenluokkaan kuuluva valkoihoinen nainen. Hortensian liittyminen kadonneeseen perheeseensä muuttaa sekä häntä että muita perheenjäseiä."
+   },
+   "tr": ""
+  },
   "savage dawn": {
    "id": 58398,
    "img": "data/posters/81570cbb397a3193.jpg",
@@ -8479,6 +8695,10 @@
   "sentimental value": {
    "id": 1124566,
    "img": "data/posters/960bdb12aafa0f22.jpg",
+   "kr": "K-12",
+   "krs": [
+    "biorexkokkola"
+   ],
    "r": 7.5,
    "s": {
     "en": "",
@@ -10599,7 +10819,6 @@
    "img": "data/posters/aca6e1cdaad07a60.jpg",
    "kr": "K-12",
    "krs": [
-    "bioforum",
     "biogrand",
     "biopallas",
     "biorex",
@@ -10622,7 +10841,6 @@
     "kinolumo",
     "kinomania",
     "kinomarilyn",
-    "kinomyyri",
     "kinoolympia",
     "kinopiispanristi",
     "kinopirtti",
@@ -10653,7 +10871,6 @@
    "img": "data/posters/aca6e1cdaad07a60.jpg",
    "kr": "K-12",
    "krs": [
-    "bioforum",
     "biogrand",
     "biopallas",
     "biorex",
@@ -10676,7 +10893,6 @@
     "kinolumo",
     "kinomania",
     "kinomarilyn",
-    "kinomyyri",
     "kinoolympia",
     "kinopiispanristi",
     "kinopirtti",
@@ -10741,6 +10957,7 @@
     "savonkinot",
     "star",
     "studio123jarvenpaa",
+    "tapiola",
     "vaakuna"
    ],
    "r": 7.9,
@@ -10915,5 +11132,5 @@
    "tr": ""
   }
  },
- "generated": "2026-11-23"
+ "generated": "2026-11-24"
 }
