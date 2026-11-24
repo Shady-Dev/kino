@@ -17,14 +17,14 @@
 [kinolaika] Kino Laika: 31 showtimes, 9 dates
 [kinolaika] Kino Laika: 31 showtimes, 9 dates
 [kinolaika] synopses merged: 0
-[kinomyyri] 30 screening(s) listed, 18 film page(s) read
+[kinomyyri] 28 screening(s) listed, 17 film page(s) read
 [kinomyyri] omitted 0 confirmed non-film(s) by evidence-backed exclusion over 0 screening(s), and 1 unresolved over 2
 [kinomyyri] unresolved: Calle Málaga - muistojeni katu
 [kinomyyri] override kojootti-vs-acme-dub: evidence-unavailable
 [kinomyyri] override must-pori-nakku: evidence-unavailable
 [kinomyyri] 4 film(s) with a language name not read, that part left blank: Berliinin sankari (saksan); Kuin lammas laatikossa (japanilainen); Lapin sota (saami); Nina Roza (ranskan, bulgarialainen)
-[kinomyyri] Kino Myyri: 28 showtimes, 12 dates
-[kinomyyri] Kino Myyri: 28 showtimes, 12 dates
+[kinomyyri] Kino Myyri: 26 showtimes, 11 dates
+[kinomyyri] Kino Myyri: 26 showtimes, 11 dates
 [kinomyyri] synopses merged: 0
 [kinokonepaja] 46 screening(s) listed, 14 film page(s) read
 [kinokonepaja] omitted 0 confirmed non-film(s) by evidence-backed exclusion over 0 screening(s), and 3 unresolved over 3
@@ -36,8 +36,8 @@
 [kinokonepaja] Kino Konepaja: 43 showtimes, 26 dates
 [kinokonepaja] Kino Konepaja: 43 showtimes, 26 dates
 [kinokonepaja] synopses merged: 0
-[run] http: 0 revalidated (304), 110 full, 20 not stored (origin said no-store), 44 cache entries written
+[run] http: 0 revalidated (304), 109 full, 19 not stored (origin said no-store), 44 cache entries written
 [run] hosts: 4 attempted -- kinokonepaja.fi, kinomyyri.fi, www.kinokilta.fi, www.kinolaika.fi
-[run] kinola: 4 venues, 156 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
-[run] timing: 4 site(s), 205.8s of fetching added up across workers that overlap, longest site 77.3s, longest queue wait 97.5s, 77.3s wall from this module's first fetch starting to its last ending
+[run] kinola: 4 venues, 154 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
+[run] timing: 4 site(s), 212.2s of fetching added up across workers that overlap, longest site 80.0s, longest queue wait 107.0s, 80.0s wall from this module's first fetch starting to its last ending
 exit=0

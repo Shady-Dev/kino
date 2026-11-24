@@ -432,7 +432,8 @@
    "kr": "K-12",
    "krs": [
     "bioforum",
-    "cinemantsala"
+    "cinemantsala",
+    "kinopiispanristi"
    ],
    "r": 0,
    "s": {
@@ -447,7 +448,8 @@
    "kr": "K-12",
    "krs": [
     "bioforum",
-    "cinemantsala"
+    "cinemantsala",
+    "kinopiispanristi"
    ],
    "r": 0,
    "s": {
@@ -465,7 +467,8 @@
    "kr": "K-12",
    "krs": [
     "bioforum",
-    "cinemantsala"
+    "cinemantsala",
+    "kinopiispanristi"
    ],
    "r": 0,
    "s": {
@@ -479,13 +482,12 @@
   },
   "avengers endgame encore": {
    "id": 299534,
-   "img": "data/posters/b7147419b96540ff.jpg",
-   "r": 8.2,
+   "r": 0,
    "s": {
     "en": "",
     "fi": "Avengers: Endgame tulee takaisin elokuvateattereihin Encore-juhlajulkaisuna. Elokuvassa on uutta materiaalia, joka sitoo Endgamen tapahtumat joulukuussa tulevaan Avengers: Doomsday -elokuvaan. Thanoksen aiheuttamien tuhojen jälijltä koko maailma on raunioina. Jäljellä olevien liittolaistensa avulla Avengers kokoontuu jälleen palauttaakseen täydellisen tasapainon universumiin."
    },
-   "tr": "https://www.youtube.com/watch?v=L2NAh3CIdig"
+   "tr": ""
   },
   "avengers endgame encore 2d": {
    "id": 299534,
@@ -667,6 +669,7 @@
     "biosavoy",
     "biostara",
     "biovuoksi",
+    "cinemantsala",
     "elavienkuvien",
     "elokuviin",
     "engel",
@@ -745,6 +748,7 @@
     "biosavoy",
     "biostara",
     "biovuoksi",
+    "cinemantsala",
     "elavienkuvien",
     "elokuviin",
     "engel",
@@ -1641,13 +1645,12 @@
   },
   "dyyni osa yksi": {
    "id": 438631,
-   "img": "data/posters/b09a2fd858bcd46f.jpg",
-   "r": 7.8,
+   "r": 0,
    "s": {
     "en": "",
     "fi": "Oscar-ehdokas Denis Villeneuve (Arrival, Blade Runner 2049) ohjaa Warner Bros. Picturesin ja Legendary Picturesin elokuvan Dyyni, joka perustuu Frank Herbertin samannimiseen menetysromaaniin. Myyttisenä ja tunteellisesti ladattuna sankarimatkana Dyyni kertoo Paul Atreidesin tarinan. Älykäs ja lahjakas nuorimies on syntynyt täyttämään suuren kohtalon, joka ylittää hänen ymmärryksensä. Hän joutuu matkustamaan universumin vaarallisimmalle planeetalle varmistaakseen perheensä ja kansansa tulevaisuuden. Kun pahansuovat voimat ryhtyvät taisteluun planeetalta löytyvästä ainutlaatuisesta ja arvokkaimmasta tunnetusta raaka-aineesta – hyödykkeestä, joka voi toteuttaa ihmiskunnan suurimmat mahdollisuudet – vain pelkonsa voittavat selviävät."
    },
-   "tr": "https://www.youtube.com/watch?v=w0HgHet0sxg"
+   "tr": ""
   },
   "earth song maan laulu": {
    "r": 0,
@@ -1708,11 +1711,9 @@
     "kinoolympia",
     "kinopiispanristi",
     "kinopirtti",
-    "kinosampo",
     "kinoset",
     "kinotar",
     "kinotervakoski",
-    "kinotoijala",
     "kirkkonummi",
     "kotkanleffat",
     "kuvatahti",
@@ -1722,7 +1723,8 @@
     "star",
     "studio123jarvenpaa",
     "studio123kouvola",
-    "vaakuna"
+    "vaakuna",
+    "virtainpirtti"
    ],
    "r": 7.5,
    "s": {
@@ -1771,11 +1773,9 @@
     "kinoolympia",
     "kinopiispanristi",
     "kinopirtti",
-    "kinosampo",
     "kinoset",
     "kinotar",
     "kinotervakoski",
-    "kinotoijala",
     "kirkkonummi",
     "kotkanleffat",
     "kuvatahti",
@@ -1785,7 +1785,8 @@
     "star",
     "studio123jarvenpaa",
     "studio123kouvola",
-    "vaakuna"
+    "vaakuna",
+    "virtainpirtti"
    ],
    "r": 7.5,
    "s": {
@@ -3311,8 +3312,7 @@
     "niagara",
     "savonkinot",
     "star",
-    "studio123kouvola",
-    "virtainpirtti"
+    "studio123kouvola"
    ],
    "r": 7.2,
    "s": {
@@ -3452,14 +3452,6 @@
   "katti hatussa": {
    "id": 1117898,
    "img": "data/posters/661a16f929041273.jpg",
-   "kr": "K-7",
-   "krs": [
-    "ihmekompleksi",
-    "kinohamina",
-    "kinohannikainen",
-    "kinokulma",
-    "korjaamo"
-   ],
    "r": 7.0,
    "s": {
     "en": "Assigned his toughest mission yet, the Cat must cheer up siblings Gabby and Sebastian as they adjust to life in a new town. Known for pushing boundaries, this agent of chaos must prove himself or risk losing his magical hat forever.",
@@ -3492,6 +3484,7 @@
     "kinohamina",
     "kinohannikainen",
     "kinokulma",
+    "kinoset",
     "korjaamo"
    ],
    "r": 7.0,
@@ -3720,7 +3713,6 @@
     "savonkinot",
     "star",
     "studio123jarvenpaa",
-    "studio123kouvola",
     "vaakuna"
    ],
    "r": 0,
@@ -3793,7 +3785,6 @@
     "savonkinot",
     "star",
     "studio123jarvenpaa",
-    "studio123kouvola",
     "vaakuna"
    ],
    "r": 0,
@@ -4169,7 +4160,6 @@
     "ihmekompleksi",
     "kinolaika",
     "kinopirtti",
-    "kinotar",
     "niagara"
    ],
    "r": 6.1,
@@ -4208,6 +4198,14 @@
    "r": 0,
    "s": {
     "en": "“Tell Everyone” is an inspiring film about Amanda Aaltonen, who refuses to resign herself to the bleak fate reserved for a poor woman and sets out on a daring quest to find her happiness in the wider world. As punishment for breaking the rules, society takes away the thing that matters most to her – her freedom – and confines her to the island of Seili.",
+    "fi": ""
+   },
+   "tr": ""
+  },
+  "knitting cinema wicker k 18": {
+   "r": 0,
+   "s": {
+    "en": "Wicker is a comedy starring Oscar-winner Olivia Colman and Alexander Skarsgård, exploring marriage and the absurdity of societal norms. An unmarried fisherwoman (Olivia Colman) has had enough of the villagers’ narrow-mindedness and decides to commission a husband for herself, made of wicker, from the local basket weaver (Peter Dinklage). The wicker-man (Alexander Skarsgård) turns out to be far more husband-material than the woman imagined. Her surprising spouse awakens new emotions in her and sets off a wave of infatuation, jealousy, and upheaval that threatens to shake the entire village community to its core. This sharp-tongued, humorous and boldly unconventional comedy takes on a completely new perspective on love and marriage. The film had its world premiere at the Sundance Film Festival in 2026.",
     "fi": ""
    },
    "tr": ""
@@ -6413,13 +6411,12 @@
   },
   "nälkäpeli elokorjuun sarastus": {
    "id": 1300968,
-   "img": "data/posters/08a418319b615a6e.jpg",
-   "r": 7.8,
+   "r": 0,
    "s": {
     "en": "",
     "fi": "Nälkäpeli: Elonkorjuun sarastus sijoittuu tapahtumiin 24 vuotta ennen kuin Katniss Everdeen ilmoittautui vapaaehtoiseksi tribuutiksi, jolloin hänen tuleva ohjaajansa Haymitch Abernathy joutuu osallistumaan Nälkäpeliin. Juhlavuoden kunniaksi peliin valitaan kaksinkertainen määrä tribuutteja ja 50. Nälkäpeli voi alkaa. Francis Lawrencen ohjaama Nälkäpeli: Elonkorjuun sarastus saapuu elokuvateattereihin 20.11.2026."
    },
-   "tr": "https://www.youtube.com/watch?v=Dr060OLTodE"
+   "tr": ""
   },
   "nälkäpeli elonkorjuun sarastus": {
    "id": 1300968,
@@ -6428,7 +6425,6 @@
    "krs": [
     "bioforum",
     "biokaari",
-    "biomarilyn",
     "biomarlon",
     "biopallas",
     "biorex",
@@ -6447,7 +6443,6 @@
     "kino123",
     "kinoelo",
     "kinohamina",
-    "kinohannikainen",
     "kinohirvi",
     "kinojuha",
     "kinokaustinen",
@@ -6471,7 +6466,6 @@
     "laitilankino",
     "leffabuumi",
     "levisummit",
-    "lieksankino",
     "matintupa",
     "savonkinot",
     "sheryl",
@@ -6966,9 +6960,7 @@
     "kinojuha",
     "kinokonepaja",
     "kinolumo",
-    "kinomyyri",
     "kinopiispanristi",
-    "kinopirtti",
     "niagara",
     "orion",
     "tapiola"
@@ -7264,6 +7256,7 @@
    "krs": [
     "biorex",
     "biosalo",
+    "cinemantsala",
     "isohannu",
     "kino123",
     "kinolumo",
@@ -7291,6 +7284,7 @@
    "krs": [
     "biorex",
     "biosalo",
+    "cinemantsala",
     "isohannu",
     "kino123",
     "kinolumo",
@@ -7753,53 +7747,6 @@
   "punaista lunta": {
    "id": 1015887,
    "img": "data/posters/b5fe432085346d64.jpg",
-   "kr": "K-16",
-   "krs": [
-    "biogrand",
-    "biomarilyn",
-    "biomarlon",
-    "biorex",
-    "biorexkokkola",
-    "biosade",
-    "biosalo",
-    "biostara",
-    "biovuoksi",
-    "elokuviin",
-    "gilda",
-    "haapamaki",
-    "helios",
-    "ihmekompleksi",
-    "isohannu",
-    "jarvelankino",
-    "joutsankino",
-    "kino123",
-    "kinoaurora",
-    "kinohamina",
-    "kinohirvi",
-    "kinojuha",
-    "kinokilta",
-    "kinokulma",
-    "kinolaika",
-    "kinolumo",
-    "kinomarilyn",
-    "kinomyyri",
-    "kinopiispanristi",
-    "kinopirtti",
-    "kinoset",
-    "kinotar",
-    "kinovirta",
-    "korjaamo",
-    "kotkanleffat",
-    "kurikankino",
-    "kuvakukko",
-    "leffabuumi",
-    "matintupa",
-    "niagara",
-    "savonkinot",
-    "star",
-    "studio123jarvenpaa",
-    "tapiola"
-   ],
    "r": 0,
    "s": {
     "en": "",
@@ -9725,7 +9672,7 @@
   "the hunger games sunrise on the reaping nälkäpeli elonkorjuun sarastus": {
    "id": 1300968,
    "img": "data/posters/cad95ad93c0d2c85.jpg",
-   "r": 0,
+   "r": 7.8,
    "s": {
     "en": "",
     "fi": "Nälkäpeli: Elonkorjuun sarastus sijoittuu tapahtumiin 24 vuotta ennen kuin Katniss Everdeen ilmoittautui vapaaehtoiseksi tribuutiksi, jolloin hänen tuleva ohjaajansa Haymitch Abernathy joutuu osallistumaan Nälkäpeliin. Juhlavuoden kunniaksi peliin valitaan kaksinkertainen määrä tribuutteja ja 50. Nälkäpeli voi alkaa."
@@ -11050,7 +10997,7 @@
     "tapiola",
     "vaakuna"
    ],
-   "r": 7.5,
+   "r": 7.4,
    "s": {
     "en": "Wicker is a comedy starring Oscar-winner Olivia Colman and Alexander Skarsgård, exploring marriage and the absurdity of societal norms. An unmarried fisherwoman (Olivia Colman) has had enough of the villagers’ narrow-mindedness and decides to commission a husband for herself, made of wicker, from the local basket weaver (Peter Dinklage). The wicker-man (Alexander Skarsgård) turns out to be far more husband-material than the woman imagined. Her surprising spouse awakens new emotions in her and sets off a wave of infatuation, jealousy, and upheaval that threatens to shake the entire village community to its core. This sharp-tongued, humorous and boldly unconventional comedy takes on a completely new perspective on love and marriage. The film had its world premiere at the Sundance Film Festival in 2026.",
     "fi": "Omaperäinen ja sykähdyttävä elokuva Wicker – intohimosta punottu on Oscar-voittaja Olivia Colmanin ja Alexander Skarsgårdin tähdittämä komedia avioliitosta ja yhteiskunnan normien absurdiudesta. Naimaton kalastajanainen (Olivia Colman) saa tarpeekseen kyläläisten ahdasmielisyydestä ja päättää tilata paikalliselta korinpunojalta (Peter Dinklage) itselleen aviomiehen – pajusta. Pajusta punotussa miehessä (Alexander Skarsgård) on aviomiesainesta enemmän kuin nainen olisi osannut odottaa. Yllättävä puoliso herättää naisessa uudenlaisia tunteita ja käynnistää ihastuksen, kateuden, ja mullistusten aallon, joka uhkaa järkyttää koko kyläyhteisöä.",
@@ -11236,7 +11183,7 @@
   "you can see everything": {
    "id": 1765072,
    "img": "data/posters/650c789b1581e9b9.jpg",
-   "r": 8.8,
+   "r": 8.7,
    "s": {
     "en": "Thirty-four days before she’s sent to prison, notorious Silicon Valley founder Elizabeth Holmes invites a skeptical film crew to document her every move. What begins as an intimate portrait of an enigmatic felon becomes a mind-bending three-year journey into the abyss. From boundary-pushing directors Nathan Fielder and Lance Oppenheim comes You Can See Everything.",
     "fi": "Kolmekymmentäneljä päivää ennen vankilaan joutumistaan pahamaineinen Piilaakson yritysperustaja Elizabeth Holmes kutsuu skeptisen kuvausryhmän dokumentoimaan jokaista liikettään. Arvoituksellisen rikollisen intiimistä muotokuvasta alkaa vähitellen muotoutua tajunnanräjäyttävä, kolme vuotta kestävä matka syvyyksiin. Rajoja rikkovien ohjaajien Nathan Fielderin ja Lance Oppenheimin käsialaa oleva YOU CAN SEE EVERYTHING vie katsojan matkalle, jolla mikään ei ole sitä, miltä näyttää.",
