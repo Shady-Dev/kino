@@ -1,40 +1,31 @@
-[kotkanleffat] Kinopalatsi Kotka: 43 showtimes, 22 dates
-[kotkanleffat] Trio 123: 72 showtimes, 9 dates
-[kotkanleffat] synopses merged: 0
-[savonkinot] Tapio Joensuu: 86 showtimes, 16 dates
-[savonkinot] Killa Savonlinna: 15 showtimes, 9 dates
-[savonkinot] Kuvalinna Savonlinna: 23 showtimes, 13 dates
-[savonkinot] Kuvalipas Iisalmi: 42 showtimes, 13 dates
-[savonkinot] Maxim Varkaus: 43 showtimes, 14 dates
-[savonkinot] Kino-Hovi Kitee: 11 showtimes, 10 dates
-[savonkinot] synopses merged: 0
-[leffabuumi] Kinolinna: 72 showtimes, 13 dates
-[leffabuumi] Kino Ritz: 26 showtimes, 20 dates
-[leffabuumi] Kino Saimaa: 4 showtimes, 3 dates
-[leffabuumi] synopses merged: 0
-[studio123jarvenpaa] Studio 123 Järvenpää: 68 showtimes, 15 dates
-[studio123jarvenpaa] synopses merged: 0
-[studio123kouvola] Studio 123 Kouvola: 70 showtimes, 22 dates
-[studio123kouvola] synopses merged: 0
-[ihmekompleksi] Ihme Kompleksi: 29 showtimes, 15 dates
-[ihmekompleksi] synopses merged: 2
-[kino123] Kino 123: 87 showtimes, 11 dates
+[http] 429 from kotkanleffat.fi, gave up after 3 attempt(s) -- Server: cloudflare; CF-Ray: a6029d844a2aa961-ARN
+[kotkanleffat] FAILED: kotkanleffat: movie 3317 did not answer (HTTP Error 429: Too Many Requests); its screenings are on that page, so no venue of this site publishes a partial schedule
+[http] 429 from www.savonkinot.fi, gave up after 3 attempt(s) -- Server: cloudflare; CF-Ray: a6029d7d1868ce0b-ARN
+[savonkinot] FAILED: savonkinot: movie 233 did not answer (HTTP Error 429: Too Many Requests); its screenings are on that page, so no venue of this site publishes a partial schedule
+[http] 429 from www.leffabuumi.fi, gave up after 3 attempt(s) -- Server: cloudflare; CF-Ray: a6029d78bfc4b3b8-ARN
+[leffabuumi] FAILED: leffabuumi: movie 3343 did not answer (HTTP Error 429: Too Many Requests); its screenings are on that page, so no venue of this site publishes a partial schedule
+[http] 429 from studiot123.com, gave up after 3 attempt(s) -- Server: cloudflare; CF-Ray: a6029d80598d5abe-ARN
+[studio123jarvenpaa] FAILED: studio123jarvenpaa: movie 3350 did not answer (HTTP Error 429: Too Many Requests); its screenings are on that page, so no venue of this site publishes a partial schedule
+[http] 429 from studio123.fi, gave up after 3 attempt(s) -- Server: cloudflare; CF-Ray: a6029d791a1ba30e-ARN
+[studio123kouvola] FAILED: studio123kouvola: movie 3248 did not answer (HTTP Error 429: Too Many Requests); its screenings are on that page, so no venue of this site publishes a partial schedule
+[ihmekompleksi] Ihme Kompleksi: 27 showtimes, 14 dates
+[ihmekompleksi] synopses merged: 0
+[kino123] Kino 123: 78 showtimes, 10 dates
 [kino123] synopses merged: 0
-[biogrand] Bio Grand: 24 showtimes, 8 dates
-[biogrand] synopses merged: 0
+[http] 429 from biogrand.fi, gave up after 3 attempt(s) -- Server: cloudflare; CF-Ray: a6029d82ea8b337a-ARN
+[biogrand] FAILED: biogrand: movie 3281 did not answer (HTTP Error 429: Too Many Requests); its screenings are on that page, so no venue of this site publishes a partial schedule
 [joutsankino] Joutsan Kino: 8 showtimes, 7 dates
 [joutsankino] synopses merged: 0
 [cine] Cine Keuda-Talo: no programme at the moment (adapter confirmed the venue empty); publishing an empty file
 [cine] Cine Nikkilä: 1 showtimes, 1 dates
 [cine] synopses merged: 0
-[star] strand prefix split off 3 showtimes
-[star] Elokuvateatteri Star: 107 showtimes, 10 dates
-[star] synopses merged: 0
+[http] 429 from lippu.elokuvateatteristar.fi, gave up after 3 attempt(s) -- Server: cloudflare; CF-Ray: a6029de2b8c8bc2f-ARN
+[star] FAILED: HTTP Error 429: Too Many Requests
 [haapamaki] Haapamäen Elokuvat: 11 showtimes, 9 dates
 [haapamaki] synopses merged: 0
 [run] venuelists-local.json rewritten
-[run] http: 0 revalidated (304), 243 full, 243 not stored (origin said no-store), 0 cache entries written
+[run] http: 0 revalidated (304), 83 full, 83 not stored (origin said no-store), 0 cache entries written
 [run] hosts: 12 attempted -- biogrand.fi, haapamaenelokuvat.fi, ihmekompleksi.fi, kiertue.cine.fi, kino.joutsa.fi, kino123.fi, kotkanleffat.fi, lippu.elokuvateatteristar.fi, studio123.fi, studiot123.com, www.leffabuumi.fi, www.savonkinot.fi
 [run] pending: cine has 1 venue(s) with no programme yet: cine-keuda
-[run] etiketti: 20 venues, 842 showtimes, 0 stale, 0 unverified, 1 pending, 0 with no programme, 0 failures
-exit=0
+[run] etiketti: 5 venues, 125 showtimes, 0 stale, 0 unverified, 1 pending, 0 with no programme, 7 failures
+exit=1
