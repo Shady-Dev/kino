@@ -1,7 +1,7 @@
 [kotkanleffat] Kinopalatsi Kotka: 43 showtimes, 22 dates
-[kotkanleffat] Trio 123: 75 showtimes, 9 dates
+[kotkanleffat] Trio 123: 72 showtimes, 9 dates
 [kotkanleffat] synopses merged: 0
-[savonkinot] Tapio Joensuu: 87 showtimes, 16 dates
+[savonkinot] Tapio Joensuu: 86 showtimes, 16 dates
 [savonkinot] Killa Savonlinna: 15 showtimes, 9 dates
 [savonkinot] Kuvalinna Savonlinna: 23 showtimes, 13 dates
 [savonkinot] Kuvalipas Iisalmi: 42 showtimes, 13 dates
@@ -16,11 +16,11 @@
 [studio123jarvenpaa] synopses merged: 0
 [studio123kouvola] Studio 123 Kouvola: 70 showtimes, 22 dates
 [studio123kouvola] synopses merged: 0
-[ihmekompleksi] Ihme Kompleksi: 27 showtimes, 13 dates
-[ihmekompleksi] synopses merged: 0
+[ihmekompleksi] Ihme Kompleksi: 29 showtimes, 15 dates
+[ihmekompleksi] synopses merged: 2
 [kino123] Kino 123: 87 showtimes, 11 dates
 [kino123] synopses merged: 0
-[biogrand] Bio Grand: 25 showtimes, 8 dates
+[biogrand] Bio Grand: 24 showtimes, 8 dates
 [biogrand] synopses merged: 0
 [joutsankino] Joutsan Kino: 8 showtimes, 7 dates
 [joutsankino] synopses merged: 0
@@ -28,13 +28,13 @@
 [cine] Cine Nikkilä: 1 showtimes, 1 dates
 [cine] synopses merged: 0
 [star] strand prefix split off 3 showtimes
-[star] Elokuvateatteri Star: 109 showtimes, 10 dates
+[star] Elokuvateatteri Star: 107 showtimes, 10 dates
 [star] synopses merged: 0
 [haapamaki] Haapamäen Elokuvat: 11 showtimes, 9 dates
 [haapamaki] synopses merged: 0
 [run] venuelists-local.json rewritten
-[run] http: 0 revalidated (304), 241 full, 241 not stored (origin said no-store), 0 cache entries written
+[run] http: 0 revalidated (304), 243 full, 243 not stored (origin said no-store), 0 cache entries written
 [run] hosts: 12 attempted -- biogrand.fi, haapamaenelokuvat.fi, ihmekompleksi.fi, kiertue.cine.fi, kino.joutsa.fi, kino123.fi, kotkanleffat.fi, lippu.elokuvateatteristar.fi, studio123.fi, studiot123.com, www.leffabuumi.fi, www.savonkinot.fi
 [run] pending: cine has 1 venue(s) with no programme yet: cine-keuda
-[run] etiketti: 20 venues, 847 showtimes, 0 stale, 0 unverified, 1 pending, 0 with no programme, 0 failures
+[run] etiketti: 20 venues, 842 showtimes, 0 stale, 0 unverified, 1 pending, 0 with no programme, 0 failures
 exit=0
