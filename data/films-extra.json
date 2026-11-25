@@ -677,6 +677,7 @@
     "ihmekompleksi",
     "isohannu",
     "jarvelankino",
+    "julia",
     "kino123",
     "kinoakseli",
     "kinoelo",
@@ -756,6 +757,7 @@
     "ihmekompleksi",
     "isohannu",
     "jarvelankino",
+    "julia",
     "kino123",
     "kinoakseli",
     "kinoelo",
@@ -1519,6 +1521,7 @@
     "cinemantsala",
     "gilda",
     "ihmekompleksi",
+    "kino123",
     "kinoelo",
     "kinojuha",
     "kinokonepaja",
@@ -1553,6 +1556,7 @@
     "cinemantsala",
     "gilda",
     "ihmekompleksi",
+    "kino123",
     "kinoelo",
     "kinojuha",
     "kinokonepaja",
@@ -1597,6 +1601,7 @@
     "cinemantsala",
     "gilda",
     "ihmekompleksi",
+    "kino123",
     "kinoelo",
     "kinojuha",
     "kinokonepaja",
@@ -3323,7 +3328,6 @@
     "biosalo",
     "biovuoksi",
     "cinemantsala",
-    "elokuviin",
     "engel",
     "gilda",
     "kinojuha",
@@ -5296,16 +5300,12 @@
   },
   "leviticus": {
    "id": 1564614,
-   "img": "data/posters/bcc43fe8ab925846.jpg",
-   "r": 6.8,
+   "r": 0,
    "s": {
-    "en": "Two teenage boys must escape a violent entity that takes the form of the person they desire most:  each other.",
+    "en": "",
     "fi": "TALK TO ME- ja BRING HER BACK -elokuvien tuottajilta uusi, omaperäinen painajainen. Kahden teinipojan on paettava väkivaltaista olentoa, joka ottaa sen ihmisen hahmon, jota he eniten haluavat – eli toisensa."
    },
-   "tr": "https://www.youtube.com/watch?v=WXuK0vlFxII",
-   "ts": [
-    "en"
-   ]
+   "tr": ""
   },
   "lex julia": {
    "id": 1450457,
@@ -6982,11 +6982,9 @@
    "img": "data/posters/bbda87a41c61eb80.jpg",
    "kr": "K-16",
    "krs": [
-    "bioforum",
     "biopallas",
     "biorex",
     "biosavoy",
-    "elavienkuvien",
     "gilda",
     "ihmekompleksi",
     "julia",
@@ -7414,7 +7412,6 @@
     "biorex",
     "elokuviin",
     "isohannu",
-    "kino123",
     "kinopiispanristi",
     "star"
    ],
@@ -7793,7 +7790,6 @@
     "biovuoksi",
     "gilda",
     "helios",
-    "ihmekompleksi",
     "isohannu",
     "jarvelankino",
     "joutsankino",
@@ -7812,7 +7808,6 @@
     "kinopirtti",
     "kinoset",
     "kinotar",
-    "kinovirta",
     "korjaamo",
     "kotkanleffat",
     "kurikankino",
@@ -10339,10 +10334,6 @@
   "tony": {
    "id": 1329016,
    "img": "data/posters/ef343d1fb55e5d1c.jpg",
-   "kr": "K-16",
-   "krs": [
-    "kinomarilyn"
-   ],
    "r": 7.3,
    "s": {
     "en": "Tony follows 19-year-old Anthony Bourdain at a turning point in his life in 1970s Provincetown, Massachusetts. Restless and uncertain about his future, Tony takes a job in a restaurant kitchen and becomes immersed in the intense and chaotic world of professional cooking. Amid friendships, romance, drugs, and the pressures of kitchen life, he begins to discover discipline and a passion for food. The film captures a pivotal period in which a directionless young man begins to find his own voice and passion, setting him on the path to becoming a world-famous chef.",
@@ -11054,6 +11045,7 @@
    "img": "data/posters/aca6e1cdaad07a60.jpg",
    "kr": "K-12",
    "krs": [
+    "bioforum",
     "biogrand",
     "biopallas",
     "biorex",
@@ -11069,7 +11061,6 @@
     "kinoiiris",
     "kinojuha",
     "kinokilta",
-    "kinolumo",
     "kinoolympia",
     "kinopiispanristi",
     "kinopirtti",
@@ -11084,8 +11075,7 @@
     "star",
     "studio123jarvenpaa",
     "studio123kouvola",
-    "tapiola",
-    "vaakuna"
+    "tapiola"
    ],
    "r": 7.5,
    "s": {
@@ -11133,8 +11123,7 @@
     "savonkinot",
     "star",
     "studio123jarvenpaa",
-    "tapiola",
-    "vaakuna"
+    "tapiola"
    ],
    "r": 7.9,
    "s": {
