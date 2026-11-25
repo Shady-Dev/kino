@@ -4562,8 +4562,7 @@
   },
   "komisario palmun erehdys": {
    "id": 55398,
-   "img": "data/posters/ba9936ea110b3c20.jpg",
-   "r": 7.0,
+   "r": 0,
    "s": {
     "en": "Voted the greatest Finnish film of all time, among other accolades, Inspector Palmu’s Error is a crime story set in the late 1930s. A wealthy playboy has drowned in his bathtub under dubious circumstances, and Inspector Palmu and his men must solve the case. Based on Mika Waltari’s detective novel, the film subtly reveals the social tensions of the period. Director Matti Kassila has skilfully deployed every tool of cinematic storytelling, from the flashback structure, camera angles and editing to the actors’ performances and music.",
     "fi": "Parhaaksi kotimaiseksi elokuvaksikin valittu Komisario Palmun erehdys on 1930-luvun loppuun sijoittuva rikostarina. Rikas playboy on hukkunut epämääräisissä olosuhteissa kylpyammeeseensa ja komisario Palmun pitää miehineen selvittää tapaus. Mika Waltarin dekkariin perustuvassa elokuvassa aikakauden yhteiskunnalliset jännitteet tulevat rivien välistä esiin. Ohjaaja Matti Kassila on virittänyt käyttöönsä kaikki elokuvakerronnan keinot, takaumarakennetta, kuvakulmia, leikkausta, näyttelijätyötä ja musiikkia myöden."
@@ -5897,12 +5896,24 @@
    "tr": ""
   },
   "minotaur": {
-   "r": 0,
+   "id": 848700,
+   "img": "data/posters/b01a276bcbd05b0d.jpg",
+   "kr": "K-12",
+   "krs": [
+    "bioforum",
+    "biorex",
+    "kinokilta",
+    "tapiola"
+   ],
+   "r": 7.4,
    "s": {
-    "en": "",
+    "en": "When Gleb, a successful company director, finds himself under siege from mounting corporate pressures, an increasingly unstable world, and the discovery of his wife's affair, the collapse of his carefully ordered life accelerates toward violence.",
     "fi": "Minotaur on venäläisohjaaja Andrei Zvjagintsevin odotettu uusi elokuva – sen valmistumista odotettiin yhdeksän vuotta! Se kertoo menestyneestä venäläisestä liikemiehestä Glebistä. Ammatillisten paineiden kasautuessa ja avioliiton rakoillessa Glebin huolellisessa järjestyksessä oleva elämä alkaa romahtaa väkivaltaisesti kiihtyen. Elokuvan tapahtumat sijoittuvat sijoittuvat syksyyn 2022. Rikosdraaman pääosissa nähdään Dmitri Mazuro v ja Iris Lebedeva. Elokuvatutkija Mia Öhman alustaa ennakkonäytöksen TI 24.11. KLO 19:30."
    },
-   "tr": ""
+   "tr": "https://www.youtube.com/watch?v=wdFIMrC4oW8",
+   "ts": [
+    "en"
+   ]
   },
   "minotaur alustus": {
    "r": 0,
@@ -6843,7 +6854,7 @@
   "other mommy": {
    "id": 1400837,
    "img": "data/posters/952438d819839253.jpg",
-   "r": 6.4,
+   "r": 6.5,
    "s": {
     "en": "Young Bela forms a relationship with a sinister entity in her home that looks uncannily like her own mother, drawing her into a terrifying and increasingly dark world.",
     "fi": "Modernin kauhun vaikutusvaltaisimpiin tekijöihin lukeutuva tuottaja James Wan sekä Blumhouse Atomic Monster (Backrooms, Obsession) vievät katsojat pelottavalle matkalle nousevan genreohjaajan Rob Savagen johdolla. Tarina sukeltaa nuoren tytön, Belan, synkkenevään maailmaan hänen muodostaessaan suhteen kodissaan asuvaan pahansuopaan olentoon, joka näyttää hämmentävän paljon hänen omalta äidiltään.",
@@ -11265,5 +11276,5 @@
    "tr": ""
   }
  },
- "generated": "2026-11-24"
+ "generated": "2026-11-25"
 }
