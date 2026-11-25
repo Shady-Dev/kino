@@ -1522,6 +1522,7 @@
     "kinoelo",
     "kinojuha",
     "kinokonepaja",
+    "kinokulma",
     "kinolumo",
     "kinomania",
     "kinosampo",
@@ -1554,6 +1555,7 @@
     "kinoelo",
     "kinojuha",
     "kinokonepaja",
+    "kinokulma",
     "kinolumo",
     "kinomania",
     "kinosampo",
@@ -1596,6 +1598,7 @@
     "kinoelo",
     "kinojuha",
     "kinokonepaja",
+    "kinokulma",
     "kinolumo",
     "kinomania",
     "kinosampo",
@@ -2032,6 +2035,19 @@
     "fi": "Cannesissa parhaan ohjauksen palkinnon voittaneen Paweł Pawlikowskin (Ida, Cold War) mestarillinen elokuva syventyy kirjailija Thomas Mannin ja hänen tyttärensä Erikan – näyttelijän, kirjailijan, toimittajan ja rallikuskin – väliseen suhteeseen, kun he lähtevät road tripille raunioituneen Saksan halki, Yhdysvaltojen hallitsemasta Frankfurtista Neuvostoliiton määräysvallan olevaan Weimariin. Päärooleissa ovat Oscar-ehdokas Sandra Hüller sekä Hanns Zischler."
    },
    "tr": ""
+  },
+  "fatherland ennakkonäytös": {
+   "id": 1437696,
+   "img": "data/posters/57c9bb739407c934.jpg",
+   "r": 7.2,
+   "s": {
+    "en": "In 1949, German writer Thomas Mann and his daughter Erika embark on a road trip across a Germany in ruins, from US-dominated Frankfurt to Soviet-controlled Weimar.",
+    "fi": "Espoo Ciné suosittelee -ennakkonäytös! Tytti Rantanen, Espoo Cinén toiminnanjohtaja Cannesissa parhaan ohjauksen palkinnon voittaneen Paweł Pawlikowskin (Ida, Cold War) mestarillinen elokuva syventyy kirjailija Thomas Mannin ja hänen tyttärensä Erikan – näyttelijän, kirjailijan, toimittajan ja rallikuskin – väliseen suhteeseen, kun he lähtevät road tripille raunioituneen Saksan halki, Yhdysvaltojen hallitsemasta Frankfurtista Neuvostoliiton määräysvallan olevaan Weimariin. Päärooleissa ovat Oscar-ehdokas Sandra Hüller sekä Hanns Zischler."
+   },
+   "tr": "https://www.youtube.com/watch?v=52zHLYf25M0",
+   "ts": [
+    "en"
+   ]
   },
   "faust": {
    "id": 10728,
@@ -3308,7 +3324,6 @@
     "kulttuurimylly",
     "kuvakukko",
     "leffabuumi",
-    "niagara",
     "savonkinot",
     "star",
     "studio123kouvola"
@@ -3376,6 +3391,19 @@
     "fi": ""
    },
    "tr": ""
+  },
+  "kana": {
+   "id": 1200666,
+   "img": "data/posters/bce5d37074f8cd6c.jpg",
+   "r": 0,
+   "s": {
+    "en": "Director: Cesar S.B. Abella\r Writers: Humilde ‘Meek’ Roxas, Cesar S.B. Abella\r Stars: Janine Barredo, John Regala, Toby Alejar, Jorge Estregan, Bing Davao, Edwin Reyes, Ernie David, Banjo Romero, Miles Francisco, Mariel Salvador, Kristine Zablan, Tess Orias, Gary Israel, Vic Varrion, Joe Andrade, Remy Gutierrez, Jing Caparas, Eddie Gicoso",
+    "fi": "Rohkea kana pakenee tehdasfarmin ahtaista oloista. Se päätyy kreikkalaiselle maaseudulle ja löytää yllättävän turvapaikan ränsistyneen ravintolan pihapiiristä. Rikkonaisten tuolien ja särkyneiden ihmissuhteiden keskellä kana löytää paitsi rakkautta, myös todellisen maailman kanalan armottoman nokkimisjärjestyksen."
+   },
+   "tr": "",
+   "ts": [
+    "en"
+   ]
   },
   "kansainvälinen animaatiopäivä 2026": {
    "r": 0,
@@ -3691,7 +3719,6 @@
     "haapamaki",
     "helios",
     "isohannu",
-    "kinoiiris",
     "kinojuha",
     "kinolaika",
     "kinolumo",
@@ -3761,7 +3788,6 @@
     "haapamaki",
     "helios",
     "isohannu",
-    "kinoiiris",
     "kinojuha",
     "kinolaika",
     "kinolumo",
@@ -4154,8 +4180,7 @@
     "helios",
     "ihmekompleksi",
     "kinolaika",
-    "kinopirtti",
-    "niagara"
+    "kinopirtti"
    ],
    "r": 6.1,
    "s": {
@@ -4208,10 +4233,6 @@
   "knyckertz snutjakten": {
    "id": 1169102,
    "img": "data/posters/d46d571a654d3536.jpg",
-   "kr": "K-12",
-   "krs": [
-    "kinokilta"
-   ],
    "r": 0,
    "s": {
     "en": "Snuten the dog is Ture’s best friend. But it seems the Knyckertz family have nicked him. Ture must choose: should he be honest and return the dog, or keep him and thereby help the family carry out a life-threatening heist? The truth isn’t always what you think it is, and Ture’s decision will lead to a greater disaster than he could ever have imagined… “Knyckertz & snutjakten” brings the much-loved family of thieves from the books and the Christmas calendar to cinemas across the country in a thrilling adventure for the whole family.",
@@ -4534,13 +4555,12 @@
   },
   "kolme väriä punainen": {
    "id": 110,
-   "img": "data/posters/df3d6c8d8163be92.jpg",
-   "r": 7.9,
+   "r": 0,
    "s": {
     "en": "",
     "fi": "Kolme väriä: Punainen on Krzysztof Kieślowskin väritrilogian kolmas osa. Krzysztof Kieślowskin (1941–1996) uran kruununa pidetty Punainen toimii myös ohjaajan elokuvallisena testamenttina. Elokuva syventää trilogian läpi kulkevaa emotionaalista teemaa: rakastettuaan kaukaa kaipaava valokuvamalli Valentine kohtaa tuomarin, jonka katkeruus ja vääristyneet tunteet piilottavat tulevaisuuden näkymät. Valentinesta huokuvan rakkauden voima murtaa tuomarin kivettyneen kuoren ja muuttaa muutamalla liikkeellä nuoren naisen elämän. Kieślowski muistuttaa, ettei rakkaus tunne vapautta, veljeyttä eikä tasa-arvoa — mutta ilman sitä mikään ei ole mahdollista."
    },
-   "tr": "https://www.youtube.com/watch?v=1fQQBbcfL5E"
+   "tr": ""
   },
   "kolme väriä sininen": {
    "id": 108,
@@ -6433,6 +6453,7 @@
     "haapamaki",
     "ihmekompleksi",
     "isohannu",
+    "jarvelankino",
     "kino123",
     "kinoelo",
     "kinohamina",
@@ -10918,17 +10939,13 @@
   },
   "vorosen perhe ja kyttäjahti": {
    "id": 1169102,
-   "img": "data/posters/d46d571a654d3536.jpg",
    "r": 0,
    "s": {
-    "en": "Ture's parents just never listen. Even though he's asked them hundreds of times to stop stealing, it'll take 20,000 volts to get their attention.",
+    "en": "",
     "fi": "Vorosen perheen hyppysiä syyhyttää: kaupungin museoon ollaan tuomassa maailmankallisarvoisinta esinettä, Farah Diban kruunajaisdiadeemia. Viivi-äiti, Otto-isä ja Kriminelli-sisko suunnittelevat nerokkaan ryöstökeikan diadaamin anastamiseksi; rehellinen Niilo (jokaei koskaan ikinä ole varastanut mitään) yrittää taas estää suunnitelmaa toteutumasta. Samaan aikaan poliisilla on selvittelyn alla koiravarkaus, jonka jäljet vievät Vorosenperheeseen. Onko Kyttä-koiralla salattu menneisyys? Entä pystyykö perhe vastustamaanvarkauksia? Vorosen perheen seikkailut riemastuttavat nuoria lukijoita opettavaisilla rosvotarinoillaan, jatarinat taipuvat mitä mainioimmin myös elokuviksi.Vorosen perhe ja kyttäjahtitarjoaariemastuttavan ja lämminhenkisen seikkailun perheen parissa, joka on kaikkea muuta kuintavallinen, ja kaikkein vähiten rehellinen.",
     "sv": "Familjen Knyckertz brinner av iver. Stadens museum kommer få världens dyrbaraste artefakt:Farah Dibas kröningsdiadem. Mamma Fia, pappa Bove och lillasyster Kriminellen planerar enkupp för att stjäla diademen. Den ärliga brodern Ture försöker i sin tur stoppa planen. Samtidigt utreder polisen en försvunnen hund, och spåren leder till familjen Knyckertz.Turemåste välja: ska han vara ärlig och lämna tillbaka hunden, eller behålla den och såledeshjälpa familjen att genomföra en livsfarlig kupp?Böckerna om familjen Knyckertz har spritt glädje till många unga läsare, och nu somfamiljefilm. Knyckertz och snutjakten är ett roligt och humoristiskt äventyr om en familj somär allt annat än vanligt, eller ärligt."
    },
-   "tr": "",
-   "ts": [
-    "en"
-   ]
+   "tr": ""
   },
   "vuono": {
    "id": 1401459,
@@ -11026,7 +11043,6 @@
     "kinojuha",
     "kinokilta",
     "kinolumo",
-    "kinomarilyn",
     "kinoolympia",
     "kinopiispanristi",
     "kinopirtti",
