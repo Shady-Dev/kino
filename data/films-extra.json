@@ -2222,10 +2222,6 @@
   "george michael the faith tour": {
    "id": 1649403,
    "img": "data/posters/ab35e373af42f3c1.jpg",
-   "kr": "S",
-   "krs": [
-    "kinoolympia"
-   ],
    "r": 0,
    "s": {
     "en": "George Michael was one of the most influential stars of his generation; his voice and songwriting defined an era. Assembled from rediscovered, previously unseen and unheard 35mm footage of his 1988 performance at the Palais Omnisports de Paris-Bercy, this new concert film captures George at the height of his creative power during the record-breaking Faith Tour. Expertly restored and remastered, the film transforms a defining cultural moment into a spectacular cinema experience. An original short film by Mary McCartney opens the feature, using newly discovered audio and imagery from 1986–1988 – the Faith era – creating a rare and intimate ‘time capsule’, offering a vivid insight into George’s mindset at this pivotal moment in his life.",
@@ -3748,7 +3744,6 @@
     "kinomarilyn",
     "kinomyyri",
     "kinopiispanristi",
-    "kinoset",
     "kisakino",
     "kotkanleffat",
     "kuvakukko",
@@ -3817,7 +3812,6 @@
     "kinomarilyn",
     "kinomyyri",
     "kinopiispanristi",
-    "kinoset",
     "kisakino",
     "kotkanleffat",
     "kuvakukko",
@@ -6984,7 +6978,6 @@
    "krs": [
     "biopallas",
     "biorex",
-    "biosavoy",
     "gilda",
     "ihmekompleksi",
     "julia",
@@ -7781,7 +7774,6 @@
    "krs": [
     "biogrand",
     "biomarilyn",
-    "biomarlon",
     "biorex",
     "biorexkokkola",
     "biosade",
@@ -7794,7 +7786,6 @@
     "jarvelankino",
     "joutsankino",
     "kino123",
-    "kinoaurora",
     "kinohamina",
     "kinohirvi",
     "kinojuha",
@@ -11055,7 +11046,6 @@
     "elavienkuvien",
     "gilda",
     "helios",
-    "jarvelankino",
     "joutsankino",
     "julia",
     "kinoiiris",
@@ -11109,7 +11099,6 @@
     "kinoiiris",
     "kinokilta",
     "kinokonepaja",
-    "kinolumo",
     "kinomyyri",
     "kinoolympia",
     "kinopiispanristi",

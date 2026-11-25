@@ -6,16 +6,16 @@
 [kinokilta] Kino Kilta: 50 showtimes, 19 dates
 [kinokilta] Kino Kilta: 50 showtimes, 19 dates
 [kinokilta] synopses merged: 0
-[kinolaika] 48 screening(s) listed, 32 film page(s) read
+[kinolaika] 49 screening(s) listed, 33 film page(s) read
 [kinolaika] omitted 0 confirmed non-film(s) by evidence-backed exclusion over 0 screening(s), and 20 unresolved over 21
 [kinolaika] unresolved: Antti Autio, Eternal Erection, Hopeasiivet, Livemusavisa, Lyhytelokuvapäivä: Coffee n' Movies, Lyhytelokuvapäivä: Kerttu Matinpuro -elokuvat, Lyhytelokuvapäivä: Ovis Aries, Lyhytelokuvapäivä: PÄIVÄLIPPU, Lyhytelokuvapäivä: Satumaa, Lyhytelokuvapäivä: Stadin AO-sarja, Lyhytelokuvapäivä: Toivo, Mary Ann Hawkins
 [kinolaika] override a-fox-under-a-pink-moon: evidence-unavailable
 [kinolaika] override mina-ja-riikka-purra-2: evidence-unavailable
 [kinolaika] override naza: evidence-unavailable
 [kinolaika] override pikku-kummitus-lapanen-keppostelee: evidence-unavailable
-[kinolaika] override two-seasons-two-strangers: evidence-unavailable
-[kinolaika] Kino Laika: 27 showtimes, 8 dates
-[kinolaika] Kino Laika: 27 showtimes, 8 dates
+[kinolaika] override two-seasons-two-strangers: active
+[kinolaika] Kino Laika: 28 showtimes, 8 dates
+[kinolaika] Kino Laika: 28 showtimes, 8 dates
 [kinolaika] synopses merged: 0
 [kinomyyri] 25 screening(s) listed, 15 film page(s) read
 [kinomyyri] omitted 0 confirmed non-film(s) by evidence-backed exclusion over 0 screening(s), and 1 unresolved over 2
@@ -36,8 +36,8 @@
 [kinokonepaja] Kino Konepaja: 54 showtimes, 27 dates
 [kinokonepaja] Kino Konepaja: 54 showtimes, 27 dates
 [kinokonepaja] synopses merged: 0
-[run] http: 0 revalidated (304), 107 full, 17 not stored (origin said no-store), 42 cache entries written
+[run] http: 0 revalidated (304), 108 full, 17 not stored (origin said no-store), 42 cache entries written
 [run] hosts: 4 attempted -- kinokonepaja.fi, kinomyyri.fi, www.kinokilta.fi, www.kinolaika.fi
-[run] kinola: 4 venues, 154 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
-[run] timing: 4 site(s), 226.6s of fetching added up across workers that overlap, longest site 84.9s, longest queue wait 99.7s, 84.9s wall from this module's first fetch starting to its last ending
+[run] kinola: 4 venues, 155 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
+[run] timing: 4 site(s), 222.1s of fetching added up across workers that overlap, longest site 79.5s, longest queue wait 92.0s, 79.5s wall from this module's first fetch starting to its last ending
 exit=0

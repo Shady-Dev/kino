@@ -1,27 +1,27 @@
-[kinoset] Kino 1-2 (Huittinen): 32 showtimes
-[kinoset] Kinema (Loimaa): 25 showtimes
-[kinoset] Bio (Sastamala): 25 showtimes
-[kinoset] Kino 1-2: 32 showtimes, 11 dates
-[kinoset] Kinema: 25 showtimes, 13 dates
-[kinoset] Bio: 25 showtimes, 13 dates
+[kinoset] Kino 1-2 (Huittinen): 29 showtimes
+[kinoset] Kinema (Loimaa): 23 showtimes
+[kinoset] Bio (Sastamala): 23 showtimes
+[kinoset] Kino 1-2: 29 showtimes, 10 dates
+[kinoset] Kinema: 23 showtimes, 12 dates
+[kinoset] Bio: 23 showtimes, 12 dates
 [kinoset] synopses merged: 0
-[kinoaurora] Kino Aurora (Jyväskylä): 14 showtimes
-[kinoaurora] Kino Aurora: 14 showtimes, 7 dates
+[kinoaurora] Kino Aurora (Jyväskylä): 12 showtimes
+[kinoaurora] Kino Aurora: 12 showtimes, 6 dates
 [kinoaurora] synopses merged: 0
-[kinohirvi] Kino Hirvi (Äänekoski): 18 showtimes
-[kinohirvi] Kino Hirvi: 18 showtimes, 4 dates
+[kinohirvi] Kino Hirvi (Äänekoski): 15 showtimes
+[kinohirvi] Kino Hirvi: 15 showtimes, 3 dates
 [kinohirvi] synopses merged: 0
-[biosade] Bio Säde (Mänttä): 12 showtimes
-[biosade] Bio Säde: 12 showtimes, 4 dates
+[biosade] Bio Säde (Mänttä): 10 showtimes
+[biosade] Bio Säde: 10 showtimes, 3 dates
 [biosade] synopses merged: 0
-[kinoolympia] Kino Olympia (Hanko): 10 showtimes
-[kinoolympia] Kino Olympia: 10 showtimes, 4 dates
+[kinoolympia] Kino Olympia (Hanko): 8 showtimes
+[kinoolympia] Kino Olympia: 8 showtimes, 3 dates
 [kinoolympia] synopses merged: 0
-[jarvelankino] Järvelän Kino (Järvelä): 12 showtimes
-[jarvelankino] Järvelän Kino: 12 showtimes, 11 dates
+[jarvelankino] Järvelän Kino (Järvelä): 11 showtimes
+[jarvelankino] Järvelän Kino: 11 showtimes, 10 dates
 [jarvelankino] synopses merged: 0
 [kinometso] Muurame (Muurame): 13 showtimes
-[kinometso] Petäjävesi (Petäjävesi): 6 showtimes
+[kinometso] Petäjävesi (Petäjävesi): 4 showtimes
 [kinometso] Tikkakoski (Jyväskylä): 0 showtimes
 [kinometso] Vaajakoski (Jyväskylä): 0 showtimes
 [kinometso] Laukaa (Laukaa): 0 showtimes
@@ -29,7 +29,7 @@
 [kinometso] Toivakka (Toivakka): 0 showtimes
 [kinometso] Hankasalmi (Hankasalmi): 0 showtimes
 [kinometso] Muurame: 13 showtimes, 9 dates
-[kinometso] Petäjävesi: 6 showtimes, 4 dates
+[kinometso] Petäjävesi: 4 showtimes, 3 dates
 [kinometso] Tikkakoski: no programme at the moment (adapter confirmed the venue empty); publishing an empty file
 [kinometso] Vaajakoski: no programme at the moment (adapter confirmed the venue empty); publishing an empty file
 [kinometso] Laukaa: no programme at the moment (adapter confirmed the venue empty); publishing an empty file
@@ -37,15 +37,15 @@
 [kinometso] Toivakka: no programme at the moment (adapter confirmed the venue empty); publishing an empty file
 [kinometso] Hankasalmi: no programme at the moment (adapter confirmed the venue empty); publishing an empty file
 [kinometso] synopses merged: 0
-[biosalo] Bio-Salo (Salo): 56 showtimes
-[biosalo] Bio-Salo: 56 showtimes, 9 dates
+[biosalo] Bio-Salo (Salo): 51 showtimes
+[biosalo] Bio-Salo: 51 showtimes, 8 dates
 [biosalo] synopses merged: 0
-[biostara] Bio Stara (Paimio): 21 showtimes
-[biostara] Bio Stara: 21 showtimes, 6 dates
+[biostara] Bio Stara (Paimio): 17 showtimes
+[biostara] Bio Stara: 17 showtimes, 5 dates
 [biostara] synopses merged: 0
 [run] http: 0 revalidated (304), 11 full, 11 not stored (origin said no-store), 0 cache entries written
 [run] hosts: 6 attempted -- biosalo.fi, jarvelankino.fi, kino-olympia.fi, kinoaurora.fi, kinohirvi.fi, kinoset.fi
 [run] pending: kinometso has 5 venue(s) with no programme yet: km-tikkakoski, km-vaajakoski, km-laukaa, km-toivakka, km-hankasalmi
-[run] nexxo: 13 venues, 246 showtimes, 0 stale, 0 unverified, 5 pending, 0 with no programme, 0 failures
-[run] timing: 9 site(s), 44.4s of fetching added up across workers that overlap, longest site 11.9s, longest queue wait 0.0s, 11.9s wall from this module's first fetch starting to its last ending
+[run] nexxo: 13 venues, 218 showtimes, 0 stale, 0 unverified, 5 pending, 0 with no programme, 0 failures
+[run] timing: 9 site(s), 41.3s of fetching added up across workers that overlap, longest site 11.3s, longest queue wait 0.0s, 11.3s wall from this module's first fetch starting to its last ending
 exit=0
