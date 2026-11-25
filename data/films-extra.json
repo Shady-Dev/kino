@@ -1528,6 +1528,7 @@
     "kinosampo",
     "kinotar",
     "kinotoijala",
+    "kotkanleffat",
     "leffabuumi",
     "levisummit",
     "savonkinot",
@@ -1561,6 +1562,7 @@
     "kinosampo",
     "kinotar",
     "kinotoijala",
+    "kotkanleffat",
     "leffabuumi",
     "levisummit",
     "savonkinot",
@@ -1604,6 +1606,7 @@
     "kinosampo",
     "kinotar",
     "kinotoijala",
+    "kotkanleffat",
     "leffabuumi",
     "levisummit",
     "savonkinot",
@@ -5939,6 +5942,7 @@
     "bioforum",
     "biorex",
     "kinokilta",
+    "kinokonepaja",
     "tapiola"
    ],
    "r": 7.4,
@@ -10923,6 +10927,14 @@
    },
    "tr": ""
   },
+  "vinyl sessions orion master of puppets": {
+   "r": 0,
+   "s": {
+    "en": "Cinema Orion transforms into a unique temple of sound as it hosts a special screening featuring “ Orion ”, the epic instrumental track lasting over eight minutes from the vinyl edition of Master of Puppets, an album celebrating its 40th anniversary. Within the embrace of the cinema auditorium, Cliff Burton’s evocative basslines and the track’s cosmic atmosphere come into their own. Experience a piece of metal history brought to life through the power of Genelec sound. The event features a special guest: Flemming Rasmussen, the album’s producer and engineer and Grammy Award winner.",
+    "fi": ""
+   },
+   "tr": ""
+  },
   "violent night 2": {
    "id": 1078446,
    "img": "data/posters/4add0a7e08c657bd.jpg",
@@ -11054,7 +11066,6 @@
     "jarvelankino",
     "joutsankino",
     "julia",
-    "kinoakseli",
     "kinoiiris",
     "kinojuha",
     "kinokilta",
