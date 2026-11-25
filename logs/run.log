@@ -6,14 +6,10 @@
 [schedule] 2026-11-28: 431 showtimes
 [schedule] 2026-11-29: 416 showtimes
 [schedule] 2026-11-30: 396 showtimes
-[poster] 137c9334-6b77-427b-bd40-9ea1e6a3ae02: no Pillow here, kept the CDN's bytes unresized
-[poster] 24ba2739-dd6f-453b-a599-c44180fd6c64: no Pillow here, kept the CDN's bytes unresized
 [schedule] 2026-12-01: 383 showtimes
 [tmdb] no TMDB match (8): Baletti: Manon | Joulupukin salainen paja | Klara ja aurinko | Kuin lammas laatikossa | Muistojeni kahvila | Mysteerinäytös I - 30.11. | Mysteerinäytös II - 1.12. | Uusin painajainen perheessä
-[tmdb] weak match, no exact title (12): Andrew Lloyd Webber’s Starlight Express  -> Andrew Lloyd Webber's Starlight Express: Live On-Stage | Animals in War -> Speaking of Animals in the Post War Era | Dry Leaf -> ხმელი ფოთოლი | Godzilla Minus Zero -> ゴジラ-0.0 | Grey Bees -> Сірі бджоли | Hadoota -> حدوتة | Leviticus -> Leviticus | Me olemme Pariisin orkesteri -> Nous, l'Orchestre | Nox -> Nox | Ramayana: Rise of a Legend -> रामायणम् | To the Victory! -> За перемогу! | Two Seasons, Two Strangers -> 旅と日々
-[tmdb] rating held back, under 25 votes (6): Dry Leaf (7.3 / 3 votes) | Grey Bees (8.2 / 4 votes) | Hadoota (8.2 / 4 votes) | Kerro kaikille (7.5 / 2 votes) | Me olemme Pariisin orkesteri (6.8 / 14 votes) | Two Seasons, Two Strangers (7.2 / 17 votes)
-[tmdb] rating refresh: 1 scheduled, 1 re-read, 0 failed and still due, 0 deferred (budget 12)
-[tmdb] 14 new lookups, 19 re-checks, cache 218, 132 mergeable by id
+[tmdb] weak candidate kept, not searched until 2026-11-26 (12): Andrew Lloyd Webber’s Starlight Express  -> Andrew Lloyd Webber's Starlight Express: Live On-Stage | Animals in War -> Speaking of Animals in the Post War Era | Dry Leaf -> ხმელი ფოთოლი | Godzilla Minus Zero -> ゴジラ-0.0 | Grey Bees -> Сірі бджоли | Hadoota -> حدوتة | Leviticus -> Leviticus | Me olemme Pariisin orkesteri -> Nous, l'Orchestre | Nox -> Nox | Ramayana: Rise of a Legend -> रामायणम् | To the Victory! -> За перемогу! | Two Seasons, Two Strangers -> 旅と日々
+[tmdb] 0 new lookups, 0 re-checks, cache 218, 132 mergeable by id
 [films] 76 film entries
 [attrs] dropped, neither format nor language (8): Klassikko | Maxim | OCAP | Pkseutu | SEVERAL | TKU & R | Tampere | Varaus20
 [schedule] 17 venue files written, 0 kept as-is
