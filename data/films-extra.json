@@ -201,6 +201,19 @@
    },
    "tr": ""
   },
+  "andre rieu s 2026 christmas concert let it snow": {
+   "id": 1707785,
+   "img": "data/posters/93aeda1b049d2a3b.jpg",
+   "r": 0,
+   "s": {
+    "en": "Andre Rieu's annual concert celebrating the magic of Christmas.",
+    "fi": ""
+   },
+   "tr": "",
+   "ts": [
+    "en"
+   ]
+  },
   "andré wickström 30 vuotta lavalla eikä loppua näy": {
    "r": 0,
    "s": {
@@ -615,6 +628,19 @@
     "fi": "Huom! Vain englanninkielinen tekstitys! English subtitles! POHJOISMAISEN NEUVOSTON ELOKUVAPALKINTOEHDOKAS 2026! Ane (Trine Dyrholm) ja Thomas (David Dencik) ovat keski-ikäiset kahden kouluikäisen lapsen vanhemmat keskellä eroamisprosessia. Thomasilla on uusi kumppani, jonka luokse hän aikoo muuttaa, mutta ensin pitäisi saada kerrottua suuret ja hankalat uutiset tyttärille, jotka eivät tiedä eroaikeista mitään. Suunnitelmat menevät uusiksi, kun Ane saa yllättäen aivoinfarktin ja hänen kehonsa toinen puoli halvaantuu. Vaikeassa tilanteessa pariskunta päättää jäädyttää muuttoaikeet ja jatkaa yhteiseloa toistaiseksi. Päätöksellä on yllättävät seuraukset. Rikollisperheestä kertoneella Wildlandilla (Espoo Ciné 2020) läpimurron tehnyt tanskalaisohjaaja Jeanette Nordahl osoittaa jälleen hallitsevansa hillityn psykologisen ihmissuhde- ja perhedynamiikkakuvauksen. Beginnings sai ensi-iltansa Berliinin elokuvajuhlien Panorama-sarjassa. Lähde: Suvi Heino/Espoo Ciné Sarjan järjestäjät: Walhalla ry, Svenska nu, Pohjola Norden ja Pohjoismainen kulttuuripiste sekä Päijät-Hämeen elokuvakeskus ry/Kino Iiris."
    },
    "tr": ""
+  },
+  "behemoth": {
+   "id": 1452168,
+   "img": "data/posters/ea03f8f2597658d3.jpg",
+   "r": 0,
+   "s": {
+    "en": "Gifted cellist Alex Serian returns home to Los Angeles after 20 years on the road. Music, which has been the constant, all-consuming river of his life, begins to carry Alex on an adventure that will change him forever.",
+    "fi": ""
+   },
+   "tr": "https://www.youtube.com/watch?v=I6tMFYT9s7E",
+   "ts": [
+    "en"
+   ]
   },
   "belle epoque muutosten aika": {
    "id": 2470,
@@ -1569,13 +1595,12 @@
   },
   "dyyni osa kaksi": {
    "id": 693134,
-   "img": "data/posters/55b40e4d7c08866a.jpg",
-   "r": 8.1,
+   "r": 0,
    "s": {
     "en": "",
     "fi": "Saaga jatkuu palkitun elokuvantekijä Denis Villeneuven aloittaessa seuraavan luvun Frank Herbertin maineikkaasta romaanista Dyyni, tähtiluokan kansainvälisen näyttelijäkaartin kanssa. Warner Bros. Picturesin ja Legendary Picturesin ”Dyyni: Osa kaksi” on kovasti odotettu jatko-osa vuoden 2021 kuusi Oscaria voittaneelle ”Dyynille”."
    },
-   "tr": "https://www.youtube.com/watch?v=U2Qp5pL3ovA"
+   "tr": ""
   },
   "dyyni osa kolme": {
    "id": 1170608,
@@ -1683,6 +1708,7 @@
     "biopallas",
     "biorex",
     "biorexkokkola",
+    "biosade",
     "biosalo",
     "biosavoy",
     "biostara",
@@ -1696,7 +1722,6 @@
     "kino123",
     "kinoakseli",
     "kinoelo",
-    "kinohamina",
     "kinohannikainen",
     "kinohirvi",
     "kinojuha",
@@ -1709,7 +1734,6 @@
     "kinoolympia",
     "kinopiispanristi",
     "kinopirtti",
-    "kinoset",
     "kinotar",
     "kinotervakoski",
     "kotkanleffat",
@@ -1744,6 +1768,7 @@
     "biopallas",
     "biorex",
     "biorexkokkola",
+    "biosade",
     "biosalo",
     "biosavoy",
     "biostara",
@@ -1757,7 +1782,6 @@
     "kino123",
     "kinoakseli",
     "kinoelo",
-    "kinohamina",
     "kinohannikainen",
     "kinohirvi",
     "kinojuha",
@@ -1770,7 +1794,6 @@
     "kinoolympia",
     "kinopiispanristi",
     "kinopirtti",
-    "kinoset",
     "kinotar",
     "kinotervakoski",
     "kotkanleffat",
@@ -3306,17 +3329,13 @@
    "krs": [
     "biograni",
     "biorex",
-    "biosalo",
     "biovuoksi",
     "cinemantsala",
     "engel",
     "kinojuha",
     "kinometso",
     "kinomyyri",
-    "kinopiispanristi",
-    "kkino",
     "kotkanleffat",
-    "kulttuurimylly",
     "kuvakukko",
     "leffabuumi",
     "savonkinot",
@@ -3722,6 +3741,7 @@
     "haapamaki",
     "helios",
     "isohannu",
+    "kinohirvi",
     "kinojuha",
     "kinolaika",
     "kinolumo",
@@ -3789,6 +3809,7 @@
     "haapamaki",
     "helios",
     "isohannu",
+    "kinohirvi",
     "kinojuha",
     "kinolaika",
     "kinolumo",
@@ -5134,7 +5155,6 @@
   },
   "lapin sota tekstitetty englanniksi": {
    "id": 1450460,
-   "img": "data/posters/c15d678a31ae397e.jpg",
    "r": 0,
    "s": {
     "en": "",
@@ -6166,6 +6186,14 @@
    },
    "tr": "https://www.youtube.com/watch?v=40KW6knYMo4"
   },
+  "nelli rapp portti varjomaailmaan": {
+   "r": 0,
+   "s": {
+    "en": "",
+    "fi": "Kun Nelli tapaa jälleen äitinsä, hän saa tietää, että ikivanha vampyyri aikoo avata portin varjomaailmaan, jossa uinuva pahuus odottaa vapautumistaan. Yhdessä Vallen ja Londonin kanssa heidän on pysäytettävä vampyyri ennen kuin on liian myöhäistä. Elokuva on saanut Euroopan unionin Luova Eurooppa -ohjelman tuen."
+   },
+   "tr": ""
+  },
   "neulekino järki ja tunteet": {
    "r": 0,
    "s": {
@@ -6466,7 +6494,6 @@
     "kinotoijala",
     "kinovirta",
     "kotkanleffat",
-    "kurikankino",
     "kuvakukko",
     "kuvatahti",
     "laitilankino",
@@ -6962,8 +6989,6 @@
     "julia",
     "kinojuha",
     "kinokonepaja",
-    "kinolumo",
-    "kinopiispanristi",
     "niagara",
     "orion",
     "tapiola"
@@ -7762,7 +7787,6 @@
     "gilda",
     "helios",
     "isohannu",
-    "jarvelankino",
     "joutsankino",
     "kino123",
     "kinohamina",
@@ -7780,11 +7804,9 @@
     "kinotar",
     "korjaamo",
     "kotkanleffat",
-    "kurikankino",
     "kuvakukko",
     "leffabuumi",
     "marita",
-    "matintupa",
     "niagara",
     "savonkinot",
     "star",
@@ -11037,20 +11059,16 @@
    "img": "data/posters/aca6e1cdaad07a60.jpg",
    "kr": "K-12",
    "krs": [
-    "bioforum",
     "biogrand",
     "biopallas",
     "biorex",
-    "biosalo",
     "biosavoy",
-    "biovuoksi",
     "elavienkuvien",
     "gilda",
     "helios",
     "joutsankino",
     "julia",
     "kinojuha",
-    "kinoolympia",
     "kinopiispanristi",
     "kinopirtti",
     "kinotar",
@@ -11095,7 +11113,6 @@
     "cinemantsala",
     "gilda",
     "kinoaurora",
-    "kinoiiris",
     "kinokilta",
     "kinokonepaja",
     "kinomyyri",
