@@ -1,31 +1,29 @@
-[http] 429 from kotkanleffat.fi, gave up after 3 attempt(s) -- Server: cloudflare; CF-Ray: a6029d844a2aa961-ARN
+[http] 429 from kotkanleffat.fi, gave up after 3 attempt(s) -- Server: cloudflare; CF-Ray: a604ae5e7a461243-ARN
 [kotkanleffat] FAILED: kotkanleffat: movie 3317 did not answer (HTTP Error 429: Too Many Requests); its screenings are on that page, so no venue of this site publishes a partial schedule
-[http] 429 from www.savonkinot.fi, gave up after 3 attempt(s) -- Server: cloudflare; CF-Ray: a6029d7d1868ce0b-ARN
-[savonkinot] FAILED: savonkinot: movie 233 did not answer (HTTP Error 429: Too Many Requests); its screenings are on that page, so no venue of this site publishes a partial schedule
-[http] 429 from www.leffabuumi.fi, gave up after 3 attempt(s) -- Server: cloudflare; CF-Ray: a6029d78bfc4b3b8-ARN
-[leffabuumi] FAILED: leffabuumi: movie 3343 did not answer (HTTP Error 429: Too Many Requests); its screenings are on that page, so no venue of this site publishes a partial schedule
-[http] 429 from studiot123.com, gave up after 3 attempt(s) -- Server: cloudflare; CF-Ray: a6029d80598d5abe-ARN
-[studio123jarvenpaa] FAILED: studio123jarvenpaa: movie 3350 did not answer (HTTP Error 429: Too Many Requests); its screenings are on that page, so no venue of this site publishes a partial schedule
-[http] 429 from studio123.fi, gave up after 3 attempt(s) -- Server: cloudflare; CF-Ray: a6029d791a1ba30e-ARN
-[studio123kouvola] FAILED: studio123kouvola: movie 3248 did not answer (HTTP Error 429: Too Many Requests); its screenings are on that page, so no venue of this site publishes a partial schedule
-[ihmekompleksi] Ihme Kompleksi: 27 showtimes, 14 dates
-[ihmekompleksi] synopses merged: 0
+[http] 429 from www.savonkinot.fi, gave up after 3 attempt(s) -- Server: cloudflare; CF-Ray: a604ae870c31adaa-ARN
+[savonkinot] FAILED: savonkinot: movie 132 did not answer (HTTP Error 429: Too Many Requests); its screenings are on that page, so no venue of this site publishes a partial schedule
+[http] 429 from www.leffabuumi.fi, gave up after 3 attempt(s) -- Server: cloudflare; CF-Ray: a604ae878803e75a-ARN
+[leffabuumi] FAILED: leffabuumi: movie 3342 did not answer (HTTP Error 429: Too Many Requests); its screenings are on that page, so no venue of this site publishes a partial schedule
+[http] 429 from studiot123.com, gave up after 3 attempt(s) -- Server: cloudflare; CF-Ray: a604ae55e8c282d0-ARN
+[studio123jarvenpaa] FAILED: studio123jarvenpaa: movie 3306 did not answer (HTTP Error 429: Too Many Requests); its screenings are on that page, so no venue of this site publishes a partial schedule
+[studio123kouvola] Studio 123 Kouvola: 64 showtimes, 21 dates
+[studio123kouvola] synopses merged: 0
+[http] 429 from ihmekompleksi.fi, gave up after 3 attempt(s) -- Server: cloudflare; CF-Ray: a604ae576ba79305-ARN
+[ihmekompleksi] FAILED: ihmekompleksi: movie 3304 did not answer (HTTP Error 429: Too Many Requests); its screenings are on that page, so no venue of this site publishes a partial schedule
 [kino123] Kino 123: 78 showtimes, 10 dates
 [kino123] synopses merged: 0
-[http] 429 from biogrand.fi, gave up after 3 attempt(s) -- Server: cloudflare; CF-Ray: a6029d82ea8b337a-ARN
+[http] 429 from biogrand.fi, gave up after 3 attempt(s) -- Server: cloudflare; CF-Ray: a604ae57f9b03a56-ARN
 [biogrand] FAILED: biogrand: movie 3281 did not answer (HTTP Error 429: Too Many Requests); its screenings are on that page, so no venue of this site publishes a partial schedule
 [joutsankino] Joutsan Kino: 8 showtimes, 7 dates
 [joutsankino] synopses merged: 0
-[cine] Cine Keuda-Talo: no programme at the moment (adapter confirmed the venue empty); publishing an empty file
-[cine] Cine Nikkilä: 1 showtimes, 1 dates
-[cine] synopses merged: 0
-[http] 429 from lippu.elokuvateatteristar.fi, gave up after 3 attempt(s) -- Server: cloudflare; CF-Ray: a6029de2b8c8bc2f-ARN
+[http] 429 from kiertue.cine.fi, gave up after 3 attempt(s) -- Server: cloudflare; CF-Ray: a604aebe3cf1f6eb-ARN
+[cine] FAILED: HTTP Error 429: Too Many Requests
+[http] 429 from lippu.elokuvateatteristar.fi, gave up after 3 attempt(s) -- Server: cloudflare; CF-Ray: a604aebe2c06ade2-ARN
 [star] FAILED: HTTP Error 429: Too Many Requests
 [haapamaki] Haapamäen Elokuvat: 11 showtimes, 9 dates
 [haapamaki] synopses merged: 0
 [run] venuelists-local.json rewritten
-[run] http: 0 revalidated (304), 83 full, 83 not stored (origin said no-store), 0 cache entries written
+[run] http: 0 revalidated (304), 85 full, 85 not stored (origin said no-store), 0 cache entries written
 [run] hosts: 12 attempted -- biogrand.fi, haapamaenelokuvat.fi, ihmekompleksi.fi, kiertue.cine.fi, kino.joutsa.fi, kino123.fi, kotkanleffat.fi, lippu.elokuvateatteristar.fi, studio123.fi, studiot123.com, www.leffabuumi.fi, www.savonkinot.fi
-[run] pending: cine has 1 venue(s) with no programme yet: cine-keuda
-[run] etiketti: 5 venues, 125 showtimes, 0 stale, 0 unverified, 1 pending, 0 with no programme, 7 failures
+[run] etiketti: 4 venues, 161 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 8 failures
 exit=1
