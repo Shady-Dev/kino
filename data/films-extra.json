@@ -456,7 +456,7 @@
     "en": "Beloved heroes from three distinct universes are set on a deadly collision course and face an existential threat unlike anything they've ever encountered.",
     "fi": "Marvel Studiosin Avengers: Doomsday -elokuvassa kolmen eri universumin rakastetut sankarit ajautuvat kohtalokkaalle törmäyskurssille ja kohtaavat koko olemassaoloaan uhkaavan vaaran, jollaista he eivät ole koskaan ennen kohdanneet."
    },
-   "tr": "https://www.youtube.com/watch?v=X1aFkAkFASk",
+   "tr": "https://www.youtube.com/watch?v=Wb8Tq_HD4E8",
    "ts": [
     "en"
    ]
@@ -2451,7 +2451,7 @@
   "heart of the beast": {
    "id": 1263337,
    "img": "data/posters/980bb19ce751c44c.jpg",
-   "r": 7.7,
+   "r": 7.9,
    "s": {
     "en": "After a harrowing plane crash, Special Forces officer James Belmont and his combat dog, Odin, find themselves stranded deep in the Alaskan wilderness. Together, they are forced into a brutal fight for survival against the elements.",
     "fi": "Jouduttuaan vakavaan lentokoneonnettomuuteen entinen erikoisjoukkojen upseeri James Belmont (Brad Pitt) ja hänen taistelukoiransa Odin jäävät eristyksiin syvälle Alaskan erämaahan. Yhdessä he joutuvat armottomaan selviytymiskamppailuun luonnonvoimia vastaan. Maineikkaan ohjaaja David Ayerin Heart of the Beast on intensiivinen seikkailutrilleri, joka tutkii miehen ja hänen parhaan ystävänsä murtumatonta sidettä heidän kohdatessaan tähänastisen elämänsä suurimman taistelun.",
@@ -3325,7 +3325,6 @@
     "biovuoksi",
     "cinemantsala",
     "engel",
-    "gilda",
     "kinojuha",
     "kinometso",
     "kinomyyri",
@@ -3525,7 +3524,7 @@
     "kinoset",
     "korjaamo"
    ],
-   "r": 7.0,
+   "r": 7.3,
    "s": {
     "en": "Assigned his toughest mission yet, the Cat must cheer up siblings Gabby and Sebastian as they adjust to life in a new town. Known for pushing boundaries, this agent of chaos must prove himself or risk losing his magical hat forever.",
     "fi": ""
@@ -3744,7 +3743,6 @@
     "kinomarilyn",
     "kinomyyri",
     "kinopiispanristi",
-    "kisakino",
     "kotkanleffat",
     "kuvakukko",
     "kuvatahti",
@@ -3812,7 +3810,6 @@
     "kinomarilyn",
     "kinomyyri",
     "kinopiispanristi",
-    "kisakino",
     "kotkanleffat",
     "kuvakukko",
     "kuvatahti",
@@ -4192,13 +4189,6 @@
   "klara ja aurinko": {
    "id": 858035,
    "img": "data/posters/7633771831e9d4b8.jpg",
-   "kr": "K-12",
-   "krs": [
-    "helios",
-    "ihmekompleksi",
-    "kinolaika",
-    "kinopirtti"
-   ],
    "r": 6.1,
    "s": {
     "en": "Based on the bestselling novel from Nobel Prize-winner Kazuo Ishiguro and written and directed by Academy-Award® winner Taika Waititi (Jojo Rabbit), Klara and the Sun introduces audiences to Klara (Jenna Ortega), an Artificial Friend who wants nothing more than to find the perfect home. When Klara meets Josie (Mia Tharia), each immediately senses a kindred spirit in the other. Josie has a fraught relationship with her mother (Amy Adams) and they’ve suffered great loss, but Klara’s innocent wonder and unwavering loyalty begin to heal the family and bring light to Josie’s complicated world.",
@@ -10724,12 +10714,17 @@
    "tr": ""
   },
   "uusin painajainen perheessä": {
+   "id": 1400336,
+   "img": "data/posters/9e18995cae5bcfd3.jpg",
    "r": 0,
    "s": {
-    "en": "",
+    "en": "Henry, son of Greg and Pam Focker, aims to marry Olivia, a strong-willed former hostage negotiator who appears to be his complete mismatch. To Greg's shock, father-in-law Jack Byrnes takes a liking to Olivia, and her unprecedented rise into his Circle of Trust sparks chaos in the family before Jack's 80th birthday party.",
     "fi": "Komediaikoni ja Emmy-voittaja Ben Stiller sekä kaksinkertainen Oscar-voittaja Robert De Niro nähdään jälleen yhdessä elokuvassa Uusin painajainen perheessä. Tähtikaartiin liittyy myös Grammy-voittaja ja Oscar-ehdokas Ariana Grande. Elokuva on uusin luku Painajainen perheessä -elokuvien sarjassa. Elokuvan on ohjannut ja käsikirjoittanut John Hamburg, joka oli mukana käsikirjoittamassa myös kolmea aiempaa elokuvaa, ja sen ovat tuottaneet Oscar-ehdokas Jane Rosenthal ja Robert De Niro Tribeca Productionsille sekä Ben Stiller ja Oscar-palkittu John Lesher Red Hour Filmsille."
    },
-   "tr": ""
+   "tr": "https://www.youtube.com/watch?v=9CKu3WoMYCg",
+   "ts": [
+    "en"
+   ]
   },
   "uusin painajainen perheessä focker in law": {
    "id": 1400336,
@@ -11296,5 +11291,5 @@
    "tr": ""
   }
  },
- "generated": "2026-11-25"
+ "generated": "2026-11-26"
 }

@@ -1,8 +1,8 @@
 [biorexkokkola] Bio Rex Kokkola: 38 showtimes, 11 dates
 [biorexkokkola] synopses merged: 0
-[http] 403 from kinopirtti.fi, gave up after 3 attempt(s) -- Server: cloudflare; CF-Ray: a60455bdcfe688de-DFW
+[http] 403 from kinopirtti.fi, gave up after 3 attempt(s) -- Server: cloudflare; CF-Ray: a604b6943cdc0336-IAD
 [kinopirtti] FAILED: HTTP Error 403: Forbidden
-[http] 403 from jamsankinotar.fi, gave up after 3 attempt(s) -- Server: cloudflare; CF-Ray: a60455c73dbd28b4-DFW
+[http] 403 from jamsankinotar.fi, gave up after 3 attempt(s) -- Server: cloudflare; CF-Ray: a604b6a33c14206f-IAD
 [kinotar] FAILED: HTTP Error 403: Forbidden
 [kinojuha] Kino Juha: 14 showtimes, 9 dates
 [kinojuha] VIP-Sali: 12 showtimes, 9 dates
@@ -25,5 +25,5 @@
 [run] http: 0 revalidated (304), 146 full, 146 not stored (origin said no-store), 0 cache entries written
 [run] hosts: 11 attempted -- biograni.fi, biovuoksi.fi, cinemaniagara.fi, jamsankinotar.fi, k-kino.fi, kinoiiris.com, kinojuha.fi, kinokaustinen.fi, kinopirtti.fi, www.biorex.org, www.kinomarilyn.fi
 [run] etiketti: 10 venues, 248 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 2 failures
-[run] timing: 11 site(s), 298.1s of fetching added up across workers that overlap, longest site 50.6s, longest queue wait 33.7s, 80.3s wall from this module's first fetch starting to its last ending
+[run] timing: 11 site(s), 260.8s of fetching added up across workers that overlap, longest site 44.5s, longest queue wait 29.8s, 70.5s wall from this module's first fetch starting to its last ending
 exit=1
