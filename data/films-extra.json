@@ -93,7 +93,7 @@
   "affection": {
    "id": 1339210,
    "img": "data/posters/fbf8eb7ad125f5fc.jpg",
-   "r": 5.5,
+   "r": 5.4,
    "s": {
     "en": "Psykologista kauhutrilleriä tieteisteemoihin yhdistävä Affection käynnistyy kuin sähköshokilla: nainen havahtuu maantieltä, katsoo tyhjin silmin ympärilleen ja jää kohtikaahaavan auton lanaamaksi. Yliajon uhri (Jessica Rothe) herää kotoaan muistinsa menettäneenä. Nainen ei tunnista miestään ( Joseph Cross , Big Little Lies, Mank) tai pientä tytärtään ( Julianna Layne ). Kun mies kutsuu häntä Ellieksi, seuraa tempaisu hiilihangolla päin näköä. Nainen muistaa olevansa Sarah, jolla on täysin toisenlainen elämä. Rauhoituttuaan hän on valmis kuulemaan diagnoosinsa: muistot palautuvat ajan myötä, ja lääkäreiden sijaan toipuminen vaatii täydellistä eristäytymistä. Tunne lukittautumisesta väärään elämään ei kuitenkaan jätä naista rauhaan. Affectionin maltillisella liekillä tekeytyvä alkupuoli muistuttaa Andy Mittonin The Witch in the Window’n (2018) mestarillisesta tunnelmoinnista. Sitten vainoharhakuvaus tekee tilaa tieteiskäänteille, joita viritetään lopulta myös kehokauhun mausteilla. Käsityöläistehosteisiin nojaavissa scifi-aineksissa on häivähdys David Cronenbergiä, kokonaisuudessa tähän päivään tuodun The Twilight Zone -mysteerin viehkoa tuntua. Happy Death Day -elokuvilla tähtiluokkaan ponnistanut Jessica Rothe on esikoisohjaaja BT Mezan tärkein voimavara. Nainen ottaa pääosan laajan tunnerekisterin ja fyysiset vaatimukset suvereenisti haltuunsa. Kun ruuvit alkavat kiristyä ja kulissit murentua, vatsanpohjan kouristukset todella tuntuvat katsomossa asti. ”4/5 —A unique and memorable debut bolstered by strong performances and unexpected twists” – David Gelmini / Dread Central ”4/5 — The blend of horror, science fiction and drama is balanced neatly” – Darren Gaskell / Love Horror ”[Jessica] Rothe is an amazing physical performer” – Kim Newman / The Kim Newman Web Site ”Great use of practical effects in an engaging final act” – Aidan Kelley / Collider ”Affection is essentially a 90-minute showcase for why [Jessica] Rothe belongs in the upper echelon of genre royalty—and she absolutely delivers. Ellie (Rothe) wakes up surrounded by strangers claiming to be her husband (Joseph Cross) and young daughter (Julianna Layne). The face in the mirror? Not hers. The memories? Nonexistent. Her husband explains it’s all fallout from a terrible accident, but Ellie’s instincts are screaming that something’s fundamentally wrong. — The film plays its cards close for two-thirds of its runtime, feeling like those scrappy, genre-bending indie horrors from the early 2000s — Then it pivots into technology-meets-body-horror territory” – Staci Layne Wilson / Women in Horror",
     "fi": ""
@@ -2042,8 +2042,7 @@
    "kr": "K-7",
    "krs": [
     "gilda",
-    "kinometso",
-    "tapiola"
+    "kinometso"
    ],
    "r": 0,
    "s": {
@@ -2874,6 +2873,19 @@
     "fi": "Cannesin elokuvajuhlien Grand Prix'lla palkittu Juho Kuosmasen elokuva Hytti nro 6 vie unohtumattomalle junamatkalle arktisten neuvostomaisemien halki. Sydänsurujaan Moskovasta Murmanskiin pakeneva Laura (Seidi Haarla) saa hyttikaverikseen kovapintaisen kaivostyöntekijän Ljohan (Juri Borisov). Lauran odotukset rauhoittavasta etsikkomatkasta karisevat kerta heitolla, kun Ljoha juo itsensä äänekkääseen humalaan heti ensimmäisenä iltana. Alun yhteentörmäyksen jälkeen eriparinen kaksikko alkaa kuitenkin löytää toisistaan jotakin yhteistä ja odottamatonta. Hienovaraisen huumorin värittämä kohtaaminen täyteen ahdetun junan erikoislaatuisessa maailmassa saa kummatkin matkaajat näkemään myös itsensä uusin silmin. Hymyilevä mies -elokuvallaan kansainväliseen menestykseen nousseen Kuosmasen lämmin ja vilpitön road movie on syntynyt Rosa Liksomin Finlandia-palkitun romaanin innoittamana."
    },
    "tr": ""
+  },
+  "hyviä vuosia": {
+   "id": 1798873,
+   "img": "data/posters/924bd527bb676f07.jpg",
+   "r": 0,
+   "s": {
+    "en": "Three couples in their mid-60s spend their summers in Pärnu, Estonia. Everything is beautiful, except that Susanna and Ilkka fall in love. How to deal with that at this age? How is one “supposed to” spend your life when you have a limited number of good years ahead? A warm, romantic and funny movie about people who are still young at heart.",
+    "fi": "Kuusi ystävystä kokoontuu joka vuosi Pärnuun, Viroon. Viikon lomalla rehellisyys on yhteisesti sovittu sääntö, eikä elämästä Pärnun ulkopuolella puhuta. Tapahtumat alkavat mennä solmuun, kun ryhmään liittyy puolivahingossa uusia jäseniä. Selviää, että kuusikymppisenäkin elämä on seikkailu, eikä ihminen koskaan ole valmis. Kolme pariskuntaa, kolme kesää, muutoksia ja muuttumattomuuksia. Ystävyys, rakkaus, haaveet ja pelot ovat aiheena Pamela Tolan elokuvassa, joka sijoittuu luonteikkaaseen kylpyläkaupunkiin. Rakastetut näyttelijät Jonna Järnefelt, Taneli Mäkelä, Irina Pulkka, Tommi Eronen, Milka Ahlroth ja Antti Virmavirta tähdittävät lämminhenkistä draamaa."
+   },
+   "tr": "",
+   "ts": [
+    "en"
+   ]
   },
   "hyvä talo": {
    "id": 1035047,
@@ -5016,7 +5028,6 @@
     "kinokonepaja",
     "kinomarilyn",
     "kinomyyri",
-    "korjaamo",
     "kotkanleffat",
     "kulttuurimylly",
     "kuvakukko",
@@ -9490,13 +9501,12 @@
   },
   "tekijätorstai hetki ennen valoa": {
    "id": 1015881,
-   "img": "data/posters/ec99ecd6b2aa4dcc.jpg",
    "r": 0,
    "s": {
     "en": "",
     "fi": "Tekijätorstaissa KLAUS HÄRÖ: \nklo 17:15 Miekkailij\nklo 19:00-20:00 Keskustelu: haastattelussa Klaus Härö\nklo 20:15 Hetki Ennen Valoa  \n\nOstamalla lipun jompaan kumpaan näytökseen, pääset mukaan keskusteluun. \nOstamalla Tekijätorstai Double Feature lipun, pääset mukaan molempiin elokuviin ja keskusteluun. \n\nKlaus Härön uutuuselokuva kertoo kahden naisen kohtaamisesta keskellä hoitoalan kriisiä. Erikoissairaanhoitaja Inka (Laura Birn) tekee työtään suurella sydämellä vaativien työolosuhteiden ja oman perhe-elämänsä ristipaineessa. Lenin (Oona Airola) ja Karin (Jussi Vatanen) onni rakoilee, kun heidän vastasyntynyt vauvansa kiidätetään äkillisesti tehohoitoon. Sairaanhoitajat suunnittelevat lakkoa parempien työolosuhteiden puolesta, ja epävarmuuden hetkellä hämmentynyt Leni löytää tukea ja toivoa Inkasta. Inka on kuitenkin vaikeiden päätösten äärellä. Molemmat naiset toimivat rakkaudesta ja velvollisuudesta –  mutta miten tehdä oikea valinta, kun vaakalaudalla ovat oma ja toisten elämä?"
    },
-   "tr": "https://www.youtube.com/watch?v=bOD_fRxNT4Q"
+   "tr": ""
   },
   "tekijätorstai hyvä poika": {
    "id": 102534,
@@ -9518,13 +9528,12 @@
   },
   "tekijätorstai miekkailija": {
    "id": 322488,
-   "img": "data/posters/fb74c9427056a7d3.jpg",
-   "r": 7.0,
+   "r": 0,
    "s": {
     "en": "",
     "fi": "Tekijätorstaissa KLAUS HÄRÖ: \nklo 17:15 Miekkailija (2015)\nklo 19:00-20:00 Keskustelu: haastattelussa Klaus Härö\nklo 20:15 Hetki Ennen Valoa\n\nOstamalla lipun jompaan kumpaan näytökseen, pääset mukaan keskusteluun. \nOstamalla Tekijätorstai Double Feature lipun, pääset mukaan molempiin elokuviin ja keskusteluun. \n\nKlaus Härön ohjaama Miekkailija on koskettava ja visuaalisesti hätkähdyttävä historiallinen draama, joka sijoittuu 1950-luvun alun neuvosto-Viroon. Elokuva kertoo stalinistista koneistoa pakoilevasta nuoresta miehestä, joka löytää turvapaikan pikkukaupungin koulun liikunnanopettajana ja sytyttää lapsissa intohimon miekkailuun. Härölle ominainen herkkä ja humaani kerronta yhdistyy elokuvassa painostavaan historialliseen jännitteeseen sekä klassisen urheiluelokuvan parhaaseen perinteeseen. Tämä Golden Globe -ehdokkuudella ja kahdella Jussi-palkinnolla huomioitu mestariteos on ajaton ja elegantti ylistys rohkeudelle, itsepäiselle toivolle sekä sille pyyteettömälle vaikutukselle, joka yhdellä opettajalla voi olla nuoren elämään."
    },
-   "tr": "https://www.youtube.com/watch?v=c0jG3QWW4yE"
+   "tr": ""
   },
   "tekijätorstai sokea mies joka ei halunnut nähdä titanicia": {
    "id": 716855,
@@ -10875,6 +10884,14 @@
    },
    "tr": ""
   },
+  "vettä kukille": {
+   "r": 0,
+   "s": {
+    "en": "",
+    "fi": "Menestyselokuva Amélien ohjaajan Jean-Pierre Jeunetin kaunis ja sydämeenkäyvä Vettä kukille (Changer l’eau des fleurs) perustuu Valérie Perrinin samannimiseen menestysromaaniin. Elokuva kertoo naisesta, joka ei lakkaa uskomasta huomiseen. Violette on hoitanut pienen ranskalaiskylän hautausmaata jo kahdenkymmenen vuoden ajan. Hän tuntee kaikki haudoilla kävijät, ja usein nämä poikkeavat Violetten luo jakamaan elämän iloja ja suruja. Eräänä päivänä Violette saa vieraan, joka mullistaa hänen tutun ja turvallisen arkensa. Paikallinen poliisi haluaa laskea edesmenneen äitinsä tuhkat täysin tuntemattoman ihmisen haudalle. Pian selviää, että hautaan liittyy salainen rakkaustarina. Tarina on osa myös Violetten omaan menneisyyttä ja kipeää salaisuutta, joka liittyy hänen tyttäreensä. Pääparina nähdään Leïla Bekhti ja Matthias Schoenaerts."
+   },
+   "tr": ""
+  },
   "vi är bäst": {
    "id": 191294,
    "r": 0,
@@ -11067,7 +11084,6 @@
     "gilda",
     "helios",
     "joutsankino",
-    "julia",
     "kinojuha",
     "kinopiispanristi",
     "kinopirtti",
@@ -11260,12 +11276,6 @@
   "yön lapsi": {
    "id": 964849,
    "img": "data/posters/d0630be5ff40e993.jpg",
-   "kr": "K-16",
-   "krs": [
-    "biorexkokkola",
-    "savonkinot",
-    "tapiola"
-   ],
    "r": 5.9,
    "s": {
     "en": "In Finnish forest, Saga (Seidi Haarla) and her husband Jon (Rupert Grint) embark on a new chapter as parents. But Saga’s joy is overshadowed by a chilling suspicion about their newborn, unbeknownst to Jon, causing a rift as she alone grapples with the disturbing truth.",
@@ -11311,5 +11321,5 @@
    "tr": ""
   }
  },
- "generated": "2026-11-26"
+ "generated": "2026-11-27"
 }
