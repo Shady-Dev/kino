@@ -429,12 +429,6 @@
   "avengers doomsday": {
    "id": 1003596,
    "img": "data/posters/b1eae52d6a765de3.jpg",
-   "kr": "K-12",
-   "krs": [
-    "bioforum",
-    "cinemantsala",
-    "kinopiispanristi"
-   ],
    "r": 0,
    "s": {
     "en": "Beloved heroes from three distinct universes are set on a deadly collision course and face an existential threat unlike anything they've ever encountered.",
@@ -445,12 +439,6 @@
   "avengers doomsday 2d": {
    "id": 1003596,
    "img": "data/posters/b1eae52d6a765de3.jpg",
-   "kr": "K-12",
-   "krs": [
-    "bioforum",
-    "cinemantsala",
-    "kinopiispanristi"
-   ],
    "r": 0,
    "s": {
     "en": "Beloved heroes from three distinct universes are set on a deadly collision course and face an existential threat unlike anything they've ever encountered.",
@@ -464,12 +452,6 @@
   "avengers doomsday 3d": {
    "id": 1003596,
    "img": "data/posters/b1eae52d6a765de3.jpg",
-   "kr": "K-12",
-   "krs": [
-    "bioforum",
-    "cinemantsala",
-    "kinopiispanristi"
-   ],
    "r": 0,
    "s": {
     "en": "Beloved heroes from three distinct universes are set on a deadly collision course and face an existential threat unlike anything they've ever encountered.",
@@ -714,6 +696,7 @@
     "kurikankino",
     "kuvatahti",
     "leffabuumi",
+    "levisummit",
     "lieksankino",
     "savonkinot",
     "star",
@@ -794,6 +777,7 @@
     "kurikankino",
     "kuvatahti",
     "leffabuumi",
+    "levisummit",
     "lieksankino",
     "savonkinot",
     "star",
@@ -1283,16 +1267,12 @@
   },
   "daughters of darkness": {
    "id": 446473,
-   "img": "data/posters/80384183f3624c6d.jpg",
    "r": 0,
    "s": {
-    "en": "Two women kidnap a third and torture her in a dungeon, with ultimate designs on cannibalizing her.",
+    "en": "",
     "fi": "Kümelin elokuva nojaa kieroutuneeseen tunnelmaan, ja ohjaaja on itse luonnehtinut sitä aikuisille tarkoitetuksi faabeliksi. Valtapelissä halu ja kuolema kietoutuvat pyhäksi liitoksi. Katsoja koukutetaan häkellyttävän värikkäällä kuvauksella, paikallisten garderoobien kauneimmilla löydöillä ja tarttuvalla aikalaismusiikilla. Elokuva esitetään Kultti Killassa leikkaamattomana ja vain kerran, joten ikuista elämää viettävän verenimijänkään ei kannata jäädä odottelemaan uusintoja. ~ Artturi Olavi Rostén & Juho Liukkonen"
    },
-   "tr": "",
-   "ts": [
-    "en"
-   ]
+   "tr": ""
   },
   "dave lindholm pepe ahlqvist walkin blues": {
    "r": 0,
@@ -1593,6 +1573,19 @@
    },
    "tr": "https://www.youtube.com/watch?v=uJqaGLmZpGo"
   },
+  "dyyni osa 3": {
+   "id": 438631,
+   "img": "data/posters/b09a2fd858bcd46f.jpg",
+   "r": 7.8,
+   "s": {
+    "en": "",
+    "fi": "Paul Atreides on syntynyt täyttämään suuren kohtalon, joka ylittää hänen ymmärryksensä. Hän joutuu matkustamaan universumin vaarallisimmalle planeetalle varmistaakseen perheensä ja kansansa tulevaisuuden. Kun pahansuovat voimat ryhtyvät taisteluun planeetalta löytyvästä ainutlaatuisesta ja arvokkaimmasta tunnetusta raaka-aineesta - hyödykkeestä, joka voi toteuttaa ihmiskunnan suurimmat mahdollisuudet - vain pelkonsa voittavat selviävät."
+   },
+   "tr": "https://www.youtube.com/watch?v=w0HgHet0sxg",
+   "ts": [
+    "fi"
+   ]
+  },
   "dyyni osa kaksi": {
    "id": 693134,
    "r": 0,
@@ -1703,9 +1696,7 @@
    "kr": "K-12",
    "krs": [
     "biogrand",
-    "biomarilyn",
     "biomarlon",
-    "biopallas",
     "biorex",
     "biorexkokkola",
     "biosade",
@@ -1734,8 +1725,9 @@
     "kinoolympia",
     "kinopiispanristi",
     "kinopirtti",
+    "kinosampo",
     "kinotar",
-    "kinotervakoski",
+    "kinotoijala",
     "kotkanleffat",
     "kuvatahti",
     "leffabuumi",
@@ -1763,9 +1755,7 @@
    "kr": "K-12",
    "krs": [
     "biogrand",
-    "biomarilyn",
     "biomarlon",
-    "biopallas",
     "biorex",
     "biorexkokkola",
     "biosade",
@@ -1794,8 +1784,9 @@
     "kinoolympia",
     "kinopiispanristi",
     "kinopirtti",
+    "kinosampo",
     "kinotar",
-    "kinotervakoski",
+    "kinotoijala",
     "kotkanleffat",
     "kuvatahti",
     "leffabuumi",
@@ -1829,6 +1820,16 @@
    "ts": [
     "fi"
    ]
+  },
+  "eka gei sokari": {
+   "id": 1519552,
+   "img": "data/posters/f61615ff23f00bfc.jpg",
+   "r": 0,
+   "s": {
+    "en": "Set against the breathtaking rural landscapes of Sri Lanka's Wellassa region in the 1930s, Eka Gei Sokari is a captivating historical romantic drama that explores love, family, tradition, and the complexities of human relationships. In the remote village of Akiriyankumbura, the beautiful Sedera Menike lives under the watchful protection of her two brothers, Dingira and Dungura. However, her life takes an unexpected turn when she secretly falls in love with Monara, a rebellious young man descended from the Monarawila lineage. Meanwhile, Baalaya, a charismatic Sokari dancer and folk singer, enters their lives, bringing romance, rivalry, and emotional complications as he pursues the affections of Sedera Menike and her cousin Dalumalee. Inspired by the ancient Sri Lankan marriage tradition of Eka Gei Kema and the vibrant cultural heritage of Sokari folk theatre, the film weaves a compelling story of forbidden love, personal desires, and the struggle between tradition and freedom. Written and directed by the legendary Jackson Anthony, Eka Gei Sokari brings a fascinating chapter of Sri Lankan history to life through powerful performances, traditional music, and visually stunning storytelling. A cinematic celebration of Sri Lanka's rich cultural heritage, where love challenges tradition and destiny shapes lives.",
+    "fi": ""
+   },
+   "tr": "https://www.youtube.com/watch?v=fX3FsMZ7Vdg"
   },
   "ekakertaleffassa näytös pikku kummitus lapanen": {
    "id": 69381,
@@ -3339,7 +3340,6 @@
    "img": "data/posters/056008305739a764.jpg",
    "kr": "K-7",
    "krs": [
-    "biograni",
     "biorex",
     "biovuoksi",
     "cinemantsala",
@@ -3515,6 +3515,19 @@
     "en"
    ]
   },
+  "katti hatussa puhumme suomea": {
+   "id": 1117898,
+   "img": "data/posters/661a16f929041273.jpg",
+   "r": 7.3,
+   "s": {
+    "en": "Assigned his toughest mission yet, the Cat must cheer up siblings Gabby and Sebastian as they adjust to life in a new town. Known for pushing boundaries, this agent of chaos must prove himself or risk losing his magical hat forever.",
+    "fi": "Tapaa vertaansa vailla oleva Hattukatti! Dr. Seussin vinkeään tyyliin temmeltävä Hattukatti saapuu valkokankaalle ensi kertaa animaatioversiona uudessa huikeassa seikkailussa, jossa Hattukatin koiruudet, taikuus ja vauhti pääsevät valloilleen. Katti on mestari tuomaan iloa lapsille hilpeällä, omintakeisella ja anarkistisella meiningillään, kiidättäen heidät ja yleisön ennen kokemattomalle mielikuvitukselliselle matkalle. Mielikuvituksen ja innoituksen instituutin instituutti heittää sankarimme eteen toistaiseksi hankalimman haasteen: hän saa tehtäväkseen piristää sisaruksia nimeltään Gabby ja Sebastian, jotka eivät tahdo sopeutua uuteen kotikaupunkiinsa. Katti, tuo ylilyönneistään tunnettu kaaoksen kätyri, saa kenties viimeisen tilaisuuden näyttää kyntensä... tai hän on vaarassa menettää taikahattunsa! Alessandro Carlonin ja Erica Rivinojan ohjaaman ja käsikirjoittaman elokuvan tarina on Caroline Williamsin käsialaa ja sen on tuottanut Daniela Mazzucato. Warner Bros. Pictures Animationin ensimmäinen pitkä animaatioelokuva"
+   },
+   "tr": "https://www.youtube.com/watch?v=tkZpcypT8Z4",
+   "ts": [
+    "en"
+   ]
+  },
   "katti hatussa suomeksi": {
    "id": 1117898,
    "img": "data/posters/661a16f929041273.jpg",
@@ -3534,10 +3547,15 @@
    "kr": "K-7",
    "krs": [
     "ihmekompleksi",
+    "isohannu",
+    "kinoelo",
     "kinohamina",
     "kinohannikainen",
     "kinokulma",
+    "kinomania",
+    "kinosampo",
     "kinoset",
+    "kinotoijala",
     "korjaamo"
    ],
    "r": 7.3,
@@ -3751,7 +3769,6 @@
     "engel",
     "gilda",
     "haapamaki",
-    "helios",
     "isohannu",
     "kinohirvi",
     "kinojuha",
@@ -3819,7 +3836,6 @@
     "engel",
     "gilda",
     "haapamaki",
-    "helios",
     "isohannu",
     "kinohirvi",
     "kinojuha",
@@ -5017,6 +5033,7 @@
    "kr": "K-16",
    "krs": [
     "biogrand",
+    "biopallas",
     "biorex",
     "biorexkokkola",
     "cinemantsala",
@@ -6490,13 +6507,11 @@
     "kinoelo",
     "kinohamina",
     "kinohirvi",
-    "kinojuha",
     "kinokaustinen",
     "kinokulma",
     "kinolaika",
     "kinolumo",
     "kinomania",
-    "kinomarilyn",
     "kinopiispanristi",
     "kinopirtti",
     "kinosampo",
@@ -6517,8 +6532,7 @@
     "studio123jarvenpaa",
     "studio123kouvola",
     "vaakuna",
-    "vihdinkino",
-    "virtainpirtti"
+    "vihdinkino"
    ],
    "r": 7.7,
    "s": {
@@ -6993,7 +7007,6 @@
    "img": "data/posters/bbda87a41c61eb80.jpg",
    "kr": "K-16",
    "krs": [
-    "biopallas",
     "biorex",
     "gilda",
     "ihmekompleksi",
@@ -7302,7 +7315,6 @@
     "kinometso",
     "kinopiispanristi",
     "kinopirtti",
-    "kinotervakoski",
     "korjaamo",
     "kuvakukko",
     "savonkinot",
@@ -7330,7 +7342,6 @@
     "kinometso",
     "kinopiispanristi",
     "kinopirtti",
-    "kinotervakoski",
     "korjaamo",
     "kuvakukko",
     "savonkinot",
@@ -7415,14 +7426,6 @@
   "pirjo i sverige": {
    "id": 1729175,
    "img": "data/posters/a8cdd21dca604433.jpg",
-   "kr": "S",
-   "krs": [
-    "biorex",
-    "elokuviin",
-    "isohannu",
-    "kinopiispanristi",
-    "star"
-   ],
    "r": 0,
    "s": {
     "en": "",
@@ -7671,6 +7674,7 @@
    "kr": "K-16",
    "krs": [
     "biorex",
+    "cinemantsala",
     "isohannu",
     "kinoaurora",
     "kinoiiris",
@@ -7791,10 +7795,10 @@
     "biomarilyn",
     "biorex",
     "biorexkokkola",
-    "biosade",
     "biosalo",
     "biostara",
     "biovuoksi",
+    "cinemantsala",
     "gilda",
     "helios",
     "isohannu",
@@ -7808,7 +7812,6 @@
     "kinolaika",
     "kinolumo",
     "kinomarilyn",
-    "kinomyyri",
     "kinopiispanristi",
     "kinopirtti",
     "kinoset",
@@ -7821,8 +7824,7 @@
     "niagara",
     "savonkinot",
     "star",
-    "studio123jarvenpaa",
-    "tapiola"
+    "studio123jarvenpaa"
    ],
    "r": 0,
    "s": {
@@ -11100,7 +11102,7 @@
     "studio123kouvola",
     "tapiola"
    ],
-   "r": 7.5,
+   "r": 7.6,
    "s": {
     "en": "The captivating film Wicker – A Love Woven from Passion is a comedy about marriage and the absurdity of social conventions, starring Academy Award winner Olivia Colman and Alexander Skarsgård. Fed up with the narrow-mindedness of her fellow villagers, an unmarried fisherwoman (Olivia Colman)decides to commission a husband made of willow from the local basket weaver (Peter Dinklage). The willow-woven man (Alexander Skarsgård) turns out to have far more to offer as a husband than she could ever haveimagined. Her unexpected spouse awakens new feelings in her and sets off a wave of infatuation, jealousy and upheaval that threatens to turn the entire village upside down. Sharp-witted, humorous and daringly subversive, this comedy challenges audiences to look at love and marriage from an entirely new perspective.",
     "fi": "Omaperäinen ja sykähdyttävä elokuva Wicker – intohimosta punottu on Oscar-voittaja Olivia Colmanin ja Alexander Skarsgårdin tähdittämä komedia avioliitosta ja yhteiskunnan normien absurdiudesta. Naimaton kalastajanainen (Olivia Colman) saa tarpeekseen kyläläisten ahdasmielisyydestä ja päättää tilata paikalliselta korinpunojalta (Peter Dinklage) itselleen aviomiehen – pajusta. Pajusta punotussa miehessä (Alexander Skarsgård) on aviomiesainesta enemmän kuin nainen olisi osannut odottaa. Yllättävä puoliso herättää naisessa uudenlaisia tunteita ja käynnistää ihastuksen, kateuden, ja mullistusten aallon, joka uhkaa järkyttää koko kyläyhteisöä. Teräväkielinen, humoristinen ja normeja uskaliaasti rikkova komedia haastaa pohtimaan rakkautta ja avioliittoa täysin uudesta näkökulmasta. Elokuvan maailmanensi-ilta oli Sundance-elokuvajuhlilla vuonna 2026."
@@ -11123,7 +11125,6 @@
    "krs": [
     "bioforum",
     "biograni",
-    "biopallas",
     "biorex",
     "biosavoy",
     "cinemantsala",
@@ -11132,11 +11133,9 @@
     "kinokilta",
     "kinokonepaja",
     "kinomyyri",
-    "kinoolympia",
     "kinopiispanristi",
     "kinopirtti",
     "kinotar",
-    "kinotervakoski",
     "kotkanleffat",
     "kuvakukko",
     "leffabuumi",

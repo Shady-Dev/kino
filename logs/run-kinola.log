@@ -1,12 +1,12 @@
-[kinokilta] 48 screening(s) listed, 40 film page(s) read
+[kinokilta] 45 screening(s) listed, 39 film page(s) read
 [kinokilta] omitted 0 confirmed non-film(s) by evidence-backed exclusion over 0 screening(s), and 0 unresolved over 0
 [kinokilta] override retkikino-2026: active
 [kinokilta] 9 synopsis/synopses withheld, no language settled: Cruising, Never After Dark, Primetime, Red Rue Express, RetkiKino 2026, S Nicholas and the Lost Letter, The Hills Have Eyes, The Hunger
 [kinokilta] 9 film(s) with a language name not read, that part left blank: Alligator (Ei teksitystä); Joysticks (Ei teksitystä); Kuzma (ukraina); Prom Night (Ei teksitystä); Red Rue Express (ukraina); S Nicholas and the Lost Letter (ukraina); Savage Dawn (Ei teksitystä); Staubwelt (malayalam)
-[kinokilta] Kino Kilta: 48 showtimes, 19 dates
-[kinokilta] Kino Kilta: 48 showtimes, 19 dates
+[kinokilta] Kino Kilta: 45 showtimes, 18 dates
+[kinokilta] Kino Kilta: 45 showtimes, 18 dates
 [kinokilta] synopses merged: 0
-[kinolaika] 45 screening(s) listed, 31 film page(s) read
+[kinolaika] 41 screening(s) listed, 30 film page(s) read
 [kinolaika] omitted 0 confirmed non-film(s) by evidence-backed exclusion over 0 screening(s), and 20 unresolved over 21
 [kinolaika] unresolved: Antti Autio, Eternal Erection, Hopeasiivet, Livemusavisa, Lyhytelokuvapäivä: Coffee n' Movies, Lyhytelokuvapäivä: Kerttu Matinpuro -elokuvat, Lyhytelokuvapäivä: Ovis Aries, Lyhytelokuvapäivä: PÄIVÄLIPPU, Lyhytelokuvapäivä: Satumaa, Lyhytelokuvapäivä: Stadin AO-sarja, Lyhytelokuvapäivä: Toivo, Mary Ann Hawkins
 [kinolaika] override a-fox-under-a-pink-moon: evidence-unavailable
@@ -14,30 +14,31 @@
 [kinolaika] override naza: evidence-unavailable
 [kinolaika] override pikku-kummitus-lapanen-keppostelee: evidence-unavailable
 [kinolaika] override two-seasons-two-strangers: evidence-unavailable
-[kinolaika] Kino Laika: 24 showtimes, 7 dates
-[kinolaika] Kino Laika: 24 showtimes, 7 dates
+[kinolaika] Kino Laika: 20 showtimes, 6 dates
+[kinolaika] Kino Laika: 20 showtimes, 6 dates
 [kinolaika] synopses merged: 0
-[kinomyyri] 22 screening(s) listed, 15 film page(s) read
+[kinomyyri] 20 screening(s) listed, 15 film page(s) read
 [kinomyyri] omitted 0 confirmed non-film(s) by evidence-backed exclusion over 0 screening(s), and 1 unresolved over 2
 [kinomyyri] unresolved: Calle Málaga - muistojeni katu
 [kinomyyri] override kojootti-vs-acme-dub: evidence-unavailable
 [kinomyyri] override must-pori-nakku: evidence-unavailable
-[kinomyyri] 3 film(s) with a language name not read, that part left blank: Kuin lammas laatikossa (japanilainen); Lapin sota (saami); Nina Roza (ranskan, bulgarialainen)
-[kinomyyri] Kino Myyri: 20 showtimes, 9 dates
-[kinomyyri] Kino Myyri: 20 showtimes, 9 dates
-[kinomyyri] synopses merged: 0
-[kinokonepaja] 57 screening(s) listed, 16 film page(s) read
-[kinokonepaja] omitted 0 confirmed non-film(s) by evidence-backed exclusion over 0 screening(s), and 4 unresolved over 4
-[kinokonepaja] unresolved: Billie maailmojen välissä, Cold November, Reel Rock Film Tour 20, The BritRock Film Tour 2026
+[kinomyyri] 4 film(s) with a language name not read, that part left blank: Eka Gei Sokari (sinhala); Kuin lammas laatikossa (japanilainen); Lapin sota (saami); Nina Roza (ranskan, bulgarialainen)
+[kinomyyri] Kino Myyri: 18 showtimes, 9 dates
+[kinomyyri] Kino Myyri: 18 showtimes, 9 dates
+[kinomyyri] synopses merged: 1
+[kinomyyri] synopses by language: en 1
+[kinokonepaja] 55 screening(s) listed, 17 film page(s) read
+[kinokonepaja] omitted 0 confirmed non-film(s) by evidence-backed exclusion over 0 screening(s), and 5 unresolved over 5
+[kinokonepaja] unresolved: Billie maailmojen välissä, Cold November, High Ground, Reel Rock Film Tour 20, The BritRock Film Tour 2026
 [kinokonepaja] override edward-scissorhands: evidence-unavailable
 [kinokonepaja] override gremlins: evidence-unavailable
 [kinokonepaja] override nightmare-on-elm-street: evidence-unavailable
 [kinokonepaja] 4 film(s) with a language name not read, that part left blank: A shelter Among the Clouds (albania); Dua (albania, serbia); Helena Ranta – Sodan viimeinen sana (serbia, albania); Shame and Money (albania)
-[kinokonepaja] Kino Konepaja: 53 showtimes, 26 dates
-[kinokonepaja] Kino Konepaja: 53 showtimes, 26 dates
+[kinokonepaja] Kino Konepaja: 50 showtimes, 25 dates
+[kinokonepaja] Kino Konepaja: 50 showtimes, 25 dates
 [kinokonepaja] synopses merged: 0
-[run] http: 0 revalidated (304), 106 full, 17 not stored (origin said no-store), 41 cache entries written
+[run] http: 0 revalidated (304), 105 full, 17 not stored (origin said no-store), 41 cache entries written
 [run] hosts: 4 attempted -- kinokonepaja.fi, kinomyyri.fi, www.kinokilta.fi, www.kinolaika.fi
-[run] kinola: 4 venues, 145 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
-[run] timing: 4 site(s), 217.6s of fetching added up across workers that overlap, longest site 77.3s, longest queue wait 104.2s, 77.3s wall from this module's first fetch starting to its last ending
+[run] kinola: 4 venues, 133 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
+[run] timing: 4 site(s), 211.6s of fetching added up across workers that overlap, longest site 72.7s, longest queue wait 93.0s, 72.7s wall from this module's first fetch starting to its last ending
 exit=0

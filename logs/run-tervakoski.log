@@ -1,8 +1,9 @@
-[kinotervakoski] Kino Tervakoski, Janakkala: 6 showtimes, 3 dates, 6 film(s)
-[kinotervakoski] Kino Tervakoski: 6 showtimes, 3 dates
+[kinotervakoski] Kino Tervakoski, Janakkala: 7 showtimes, 4 dates, 4 film(s)
+[kinotervakoski] 9 slot(s) with no film link, left out
+[kinotervakoski] Kino Tervakoski: 7 showtimes, 4 dates
 [kinotervakoski] synopses merged: 0
 [run] http: 0 revalidated (304), 1 full, 0 not stored (origin said no-store), 0 cache entries written
 [run] hosts: 1 attempted -- www.janakkala.fi
-[run] tervakoski: 1 venues, 6 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
-[run] timing: 1 site(s), 0.9s of fetching added up across workers that overlap, longest site 0.9s, longest queue wait 164.7s, 0.9s wall from this module's first fetch starting to its last ending
+[run] tervakoski: 1 venues, 7 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
+[run] timing: 1 site(s), 0.8s of fetching added up across workers that overlap, longest site 0.8s, longest queue wait 150.9s, 0.8s wall from this module's first fetch starting to its last ending
 exit=0
