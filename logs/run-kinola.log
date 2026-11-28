@@ -1,12 +1,12 @@
-[kinokilta] 45 screening(s) listed, 39 film page(s) read
+[kinokilta] 41 screening(s) listed, 36 film page(s) read
 [kinokilta] omitted 0 confirmed non-film(s) by evidence-backed exclusion over 0 screening(s), and 0 unresolved over 0
 [kinokilta] override retkikino-2026: active
-[kinokilta] 9 synopsis/synopses withheld, no language settled: Cruising, Never After Dark, Primetime, Red Rue Express, RetkiKino 2026, S Nicholas and the Lost Letter, The Hills Have Eyes, The Hunger
+[kinokilta] 8 synopsis/synopses withheld, no language settled: Cruising, Primetime, Red Rue Express, RetkiKino 2026, S Nicholas and the Lost Letter, The Hills Have Eyes, The Hunger, Tumma kristalli - The Dark Crystal
 [kinokilta] 9 film(s) with a language name not read, that part left blank: Alligator (Ei teksitystä); Joysticks (Ei teksitystä); Kuzma (ukraina); Prom Night (Ei teksitystä); Red Rue Express (ukraina); S Nicholas and the Lost Letter (ukraina); Savage Dawn (Ei teksitystä); Staubwelt (malayalam)
-[kinokilta] Kino Kilta: 45 showtimes, 18 dates
-[kinokilta] Kino Kilta: 45 showtimes, 18 dates
+[kinokilta] Kino Kilta: 41 showtimes, 17 dates
+[kinokilta] Kino Kilta: 41 showtimes, 17 dates
 [kinokilta] synopses merged: 0
-[kinolaika] 41 screening(s) listed, 30 film page(s) read
+[kinolaika] 40 screening(s) listed, 29 film page(s) read
 [kinolaika] omitted 0 confirmed non-film(s) by evidence-backed exclusion over 0 screening(s), and 20 unresolved over 21
 [kinolaika] unresolved: Antti Autio, Eternal Erection, Hopeasiivet, Livemusavisa, Lyhytelokuvapäivä: Coffee n' Movies, Lyhytelokuvapäivä: Kerttu Matinpuro -elokuvat, Lyhytelokuvapäivä: Ovis Aries, Lyhytelokuvapäivä: PÄIVÄLIPPU, Lyhytelokuvapäivä: Satumaa, Lyhytelokuvapäivä: Stadin AO-sarja, Lyhytelokuvapäivä: Toivo, Mary Ann Hawkins
 [kinolaika] override a-fox-under-a-pink-moon: evidence-unavailable
@@ -14,8 +14,8 @@
 [kinolaika] override naza: evidence-unavailable
 [kinolaika] override pikku-kummitus-lapanen-keppostelee: evidence-unavailable
 [kinolaika] override two-seasons-two-strangers: evidence-unavailable
-[kinolaika] Kino Laika: 20 showtimes, 6 dates
-[kinolaika] Kino Laika: 20 showtimes, 6 dates
+[kinolaika] Kino Laika: 19 showtimes, 6 dates
+[kinolaika] Kino Laika: 19 showtimes, 6 dates
 [kinolaika] synopses merged: 0
 [kinomyyri] 20 screening(s) listed, 15 film page(s) read
 [kinomyyri] omitted 0 confirmed non-film(s) by evidence-backed exclusion over 0 screening(s), and 1 unresolved over 2
@@ -36,8 +36,8 @@
 [kinokonepaja] Kino Konepaja: 50 showtimes, 25 dates
 [kinokonepaja] Kino Konepaja: 50 showtimes, 25 dates
 [kinokonepaja] synopses merged: 0
-[run] http: 0 revalidated (304), 105 full, 17 not stored (origin said no-store), 40 cache entries written
+[run] http: 0 revalidated (304), 101 full, 17 not stored (origin said no-store), 38 cache entries written
 [run] hosts: 4 attempted -- kinokonepaja.fi, kinomyyri.fi, www.kinokilta.fi, www.kinolaika.fi
-[run] kinola: 4 venues, 133 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
-[run] timing: 4 site(s), 228.1s of fetching added up across workers that overlap, longest site 79.2s, longest queue wait 88.9s, 79.2s wall from this module's first fetch starting to its last ending
+[run] kinola: 4 venues, 128 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
+[run] timing: 4 site(s), 201.8s of fetching added up across workers that overlap, longest site 68.6s, longest queue wait 86.1s, 68.6s wall from this module's first fetch starting to its last ending
 exit=0

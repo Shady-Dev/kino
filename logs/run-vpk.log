@@ -1,6 +1,6 @@
-[pyhasalmenvpk] FAILED: https://www.pyhasalmenvpk.fi/wp-json/my-calendar/v1/events?from=2026-11-28&to=2027-05-27&category=1: the host served a bot-check page in place of the programme (12284 B served, titled "One moment, please...", Server: openresty/1.31.1.1)
+[pyhasalmenvpk] FAILED: https://www.pyhasalmenvpk.fi/wp-json/my-calendar/v1/events?from=2026-11-28&to=2027-05-27&category=1: the host served a bot-check page in place of the programme (12195 B served, titled "One moment, please...", Server: openresty/1.31.1.1)
 [run] http: 0 revalidated (304), 1 full, 1 not stored (origin said no-store), 0 cache entries written
 [run] hosts: 1 attempted -- www.pyhasalmenvpk.fi
 [run] vpk: 0 venues, 0 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 1 failures
-[run] timing: 1 site(s), 0.7s of fetching added up across workers that overlap, longest site 0.7s, longest queue wait 146.5s, 0.7s wall from this module's first fetch starting to its last ending
+[run] timing: 1 site(s), 0.7s of fetching added up across workers that overlap, longest site 0.7s, longest queue wait 140.4s, 0.7s wall from this module's first fetch starting to its last ending
 exit=1

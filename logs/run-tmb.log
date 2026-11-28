@@ -1,9 +1,9 @@
-[kinotoijala] FAILED: https://toijalan-kino.info/?lista=1: the host served a bot-check page in place of the programme (12182 B served, titled "One moment, please...", Server: Apache)
-[kinosampo] FAILED: https://kinosampo.info/?lista=1: the host served a bot-check page in place of the programme (12173 B served, titled "One moment, please...", Server: Apache)
-[kinomania] FAILED: https://kino-mania.info/?lista=1: the host served a bot-check page in place of the programme (12174 B served, titled "One moment, please...", Server: Apache)
-[kinoelo] FAILED: https://elokuvat-elo.info/?lista=1: the host served a bot-check page in place of the programme (12176 B served, titled "One moment, please...", Server: Apache)
+[kinotoijala] FAILED: https://toijalan-kino.info/?lista=1: the host served a bot-check page in place of the programme (12091 B served, titled "One moment, please...", Server: Apache)
+[kinosampo] FAILED: https://kinosampo.info/?lista=1: the host served a bot-check page in place of the programme (12177 B served, titled "One moment, please...", Server: Apache)
+[kinomania] FAILED: https://kino-mania.info/?lista=1: the host served a bot-check page in place of the programme (12178 B served, titled "One moment, please...", Server: Apache)
+[kinoelo] FAILED: https://elokuvat-elo.info/?lista=1: the host served a bot-check page in place of the programme (12125 B served, titled "One moment, please...", Server: Apache)
 [run] http: 0 revalidated (304), 4 full, 4 not stored (origin said no-store), 0 cache entries written
 [run] hosts: 4 attempted -- elokuvat-elo.info, kino-mania.info, kinosampo.info, toijalan-kino.info
 [run] tmb: 0 venues, 0 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 4 failures
-[run] timing: 4 site(s), 2.7s of fetching added up across workers that overlap, longest site 0.7s, longest queue wait 57.2s, 2.2s wall from this module's first fetch starting to its last ending
+[run] timing: 4 site(s), 2.2s of fetching added up across workers that overlap, longest site 0.6s, longest queue wait 53.5s, 2.2s wall from this module's first fetch starting to its last ending
 exit=1
