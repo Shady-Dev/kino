@@ -25,8 +25,7 @@
 [kinomyyri] 4 film(s) with a language name not read, that part left blank: Eka Gei Sokari (sinhala); Kuin lammas laatikossa (japanilainen); Lapin sota (saami); Nina Roza (ranskan, bulgarialainen)
 [kinomyyri] Kino Myyri: 18 showtimes, 9 dates
 [kinomyyri] Kino Myyri: 18 showtimes, 9 dates
-[kinomyyri] synopses merged: 1
-[kinomyyri] synopses by language: en 1
+[kinomyyri] synopses merged: 0
 [kinokonepaja] 55 screening(s) listed, 17 film page(s) read
 [kinokonepaja] omitted 0 confirmed non-film(s) by evidence-backed exclusion over 0 screening(s), and 5 unresolved over 5
 [kinokonepaja] unresolved: Billie maailmojen välissä, Cold November, High Ground, Reel Rock Film Tour 20, The BritRock Film Tour 2026
@@ -37,8 +36,8 @@
 [kinokonepaja] Kino Konepaja: 50 showtimes, 25 dates
 [kinokonepaja] Kino Konepaja: 50 showtimes, 25 dates
 [kinokonepaja] synopses merged: 0
-[run] http: 0 revalidated (304), 105 full, 17 not stored (origin said no-store), 41 cache entries written
+[run] http: 0 revalidated (304), 105 full, 17 not stored (origin said no-store), 40 cache entries written
 [run] hosts: 4 attempted -- kinokonepaja.fi, kinomyyri.fi, www.kinokilta.fi, www.kinolaika.fi
 [run] kinola: 4 venues, 133 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
-[run] timing: 4 site(s), 211.6s of fetching added up across workers that overlap, longest site 72.7s, longest queue wait 93.0s, 72.7s wall from this module's first fetch starting to its last ending
+[run] timing: 4 site(s), 201.7s of fetching added up across workers that overlap, longest site 69.9s, longest queue wait 89.0s, 69.9s wall from this module's first fetch starting to its last ending
 exit=0

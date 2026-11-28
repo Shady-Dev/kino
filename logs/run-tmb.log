@@ -1,6 +1,6 @@
 [tmb] kinotoijala: 34 showtimes, 11 films, 17 dates, 0 priced, 34 timed, 34 with a genre, 34 with a synopsis
 [kinotoijala] Kino-Toijala: 34 showtimes, 17 dates
-[kinotoijala] synopses merged: 1
+[kinotoijala] synopses merged: 0
 [tmb] kinosampo: 32 showtimes, 11 films, 16 dates, 0 priced, 32 timed, 32 with a genre, 32 with a synopsis
 [kinosampo] Kino-Sampo: 32 showtimes, 16 dates
 [kinosampo] synopses merged: 0
@@ -13,5 +13,5 @@
 [run] http: 0 revalidated (304), 48 full, 48 not stored (origin said no-store), 0 cache entries written
 [run] hosts: 4 attempted -- elokuvat-elo.info, kino-mania.info, kinosampo.info, toijalan-kino.info
 [run] tmb: 4 venues, 168 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
-[run] timing: 4 site(s), 79.7s of fetching added up across workers that overlap, longest site 20.1s, longest queue wait 73.8s, 39.3s wall from this module's first fetch starting to its last ending
+[run] timing: 4 site(s), 88.2s of fetching added up across workers that overlap, longest site 23.2s, longest queue wait 65.8s, 36.0s wall from this module's first fetch starting to its last ending
 exit=0
