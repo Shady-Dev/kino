@@ -1,20 +1,25 @@
 [token] using FINNKINO_TOKEN from the environment
 [sites] 17 cinemas
-[schedule] 2026-11-26: 353 showtimes
-[schedule] 2026-11-27: 384 showtimes
-[schedule] 2026-11-28: 421 showtimes
-[schedule] 2026-11-29: 409 showtimes
-[schedule] 2026-11-30: 390 showtimes
-[schedule] 2026-12-01: 374 showtimes
-[poster] 1aa8bef6-99f9-4536-9a26-93cf18987263: no Pillow here, kept the CDN's bytes unresized
-[poster] 6dcb9a9f-402a-41ab-b60b-79e952ef7942: no Pillow here, kept the CDN's bytes unresized
-[schedule] 2026-12-02: 375 showtimes
-[tmdb] no TMDB match (8): Baletti: Manon | Joulupukin salainen paja | Klara ja aurinko | Kuin lammas laatikossa | Muistojeni kahvila | Mysteerinäytös I - 30.11. | Mysteerinäytös II - 1.12. | Mysteerinäytös III - 2.12.
-[tmdb] weak match, no exact title (11): Andrew Lloyd Webber’s Starlight Express  -> Andrew Lloyd Webber's Starlight Express: Live On-Stage | Animals in War -> Speaking of Animals in the Post War Era | Dry Leaf -> ხმელი ფოთოლი | Godzilla Minus Zero -> ゴジラ-0.0 | Grey Bees -> Сірі бджоли | Hadoota -> حدوتة | Me olemme Pariisin orkesteri -> Nous, l'Orchestre | Nox -> Nox | Ramayana: Rise of a Legend -> रामायणम् | To the Victory! -> За перемогу! | Two Seasons, Two Strangers -> 旅と日々
-[tmdb] rating held back, under 25 votes (6): Dry Leaf (7.3 / 3 votes) | Grey Bees (8.2 / 4 votes) | Hadoota (8.2 / 4 votes) | Me olemme Pariisin orkesteri (6.8 / 14 votes) | Two Seasons, Two Strangers (7.2 / 17 votes) | Uusin painajainen perheessä (7.0 / 10 votes)
-[tmdb] rating refresh: 2 scheduled, 2 re-read, 0 failed and still due, 0 deferred (budget 12)
-[tmdb] 13 new lookups, 21 re-checks, cache 220, 134 mergeable by id
-[films] 75 film entries
+[schedule] 2026-11-28: 428 showtimes
+[schedule] 2026-11-29: 416 showtimes
+[schedule] 2026-11-30: 396 showtimes
+[schedule] 2026-12-01: 383 showtimes
+[schedule] 2026-12-02: 380 showtimes
+[poster] 633215cb-5bce-47ce-a5df-7e7a907aba69: no Pillow here, kept the CDN's bytes unresized
+[poster] 2d49e601-f80b-4882-a3fe-2d6692408bc3: no Pillow here, kept the CDN's bytes unresized
+[poster] df549da4-8aa9-42ab-91c4-5ef9a4a4ad54: no Pillow here, kept the CDN's bytes unresized
+[schedule] 2026-12-03: 385 showtimes
+[poster] d9bffff9-29e8-494c-836d-184c56c37c7b: no Pillow here, kept the CDN's bytes unresized
+[poster] ffc435f8-2151-4c9d-917d-f38f551db502: no Pillow here, kept the CDN's bytes unresized
+[poster] be3a6770-38f1-4876-851a-d11724399c0b: no Pillow here, kept the CDN's bytes unresized
+[poster] 4019fab8-adc6-4be3-91af-8bfd6ce0fb4c: no Pillow here, kept the CDN's bytes unresized
+[schedule] 2026-12-04: 65 showtimes
+[tmdb] no TMDB match (14): Baletti: Manon | Baletti: Pähkinänsärkijä | Dyyni: Osat 1 ja 2 | Joulupukin salainen paja | Klara ja aurinko | Kuin lammas laatikossa | Muistojeni kahvila | Mysteerinäytös I - 30.11. | Mysteerinäytös II - 1.12. | Mysteerinäytös III - 2.12. | Mysteerinäytös IV - 3.12. | Mysteerinäytös V - 4.12. | Nälkäpeli- elokuvamaraton | Twilight-elokuvamaraton
+[tmdb] weak match, no exact title (9): Andrew Lloyd Webber’s Starlight Express  -> Andrew Lloyd Webber's Starlight Express: Live On-Stage | Godzilla Minus Zero -> ゴジラ-0.0 | Grey Bees -> Сірі бджоли | Hadoota -> حدوتة | Me olemme Pariisin orkesteri -> Nous, l'Orchestre | Nox -> Nox | Ramayana: Rise of a Legend -> रामायणम् | To the Victory! -> За перемогу! | Two Seasons, Two Strangers -> 旅と日々
+[tmdb] rating held back, under 25 votes (5): Grey Bees (8.2 / 4 votes) | Hadoota (8.2 / 4 votes) | Me olemme Pariisin orkesteri (6.8 / 14 votes) | Pikku Kummitus Lapanen keppostelee (4.0 / 1 votes) | Two Seasons, Two Strangers (7.2 / 17 votes)
+[tmdb] rating refresh: 12 scheduled, 12 re-read, 0 failed and still due, 0 deferred (budget 12)
+[tmdb] 16 new lookups, 30 re-checks, cache 227, 137 mergeable by id
+[films] 77 film entries
 [attrs] dropped, neither format nor language (8): Klassikko | Maxim | OCAP | Pkseutu | SEVERAL | TKU & R | Tampere | Varaus20
 [schedule] 17 venue files written, 0 kept as-is
 done
