@@ -17,8 +17,8 @@
 [kinolaika] Kino Laika: 19 showtimes, 6 dates
 [kinolaika] Kino Laika: 19 showtimes, 6 dates
 [kinolaika] synopses merged: 0
-[kinomyyri] 20 screening(s) listed, 15 film page(s) read
-[kinomyyri] omitted 0 confirmed non-film(s) by evidence-backed exclusion over 0 screening(s), and 1 unresolved over 2
+[kinomyyri] 19 screening(s) listed, 15 film page(s) read
+[kinomyyri] omitted 0 confirmed non-film(s) by evidence-backed exclusion over 0 screening(s), and 1 unresolved over 1
 [kinomyyri] unresolved: Calle Málaga - muistojeni katu
 [kinomyyri] override kojootti-vs-acme-dub: evidence-unavailable
 [kinomyyri] override must-pori-nakku: evidence-unavailable
@@ -26,18 +26,18 @@
 [kinomyyri] Kino Myyri: 18 showtimes, 9 dates
 [kinomyyri] Kino Myyri: 18 showtimes, 9 dates
 [kinomyyri] synopses merged: 0
-[kinokonepaja] 55 screening(s) listed, 17 film page(s) read
+[kinokonepaja] 54 screening(s) listed, 16 film page(s) read
 [kinokonepaja] omitted 0 confirmed non-film(s) by evidence-backed exclusion over 0 screening(s), and 5 unresolved over 5
 [kinokonepaja] unresolved: Billie maailmojen välissä, Cold November, High Ground, Reel Rock Film Tour 20, The BritRock Film Tour 2026
 [kinokonepaja] override edward-scissorhands: evidence-unavailable
 [kinokonepaja] override gremlins: evidence-unavailable
 [kinokonepaja] override nightmare-on-elm-street: evidence-unavailable
-[kinokonepaja] 4 film(s) with a language name not read, that part left blank: A shelter Among the Clouds (albania); Dua (albania, serbia); Helena Ranta – Sodan viimeinen sana (serbia, albania); Shame and Money (albania)
-[kinokonepaja] Kino Konepaja: 50 showtimes, 25 dates
-[kinokonepaja] Kino Konepaja: 50 showtimes, 25 dates
+[kinokonepaja] 3 film(s) with a language name not read, that part left blank: A shelter Among the Clouds (albania); Dua (albania, serbia); Shame and Money (albania)
+[kinokonepaja] Kino Konepaja: 49 showtimes, 25 dates
+[kinokonepaja] Kino Konepaja: 49 showtimes, 25 dates
 [kinokonepaja] synopses merged: 0
-[run] http: 0 revalidated (304), 101 full, 17 not stored (origin said no-store), 38 cache entries written
+[run] http: 0 revalidated (304), 100 full, 17 not stored (origin said no-store), 38 cache entries written
 [run] hosts: 4 attempted -- kinokonepaja.fi, kinomyyri.fi, www.kinokilta.fi, www.kinolaika.fi
-[run] kinola: 4 venues, 128 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
-[run] timing: 4 site(s), 201.8s of fetching added up across workers that overlap, longest site 68.6s, longest queue wait 86.1s, 68.6s wall from this module's first fetch starting to its last ending
+[run] kinola: 4 venues, 127 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
+[run] timing: 4 site(s), 216.8s of fetching added up across workers that overlap, longest site 72.4s, longest queue wait 105.8s, 72.4s wall from this module's first fetch starting to its last ending
 exit=0

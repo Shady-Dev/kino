@@ -1,6 +1,7 @@
-[navettakino] FAILED: https://www.navettakino.fi/: the host served a bot-check page in place of the programme (12117 B served, titled "One moment, please...", Server: openresty/1.31.1.1)
-[run] http: 0 revalidated (304), 1 full, 1 not stored (origin said no-store), 0 cache entries written
+[navettakino] no screenings: https://www.navettakino.fi/: no card prints a screening (1235 B served, titled "Navettakino", Server: Apache). Film cards: none. The previous files stand
+[run] http: 0 revalidated (304), 1 full, 0 not stored (origin said no-store), 0 cache entries written
 [run] hosts: 1 attempted -- www.navettakino.fi
-[run] navetta: 0 venues, 0 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 1 failures
-[run] timing: 1 site(s), 0.7s of fetching added up across workers that overlap, longest site 0.7s, longest queue wait 139.8s, 0.7s wall from this module's first fetch starting to its last ending
-exit=1
+[run] no screenings: 1 site(s), previous files kept or emptied: navettakino
+[run] navetta: 0 venues, 0 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
+[run] timing: 1 site(s), 0.7s of fetching added up across workers that overlap, longest site 0.7s, longest queue wait 164.2s, 0.7s wall from this module's first fetch starting to its last ending
+exit=0

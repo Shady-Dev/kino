@@ -1,28 +1,29 @@
 [biorexkokkola] Bio Rex Kokkola: 30 showtimes, 9 dates
 [biorexkokkola] synopses merged: 0
-[http] 403 from kinopirtti.fi, gave up after 3 attempt(s) -- Server: cloudflare; CF-Ray: a618c355bf41ae26-MSP
+[http] 403 from kinopirtti.fi, gave up after 3 attempt(s) -- Server: cloudflare; CF-Ray: a6194d05dcbfe004-LAX
 [kinopirtti] FAILED: HTTP Error 403: Forbidden
-[kinotar] FAILED: https://jamsankinotar.fi/elokuvat/ohjelmistossa: no film container in the response, so this is not the listing this parser reads -- treating it as a fetch or template failure, not as a cinema with nothing on
-[kinojuha] Kino Juha: 10 showtimes, 7 dates
+[http] 404 from jamsankinotar.fi, gave up after 3 attempt(s) -- Server: nginx
+[kinotar] FAILED: HTTP Error 404: Not Found
+[kinojuha] Kino Juha: 9 showtimes, 7 dates
 [kinojuha] VIP-Sali: 9 showtimes, 7 dates
 [kinojuha] synopses merged: 0
-[biovuoksi] Bio Vuoksi: 24 showtimes, 8 dates
+[biovuoksi] Bio Vuoksi: 23 showtimes, 8 dates
 [biovuoksi] synopses merged: 0
 [kinoiiris] Kino Iiris: 33 showtimes, 18 dates
 [kinoiiris] synopses merged: 0
 [kkino] K-Kino: 9 showtimes, 4 dates
 [kkino] synopses merged: 0
-[biograni] Bio Grani: 9 showtimes, 5 dates
+[biograni] Bio Grani: 8 showtimes, 5 dates
 [biograni] synopses merged: 0
 [niagara] Cinema Niagara: 33 showtimes, 18 dates
 [niagara] synopses merged: 0
 [niagara] screening-note sentences left out of synopses: 1
 [kinokaustinen] Kino Kaustinen: 4 showtimes, 2 dates
 [kinokaustinen] synopses merged: 0
-[kinomarilyn] Kino Marilyn: 44 showtimes, 16 dates
+[kinomarilyn] Kino Marilyn: 43 showtimes, 16 dates
 [kinomarilyn] synopses merged: 0
-[run] http: 0 revalidated (304), 132 full, 132 not stored (origin said no-store), 0 cache entries written
+[run] http: 0 revalidated (304), 129 full, 129 not stored (origin said no-store), 0 cache entries written
 [run] hosts: 11 attempted -- biograni.fi, biovuoksi.fi, cinemaniagara.fi, jamsankinotar.fi, k-kino.fi, kinoiiris.com, kinojuha.fi, kinokaustinen.fi, kinopirtti.fi, www.biorex.org, www.kinomarilyn.fi
-[run] etiketti: 10 venues, 205 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 2 failures
-[run] timing: 11 site(s), 254.5s of fetching added up across workers that overlap, longest site 47.8s, longest queue wait 44.3s, 83.7s wall from this module's first fetch starting to its last ending
+[run] etiketti: 10 venues, 201 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 2 failures
+[run] timing: 11 site(s), 274.8s of fetching added up across workers that overlap, longest site 48.8s, longest queue wait 40.7s, 79.1s wall from this module's first fetch starting to its last ending
 exit=1

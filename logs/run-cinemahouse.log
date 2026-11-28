@@ -1,8 +1,16 @@
-[kinopiispanristi] FAILED: https://www.kinopiispanristi.fi/: the host served a bot-check page in place of the programme (12113 B served, titled "One moment, please...", Server: openresty/1.31.1.1)
-[kinolumo] FAILED: https://www.kinolumo.fi/: the host served a bot-check page in place of the programme (12105 B served, titled "One moment, please...", Server: openresty/1.31.1.1)
-[laitilankino] FAILED: https://www.laitilankino.fi/: the host served a bot-check page in place of the programme (11987 B served, titled "One moment, please...", Server: openresty/1.31.1.1)
-[run] http: 0 revalidated (304), 3 full, 3 not stored (origin said no-store), 0 cache entries written
+[kinopiispanristi] film pages: 22 with a synopsis, 1 without, 23 films
+[kinopiispanristi] strand prefix split off 3 showtimes
+[kinopiispanristi] Kino Piispanristi: 93 showtimes, 10 dates
+[kinopiispanristi] synopses merged: 0
+[kinolumo] film pages: 13 with a synopsis, 1 without, 14 films
+[kinolumo] strand prefix split off 2 showtimes
+[kinolumo] Kino Lumo: 52 showtimes, 8 dates
+[kinolumo] synopses merged: 0
+[laitilankino] film pages: 6 with a synopsis, 0 without, 6 films
+[laitilankino] Laitilan Kino: 8 showtimes, 4 dates
+[laitilankino] synopses merged: 0
+[run] http: 0 revalidated (304), 46 full, 0 not stored (origin said no-store), 0 cache entries written
 [run] hosts: 3 attempted -- www.kinolumo.fi, www.kinopiispanristi.fi, www.laitilankino.fi
-[run] cinemahouse: 0 venues, 0 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 3 failures
-[run] timing: 3 site(s), 2.7s of fetching added up across workers that overlap, longest site 1.0s, longest queue wait 51.0s, 1.7s wall from this module's first fetch starting to its last ending
-exit=1
+[run] cinemahouse: 3 venues, 153 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
+[run] timing: 3 site(s), 96.2s of fetching added up across workers that overlap, longest site 50.6s, longest queue wait 55.8s, 50.6s wall from this module's first fetch starting to its last ending
+exit=0

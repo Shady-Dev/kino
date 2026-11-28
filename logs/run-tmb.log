@@ -1,9 +1,17 @@
-[kinotoijala] FAILED: https://toijalan-kino.info/?lista=1: the host served a bot-check page in place of the programme (12091 B served, titled "One moment, please...", Server: Apache)
-[kinosampo] FAILED: https://kinosampo.info/?lista=1: the host served a bot-check page in place of the programme (12177 B served, titled "One moment, please...", Server: Apache)
-[kinomania] FAILED: https://kino-mania.info/?lista=1: the host served a bot-check page in place of the programme (12178 B served, titled "One moment, please...", Server: Apache)
-[kinoelo] FAILED: https://elokuvat-elo.info/?lista=1: the host served a bot-check page in place of the programme (12125 B served, titled "One moment, please...", Server: Apache)
-[run] http: 0 revalidated (304), 4 full, 4 not stored (origin said no-store), 0 cache entries written
+[tmb] kinotoijala: 33 showtimes, 11 films, 17 dates, 0 priced, 33 timed, 33 with a genre, 33 with a synopsis
+[kinotoijala] Kino-Toijala: 33 showtimes, 17 dates
+[kinotoijala] synopses merged: 0
+[tmb] kinosampo: 31 showtimes, 11 films, 16 dates, 0 priced, 31 timed, 31 with a genre, 31 with a synopsis
+[kinosampo] Kino-Sampo: 31 showtimes, 16 dates
+[kinosampo] synopses merged: 0
+[tmb] kinomania: 49 showtimes, 11 films, 17 dates, 0 priced, 49 timed, 49 with a genre, 49 with a synopsis
+[kinomania] KinoMania: 49 showtimes, 17 dates
+[kinomania] synopses merged: 0
+[tmb] kinoelo: 49 showtimes, 11 films, 17 dates, 0 priced, 49 timed, 49 with a genre, 49 with a synopsis
+[kinoelo] Elokuvateatteri Elo: 49 showtimes, 17 dates
+[kinoelo] synopses merged: 0
+[run] http: 0 revalidated (304), 48 full, 48 not stored (origin said no-store), 0 cache entries written
 [run] hosts: 4 attempted -- elokuvat-elo.info, kino-mania.info, kinosampo.info, toijalan-kino.info
-[run] tmb: 0 venues, 0 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 4 failures
-[run] timing: 4 site(s), 2.2s of fetching added up across workers that overlap, longest site 0.6s, longest queue wait 53.5s, 2.2s wall from this module's first fetch starting to its last ending
-exit=1
+[run] tmb: 4 venues, 162 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
+[run] timing: 4 site(s), 89.3s of fetching added up across workers that overlap, longest site 22.4s, longest queue wait 83.3s, 34.4s wall from this module's first fetch starting to its last ending
+exit=0
