@@ -1,22 +1,29 @@
-[kinoset] Kino 1-2 (Huittinen): 26 showtimes
-[kinoset] Kinema (Loimaa): 20 showtimes
-[kinoset] Bio (Sastamala): 20 showtimes
-[kinoset] Kino 1-2: 26 showtimes, 9 dates
-[kinoset] Kinema: 20 showtimes, 10 dates
-[kinoset] Bio: 20 showtimes, 10 dates
+[http] 403 from kinoset.fi, gave up after 3 attempt(s) -- Server: openresty/1.31.1.1
+[kinoset] locationid 1 FAILED: HTTP Error 403: Forbidden
+[kinoset] locationid 2 FAILED: HTTP Error 403: Forbidden
+[kinoset] locationid 3 FAILED: HTTP Error 403: Forbidden
+[kinoset] Kino 1-2: no showtimes, keeping previous data from 2026-11-28T00:16:46+00:00
+[kinoset] Kinema: no showtimes, keeping previous data from 2026-11-28T00:16:46+00:00
+[kinoset] Bio: no showtimes, keeping previous data from 2026-11-28T00:16:46+00:00
 [kinoset] synopses merged: 0
+[kinoset] no screenings: every venue came back empty and nothing confirms it; 3 venue file(s) kept, 0 published empty with no day left ahead
 [kinoaurora] Kino Aurora (Jyväskylä): 12 showtimes
 [kinoaurora] Kino Aurora: 12 showtimes, 6 dates
 [kinoaurora] synopses merged: 0
-[kinohirvi] Kino Hirvi (Äänekoski): 18 showtimes
-[kinohirvi] Kino Hirvi: 18 showtimes, 4 dates
+[http] 403 from kinohirvi.fi, gave up after 3 attempt(s) -- Server: openresty/1.31.1.1
+[kinohirvi] locationid 2 FAILED: HTTP Error 403: Forbidden
+[kinohirvi] Kino Hirvi: no showtimes, keeping previous data from 2026-11-28T00:16:46+00:00
 [kinohirvi] synopses merged: 0
-[biosade] Bio Säde (Mänttä): 12 showtimes
-[biosade] Bio Säde: 12 showtimes, 4 dates
+[kinohirvi] no screenings: every venue came back empty and nothing confirms it; 1 venue file(s) kept, 0 published empty with no day left ahead
+[biosade] locationid 4 FAILED: HTTP Error 403: Forbidden
+[biosade] Bio Säde: no showtimes, keeping previous data from 2026-11-28T00:16:46+00:00
 [biosade] synopses merged: 0
-[kinoolympia] Kino Olympia (Hanko): 4 showtimes
-[kinoolympia] Kino Olympia: 4 showtimes, 1 dates
+[biosade] no screenings: every venue came back empty and nothing confirms it; 1 venue file(s) kept, 0 published empty with no day left ahead
+[http] 403 from kino-olympia.fi, gave up after 3 attempt(s) -- Server: Apache
+[kinoolympia] locationid 1 FAILED: HTTP Error 403: Forbidden
+[kinoolympia] Kino Olympia: no showtimes, keeping previous data from 2026-11-28T00:16:46+00:00
 [kinoolympia] synopses merged: 0
+[kinoolympia] no screenings: every venue came back empty and nothing confirms it; 1 venue file(s) kept, 0 published empty with no day left ahead
 [jarvelankino] Järvelän Kino (Järvelä): 11 showtimes
 [jarvelankino] Järvelän Kino: 11 showtimes, 10 dates
 [jarvelankino] synopses merged: 0
@@ -43,9 +50,14 @@
 [biostara] Bio Stara (Paimio): 17 showtimes
 [biostara] Bio Stara: 17 showtimes, 5 dates
 [biostara] synopses merged: 0
-[run] http: 0 revalidated (304), 11 full, 11 not stored (origin said no-store), 0 cache entries written
+[run] http: 0 revalidated (304), 5 full, 5 not stored (origin said no-store), 0 cache entries written
 [run] hosts: 6 attempted -- biosalo.fi, jarvelankino.fi, kino-olympia.fi, kinoaurora.fi, kinohirvi.fi, kinoset.fi
 [run] pending: kinometso has 5 venue(s) with no programme yet: km-tikkakoski, km-vaajakoski, km-laukaa, km-toivakka, km-hankasalmi
-[run] nexxo: 13 venues, 197 showtimes, 0 stale, 0 unverified, 5 pending, 0 with no programme, 0 failures
-[run] timing: 9 site(s), 39.3s of fetching added up across workers that overlap, longest site 10.6s, longest queue wait 0.0s, 10.6s wall from this module's first fetch starting to its last ending
+[run] partial: kinoset kept previous data for 3 venue(s): ks-huittinen, ks-loimaa, ks-sastamala
+[run] partial: kinohirvi kept previous data for 1 venue(s): hi-aanekoski
+[run] partial: biosade kept previous data for 1 venue(s): sa-mantta
+[run] partial: kinoolympia kept previous data for 1 venue(s): ol-hanko
+[run] no screenings: 4 site(s), previous files kept or emptied: kinoset, kinohirvi, biosade, kinoolympia
+[run] nexxo: 7 venues, 97 showtimes, 6 stale, 0 unverified, 5 pending, 0 with no programme, 0 failures
+[run] timing: 9 site(s), 151.5s of fetching added up across workers that overlap, longest site 67.0s, longest queue wait 0.0s, 67.0s wall from this module's first fetch starting to its last ending
 exit=0

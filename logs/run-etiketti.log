@@ -1,9 +1,8 @@
 [biorexkokkola] Bio Rex Kokkola: 30 showtimes, 9 dates
 [biorexkokkola] synopses merged: 0
-[http] 403 from kinopirtti.fi, gave up after 3 attempt(s) -- Server: cloudflare; CF-Ray: a615301859800143-IAD
+[http] 403 from kinopirtti.fi, gave up after 3 attempt(s) -- Server: cloudflare; CF-Ray: a6173db9b8bfc1fe-LAX
 [kinopirtti] FAILED: HTTP Error 403: Forbidden
-[http] 404 from jamsankinotar.fi, gave up after 3 attempt(s) -- Server: nginx
-[kinotar] FAILED: HTTP Error 404: Not Found
+[kinotar] FAILED: https://jamsankinotar.fi/elokuvat/ohjelmistossa: no film container in the response, so this is not the listing this parser reads -- treating it as a fetch or template failure, not as a cinema with nothing on
 [kinojuha] Kino Juha: 11 showtimes, 7 dates
 [kinojuha] VIP-Sali: 9 showtimes, 7 dates
 [kinojuha] synopses merged: 0
@@ -22,8 +21,8 @@
 [kinokaustinen] synopses merged: 0
 [kinomarilyn] Kino Marilyn: 44 showtimes, 16 dates
 [kinomarilyn] synopses merged: 0
-[run] http: 0 revalidated (304), 133 full, 133 not stored (origin said no-store), 0 cache entries written
+[run] http: 0 revalidated (304), 134 full, 134 not stored (origin said no-store), 0 cache entries written
 [run] hosts: 11 attempted -- biograni.fi, biovuoksi.fi, cinemaniagara.fi, jamsankinotar.fi, k-kino.fi, kinoiiris.com, kinojuha.fi, kinokaustinen.fi, kinopirtti.fi, www.biorex.org, www.kinomarilyn.fi
 [run] etiketti: 10 venues, 209 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 2 failures
-[run] timing: 11 site(s), 268.0s of fetching added up across workers that overlap, longest site 45.6s, longest queue wait 30.3s, 71.3s wall from this module's first fetch starting to its last ending
+[run] timing: 11 site(s), 265.6s of fetching added up across workers that overlap, longest site 49.0s, longest queue wait 43.8s, 83.5s wall from this module's first fetch starting to its last ending
 exit=1
