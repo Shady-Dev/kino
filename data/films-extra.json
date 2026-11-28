@@ -681,7 +681,6 @@
     "kinolumo",
     "kinomania",
     "kinomarilyn",
-    "kinomyyri",
     "kinopiispanristi",
     "kinopirtti",
     "kinosampo",
@@ -762,7 +761,6 @@
     "kinolumo",
     "kinomania",
     "kinomarilyn",
-    "kinomyyri",
     "kinopiispanristi",
     "kinopirtti",
     "kinosampo",
@@ -1707,7 +1705,6 @@
     "kinohannikainen",
     "kinohirvi",
     "kinojuha",
-    "kinokaustinen",
     "kinokulma",
     "kinokuva",
     "kinolumo",
@@ -1722,7 +1719,6 @@
     "kotkanleffat",
     "kuvatahti",
     "leffabuumi",
-    "marita",
     "savonkinot",
     "star",
     "studio123jarvenpaa",
@@ -1766,7 +1762,6 @@
     "kinohannikainen",
     "kinohirvi",
     "kinojuha",
-    "kinokaustinen",
     "kinokulma",
     "kinokuva",
     "kinolumo",
@@ -1781,7 +1776,6 @@
     "kotkanleffat",
     "kuvatahti",
     "leffabuumi",
-    "marita",
     "savonkinot",
     "star",
     "studio123jarvenpaa",
@@ -6043,12 +6037,16 @@
   },
   "myrskyn ikkuna": {
    "id": 1318413,
-   "r": 0,
+   "img": "data/posters/fd7538dd607d13aa.jpg",
+   "r": 7.7,
    "s": {
-    "en": "",
+    "en": "In the tense 72 hours before D-Day, and the fate of the free world hanging in the balance, General Dwight D. Eisenhower and Captain James Stagg face an impossible choice—launch the largest and most dangerous seaborne invasion in history or risk losing the war altogether.",
     "fi": "Tositapahtumiin perustuva Myrskyn ikkuna kuvaa jännittäviä 72 tuntia ennen h-hetkeä, jolloin vapaan maailman kohtalo on vaakalaudalla. Kenraali Dwight D. Eisenhower (Brendan Fraser) ja kapteeni James Stagg (Andrew Scott) joutuvat mahdottoman valinnan eteen: käynnistääkö historian suurin ja vaarallisin mereltä tehtävä maihinnousu Normandiaan – vai riskeerata koko sodan häviäminen."
    },
-   "tr": ""
+   "tr": "https://www.youtube.com/watch?v=jjdOSchcobk",
+   "ts": [
+    "en"
+   ]
   },
   "myrskyn ikkuna ennakkonäytös": {
    "r": 0,
@@ -6444,7 +6442,6 @@
     "kinoelo",
     "kinohamina",
     "kinohirvi",
-    "kinokaustinen",
     "kinokulma",
     "kinolaika",
     "kinolumo",
@@ -6459,7 +6456,6 @@
     "kotkanleffat",
     "kuvakukko",
     "kuvatahti",
-    "laitilankino",
     "leffabuumi",
     "levisummit",
     "matintupa",
@@ -6468,8 +6464,7 @@
     "star",
     "studio123jarvenpaa",
     "studio123kouvola",
-    "vaakuna",
-    "vihdinkino"
+    "vaakuna"
    ],
    "r": 7.7,
    "s": {
@@ -7741,7 +7736,6 @@
     "kino123",
     "kinohamina",
     "kinohirvi",
-    "kinojuha",
     "kinokilta",
     "kinokulma",
     "kinolaika",
@@ -7755,7 +7749,6 @@
     "kotkanleffat",
     "kuvakukko",
     "leffabuumi",
-    "marita",
     "niagara",
     "savonkinot",
     "star",
@@ -8197,13 +8190,12 @@
   },
   "rocky": {
    "id": 1366,
-   "img": "data/posters/aff23774bf0a6794.jpg",
-   "r": 7.8,
+   "r": 0,
    "s": {
     "en": "",
     "fi": "Raihnaisilla klubeilla nyrkkeilevä ja koronkiskurina sivuhommia paiskiva Rocky Balboa saa tilaisuuden otella vallitsevaa maailmanmestaria Apollo Creedia (Carl Weathers) vastaan. Ujosta lemmikkikaupan myyjästä (Talia Shire) löytyy Rockylle romanssin vastakappale ja merkittävin tuki uran vaikeissa paikoissa, niin tässä elokuvassa kuin myöhemmissäkin. Vuonna 1976 ensi-iltansa saanut Rocky oli silloisen elokuvavuoden yllättäjä, joka sai 10 Oscar-ehdokkuutta ja voitti kolme. Moneen kertaan on selväksi tehty, että Stallone ei käsikirjoitusta myydessään taipunut rahan edessä vaan vaati saada näytellä itse pääosan. Tällaisesta itsepäisyydestä ja itseluottamuksesta on sankaritarinat tehty. Sellainen on myös tämä ensimmäinen Rocky-elokuva samoin kuin sen jatko-osatkin. Stallonesta tuli elävä legenda ja yksi suurimmista (toiminta)elokuvatähdistä, joka uransa hetkellisistä notkahduksista huolimatta on kahdeksankymppisenä edelleen pelissä mukana."
    },
-   "tr": "https://www.youtube.com/watch?v=dmd9tEt9F30"
+   "tr": ""
   },
   "rocky 50th anniversary": {
    "id": 1366,
@@ -11056,8 +11048,6 @@
    "img": "data/posters/ce1a7e45f2509c41.jpg",
    "kr": "K-16",
    "krs": [
-    "bioforum",
-    "biograni",
     "biorex",
     "biosavoy",
     "cinemantsala",
